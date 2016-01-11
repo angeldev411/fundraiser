@@ -1,0 +1,9 @@
+# npm
+node_modules
+npm-debug.log
+
+# IDE left-overs
+*.sublime-project
+*.sublime-workspace
+.idea/
+.*~
