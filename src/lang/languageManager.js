@@ -11,5 +11,5 @@ counterpart.registerTranslations(
 );
 
 module.exports = {
-    counterpart: counterpart
-}
+    counterpart,
+};

@@ -1,0 +1,4 @@
+extends:
+  - osedea
+  - osedea/es6
+  - osedea/react
