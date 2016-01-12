@@ -2,12 +2,12 @@ import counterpart from 'counterpart';
 
 counterpart.registerTranslations(
     'en',
-    require('./english')
+    require('../lang/english')
 );
 
 counterpart.registerTranslations(
     'fr',
-    require('./french')
+    require('../lang/french')
 );
 
 module.exports = {

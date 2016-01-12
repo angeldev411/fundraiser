@@ -16,10 +16,6 @@ import styles from './home.scss';
     show: reduxState.main.showHello,
 }))
 export default class Home extends Component {
-    propTypes: {
-        show: React.PropTypes.bool
-    };
-
     handleClick = () => {
         this.props.dispatch(
             actions.showHello(!this.props.show)
@@ -46,3 +42,7 @@ export default class Home extends Component {
         );
     }
 }
+
+Home.propTypes = {
+    show: React.PropTypes.bool,
+};

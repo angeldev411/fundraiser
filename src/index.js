@@ -6,7 +6,7 @@ import { createStore, combineReducers } from 'redux';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import { Router, IndexRoute, Route } from 'react-router';
 import mainReducer from './redux/reducers';
-import needToImportToSetLanguage from './lang/languageManager';
+import init from './init/';
 
 const reducer = combineReducers({
     main: mainReducer,
