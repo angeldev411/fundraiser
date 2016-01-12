@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { Provider } from 'react-redux';
+import { Router } from 'react-router';
+import routes from './routes';
 import { createStore, combineReducers } from 'redux';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
-import { Router, IndexRoute, Route } from 'react-router';
 import mainReducer from './redux/reducers';
-import init from './init/';
+import init from './init';
 
 const reducer = combineReducers({
     main: mainReducer,
@@ -27,34 +28,12 @@ const history = createBrowserHistory();
 
 syncReduxAndRouter(history, store);
 
-import Container from './components/Container/Container';
-import RouteNotFound from './views/RouteNotFound';
-import Home from './views/Home/Home';
-/* Add new views here */
-
 const container = document.getElementById('root');
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route
-                path="/"
-                component={Container}
-            >
-                <IndexRoute
-                    component={Home}
-                />
-                /* Add new routes here */
-                <Route
-                    path="home"
-                    component={Home}
-                />
-                <Route
-                    path="*"
-                    component={RouteNotFound}
-                    status={404}
-                />
-            </Route>
+            {routes}
         </Router>
     </Provider>
     , container
