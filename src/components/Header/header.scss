@@ -1,0 +1,56 @@
+@import '../../common/styles/variables.scss';
+
+header {
+    min-height: 70px;
+    background: #282c30; // rgba(51, 56, 57, 0.6);
+    padding: 10px;
+
+    #logo {
+        float: left;
+    }
+
+    nav {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 40px;
+
+        ul {
+            li {
+                list-style: none;
+                float: left;
+
+                a {
+                    color: #fff;
+                    font-size: 18px;
+                    margin: 0 15px;
+                    text-decoration: none;
+                    text-transform: uppercase;
+
+                    &:hover {
+                        color: $green;
+                        background-color: transparent!important;
+                    }
+                }
+
+                &:first-child {
+                    a {
+                        margin-left: 0;
+                    }
+                }
+
+                &:last-child {
+                    a {
+                        margin-right: 0;
+                    }
+                }
+            }
+
+            li.social {
+                a {
+                    margin: 0;
+                    padding: 15px 10px;
+                }
+            }
+        }
+    }
+}

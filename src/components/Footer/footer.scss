@@ -1,0 +1,12 @@
+@import '../../common/styles/variables.scss';
+
+footer {
+    min-height: 260px;
+    background: $green;
+
+    .social {
+        background: #9cab4b; // TODO variable
+        min-height: 20px;
+        text-align: right;
+    }
+}

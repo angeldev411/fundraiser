@@ -1,6 +1,15 @@
-.button {
-    padding: 1em;
-    background-color: white;
-    border: solid 1px #cccccc;
-    border-radius: 0.5em;
+@import '../../common/styles/variables.scss';
+
+.home_cover {
+    background: url(/images/hands.jpg);
+    background-size: cover;
+    min-height: 860px;
+
+    h2 {
+        color: #fff;
+        font-size: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 110px;
+    }
 }

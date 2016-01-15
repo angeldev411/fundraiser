@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import * as actions from '../../redux/actions';
 
 /* Then React components */
-import Translate from 'react-translate-component';
-import { Link } from 'react-router';
+import Page from '../../components/Page';
+import Button from '../../components/Button';
 
 /* Then view-related stuff */
 import commonStyles from '../../common/styles/main.scss';
@@ -16,29 +16,22 @@ import styles from './home.scss';
     show: reduxState.main.showHello,
 }))
 export default class Home extends Component {
-    handleClick = () => {
-        this.props.dispatch(
-            actions.showHello(!this.props.show)
-        );
-    };
+    componentDidMount() {
+        document.title = 'Homepage';
+    }
 
     render() {
         return (
-            <div>
-                {this.props.show ? (<p><Translate content="hello" /></p>) : null}
-                <button
-                    className={classNames(
-                        styles.button,
-                        commonStyles.defaultColor
-                    )}
-                    onClick={this.handleClick}
-                >
-                    <Translate content="say.hello" />
-                </button>
-                <p>
-                    <Link to="/unexisting-state">{'To an error'}</Link>
-                </p>
-            </div>
+            <Page>
+                <div className={styles.home_cover}>
+                    <div className={"container"}>
+                        <h2>{"You + Us = A World of Change"}</h2>
+                        <Button>
+                            {"Contact Us"}
+                        </Button>
+                    </div>
+                </div>
+            </Page>
         );
     }
 }
