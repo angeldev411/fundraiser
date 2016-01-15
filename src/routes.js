@@ -7,7 +7,7 @@ import RouteNotFound from './views/RouteNotFound';
 import Home from './views/Home';
 /* Add new views here */
 
-module.exports = (
+export default (
     <Route
         path="/"
         component={Container}
@@ -26,4 +26,4 @@ module.exports = (
             status={404}
         />
     </Route>
-)
+);

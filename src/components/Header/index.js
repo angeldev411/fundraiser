@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 
-import styles from './header.scss';
-
 export default class Header extends Component {
     render() {
         return (
             <header>
                 <div className="container">
                     <a href="#">
-                        <img src="/images/raiserve_logo.png"
+                        <img src="/assets/images/raiserve_logo.png"
                             id="logo"
                             title=""
                             alt=""
@@ -30,12 +28,12 @@ export default class Header extends Component {
                                     {'How Raiserve works'}
                                 </a>
                             </li>
-                            <li className={styles.social}>
+                            <li className={'social'}>
                                 <a href="#">
                                     <i className="fa fa-facebook"></i>
                                 </a>
                             </li>
-                            <li className={styles.social}>
+                            <li className={'social'}>
                                 <a href="#">
                                     <i className="fa fa-twitter"></i>
                                 </a>
