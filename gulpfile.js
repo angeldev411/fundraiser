@@ -41,11 +41,8 @@ gulp.task('sass', ['cleanCSS'], function() {
     .pipe(sass())
     .pipe(sourcemaps.write())
     .pipe(concat('all.css'))
-    .pipe(rename('bundle.css'))
-    .pipe(gulp.dest('./www/'))
-    // .pipe(minifyCSS())
-    // .pipe(rename('bundle.min.css'))
-    // .pipe(gulp.dest('./www/'));
+    .pipe(rename('style.css'))
+    .pipe(gulp.dest('./www/assets/css/'))
 });
 
 gulp.task('moveAssets', ['cleanAssets'], function() {
@@ -56,19 +53,22 @@ gulp.task('moveAssets', ['cleanAssets'], function() {
 });
 
 gulp.task('js', ['cleanJS'], function() {
-    // gulp.src('./src/**/*.js')
     browserify('./src/index.js', {debug: true})
     .transform(babel)
     .bundle()
     .on('error', function(error) { console.log(error); })
-    // .pipe(debug())
     .pipe(source('bundle.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init())
-    // // .pipe(concat('all.js'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./www/'));
 });
+
+gulp.task('fa', function() {
+    gulp.src('./node_modules/font-awesome/**/*.{ttf,woff,eof,svg,min.css}')
+    .pipe(gulp.dest('./www/assets/'));
+});
+
 gulp.task('webserver', function() {
   gulp.src('./www/')
     .pipe(webserver({
@@ -86,5 +86,5 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['moveAssets', 'js', 'sass']);
+gulp.task('default', ['moveAssets', 'js', 'sass', 'fa']);
 gulp.task('develop', ['default', 'webserver', 'watch']);
