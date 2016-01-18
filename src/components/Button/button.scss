@@ -1,6 +1,27 @@
+@import "../../common/styles/variables.scss";
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
 .btn-default {
     background-color: transparent;
     border-radius: 0;
-    color: #fff;
+    color: $white;
     text-transform: uppercase;
+    // TODO font-family: ConduitITC Light;
+
+    &:hover{
+        color: $white;
+        background-color: $green;
+        border: solid 1px $green;
+    }
 }
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) { }
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) { }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) { }

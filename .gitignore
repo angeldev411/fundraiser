@@ -2,8 +2,9 @@
 node_modules
 npm-debug.log
 
-# Assets
+# Assets & compiled app
 www/assets
+www/bundle.js
 
 # IDE left-overs
 *.sublime-project

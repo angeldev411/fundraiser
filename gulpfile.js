@@ -65,7 +65,7 @@ gulp.task('js', ['cleanJS'], function() {
 });
 
 gulp.task('fa', function() {
-    gulp.src('./node_modules/font-awesome/**/*.{ttf,woff,eof,svg,min.css}')
+    gulp.src('./node_modules/font-awesome/**/*.{ttf,woff,woff2,eof,svg,min.css}')
     .pipe(gulp.dest('./www/assets/'));
 });
 

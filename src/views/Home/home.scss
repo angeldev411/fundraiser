@@ -1,20 +1,18 @@
 @import '../../common/styles/variables.scss';
 
 .home_cover {
-    background: url(/assets/images/hands.jpg);
-    background-size: cover;
     min-height: 860px;
     text-align: center;
 
     h2 {
-        color: #fff;
+        color: $white;
         font-size: 40px;
         text-align: center;
-        text-transform: uppercase;
         margin-top: 110px;
     }
 
     .btn-default {
-        margin-top: 100px;
+        margin-top: 60px;
+        font-size: 30px;
     }
 }

@@ -14,11 +14,16 @@ export default class Home extends Component {
     }
 
     render() {
+        const background = {
+            backgroundImage: 'url(/assets/images/hands.jpg)',
+            backgroundSize: 'cover',
+        };
+
         return (
-            <Page>
+            <Page style={background}>
                 <div className={'home_cover'}>
                     <div className={"container"}>
-                        <h2>{"You + Us = A World of Change"}</h2>
+                        <h2 className="tagline">{"You + Us = A World of Change"}</h2>
                         <Button>
                             {"Contact Us"}
                         </Button>

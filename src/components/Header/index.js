@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Button from '../Button/';
+
 export default class Header extends Component {
     render() {
         return (
@@ -40,6 +42,9 @@ export default class Header extends Component {
                             </li>
                         </ul>
                     </nav>
+                    <span className={'pull-right login-container'}>
+                        <Button>{'Sign In'}</Button>
+                    </span>
                 </div>
             </header>
         );
