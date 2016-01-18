@@ -4,7 +4,6 @@
 /* No media query since this is the default in Bootstrap */
 
 header {
-    min-height: 70px;
     background: rgba($black, 0.49);
     padding: 10px;
     position: absolute;
@@ -12,63 +11,195 @@ header {
 
     #logo {
         float: left;
+        max-height: 35px;
     }
 
-    nav {
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: 40px;
+    #toggle-menu {
+        background: transparent;
+        border: none;
+        color: $grey;
+        line-height: 35px;
+        font-size: 25px;
 
-        ul {
-            li {
-                list-style: none;
-                float: left;
-
-                a {
-                    color: $white;
-                    font-size: 18px;
-                    margin: 0 15px;
-                    text-decoration: none;
-                    text-transform: uppercase;
-
-                    &:hover {
-                        color: $green;
-                        background-color: transparent!important;
-                    }
-                }
-
-                &:first-child {
-                    a {
-                        margin-left: 0;
-                    }
-                }
-
-                &:last-child {
-                    a {
-                        margin-right: 0;
-                    }
-                }
-            }
-
-            li.social {
-                a {
-                    margin: 0;
-                    padding: 15px 10px;
-                }
-            }
+        &:active, &:focus {
+            border: none;
+            outline: 0;
         }
-    }
-
-    .login-container{
-        line-height: 45px;
     }
 }
 
+// Mobile menu
+#slide-menu {
+    display: none;
+    background: $green;
+    width: 70%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+nav {
+
+    ul.nav {
+        margin-left: 20px;
+
+        > li {
+            list-style: none;
+            color: $white;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding-left: 0;
+
+            > a {
+                color: $white;
+                font-size: 18px;
+                margin: 0 15px;
+                text-decoration: none;
+                text-transform: uppercase;
+                padding-left: 0;
+
+                &:hover {
+                    color: $green;
+                    background-color: transparent!important;
+                }
+            }
+
+            &:first-child {
+                a {
+                    margin-left: 0;
+                }
+            }
+
+            &:last-child {
+                a {
+                    margin-right: 0;
+                }
+            }
+
+            > span {
+                margin: 0 15px;
+            }
+
+            ul.sub-element{
+                padding: 0;
+                margin-left: 20px;
+
+                li {
+                    list-style: none;
+                    margin: 5px 0;
+
+                    a {
+                        color: $grey;
+                        font-family: inherit;
+                        font-size: 12px;
+                        text-transform: none;
+
+                        &:hover {
+                            color: $white;
+                            text-decoration: none;
+                        }
+                    }
+
+                    hr {
+                        margin: 0;
+                        border-color: $grey;
+                    }
+
+                    &.copyright{
+                        // TODO Font Gotham Book
+                        font-size: 12px;
+                        color: $grey;
+                    }
+                }
+            }
+        }
+
+        li.social {
+            float: left;
+
+            a {
+                margin: 0;
+                padding: 15px 10px;
+            }
+        }
+    }
+}
+
+.login-container{
+    line-height: 45px;
+}
+
 /* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm-min) { }
+@media (min-width: $screen-sm-min) {
+
+}
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) { }
+@media (min-width: $screen-md-min) {
+    #logo {
+        max-height: initial !important;
+    }
+
+    nav {
+        ul.nav {
+            margin-left: 40px;
+        }
+    }
+}
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min) { }
+
+
+/* Desktop Backup
+
+TODO remove this
+
+nav {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 40px;
+
+    ul {
+        li {
+            list-style: none;
+            float: left;
+
+            a {
+                color: $white;
+                font-size: 18px;
+                margin: 0 15px;
+                text-decoration: none;
+                text-transform: uppercase;
+                margin: 0 15px;
+
+                &:hover {
+                    color: $green;
+                    background-color: transparent!important;
+                }
+            }
+
+            &:first-child {
+                a {
+                    margin-left: 0;
+                }
+            }
+
+            &:last-child {
+                a {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        li.social {
+            a {
+                margin: 0;
+                padding: 15px 10px;
+            }
+        }
+    }
+}
+
+*/

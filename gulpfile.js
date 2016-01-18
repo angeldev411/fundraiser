@@ -69,6 +69,11 @@ gulp.task('fa', function() {
     .pipe(gulp.dest('./www/assets/'));
 });
 
+gulp.task('jquery', function() {
+    gulp.src('./node_modules/jquery/dist/jquery.min.js')
+    .pipe(gulp.dest('./www/assets/js'));
+});
+
 gulp.task('webserver', function() {
   gulp.src('./www/')
     .pipe(webserver({
@@ -86,5 +91,5 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['moveAssets', 'js', 'sass', 'fa']);
+gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'jquery']);
 gulp.task('develop', ['default', 'webserver', 'watch']);

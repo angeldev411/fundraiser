@@ -15,7 +15,7 @@ export default class Page extends Component {
 
     render() {
         return (
-            <div>
+            <div id="page">
                 <Header/>
                 <div className="page-content"
                     style={this.props.style}

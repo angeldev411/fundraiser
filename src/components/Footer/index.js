@@ -9,7 +9,7 @@ export default class Footer extends Component {
             <footer>
                 <div className={'footer-content'}>
                     <div className={'container'}>
-                        <section className={'col-xs-12 col-md-2'}>
+                        <section className={'hidden-xs col-xs-12 col-sm-4 col-md-3 col-lg-2'}>
                             <span className={'bloc-title'}>
                                 {'Who we are'}
                             </span>
@@ -44,7 +44,7 @@ export default class Footer extends Component {
                                 </li>
                             </ul>
                         </section>
-                        <section className={'col-xs-12 col-md-2'}>
+                        <section className={'hidden-xs col-xs-12 col-sm-4 col-md-3 col-lg-2'}>
                             <span className={'bloc-title'}>
                                 {'Get a hold of us'}
                             </span>
@@ -86,7 +86,7 @@ export default class Footer extends Component {
                                 </li>
                             </ul>
                         </section>
-                        <section className={'col-xs-12 col-md-2'}>
+                        <section className={'hidden-xs col-xs-12 col-sm-4 col-md-3 col-lg-2'}>
                             <span className={'bloc-title'}>
                                 {'The legal stuff'}
                             </span>
@@ -110,13 +110,20 @@ export default class Footer extends Component {
                                 </li>
                             </ul>
                         </section>
-                        <section className={'col-xs-12 col-md-6'}>
+                        <section className={'col-xs-12 col-md-3 col-lg-6'}>
+                            <section className={'col-xs-12 social visible-xs'}>
+                                <a href="#">
+                                    <i className="fa fa-facebook"></i>
+                                </a>
+                                <a href="#">
+                                    <i className="fa fa-twitter"></i>
+                                </a>
+                            </section>
                             <a href="#"
                                 title=""
-                                className="pull-right tagline"
+                                className="tagline"
                             >
                                 <img src="/assets/images/raiserve_logo_white.png"
-                                    id="logo"
                                     title=""
                                     alt=""
                                 />
@@ -128,7 +135,7 @@ export default class Footer extends Component {
                         </section>
                     </div>
                 </div>
-                <div className={'footer-bottom'}>
+                <div className={'footer-bottom hidden-xs'}>
                     <div className={'container'}>
                         <section className={'col-xs-12 social'}>
                             <a href="#">

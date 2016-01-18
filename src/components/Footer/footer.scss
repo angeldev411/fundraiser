@@ -48,45 +48,86 @@ footer {
         }
     }
 
+    .social {
+        text-align: center;
+        margin: 20px 0 40px 0;
+
+        a {
+            color: $white;
+            font-size: 30px;
+            padding: 0 15px;
+            box-sizing: content-box;
+            display: inline-block;
+
+            &:hover, &:active {
+                color: $white;
+            }
+        }
+    }
+
     .tagline {
         text-decoration: none;
+        margin: 40px 0;
+        display: block;
+        text-align: center;
 
         p {
             color: $grey;
             font-size: 18px;
             // TODO Font Gotham Book
-            padding-left: 58px;
-        }
-    }
-
-    .footer-bottom {
-        background: rgba($grey, 0.49);
-        min-height: 20px;
-
-        .social {
-            text-align: right;
-
-            a {
-                color: $white;
-                font-size: 16px;
-                padding: 8px 5px;
-                box-sizing: content-box;
-                display: inline-block;
-
-                &:hover {
-                    color: $green;
-                }
-            }
+            padding-left: 43%;
+            text-align: left;
         }
     }
 }
 
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm-min) { }
+@media (min-width: $screen-sm-min){ }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) { }
+@media (min-width: $screen-md-min) {
+    footer{
+        .tagline {
+            float: right;
+            margin: 0;
+
+            p {
+                padding-left: 65px;
+            }
+        }
+
+        .footer-bottom {
+            background: rgba($grey, 0.49);
+            min-height: 20px;
+
+            .social {
+                text-align: right;
+                margin: 0;
+
+                a {
+                    color: $white;
+                    font-size: 16px;
+                    padding: 8px 5px;
+                    box-sizing: content-box;
+                    display: inline-block;
+
+                    &:hover, &:active {
+                        color: $green;
+                    }
+                }
+            }
+        }
+    }
+}
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) { }
+@media (min-width: $screen-lg-min) {
+    footer{
+        .tagline {
+            p {
+                padding-left: 140px;
+            }
+        }
+    }
+}
