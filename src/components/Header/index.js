@@ -19,7 +19,7 @@ export default class Header extends Component {
                     </a>
 
                     <button id="toggle-menu"
-                        className="visible-xs visble-sm pull-right"
+                        className="visible-xs pull-right"
                     >
                         <i className="fa fa-bars"></i>
                     </button>
@@ -148,20 +148,16 @@ export default class Header extends Component {
                                                 {'Privacy Policy'}
                                             </a>
                                         </li>
-                                        <li className={'copyright'}>
-                                            &#169; {`Copyright Raiserve.org ${year.toString()}`}
-                                        </li>
                                     </ul>
+                                </li>
+                                <li className={'login-container'}>
+                                    <Button>{'Sign In'}</Button>
                                 </li>
                             </ul>
                         </nav>
-
-                        <li className={'login-container'}>
-                            <Button>{'Sign In'}</Button>
-                        </li>
                     </div>
 
-                    <nav className={"hidden-xs hidden-sm"}>
+                    <nav className={"hidden-xs"}>
                         <ul className={"nav navbar-nav"}>
                             <li>
                                 <a href="#"

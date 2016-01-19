@@ -8,12 +8,16 @@
     border-radius: 0;
     color: $white;
     text-transform: uppercase;
+    border: solid 1px $white;
     // TODO font-family: ConduitITC Light;
 
-    &:hover{
-        color: $white;
-        background-color: $green;
-        border: solid 1px $green;
+    &:hover,
+    &:active,
+    &:focus {
+        color: $white!important;
+        background-color: $green!important;
+        border: solid 1px $green!important;
+        outline: 0!important;
     }
 }
 

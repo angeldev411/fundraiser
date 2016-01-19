@@ -16,11 +16,12 @@ var buffer = require('vinyl-buffer');
 var assetList = [
   './src/assets/fonts/**/*.*',
   './src/assets/images/**/*.*',
+  './src/assets/js/**/*.*',
 ];
 
 var styleList = [
-    './node_modules/bootstrap/dist/css/bootstrap.min.css',
-    './src/**/*.scss'
+  './node_modules/bootstrap/dist/css/bootstrap.min.css',
+  './src/**/*.scss',
 ];
 
 gulp.task('cleanAssets', function(cb) {
@@ -49,7 +50,7 @@ gulp.task('moveAssets', ['cleanAssets'], function() {
   gulp.src(assetList, {
     base: './src/assets'
   })
-    .pipe(gulp.dest('./www/assets'));
+  .pipe(gulp.dest('./www/assets'));
 });
 
 gulp.task('js', ['cleanJS'], function() {
@@ -86,7 +87,7 @@ gulp.task('webserver', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(assetList, ['moveAssets']);
+  gulp.watch(assetList, ['moveAssets', 'sass', 'jquery', 'fa']);
   gulp.watch(['./src/**/*.js'], ['js']);
   gulp.watch('./src/**/*.scss', ['sass']);
 });

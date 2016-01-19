@@ -34,22 +34,24 @@ header {
     background: $green;
     width: 70%;
     height: 100%;
+    overflow: scroll;
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 10;
 }
 
 nav {
 
     ul.nav {
-        margin-left: 20px;
+        margin: 0;
 
         > li {
             list-style: none;
             color: $white;
             font-size: 18px;
             text-transform: uppercase;
-            padding-left: 0;
+            padding-left: 20px;
 
             > a {
                 color: $white;
@@ -81,6 +83,12 @@ nav {
                 margin: 0 15px;
             }
 
+            &.login-container {
+                text-align: center;
+                margin: 10px 0;
+                padding-left: 0;
+            }
+
             ul.sub-element{
                 padding: 0;
                 margin-left: 20px;
@@ -88,6 +96,7 @@ nav {
                 li {
                     list-style: none;
                     margin: 5px 0;
+                    line-height: 13px;
 
                     a {
                         color: $grey;
@@ -104,12 +113,7 @@ nav {
                     hr {
                         margin: 0;
                         border-color: $grey;
-                    }
-
-                    &.copyright{
-                        // TODO Font Gotham Book
-                        font-size: 12px;
-                        color: $grey;
+                        max-width: 150px;
                     }
                 }
             }
@@ -117,10 +121,15 @@ nav {
 
         li.social {
             float: left;
+            padding-left: 0;
+
+            &:first-child {
+                padding-left: 20px;
+            }
 
             a {
                 margin: 0;
-                padding: 15px 10px;
+                 padding: 15px 10px;
             }
         }
     }
@@ -132,13 +141,16 @@ nav {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
-
+    #logo {
+        margin: 5px;
+    }
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
     #logo {
         max-height: initial !important;
+        margin: 0;
     }
 
     nav {
@@ -146,60 +158,8 @@ nav {
             margin-left: 40px;
         }
     }
+
 }
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min) { }
-
-
-/* Desktop Backup
-
-TODO remove this
-
-nav {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 40px;
-
-    ul {
-        li {
-            list-style: none;
-            float: left;
-
-            a {
-                color: $white;
-                font-size: 18px;
-                margin: 0 15px;
-                text-decoration: none;
-                text-transform: uppercase;
-                margin: 0 15px;
-
-                &:hover {
-                    color: $green;
-                    background-color: transparent!important;
-                }
-            }
-
-            &:first-child {
-                a {
-                    margin-left: 0;
-                }
-            }
-
-            &:last-child {
-                a {
-                    margin-right: 0;
-                }
-            }
-        }
-
-        li.social {
-            a {
-                margin: 0;
-                padding: 15px 10px;
-            }
-        }
-    }
-}
-
-*/
