@@ -67,36 +67,25 @@ footer {
 
     .tagline {
         text-decoration: none;
-        margin: 40px 0;
+        margin: 40px 0 0;
         display: block;
-        text-align: center;
 
         p {
             color: $grey;
             font-size: 1.1em;
+            width: 188px;
+            display: block;
+            margin: auto;
             // TODO Font Gotham Book
-            padding-left: 43%;
+            padding-left: 60px;
             text-align: left;
         }
     }
 }
 
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm-min){ }
-
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
     footer{
-        .tagline {
-            float: right;
-            margin: 0;
-
-            p {
-                padding-left: 65px;
-            }
-        }
-
         .footer-bottom {
             background: rgba($grey, 0.49);
             min-height: 20px;
@@ -116,17 +105,6 @@ footer {
                         color: $green;
                     }
                 }
-            }
-        }
-    }
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) {
-    footer{
-        .tagline {
-            p {
-                padding-left: 140px;
             }
         }
     }
