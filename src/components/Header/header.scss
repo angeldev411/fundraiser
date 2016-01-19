@@ -19,7 +19,7 @@ header {
         border: none;
         color: $grey;
         line-height: 35px;
-        font-size: 25px;
+        font-size: 1.5em;
 
         &:active, &:focus {
             border: none;
@@ -33,6 +33,7 @@ header {
     display: none;
     background: $green;
     width: 70%;
+    max-width: 300px;
     height: 100%;
     overflow: scroll;
     position: absolute;
@@ -49,13 +50,14 @@ nav {
         > li {
             list-style: none;
             color: $white;
-            font-size: 18px;
+            font-size: 1.1em;
             text-transform: uppercase;
             padding-left: 20px;
+            float: none;
 
             > a {
                 color: $white;
-                font-size: 18px;
+                font-size: 1.1em;
                 margin: 0 15px;
                 text-decoration: none;
                 text-transform: uppercase;
@@ -101,7 +103,7 @@ nav {
                     a {
                         color: $grey;
                         font-family: inherit;
-                        font-size: 12px;
+                        font-size: .75em;
                         text-transform: none;
 
                         &:hover {

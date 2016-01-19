@@ -19,7 +19,7 @@ export default class Header extends Component {
                     </a>
 
                     <button id="toggle-menu"
-                        className="visible-xs pull-right"
+                        className="visible-xs visible-sm pull-right"
                     >
                         <i className="fa fa-bars"></i>
                     </button>
@@ -157,7 +157,7 @@ export default class Header extends Component {
                         </nav>
                     </div>
 
-                    <nav className={"hidden-xs"}>
+                    <nav className={"hidden-xs hidden-sm"}>
                         <ul className={"nav navbar-nav"}>
                             <li>
                                 <a href="#"
