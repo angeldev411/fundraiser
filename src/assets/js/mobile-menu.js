@@ -69,7 +69,7 @@ $(document).ready(function () {
         $(menuId).css('display', 'block');
 
         // Add transparent overlay on #page content
-        $(pageId).addClass('dimmed');
+        $(pageId).addClass('menu-overlay');
 
         $(menuId).animate({
             right: 0,
@@ -88,7 +88,7 @@ $(document).ready(function () {
         active = 0;
 
         // Remove transparent overlay on #page content
-        $(pageId).removeClass('dimmed');
+        $(pageId).removeClass('menu-overlay');
 
         $(menuId).animate({
             right: -menuWidth+'px',

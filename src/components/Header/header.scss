@@ -141,6 +141,22 @@ nav {
     line-height: 45px;
 }
 
+.menu-overlay {
+    position: relative;
+}
+
+.menu-overlay:after {
+    content: " ";
+    z-index: 10;
+    display: block;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
     #logo {
@@ -158,10 +174,11 @@ nav {
     nav {
         ul.nav {
             margin-left: 40px;
+
+            li{
+                float: left;
+            }
         }
     }
 
 }
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) { }

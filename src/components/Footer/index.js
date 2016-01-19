@@ -110,7 +110,7 @@ export default class Footer extends Component {
                                 </li>
                             </ul>
                         </section>
-                        <section className={'col-xs-12 col-md-3 col-lg-6'}>
+                        <section className={'col-xs-12 col-md-3 col-lg-2 col-lg-offset-4'}>
                             <section className={'col-xs-12 social visible-xs'}>
                                 <a href="#">
                                     <i className="fa fa-facebook"></i>
