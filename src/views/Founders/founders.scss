@@ -1,1 +1,32 @@
 @import '../../common/styles/variables.scss';
+
+.right-content {
+    margin-top: 60px;
+    padding-left: 50px;
+    min-height: 700px;
+
+    h2, h3 {
+        // TODO font-family ConduitITC
+        font-size: 1.45em;
+        color: $lighter-grey;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+
+    h3 {
+        font-weight: normal;
+
+        .name {
+            color: $green;
+            font-weight: bold;
+        }
+    }
+
+    p {
+        // TODO font-family ConduitITC
+        color: $grey;
+    }
+}

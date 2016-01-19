@@ -1,16 +1,14 @@
 @import '../../common/styles/variables.scss';
 
 aside {
-    border-right: solid 1px $grey;
+    border-right: solid 1px $lighter-grey;
+    margin-bottom: 60px;
+    padding: 0 50px!important;
 
     section {
 
         &:first-child {
             margin-top: 60px;
-        }
-
-        &:last-child {
-            margin-bottom: 60px;
         }
 
         .title {
@@ -24,7 +22,7 @@ aside {
             color: $grey;
         }
     }
-    
+
     .green-symbol{
         color: $green;
         font-size: 4em;
