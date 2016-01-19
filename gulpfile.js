@@ -82,7 +82,8 @@ gulp.task('webserver', function() {
       port: 3000,
       livereload: true,
       directoryListing: false,
-      open: false
+      open: false,
+      fallback: 'index.html'
     }));
 });
 
