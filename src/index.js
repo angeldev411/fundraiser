@@ -7,7 +7,6 @@ import routes from './routes';
 import { createStore, combineReducers } from 'redux';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import mainReducer from './redux/reducers';
-import init from './init';
 
 const reducer = combineReducers({
     main: mainReducer,

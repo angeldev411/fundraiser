@@ -1,1 +1,0 @@
-import counterpart from './languageManager';
