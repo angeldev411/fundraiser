@@ -6,6 +6,7 @@ import Container from './components/Container';
 import RouteNotFound from './views/RouteNotFound';
 import Home from './views/Home';
 /* Add new views here */
+import Founders from './views/Founders';
 
 export default (
     <Route
@@ -19,6 +20,10 @@ export default (
         <Route
             path="home"
             component={Home}
+        />
+        <Route
+            path="founders"
+            component={Founders}
         />
         <Route
             path="*"

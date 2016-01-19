@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router';
 
 export default class Button extends Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class Button extends Component {
     }
 
     render() {
-        return (
+        const button = (
             <button
                 type="button"
                 className="btn btn-default"
@@ -18,5 +19,13 @@ export default class Button extends Component {
                 {this.props.children}
             </button>
         );
+        if(this.props.to) {
+            return (
+                <Link to={this.props.to}>
+                    {button}
+                </Link>
+            )
+        }
+        return button;
     }
 }

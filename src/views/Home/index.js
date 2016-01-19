@@ -24,7 +24,7 @@ export default class Home extends Component {
                 <div className={'home_cover'}>
                     <div className={"container"}>
                         <h2 className="tagline">{"You + Us = A World of Change"}</h2>
-                        <Button>
+                        <Button to='founders'>
                             {"Contact Us"}
                         </Button>
                     </div>

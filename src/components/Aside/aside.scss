@@ -1,0 +1,33 @@
+@import '../../common/styles/variables.scss';
+
+aside {
+    border-right: solid 1px $grey;
+
+    section {
+
+        &:first-child {
+            margin-top: 60px;
+        }
+
+        &:last-child {
+            margin-bottom: 60px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 1.45em;
+            color: $light-grey;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+        }
+
+        p {
+            color: $grey;
+        }
+    }
+    
+    .green-symbol{
+        color: $green;
+        font-size: 4em;
+        font-weight: bold;
+    }
+}
