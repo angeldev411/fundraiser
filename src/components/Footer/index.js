@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import * as Urls from '../../urls.js';
+import { Link } from 'react-router';
 
 export default class Footer extends Component {
     render() {
-        const year = new Date().getFullYear();
+        const YEAR = new Date().getFullYear();
         // TODO address microformat
 
         return (
@@ -22,11 +24,9 @@ export default class Footer extends Component {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"
-                                        title=""
-                                    >
+                                    <Link to={Urls.FOUNDERS}>
                                         {'The founders'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="#"
@@ -106,7 +106,7 @@ export default class Footer extends Component {
                                     </a>
                                 </li>
                                 <li className={'copyright'}>
-                                    &#169; {`Copyright Raiserve.org ${year.toString()}`}
+                                    &#169; {`Copyright Raiserve.org ${YEAR.toString()}`}
                                 </li>
                             </ul>
                         </section>
@@ -119,8 +119,7 @@ export default class Footer extends Component {
                                     <i className="fa fa-twitter"></i>
                                 </a>
                             </section>
-                            <a href="#"
-                                title=""
+                            <Link to={Urls.HOME}
                                 className="tagline"
                             >
                                 <img src="/assets/images/raiserve_logo_white.png"
@@ -131,7 +130,7 @@ export default class Footer extends Component {
                                     {'You + Us'}<br/>
                                     {'= A World Of Change'}
                                 </p>
-                            </a>
+                            </Link>
                         </section>
                     </div>
                 </div>

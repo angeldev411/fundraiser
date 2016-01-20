@@ -1,11 +1,24 @@
+@import '../../common/styles/variables.scss';
+
 body {
     font-size: 16px;
 }
 
 .page-content{
-    padding-top: 70px;
+    padding-top: 60px;
 }
 
 .tagline {
     text-transform: uppercase;
+}
+
+.main-content {
+    margin: 60px auto;
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+    .page-content{
+        padding-top: 70px;
+    }
 }

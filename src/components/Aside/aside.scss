@@ -1,0 +1,40 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+aside {
+    margin-bottom: 60px;
+
+    section {
+
+        &:first-child {
+            margin-top: 60px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 1.45em;
+            color: $light-grey;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+        }
+
+        p {
+            color: $grey;
+        }
+    }
+
+    .green-symbol{
+        color: $green;
+        font-size: 4em;
+        font-weight: bold;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    aside {
+        border-right: solid 1px $lighter-grey;
+        padding: 0 50px!important;
+    }
+}

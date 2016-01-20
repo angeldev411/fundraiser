@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-
 import Button from '../Button/';
+import * as Urls from '../../urls.js';
+import { Link } from 'react-router';
 
 export default class Header extends Component {
     render() {
-        const year = new Date().getFullYear();
         // TODO address microformat
 
         return (
             <header>
                 <div className="container">
-                    <a href="#">
+                    <Link to={Urls.HOME}>
                         <img src="/assets/images/raiserve_logo.png"
                             id="logo"
                             title=""
                             alt=""
                         />
-                    </a>
+                    </Link>
 
                     <button id="toggle-menu"
                         className="visible-xs visible-sm pull-right"
@@ -107,11 +107,9 @@ export default class Header extends Component {
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#"
-                                                title=""
-                                            >
+                                            <Link to={Urls.FOUNDERS}>
                                                 {'The founders'}
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
                                             <a href="#"

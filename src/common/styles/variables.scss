@@ -5,4 +5,6 @@
 $white: rgb(235, 235, 235); // #ffffff
 $green: rgb(189, 212, 66); // #bdd442
 $grey: rgb(93, 93, 93); // #5d5d5d
+$light-grey: lighten($grey, 20); // #919191
+$lighter-grey: lighten($grey, 45); // d0cece
 $black: rgb(0, 0, 0); // #ffffff
