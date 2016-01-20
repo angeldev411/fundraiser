@@ -20,7 +20,7 @@
     "bindings": "1.2.1",
     "bootstrap": "^3.3.6",
     "bootstrap-sass": "^3.3.6",
-    "classnames": "^2.2.0",
+    "classnames": "^2.2.3",
     "counterpart": "^0.17.1",
     "express": "^4.13.3",
     "font-awesome": "^4.5.0",

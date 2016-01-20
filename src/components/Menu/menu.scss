@@ -1,0 +1,192 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+header {
+    nav {
+        ul.nav {
+            margin: 0;
+
+            > li {
+                list-style: none;
+                color: $white;
+                font-size: 1.1em;
+                text-transform: uppercase;
+                padding-left: 20px;
+                float: none;
+
+                > a {
+                    color: $white;
+                    font-size: 1.1em;
+                    margin: 0 15px;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    padding-left: 0;
+
+                    &:hover {
+                        color: $green;
+                        background-color: transparent!important;
+                    }
+                }
+
+                &:first-child {
+                    a {
+                        margin-left: 0;
+                    }
+                }
+
+                &:last-child {
+                    a {
+                        margin-right: 0;
+                    }
+                }
+
+                > span {
+                    margin: 0 15px;
+                }
+
+                &.login-container {
+                    text-align: center;
+                    margin: 10px 0;
+                    padding-left: 0;
+                }
+
+                ul.sub-element{
+                    padding: 0;
+                    margin-left: 20px;
+
+                    li {
+                        list-style: none;
+                        margin: 5px 0;
+                        line-height: 13px;
+
+                        a {
+                            color: $grey;
+                            font-family: inherit;
+                            font-size: .75em;
+                            text-transform: none;
+
+                            &:hover {
+                                color: $white;
+                                text-decoration: none;
+                            }
+                        }
+
+                        hr {
+                            margin: 0;
+                            border-color: $grey;
+                            max-width: 150px;
+                        }
+                    }
+                }
+            }
+
+            li.social {
+                float: left;
+                padding-left: 0;
+
+                &:first-child {
+                    padding-left: 20px;
+                }
+
+                a {
+                    margin: 0;
+                    padding: 15px 10px;
+                }
+            }
+        }
+    }
+
+    #toggle-menu {
+        background: transparent;
+        border: none;
+        color: $grey;
+        line-height: 35px;
+        font-size: 1.5em;
+
+        &:active, &:focus {
+            border: none;
+            outline: 0;
+        }
+    }
+
+    .mobile_menu__open{
+        right: 0;
+    }
+
+    .mobile_menu__closed{
+        right: -300px;
+    }
+
+    #mobile_menu {
+        background: $green;
+        width: 70%;
+        max-width: 300px;
+        height: 100%;
+        overflow: scroll;
+        top: 0;
+        z-index: 100;
+        position: fixed;
+        -webkit-transition: .2s ease-in-out;
+        -moz-transition: .2s ease-in-out;
+        -o-transition: .2s ease-in-out;
+        transition: .2s ease-in-out;
+    }
+
+    #mobile_menu_overlay {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 5;
+    }
+
+    #mobile_menu_overlay:after {
+        content: " ";
+        z-index: 10;
+        display: block;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile_menu_overlay__invisible {
+        display: none;
+    }
+
+    .login-container{
+        line-height: 45px;
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    header {
+        #logo {
+            margin: 5px;
+        }
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+    header {
+        #logo {
+            max-height: initial !important;
+            margin: 0;
+        }
+
+        nav {
+            ul.nav {
+                margin-left: 40px;
+
+                li {
+                    float: left;
+                }
+            }
+        }
+    }
+}
