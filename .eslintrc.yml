@@ -2,3 +2,5 @@ extends:
   - osedea
   - osedea/es6
   - osedea/react
+rules:
+  react/no-set-state: 0
