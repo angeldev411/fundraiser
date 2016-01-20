@@ -4,8 +4,12 @@ import { IndexRoute, Route } from 'react-router';
 
 import Container from './components/Container';
 import RouteNotFound from './views/RouteNotFound';
-import Home from './views/Home';
+
+// Urls
+import * as Urls from './urls.js';
+
 /* Add new views here */
+import Home from './views/Home';
 import Founders from './views/Founders';
 
 export default (
@@ -22,7 +26,7 @@ export default (
             component={Home}
         />
         <Route
-            path="founders"
+            path={Urls.FOUNDERS}
             component={Founders}
         />
         <Route

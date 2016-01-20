@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 /* Then view-related stuff */
 export default class Home extends Component {
     componentWillMount() {
-        document.title = 'Raiserve | You + Us = A World of Change';
+        document.title = 'You + Us = A World of Change | Raiserve';
     }
 
     render() {
