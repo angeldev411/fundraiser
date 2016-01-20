@@ -46,11 +46,9 @@ export default class Header extends Component {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"
-                                        title=""
-                                    >
+                                    <Link to={Urls.HOWITWORKS}>
                                         {'How Raiserve works'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <span>
@@ -165,11 +163,9 @@ export default class Header extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
-                                    title=""
-                                >
+                                <Link to={Urls.HOWITWORKS}>
                                     {'How Raiserve works'}
-                                </a>
+                                </Link>
                             </li>
                             <li className={'social'}>
                                 <a href="#">

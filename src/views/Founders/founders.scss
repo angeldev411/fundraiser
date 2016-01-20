@@ -5,47 +5,35 @@
 
 .founders {
     margin-top: 0;
-}
 
-.right-content {
-    margin-top: 60px;
-
-    h2, h3 {
-        // TODO font-family ConduitITC
-        font-size: 1.45em;
-        color: $lighter-grey;
-        text-transform: uppercase;
-    }
-
-    h2 {
-        font-weight: bold;
-    }
-
-    h3 {
-        color: $green;
-        font-weight: bold;
-
-        a {
-            font-weight: normal;
+    .right-content {
+        h2, h3 {
+            // TODO font-family ConduitITC
+            font-size: 1.45em;
             color: $lighter-grey;
+            text-transform: uppercase;
+        }
 
-            &:hover,
-            &:active {
-                text-decoration: none;
-                color: $green;
+        h2 {
+            font-weight: bold;
+        }
+
+        h3 {
+            color: $green;
+            font-weight: bold;
+
+            a {
+                font-weight: normal;
+                color: $lighter-grey;
+
+                &:hover,
+                &:active {
+                    text-decoration: none;
+                    color: $green;
+                }
             }
         }
     }
-
-    p {
-        // TODO font-family ConduitITC
-        color: $grey;
-    }
-}
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm-min) {
-
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -55,10 +43,10 @@
         background-position: bottom center;
         background-repeat: no-repeat;
         margin: 60px auto 0;
-    }
 
-    .right-content {
-        padding-bottom: 400px;
+        .right-content {
+            padding-bottom: 400px;
+        }
     }
 }
 
@@ -69,9 +57,5 @@
         background-position: 100% 110%;
         background-repeat: no-repeat;
         margin: 60px auto 0;
-    }
-
-    .right-content {
-        padding-left: 50px;
     }
 }
