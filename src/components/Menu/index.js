@@ -40,7 +40,7 @@ export default class Menu extends Component {
 
                 <div id="mobile_menu_overlay"
                     className={classNames({
-                        mobile_menu_overlay__invisible: !this.state.visible,
+                        mobile_menu_overlay__hidden: !this.state.visible,
                     })}
                     style={{ width: window.innerWidth, height: window.innerHeight }}
                     onClick={this.toggle}
@@ -187,7 +187,7 @@ export default class Menu extends Component {
 
         const menu = (
             <div>
-                <nav className={"hidden-xs hidden-sm"}>
+                <nav>
                     <ul className={"nav navbar-nav"}>
                         <li>
                             <a href="#"
@@ -216,7 +216,7 @@ export default class Menu extends Component {
                     </ul>
                 </nav>
 
-                <span className={'login-container pull-right hidden-xs hidden-sm'}>
+                <span className={'login-container pull-right'}>
                     <Button>{'Sign In'}</Button>
                 </span>
             </div>
