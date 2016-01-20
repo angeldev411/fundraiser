@@ -14,17 +14,9 @@ export default class Founders extends Component {
     }
 
     render() {
-        const background = {
-            backgroundImage: 'url(/assets/images/founders.png)',
-            backgroundPosition: '100% 110%',
-            backgroundRepeat: 'no-repeat',
-        };
-
         return (
             <Page>
-                <div className={"container main-content"}
-                    style={background}
-                >
+                <div className={"container main-content founders"}>
                     <Aside/>
                     <div className={'col-xs-12 col-lg-8'}>
                         <section className="right-content">

@@ -1,9 +1,14 @@
 @import '../../common/styles/variables.scss';
 
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.founders {
+    margin-top: 0;
+}
+
 .right-content {
     margin-top: 60px;
-    padding-left: 50px;
-    padding-bottom: 350px;
 
     h2, h3 {
         // TODO font-family ConduitITC
@@ -35,5 +40,38 @@
     p {
         // TODO font-family ConduitITC
         color: $grey;
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+    .founders {
+        background: url(../images/founders.png);
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        margin: 60px auto 0;
+    }
+
+    .right-content {
+        padding-bottom: 400px;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .founders {
+        background: url(../images/founders.png);
+        background-position: 100% 110%;
+        background-repeat: no-repeat;
+        margin: 60px auto 0;
+    }
+
+    .right-content {
+        padding-left: 50px;
     }
 }
