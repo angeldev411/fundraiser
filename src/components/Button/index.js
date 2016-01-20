@@ -2,13 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 export default class Button extends Component {
-    constructor(props) {
-        super(props);
-        this.propTypes = {
-            onClick: React.PropTypes.func
-        }
-    }
-
     render() {
         const BUTTON = (
             <button
@@ -29,3 +22,7 @@ export default class Button extends Component {
         return BUTTON;
     }
 }
+
+Button.propTypes = {
+    onClick: React.PropTypes.func
+};
