@@ -3,7 +3,7 @@
 .right-content {
     margin-top: 60px;
     padding-left: 50px;
-    min-height: 700px;
+    padding-bottom: 350px;
 
     h2, h3 {
         // TODO font-family ConduitITC
@@ -17,11 +17,18 @@
     }
 
     h3 {
-        font-weight: normal;
+        color: $green;
+        font-weight: bold;
 
-        .name {
-            color: $green;
-            font-weight: bold;
+        a {
+            font-weight: normal;
+            color: $lighter-grey;
+
+            &:hover,
+            &:active {
+                text-decoration: none;
+                color: $green;
+            }
         }
     }
 
