@@ -69,6 +69,7 @@ footer {
         text-decoration: none;
         margin: 40px 0 0;
         display: block;
+        text-align: center;
 
         p {
             color: $grey;
@@ -86,6 +87,10 @@ footer {
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
     footer{
+        .tagline {
+            margin: 0;
+        }
+
         .footer-bottom {
             background: rgba($grey, 0.49);
             min-height: 20px;
