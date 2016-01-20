@@ -9,8 +9,8 @@ import Aside from '../../components/Aside';
 
 /* Then view-related stuff */
 export default class Founders extends Component {
-    componentDidMount() {
-        document.title = 'Founders';
+    componentWillMount() {
+        document.title = 'Raiserve | Founders';
     }
 
     render() {
