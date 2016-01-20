@@ -38,19 +38,19 @@ export default class Menu extends Component {
                     <i className="fa fa-bars"></i>
                 </button>
 
-                <div id="mobile_menu_overlay"
+                <div id="mobile-menu-overlay"
                     className={classNames({
-                        mobile_menu_overlay__hidden: !this.state.visible,
+                        'mobile-menu-overlay__hidden': !this.state.visible,
                     })}
                     style={{ width: window.innerWidth, height: window.innerHeight }}
                     onClick={this.toggle}
                 >
                 </div>
 
-                <div id="mobile_menu"
+                <div id="mobile-menu"
                     className={classNames({
-                        mobile_menu__open: this.state.visible,
-                        mobile_menu__closed: !this.state.visible
+                        'mobile-menu__open': this.state.visible,
+                        'mobile-menu__closed': !this.state.visible
                     })}
                 >
                     <nav>
@@ -222,7 +222,7 @@ export default class Menu extends Component {
             </div>
         );
 
-        if(this.state.isDesktop){
+        if (this.state.isDesktop) {
             return menu;
         }
 

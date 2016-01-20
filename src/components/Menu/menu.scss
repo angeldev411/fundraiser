@@ -111,15 +111,15 @@ header {
         }
     }
 
-    .mobile_menu__open{
+    .mobile-menu__open{
         right: 0;
     }
 
-    .mobile_menu__closed{
+    .mobile-menu__closed{
         right: -300px;
     }
 
-    #mobile_menu {
+    #mobile-menu {
         background: $green;
         width: 70%;
         max-width: 300px;
@@ -134,14 +134,14 @@ header {
         transition: .2s ease-in-out;
     }
 
-    #mobile_menu_overlay {
+    #mobile-menu-overlay {
         position: fixed;
         left: 0;
         top: 0;
         z-index: 5;
     }
 
-    #mobile_menu_overlay:after {
+    #mobile-menu-overlay:after {
         content: " ";
         z-index: 10;
         display: block;
@@ -153,7 +153,7 @@ header {
         background: rgba(0, 0, 0, 0.5);
     }
 
-    .mobile_menu_overlay__hidden {
+    .mobile-menu-overlay__hidden {
         display: none;
     }
 
