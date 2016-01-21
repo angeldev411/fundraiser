@@ -4,15 +4,6 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default class Page extends Component {
-    constructor(props) {
-        super(props);
-        this.propTypes = {
-            style: React.PropTypes.object
-        }
-    }
-
-
-
     render() {
         return (
             <div id="page">
@@ -26,4 +17,8 @@ export default class Page extends Component {
             </div>
         );
     }
+}
+
+Page.propTypes = {
+    style: React.PropTypes.object
 }

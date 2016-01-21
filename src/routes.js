@@ -5,12 +5,13 @@ import { IndexRoute, Route } from 'react-router';
 import Container from './components/Container';
 import RouteNotFound from './views/RouteNotFound';
 
-// Urls
+/* Urls */
 import * as Urls from './urls.js';
 
 /* Add new views here */
 import Home from './views/Home';
 import Founders from './views/Founders';
+import HowItWorks from './views/HowItWorks';
 
 export default (
     <Route
@@ -28,6 +29,10 @@ export default (
         <Route
             path={Urls.FOUNDERS}
             component={Founders}
+        />
+        <Route
+            path={Urls.HOWITWORKS}
+            component={HowItWorks}
         />
         <Route
             path="*"

@@ -74,11 +74,9 @@ export default class Menu extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
-                                    title=""
-                                >
+                                <Link to={Urls.HOWITWORKS}>
                                     {'How Raiserve works'}
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <span>
@@ -197,11 +195,9 @@ export default class Menu extends Component {
                             </a>
                         </li>
                         <li>
-                            <a href="#"
-                                title=""
-                            >
+                            <Link to={Urls.HOWITWORKS}>
                                 {'How Raiserve works'}
-                            </a>
+                            </Link>
                         </li>
                         <li className={'social'}>
                             <a href="#">
