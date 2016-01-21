@@ -23,7 +23,7 @@ export default class UserList extends Component {
                                 style={{ backgroundImage : `url(${userImagedir}/${user.image})` }}
                             >
                                 <div className="user-hours">
-                                    <span className="user-hours-number">{'240'}</span><br/>{'hours'}
+                                    <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
                                 </div>
                             </div>
                             <div className="user-name">{user.name}</div>

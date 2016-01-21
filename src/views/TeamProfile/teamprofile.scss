@@ -43,23 +43,59 @@
 
     .team {
         color: $grey;
-        width: 80%;
         margin: auto;
 
         .team-header {
             // font-family: $conduit_light;
             font-size: 1.6em;
             text-transform: uppercase;
-            padding: 0 80px;
 
-            span,
+            span {
+                display: block;
+            }
+
+            i:first-child {
+                padding-left: 0;
+            }
+
+            i:last-child {
+                padding-right: 0;
+            }
+
             i {
-                padding: 0 5px;
+                padding: 0 10px;
             }
         }
 
         .team-share {
             color: $green;
+        }
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .team-block {
+        .team {
+            .team-header {
+                span {
+                    display: inline;
+                    margin: 0 10px;
+                }
+            }
+        }
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .team-block {
+        .team {
+            width: 80%;
+
+            .team-header {
+                padding: 0 80px;
+            }
         }
     }
 }

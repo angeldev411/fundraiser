@@ -36,7 +36,7 @@ export default (
             component={HowItWorks}
         />
         <Route
-            path={`${Urls.TEAMPROFILE}/example`} // TODO must be dynamic
+            path={`${Urls.TEAMPROFILE}/:teamSlug`}
             component={TeamProfile}
         />
         <Route
