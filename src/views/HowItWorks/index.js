@@ -16,7 +16,7 @@ export default class HowItWorks extends Component {
     render() {
         return (
             <Page>
-                <div className={"container main-content"}>
+                <div className={"container main-content no-cover"}>
                     <Layout34 page={'howitworks'}>
                         <h2>{'YOU + US'}<br/>{'= A WORLD OF CHANGE'}</h2>
                         <h3>{'How It Works.'}</h3>

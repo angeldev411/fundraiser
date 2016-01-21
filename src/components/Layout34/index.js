@@ -12,6 +12,7 @@ export default class Layout34 extends Component {
                         {this.props.children}
                     </section>
                 </div>
+                <div className="clearfix"></div>
             </div>
         );
     }

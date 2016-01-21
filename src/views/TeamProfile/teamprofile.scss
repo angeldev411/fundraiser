@@ -36,3 +36,30 @@
         color: $light-grey;
     }
 }
+
+.team-block {
+    background-color: rgba($black, 0.85);
+    padding: 60px 0;
+
+    .team {
+        color: $grey;
+        width: 80%;
+        margin: auto;
+
+        .team-header {
+            // font-family: $conduit_light;
+            font-size: 1.6em;
+            text-transform: uppercase;
+            padding: 0 80px;
+
+            span,
+            i {
+                padding: 0 5px;
+            }
+        }
+
+        .team-share {
+            color: $green;
+        }
+    }
+}
