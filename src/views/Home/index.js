@@ -15,21 +15,13 @@ export default class Home extends Component {
     }
 
     render() {
-        const image = {
-            backgroundImage: 'url(/assets/images/hands.jpg)',
-            backgroundSize: 'cover',
-        };
-
         return (
             <Page>
-                <Cover image={image}
-                    customclass={"home"}
-                >
-                    <h2 className="tagline">{"You + Us = A World of Change"}</h2>
-                    <Button>
-                        {"Contact Us"}
-                    </Button>
-                </Cover>
+                <Cover image={"url(/assets/images/hands.jpg)"}
+                    customclass={"cover-home"}
+                    tagline={"You + Us = A World of Change"}
+                    button={"Contact Us"}
+                />
             </Page>
         );
     }

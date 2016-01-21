@@ -5,7 +5,6 @@ import * as actions from '../../redux/actions';
 
 /* Then React components */
 import Page from '../../components/Page';
-import Button from '../../components/Button';
 import Cover from '../../components/Cover';
 import Layout34 from '../../components/Layout34';
 
@@ -16,19 +15,13 @@ export default class TeamProfile extends Component {
     }
 
     render() {
-        const image = {
-            backgroundImage: 'url(/assets/images/hands.jpg)',
-            backgroundSize: 'cover',
-        };
-
         return (
             <Page>
-                <Cover image={image}>
-                    <h2 className="tagline">{"You + Us = A World of Change"}</h2>
-                    <Button>
-                        {"Contact Us"}
-                    </Button>
-                </Cover>
+                <Cover image={"url(/assets/images/team_cover.jpg)"}
+                    customclass={"cover-profile"}
+                    tagline={"I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+                    button={"Sponsor Now"}
+                />
                 <div className={"container main-content"}>
                     <Layout34 page={'teamprofile'}>
                         <h2>{'YOU + US'}<br/>{'= A WORLD OF CHANGE'}</h2>
