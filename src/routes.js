@@ -12,6 +12,7 @@ import * as Urls from './urls.js';
 import Home from './views/Home';
 import Founders from './views/Founders';
 import HowItWorks from './views/HowItWorks';
+import TeamProfile from './views/TeamProfile';
 
 export default (
     <Route
@@ -33,6 +34,10 @@ export default (
         <Route
             path={Urls.HOWITWORKS}
             component={HowItWorks}
+        />
+        <Route
+            path={`${Urls.TEAMPROFILE}/example`} // TODO must be dynamic
+            component={TeamProfile}
         />
         <Route
             path="*"

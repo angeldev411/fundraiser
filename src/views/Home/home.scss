@@ -1,18 +1,5 @@
 @import '../../common/styles/variables.scss';
 
-.home_cover {
+.home {
     min-height: 860px;
-    text-align: center;
-
-    h2 {
-        color: $white;
-        font-size: 2.5em;
-        text-align: center;
-        margin-top: 110px;
-    }
-
-    .btn-default {
-        margin-top: 60px;
-        font-size: 1.85em;
-    }
 }

@@ -4,8 +4,24 @@ body {
     font-size: 16px;
 }
 
-.page-content{
-    padding-top: 60px;
+// .page-content{
+//     padding-top: 60px;
+// }
+
+.cover {
+    text-align: center;
+
+    h2 {
+        color: $white;
+        font-size: 2.5em;
+        text-align: center;
+        margin-top: 110px;
+    }
+
+    .btn-default {
+        margin-top: 60px;
+        font-size: 1.85em;
+    }
 }
 
 .tagline {
@@ -13,12 +29,12 @@ body {
 }
 
 .main-content {
-    padding-top: 60px;
+    padding-top: 130px;
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
-    .page-content{
-        padding-top: 70px;
-    }
+    // .page-content{
+    //     padding-top: 70px;
+    // }
 }

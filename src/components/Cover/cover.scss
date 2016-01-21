@@ -1,0 +1,18 @@
+@import '../../common/styles/variables.scss';
+
+.cover {
+    .cover-content{
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+    .cover {
+        .cover-content{
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+    }
+}
