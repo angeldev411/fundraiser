@@ -13,28 +13,12 @@ body {
 }
 
 .main-content {
-    margin: 60px auto;
-}
-
-.right-content {
-    margin-top: 60px;
-
-    p {
-        // TODO font-family ConduitITC
-        color: $grey;
-    }
+    padding-top: 60px;
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
     .page-content{
         padding-top: 70px;
-    }
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) {
-    .right-content {
-        padding-left: 50px;
     }
 }

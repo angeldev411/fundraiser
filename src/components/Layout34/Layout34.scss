@@ -1,0 +1,17 @@
+@import '../../common/styles/variables.scss';
+
+.right-content {
+    margin-top: 60px;
+
+    p {
+        // TODO font-family ConduitITC
+        color: $grey;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .right-content {
+        padding-left: 50px;
+    }
+}
