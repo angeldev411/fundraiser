@@ -1,0 +1,101 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.cover-profile {
+    min-height: 500px;
+
+    .tagline{
+        min-height: 50px;
+        background: rgba($black, 0.2);
+
+        p {
+            text-transform: none;
+            // TODO font-family ConduitITC Light
+            font-weight: lighter;
+            color: $white;
+            font-size: 1.6em;
+            line-height: 40px;
+            margin: 0;
+        }
+    }
+}
+
+.teamprofile {
+    #team-logo {
+        max-height: 100px;
+    }
+
+    h2 {
+        border-top: solid 1px black;
+        border-bottom: solid 1px black;
+    }
+
+    h3 {
+        color: $light-grey;
+    }
+}
+
+.team-block {
+    background-color: rgba($black, 0.85);
+    padding: 60px 0;
+
+    .team {
+        color: $grey;
+        margin: auto;
+
+        .team-header {
+            // font-family: $conduit_light;
+            font-size: 1.6em;
+            text-transform: uppercase;
+
+            span {
+                display: block;
+            }
+
+            i:first-child {
+                padding-left: 0;
+            }
+
+            i:last-child {
+                padding-right: 0;
+            }
+
+            i {
+                padding: 0 10px;
+            }
+        }
+
+        .team-share {
+            color: $green;
+        }
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .team-block {
+        .team {
+            .team-header {
+                span {
+                    display: inline;
+                    margin: 0 10px;
+                }
+            }
+        }
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .team-block {
+        .team {
+            width: 80%;
+
+            .team-header {
+                padding: 0 80px;
+            }
+        }
+    }
+}

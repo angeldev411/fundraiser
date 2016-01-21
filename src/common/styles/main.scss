@@ -4,10 +4,6 @@ body {
     font-size: 16px;
 }
 
-.page-content{
-    padding-top: 60px;
-}
-
 .tagline {
     text-transform: uppercase;
 }
@@ -16,9 +12,6 @@ body {
     padding-top: 60px;
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) {
-    .page-content{
-        padding-top: 70px;
-    }
+.no-cover {
+    padding-top: 130px;
 }

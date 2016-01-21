@@ -6,6 +6,7 @@ import * as actions from '../../redux/actions';
 /* Then React components */
 import Page from '../../components/Page';
 import Button from '../../components/Button';
+import Cover from '../../components/Cover';
 
 /* Then view-related stuff */
 export default class Home extends Component {
@@ -14,21 +15,13 @@ export default class Home extends Component {
     }
 
     render() {
-        const background = {
-            backgroundImage: 'url(/assets/images/hands.jpg)',
-            backgroundSize: 'cover',
-        };
-
         return (
-            <Page style={background}>
-                <div className={'home_cover'}>
-                    <div className={"container"}>
-                        <h2 className="tagline">{"You + Us = A World of Change"}</h2>
-                        <Button>
-                            {"Contact Us"}
-                        </Button>
-                    </div>
-                </div>
+            <Page>
+                <Cover image={"url(/assets/images/hands.jpg)"}
+                    customclass={"cover-home"}
+                    tagline={"You + Us = A World of Change"}
+                    button={"Contact Us"}
+                />
             </Page>
         );
     }

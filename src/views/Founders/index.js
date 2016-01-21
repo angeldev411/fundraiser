@@ -16,7 +16,7 @@ export default class Founders extends Component {
     render() {
         return (
             <Page>
-                <div className={"container main-content"}>
+                <div className={"container main-content no-cover"}>
                     <Layout34 page={'founders'}>
                         <h2>{'The founders.'}</h2>
                         <p>
