@@ -4,14 +4,12 @@
 /* No media query since this is the default in Bootstrap */
 
 .howitworks {
-    .right-content {
-        h2 {
-            font-size: 2.8em;
-            color: $green;
-        }
+    h2 {
+        font-size: 2.8em;
+        color: $green;
+    }
 
-        h3{
-            color: $light-grey;
-        }
+    h3{
+        color: $light-grey;
     }
 }

@@ -6,31 +6,29 @@
 .founders {
     margin-top: 0;
 
-    .right-content {
-        h2, h3 {
-            // TODO font-family ConduitITC
-            font-size: 1.45em;
+    h2, h3 {
+        // TODO font-family ConduitITC
+        font-size: 1.45em;
+        color: $lighter-grey;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+
+    h3 {
+        color: $green;
+        font-weight: bold;
+
+        a {
+            font-weight: normal;
             color: $lighter-grey;
-            text-transform: uppercase;
-        }
 
-        h2 {
-            font-weight: bold;
-        }
-
-        h3 {
-            color: $green;
-            font-weight: bold;
-
-            a {
-                font-weight: normal;
-                color: $lighter-grey;
-
-                &:hover,
-                &:active {
-                    text-decoration: none;
-                    color: $green;
-                }
+            &:hover,
+            &:active {
+                text-decoration: none;
+                color: $green;
             }
         }
     }
@@ -42,7 +40,6 @@
         background: url(../images/founders.png);
         background-position: bottom center;
         background-repeat: no-repeat;
-        margin: 60px auto 0;
 
         .right-content {
             padding-bottom: 400px;
@@ -56,6 +53,5 @@
         background: url(../images/founders.png);
         background-position: 100% 110%;
         background-repeat: no-repeat;
-        margin: 60px auto 0;
     }
 }
