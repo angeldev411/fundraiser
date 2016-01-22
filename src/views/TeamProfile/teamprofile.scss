@@ -12,7 +12,7 @@
 
         p {
             text-transform: none;
-            // TODO font-family ConduitITC Light
+            font-family: $conduit-light;
             font-weight: lighter;
             color: $white;
             font-size: 1.6em;
@@ -52,6 +52,14 @@
 
             span {
                 display: block;
+            }
+
+            .team-title {
+                font-family: $conduit-light;
+            }
+
+            .team-share {
+                font-family: $conduit-bold;
             }
 
             i:first-child {
@@ -94,7 +102,7 @@
             width: 80%;
 
             .team-header {
-                padding: 0 80px;
+                padding: 0 100px;
             }
         }
     }

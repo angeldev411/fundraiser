@@ -1,11 +1,13 @@
-@import '../../common/styles/variables.scss';
+@import './variables.scss';
 
 body {
     font-size: 16px;
+    font-family: $arial;
 }
 
 .tagline {
     text-transform: uppercase;
+    font-family: $conduit-medium;
 }
 
 .main-content {

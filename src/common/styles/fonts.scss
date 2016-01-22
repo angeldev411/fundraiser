@@ -1,0 +1,37 @@
+$fonts-dir: '/assets/fonts/';
+
+@font-face {
+    font-family: 'conduit_itc-bold';
+    src: url($fonts-dir+'conduititc-bold-webfont.eot');
+    src: url($fonts-dir+'conduititc-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url($fonts-dir+'conduititc-bold-webfont.woff2') format('woff2'),
+         url($fonts-dir+'conduititc-bold-webfont.woff') format('woff'),
+         url($fonts-dir+'conduititc-bold-webfont.ttf') format('truetype'),
+         url($fonts-dir+'conduititc-bold-webfont.svg#conduit_itcbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'conduit_itc-light';
+    src: url($fonts-dir+'conduititc-light-webfont.eot');
+    src: url($fonts-dir+'conduititc-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url($fonts-dir+'conduititc-light-webfont.woff2') format('woff2'),
+         url($fonts-dir+'conduititc-light-webfont.woff') format('woff'),
+         url($fonts-dir+'conduititc-light-webfont.ttf') format('truetype'),
+         url($fonts-dir+'conduititc-light-webfont.svg#conduit_itclight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'conduit_itc-medium';
+    src: url($fonts-dir+'conduititc-medium-webfont.eot');
+    src: url($fonts-dir+'conduititc-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url($fonts-dir+'conduititc-medium-webfont.woff2') format('woff2'),
+         url($fonts-dir+'conduititc-medium-webfont.woff') format('woff'),
+         url($fonts-dir+'conduititc-medium-webfont.ttf') format('truetype'),
+         url($fonts-dir+'conduititc-medium-webfont.svg#conduit_itcmedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

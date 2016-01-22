@@ -7,22 +7,17 @@
     margin-top: 0;
 
     h2, h3 {
-        // TODO font-family ConduitITC
+        font-family: $conduit-bold;
         font-size: 1.45em;
         color: $lighter-grey;
         text-transform: uppercase;
     }
 
-    h2 {
-        font-weight: bold;
-    }
-
     h3 {
         color: $green;
-        font-weight: bold;
 
         a {
-            font-weight: normal;
+            font-family: $conduit-light;
             color: $lighter-grey;
 
             &:hover,
