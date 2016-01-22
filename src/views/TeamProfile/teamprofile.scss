@@ -54,6 +54,14 @@
                 display: block;
             }
 
+            .team-title {
+                font-family: $conduit-light;
+            }
+
+            .team-share {
+                font-family: $conduit-bold;
+            }
+
             i:first-child {
                 padding-left: 0;
             }
@@ -94,7 +102,7 @@
             width: 80%;
 
             .team-header {
-                padding: 0 80px;
+                padding: 0 100px;
             }
         }
     }
