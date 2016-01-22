@@ -39,7 +39,7 @@
     li.user {
         width: 95px;
         text-align: center;
-        // TODO font-family: $conduit_bold;
+        font-family: $conduit-bold;
 
         .user-face {
             height: 95px;
@@ -55,7 +55,7 @@
             }
 
             .user-hours{
-                // TODO font-family: $conduit_light;
+                font-family: $conduit-light;
                 font-size: 1.2em;
                 display: none;
                 height: 100%;

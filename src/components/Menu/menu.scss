@@ -12,6 +12,7 @@ header {
                 list-style: none;
                 color: $white;
                 font-size: 1.1em;
+                font-family: $conduit-light;
                 text-transform: uppercase;
                 padding-left: 20px;
                 float: none;
@@ -19,6 +20,7 @@ header {
                 > a {
                     color: $white;
                     font-size: 1.1em;
+                    font-family: $conduit-light;
                     margin: 0 15px;
                     text-decoration: none;
                     text-transform: uppercase;
@@ -60,8 +62,10 @@ header {
                         list-style: none;
                         margin: 5px 0;
                         line-height: 13px;
+                        font-family: $arial;
 
                         a {
+                            font-family: $arial;
                             color: $grey;
                             font-family: inherit;
                             font-size: .75em;
