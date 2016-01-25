@@ -62,16 +62,21 @@
                 font-family: $conduit-bold;
             }
 
-            i:first-child {
+            a:first-child {
                 padding-left: 0;
             }
 
-            i:last-child {
+            a:last-child {
                 padding-right: 0;
             }
 
-            i {
+            a {
+                color: $grey;
                 padding: 0 10px;
+
+                &:hover {
+                    color: $green;
+                }
             }
         }
 
