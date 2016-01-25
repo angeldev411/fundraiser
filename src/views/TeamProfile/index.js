@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+import { Link } from 'react-router';
+
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -34,7 +36,7 @@ export default class TeamProfile extends Component {
         };
 
         // Create array of users
-        for (var i=0; i < 5; i++) {
+        for (var i=0; i < 10; i++) {
             team.volunteers.push({ name: 'Heather Miller', image: 'user.jpg', hours: 240 });
         }
 
@@ -67,9 +69,15 @@ export default class TeamProfile extends Component {
                                     <span className="team-title">{'Team of volunteers'}</span>
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
-                                        <i className="fa fa-envelope"/>
-                                        <i className="fa fa-facebook"/>
-                                        <i className="fa fa-twitter"/>
+                                        <Link to="#">
+                                            <i className="fa fa-envelope"/>
+                                        </Link>
+                                        <Link to="#">
+                                            <i className="fa fa-facebook"/>
+                                        </Link>
+                                        <Link to="#">
+                                            <i className="fa fa-twitter"/>
+                                        </Link>
                                     </span>
                                 </div>
                                 <UserList users={team.volunteers}/>
