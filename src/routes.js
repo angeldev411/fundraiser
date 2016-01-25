@@ -13,6 +13,7 @@ import Home from './views/Home';
 import Founders from './views/Founders';
 import HowItWorks from './views/HowItWorks';
 import TeamProfile from './views/TeamProfile';
+import TeamSignup from './views/TeamSignup';
 
 export default (
     <Route
@@ -38,6 +39,10 @@ export default (
         <Route
             path={`${Urls.TEAMPROFILE}/:teamSlug`}
             component={TeamProfile}
+        />
+        <Route
+            path={`${Urls.TEAMPROFILE}/:teamSlug/signup`}
+            component={TeamSignup}
         />
         <Route
             path="*"

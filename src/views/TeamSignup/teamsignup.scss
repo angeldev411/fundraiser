@@ -3,23 +3,46 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-.cover-profile {
-    min-height: 500px;
+.cover-signup {
+    text-align: left;
+    padding: 75px 0;
 
-    .team-tagline{
-        min-height: 50px;
-        background: rgba($black, 0.2);
+    .cover-content {
+        height: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
-        p {
-            text-transform: none;
-            font-family: $conduit-light;
-            font-weight: lighter;
-            color: $white;
-            font-size: 1.6em;
-            line-height: 40px;
-            margin: 0;
+        .logo {
+            float: left;
+            display: inline-block;
+            background: rgba($white, 0.7);
+            margin-right: 35px;
+            height: 100%;
+
+            .helper {
+                display: inline-block;
+                height: 100%;
+                vertical-align: middle;
+            }
+
+            img {
+                width: 210px;
+            }
+        }
+
+        .team-tagline {
+            h2,
+            p {
+                color: $white;
+            }
+
+            h2{
+                font-size: 3em;
+                margin-top: 0;
+            }
         }
     }
+
 }
 
 .teamprofile {
