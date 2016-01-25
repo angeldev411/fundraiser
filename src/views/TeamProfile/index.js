@@ -34,7 +34,7 @@ export default class TeamProfile extends Component {
         };
 
         // Create array of users
-        for (var i=0; i < 5; i++) {
+        for (var i=0; i < 10; i++) {
             team.volunteers.push({ name: 'Heather Miller', image: 'user.jpg', hours: 240 });
         }
 
