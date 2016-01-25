@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 
 
@@ -18,7 +16,7 @@ export default class UserList extends Component {
             previousVisible: false,
             nextVisible: false
         }
-    }
+    };
 
     componentDidMount() {
         node = document.getElementById('scrollable-user-list');
@@ -28,6 +26,12 @@ export default class UserList extends Component {
         if (node.scrollWidth - node.offsetWidth != 0) {
             this.setState({ nextVisible: true });
         }
+    };
+
+    componentWillUnmount() {
+        node = undefined;
+        previous = undefined;
+        next = undefined;
     }
 
     animate = (increment) => {
