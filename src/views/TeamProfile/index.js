@@ -57,7 +57,7 @@ export default class TeamProfile extends Component {
 
                     <div className="team-block">
                         <div className={"container"}>
-                            <div className="team col-xs-12">
+                            <div className="team">
                                 <div className={'team-header clearfix'}>
                                     <span className="team-title">{'Team of volunteers'}</span>
                                     <span className="team-share">{'Share our goal'}</span>

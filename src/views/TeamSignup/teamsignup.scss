@@ -11,7 +11,7 @@
 
         .logo {
             display: inline-block;
-            background: rgba($white, 0.7);
+            background: $white-high-opacity;
             margin-bottom: 35px;
             height: 100px;
             text-align: center;
@@ -41,70 +41,6 @@
         }
     }
 
-}
-
-.teamprofile {
-    #team-logo {
-        max-height: 100px;
-    }
-
-    h2 {
-        border-top: solid 1px black;
-        border-bottom: solid 1px black;
-    }
-
-    h3 {
-        color: $light-grey;
-    }
-}
-
-.team-block {
-    background-color: rgba($black, 0.85);
-    padding: 60px 0;
-
-    .team {
-        color: $grey;
-        margin: auto;
-
-        .team-header {
-            // font-family: $conduit_light;
-            font-size: 1.6em;
-            text-transform: uppercase;
-
-            span {
-                display: block;
-            }
-
-            .team-title {
-                font-family: $conduit-light;
-            }
-
-            .team-share {
-                font-family: $conduit-bold;
-            }
-
-            a:first-child {
-                padding-left: 0;
-            }
-
-            a:last-child {
-                padding-right: 0;
-            }
-
-            a {
-                color: $grey;
-                padding: 0 10px;
-
-                &:hover {
-                    color: $green;
-                }
-            }
-        }
-
-        .team-share {
-            color: $green;
-        }
-    }
 }
 
 /* Medium devices (desktops, 992px and up) */

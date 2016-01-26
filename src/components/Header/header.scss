@@ -4,7 +4,7 @@
 /* No media query since this is the default in Bootstrap */
 
 header {
-    background: rgba($black, 0.49);
+    background: $black-medium-opacity;
     padding: 10px;
     position: absolute;
     width: 100%;

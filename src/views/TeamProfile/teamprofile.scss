@@ -8,7 +8,7 @@
 
     .team-tagline{
         min-height: 50px;
-        background: rgba($black, 0.2);
+        background: $black-low-opacity;
 
         p {
             text-transform: none;
@@ -38,7 +38,7 @@
 }
 
 .team-block {
-    background-color: rgba($black, 0.85);
+    background-color: $black-high-opacity;
     padding: 60px 0;
 
     .team {
