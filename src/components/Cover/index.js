@@ -14,38 +14,42 @@ export default class Cover extends Component {
                 <div>
                     <div className="team-tagline">
                         <div className="container">
-                            <p>{this.props.tagline}</p>
+                            <div className="col-xs-12">
+                                <p>{this.props.tagline}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                     <div className={"cover-content container"}>
-                        <Button type="btn-default">
-                            {this.props.button}
-                        </Button>
+                        <div className="col-xs-12">
+                            <Button type="btn-default">
+                                {this.props.button}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             );
         } else if (this.props.customclass === 'cover-signup') {
             COVERCONTENT = (
-                <div>
-                    <div className={"cover-content container"}>
-                        <div className={"logo"}>
-                            <span className={"helper"}></span>
-                            <img src={this.props.logo}/>
-                        </div>
-                        <div className="team-tagline">
-                            <h2>{"Welcome to the Team"}</h2>
-                            <p>{this.props.tagline} {this.props.tagline} {this.props.tagline}</p>
-                        </div>
+                <div className={"cover-content container"}>
+                    <div className={"logo col-xs-12 col-md-3"}>
+                        <span className={"helper"}></span>
+                        <img src={this.props.logo}/>
+                    </div>
+                    <div className="team-tagline col-xs-12 col-md-9">
+                        <h2>{"Welcome to the Team"}</h2>
+                        <p maxLength={10}>{this.props.tagline} {this.props.tagline} {this.props.tagline}</p>
                     </div>
                 </div>
             );
         } else {
             COVERCONTENT = (
                 <div className={"cover-content container"}>
-                    <h2 className="tagline">{this.props.tagline}</h2>
-                    <Button type="btn-default">
-                        {this.props.button}
-                    </Button>
+                    <div className="col-xs-12">
+                        <h2 className="tagline">{this.props.tagline}</h2>
+                        <Button type="btn-default">
+                            {this.props.button}
+                        </Button>
+                    </div>
                 </div>
             );
         }
