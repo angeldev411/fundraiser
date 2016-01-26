@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import Page from '../../components/Page';
 import Layout34 from '../../components/Layout34';
 
-/* Then view-related stuff */
 export default class Founders extends Component {
     componentWillMount() {
         document.title = 'Founders | Raiserve';

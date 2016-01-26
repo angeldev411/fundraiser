@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import Page from '../../components/Page';
 import Layout34 from '../../components/Layout34';
 
-/* Then view-related stuff */
 export default class HowItWorks extends Component {
     componentWillMount() {
         document.title = 'How It Works | Raiserve';

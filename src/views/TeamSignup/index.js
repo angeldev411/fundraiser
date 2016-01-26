@@ -2,13 +2,11 @@
 import React, { Component } from 'react';
 import * as constants from '../../common/constants';
 
-
 /* Then React components */
 import Page from '../../components/Page';
 import Cover from '../../components/Cover';
 import SignupForm from '../../components/SignupForm';
 
-/* Then view-related stuff */
 export default class TeamSignup extends Component {
     componentWillMount() {
         document.title = 'Signup for TeamProfileNameHere | Raiserve';

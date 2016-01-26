@@ -9,7 +9,6 @@ import Cover from '../../components/Cover';
 import Layout34 from '../../components/Layout34';
 import UserList from '../../components/UserList';
 
-/* Then view-related stuff */
 export default class TeamProfile extends Component {
     componentWillMount() {
         document.title = 'TeamProfileNameHere | Raiserve';
