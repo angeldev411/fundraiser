@@ -15,3 +15,12 @@ $conduit-light: 'conduit_itc-light', Arial, 'Helvetica Neue', Helvetica, sans-se
 $conduit-medium: 'conduit_itc-medium', Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $conduit-bold: 'conduit_itc-bold', Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $gotham-book: $conduit-light; // TODO Change font to Gotham-Book
+
+// Transparency
+$black-low-opacity: rgba($black, 0.2);
+$black-medium-opacity: rgba($black, 0.5);
+$black-high-opacity: rgba($black, 0.85);
+
+$white-high-opacity: rgba($white, 0.7);
+
+$grey-medium-opacity: rgba($grey, 0.5);

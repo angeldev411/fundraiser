@@ -3,20 +3,38 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-.btn-default {
-    background-color: transparent;
+.btn {
     border-radius: 0;
     color: $white;
     text-transform: uppercase;
-    border: solid 1px $white;
     font-family: $conduit-light;
+}
+
+.btn-default {
+    background-color: transparent;
+    border: solid 1px $white;
 
     &:hover,
     &:active,
     &:focus {
-        color: $white!important;
-        background-color: $green!important;
-        border: solid 1px $green!important;
-        outline: 0!important;
+        color: $white;
+        background-color: $green;
+        border: solid 1px $green;
+        outline: 0;
+    }
+}
+
+
+.btn-success {
+    background-color: $green;
+    border: solid 1px $green;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $green;
+        background-color: transparent;
+        border: solid 1px $green;
+        outline: 0;
     }
 }

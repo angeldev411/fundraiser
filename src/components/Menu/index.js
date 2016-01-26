@@ -175,7 +175,7 @@ export default class Menu extends Component {
                                 </ul>
                             </li>
                             <li className={'login-container'}>
-                                <Button>{'Sign In'}</Button>
+                                <Button type="btn-default">{'Sign In'}</Button>
                             </li>
                         </ul>
                     </nav>
@@ -213,7 +213,7 @@ export default class Menu extends Component {
                 </nav>
 
                 <span className={'login-container pull-right'}>
-                    <Button>{'Sign In'}</Button>
+                    <Button type="btn-default">{'Sign In'}</Button>
                 </span>
             </div>
         );

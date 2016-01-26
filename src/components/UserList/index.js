@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-
+import * as constants from '../../common/constants';
 
 const SCROLL_INCREMENT = 150;
 let node = null;
@@ -74,8 +74,6 @@ export default class UserList extends Component {
     };
 
     render() {
-        const userImagedir = '/assets/images/samples';
-
         return (
             <div className="user-list clearfix">
                 <div className={classNames({
@@ -96,7 +94,7 @@ export default class UserList extends Component {
                                 key={i}
                             >
                                 <div className="user-face"
-                                    style={{ backgroundImage : `url(${userImagedir}/${user.image})` }}
+                                    style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
                                 >
                                     <div className="user-hours">
                                         <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
