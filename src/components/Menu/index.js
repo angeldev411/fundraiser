@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Button from '../Button/';
 import * as Urls from '../../urls.js';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+
+import ModalButton from '../ModalButton/';
+import SignupForm from '../SignupForm/';
 
 export default class Menu extends Component {
     constructor(props) {
@@ -175,7 +177,11 @@ export default class Menu extends Component {
                                 </ul>
                             </li>
                             <li className={'login-container'}>
-                                <Button type="btn-default">{'Sign In'}</Button>
+                                <ModalButton type="btn-default"
+                                    content={<SignupForm/>}
+                                >
+                                    {'Sign In'}
+                                </ModalButton>
                             </li>
                         </ul>
                     </nav>
@@ -213,7 +219,11 @@ export default class Menu extends Component {
                 </nav>
 
                 <span className={'login-container pull-right'}>
-                    <Button type="btn-default">{'Sign In'}</Button>
+                    <ModalButton type="btn-default"
+                        content=""
+                    >
+                        {'Sign In'}
+                    </ModalButton>
                 </span>
             </div>
         );
