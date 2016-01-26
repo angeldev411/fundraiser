@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { Link } from 'react-router';
+import * as constants from '../../common/constants';
 
 
 /* Then React components */
@@ -20,10 +21,9 @@ export default class TeamSignup extends Component {
         console.log(this.props.params);
 
         // TODO dynamic team
-        const teamCoverDir = '/assets/images/samples';
-        const teamLogoDir = '/assets/images/samples';
         const team = {
             name: 'Habitat for Humanity',
+            uniqid : 'samples',
             slug: 'example',
             logo: 'team_logo.png',
             coverImage : 'team_cover.jpg',
@@ -36,10 +36,10 @@ export default class TeamSignup extends Component {
             <Page noHeader={true}
                 bodyBackground={{ backgroundColor: 'black' }}
             >
-                <Cover image={`url(${teamCoverDir}/${team.coverImage})`}
+                <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage})`}
                     customclass={"cover-signup"}
                     tagline={team.tagline}
-                    logo={`${teamLogoDir}/${team.logo}`}
+                    logo={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.logo}`}
                 />
                 <div className={"main-content"}>
                     <div className={"container"}>

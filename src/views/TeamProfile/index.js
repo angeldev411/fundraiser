@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { Link } from 'react-router';
-
+import * as constants from '../../common/constants';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -22,10 +22,9 @@ export default class TeamProfile extends Component {
         console.log(this.props.params);
 
         // TODO dynamic team
-        const teamCoverDir = '/assets/images/samples';
-        const teamLogoDir = '/assets/images/samples';
         const team = {
             name: 'Habitat for Humanity',
+            uniqid : 'samples',
             slug: 'example',
             logo: 'team_logo.png',
             coverImage : 'team_cover.jpg',
@@ -37,12 +36,12 @@ export default class TeamProfile extends Component {
 
         // Create array of users
         for (var i=0; i < 10; i++) {
-            team.volunteers.push({ name: 'Heather Miller', image: 'user.jpg', hours: 240 });
+            team.volunteers.push({ name: 'Heather Miller', uniqid: 'samples', image: 'user.jpg', hours: 240 });
         }
 
         return (
             <Page>
-                <Cover image={`url(${teamCoverDir}/${team.coverImage})`}
+                <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage})`}
                     customclass={"cover-profile"}
                     tagline={team.tagline}
                     button={"Sponsor Now"}
@@ -51,7 +50,7 @@ export default class TeamProfile extends Component {
                     <div className={"container"}>
                         <Layout34 page={'teamprofile'}>
                             <img id="team-logo"
-                                src={`${teamLogoDir}/${team.logo}`}
+                                src={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.logo}`}
                                 title=""
                             />
                             <h2>{team.slogan}</h2>
@@ -64,8 +63,8 @@ export default class TeamProfile extends Component {
 
                     <div className="team-block">
                         <div className={"container"}>
-                            <div className="team">
-                                <div className={'team-header'}>
+                            <div className="team col-xs-12">
+                                <div className={'team-header clearfix'}>
                                     <span className="team-title">{'Team of volunteers'}</span>
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
