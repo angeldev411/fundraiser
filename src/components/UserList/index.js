@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import * as constants from '../../common/constants';
 
-
 const SCROLL_INCREMENT = 150;
 let node = null;
 let previous = null;
