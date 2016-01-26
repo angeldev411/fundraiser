@@ -6,7 +6,7 @@ export default class Button extends Component {
         const BUTTON = (
             <button
                 type="button"
-                className="btn btn-default"
+                className={`btn ${this.props.type}`}
                 onClick={this.props.onClick}
             >
                 {this.props.children}
@@ -24,5 +24,6 @@ export default class Button extends Component {
 }
 
 Button.propTypes = {
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
+    type: React.PropTypes.string,
 };

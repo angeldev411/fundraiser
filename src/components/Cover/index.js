@@ -18,7 +18,7 @@ export default class Cover extends Component {
                         </div>
                     </div>
                     <div className={"cover-content container"}>
-                        <Button>
+                        <Button type="btn-default">
                             {this.props.button}
                         </Button>
                     </div>
@@ -43,7 +43,7 @@ export default class Cover extends Component {
             COVERCONTENT = (
                 <div className={"cover-content container"}>
                     <h2 className="tagline">{this.props.tagline}</h2>
-                    <Button>
+                    <Button type="btn-default">
                         {this.props.button}
                     </Button>
                 </div>
