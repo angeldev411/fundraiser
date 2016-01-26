@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Button from '../Button/';
 import Menu from '../Menu/';
 import * as Urls from '../../urls.js';
 import { Link } from 'react-router';

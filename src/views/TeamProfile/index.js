@@ -1,7 +1,5 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
 import { Link } from 'react-router';
 import * as constants from '../../common/constants';
 
@@ -18,9 +16,6 @@ export default class TeamProfile extends Component {
     }
 
     render() {
-
-        console.log(this.props.params);
-
         // TODO dynamic team
         const team = {
             name: 'Habitat for Humanity',

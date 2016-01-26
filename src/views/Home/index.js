@@ -1,11 +1,8 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
 
 /* Then React components */
 import Page from '../../components/Page';
-import Button from '../../components/Button';
 import Cover from '../../components/Cover';
 
 /* Then view-related stuff */
