@@ -1,8 +1,6 @@
 @import '../../common/styles/variables.scss';
 
 .form {
-    width: 100%;
-    margin: auto;
     padding-bottom: 60px;
 
     h3 {
@@ -54,12 +52,5 @@
             font-family: $conduit-bold;
             font-size: 1.6em;
         }
-    }
-}
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm-min) {
-    .form {
-        width: 475px;
     }
 }

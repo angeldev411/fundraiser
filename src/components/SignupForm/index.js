@@ -4,7 +4,7 @@ import Button from '../../components/Button';
 export default class SignupForm extends Component {
     render() {
         return (
-            <div className="form">
+            <div className="form col-xs-12 col-md-6 col-md-offset-3">
                 <h3>{'Sign Up'}</h3>
                 <p>{'isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}</p>
                 <form>
