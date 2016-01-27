@@ -17,10 +17,14 @@
     .close {
         padding: 20px;
         opacity: 1;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 1;
 
         i {
             color: $white;
-            font-size: 3em;
+            font-size: 1.5em;
             text-shadow: none;
         }
 
@@ -34,5 +38,23 @@
             }
         }
     }
+}
 
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .fullscreen-modal {
+        display: flex;
+        justify-content: center;
+
+        .container {
+            align-self: center;
+        }
+
+        .close {
+            i {
+                font-size: 3em;
+            }
+        }
+    }
 }

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import ModalButton from '../ModalButton/';
-import SignupForm from '../SignupForm/';
+import SigninForm from '../SigninForm/';
 
 export default class Menu extends Component {
     constructor(props) {
@@ -30,13 +30,11 @@ export default class Menu extends Component {
     };
 
     toggleOverflow = () => {
-        console.log(this.state);
         this.setState({ scrollable: !this.state.scrollable });
     };
 
     render() {
         // TODO address microformat
-        console.log(this.state);
         const mobileMenu = (
             <div>
                 <button id="toggle-menu"
@@ -185,7 +183,7 @@ export default class Menu extends Component {
                             </li>
                             <li className={'login-container'}>
                                 <ModalButton type="btn-default"
-                                    content={<SignupForm/>}
+                                    content={<SigninForm/>}
                                     onModalToggle={this.toggleOverflow}
                                 >
                                     {'Sign In'}
@@ -228,7 +226,7 @@ export default class Menu extends Component {
 
                 <span className={'login-container pull-right'}>
                     <ModalButton type="btn-default"
-                        content={<SignupForm/>}
+                        content={<SigninForm/>}
                     >
                         {'Sign In'}
                     </ModalButton>
