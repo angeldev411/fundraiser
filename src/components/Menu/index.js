@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Button from '../Button/';
 import * as Urls from '../../urls.js';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+
+import ModalButton from '../ModalButton/';
+import SigninForm from '../SigninForm/';
 
 export default class Menu extends Component {
     constructor(props) {
@@ -12,7 +14,8 @@ export default class Menu extends Component {
 
         this.state = {
             visible: false,
-            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+            scrollable: true
         };
 
         window.addEventListener('resize', () => {
@@ -23,12 +26,15 @@ export default class Menu extends Component {
     }
 
     toggle = () => {
-        this.setState({ visible: !this.state.visible })
+        this.setState({ visible: !this.state.visible });
+    };
+
+    toggleOverflow = () => {
+        this.setState({ scrollable: !this.state.scrollable });
     };
 
     render() {
         // TODO address microformat
-
         const mobileMenu = (
             <div>
                 <button id="toggle-menu"
@@ -50,7 +56,8 @@ export default class Menu extends Component {
                 <div id="mobile-menu"
                     className={classNames({
                         'mobile-menu__open': this.state.visible,
-                        'mobile-menu__closed': !this.state.visible
+                        'mobile-menu__closed': !this.state.visible,
+                        'mobile-menu__scrollable': this.state.scrollable,
                     })}
                 >
                     <nav>
@@ -175,7 +182,12 @@ export default class Menu extends Component {
                                 </ul>
                             </li>
                             <li className={'login-container'}>
-                                <Button type="btn-default">{'Sign In'}</Button>
+                                <ModalButton type="btn-default"
+                                    content={<SigninForm/>}
+                                    onModalToggle={this.toggleOverflow}
+                                >
+                                    {'Sign In'}
+                                </ModalButton>
                             </li>
                         </ul>
                     </nav>
@@ -213,7 +225,11 @@ export default class Menu extends Component {
                 </nav>
 
                 <span className={'login-container pull-right'}>
-                    <Button type="btn-default">{'Sign In'}</Button>
+                    <ModalButton type="btn-default"
+                        content={<SigninForm/>}
+                    >
+                        {'Sign In'}
+                    </ModalButton>
                 </span>
             </div>
         );

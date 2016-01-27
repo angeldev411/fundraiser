@@ -1,0 +1,60 @@
+@import "../../common/styles/variables.scss";
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: $black-high-opacity;
+    color: $white;
+    z-index: 999;
+    overflow: scroll;
+
+    .close {
+        padding: 20px;
+        opacity: 1;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 1;
+
+        i {
+            color: $white;
+            font-size: 1.5em;
+            text-shadow: none;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: 0;
+
+            i {
+                color: $green;
+            }
+        }
+    }
+}
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .fullscreen-modal {
+        display: flex;
+        justify-content: center;
+
+        .container {
+            align-self: center;
+        }
+
+        .close {
+            i {
+                font-size: 3em;
+            }
+        }
+    }
+}
