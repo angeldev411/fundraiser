@@ -16,8 +16,6 @@ export default class Modal extends Component {
                         >
                             <i className="fa fa-times"></i>
                         </button>
-
-                        {"Hello World!"}
                         {this.props.content}
                     </div>
                 </div>

@@ -12,6 +12,7 @@
     background: $black-high-opacity;
     color: $white;
     z-index: 999;
+    overflow: scroll;
 
     .close {
         padding: 20px;

@@ -13,6 +13,7 @@ export default class ModalButton extends Component {
 
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked });
+        this.props.onModalToggle();
     };
 
     render() {
@@ -40,4 +41,5 @@ ModalButton.propTypes = {
     onClick: React.PropTypes.func,
     type: React.PropTypes.string,
     content: React.PropTypes.element,
+    onModalToggle: React.PropTypes.func,
 };
