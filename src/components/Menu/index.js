@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Urls from '../../urls.js';
+import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
@@ -98,23 +99,7 @@ export default class Menu extends Component {
                                         <hr/>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            title=""
-                                        >
-                                            {'Talk About Us'}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            title=""
-                                        >
-                                            {'Give Us Money'}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            title=""
-                                        >
+                                        <a href={`mailto:${constants.CONTACT_EMAIL}`}>
                                             {'Ask Us'}
                                         </a>
                                     </li>
@@ -134,20 +119,6 @@ export default class Menu extends Component {
                                         <Link to={Urls.FOUNDERS}>
                                             {'The founders'}
                                         </Link>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            title=""
-                                        >
-                                            {'The team'}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            title=""
-                                        >
-                                            {'Our goal'}
-                                        </a>
                                     </li>
                                 </ul>
                             </li>
