@@ -159,11 +159,9 @@ export default class Menu extends Component {
                                 </span>
                                 <ul className={'sub-element'}>
                                     <li>
-                                        <a href="#"
-                                            title=""
-                                        >
+                                        <Link to={Urls.LEGALS}>
                                             {'Terms of Service'}
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
                                         <a href="#"

@@ -14,6 +14,7 @@ import Founders from './views/Founders';
 import RaiserveBasics from './views/RaiserveBasics';
 import TeamProfile from './views/TeamProfile';
 import TeamSignup from './views/TeamSignup';
+import Legals from './views/Legals';
 
 export default (
     <Route
@@ -43,6 +44,10 @@ export default (
         <Route
             path={`${Urls.TEAMPROFILE}/:teamSlug/signup`}
             component={TeamSignup}
+        />
+        <Route
+            path={Urls.LEGALS}
+            component={Legals}
         />
         <Route
             path="*"
