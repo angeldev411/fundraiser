@@ -5,6 +5,19 @@ body {
     font-family: $arial;
 }
 
+h1 {
+    font-family: $conduit-bold;
+}
+
+h2 {
+    font-family: $conduit-light;
+}
+
+p {
+    color: $grey;
+    text-align: justify;
+}
+
 .tagline {
     text-transform: uppercase;
     font-family: $conduit-medium;
