@@ -7,7 +7,7 @@ export default class Layout34 extends Component {
         return (
             <div>
                 <Aside/>
-                <div className={`col-xs-12 col-lg-8 ${this.props.page}`}>
+                <div className={`col-xs-12 col-lg-8 layout-3-4 ${this.props.page}`}>
                     <section className="right-content">
                         {this.props.children}
                     </section>

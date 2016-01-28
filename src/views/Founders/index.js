@@ -15,15 +15,19 @@ export default class Founders extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <Layout34 page={'founders'}>
-                        <h2>{'The founders.'}</h2>
+                        <h1>{'The founders'}</h1>
                         <p>
                             {'I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure'}
                         </p>
-                        <h3>{'Ryall.'} <a href="mailto:email@example.com">{'Email me'}</a></h3>
+                        <div className={"founder uppercase"}>
+                            {'Ryall.'} <a href="mailto:email@example.com">{'Email me'}</a>
+                        </div>
                         <p>
                             {'I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure'}
                         </p>
-                        <h3>{'Joel.'} <a href="mailto:email@example.com">{'Email me'}</a></h3>
+                        <div className={"founder uppercase"}>
+                            {'Joel.'} <a href="mailto:email@example.com">{'Email me'}</a>
+                        </div>
                         <p>
                             {'I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure'}
                         </p>

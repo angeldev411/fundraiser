@@ -15,9 +15,9 @@ export default class RaiserveBasics extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <Layout34 page={'raiserve-basics'}>
-                        <h2>{'YOU + US'}<br/>{'= A WORLD OF CHANGE'}</h2>
+                        <h1>{'YOU + US'}<br/>{'= A WORLD OF CHANGE'}</h1>
                         <section>
-                            <h3>{'Raiserve Basics'}</h3>
+                            <h2>{'Raiserve Basics'}</h2>
                             <p>
                                 {'Raiserve was founded on the premise that there has to be a better way to fundraise.'}
                             </p>
@@ -26,7 +26,7 @@ export default class RaiserveBasics extends Component {
                             </p>
                         </section>
                         <section>
-                            <h3>{'How It Works'}</h3>
+                            <h2>{'How It Works'}</h2>
                             <p>
                                 {'Getting started on our platform is both simple and elegant.'}
                             </p>
@@ -41,7 +41,7 @@ export default class RaiserveBasics extends Component {
                             </p>
                         </section>
                         <section>
-                            <h3>{'Why It Works'}</h3>
+                            <h2>{'Why It Works'}</h2>
                             <p>
                                 {'Sponsoring hours of service is a great way to raise money.'}
                             </p>

@@ -1,16 +1,16 @@
 @import '../../common/styles/variables.scss';
 
-.right-content {
-    margin-top: 60px;
-
-    p {
-        color: $grey;
+.layout-3-4 {
+    .right-content {
+        margin-top: 60px;
     }
 }
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min) {
-    .right-content {
-        padding-left: 50px;
+    .layout-3-4 {
+        .right-content {
+            padding-left: 50px;
+        }
     }
 }

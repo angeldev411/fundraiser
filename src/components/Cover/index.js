@@ -16,9 +16,9 @@ export default class Cover extends Component {
                         <div className="container">
                             <div className="col-xs-12">
                                 <p>{this.props.tagline}</p>
-                                </div>
                             </div>
                         </div>
+                    </div>
                     <div className={"cover-content container"}>
                         <div className="col-xs-12">
                             <Button type="btn-default">
@@ -36,7 +36,7 @@ export default class Cover extends Component {
                         <img src={this.props.logo}/>
                     </div>
                     <div className="team-tagline col-xs-12 col-md-9">
-                        <h2>{"Welcome to the Team"}</h2>
+                        <h1 className={'uppercase'}>{"Welcome to the Team"}</h1>
                         <p maxLength={10}>{this.props.tagline} {this.props.tagline} {this.props.tagline}</p>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ export default class Cover extends Component {
             COVERCONTENT = (
                 <div className={"cover-content container"}>
                     <div className="col-xs-12">
-                        <h2 className="tagline">{this.props.tagline}</h2>
+                        <h1 className="tagline uppercase">{this.props.tagline}</h1>
                         <Button type="btn-default">
                             {this.props.button}
                         </Button>

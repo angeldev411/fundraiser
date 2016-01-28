@@ -15,7 +15,7 @@ export default class Story extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <SimpleLayout page={'story'}>
-                        <h2>{'Our Story'}</h2>
+                        <h1>{'Our Story'}</h1>
                         <section>
                             <p>
                                 {'About a year ago Joel and I were talking about the amazing work the nonprofits we volunteered with were doing. The passion and commitment the nonprofit, and the people volunteering for the nonprofit, had for their causes was inspiring. However, like most nonprofits, these organizations really struggled with their resources. They had limited supplies, manpower and financial means. To make matters worse the limited manpower they had was not doing the amazing work they wanted to be doing in the local community, but instead were dedicated to raising money. Instead of volunteering in the classroom they were doing bake sales, instead of working in a soup kitchen they were running a 5k, etc.'}

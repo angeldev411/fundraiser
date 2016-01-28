@@ -47,8 +47,8 @@ export default class TeamProfile extends Component {
                                 src={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.logo}`}
                                 title=""
                             />
-                            <h2>{team.slogan}</h2>
-                            <h3>{team.name}</h3>
+                            <div className={'team-slogan'}>{team.slogan}</div>
+                            <h1>{team.name}</h1>
                             <p>
                                 {team.description}
                             </p>

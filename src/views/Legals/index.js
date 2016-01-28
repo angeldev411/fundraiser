@@ -15,24 +15,24 @@ export default class Legals extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <SimpleLayout page={'legals'}>
-                        <h2>{'Terms of Service'}</h2>
+                        <h1>{'Terms of Service'}</h1>
                         <section>
-                            <h3>{'RAISERVE\'S PUBLIC TERMS OF USE'}</h3>
+                            <h2>{'RAISERVE\'S PUBLIC TERMS OF USE'}</h2>
                             <p>
                                 {'These terms and conditions govern your access to and use of the Raiserve website.This is an agreement ("Agreement") between you and Raiserve, Inc. ("Raiserve", "we", "our" or "us"), a Delaware corporation whose principal place of business is located at 351 Amsterdam Avenue, Suite 9S. Your access and use of the Website is further subject to any other written agreement between you and Raiserve, the terms of which are incorporated herein by reference and which control in the event of a conflict. This Agreement may be changed from time to time without Raiserve providing notice to you, and any such changes will be effective immediately upon posting. Your further use of the Website shall indicate your consent to such changes. You should periodically check the Website for the most current Agreement terms and conditions. You may contact Raiserve by e-mail at privacy@Raiserve.com with questions about the terms and conditions of this Agreement.'}
                             </p>
 
-                            <h3>{'ELIGIBILITY TO USE THE WEBSITE'}</h3>
+                            <h2>{'ELIGIBILITY TO USE THE WEBSITE'}</h2>
                             <p>
                                 {'You represent and warrant that you (i) are fourteen (14) years of age or older; and (ii) have full power and authority to enter into this Agreement and doing so will not violate any other agreement to which you are a party. If you are under the age of 18, you may make purchases only with the involvement of a parent or guardian. All purchases must be made either (i) by individuals who are not minors and who can legally enter into binding contracts (typically persons 18 years of age or older, depending on where you live), or (ii) by minors with the permission of a parent or guardian to purchase items on the Website, to the extent permitted by law.'}
                             </p>
 
-                            <h3>{'REGISTRATION'}</h3>
+                            <h2>{'REGISTRATION'}</h2>
                             <p>
                                 {'If you choose to provide any information or fill out any forms on the Website, you agree to (i) provide true, accurate, current and complete information; and (ii) maintain and promptly update the information you provide to Raiserve in order to keep your profile true, accurate, current and complete.'}
                             </p>
 
-                            <h3>{'LIMITED LICENSE AND RESTRICTIONS ON USE'}</h3>
+                            <h2>{'LIMITED LICENSE AND RESTRICTIONS ON USE'}</h2>
                             <p>
                                 {'Raiserve grants you a revocable, non-exclusive, non-transferable, limited right to access and use the Website for your personal use to seek employment for yourself, provided that you comply fully with this Agreement, as well as any other rules, procedures, policies, terms or conditions that govern all or any portion of the Website. At any time and for any reason Raiserve may revoke your right to use all or any portion of the Website. You shall not:'}
                             </p>
@@ -54,7 +54,7 @@ export default class Legals extends Component {
                                 </li>
                             </ul>
 
-                            <h3>{'CONTRIBUTED CONTENT AND RESTRICTIONS ON POSTING'}</h3>
+                            <h2>{'CONTRIBUTED CONTENT AND RESTRICTIONS ON POSTING'}</h2>
                             <p>
                                 {'In connection with your use of this Website, you may have occasion to upload or otherwise contribute ideas, comments, editorials, writings, communications, drawings, images, data or other types of content ("Contributed Content") to the Website.'}
                             </p>
@@ -104,12 +104,12 @@ export default class Legals extends Component {
                                 {'Raiserve has the right, but not the obligation, to monitor any content posted on our Website to determine compliance with our Terms of Service and/or to satisfy any law, regulation or government request. Raiserve has the right, in its sole discretion, to edit, refuse to post or remove any Contributed Content submitted to or posted on the Website including, but not limited to, content that is unlawful, threatening, libelous, defamatory, obscene, pornographic, graphic, or otherwise objectionable.'}
                             </p>
 
-                            <h3>{'PASSWORD AND USER IDS'}</h3>
+                            <h2>{'PASSWORD AND USER IDS'}</h2>
                             <p>
                                 {'To log onto the Website, you need to select a password and user ID, and you may be supplied with other methods required to access the Website and/or your account, such as an activation code ("Access Methods"). You are solely responsible for the confidentiality and security of your Access Methods. You are responsible for all activities that occur under your Access Methods and/or account and may not share your login details with others. Raiserve is not obligated to inquire as to the authority or propriety of any use of, or action taken under, your Access Methods and/or account, or any other security breaches you become aware of. You must immediately notify Raiserve of any actual or suspected loss, theft or unauthorized use of your Access Methods. Raiserve will not be responsible for any loss to you that arises from any use of your account or your Access Methods or from your failure to comply with these provisions.'}
                             </p>
 
-                            <h3>{'OWNERSHIP; INTELLECTUAL PROPERTY POLICY; INFRINGEMENT NOTICE'}</h3>
+                            <h2>{'OWNERSHIP; INTELLECTUAL PROPERTY POLICY; INFRINGEMENT NOTICE'}</h2>
                             <p>
                                 {'Raiserve owns, controls, licenses or has the right to use and provide the Webite and all Content on the Website. The Website is protected by copyright as a collective work and/or compilation, pursuant to U.S. copyright laws, international conventions, and other copyright laws. Raiserve owns the copyright in the entire Website, including, a copyright in the selection, coordination, arrangement and enhancement of the Website. You agree to abide by any and all copyright notices, information or restrictions displayed on the Website.'}
                             </p>
@@ -153,37 +153,37 @@ export default class Legals extends Component {
                                 {'Repeated violations of others\' copyrights may result in a loss of privileges.'}
                             </p>
 
-                            <h3>{'ALLOCATION OF LIABILITY'}</h3>
+                            <h2>{'ALLOCATION OF LIABILITY'}</h2>
                             <p>
                                 {'You acknowledge and agree that Raiserve is offering the opportunity to provide items for sale via this Website for the benefit of the various Brands, as agent for such Brands, and that this Agreement governs only access to and use of the Website and the relationship between Raiserve and you, and any orders placed with Brands will be governed by such applicable agreements as may exist between the applicable Brand and you. Accordingly, with respect to satisfaction of obligations and liabilities arising under or pursuant to orders placed with Brands, you shall only have recourse with the applicable Brand and shall not have recourse, whether by setoff or otherwise, in respect of such obligations or liabilities to or against Raiserve. For the avoidance of any doubt, you acknowledge that once you receive Shipping Confirmation from a Brand or Brands, a contract has been formed between you and the Brand or Brands alone; Raiserve shall not be a party to such contract, and Raiserve shall have no liability with respect to any contract formed between you and a Brand or Brands. Your sole recourse shall remain with the Brand or Brands.'}
                             </p>
 
-                            <h3>{'LINKS'}</h3>
+                            <h2>{'LINKS'}</h2>
                             <p>
                                 {'Raiserve is not responsible for information on any third party web Website that is referred in, or accessible or connected by hyperlink to, the Website. If you access any third party web Website through the Website or otherwise, you do so at your own risk. Hyperlinks to or from the Website do not constitute third party endorsement of, sponsorship by or affiliation with Raiserve.'}
                             </p>
 
-                            <h3>{'PRIVACY POLICY'}</h3>
+                            <h2>{'PRIVACY POLICY'}</h2>
                             <p>
                                 {'Personal nonpublic information that Raiserve gather from you is governed by Raiserve\'s Privacy Policy. You expressly consent to the terms and conditions of the Privacy Policy.'}
                             </p>
 
-                            <h3>{'CHANGES TO WEBSITE'}</h3>
+                            <h2>{'CHANGES TO WEBSITE'}</h2>
                             <p>
                                 {'Raiserve may change all or any portion of the Website at any time without notice to you.'}
                             </p>
 
-                            <h3>{'UNAVAILABILITY OF THE WEBSITE'}</h3>
+                            <h2>{'UNAVAILABILITY OF THE WEBSITE'}</h2>
                             <p>
                                 {'Raiserve is not liable for any technological problems regarding the Website and any impact that it may have. All or any portion of the Website may not be available and may not function properly at any time. Raiserve makes reasonable efforts to avoid technological problems, but at any time the Website may have and may cause technological problems such as viruses and other damaging computer programming routines or engines. Raiserve make reasonable efforts to ensure that the Website is secure, but Raiserve do not guarantee the security of the Website. Raiserve is not liable for any defects, delays or errors in or resulting from your use of the Website.'}
                             </p>
 
-                            <h3>{'WARRANTY DISCLAIMERS'}</h3>
+                            <h2>{'WARRANTY DISCLAIMERS'}</h2>
                             <p>
                                 {'RAISERVE DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE WEBSITE THAT THE LAW ALLOWS IT TO DISCLAIM. THE WEBSITE, INCLUDING, WITHOUT LIMITATION, ALL CONTENT, IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY REPRESENTATIONS AND WARRANTIES, EXPRESS OR IMPLIED, OF ANY KIND, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT OF INTELLECTUAL PROPERTY AND OTHER PROPRIETARY RIGHTS. WITHOUT LIMITING OUR GENERAL DISCLAIMER, RAISERVE DO NOT WARRANT THE SECURITY, AVAILABILITY, ACCURACY, COMPLETENESS, TIMELINESS, FUNCTIONALITY, RELIABILITY, SEQUENCING OR SPEED OF DELIVERY OF THE WEBSITE OR ANY PART OF THE CONTENT.'}
                             </p>
 
-                            <h3>{'LIABILITY AND INDEMNITY'}</h3>
+                            <h2>{'LIABILITY AND INDEMNITY'}</h2>
                             <p>
                                 {'RAISERVE\'S LIABILITY WITH RESPECT TO THE WEBSITE IS LIMITED TO THE MAXIMUM EXTENT PERMITTED BY LAW. IN NO EVENT WILL RAISERVE OR ANY OF OUR AFFILIATES, AGENTS OR EMPLOYEES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE OR CONSEQUENTIAL DAMAGES, HOWEVER CAUSED, ARISING OUT OF THIS AGREEMENT, THE WEBSITE, OR THE INABILITY TO USE THE WEBSITE, WHETHER FOR BREACH OF CONTRACT, TORTIOUS BEHAVIOR, NEGLIGENCE OR UNDER ANY OTHER CAUSE OF ACTION, EVEN IF RAISERVE, OR AN AUTHORIZED REPRESENTATIVE, HAS BEEN ADVISED OF THE POSSIBILITY OF THE DAMAGES OR IF ANY REMEDY YOU HAVE FAILS OF ITS ESSENTIAL PURPOSE. SOME STATES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY TO YOU.'}
                             </p>
@@ -191,32 +191,32 @@ export default class Legals extends Component {
                                 {'YOU WILL BE RESPONSIBLE FOR ANY LIABILITY TO RAISERVE THAT ARISES OUT OF YOUR BREACH OF THIS AGREEMENT OR YOUR USE OF THE WEBSITE. YOU AGREE TO INDEMNIFY, DEFEND AND HOLD HARMLESS RAISERVE AND ITS AFFILIATES, AGENTS, EMPLOYEES AND THIRD PARTY SOURCES AGAINST ANY AND ALL SUITS, LOSSES, CLAIMS, DEMANDS, LIABILITIES, DAMAGES, COSTS AND EXPENSES (INCLUDING REASONABLE ATTORNEYS\' FEES) THAT ARISE FROM OR RELATE TO: YOUR USE OF THE WEBSITE, YOUR BREACH OF THIS AGREEMENT, YOUR VIOLATION OF ANY APPLICABLE LAW, STATUTE, ORDINANCE, REGULATION OR OF ANY THIRD PARTY\'S RIGHTS, CLAIMS ASSERTED BY OR BETWEEN YOU AND ANY BRAND OR BRANDS, OR CLAIMS ASSERTED BY THIRD PARTIES WHICH, IF PROVEN, WOULD PLACE YOU IN BREACH OF THIS AGREEMENT.'}
                             </p>
 
-                            <h3>{'APPLICABLE LAW'}</h3>
+                            <h2>{'APPLICABLE LAW'}</h2>
                             <p>
                                 {'This Agreement is governed by and construed in accordance with the laws of the State of New York, without regard to conflicts of laws provisions. The sole and exclusive jurisdiction for any action or proceeding arising out of or related to this Agreement shall be an appropriate State or Federal court located in New York County in the State of New York and you hereby irrevocably consent to the jurisdiction of such courts.'}
                             </p>
 
-                            <h3>{'SEVERABILITY'}</h3>
+                            <h2>{'SEVERABILITY'}</h2>
                             <p>
                                 {'If any provision of this Agreement are found invalid or unenforceable, that provision shall be enforced to the maximum extent possible and the remaining provisions of this Agreement shall remain in full force and effect.'}
                             </p>
 
-                            <h3>{'ASSIGNMENT'}</h3>
+                            <h2>{'ASSIGNMENT'}</h2>
                             <p>
                                 {'Raiserve may assign this Agreement in whole or in part at any time without your consent. You may not assign this Agreement or delegate any of your obligations under this Agreement. Any purported assignment of this Agreement in violation of its terms is void.'}
                             </p>
 
-                            <h3>{'FORCE MAJEURE'}</h3>
+                            <h2>{'FORCE MAJEURE'}</h2>
                             <p>
                                 {'Raiserve shall not be deemed to be in breach of this Agreement and shall have no liability hereunder if its obligations are delayed or prevented by any reason of any act of God, war, fire, floods, earthquakes, natural disaster, accident, riots, acts of government, civil disturbance, terrorist act, shortage of materials or supplies, failure of any transportation or communication system, non-performance of any of your third party providers (including, without limitation, the failure or performance of internet service providers) or any cause beyond its reasonable control.'}
                             </p>
 
-                            <h3>{'YOUR CONSENT FOR NOTICES'}</h3>
+                            <h2>{'YOUR CONSENT FOR NOTICES'}</h2>
                             <p>
                                 {'You agree that Raiserve has the right to send you certain information in connection with the Website. Raiserve may send you this and any other information in electronic form to the e-mail address you specified when you created an account through the Website. You may have the right to withdraw this consent under applicable law, but if you do, Raiserve may cancel your rights to the Website. Notices provided to you via e-mail will be deemed given and received on the transmission date of the e-mail. As long as you access and use the Website, you agree that you will have, or have access to, the necessary software and hardware to receive such notices. If you do not consent to receive any notices electronically, you agree to stop using or accessing the Website.'}
                             </p>
 
-                            <h3>{'AVAILABILITY OUTSIDE OF THE UNITED STATES'}</h3>
+                            <h2>{'AVAILABILITY OUTSIDE OF THE UNITED STATES'}</h2>
                             <p>
                                 {'The Content or the Contributed Content may not be available for use outside of the United States. Raiserve makes no representation that any Content or any Contributed Content is appropriate or available for use outside the United States, its territories, possessions and protectorates. If you choose to access the Website from other locations, you do so on your own initiative and at your own risk. You are responsible for complying with local laws, if and to the extent local laws are applicable. You specifically agree to comply with all applicable laws concerning the transmission of technical data exported from the United States or the country you reside in.'}
                             </p>

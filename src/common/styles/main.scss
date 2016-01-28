@@ -5,8 +5,27 @@ body {
     font-family: $arial;
 }
 
-.tagline {
+h1 {
+    font-family: $conduit-bold;
+    color: $green;
+    font-size: 2.8em;
+}
+
+h2 {
+    font-family: $conduit-light;
+    color: $light-grey;
+}
+
+p {
+    color: $grey;
+    text-align: justify;
+}
+
+.uppercase {
     text-transform: uppercase;
+}
+
+.tagline {
     font-family: $conduit-medium;
 }
 

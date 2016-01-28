@@ -116,7 +116,7 @@ export default class Footer extends Component {
                                 </a>
                             </section>
                             <Link to={Urls.HOME}
-                                className="tagline"
+                                className="tagline uppercase"
                             >
                                 <img src="/assets/images/raiserve_logo_white.png"
                                     title=""
