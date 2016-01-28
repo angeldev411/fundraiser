@@ -92,11 +92,9 @@ export default class Footer extends Component {
                             </span>
                             <ul>
                                 <li>
-                                    <a href="#"
-                                        title=""
-                                    >
+                                    <Link to={Urls.LEGALS}>
                                         {'Terms of Service'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="#"
