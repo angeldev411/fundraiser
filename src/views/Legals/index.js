@@ -14,7 +14,7 @@ export default class Legals extends Component {
         return (
             <Page>
                 <div className={"container main-content no-cover"}>
-                    <SimpleLayout page={'tos'}>
+                    <SimpleLayout page={'legals'}>
                         <h2>{'Terms of Service'}</h2>
                         <section>
                             <h3>{'RAISERVE\'S PUBLIC TERMS OF USE'}</h3>
@@ -227,7 +227,3 @@ export default class Legals extends Component {
         );
     }
 }
-
-Legals.propTypes = {
-
-};
