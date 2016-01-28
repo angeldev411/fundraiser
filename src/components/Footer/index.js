@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Urls from '../../urls.js';
+import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 
 export default class Footer extends Component {
@@ -17,6 +18,11 @@ export default class Footer extends Component {
                             </span>
                             <ul>
                                 <li>
+                                    <Link to={Urls.RAISERVEBASICS}>
+                                        {'Raiserve Basics'}
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link to={Urls.STORY}>
                                         {'Our Story'}
                                     </Link>
@@ -25,20 +31,6 @@ export default class Footer extends Component {
                                     <Link to={Urls.FOUNDERS}>
                                         {'The founders'}
                                     </Link>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        title=""
-                                    >
-                                        {'The team'}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        title=""
-                                    >
-                                        {'Our goal'}
-                                    </a>
                                 </li>
                             </ul>
                         </section>
@@ -62,23 +54,7 @@ export default class Footer extends Component {
                                     <hr/>
                                 </li>
                                 <li>
-                                    <a href="#"
-                                        title=""
-                                    >
-                                        {'Talk About Us'}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        title=""
-                                    >
-                                        {'Give Us Money'}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        title=""
-                                    >
+                                    <a href={`mailto:${constants.CONTACT_EMAIL}`}>
                                         {'Ask Us'}
                                     </a>
                                 </li>
