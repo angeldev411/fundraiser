@@ -74,15 +74,8 @@ export default class Menu extends Component {
                             </li>
                             <li className="clearfix"></li>
                             <li>
-                                <a href="#"
-                                    title=""
-                                >
-                                    {'What is Raiserve?'}
-                                </a>
-                            </li>
-                            <li>
-                                <Link to={Urls.HOWITWORKS}>
-                                    {'How Raiserve works'}
+                                <Link to={Urls.RAISERVEBASICS}>
+                                    {'Raiserve Basics'}
                                 </Link>
                             </li>
                             <li>
@@ -200,15 +193,8 @@ export default class Menu extends Component {
                 <nav>
                     <ul className={"nav navbar-nav"}>
                         <li>
-                            <a href="#"
-                                title=""
-                            >
-                                {'What is Raiserve?'}
-                            </a>
-                        </li>
-                        <li>
-                            <Link to={Urls.HOWITWORKS}>
-                                {'How Raiserve works'}
+                            <Link to={Urls.RAISERVEBASICS}>
+                                {'Raiserve Basics'}
                             </Link>
                         </li>
                         <li className={'social'}>

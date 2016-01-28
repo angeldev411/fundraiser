@@ -2,5 +2,5 @@
 
 export const HOME = '/';
 export const FOUNDERS = 'founders';
-export const HOWITWORKS = 'how-it-works';
+export const RAISERVEBASICS = 'raiserve-basics';
 export const TEAMPROFILE = 'team';
