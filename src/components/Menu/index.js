@@ -126,11 +126,9 @@ export default class Menu extends Component {
                                 </span>
                                 <ul className={'sub-element'}>
                                     <li>
-                                        <a href="#"
-                                            title=""
-                                        >
-                                            {'Our story'}
-                                        </a>
+                                        <Link to={Urls.STORY}>
+                                            {'Our Story'}
+                                        </Link>
                                     </li>
                                     <li>
                                         <Link to={Urls.FOUNDERS}>

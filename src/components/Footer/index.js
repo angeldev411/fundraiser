@@ -17,11 +17,9 @@ export default class Footer extends Component {
                             </span>
                             <ul>
                                 <li>
-                                    <a href="#"
-                                        title=""
-                                    >
-                                        {'Our story'}
-                                    </a>
+                                    <Link to={Urls.STORY}>
+                                        {'Our Story'}
+                                    </Link>
                                 </li>
                                 <li>
                                     <Link to={Urls.FOUNDERS}>
