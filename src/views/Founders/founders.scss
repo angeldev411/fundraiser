@@ -6,15 +6,10 @@
 .founders {
     margin-top: 0;
 
-    h2, h3 {
-        font-family: $conduit-bold;
+    .founder {
         font-size: 1.45em;
-        color: $lighter-grey;
-        text-transform: uppercase;
-    }
-
-    h3 {
         color: $green;
+        font-family: $conduit-bold;
 
         a {
             font-family: $conduit-light;

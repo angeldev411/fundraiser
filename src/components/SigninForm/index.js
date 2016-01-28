@@ -7,7 +7,7 @@ export default class SigninForm extends Component {
             <div id="signin"
                 className="form-container col-xs-12 col-md-6 col-md-offset-3"
             >
-                <h3>{'Sign In'}</h3>
+                <h2>{'Sign In'}</h2>
                 <p>{'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}</p>
                 <form id="signin">
                     <div className="form-group">

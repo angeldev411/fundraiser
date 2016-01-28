@@ -27,13 +27,20 @@
         max-height: 100px;
     }
 
-    h2 {
+    .team-slogan {
+        margin-top: 25px;
+        font-family: $conduit-light;
+        font-size: 2.4em;
+        color: $black;
         border-top: solid 1px black;
         border-bottom: solid 1px black;
     }
 
-    h3 {
+    h1 {
         color: $light-grey;
+        font-family: $arial;
+        font-weight: bold;
+        font-size: 1.45em;
     }
 }
 
