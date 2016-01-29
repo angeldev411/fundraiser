@@ -1,0 +1,32 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+$user-progress-width: 240px;
+$margin-user-image: 17px;
+$user-progress-border-width: 3px;
+$user-image-width: $user-progress-width - 2 * $margin-user-image + $user-progress-border-width;
+
+.user-progress {
+    width: $user-progress-width;
+    height: $user-progress-width;
+    border-radius: $user-progress-width;
+    border: solid $user-progress-border-width $light-grey;
+
+    .user-image {
+        width: $user-image-width;
+        height: $user-image-width;
+        border-radius: $user-image-width;
+        background-size: cover;
+        background-position: center center;
+        margin: (-$user-progress-width + $margin-user-image) 0 0 $margin-user-image;
+    }
+
+    .rc-progress-circle-path {
+        stroke: $green;
+    }
+    .rc-progress-circle-trail {
+        stroke: none;
+    }
+}
