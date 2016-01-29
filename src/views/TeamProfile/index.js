@@ -28,6 +28,10 @@ export default class TeamProfile extends Component {
     }
 
     render() {
+        const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
+        const SHARE_TEXT = `${team.name} - Raiserve`;
+        const SHARE_MESSAGE = `${team.slogan}`;
+
         // Create array of users
         for (let i=0; i < 10; i++) {
             team.volunteers.push({ name: 'Heather Miller', uniqid: 'samples', image: 'user.jpg', hours: 240 });
@@ -49,15 +53,19 @@ export default class TeamProfile extends Component {
                                     <span className="team-title">{'Team of volunteers'}</span>
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
-                                        <Link to="#">
+                                        <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}>
                                             <i className="fa fa-envelope"/>
-                                        </Link>
-                                        <Link to="#">
+                                        </a>
+                                        <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
+                                            target="_blank"
+                                        >
                                             <i className="fa fa-facebook"/>
-                                        </Link>
-                                        <Link to="#">
+                                        </a>
+                                        <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${constants.TWITTER_USERNAME}`}
+                                            target="_blank"
+                                        >
                                             <i className="fa fa-twitter"/>
-                                        </Link>
+                                        </a>
                                     </span>
                                 </div>
                                 <UserList users={team.volunteers}/>

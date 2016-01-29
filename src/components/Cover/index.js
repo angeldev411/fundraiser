@@ -49,7 +49,9 @@ export default class Cover extends Component {
                             </div>
                         </div>
                     </div>
-                    <VolunteerProfileBlock volunteer={this.props.volunteer}/>
+                    <VolunteerProfileBlock volunteer={this.props.volunteer}
+                        pathname={this.props.pathname}
+                    />
                 </div>
             );
         }
@@ -72,7 +74,9 @@ export default class Cover extends Component {
                                 </Button>
                             </div>
                         </div>
-                        <VolunteerProfileBlock volunteer={this.props.volunteer}/>
+                        <VolunteerProfileBlock volunteer={this.props.volunteer}
+                            pathname={this.props.pathname}
+                        />
                     </div>
                 </div>
             );
@@ -138,4 +142,5 @@ Cover.propTypes = {
     button: React.PropTypes.string,
     logo: React.PropTypes.string,
     volunteer: React.PropTypes.object,
+    pathname: React.PropTypes.string,
 };

@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
+import * as constants from '../../common/constants';
 
 export default class VolunteerProfileBlock extends Component {
     render() {
+        const SHARE_URL = `${constants.DOMAIN}${this.props.pathname}`;
+        const SHARE_TEXT = `${this.props.volunteer.name} from ${this.props.volunteer.team.name} - Raiserve`;
+        const SHARE_MESSAGE = `${this.props.volunteer.message}`;
+
         return (
             <div className="volunteer-profile-block">
                 <div className="container">
@@ -23,21 +28,23 @@ export default class VolunteerProfileBlock extends Component {
                             <span className="uppercase">
                                 {'Share my goal'}
                             </span>
-                            <Link to="#"
+                            <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}
                                 className="share"
                             >
                                 <i className="fa fa-envelope"/>
-                            </Link>
-                            <Link to="#"
+                            </a>
+                            <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
+                                target="_blank"
                                 className="share"
                             >
                                 <i className="fa fa-facebook"/>
-                            </Link>
-                            <Link to="#"
+                            </a>
+                            <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${constants.TWITTER_USERNAME}`}
+                                target="_blank"
                                 className="share"
                             >
                                 <i className="fa fa-twitter"/>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -48,4 +55,5 @@ export default class VolunteerProfileBlock extends Component {
 
 VolunteerProfileBlock.propTypes = {
     volunteer: React.PropTypes.object,
+    pathname: React.PropTypes.string,
 };

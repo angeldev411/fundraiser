@@ -39,6 +39,7 @@ export default class VolunteerProfile extends Component {
                     tagline={volunteer.team.tagline}
                     button={"Sponsor Now"}
                     volunteer={volunteer}
+                    pathname={this.props.location.pathname}
                 />
                 <div className={"main-content"}>
                     <TeamProfileBlock team={volunteer.team}
@@ -53,4 +54,5 @@ export default class VolunteerProfile extends Component {
 VolunteerProfile.propTypes = {
     show: React.PropTypes.bool,
     volunteer: React.PropTypes.object,
+    location: React.PropTypes.object,
 };
