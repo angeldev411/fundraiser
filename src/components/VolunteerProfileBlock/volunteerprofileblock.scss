@@ -26,12 +26,14 @@
 
         .share-row {
             font-size: 1.6em;
+            text-align: center;
 
             span,
             a.link {
                 font-family: $conduit-bold;
                 color: $green;
                 margin: 0 20px 0 0;
+                display: block;
             }
 
             a.link {
@@ -55,6 +57,22 @@
 
                 &:hover {
                     color: $green;
+                }
+            }
+        }
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .volunteer-profile-block {
+        .volunteer-description {
+            .share-row {
+                text-align: left;
+
+                span,
+                a.link {
+                    display: initial;
                 }
             }
         }

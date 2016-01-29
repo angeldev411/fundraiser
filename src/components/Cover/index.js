@@ -3,6 +3,22 @@ import Button from '../../components/Button';
 import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 
 export default class Cover extends Component {
+    constructor(props) {
+        super(props);
+
+        const MOBILE_ACTIVATION_WIDTH = 992;
+
+        this.state = {
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+        };
+
+        window.addEventListener('resize', () => {
+            this.setState({
+                isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+            });
+        });
+    }
+
     render() {
         const style = {
             backgroundImage : this.props.image,
@@ -10,26 +26,35 @@ export default class Cover extends Component {
 
         let COVERCONTENT = null;
 
-        if (this.props.customclass === 'cover-team-profile') {
-            COVERCONTENT = (
+        if (!this.state.isDesktop && this.props.customclass === 'cover-volunteer-profile') {
+            return (
                 <div>
-                    <div className="team-tagline">
-                        <div className="container">
-                            <div className="col-xs-12">
-                                <p>{this.props.tagline}</p>
+                    <div className={`cover ${this.props.customclass}`}
+                        style={style}
+                    >
+                        <div className="team-tagline">
+                            <div className="container">
+                                <div className="col-xs-12">
+                                    <p>{this.props.volunteer.team.tagline}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"cover-content"}>
+                            <div className={"container"}>
+                                <div className="col-xs-12">
+                                    <Button type="btn-default">
+                                        {this.props.button}
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className={"cover-content container"}>
-                        <div className="col-xs-12">
-                            <Button type="btn-default">
-                                {this.props.button}
-                            </Button>
-                        </div>
-                    </div>
+                    <VolunteerProfileBlock volunteer={this.props.volunteer}/>
                 </div>
             );
-        } else if (this.props.customclass === 'cover-volunteer-profile') {
+        }
+
+        if (this.props.customclass === 'cover-volunteer-profile') {
             COVERCONTENT = (
                 <div>
                     <div className="team-tagline">
@@ -48,6 +73,25 @@ export default class Cover extends Component {
                             </div>
                         </div>
                         <VolunteerProfileBlock volunteer={this.props.volunteer}/>
+                    </div>
+                </div>
+            );
+        } else if (this.props.customclass === 'cover-team-profile') {
+            COVERCONTENT = (
+                <div>
+                    <div className="team-tagline">
+                        <div className="container">
+                            <div className="col-xs-12">
+                                <p>{this.props.tagline}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={"cover-content container"}>
+                        <div className="col-xs-12">
+                            <Button type="btn-default">
+                                {this.props.button}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             );
