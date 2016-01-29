@@ -16,7 +16,8 @@ export default class VolunteerProfileBlock extends Component {
                         </p>
                         <div className="share-row">
                             <Link to={Urls.RAISERVEBASICS}
-                                className="link uppercase">
+                                className="link uppercase"
+                            >
                                 {'How It Works'}
                             </Link>
                             <span className="uppercase">

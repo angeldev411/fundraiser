@@ -6,7 +6,7 @@ import * as constants from '../../common/constants';
 /* Then React components */
 import Page from '../../components/Page';
 import Cover from '../../components/Cover';
-import Layout34 from '../../components/Layout34';
+import TeamProfileBlock from '../../components/TeamProfileBlock';
 import UserList from '../../components/UserList';
 
 // TODO dynamic team
@@ -41,21 +41,8 @@ export default class TeamProfile extends Component {
                     button={"Sponsor Now"}
                 />
                 <div className={"main-content"}>
-                    <div className={"container"}>
-                        <Layout34 page={'teamprofile'}>
-                            <img id="team-logo"
-                                src={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.logo}`}
-                                title=""
-                            />
-                            <div className={'team-slogan'}>{team.slogan}</div>
-                            <h1>{team.name}</h1>
-                            <p>
-                                {team.description}
-                            </p>
-                        </Layout34>
-                    </div>
-
-                    <div className="team-block">
+                    <TeamProfileBlock team={team}/>
+                    <div className="team-profile-footer">
                         <div className={"container"}>
                             <div className="team">
                                 <div className={'team-header clearfix'}>
