@@ -36,6 +36,6 @@ export default class Page extends Component {
 
 Page.propTypes = {
     style: React.PropTypes.object,
-    noHeader: React.PropTypes.boolean,
+    noHeader: React.PropTypes.bool,
     bodyBackground: React.PropTypes.object,
 };
