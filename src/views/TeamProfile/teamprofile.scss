@@ -3,7 +3,8 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-.cover-profile {
+.cover-team-profile,
+.cover-volunteer-profile {
     min-height: 500px;
 
     .team-tagline{
@@ -53,7 +54,6 @@
         margin: auto;
 
         .team-header {
-            // font-family: $conduit_light;
             font-size: 1.6em;
             text-transform: uppercase;
 

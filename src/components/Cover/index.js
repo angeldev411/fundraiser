@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
+import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 
 export default class Cover extends Component {
     render() {
@@ -9,7 +10,7 @@ export default class Cover extends Component {
 
         let COVERCONTENT = null;
 
-        if (this.props.customclass === 'cover-profile') {
+        if (this.props.customclass === 'cover-team-profile') {
             COVERCONTENT = (
                 <div>
                     <div className="team-tagline">
@@ -25,6 +26,28 @@ export default class Cover extends Component {
                                 {this.props.button}
                             </Button>
                         </div>
+                    </div>
+                </div>
+            );
+        } else if (this.props.customclass === 'cover-volunteer-profile') {
+            COVERCONTENT = (
+                <div>
+                    <div className="team-tagline">
+                        <div className="container">
+                            <div className="col-xs-12">
+                                <p>{this.props.volunteer.team.tagline}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={"cover-content"}>
+                        <div className={"container"}>
+                            <div className="col-xs-12">
+                                <Button type="btn-default">
+                                    {this.props.button}
+                                </Button>
+                            </div>
+                        </div>
+                        <VolunteerProfileBlock volunteer={this.props.volunteer}/>
                     </div>
                 </div>
             );
@@ -70,4 +93,5 @@ Cover.propTypes = {
     tagline: React.PropTypes.string,
     button: React.PropTypes.string,
     logo: React.PropTypes.string,
+    volunteer: React.PropTypes.object,
 };
