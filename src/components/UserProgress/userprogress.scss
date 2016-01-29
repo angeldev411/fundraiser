@@ -8,11 +8,37 @@ $margin-user-image: 17px;
 $user-progress-border-width: 3px;
 $user-image-width: $user-progress-width - 2 * $margin-user-image + $user-progress-border-width;
 
+.user-progress-container {
+    width: 500px;
+    padding-bottom: 5em;
+    text-align: center;
+
+    .user-hours {
+        position: relative;
+        right: $user-progress-width / 2;
+        top: $margin-user-image;
+        font-size: 0.8em;
+        display: inline-block;
+        transition: opacity 500ms;
+
+        p {
+            text-align: center;
+            margin: 0;
+        }
+    }
+
+    .user-hours__current {
+        font-size: 2em;
+        color: $green;
+    }
+}
+
 .user-progress {
     width: $user-progress-width;
     height: $user-progress-width;
     border-radius: $user-progress-width;
     border: solid $user-progress-border-width $light-grey;
+    margin: auto;
 
     .user-image {
         width: $user-image-width;
@@ -20,7 +46,19 @@ $user-image-width: $user-progress-width - 2 * $margin-user-image + $user-progres
         border-radius: $user-image-width;
         background-size: cover;
         background-position: center center;
-        margin: (-$user-progress-width + $margin-user-image) 0 0 $margin-user-image;
+        margin: (-$user-progress-width + $margin-user-image) 0 2em $margin-user-image;
+    }
+
+    .user-name-and-location {
+        text-align: center;
+
+        span {
+            display: block;
+        }
+    }
+
+    .user-name {
+        font-weight: bold;
     }
 
     .rc-progress-circle-path {

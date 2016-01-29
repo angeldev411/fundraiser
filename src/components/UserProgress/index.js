@@ -9,17 +9,27 @@ export default class UserProgress extends Component {
         const backgroundImage = `url(${constants.USER_IMAGES_FOLDER}/${this.props.user.uniqid}/${this.props.user.image})`;
 
         return (
-            <div
-                className="user-progress"
-            >
-                <Circle
-                    percent={percentage}
-                    strokeWidth={constants.USER_PROGRESS_WIDTH}
-                />
+            <div className="user-progress-container">
+                <div className="user-hours">
+                    <p>{"Current Hours"} <span className="user-hours__current">{this.props.user.hours}</span></p>
+                    <p>{"Goal Hours"} {this.props.user.goal}</p>
+                </div>
                 <div
-                    className="user-image"
-                    style={{ backgroundImage }}
+                    className="user-progress"
                 >
+                    <Circle
+                        percent={percentage}
+                        strokeWidth={constants.USER_PROGRESS_WIDTH}
+                    />
+                    <div
+                        className="user-image"
+                        style={{ backgroundImage }}
+                    >
+                    </div>
+                    <div className="user-name-and-location">
+                        <div className="user-name">{this.props.user.name}</div>
+                        <div className="user-location">{this.props.user.location}</div>
+                    </div>
                 </div>
             </div>
         );
