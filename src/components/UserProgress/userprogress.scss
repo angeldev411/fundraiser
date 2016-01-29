@@ -6,7 +6,7 @@
 $user-progress-width: 240px;
 $margin-user-image: 17px;
 $user-progress-border-width: 3px;
-$user-image-width: $user-progress-width - 2 * $margin-user-image + $user-progress-border-width;
+$user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progress-border-width);
 
 .user-progress-container {
     width: 500px;
@@ -22,6 +22,7 @@ $user-image-width: $user-progress-width - 2 * $margin-user-image + $user-progres
         transition: opacity 500ms;
 
         p {
+            color: $white;
             text-align: center;
             margin: 0;
         }
@@ -39,6 +40,10 @@ $user-image-width: $user-progress-width - 2 * $margin-user-image + $user-progres
     border-radius: $user-progress-width;
     border: solid $user-progress-border-width $light-grey;
     margin: auto;
+
+    &.user-progress-circle__hidden .rc-progress-circle {
+        opacity: 0;
+    }
 
     .user-image {
         width: $user-image-width;

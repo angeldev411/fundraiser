@@ -15,10 +15,15 @@ export default class UserProgress extends Component {
                     <p>{"Goal Hours"} {this.props.user.goal}</p>
                 </div>
                 <div
-                    className="user-progress"
+                    className={classNames(
+                        'user-progress',
+                        {
+                            'user-progress-circle__hidden': this.props.user.hours === 0,
+                        }
+                    )}
                 >
                     <Circle
-                        percent={percentage}
+                        percent={Math.min(percentage, 100)}
                         strokeWidth={constants.USER_PROGRESS_WIDTH}
                     />
                     <div
