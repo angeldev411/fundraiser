@@ -3,10 +3,19 @@
 .cover {
     text-align: center;
     background-size: cover;
-    padding-top: 160px;
 
     .btn-default {
         margin: 60px 0;
         font-size: 1.85em;
+    }
+
+    .cover-container {
+        padding-top: 70px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .cover-content {
+        padding-top: 100px;
     }
 }

@@ -3,13 +3,12 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-$user-progress-width: 240px;
+$user-progress-width: 200px;
 $margin-user-image: 17px;
 $user-progress-border-width: 3px;
 $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progress-border-width);
 
 .user-progress-container {
-    width: 500px;
     padding-bottom: 5em;
     text-align: center;
 
@@ -23,7 +22,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
 
         p {
             color: $white;
-            text-align: center;
+            text-align: left;
             margin: 0;
         }
     }
@@ -32,13 +31,17 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
         font-size: 2em;
         color: $green;
     }
+
+    .user-hours__goal {
+        font-size: 1.3em;
+    }
 }
 
 .user-progress {
     width: $user-progress-width;
     height: $user-progress-width;
     border-radius: $user-progress-width;
-    border: solid $user-progress-border-width $light-grey;
+    border: solid $user-progress-border-width rgba($white, 0.3);;
     margin: auto;
 
     &.user-progress-circle__hidden .rc-progress-circle {
@@ -56,6 +59,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
 
     .user-name-and-location {
         text-align: center;
+        color: $white;
 
         span {
             display: block;

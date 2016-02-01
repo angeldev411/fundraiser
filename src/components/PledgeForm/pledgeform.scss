@@ -1,0 +1,42 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.pledge-form {
+    padding: 0 10px 20px;
+}
+
+#pledge {
+    text-align: left;
+
+    .form-buttons {
+        text-align: center;
+    }
+}
+
+.pledge-amount {
+    display: block;
+    width: 100%;
+    -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   background: url('../images/dropdown-arrow.png') transparent no-repeat;
+   background-position: right center;
+   border: 0;
+   border-radius: 0;
+   border-bottom: 1px solid #ebebeb;
+   color: $green;
+   font-size: 1.9em;
+   direction: rtl;
+   padding-right: 20px;
+
+   &::-ms-expand { /* for IE 11 */
+       display: none;
+    }
+
+    &:active,
+    &:focus {
+        outline: 0;
+    }
+}

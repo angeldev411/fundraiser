@@ -6,7 +6,7 @@ import * as constants from '../../common/constants';
 /* Then React components */
 import Page from '../../components/Page';
 import Cover from '../../components/Cover';
-import Layout34 from '../../components/Layout34';
+import TeamProfileBlock from '../../components/TeamProfileBlock';
 import UserList from '../../components/UserList';
 
 // TODO dynamic team
@@ -28,6 +28,10 @@ export default class TeamProfile extends Component {
     }
 
     render() {
+        const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
+        const SHARE_TEXT = `${team.name} - Raiserve`;
+        const SHARE_MESSAGE = `${team.slogan}`;
+
         // Create array of users
         for (let i=0; i < 10; i++) {
             team.volunteers.push({ name: 'Heather Miller', uniqid: 'samples', image: 'user.jpg', hours: 240 });
@@ -36,41 +40,32 @@ export default class TeamProfile extends Component {
         return (
             <Page>
                 <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage})`}
-                    customclass={"cover-profile"}
+                    customclass={"cover-team-profile"}
                     tagline={team.tagline}
                     button={"Sponsor Now"}
                 />
                 <div className={"main-content"}>
-                    <div className={"container"}>
-                        <Layout34 page={'teamprofile'}>
-                            <img id="team-logo"
-                                src={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.logo}`}
-                                title=""
-                            />
-                            <div className={'team-slogan'}>{team.slogan}</div>
-                            <h1>{team.name}</h1>
-                            <p>
-                                {team.description}
-                            </p>
-                        </Layout34>
-                    </div>
-
-                    <div className="team-block">
+                    <TeamProfileBlock team={team}/>
+                    <div className="team-profile-footer">
                         <div className={"container"}>
                             <div className="team">
                                 <div className={'team-header clearfix'}>
                                     <span className="team-title">{'Team of volunteers'}</span>
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
-                                        <Link to="#">
+                                        <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}>
                                             <i className="fa fa-envelope"/>
-                                        </Link>
-                                        <Link to="#">
+                                        </a>
+                                        <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
+                                            target="_blank"
+                                        >
                                             <i className="fa fa-facebook"/>
-                                        </Link>
-                                        <Link to="#">
+                                        </a>
+                                        <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${constants.TWITTER_USERNAME}`}
+                                            target="_blank"
+                                        >
                                             <i className="fa fa-twitter"/>
-                                        </Link>
+                                        </a>
                                     </span>
                                 </div>
                                 <UserList users={team.volunteers}/>

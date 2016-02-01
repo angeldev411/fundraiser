@@ -1,0 +1,82 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.volunteer-profile-block {
+    background: $black-high-opacity;
+    text-align: left;
+    padding: 25px 0;
+
+    .team-slogan {
+        font-family: $conduit-light;
+        font-size: 1.9em;
+        color: $white;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .volunteer-description {
+        p {
+            border-top: solid 1px $grey-medium-opacity;
+            border-bottom: solid 1px $grey-medium-opacity;
+            color: $white;
+            padding: 15px 0;
+            opacity: .70;
+            font-size: 1.3em;
+        }
+
+        .share-row {
+            font-size: 1.6em;
+            text-align: center;
+
+            span,
+            a.link {
+                font-family: $conduit-bold;
+                color: $green;
+                margin: 0 20px 0 0;
+                display: block;
+            }
+
+            a.link {
+                &:hover{
+                    text-decoration: none;
+                    color: $white;
+                }
+            }
+
+            a.share:first-child {
+                padding-left: 0;
+            }
+
+            a.share:last-child {
+                padding-right: 20px;
+            }
+
+            a.share {
+                color: $grey;
+                padding: 0 10px;
+
+                &:hover {
+                    color: $green;
+                }
+            }
+        }
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .volunteer-profile-block {
+        .volunteer-description {
+            .share-row {
+                text-align: left;
+
+                span,
+                a.link {
+                    display: initial;
+                }
+            }
+        }
+    }
+}

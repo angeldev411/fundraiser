@@ -1,7 +1,31 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
+import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
+import PledgeButton from '../PledgeButton/';
+
+const SET_IS_DESKTOP = () => {
+    this.setState({
+        isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+    });
+};
 
 export default class Cover extends Component {
+    constructor(props) {
+        super(props);
+
+        const MOBILE_ACTIVATION_WIDTH = 992;
+
+        this.state = {
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+        };
+
+        window.addEventListener('resize', SET_IS_DESKTOP);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', SET_IS_DESKTOP);
+    }
+
     render() {
         const style = {
             backgroundImage : this.props.image,
@@ -9,22 +33,69 @@ export default class Cover extends Component {
 
         let COVERCONTENT = null;
 
-        if (this.props.customclass === 'cover-profile') {
-            COVERCONTENT = (
+        if (!this.state.isDesktop && this.props.customclass === 'cover-volunteer-profile') {
+            return (
                 <div>
-                    <div className="team-tagline">
-                        <div className="container">
-                            <div className="col-xs-12">
-                                <p>{this.props.tagline}</p>
+                    <div className={`cover ${this.props.customclass}`}
+                        style={style}
+                    >
+                        <div className="cover-container">
+                            <div className={"cover-content"}>
+                                <div className="team-tagline">
+                                    <div className="container">
+                                        <div className="col-xs-12">
+                                            <p>{this.props.volunteer.team.tagline}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <PledgeButton type="btn-default">
+                                    {this.props.button}
+                                </PledgeButton>
                             </div>
                         </div>
                     </div>
-                    <div className={"cover-content container"}>
-                        <div className="col-xs-12">
-                            <Button type="btn-default">
-                                {this.props.button}
-                            </Button>
+                    <VolunteerProfileBlock volunteer={this.props.volunteer}
+                        pathname={this.props.pathname}
+                    />
+                </div>
+            );
+        }
+
+        if (this.props.customclass === 'cover-volunteer-profile') {
+            COVERCONTENT = (
+                <div>
+
+                    <div className={"cover-content"}>
+                        <div className="team-tagline">
+                            <div className="container">
+                                <div className="col-xs-12">
+                                    <p>{this.props.volunteer.team.tagline}</p>
+                                </div>
+                            </div>
                         </div>
+                        <PledgeButton type="btn-default">
+                            {this.props.button}
+                        </PledgeButton>
+                        <VolunteerProfileBlock volunteer={this.props.volunteer}
+                            pathname={this.props.pathname}
+                        />
+                    </div>
+                </div>
+            );
+        } else if (this.props.customclass === 'cover-team-profile') {
+            COVERCONTENT = (
+                <div>
+                    <div className={"cover-content"}>
+                        <div className="team-tagline">
+                            <div className="container">
+                                <div className="col-xs-12">
+                                    <p>{this.props.tagline}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <PledgeButton type="btn-default">
+                            {this.props.button}
+                        </PledgeButton>
                     </div>
                 </div>
             );
@@ -58,7 +129,9 @@ export default class Cover extends Component {
             <div className={`cover ${this.props.customclass}`}
                 style={style}
             >
-                {COVERCONTENT}
+                <div className="cover-container">
+                    {COVERCONTENT}
+                </div>
             </div>
         );
     }
@@ -70,4 +143,6 @@ Cover.propTypes = {
     tagline: React.PropTypes.string,
     button: React.PropTypes.string,
     logo: React.PropTypes.string,
+    volunteer: React.PropTypes.object,
+    pathname: React.PropTypes.string,
 };
