@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
 import * as constants from '../../common/constants';
+import UserProgress from '../../components/UserProgress';
 
 export default class VolunteerProfileBlock extends Component {
     render() {
@@ -13,6 +14,7 @@ export default class VolunteerProfileBlock extends Component {
             <div className="volunteer-profile-block">
                 <div className="container">
                     <div className={'col-xs-12 col-md-4 volunteer-picture'}>
+                        <UserProgress user={this.props.volunteer}/>
                     </div>
                     <div className={'col-xs-12 col-md-8 volunteer-description'}>
                         <div className={'team-slogan'}>{this.props.volunteer.team.slogan}</div>

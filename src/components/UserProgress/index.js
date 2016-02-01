@@ -11,8 +11,8 @@ export default class UserProgress extends Component {
         return (
             <div className="user-progress-container">
                 <div className="user-hours">
-                    <p>{"Current Hours"} <span className="user-hours__current">{this.props.user.hours}</span></p>
-                    <p>{"Goal Hours"} {this.props.user.goal}</p>
+                    <p>{"Current Hours "}<span className="user-hours__current">{this.props.user.hours}</span></p>
+                    <p>{"Goal Hours "}<span className="user-hours__goal">{this.props.user.goal}</span></p>
                 </div>
                 <div
                     className={classNames(

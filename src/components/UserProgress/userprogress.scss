@@ -9,7 +9,7 @@ $user-progress-border-width: 3px;
 $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progress-border-width);
 
 .user-progress-container {
-    width: 500px;
+    //width: 500px;
     padding-bottom: 5em;
     text-align: center;
 
@@ -23,7 +23,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
 
         p {
             color: $white;
-            text-align: center;
+            text-align: left;
             margin: 0;
         }
     }
@@ -31,6 +31,10 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
     .user-hours__current {
         font-size: 2em;
         color: $green;
+    }
+
+    .user-hours__goal {
+        font-size: 1.3em;
     }
 }
 
@@ -56,6 +60,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
 
     .user-name-and-location {
         text-align: center;
+        color: $white;
 
         span {
             display: block;
