@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import { Link } from 'react-router';
+import Page from '../components/Page';
+import SimpleLayout from '../components/SimpleLayout';
+import Button from '../components/Button';
+
 
 export default class RouteNotFound extends Component {
     componentDidMount() {
@@ -9,16 +13,22 @@ export default class RouteNotFound extends Component {
 
     render() {
         return (
-            <div className={commonStyles.errorContainer}>
-                <h1>
-                    404
-                </h1>
-                <div>
-                    <Link to="/">
-                        Home
-                    </Link>
+            <Page>
+                <div className={"container main-content no-cover"}>
+                    <SimpleLayout page={'404'}>
+                        <h1>
+                            404
+                        </h1>
+                        <div>
+                            <Button to="/"
+                                type="btn-success btn-lg"
+                            >
+                                Back to Home
+                            </Button>
+                        </div>
+                    </SimpleLayout>
                 </div>
-            </div>
+            </Page>
         );
     }
 }
