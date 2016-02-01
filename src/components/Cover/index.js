@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
 import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
+import PledgeButton from '../PledgeButton/';
 
 export default class Cover extends Component {
     constructor(props) {
@@ -42,9 +43,9 @@ export default class Cover extends Component {
                         <div className={"cover-content"}>
                             <div className={"container"}>
                                 <div className="col-xs-12">
-                                    <Button type="btn-default">
+                                    <PledgeButton type="btn-default">
                                         {this.props.button}
-                                    </Button>
+                                    </PledgeButton>
                                 </div>
                             </div>
                         </div>
@@ -67,13 +68,9 @@ export default class Cover extends Component {
                         </div>
                     </div>
                     <div className={"cover-content"}>
-                        <div className={"container"}>
-                            <div className="col-xs-12">
-                                <Button type="btn-default">
-                                    {this.props.button}
-                                </Button>
-                            </div>
-                        </div>
+                        <PledgeButton type="btn-default">
+                            {this.props.button}
+                        </PledgeButton>
                         <VolunteerProfileBlock volunteer={this.props.volunteer}
                             pathname={this.props.pathname}
                         />
@@ -92,9 +89,9 @@ export default class Cover extends Component {
                     </div>
                     <div className={"cover-content container"}>
                         <div className="col-xs-12">
-                            <Button type="btn-default">
+                            <PledgeButton type="btn-default">
                                 {this.props.button}
-                            </Button>
+                            </PledgeButton>
                         </div>
                     </div>
                 </div>
