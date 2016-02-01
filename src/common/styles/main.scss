@@ -33,6 +33,9 @@ p {
     padding-top: 60px;
 }
 
-.no-cover {
-    padding-top: 130px;
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .no-cover {
+        padding-top: 130px;
+    }
 }
