@@ -9,9 +9,14 @@
         font-size: 1.85em;
     }
 
-    .cover-content {
+    .cover-container {
+        padding-top: 70px;
         position: relative;
-        padding-top: 160px;
         overflow-x: hidden;
+        overflow: hidden;
+    }
+
+    .cover-content {
+        padding-top: 100px;
     }
 }
