@@ -68,7 +68,6 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
 
     .user-name {
         font-weight: bold;
-        margin: (-$user-progress-width + $margin-user-image) 0 0 $margin-user-image;
     }
 
     .rc-progress-circle-path {

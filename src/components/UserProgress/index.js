@@ -35,17 +35,6 @@ export default class UserProgress extends Component {
                         <div className="user-name">{this.props.user.name}</div>
                         <div className="user-location">{this.props.user.location}</div>
                     </div>
-            <div
-                className="user-progress"
-            >
-                <Circle
-                    percent={percentage}
-                    strokeWidth={constants.USER_PROGRESS_WIDTH}
-                />
-                <div
-                    className="user-image"
-                    style={{ backgroundImage }}
-                >
                 </div>
             </div>
         );
