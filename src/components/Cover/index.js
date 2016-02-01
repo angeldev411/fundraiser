@@ -33,17 +33,19 @@ export default class Cover extends Component {
                     <div className={`cover ${this.props.customclass}`}
                         style={style}
                     >
-                        <div className={"cover-content"}>
-                            <div className="team-tagline">
-                                <div className="container">
-                                    <div className="col-xs-12">
-                                        <p>{this.props.volunteer.team.tagline}</p>
+                        <div className="cover-container">
+                            <div className={"cover-content"}>
+                                <div className="team-tagline">
+                                    <div className="container">
+                                        <div className="col-xs-12">
+                                            <p>{this.props.volunteer.team.tagline}</p>
+                                        </div>
                                     </div>
                                 </div>
+                                <PledgeButton type="btn-default">
+                                    {this.props.button}
+                                </PledgeButton>
                             </div>
-                            <PledgeButton type="btn-default">
-                                {this.props.button}
-                            </PledgeButton>
                         </div>
                     </div>
                     <VolunteerProfileBlock volunteer={this.props.volunteer}
