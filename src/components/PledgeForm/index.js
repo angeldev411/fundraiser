@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
 
+// $ symbol and numbers are inversed in Options due to "direction: rtl" in the select CSS
+const pledgeValues = [1, 5, 10, 50];
+
 export default class PledgeForm extends Component {
     render() {
         return (
@@ -10,10 +13,13 @@ export default class PledgeForm extends Component {
                         <select name="amount"
                             className="pledge-amount"
                         >
-                            <option value="1">{'1 $'}</option>
-                            <option value="5">{'5 $'}</option>
-                            <option value="10">{'10 $'}</option>
-                            <option value="50">{'50 $'}</option>
+                            {pledgeValues.map((value, i) =>
+                                (<option key={i}
+                                    value={value}
+                                 >
+                                    {`${value} $`}
+                                </option>)
+                            )}
                         </select>
                         <label htmlFor="amount">{'Pledge per Hour'}</label>
                     </div>
