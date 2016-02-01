@@ -4,19 +4,19 @@ import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-import SigninForm from '../SigninForm/';
+import PledgeForm from '../PledgeForm/';
 
 export default class Pledge extends Component {
     render() {
         return (
-            <div className={`${this.props.status} pledge`}>
+            <div className={`${this.props.status} pledge col-xs-12`}>
                 <button type="button"
                     className="close"
                     onClick={this.props.togglePledge}
                 >
                     <i className="fa fa-times"></i>
                 </button>
-                <p>{'Hey horld'}</p>
+                <PledgeForm />
             </div>
         );
     }

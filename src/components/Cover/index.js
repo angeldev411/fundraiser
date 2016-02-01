@@ -33,14 +33,14 @@ export default class Cover extends Component {
                     <div className={`cover ${this.props.customclass}`}
                         style={style}
                     >
-                        <div className="team-tagline">
-                            <div className="container">
-                                <div className="col-xs-12">
-                                    <p>{this.props.volunteer.team.tagline}</p>
+                        <div className={"cover-content"}>
+                            <div className="team-tagline">
+                                <div className="container">
+                                    <div className="col-xs-12">
+                                        <p>{this.props.volunteer.team.tagline}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className={"cover-content"}>
                             <div className={"container"}>
                                 <div className="col-xs-12">
                                     <PledgeButton type="btn-default">
@@ -60,14 +60,15 @@ export default class Cover extends Component {
         if (this.props.customclass === 'cover-volunteer-profile') {
             COVERCONTENT = (
                 <div>
-                    <div className="team-tagline">
-                        <div className="container">
-                            <div className="col-xs-12">
-                                <p>{this.props.volunteer.team.tagline}</p>
+
+                    <div className={"cover-content"}>
+                        <div className="team-tagline">
+                            <div className="container">
+                                <div className="col-xs-12">
+                                    <p>{this.props.volunteer.team.tagline}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className={"cover-content"}>
                         <PledgeButton type="btn-default">
                             {this.props.button}
                         </PledgeButton>
@@ -80,19 +81,17 @@ export default class Cover extends Component {
         } else if (this.props.customclass === 'cover-team-profile') {
             COVERCONTENT = (
                 <div>
-                    <div className="team-tagline">
-                        <div className="container">
-                            <div className="col-xs-12">
-                                <p>{this.props.tagline}</p>
+                    <div className={"cover-content"}>
+                        <div className="team-tagline">
+                            <div className="container">
+                                <div className="col-xs-12">
+                                    <p>{this.props.tagline}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className={"cover-content container"}>
-                        <div className="col-xs-12">
-                            <PledgeButton type="btn-default">
-                                {this.props.button}
-                            </PledgeButton>
-                        </div>
+                        <PledgeButton type="btn-default">
+                            {this.props.button}
+                        </PledgeButton>
                     </div>
                 </div>
             );
