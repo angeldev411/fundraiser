@@ -3,6 +3,12 @@ import Button from '../../components/Button';
 import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 import PledgeButton from '../PledgeButton/';
 
+const SET_IS_DESKTOP = () => {
+    this.setState({
+        isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+    });
+};
+
 export default class Cover extends Component {
     constructor(props) {
         super(props);
@@ -13,11 +19,11 @@ export default class Cover extends Component {
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         };
 
-        window.addEventListener('resize', () => {
-            this.setState({
-                isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
-            });
-        });
+        window.addEventListener('resize', SET_IS_DESKTOP);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', SET_IS_DESKTOP);
     }
 
     render() {

@@ -9,7 +9,11 @@ import PledgeForm from '../PledgeForm/';
 export default class Pledge extends Component {
     render() {
         return (
-            <div className={`${this.props.status} pledge col-xs-12`}>
+            <div className={classNames({
+                pledge__open: this.props.open,
+                pledge__closed: !this.props.open,
+            }, 'pledge col-xs-12')}
+            >
                 <button type="button"
                     className="close"
                     onClick={this.props.togglePledge}
@@ -23,6 +27,6 @@ export default class Pledge extends Component {
 }
 
 Pledge.propTypes = {
-    status: React.PropTypes.string,
+    open: React.PropTypes.bool,
     togglePledge: React.PropTypes.func,
 };

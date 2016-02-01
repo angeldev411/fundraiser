@@ -26,13 +26,11 @@ export default class PledgeForm extends Component {
                         <label htmlFor="max-amount">{'Maximum total amount (Optional)'}</label>
                     </div>
 
-                    <Button type="btn-pledge">{'Continue'}</Button>
+                    <div className="form-group form-buttons">
+                        <Button type="btn-pledge">{'Continue'}</Button>
+                    </div>
                 </form>
             </div>
         );
     }
 }
-
-PledgeForm.propTypes = {
-
-};

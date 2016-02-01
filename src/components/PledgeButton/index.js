@@ -16,32 +16,19 @@ export default class PledgeButton extends Component {
     };
 
     render() {
-        if (this.state.clicked) {
-            return (
-                <div>
-                    <div className={"container"}>
-                        <div className="col-xs-12">
-                            <Button type={this.props.type}>{this.props.children}</Button>
-                        </div>
-                    </div>
-                    <Pledge status={'pledge__open'}
-                        togglePledge={this.togglePledge}
-                    />
-                </div>
-            );
-        }
         return (
             <div>
                 <div className={"container"}>
                     <div className="col-xs-12">
-                        <Button type={this.props.type}
-                            onClick={this.togglePledge}
-                        >
-                            {this.props.children}
-                        </Button>
+                        <Button
+                            type={this.props.type}
+                            onClick={!this.state.clicked ? this.togglePledge : null}
+                        >{this.props.children}</Button>
                     </div>
                 </div>
-                <Pledge status={'pledge__closed'} togglePledge={this.togglePledge}/>
+                <Pledge open={this.state.clicked}
+                    togglePledge={this.togglePledge}
+                />
             </div>
         );
     }
