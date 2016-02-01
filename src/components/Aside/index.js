@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Aside extends Component {
     render() {
         return (
-            <aside className={'col-xs-12 col-lg-4'}>
+            <aside className={'col-xs-12 col-lg-4 col-lg-pull-8'}>
                 <section>
                     <h2 className={'title'}>{'I Volunteer My Time'}</h2>
                     <p>
