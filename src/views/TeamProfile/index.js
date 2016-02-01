@@ -29,7 +29,7 @@ export default class TeamProfile extends Component {
 
     render() {
         // Create array of users
-        for (var i=0; i < 10; i++) {
+        for (let i=0; i < 10; i++) {
             team.volunteers.push({ name: 'Heather Miller', uniqid: 'samples', image: 'user.jpg', hours: 240 });
         }
 

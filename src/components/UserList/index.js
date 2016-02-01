@@ -8,38 +8,37 @@ let previous = null;
 let next = null;
 
 export default class UserList extends Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
             previousVisible: false,
-            nextVisible: false
-        }
-    };
+            nextVisible: false,
+        };
+    }
 
     componentDidMount() {
         node = document.getElementById('scrollable-user-list');
         previous = document.getElementById('previous');
         next = document.getElementById('next');
 
-        if (node.scrollWidth - node.offsetWidth != 0) {
+        if (node.scrollWidth - node.offsetWidth !== 0) {
             this.setState({ nextVisible: true });
         }
-    };
+    }
 
     componentWillUnmount() {
-        node = undefined;
-        previous = undefined;
-        next = undefined;
+        node = null;
+        previous = null;
+        next = null;
     }
 
     animate = (increment) => {
         const endValue = node.scrollLeft + increment;
 
         const loop = setInterval(
-            function(){
-                node.scrollLeft += increment/5;
+            () => {
+                node.scrollLeft += increment / 5;
                 if (
                     node.scrollLeft === 0
                     || node.scrollLeft >= (node.scrollWidth - node.offsetWidth)
@@ -61,7 +60,7 @@ export default class UserList extends Component {
                 } else {
                     this.setState({ nextVisible: true });
                 }
-            }.bind(this), 30
+            }, 30
         );
     };
 
@@ -76,9 +75,10 @@ export default class UserList extends Component {
     render() {
         return (
             <div className="user-list clearfix">
-                <div className={classNames({
+                <div
+                    className={classNames({
                         'scroll-button__visible': this.state.previousVisible,
-                        'scroll-button__hidden' : !this.state.previousVisible
+                        'scroll-button__hidden' : !this.state.previousVisible,
                     })}
                     id="previous"
                     onClick={this.scrollLeft}
@@ -87,30 +87,28 @@ export default class UserList extends Component {
                 </div>
 
                 <ul id={'scrollable-user-list'}>
-
-                    {this.props.users.map(function(user, i) {
-                        return (
-                            <li className="user"
-                                key={i}
+                    {this.props.users.map((user, i) =>
+                        (<li
+                            className="user"
+                            key={i}
+                         >
+                            <div className="user-face"
+                                style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
                             >
-                                <div className="user-face"
-                                    style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
-                                >
-                                    <div className="user-hours">
-                                        <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
-                                    </div>
+                                <div className="user-hours">
+                                    <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
                                 </div>
-                                <div className="user-name">{user.name}</div>
-                                <a href="#">{'Sponsor Me'}</a>
-                            </li>
-                        );
-                    })}
-
+                            </div>
+                            <div className="user-name">{user.name}</div>
+                            <a href="#">{'Sponsor Me'}</a>
+                        </li>)
+                    )}
                 </ul>
 
-                <div className={classNames({
+                <div
+                    className={classNames({
                         'scroll-button__visible': this.state.nextVisible,
-                        'scroll-button__hidden' : !this.state.nextVisible
+                        'scroll-button__hidden' : !this.state.nextVisible,
                     })}
                     id="next"
                     onClick={this.scrollRight}
@@ -124,5 +122,5 @@ export default class UserList extends Component {
 
 UserList.propTypes = {
     users: React.PropTypes.array,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
 };
