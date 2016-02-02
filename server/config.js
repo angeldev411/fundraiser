@@ -12,6 +12,9 @@ const config = {
             ephemeral: false,
         },
     },
+    STRIPE_TOKEN: 'sk_test_WNYEwSIelo8oPutqjz22lzqQ',
+    USER_IMAGES_FOLDER: '/assets/images/users',
+    TEAM_IMAGES_FOLDER: '/assets/images/team',
 };
 
 export default config;
