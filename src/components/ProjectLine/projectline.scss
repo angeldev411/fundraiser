@@ -1,0 +1,41 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.project {
+    color: $grey;
+    line-height: 2.6em;
+
+    .project-details {
+        border-bottom: 1px solid $lighter-grey;
+
+        .project-name {
+            color: $lighter-grey;
+            font-family: $conduit-medium;
+
+        }
+    }
+
+    a {
+        color: $green;
+        font-family: $conduit-bold;
+        margin-left: 20px;
+
+        &:hover {
+            text-decoration: none;
+            color: $grey;
+        }
+    }
+
+    .expand{
+        color: $green;
+        font-size: 2em;
+        font-weight: bold;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+
+}
