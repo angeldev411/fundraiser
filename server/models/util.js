@@ -1,5 +1,4 @@
 /* @flow */
-
 import schema from 'validate';
 import s3 from 's3';
 import AWS from 'aws-sdk';
@@ -9,7 +8,6 @@ import sha256 from 'js-sha256';
 AWS.config.loadFromPath('./s3_config.json');
 
 class util {
-
     static cacheResponse(obj) {
         const shasum = crypto.createHash('sha1');
 
@@ -21,13 +19,12 @@ class util {
         // return it if not expired
     }
 
-
     // we have some methods that return a standard structure
     // could also include custom error codes
     static rsSuccess(obj, friendlyMessage = null) {
         return {
             status: 'rssuccess',
-            friendlyMessage: friendlyMessage,
+            friendlyMessage,
             payload: obj,
         };
     }
@@ -39,7 +36,7 @@ class util {
 
         return {
             status: 'rsfailure',
-            friendlyMessage: friendlyMessage,
+            friendlyMessage,
             payload: obj,
         };
     }
@@ -76,7 +73,6 @@ class util {
         cb: func
     ) {
         // AWS.config.logger = process.stdout;
-
         const s3Bucket = new AWS.S3({ params: { Bucket: bucket } });
         const buf = new Buffer(filedata.replace(/^data:image\/\w+;base64,/, ''), 'base64');
         const data = {
@@ -105,10 +101,9 @@ class util {
         }
     }
 
-
     static uploadRsImage(obj) {
         // console.log("uploadRsImage: " + obj.image_data);
-        console.log("GOT UUID " + obj.uuid);
+        console.log(`GOT UUID ${obj.uuid}`);
 
         return new Promise((resolve, reject) => {
             const contentType = util.detectContentType(obj.image_data);
@@ -116,7 +111,7 @@ class util {
                 'image/jpeg': 'jpg',
                 'image/png': 'png',
                 'image/gif': 'gif',
-                'application/binary': 'bin'
+                'application/binary': 'bin',
             }[contentType];
 
             try {
@@ -124,19 +119,19 @@ class util {
 
                 obj.key = `${obj.key_prefix}${obj.uuid}/${sha}.${contentTypeExtension}`;
 
-                console.log('uploading with key ' + obj.key);
+                console.log(`Uploading with key ${obj.key}`);
 
                 util.uploadToS3(
                     obj.image_data,
                     'raiserve',
                     obj.key,
-                    { contentType: contentType },
+                    { contentType },
                     (err, data) => {
                         if (err) {
                             reject(`error uploading image data ${err}`);
                         } else {
-                            delete(obj.image_data);
-                            console.log("upload resolving with " + JSON.stringify(obj));
+                            delete obj.image_data;
+                            console.log(`Upload resolving with ${JSON.stringify(obj)}`);
                             resolve(obj);
                         }
                     }
@@ -148,7 +143,4 @@ class util {
     }
 }
 
-
-
-
-module.exports = util;
+export default util;
