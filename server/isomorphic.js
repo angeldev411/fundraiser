@@ -1,16 +1,16 @@
-app.get("/appis", function(req, res){
-    // example
+// TODO : this is an example
 
-    var location = req.url;
-    var reactRouter = Router.create({
-        routes: routes,
-        //location: location || Router.HashLocation
-        location: location || Router.HistoryLocation
+app.get('/appis', (req, res) => {
+    const location = req.url;
+    const reactRouter = Router.create({
+        routes,
+        location: location || Router.HistoryLocation,
     });
 
-    reactRouter.run(function (Handler) {
-      var markup = React.renderToString(<Handler />);
-      res.send(markup)
+    reactRouter.run((Handler) => {
+        const markup = ReactDOMServer.renderToString(<Handler />);
+
+        res.send(markup);
     });
     // end example
-  });
+});
