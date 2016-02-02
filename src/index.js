@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-import routes from './routes';
+import { Router, Route } from 'react-router';
+import RouteNotFound from './views/RouteNotFound';
+import publicRoutes from './routes/public.js';
+import adminRoutes from './routes/admin.js';
 import { createStore, combineReducers } from 'redux';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import mainReducer from './redux/reducers';
@@ -43,10 +45,18 @@ const container = document.getElementById('root');
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history} onUpdate={function() {
-            window.scrollTo(0, 0);
-        }}>
-            {routes}
+        <Router history={history}
+            onUpdate={function() {
+                window.scrollTo(0, 0);
+            }}
+        >
+            {publicRoutes}
+            {adminRoutes}
+            <Route
+                path="*"
+                component={RouteNotFound}
+                status={404}
+            />
         </Router>
     </Provider>
     , container

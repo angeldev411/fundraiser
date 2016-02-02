@@ -2,21 +2,20 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 
-import Container from './components/Container';
-import RouteNotFound from './views/RouteNotFound';
+import Container from '../components/Container';
 
 /* Urls */
-import * as Urls from './urls.js';
+import * as Urls from '../urls.js';
 
 /* Add new views here */
-import Home from './views/Home';
-import Founders from './views/Founders';
-import Story from './views/Story';
-import RaiserveBasics from './views/RaiserveBasics';
-import TeamProfile from './views/TeamProfile';
-import TeamSignup from './views/TeamSignup';
-import VolunteerProfile from './views/VolunteerProfile';
-import Legals from './views/Legals';
+import Home from '../views/Home';
+import Founders from '../views/Founders';
+import Story from '../views/Story';
+import RaiserveBasics from '../views/RaiserveBasics';
+import TeamProfile from '../views/TeamProfile';
+import TeamSignup from '../views/TeamSignup';
+import VolunteerProfile from '../views/VolunteerProfile';
+import Legals from '../views/Legals';
 
 export default (
     <Route
@@ -27,10 +26,6 @@ export default (
             component={Home}
         />
         /* Add new routes here */
-        <Route
-            path="home"
-            component={Home}
-        />
         <Route
             path={Urls.FOUNDERS}
             component={Founders}
@@ -59,10 +54,7 @@ export default (
             path={Urls.LEGALS}
             component={Legals}
         />
-        <Route
-            path="*"
-            component={RouteNotFound}
-            status={404}
-        />
     </Route>
+
+
 );

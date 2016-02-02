@@ -1,0 +1,19 @@
+@import '../../common/styles/variables.scss';
+
+.admin-layout {
+    padding-top: 70px;
+    background: $grey;
+
+    .admin-content {
+        background: $white;
+        padding: 50px 70px 0;
+        min-height: 500px;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .admin-layout {
+
+    }
+}
