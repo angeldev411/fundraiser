@@ -38,3 +38,12 @@ p {
         padding-top: 130px;
     }
 }
+
+
+button:active,
+button:focus,
+a:active,
+a:focus {
+    text-decoration: none;
+    outline: none;
+}
