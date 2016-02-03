@@ -108,7 +108,7 @@ export default class Cover extends Component {
                     </div>
                     <div className="team-tagline col-xs-12 col-md-9">
                         <h1 className={'uppercase'}>{"Welcome to the Team"}</h1>
-                        <p maxLength={10}>{this.props.tagline} {this.props.tagline} {this.props.tagline}</p>
+                        <p>{this.props.tagline}</p>
                     </div>
                 </div>
             );

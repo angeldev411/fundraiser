@@ -5,9 +5,13 @@
 
 .cover-signup {
     text-align: left;
-    padding: 75px 0;
+
+    .cover-container{
+        padding-bottom: 40px;
+    }
 
     .cover-content {
+        padding-top: 0;
 
         .logo {
             display: inline-block;
@@ -54,7 +58,6 @@
     .cover-signup {
 
         .cover-content {
-            height: 130px;
             overflow: hidden;
             text-overflow: ellipsis;
 
