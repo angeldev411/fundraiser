@@ -1,0 +1,25 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.team {
+    color: $grey;
+    line-height: 2.6em;
+    border-bottom: 1px solid $lighter-grey;
+
+    .label {
+        color: $lighter-grey;
+        font-family: $conduit-medium;
+        font-size: .75em;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .team {
+        .edit-links {
+            display: inline-block;
+        }
+    }
+}

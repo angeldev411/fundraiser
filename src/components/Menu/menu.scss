@@ -5,10 +5,10 @@
 
 header {
     nav {
-        ul.nav {
+        .nav {
             margin: 0;
 
-            > li {
+            & > li {
                 list-style: none;
                 color: $white;
                 font-size: 1.1em;
@@ -17,7 +17,7 @@ header {
                 padding-left: 20px;
                 float: none;
 
-                > a {
+                & > a {
                     color: $white;
                     font-size: 1.1em;
                     font-family: $conduit-light;
@@ -26,9 +26,11 @@ header {
                     text-transform: uppercase;
                     padding-left: 0;
 
-                    &:hover {
+                    &:hover,
+                    &:active,
+                    &:focus {
                         color: $green;
-                        background-color: transparent!important;
+                        background-color: transparent;
                     }
                 }
 

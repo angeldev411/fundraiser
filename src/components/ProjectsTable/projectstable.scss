@@ -1,0 +1,24 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+ul.projects {
+    padding: 0;
+
+    li {
+        list-style: none;
+
+        ul.teams {
+            background: #f7f7f7;
+            padding: 0;
+
+            li {
+
+                &:last-child {
+                    border-bottom: 0;
+                }
+            }
+        }
+    }
+}

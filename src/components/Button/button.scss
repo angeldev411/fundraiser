@@ -16,11 +16,12 @@
 
     &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &:active:focus {
         color: $white;
         background-color: $green;
         border: solid 1px $green;
-        outline: 0;
+        outline: none;
     }
 }
 
@@ -31,11 +32,12 @@
 
     &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &:active:focus {
         color: $green;
         background-color: transparent;
         border: solid 1px $green;
-        outline: 0;
+        outline: none;
     }
 }
 
@@ -47,10 +49,23 @@
 
     &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &:active:focus {
         color: $white;
         background-color: $green;
         border: solid 1px $green;
-        outline: 0;
+        outline: none;
+    }
+}
+
+.btn-link {
+    color: $green;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        color: $grey;
+        text-decoration: none;
     }
 }

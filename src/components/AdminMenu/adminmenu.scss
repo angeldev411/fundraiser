@@ -1,0 +1,60 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.admin-navigation {
+    background: $grey;
+    height: 100%;
+    padding-top: 50px;
+
+    ul {
+        margin-bottom: 50px;
+
+        li{
+            list-style: none;
+            text-align: left;
+
+            a {
+                text-transform: uppercase;
+                font-family: $conduit-light;
+                font-size: 1.45em;
+
+                &:hover{
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &.admin-nav {
+            li a {
+                color: $green;
+
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+
+        &.page-nav {
+            li a {
+                color: $lighter-grey;
+
+                &:hover {
+                    color: $green;
+                }
+            }
+        }
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .admin-navigation {
+        ul {
+            li{
+                text-align: right;
+            }
+        }
+    }
+}
