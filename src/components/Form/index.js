@@ -9,7 +9,9 @@ export default class Form extends Component {
             >
                 <h2>{this.props.title}</h2>
                 <p>{this.props.description}</p>
+                <form>
                     {this.props.children}
+                </form>
             </div>
         );
     }

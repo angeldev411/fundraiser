@@ -16,37 +16,35 @@ export default class AdminTeamForm extends Component {
                 title={this.props.title}
                 description={'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}
             >
-                <form>
-                    <div className="form-group">
-                        <input type="text"
-                            name="name"
-                            id="name"
-                        />
-                        <label htmlFor="name">{'Team Name'}</label>
-                    </div>
+                <div className="form-group">
+                    <input type="text"
+                        name="name"
+                        id="name"
+                    />
+                    <label htmlFor="name">{'Team Name'}</label>
+                </div>
 
-                    <div className="input-group">
-                        <span className="input-group-addon"
-                            id="slug-addon"
-                        >{`${domain}/${this.props.project.slug}/`}</span>
-                        <input type="text"
-                            name="slug"
-                            id="slug"
-                            aria-describedby="slug-addon"
-                        />
-                        <label htmlFor="slug">{'Public Url'}</label>
-                    </div>
+                <div className="input-group">
+                    <span className="input-group-addon"
+                        id="slug-addon"
+                    >{`${domain}/${this.props.project.slug}/`}</span>
+                    <input type="text"
+                        name="slug"
+                        id="slug"
+                        aria-describedby="slug-addon"
+                    />
+                    <label htmlFor="slug">{'Public Url'}</label>
+                </div>
 
-                    <div className="form-group">
-                        <input type="email"
-                            name="team-leader-email"
-                            id="team-leader-email"
-                        />
-                        <label htmlFor="team-leader-email">{'Team leader Email'}</label>
-                    </div>
+                <div className="form-group">
+                    <input type="email"
+                        name="team-leader-email"
+                        id="team-leader-email"
+                    />
+                    <label htmlFor="team-leader-email">{'Team leader Email'}</label>
+                </div>
 
-                    <Button type="btn-success">{'Create Team'}</Button>
-                </form>
+                <Button type="btn-success">{'Create Team'}</Button>
             </Form>
         );
     }
