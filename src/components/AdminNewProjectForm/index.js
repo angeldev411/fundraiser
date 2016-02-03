@@ -36,7 +36,7 @@ export default class AdminNewProjectForm extends Component {
                             name="project-admin-email"
                             id="project-admin-email"
                         />
-                        <label htmlFor="email">{'Project Admin Email'}</label>
+                        <label htmlFor="project-admin-email">{'Project Admin Email'}</label>
                     </div>
 
                     <Button type="btn-success">{'Create Project'}</Button>

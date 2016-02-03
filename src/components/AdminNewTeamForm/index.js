@@ -39,10 +39,10 @@ export default class AdminNewTeamForm extends Component {
 
                     <div className="form-group">
                         <input type="email"
-                            name="project-admin-email"
-                            id="project-admin-email"
+                            name="team-leader-email"
+                            id="team-leader-email"
                         />
-                        <label htmlFor="email">{'Project Admin Email'}</label>
+                        <label htmlFor="team-leader-email">{'Team leader Email'}</label>
                     </div>
 
                     <Button type="btn-success">{'Create Project'}</Button>
