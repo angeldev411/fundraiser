@@ -1,13 +1,13 @@
 /* @flow */
 import schema from 'validate';
 import stripelib from 'stripe';
-import s3 from 's3';
 import sha256 from 'js-sha256';
 import UUID from 'uuid';
+import util from '../helpers/util';
+import neo4jDB from 'neo4j-simple';
 import config from '../config';
-import util from './util';
 
-const db = require('neo4j-simple')(config.DB_URL);
+const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
 const userSchema = schema({
