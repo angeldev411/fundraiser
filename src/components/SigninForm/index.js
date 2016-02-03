@@ -4,12 +4,10 @@ import Button from '../../components/Button';
 export default class SigninForm extends Component {
     render() {
         return (
-            <div id="signin"
-                className="form-container col-xs-12 col-md-6 col-md-offset-3"
-            >
+            <div className="form-container col-xs-12 col-md-6 col-md-offset-3">
                 <h2>{'Sign In'}</h2>
                 <p>{'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}</p>
-                <form id="signin">
+                <form>
                     <div className="form-group">
                         <input type="email"
                             name="email"
@@ -32,7 +30,3 @@ export default class SigninForm extends Component {
         );
     }
 }
-
-SigninForm.propTypes = {
-
-};

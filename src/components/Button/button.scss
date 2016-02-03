@@ -67,5 +67,6 @@
     &:active:focus {
         color: $grey;
         text-decoration: none;
+        outline: none;
     }
 }

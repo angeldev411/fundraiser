@@ -7,6 +7,9 @@ import * as constants from '../../../common/constants';
 import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import ProjectsTable from '../../../components/ProjectsTable';
+import ModalButton from '../../../components/ModalButton';
+import AdminNewProjectForm from '../../../components/AdminNewProjectForm';
+
 
 
 const project = {
@@ -49,9 +52,11 @@ export default class SuperAdminProjects extends Component {
                 <AdminLayout>
                     <div className="content-header">
                         <h1 className="uppercase">{'Projects'}</h1>
-                        <a href="#"
-                            className="pull-right uppercase"
-                        >{'New project'}</a>
+                        <ModalButton type="btn-link pull-right uppercase"
+                            content={<AdminNewProjectForm/>}
+                        >
+                            {'New project'}
+                        </ModalButton>
                         <hr/>
                         <p>
                             {'Keep an eye on everyone on your team and watch their individual progress grow.'}

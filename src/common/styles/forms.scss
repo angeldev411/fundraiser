@@ -22,7 +22,6 @@
 
         input,
         label {
-            text-transform: uppercase;
             color: $white;
         }
 
@@ -43,9 +42,20 @@
             }
         }
 
+        .input-group-addon {
+            position: relative;
+            top: -12px;
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-family: $conduit-medium;
+            font-size: 1.9em;
+        }
+
         label {
             font-family: $conduit-light;
             font-size: 0.7em;
+            text-transform: uppercase;
         }
 
         button {
