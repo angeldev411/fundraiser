@@ -5,7 +5,7 @@ export default class SignupForm extends Component {
     render() {
         return (
             <div id="signup"
-                className="form-container col-xs-12 col-md-6 col-md-offset-3"
+                className="form-container col-xs-12 col-md-8 col-md-offset-2"
             >
                 <h2 className={'uppercase'}>{'Sign Up'}</h2>
                 <p>{'isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}</p>
