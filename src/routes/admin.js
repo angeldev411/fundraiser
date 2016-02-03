@@ -2,9 +2,6 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 
-import Container from '../components/Container';
-import RouteNotFound from '../views/RouteNotFound';
-
 /* Urls */
 import * as Urls from '../urls.js';
 
@@ -15,14 +12,14 @@ import SuperAdminProjects from '../views/Admin/SuperAdminProjects';
 
 export default (
     <Route
-        path="/admin"
+        path={Urls.ADMIN_BASE_URL}
     >
         <IndexRoute
             component={Home}
         />
         /* Add new routes here */
         <Route
-            path={'projects'}
+            path={Urls.ADMIN_PROJECTS}
             component={SuperAdminProjects}
         />
     </Route>

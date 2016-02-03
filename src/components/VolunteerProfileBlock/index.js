@@ -22,7 +22,7 @@ export default class VolunteerProfileBlock extends Component {
                             {this.props.volunteer.message}
                         </p>
                         <div className="share-row">
-                            <Link to={Urls.RAISERVEBASICS}
+                            <Link to={Urls.RAISERVE_BASICS}
                                 className="link uppercase"
                             >
                                 {'How It Works'}

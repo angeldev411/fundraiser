@@ -18,7 +18,7 @@ export default class Footer extends Component {
                             </span>
                             <ul>
                                 <li>
-                                    <Link to={Urls.RAISERVEBASICS}>
+                                    <Link to={Urls.RAISERVE_BASICS}>
                                         {'Raiserve Basics'}
                                     </Link>
                                 </li>
@@ -91,7 +91,7 @@ export default class Footer extends Component {
                                     <i className="fa fa-twitter"></i>
                                 </a>
                             </section>
-                            <Link to={Urls.HOME}
+                            <Link to={Urls.BASE_URL}
                                 className="tagline uppercase"
                             >
                                 <img src="/assets/images/raiserve_logo_white.png"

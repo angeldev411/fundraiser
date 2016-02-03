@@ -1,8 +1,8 @@
 import config from '../../server/config';
 
-export const DOMAIN = 'https://raiserve.org';
-export const TWITTER_USERNAME = 'raiserve';
+export const DOMAIN = config.DOMAIN;
 
+export const TWITTER_USERNAME = 'raiserve';
 export const CONTACT_EMAIL = 'contact@raiserve.org';
 
 export const TEAM_IMAGES_FOLDER = config.TEAM_IMAGES_FOLDER;

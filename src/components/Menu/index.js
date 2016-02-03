@@ -75,7 +75,7 @@ export default class Menu extends Component {
                             </li>
                             <li className="clearfix"></li>
                             <li>
-                                <Link to={Urls.RAISERVEBASICS}>
+                                <Link to={Urls.RAISERVE_BASICS}>
                                     {'Raiserve Basics'}
                                 </Link>
                             </li>
@@ -160,7 +160,7 @@ export default class Menu extends Component {
                 <nav>
                     <ul className={"nav navbar-nav"}>
                         <li>
-                            <Link to={Urls.RAISERVEBASICS}>
+                            <Link to={Urls.RAISERVE_BASICS}>
                                 {'Raiserve Basics'}
                             </Link>
                         </li>

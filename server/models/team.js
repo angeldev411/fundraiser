@@ -4,6 +4,7 @@ import mailer from '../helpers/mailer.js';
 import util from '../helpers/util.js';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
+import * as frontEndUrls from '../../src/urls.js';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -245,7 +246,7 @@ class team {
         const emailingOptions = {
             to: invitee.email,
             subject: 'Your invitation',
-            onboard_url: `${config.DOMAIN}${config.SIGNUP_URL}`.replace(
+            onboard_url: `${config.DOMAIN}${frontEndUrls.SIGNUP_URL}`.replace(
                 ':teamSlug', invitee.teamShortName
             ),
         };

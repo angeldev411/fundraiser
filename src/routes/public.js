@@ -19,7 +19,7 @@ import Legals from '../views/Legals';
 
 export default (
     <Route
-        path="/"
+        path={Urls.BASE_URL}
         component={Container}
     >
         <IndexRoute
@@ -35,19 +35,19 @@ export default (
             component={Story}
         />
         <Route
-            path={Urls.RAISERVEBASICS}
+            path={Urls.RAISERVE_BASICS}
             component={RaiserveBasics}
         />
         <Route
-            path={`${Urls.TEAMPROFILE}/:teamSlug`}
+            path={`${Urls.TEAM_PROFILE}`}
             component={TeamProfile}
         />
         <Route
-            path={`${Urls.TEAMPROFILE}/:teamSlug/signup`}
+            path={`${Urls.TEAM_SIGNUP}`}
             component={TeamSignup}
         />
         <Route
-            path={`${Urls.TEAMPROFILE}/:teamSlug/:volunteerSlug`}
+            path={`${Urls.VOLUNTEER_PROFILE}`}
             component={VolunteerProfile}
         />
         <Route
