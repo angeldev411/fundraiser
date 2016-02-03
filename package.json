@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "gulp develop",
-    "start-server": "node backend/app",
+    "front:start": "gulp develop",
+    "server:start": "node backend/app",
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "dependencies": {

@@ -1,12 +1,16 @@
-# Osedea ReactJS starter template
+# Raiserve
 
 To install
 
         npm install
 
-To start
+To start the front
 
-        npm start
+        npm run front:start
+
+To start the backend
+
+        npm run server:start
 
 
 ## Components vs Views
