@@ -33,7 +33,7 @@ const project = {
 
 export default class SuperAdminProjects extends Component {
     componentWillMount() {
-        document.title = 'Edits projects | Raiserve';
+        document.title = 'Edit projects | Raiserve';
     }
 
     render() {
