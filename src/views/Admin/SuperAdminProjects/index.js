@@ -8,11 +8,12 @@ import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import ProjectsTable from '../../../components/ProjectsTable';
 import ModalButton from '../../../components/ModalButton';
-import AdminNewProjectForm from '../../../components/AdminNewProjectForm';
+import AdminProjectForm from '../../../components/AdminProjectForm';
 
 const project = {
     name: 'Habitat For Humanity',
     slug: 'sample-project',
+    projectAdminEmail: 'jane.doe@gmail.com',
     teams: [
         {
             name: 'York Division',
@@ -50,7 +51,7 @@ export default class SuperAdminProjects extends Component {
                     <div className="content-header">
                         <h1 className="uppercase">{'Projects'}</h1>
                         <ModalButton type="btn-link pull-right uppercase"
-                            content={<AdminNewProjectForm/>}
+                            content={<AdminProjectForm title={"New Project"}/>}
                         >
                             {'New project'}
                         </ModalButton>

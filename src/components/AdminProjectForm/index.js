@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
+import Form from '../../components/Form';
 import * as Constants from '../../common/constants.js';
 
-export default class AdminNewProjectForm extends Component {
+export default class AdminProjectForm extends Component {
     render() {
         return (
-            <div id="new-project"
-                className="form-container col-xs-12 col-md-8 col-md-offset-2"
+            <Form id="project-form"
+                title={this.props.title}
+                description="Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
             >
-                <h2>{'Add New Project'}</h2>
-                <p>{'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}</p>
                 <form>
                     <div className="form-group">
                         <input type="text"
                             name="name"
                             id="name"
+                            value={this.props.project ? this.props.project.name : null}
                         />
                         <label htmlFor="name">{'Project Name'}</label>
                     </div>
@@ -27,6 +28,7 @@ export default class AdminNewProjectForm extends Component {
                             name="slug"
                             id="slug"
                             aria-describedby="slug-addon"
+                            value={this.props.project ? this.props.project.slug : null}
                         />
                         <label htmlFor="slug">{'Public Url'}</label>
                     </div>
@@ -35,13 +37,19 @@ export default class AdminNewProjectForm extends Component {
                         <input type="email"
                             name="project-admin-email"
                             id="project-admin-email"
+                            value={this.props.project ? this.props.project.projectAdminEmail : null}
                         />
                         <label htmlFor="project-admin-email">{'Project Admin Email'}</label>
                     </div>
 
                     <Button type="btn-success">{'Create Project'}</Button>
                 </form>
-            </div>
+            </Form>
         );
     }
 }
+
+AdminProjectForm.propTypes = {
+    title: React.PropTypes.string,
+    project: React.PropTypes.object,
+};
