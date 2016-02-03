@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
+import Form from '../../components/Form';
 import * as Constants from '../../common/constants.js';
 
-export default class AdminNewTeamForm extends Component {
+export default class AdminTeamForm extends Component {
     render() {
         let domain = Constants.DOMAIN;
 
@@ -11,11 +12,10 @@ export default class AdminNewTeamForm extends Component {
         }
 
         return (
-            <div id="new-team"
-                className="form-container col-xs-12 col-md-8 col-md-offset-2"
+            <Form id="team-form"
+                title={this.props.title}
+                description={'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}
             >
-                <h2>{'Add New Team'}</h2>
-                <p>{'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}</p>
                 <form>
                     <div className="form-group">
                         <input type="text"
@@ -47,11 +47,12 @@ export default class AdminNewTeamForm extends Component {
 
                     <Button type="btn-success">{'Create Team'}</Button>
                 </form>
-            </div>
+            </Form>
         );
     }
 }
 
-AdminNewTeamForm.propTypes = {
+AdminTeamForm.propTypes = {
     project: React.PropTypes.object,
+    title: React.PropTypes.string,
 };

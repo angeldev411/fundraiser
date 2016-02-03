@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as constants from '../../common/constants';
 import TeamLine from '../TeamLine';
 import AdminProjectForm from '../AdminProjectForm';
-import AdminNewTeamForm from '../AdminNewTeamForm';
+import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
 
 export default class ProjectLine extends Component {
@@ -25,7 +25,7 @@ export default class ProjectLine extends Component {
                     <span className="project-name uppercase">Project Name: </span> {this.props.project.name}
                     <ModalButton type="btn-link uppercase"
                         content={
-                            <AdminProjectForm title={"New Project"}
+                            <AdminProjectForm title={"Edit Project"}
                                 project={this.props.project}
                             />
                         }
@@ -33,7 +33,11 @@ export default class ProjectLine extends Component {
                         {'Edit Project'}
                     </ModalButton>
                     <ModalButton type="btn-link uppercase"
-                        content={<AdminNewTeamForm project={this.props.project} />}
+                        content={
+                            <AdminTeamForm title={"Add New Team"}
+                                project={this.props.project}
+                            />
+                        }
                     >
                         {'New Team'}
                     </ModalButton>

@@ -51,7 +51,7 @@ export default class SuperAdminProjects extends Component {
                     <div className="content-header">
                         <h1 className="uppercase">{'Projects'}</h1>
                         <ModalButton type="btn-link pull-right uppercase"
-                            content={<AdminProjectForm title={"New Project"}/>}
+                            content={<AdminProjectForm title={"Add New Project"}/>}
                         >
                             {'New project'}
                         </ModalButton>
