@@ -10,11 +10,9 @@ import ProjectsTable from '../../../components/ProjectsTable';
 import ModalButton from '../../../components/ModalButton';
 import AdminNewProjectForm from '../../../components/AdminNewProjectForm';
 
-
-
 const project = {
     name: 'Habitat For Humanity',
-    uniqid: 'sample-project',
+    slug: 'sample-project',
     teams: [
         {
             name: 'York Division',
@@ -32,7 +30,6 @@ const project = {
         },
     ],
 };
-
 
 export default class SuperAdminProjects extends Component {
     componentWillMount() {

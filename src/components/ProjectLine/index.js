@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as constants from '../../common/constants';
 import TeamLine from '../TeamLine';
+import AdminNewTeamForm from '../AdminNewTeamForm';
+import ModalButton from '../ModalButton';
 
 export default class ProjectLine extends Component {
     constructor(props) {
@@ -20,12 +22,16 @@ export default class ProjectLine extends Component {
             <li className="project clearfix">
                 <div className="project-details">
                     <span className="project-name uppercase">Project Name: </span> {this.props.project.name}
-                    <a href="#"
-                        className={'uppercase'}
-                    >{'Edit Project'}</a>
-                    <a href="#"
-                        className={'uppercase'}
-                    >{'New Team'}</a>
+                    <ModalButton type="btn-link uppercase"
+                        content={null}
+                    >
+                        {'Edit Project'}
+                    </ModalButton>
+                    <ModalButton type="btn-link uppercase"
+                        content={<AdminNewTeamForm project={this.props.project} />}
+                    >
+                        {'New Team'}
+                    </ModalButton>
                     <button
                         className={'expand btn-link pull-right'}
                         onClick={this.toggle}
