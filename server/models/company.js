@@ -1,65 +1,70 @@
 import schema from 'validate';
-import uuid from 'uuid';
-
+import UUID from 'uuid';
+import neo4jDB from 'neo4j-simple';
 import config from '../config';
-var db = require('neo4j-simple')(config.DB_URL)
 
-const company_schema = schema({
-  name: {},
-  short_name: {},
-  uuid: {},
+const db = neo4jDB(config.DB_URL);
+
+const companySchema = schema({
+    name: {},
+    short_name: {},
+    uuid: {},
 });
 
-
-
-
-class company {
-
-
-  static create(obj){
-    return company.validate(obj)
-                  .then(company.insertIntoDb);
-  }
-
-  static validate(obj){
-    const errs = company_schema.validate(obj);
-    return new Promise((resolve, reject) => {
-      if(errs.length === 0){
-        resolve(obj);
-      }else{
-        reject(errs);
-      }
-    });
-  }
-
-  static insertIntoDb(obj){
-    if(typeof(obj.uuid) == 'undefined'){
-      obj.uuid = uuid.v4();
+class Company {
+    static create(obj) {
+        return Company.validate(obj)
+        .then(Company.insertIntoDb);
     }
-    return db.query(`
-      MERGE (company:Company {short_name: {short_name}})
-      ON CREATE SET company.uuid = {uuid}
 
-      RETURN company
-      `, {}, obj)
-             .getResult('company');
-  }
+    static validate(obj) {
+        const errs = companySchema.validate(obj);
 
-  static assignSuperAdmin(obj){
-    console.log("assigning super admin from");
-    console.log(obj);
+        return new Promise((resolve, reject) => {
+            if (errs.length === 0) {
+                resolve(obj);
+            } else {
+                reject(errs);
+            }
+        });
+    }
 
-    return db.query(`
-      MATCH (company:Company {uuid: {company_uuid}})
-      MATCH (user:User) WHERE user.uuid = {user_uuid}
+    static insertIntoDb(obj) {
+        if (!obj.uuid) {
+            obj.uuid = UUID.v4();
+        }
 
-      CREATE (user)-[:SUPER_ADMIN]->(company)
+        return db.query(
+            `
+            MERGE (company:Company {short_name: {short_name}})
+            ON CREATE SET company.uuid = {uuid}
 
-      RETURN company
-      `, {}, obj)
-             .getResult('company');
-  }
+            RETURN company
+            `,
+            {},
+            obj
+        )
+        .getResult('company');
+    }
 
+    static assignCorporate(obj) {
+        console.log('assigning super admin from');
+        console.log(obj);
+
+        return db.query(
+            `
+            MATCH (company:Company {uuid: {company_uuid}})
+            MATCH (user:User) WHERE user.uuid = {user_uuid}
+
+            CREATE (user)-[:SUPER_ADMIN]->(company)
+
+            RETURN company
+            `,
+            {},
+            obj
+        )
+        .getResult('company');
+    }
 }
 
-module.exports = company;
+export default Company;

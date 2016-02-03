@@ -30,7 +30,7 @@ const userSchema = schema({
 });
 
 
-class user {
+class User {
     static validate(obj:{[email: string]: string }) {
         const errs = userSchema.validate(obj);
 
@@ -218,4 +218,4 @@ class user {
     }
 }
 
-export default user;
+export default User;

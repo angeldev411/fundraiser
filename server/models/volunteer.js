@@ -5,8 +5,8 @@ import config from '../config';
 
 const db = neo4jDB(config.DB_URL);
 
-import user from './user';
-import hours from './hours';
+import User from './user';
+import Hours from './hours';
 
 const volunteerSchema = schema({
     team_short_name: {
@@ -28,9 +28,7 @@ const volunteerSchema = schema({
     strip: false,
 });
 
-class volunteer extends user {
-    /* Primary Domain Operations */
-
+class Volunteer extends User {
     /* Validates input, creates a new volunteer record
     in the database.
     Expects a team_short_name */
@@ -39,10 +37,10 @@ class volunteer extends user {
             obj.password = UUID.v4();
         }
 
-        return user.assignUuid(obj)
-        .then(user.validate)
+        return User.assignUuid(obj)
+        .then(User.validate)
         .then(volunteer.validate)
-        .then(user.uploadHeadshotImage)
+        .then(User.uploadHeadshotImage)
         .then(volunteer.insertIntoDb)
         .catch((err) => {
             // handle error
@@ -51,9 +49,9 @@ class volunteer extends user {
 
     /* Logs hours to the db, uploads signature */
     static logHours(obj) {
-        return hours.validate(obj)
-        .then(hours.uploadSignature)
-        .then(hours.insertIntoDb)
+        return Hours.validate(obj)
+        .then(Hours.uploadSignature)
+        .then(Hours.insertIntoDb)
         .catch((err) => {
             // handle error
         });
@@ -141,4 +139,4 @@ class volunteer extends user {
 }
 
 
-module.exports = volunteer;
+export default Volunteer;

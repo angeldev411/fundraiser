@@ -1,5 +1,5 @@
 import schema from 'validate';
-import uuid from 'uuid';
+import UUID from 'uuid';
 import mailer from '../helpers/mailer.js';
 import util from '../helpers/util.js';
 import neo4jDB from 'neo4j-simple';
@@ -40,7 +40,7 @@ const teamSchema = schema({
     message: {},
 });
 
-class team {
+class Team {
     static validate(obj) {
         const errs = teamSchema.validate(obj);
 
@@ -109,6 +109,21 @@ class team {
         .getResults('img');
     }
 
+    static update(obj) {
+        console.log('update team');
+        console.log(obj);
+        return db.query(
+            `
+            MERGE (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {short_name: {short_name} })
+            ON MATCH SET pt.short_description = {short_description}, pt.long_description = {long_description}
+
+            RETURN team;
+            `,
+            {},
+            obj
+        )
+        .getResult('team');
+    }
     // static fetchAdminStats(teamShortName) {
     //  console.log('fas');
     //  return db.query(`
@@ -255,8 +270,8 @@ class team {
     }
 
     static generateVolunteerInvite(obj) {
-        obj.user_uuid = uuid.v4();
-        obj.invite_uuid = uuid.v4();
+        obj.user_uuid = UUID.v4();
+        obj.invite_uuid = UUID.v4();
 
         // TODO: Modify to just create an empty user with a volunteer arc
         // (maybe keep the UUID thing)
@@ -280,8 +295,8 @@ class team {
     }
 
     static generateLeaderInvite(obj) {
-        obj.new_user_uuid = uuid.v4();
-        obj.invite_uuid = uuid.v4();
+        obj.new_user_uuid = UUID.v4();
+        obj.invite_uuid = UUID.v4();
 
         // TODO: Modify to just create an empty user with a leader arc
         // (maybe keep the UUID thing)
@@ -305,4 +320,4 @@ class team {
     }
 }
 
-export default team;
+export default Team;

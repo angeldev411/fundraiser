@@ -39,9 +39,10 @@ const hoursSchema = schema({
     typecast: true,
 });
 
-class hours {
-    /* the volunteer logs the service */
-    /* fails if the user isn't a volunteer for the team */
+/**
+    Hours are a relation between a User (voluteer) and a Team
+*/
+class Hours {
     static insertIntoDb(obj) {
         if (!obj.uuid) {
             obj.uuid = UUID.v4();
@@ -50,17 +51,19 @@ class hours {
         console.log('hours log entry');
         console.log(obj);
 
-        return db.query(`
-            MATCH (volunteer:User {uuid: {userUUID} })-[:VOLUNTEER]->(team:Team)-[:FUNDRAISING_FOR]->(project:Project)
-            WHERE team.short_name = {team_short_name}
-
-            CREATE (service:ServiceLogEntry {hours: {hours}, uuid: {uuid}, place: {place}, date: {date}, supervisorName: {supervisorName}, signature_url: {signature_url} })
-            CREATE (volunteer)-[:LOGGED]->(service)
-            CREATE (service)-[:LOGGED_FOR_TEAM]->(team)
-            CREATE (service)-[:LOGGED_FOR_PROJECT]->(project)
-
-            RETURN service`
-            , {}, obj
+        return db.query(
+            // TODO: Remove, switch for link
+            // `
+            // MATCH (volunteer:User {uuid: {userUUID} })-[:VOLUNTEER]->(team:Team)-[:FUNDRAISING_FOR]->(project:Project)
+            // WHERE team.short_name = {team_short_name}
+            //
+            // CREATE (service:ServiceLogEntry {hours: {hours}, uuid: {uuid}, place: {place}, date: {date}, supervisorName: {supervisorName}, signature_url: {signature_url} })
+            // CREATE (volunteer)-[:LOGGED]->(service)
+            // CREATE (service)-[:LOGGED_FOR_TEAM]->(team)
+            // CREATE (service)-[:LOGGED_FOR_PROJECT]->(project)
+            //
+            // RETURN service`
+            // , {}, obj
         )
         .getResults('service')
         .then((results) => {
@@ -110,4 +113,4 @@ class hours {
     }
 }
 
-export default hours;
+export default Hours;

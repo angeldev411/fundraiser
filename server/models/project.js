@@ -27,7 +27,7 @@ const projectSchema = schema({
     },
 });
 
-class project {
+class Project {
     static validate(obj) {
         const errs = projectSchema.validate(obj);
 
@@ -163,4 +163,4 @@ class project {
 }
 
 
-export default project;
+export default Project;
