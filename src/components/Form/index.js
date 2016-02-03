@@ -5,7 +5,7 @@ export default class Form extends Component {
     render() {
         return (
             <div id={this.props.id}
-                className="form-container col-xs-12 col-md-8 col-md-offset-2"
+                className={`form-container ${this.props.cols}`}
             >
                 <h2>{this.props.title}</h2>
                 <p>{this.props.description}</p>
@@ -19,6 +19,7 @@ export default class Form extends Component {
 
 Form.propTypes = {
     id: React.PropTypes.string,
+    cols: React.PropTypes.string,
     title: React.PropTypes.string,
     description: React.PropTypes.string,
 };

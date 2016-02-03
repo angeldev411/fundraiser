@@ -6,6 +6,7 @@ export default class SigninForm extends Component {
     render() {
         return (
             <Form title={'Sign In'}
+                cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 description="Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
             >
                 <div className="form-group">

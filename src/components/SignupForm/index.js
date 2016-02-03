@@ -6,6 +6,7 @@ export default class SignupForm extends Component {
     render() {
         return (
             <Form id="signup"
+                cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={'Sign Up'}
                 description="Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
             >
