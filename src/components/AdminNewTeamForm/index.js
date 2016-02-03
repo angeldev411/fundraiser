@@ -45,7 +45,7 @@ export default class AdminNewTeamForm extends Component {
                         <label htmlFor="team-leader-email">{'Team leader Email'}</label>
                     </div>
 
-                    <Button type="btn-success">{'Create Project'}</Button>
+                    <Button type="btn-success">{'Create Team'}</Button>
                 </form>
             </div>
         );
