@@ -43,7 +43,9 @@ const container = document.getElementById('root');
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
+        <Router history={history} onUpdate={function() {
+            window.scrollTo(0, 0);
+        }}>
             {routes}
         </Router>
     </Provider>
