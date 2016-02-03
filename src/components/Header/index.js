@@ -10,7 +10,7 @@ export default class Header extends Component {
         return (
             <header>
                 <div className="container">
-                    <Link to={Urls.HOME}>
+                    <Link to={Urls.BASE_URL}>
                         <img src="/assets/images/raiserve_logo.png"
                             id="logo"
                             title=""

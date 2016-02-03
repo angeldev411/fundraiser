@@ -4,3 +4,4 @@ extends:
   - osedea/react
 rules:
   react/no-set-state: 0
+  no-param-reassign: 0
