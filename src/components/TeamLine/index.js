@@ -10,15 +10,17 @@ export default class TeamLine extends Component {
                 <span className="label uppercase">Raised: </span> ${this.props.team.raised}
                 <span className="label uppercase">Average Pledge: </span> ${this.props.team.pledge}
                 <span className="label uppercase">$ / HR: </span> ${this.props.team.pledgePerHour} / hr
-                <a href="#"
-                    className={'uppercase'}
-                >{'Edit'}</a>
-                <a href="#"
-                    className={'uppercase'}
-                >{'Remove'}</a>
-                <a href="#"
-                    className={'uppercase'}
-                >{'Invite Leader'}</a>
+                <div className="edit-links">
+                    <a href="#"
+                        className={'uppercase'}
+                    >{'Edit'}</a>
+                    <a href="#"
+                        className={'uppercase'}
+                    >{'Remove'}</a>
+                    <a href="#"
+                        className={'uppercase'}
+                    >{'Invite Leader'}</a>
+                </div>
             </li>
         );
     }

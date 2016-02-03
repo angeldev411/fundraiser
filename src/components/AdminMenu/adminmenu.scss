@@ -6,7 +6,6 @@
 .admin-navigation {
     background: $grey;
     height: 100%;
-    min-height: 500px;
     padding-top: 50px;
 
     ul {
@@ -14,7 +13,7 @@
 
         li{
             list-style: none;
-            text-align: right;
+            text-align: left;
 
             a {
                 text-transform: uppercase;
@@ -51,5 +50,11 @@
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min) {
-
+    .admin-navigation {
+        ul {
+            li{
+                text-align: right;
+            }
+        }
+    }
 }
