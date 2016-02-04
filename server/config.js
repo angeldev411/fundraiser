@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const config = {
     DB_URL: (process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/'),
@@ -12,12 +12,17 @@ const config = {
             ephemeral: false,
         },
     },
+    S3_BASE_URL: '//s3.amazonaws.com/raiserve/',
+    S3_ACCESS: {
+        accessKeyId: 'AKIAJWMS4PAKZZ2LTEOA',
+        secretAccessKey: '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',
+        region: 'us-east-1',
+    },
     STRIPE_TOKEN: 'sk_test_WNYEwSIelo8oPutqjz22lzqQ',
     USER_IMAGES_FOLDER: '/assets/images/users',
     TEAM_IMAGES_FOLDER: '/assets/images/team',
-    S3_BASE_URL: '//s3.amazonaws.com/raiserve/',
     MANDRILL_API_KEY: 'vojeuQGTtCu70meDb7C8ww',
     DOMAIN: process.env.HOSTNAME || 'https://raiserve.org',
 };
 
-export default config;
+module.exports = config;

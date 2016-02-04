@@ -1,7 +1,8 @@
-import schema from 'validate';
-import UUID from 'uuid';
-import neo4jDB from 'neo4j-simple';
-import config from '../config';
+'use strict';
+const schema = require('validate');
+const UUID = require('uuid');
+const neo4jDB = require('neo4j-simple');
+const config = require('../config');
 
 const db = neo4jDB(config.DB_URL);
 
@@ -67,4 +68,4 @@ class Company {
     }
 }
 
-export default Company;
+module.exports = Company;

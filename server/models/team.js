@@ -1,10 +1,11 @@
-import schema from 'validate';
-import UUID from 'uuid';
-import mailer from '../helpers/mailer.js';
-import util from '../helpers/util.js';
-import neo4jDB from 'neo4j-simple';
-import config from '../config';
-import * as frontEndUrls from '../../src/urls.js';
+'use strict';
+const schema = require('validate');
+const UUID = require('uuid');
+const mailer = require('../helpers/mailer.js');
+const util = require('../helpers/util.js');
+const neo4jDB = require('neo4j-simple');
+const config = require('../config');
+const * as frontEndUrls = require('../../src/urls.js');
 
 const db = neo4jDB(config.DB_URL);
 
@@ -320,4 +321,4 @@ class Team {
     }
 }
 
-export default Team;
+module.exports = Team;

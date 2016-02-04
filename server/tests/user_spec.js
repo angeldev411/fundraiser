@@ -1,6 +1,5 @@
-/* @flow */
-
-import user from '../models/user.js';
+'use strict';
+const user = require('../models/user.js');
 
 
 var matt = {

@@ -1,11 +1,11 @@
-/* @flow */
-import schema from 'validate';
-import s3 from 's3';
-import AWS from 'aws-sdk';
-import crypto from 'crypto';
-import sha256 from 'js-sha256';
+'use strict';
+// const s3 = require('s3');
+const AWS = require('aws-sdk');
+const crypto = require('crypto');
+const sha256 = require('js-sha256');
+const config = require('../config');
 
-AWS.config.loadFromPath('./s3_config.json');
+AWS.config.update(config.S3_ACCESS);
 
 class util {
     static cacheResponse(obj) {
@@ -19,33 +19,11 @@ class util {
         // return it if not expired
     }
 
-    // we have some methods that return a standard structure
-    // could also include custom error codes
-    static rsSuccess(obj, friendlyMessage = null) {
-        return {
-            status: 'rssuccess',
-            friendlyMessage,
-            payload: obj,
-        };
+    static hashPassword(password) {
+        return sha256(password);
     }
 
-    static rsFailure(obj, friendlyMessage = null) {
-        if (typeof (obj) !== 'object') {
-            obj = [obj];
-        }
-
-        return {
-            status: 'rsfailure',
-            friendlyMessage,
-            payload: obj,
-        };
-    }
-
-    static hashPassword(password: string) : string {
-        return password;
-    }
-
-    static parseJSON(str:string) {
+    static parseJSON(str) {
         return new Promise((resolve, reject) => {
             if (str === null) {
                 reject('Expects a JSON string, got null');
@@ -66,11 +44,11 @@ class util {
     l320bZjCPETiFEG7ocn6/UkxVNgxDn00h4/gsSZ7
     */
     static uploadToS3(
-        filedata: string,
-        bucket: string,
-        key: string,
-        fileParams: {contentType: string},
-        cb: func
+        filedata,
+        bucket,
+        key,
+        fileParams,
+        cbc
     ) {
         // AWS.config.logger = process.stdout;
         const s3Bucket = new AWS.S3({ params: { Bucket: bucket } });
@@ -93,7 +71,7 @@ class util {
         });
     }
 
-    static detectContentType(url: string) {
+    static detectContentType(url) {
         try {
             return url.split(';')[0].split(':')[1];
         } catch (e) {
@@ -143,4 +121,4 @@ class util {
     }
 }
 
-export default util;
+module.exports = util;

@@ -1,5 +1,6 @@
-import mandrill from 'mandrill-api';
-import config from '../config';
+'use strict';
+const mandrill = require('mandrill-api');
+const config = require('../config');
 
 const mandrillClient = new mandrill.Mandrill(config.MANDRILL_API_KEY);
 

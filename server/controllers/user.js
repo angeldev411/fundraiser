@@ -1,21 +1,31 @@
-import User from '../models/user';
+'use strict';
+const User = require('../models/user');
 
-function checkCredentials(creds) {
-    // TODO: swap password with hashed password
-    return User.findByEmail()
-    .then((result) => {
-        if (result.length > 0) {
-            return Promise.resolve(result[0].uuid);
-        } else {
-            return Promise.reject('invalid username or password');
-        }
-    });
-}
+class userController {
+    static checkCredentials(credentials) {
+        return User.findByEmail(credentials.email)
+        .then((result) => {
+            if (result.password === credentials.password) {
+                return Promise.resolve(result);
+            } else {
+                return Promise.reject('invalid username or password');
+            }
+        });
+    }
 
-// Corporate?
-function createProject(obj) {
-    return Project.validate(obj)
-    .then(Project.validateUniqueName)
-    .then(Project.uploadSplashImage)
-    .then(Corporate.insertProjectIntoDb);
+    static safe(user) {
+        return {
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+        };
+    }
+
+    // Corporate?
+    static createProject(obj) {
+        return Project.validate(obj)
+        .then(Project.validateUniqueName)
+        .then(Project.uploadSplashImage)
+        .then(Corporate.insertProjectIntoDb);
+    }
 }

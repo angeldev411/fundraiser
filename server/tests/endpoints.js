@@ -1,6 +1,6 @@
-"use strong"
-import request from 'supertest';
-import assert from 'assert';
+'use strict';
+const request = require('supertest');
+const assert = require('assert');
 
 var app = require("../../app/routes.js");
 

@@ -1,4 +1,5 @@
-import neo4j from 'neo4j';
+'use strict';
+const neo4j = require('neo4j');
 const db = new neo4j.GraphDatabase('http://localhost:7474');
 
 

@@ -1,12 +1,14 @@
-"use strict";
-import express from 'express';
-// import session from 'express-session';
-import session from 'client-sessions';
-import bodyParser from 'body-parser';
-// import multer from 'multer';
+'use strict';
+const express = require('express');
+// const session = require('express-session');
+const session = require('client-sessions');
+const bodyParser = require('body-parser');
+// const multer = require('multer');
 
-import config from './config';
-import routes from './routes';
+const config = require('./config');
+
+// Routes
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -15,7 +17,10 @@ app.use(express.static('public'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.use(routes); // TODO: Pretty sure it doesn't work like that
+app.get('/', (req, res) => {
+    res.status(200).send('Welcome to Raiserve!');
+});
+app.use(authRoutes);
 
 // app.use(session({
 //  secret: 'fuze23232323t',
@@ -28,4 +33,6 @@ app.use(session(config.SESSION_CONFIG));
 
 app.listen(config.EXPRESS_PORT);
 
-export default app;
+console.log(`It's on! Go to http://localhost:${config.EXPRESS_PORT}`)
+
+module.exports = app;

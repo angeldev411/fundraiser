@@ -1,4 +1,5 @@
-import team from '../models/team.js';
+'use strict';
+const team = require('../models/team.js');
 
 
 // test team stuff

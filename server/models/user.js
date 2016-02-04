@@ -1,11 +1,11 @@
-/* @flow */
-import schema from 'validate';
-import stripelib from 'stripe';
-import sha256 from 'js-sha256';
-import UUID from 'uuid';
-import util from '../helpers/util';
-import neo4jDB from 'neo4j-simple';
-import config from '../config';
+'use strict';
+const schema = require('validate');
+const stripelib = require('stripe');
+const sha256 = require('js-sha256');
+const UUID = require('uuid');
+const util = require('../helpers/util');
+const neo4jDB = require('neo4j-simple');
+const config = require('../config');
 
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -31,7 +31,7 @@ const userSchema = schema({
 
 
 class User {
-    static validate(obj:{[email: string]: string }) {
+    static validate(obj) {
         const errs = userSchema.validate(obj);
 
         return new Promise((resolve, reject) => {
@@ -218,4 +218,4 @@ class User {
     }
 }
 
-export default User;
+module.exports = User;

@@ -1,9 +1,7 @@
-import volunteer from '../models/volunteer.js';
-import user from '../models/user.js';
-import team from '../models/team.js';
-
-
-
+'use strict';
+const volunteer = require('../models/volunteer.js');
+const user = require('../models/user.js');
+const team = require('../models/team.js');
 
 let vol = {email: "wilson@asdfadfasdf.org", first_name: "wilson",
           last_name: "hubertson",

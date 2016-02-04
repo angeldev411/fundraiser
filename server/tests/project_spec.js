@@ -1,4 +1,5 @@
-import project from '../models/project.js';
+'use strict';
+const project = require('../models/project.js');
 
 
 // create project, etc. then test it.

@@ -1,10 +1,11 @@
-import schema from 'validate';
-import neo4jDB from 'neo4j-simple';
-import config from '../config';
+'use strict';
+const schema = require('validate');
+const neo4jDB = require('neo4j-simple');
+const config = require('../config');
 
 const db = neo4jDB(config.DB_URL);
 
-import Team from './team';
+const Team = require('./team');
 
 // TODO: corporate_schema ?
 
@@ -50,4 +51,4 @@ class Corporate {
     }
 }
 
-export default Corporate;
+module.exports = Corporate;
