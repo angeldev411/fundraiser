@@ -6,19 +6,39 @@
 ul.projects {
     padding: 0;
 
-    li {
-        list-style: none;
+    .project-details {
+        border-bottom: 1px solid $lighter-grey;
 
-        ul.teams {
-            background: #f7f7f7;
-            padding: 0;
+        .project-name {
+            color: $lighter-grey;
+            font-family: $conduit-medium;
 
-            li {
-
-                &:last-child {
-                    border-bottom: 0;
-                }
-            }
         }
+    }
+
+    li.children-line {
+        .label {
+            color: $lighter-grey;
+            font-family: $conduit-medium;
+            font-size: .75em;
+        }
+    }
+
+    a,
+    .btn-link {
+        color: $green;
+        font-family: $conduit-bold;
+        font-size: 1em;
+        margin-left: 10px;
+
+        &:hover {
+            text-decoration: none;
+            color: $grey;
+        }
+    }
+
+    .expand{
+        font-size: 2em;
+        font-weight: bold;
     }
 }
