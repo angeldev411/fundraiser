@@ -16,3 +16,23 @@ export const VOLUNTEER_PROFILE = `${TEAM_PROFILE}/:volunteerSlug`;
 export const ADMIN_BASE_URL = '/admin';
 export const ADMIN_PROJECTS = 'projects';
 export const ADMIN_VOLUNTEERS = 'volunteers';
+
+export const getTeamProfileUrl = (projectslug, teamSlug) => {
+    return `/${projectslug}/${teamSlug}`;
+};
+
+export const getTeamSignupUrl = (projectslug, teamSlug) => {
+    return `/${projectslug}/${teamSlug}/join`;
+};
+
+export const getVolunteerProfileUrl = (projectslug, teamSlug, volunteerSlug) => {
+    return `/${projectslug}/${teamSlug}/${volunteerSlug}`;
+};
+
+export const getAdminProjectsUrl = () => {
+    return `/${ADMIN_BASE_URL}/${ADMIN_PROJECTS}`;
+};
+
+export const getAdminVolunteersUrl = () => {
+    return `/${ADMIN_BASE_URL}/${ADMIN_VOLUNTEERS}`;
+};
