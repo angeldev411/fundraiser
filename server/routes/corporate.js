@@ -1,3 +1,4 @@
+'use strict';
 router.get("/api/v1/corporate/projects.json", function(req, res){
 
     project.findAll()

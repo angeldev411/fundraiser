@@ -1,3 +1,4 @@
+'use strict';
 
 router.get("/api/v1/teams", function(req, res){
     team.findPopular(req.params.short_name)

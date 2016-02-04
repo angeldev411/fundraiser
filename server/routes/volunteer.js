@@ -1,3 +1,4 @@
+'use strict';
 
 router.get("/api/v1/volunteers/:uuid.json", function(req, res){
     volunteer.fetchByUuid(req.params.uuid)

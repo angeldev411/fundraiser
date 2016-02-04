@@ -1,3 +1,4 @@
+'use strict';
 const mailer = require('../models/mailer.js');
 
 

@@ -1,3 +1,4 @@
+'use strict';
 const Datauri = require('datauri');
 
 class fixtures{

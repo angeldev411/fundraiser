@@ -1,3 +1,4 @@
+'use strict';
 const schema = require('validate');
 const neo4jDB = require('neo4j-simple');
 const config = require('../config');

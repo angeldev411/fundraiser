@@ -1,3 +1,4 @@
+'use strict';
 /* Security rules for paths */
 
 app.all('*', loadUser);

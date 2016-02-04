@@ -1,3 +1,4 @@
+'use strict';
 const schema = require('validate');
 const UUID = require('uuid');
 const mailer = require('../helpers/mailer.js');

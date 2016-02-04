@@ -1,3 +1,4 @@
+'use strict';
 router.get("/api/v1/leader/teams", function(req, res){
     leader.fetchTeams(req.session.user_uuid)
     .then(function(result){

@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 const schema = require('validate');
 const stripelib = require('stripe');
 const sha256 = require('js-sha256');
@@ -31,7 +31,7 @@ const userSchema = schema({
 
 
 class User {
-    static validate(obj:{[email: string]: string }) {
+    static validate(obj) {
         const errs = userSchema.validate(obj);
 
         return new Promise((resolve, reject) => {

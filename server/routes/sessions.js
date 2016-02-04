@@ -1,3 +1,4 @@
+'use strict';
 router.get("/api/v1/session", (req, res) => {
     res.send(JSON.stringify(req.session));
 });

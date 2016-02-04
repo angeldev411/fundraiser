@@ -1,6 +1,5 @@
+'use strict';
 const util = require('../models/util.js');
-
-
 
 function testS3Uploads(){
     var src = "/Users/mmmurf/rs2/public/images/logo.jpg";

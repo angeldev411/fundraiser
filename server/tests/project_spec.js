@@ -1,3 +1,4 @@
+'use strict';
 const project = require('../models/project.js');
 
 

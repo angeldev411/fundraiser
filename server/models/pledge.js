@@ -1,3 +1,4 @@
+'use strict';
 const schema = require('validate');
 const stripelib = require('stripe');
 const UUID = require('uuid');

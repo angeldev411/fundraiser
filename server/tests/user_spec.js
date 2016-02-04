@@ -1,5 +1,4 @@
-/* @flow */
-
+'use strict';
 const user = require('../models/user.js');
 
 

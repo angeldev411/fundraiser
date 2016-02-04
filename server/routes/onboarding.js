@@ -1,3 +1,4 @@
+'use strict';
 // not sure if necessary
 router.get("/api/v1/onboard/:code.json", function(req, res){
     res.send("OK");

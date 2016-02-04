@@ -1,3 +1,4 @@
+'use strict';
 // Pledge
 router.post('/api/v1/pledge', function(req, res){
     console.log("got pledge");

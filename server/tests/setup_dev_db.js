@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 const readline = require('readline');
 
 const config = require('../config');

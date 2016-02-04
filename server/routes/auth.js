@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const util = require('../helpers/util');
 const messages = require('../messages');

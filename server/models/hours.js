@@ -1,3 +1,4 @@
+'use strict';
 const schema = require('validate');
 const UUID = require('uuid');
 const neo4jDB = require('neo4j-simple');

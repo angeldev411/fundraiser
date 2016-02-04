@@ -1,3 +1,4 @@
+'use strict';
 // TODO : this is an example
 
 app.get('/appis', (req, res) => {

@@ -1,3 +1,4 @@
+'use strict';
 const team = require('../models/team.js');
 
 

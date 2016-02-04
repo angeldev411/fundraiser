@@ -1,3 +1,4 @@
+'use strict';
 const User = require('../models/user');
 
 class userController {
@@ -12,7 +13,13 @@ class userController {
         });
     }
 
-    static safe = ({ email, first_name, last_name }) => ({ email, first_name, last_name });
+    static safe(user) {
+        return {
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+        };
+    }
 
     // Corporate?
     static createProject(obj) {

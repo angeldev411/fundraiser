@@ -1,3 +1,4 @@
+'use strict';
 var db = require('neo4j-simple')("http://neo4j:neo5j@localhost:7474");
 
 
