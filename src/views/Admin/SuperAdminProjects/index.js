@@ -9,27 +9,9 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminProjectForm from '../../../components/AdminProjectForm';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
-const project = {
-    name: 'Habitat For Humanity',
-    slug: 'sample-project',
-    projectAdminEmail: 'jane.doe@gmail.com',
-    teams: [
-        {
-            name: 'York Division',
-            slug: 'york-division',
-            raised : 2500,
-            pledge: 150,
-            pledgePerHour : 5,
-        },
-        {
-            name: 'York Division',
-            slug: 'york-division',
-            raised : 2500,
-            pledge: 150,
-            pledgePerHour : 5,
-        },
-    ],
-};
+// TODO dynamic data
+import * as data from '../../../common/test-data';
+const projects = data.projects;
 
 export default class SuperAdminProjects extends Component {
     componentWillMount() {
@@ -44,13 +26,6 @@ export default class SuperAdminProjects extends Component {
                 content: <AdminProjectForm title={"Add New Project"}/>,
             },
         ];
-
-        const projects = [];
-
-        // Create array of projects
-        for (let i = 0; i < 20; i++) {
-            projects.push(project);
-        }
 
         return (
             <Page>
