@@ -3,7 +3,7 @@ import * as constants from '../../common/constants';
 import ProjectLine from '../ProjectLine';
 
 
-export default class ProjectsTable extends Component {
+export default class AdminProjectsTable extends Component {
     render() {
         return (
             <div className="projects-table">
@@ -19,6 +19,6 @@ export default class ProjectsTable extends Component {
     }
 }
 
-ProjectsTable.propTypes = {
+AdminProjectsTable.propTypes = {
     projects: React.PropTypes.array,
 };
