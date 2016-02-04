@@ -37,6 +37,14 @@ export default class SuperAdminProjects extends Component {
     }
 
     render() {
+        const pageNav = [
+            {
+                type: 'button',
+                title: 'Add New Project',
+                content: <AdminProjectForm title={"Add New Project"}/>,
+            },
+        ];
+
         const projects = [];
 
         // Create array of projects
@@ -46,7 +54,7 @@ export default class SuperAdminProjects extends Component {
 
         return (
             <Page>
-                <AdminLayout>
+                <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader title={'Projects'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                         buttons={

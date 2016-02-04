@@ -15,7 +15,8 @@
             list-style: none;
             text-align: left;
 
-            a {
+            & > a,
+            & > button {
                 text-transform: uppercase;
                 font-family: $conduit-light;
                 font-size: 1.45em;
@@ -27,7 +28,7 @@
         }
 
         &.admin-nav {
-            li a {
+            li > a {
                 color: $green;
 
                 &:hover {
@@ -37,7 +38,8 @@
         }
 
         &.page-nav {
-            li a {
+            li > a,
+            li > button {
                 color: $lighter-grey;
 
                 &:hover {

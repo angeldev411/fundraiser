@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 /* Then React components */
 import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
+import AdminProjectForm from '../../../components/AdminProjectForm';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
