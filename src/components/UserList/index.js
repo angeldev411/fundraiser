@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import * as constants from '../../common/constants';
+import * as Urls from '../../urls.js';
+import { Link } from 'react-router';
 
 const SCROLL_INCREMENT = 150;
 let node = null;
@@ -87,20 +89,22 @@ export default class UserList extends Component {
                 </div>
 
                 <ul id={'scrollable-user-list'}>
-                    {this.props.users.map((user, i) =>
+                    {this.props.team.volunteers.map((user, i) =>
                         (<li
                             className="user"
                             key={i}
                          >
-                            <div className="user-face"
-                                style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
-                            >
-                                <div className="user-hours">
-                                    <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
+                            <Link to={Urls.getVolunteerProfileUrl(user.project.slug, user.team.slug, user.slug)}>
+                                <div className="user-face"
+                                    style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
+                                >
+                                    <div className="user-hours">
+                                        <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="user-name">{user.name}</div>
-                            <a href="#">{'Sponsor Me'}</a>
+                                <div className="user-name">{user.name}</div>
+                                 <span className="user-sponsor">{'Sponsor Me'}</span>
+                            </Link>
                         </li>)
                     )}
                 </ul>
@@ -121,6 +125,6 @@ export default class UserList extends Component {
 }
 
 UserList.propTypes = {
-    users: React.PropTypes.array,
+    team: React.PropTypes.object,
     onClick: React.PropTypes.func,
 };
