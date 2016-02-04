@@ -17,7 +17,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.use(routes); // TODO: Pretty sure it doesn't work like that
+app.use(authRoutes);
 
 // app.use(session({
 //  secret: 'fuze23232323t',

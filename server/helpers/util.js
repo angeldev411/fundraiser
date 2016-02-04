@@ -40,8 +40,8 @@ class util {
         };
     }
 
-    static hashPassword(password: string) : string {
-        return password;
+    static hashPassword(password) {
+        return sha256(password);
     }
 
     static parseJSON(str:string) {
