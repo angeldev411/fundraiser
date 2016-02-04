@@ -5,6 +5,8 @@ export const project = {
     teams: [],
 };
 
+export const projects = []
+
 export const team = {
     name: 'York Division',
     uniqid : 'samples',
@@ -36,14 +38,26 @@ export const volunteer = {
     team: { null },
 };
 
+export const volunteers = []
+
 // Create array of volunteers in team
 for (let i=0; i < 10; i++) {
     team.volunteers.push(volunteer);
 }
 
+// Create array of volunteers
+for (let i=0; i < 10; i++) {
+    volunteers.push(volunteer);
+}
+
 // Create array of teams in project
 for (let i=0; i < 3; i++) {
     project.teams.push(team);
+}
+
+// Create array of projects
+for (let i=0; i < 10; i++) {
+    projects.push(project);
 }
 
 // Add team to volunteer

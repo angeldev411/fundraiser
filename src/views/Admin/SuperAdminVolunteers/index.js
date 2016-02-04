@@ -10,12 +10,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
-const volunteers = [];
-
-// Create array of volunteers
-for (let i = 0; i < 20; i++) {
-    volunteers.push(data.volunteer);
-}
+const volunteers = data.volunteers;
 
 export default class SuperAdminVolunteers extends Component {
     componentWillMount() {

@@ -11,12 +11,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
-const projects = [];
-
-// Create array of projects
-for (let i = 0; i < 20; i++) {
-    projects.push(data.project);
-}
+const projects = data.projects;
 
 export default class SuperAdminProjects extends Component {
     componentWillMount() {
