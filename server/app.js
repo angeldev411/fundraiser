@@ -1,12 +1,14 @@
 "use strict";
-import express from 'express';
-// import session from 'express-session';
-import session from 'client-sessions';
-import bodyParser from 'body-parser';
-// import multer from 'multer';
+const express = require('express');
+// const session = require('express-session');
+const session = require('client-sessions');
+const bodyParser = require('body-parser');
+// const multer = require('multer');
 
-import config from './config';
-import routes from './routes';
+const config = require('./config');
+
+// Routes
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -28,4 +30,4 @@ app.use(session(config.SESSION_CONFIG));
 
 app.listen(config.EXPRESS_PORT);
 
-export default app;
+module.exports = app;

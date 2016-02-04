@@ -1,4 +1,4 @@
-import mailer from '../models/mailer.js';
+const mailer = require('../models/mailer.js');
 
 
 //mailer.sendInvitation();

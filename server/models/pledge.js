@@ -1,8 +1,8 @@
-import schema from 'validate';
-import stripelib from 'stripe';
-import UUID from 'uuid';
-import neo4jDB from 'neo4j-simple';
-import config from '../config';
+const schema = require('validate');
+const stripelib = require('stripe');
+const UUID = require('uuid');
+const neo4jDB = require('neo4j-simple');
+const config = require('../config');
 
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -98,4 +98,4 @@ class Pledge {
     }
 }
 
-export default Pledge;
+module.exports = Pledge;

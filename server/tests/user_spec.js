@@ -1,6 +1,6 @@
 /* @flow */
 
-import user from '../models/user.js';
+const user = require('../models/user.js');
 
 
 var matt = {

@@ -1,4 +1,4 @@
-import donation from '../models/donation.js';
+const donation = require('../models/donation.js');
 
 console.log(JSON.stringify(donation));
 

@@ -1,11 +1,10 @@
-/* @flow */
-import schema from 'validate';
-import s3 from 's3';
-import AWS from 'aws-sdk';
-import crypto from 'crypto';
-import sha256 from 'js-sha256';
+const s3 = require('s3');
+const AWS = require('aws-sdk');
+const crypto = require('crypto');
+const sha256 = require('js-sha256');
+const config = require('../config');
 
-AWS.config.loadFromPath('./s3_config.json');
+AWS.config.update(config.S3_ACCESS);
 
 class util {
     static cacheResponse(obj) {
@@ -143,4 +142,4 @@ class util {
     }
 }
 
-export default util;
+module.exports = util;

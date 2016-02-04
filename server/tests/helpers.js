@@ -1,4 +1,4 @@
-import Datauri from 'datauri';
+const Datauri = require('datauri');
 
 class fixtures{
 

@@ -1,12 +1,12 @@
-import schema from 'validate';
-import UUID from 'uuid';
-import neo4jDB from 'neo4j-simple';
-import config from '../config';
+const schema = require('validate');
+const UUID = require('uuid');
+const neo4jDB = require('neo4j-simple');
+const config = require('../config');
 
 const db = neo4jDB(config.DB_URL);
 
-import User from './user';
-import Hours from './hours';
+const User = require('./user');
+const Hours = require('./hours');
 
 const volunteerSchema = schema({
     team_short_name: {
@@ -139,4 +139,4 @@ class Volunteer extends User {
 }
 
 
-export default Volunteer;
+module.exports = Volunteer;

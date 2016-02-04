@@ -1,26 +1,21 @@
 /* @flow */
+const readline = require('readline');
 
-
-
-
-import readline from 'readline';
-
-
-import config from '../config';
+const config = require('../config');
 var db = require('neo4j-simple')(config.DB_URL);
 
 
-import user from '../models/user.js';
-import company from '../models/company.js';
-import corporate from '../models/corporate.js';
-import team from '../models/team.js';
-import leader from '../models/leader.js';
-import volunteer from '../models/volunteer.js';
-import project from '../models/project.js';
-import donation from '../models/donation.js';
-import pledge from '../models/pledge.js';
-import util from '../models/util.js';
-import helpers from './helpers.js';
+const user = require('../models/user.js');
+const company = require('../models/company.js');
+const corporate = require('../models/corporate.js');
+const team = require('../models/team.js');
+const leader = require('../models/leader.js');
+const volunteer = require('../models/volunteer.js');
+const project = require('../models/project.js');
+const donation = require('../models/donation.js');
+const pledge = require('../models/pledge.js');
+const util = require('../models/util.js');
+const helpers = require('./helpers.js');
 
 var rl = readline.createInterface({
   input: process.stdin,

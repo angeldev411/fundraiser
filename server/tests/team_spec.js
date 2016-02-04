@@ -1,4 +1,4 @@
-import team from '../models/team.js';
+const team = require('../models/team.js');
 
 
 // test team stuff
