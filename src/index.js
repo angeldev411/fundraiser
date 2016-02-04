@@ -50,8 +50,8 @@ ReactDOM.render(
                 window.scrollTo(0, 0);
             }}
         >
-            {publicRoutes}
             {adminRoutes}
+            {publicRoutes}
             <Route
                 path="*"
                 component={RouteNotFound}

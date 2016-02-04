@@ -14,4 +14,4 @@ export const VOLUNTEER_PROFILE = `${TEAM_PROFILE}/:volunteerSlug`;
 
 // ADMIN
 export const ADMIN_BASE_URL = '/admin';
-export const ADMIN_PROJECTS = '/projects';
+export const ADMIN_PROJECTS = 'projects';
