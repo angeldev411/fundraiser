@@ -1,5 +1,5 @@
 'use strict';
-const User = require('../models/user');
+const User = require('./model');
 
 class userController {
     static checkCredentials(credentials) {

@@ -4,7 +4,7 @@ const util = require('../helpers/util');
 const messages = require('../messages');
 const router = express.Router();
 
-const userController = require('../controllers/user');
+const userController = require('../user/controller');
 
 router.post('/api/v1/login', (req, res) => {
     const credentials = {
@@ -17,7 +17,7 @@ router.post('/api/v1/login', (req, res) => {
     userController.checkCredentials(credentials)
     .then((user) => {
         console.log('credentials passed got uuid' + user.uuid);
-        req.session.user_uuid = user.uuid;
+        req.session.userUUID = user.uuid;
 
         res.status(200).send({
             message: messages.login.success,
@@ -34,7 +34,7 @@ router.post('/api/v1/login', (req, res) => {
     .catch((err) => {
         console.error('credentials failed ' + err);
 
-        req.session.user_uuid = null;
+        req.session.userUUID = null;
         res.status('401').send({
             status: 'error',
             message: 'invalid login credentials'
@@ -43,19 +43,17 @@ router.post('/api/v1/login', (req, res) => {
 });
 
 router.post('/api/v1/logout', (req, res) => {
-    req.session.user_uuid = null;
-    res.send('OK');
+    req.session.userUUID = null;
+    res.send(messages.logout);
 });
 
 router.post('/api/v1/reset_password', (req, res) => {
-    user.resetPassword(req.body.email)
+    userController.resetPassword(req.body.email)
     .then((token) => {
-        const payload = util.rsSuccess({ message: 'Password Reset Email Sent' });
-
-        res.send(JSON.stringify(payload));
+        res.status(200).send(messages.resetPassword.success);
     })
     .catch((err) => {
-        res.send(`error ${err}`);
+        res.status(500).send(`${messages.resetPassword.error}: ${err}`);
     });
 });
 
