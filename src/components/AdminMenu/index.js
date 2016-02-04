@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ModalButton from '../ModalButton';
+import AdminProjectForm from '../AdminProjectForm';
 
 export default class AdminMenu extends Component {
     render() {
@@ -11,7 +13,13 @@ export default class AdminMenu extends Component {
                 </ul>
 
                 <ul className="page-nav">
-                    <li><a href="#">New Project</a></li>
+                    <li>
+                        <ModalButton type="btn-link"
+                            content={<AdminProjectForm title={"Add New Project"}/>}
+                        >
+                            {'New project'}
+                        </ModalButton>
+                    </li>
                 </ul>
             </nav>
         )
