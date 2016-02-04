@@ -8,6 +8,7 @@ import * as Urls from '../urls.js';
 /* Add new views here */
 import Home from '../views/Home';
 import SuperAdminProjects from '../views/Admin/SuperAdminProjects';
+import SuperAdminVolunteers from '../views/Admin/SuperAdminVolunteers';
 
 
 export default (
@@ -21,6 +22,10 @@ export default (
         <Route
             path={Urls.ADMIN_PROJECTS}
             component={SuperAdminProjects}
+        />
+        <Route
+            path={Urls.ADMIN_VOLUNTEERS}
+            component={SuperAdminVolunteers}
         />
     </Route>
 );
