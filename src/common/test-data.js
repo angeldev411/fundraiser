@@ -20,6 +20,7 @@ export const team = {
     raised : 2500,
     pledge: 150,
     pledgePerHour : 5,
+    teamLeaderEmail: 'iamtheleader@gmail.com'
 };
 
 export const volunteer = {

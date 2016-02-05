@@ -21,6 +21,7 @@ export default class AdminTeamForm extends Component {
                     <input type="text"
                         name="name"
                         id="name"
+                        defaultValue={this.props.team ? this.props.team.name : null}
                     />
                     <label htmlFor="name">{'Team Name'}</label>
                 </div>
@@ -33,6 +34,7 @@ export default class AdminTeamForm extends Component {
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
+                        defaultValue={this.props.team ? this.props.team.slug : null}
                     />
                     <label htmlFor="slug">{'Public Url'}</label>
                 </div>
@@ -41,17 +43,19 @@ export default class AdminTeamForm extends Component {
                     <input type="email"
                         name="team-leader-email"
                         id="team-leader-email"
+                        defaultValue={this.props.team ? this.props.team.teamLeaderEmail : null}
                     />
                     <label htmlFor="team-leader-email">{'Team leader Email'}</label>
                 </div>
 
-                <Button type="btn-green-white">{'Create Team'}</Button>
+                <Button type="btn-green-white">{this.props.team ? 'Edit Team' : 'Create Team'}</Button>
             </Form>
         );
     }
 }
 
 AdminTeamForm.propTypes = {
-    project: React.PropTypes.object,
     title: React.PropTypes.string,
+    project: React.PropTypes.object,
+    team: React.PropTypes.object,
 };
