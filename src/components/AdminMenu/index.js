@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import ModalButton from '../ModalButton';
 
 export default class AdminMenu extends Component {
@@ -8,9 +9,9 @@ export default class AdminMenu extends Component {
                 <ul className="admin-nav">
                     {this.props.adminNav.map((link, i) => (
                         <li key={i}>
-                            <a href={link.href}>
+                            <Link to={link.href}>
                                 {link.title}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>
