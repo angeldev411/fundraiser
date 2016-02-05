@@ -1,11 +1,67 @@
 @import '../../common/styles/variables.scss';
 
-.cover-home {
-    min-height: 860px;
+.home {
+    text-align: justify;
 
     h1 {
-        color: $white;
+        color: $green;
         font-size: 4em;
+        text-transform: uppercase;
+        margin-bottom: 30px;
         text-align: center;
+    }
+
+    p{
+        color: $light-grey;
+        margin-bottom: 30px;
+        .bold {
+            font-weight: bold;
+        }
+    }
+
+    .btn-contact {
+        margin: 60px auto;
+        font-size: 1.85em;
+        display: block;
+    }
+
+    .links {
+        text-align: center;
+        margin-bottom: 30px;
+
+        a {
+            color: $light-grey;
+            text-align: center;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .home {
+        min-height: 860px;
+        background: url(/assets/images/home.jpg);
+        background-position: bottom center;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        text-align: center;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    .home {
+        p{
+            padding: 0 150px;
+        }
     }
 }

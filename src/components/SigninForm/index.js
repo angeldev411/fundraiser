@@ -25,7 +25,7 @@ export default class SigninForm extends Component {
                     <label htmlFor="password">{'Password'}</label>
                 </div>
 
-                <Button type="btn-success">{'Sign In'}</Button>
+                <Button type="btn-green-white">{'Sign In'}</Button>
             </Form>
         );
     }

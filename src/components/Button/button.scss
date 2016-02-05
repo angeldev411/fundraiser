@@ -25,8 +25,7 @@
     }
 }
 
-
-.btn-success {
+.btn-green-white {
     background-color: $green;
     border: solid 1px $green;
 
@@ -36,23 +35,6 @@
     &:active:focus {
         color: $green;
         background-color: transparent;
-        border: solid 1px $green;
-        outline: none;
-    }
-}
-
-.btn-pledge {
-    background-color: transparent;
-    border: solid 1px $green;
-    color: $green;
-    font-size: .8em;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &:active:focus {
-        color: $white;
-        background-color: $green;
         border: solid 1px $green;
         outline: none;
     }
@@ -68,6 +50,22 @@
     &:active:focus {
         color: $grey;
         text-decoration: none;
+        outline: none;
+    }
+}
+
+.btn-transparent-green {
+    background-color: transparent;
+    border: solid 1px $green;
+    color: $green;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        color: $white;
+        background-color: $green;
+        border: solid 1px $green;
         outline: none;
     }
 }

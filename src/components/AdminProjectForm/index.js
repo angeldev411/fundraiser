@@ -42,7 +42,7 @@ export default class AdminProjectForm extends Component {
                     <label htmlFor="project-admin-email">{'Project Admin Email'}</label>
                 </div>
 
-                <Button type="btn-success">{'Create Project'}</Button>
+                <Button type="btn-green-white">{'Create Project'}</Button>
             </Form>
         );
     }
