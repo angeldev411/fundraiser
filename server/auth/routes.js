@@ -7,12 +7,8 @@ const router = express.Router();
 const userController = require('../user/controller');
 
 router.post('/api/v1/login', (req, res) => {
-    if (!req.body.password) {
-        res.status(400).send(messages.login.passwordEmpty);
-        return;
-    }
-    if (!req.body.email) {
-        res.status(400).send(messages.login.emailEmpty);
+    if (!req.body.password || !req.body.email) {
+        res.status(401).send(messages.login.failed);
         return;
     }
 
@@ -26,10 +22,7 @@ router.post('/api/v1/login', (req, res) => {
         console.log(`Credentials passed got uuid: ${user.uuid}`);
         req.session.userUUID = user.uuid;
 
-        res.status(200).send({
-            message: messages.login.success,
-            payload: userController.safe(user),
-        });
+        res.status(200).send(userController.safe(user));
 
         // TODO: replace this with something that just returns 'volunteer', 'leader', etc.
         // user.rolesForUuid(uuid)
@@ -42,7 +35,7 @@ router.post('/api/v1/login', (req, res) => {
         console.error(`Credentials failed: ${err}`);
 
         req.session.userUUID = null;
-        res.status(400).send(err);
+        res.status(401).send(err);
     });
 });
 

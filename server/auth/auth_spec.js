@@ -22,6 +22,11 @@ describe('Authentication', () => {
             (error, response, body) => {
                 expect(error).to.be.a('null');
                 expect(response.statusCode).to.equal(200);
+                expect(JSON.parse(body)).to.contain.keys('email');
+                expect(JSON.parse(body)).to.contain.keys('firstName');
+                expect(JSON.parse(body)).to.contain.keys('lastName');
+                expect(JSON.parse(body)).to.contain.keys('uuid');
+                expect(JSON.parse(body)).to.not.contain.keys('password');
                 done();
             });
         });
@@ -34,7 +39,7 @@ describe('Authentication', () => {
                 },
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
-                expect(response.statusCode).to.equal(400);
+                expect(response.statusCode).to.equal(401);
                 expect(body).to.equal(messages.login.failed);
                 done();
             });
@@ -48,7 +53,7 @@ describe('Authentication', () => {
                 },
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
-                expect(response.statusCode).to.equal(400);
+                expect(response.statusCode).to.equal(401);
                 expect(body).to.equal(messages.login.failed);
                 done();
             });
@@ -62,8 +67,8 @@ describe('Authentication', () => {
                 },
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
-                expect(response.statusCode).to.equal(400);
-                expect(body).to.equal(messages.login.passwordEmpty);
+                expect(response.statusCode).to.equal(401);
+                expect(body).to.equal(messages.login.failed);
                 done();
             });
         });
@@ -76,8 +81,8 @@ describe('Authentication', () => {
                 },
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
-                expect(response.statusCode).to.equal(400);
-                expect(body).to.equal(messages.login.emailEmpty);
+                expect(response.statusCode).to.equal(401);
+                expect(body).to.equal(messages.login.failed);
                 done();
             });
         });
