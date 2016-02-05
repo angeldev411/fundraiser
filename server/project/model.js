@@ -11,19 +11,19 @@ const projectSchema = schema({
         type: 'string',
         message: 'A name is required',
     },
-    creator_uuid: {
+    creatorUUID: {
         type: 'string',
         message: 'UUID of the creating user is required',
     },
     shortName: {
         type: 'string',
     },
-    short_description: {},
-    long_description: {},
+    shortDescription: {},
+    longDescription: {},
     uuid: {
         type: 'string',
     },
-    splash_image_data: {
+    splashImageData: {
         required: true,
     },
 });
@@ -60,18 +60,18 @@ class Project {
     }
 
     /* deprecated */
-    static insertIntoDbdeprecated(obj) {
+    static create(obj) {
         obj.uuid = UUID.v4();
 
         return db.query(
             `
-            MATCH (creator:User {uuid: {creator_uuid}})
+            MATCH (creator:User {uuid: {creatorUUID}})
 
             CREATE (project:Project
                 {name: {name},
                 shortName: {shortName},
-                short_description: {short_description},
-                long_description: {long_description},
+                shortDescription: {shortDescription},
+                longDescription: {longDescription},
                 uuid: {uuid} }
             )
 
@@ -87,16 +87,16 @@ class Project {
         .getResults('project')
         .then((result) => {
             // we put the image url back in
-            result[0].splash_image_data = obj.splash_image_data;
+            result[0].splashImageData = obj.splashImageData;
             return Promise.resolve(result[0]);
         });
     }
 
-    static uploadSplashImage(obj: {splash_image_data: string}) {
+    static uploadSplashImage(obj: {splashImageData: string}) {
         return util.uploadRsImage({
             key_prefix: 'images/splash/',
             uuid: obj.uuid,
-            image_data: obj.splash_image_data,
+            image_data: obj.splashImageData,
         })
         .then((result) => {
             obj.splash_image_key = result.key;

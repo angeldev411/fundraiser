@@ -11,11 +11,11 @@ const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
 const userSchema = schema({
-    first_name: {
+    firstName: {
         type: 'string',
         message: 'A first name is required',
     },
-    last_name: {
+    lastName: {
         type: 'string',
         message: 'A last name is required',
     },
@@ -51,7 +51,7 @@ class User {
         return db.query(
             `
             MERGE (user:User {email: {email} })
-            ON CREATE SET user.password = {password}, user.uuid = {uuid}, user.first_name = {first_name}, user.last_name = {last_name}
+            ON CREATE SET user.password = {password}, user.uuid = {uuid}, user.firstName = {firstName}, user.lastName = {lastName}
             RETURN user
             `,
             {},
@@ -117,8 +117,8 @@ class User {
             MATCH (u:User {uuid: {uuid} })-[r]-(t:Team)
             RETURN type(r) as type
             UNION
-            MATCH (u:User {uuid: {uuid}})-[raiserve_roles]->(company:Company {short_name: 'raiserve'})
-            RETURN type(raiserve_roles) as type
+            MATCH (u:User {uuid: {uuid}})-[raiserveRoles]->(company:Company {shortName: 'raiserve'})
+            RETURN type(raiserveRoles) as type
             `,
             {},
             { uuid }
@@ -153,7 +153,13 @@ class User {
             `
             MATCH (user:User {uuid: {uuid} })
             MATCH (user)-[r:LEADER|VOLUNTEER|CREATOR|OWNER|SUPER_ADMIN]-(b) WHERE b:Team or b:Project or b:Company
-            RETURN {type: head(labels(b)), uuid: b.uuid, name: b.name, short_name: b.short_name,  relation: type(r)} as role_map
+            RETURN {
+                type: head(labels(b)),
+                uuid: b.uuid,
+                name: b.name,
+                shortName: b.shortName,
+                relation: type(r)
+            } as role_map
             `,
             {},
             { uuid }

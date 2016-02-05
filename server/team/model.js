@@ -5,7 +5,7 @@ const mailer = require('../helpers/mailer.js');
 const util = require('../helpers/util.js');
 const neo4jDB = require('neo4j-simple');
 const config = require('../config');
-const * as frontEndUrls = require('../../src/urls.js');
+const frontEndUrls = require('../../src/urls.js');
 
 const db = neo4jDB(config.DB_URL);
 
@@ -15,7 +15,7 @@ const teamSchema = schema({
         message: 'A name is required',
         match: /.{4,100}/,
     },
-    creator_uuid: {
+    creatorUUID: {
         type: 'string',
         message: 'UUID of the creating user is required',
     },
@@ -24,20 +24,20 @@ const teamSchema = schema({
         message: 'A short name is required',
         required: true,
     },
-    short_description: {
+    shortDescription: {
         type: 'string',
     },
-    long_description: {
+    longDescription: {
         type: 'string',
     },
-    project_uuid: {
+    projectUUID: {
         type: 'string',
     },
     leaderUUID: {},
-    logo_image_data: {
+    logoImageData: {
     },
     uuid: {},
-    invitation_uuid: {},
+    invitationUUID: {},
     message: {},
 });
 
@@ -76,20 +76,20 @@ class Team {
     static uploadLogoImage(obj) {
         console.log('upload logo image ' + obj.uuid);
 
-        if (typeof obj.logo_image_data === 'undefined') {
+        if (typeof obj.logoImageData === 'undefined') {
             return Promise.reject('No Logo Image provided');
         }
 
         return util.uploadRsImage({
             key_prefix: config.TEAM_IMAGES_FOLDER,
             uuid: obj.uuid,
-            image_data: obj.logo_image_data,
+            image_data: obj.logoImageData,
         })
         .then((result) => {
             console.log('returning team logo image...');
 
             obj.logo_image_key = result.key;
-            obj.logo_image_data = null;
+            obj.logoImageData = null;
             console.log(obj);
 
             return Promise.resolve(obj);
@@ -115,8 +115,8 @@ class Team {
         console.log(obj);
         return db.query(
             `
-            MERGE (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {short_name: {short_name} })
-            ON MATCH SET pt.short_description = {short_description}, pt.long_description = {long_description}
+            MERGE (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })
+            ON MATCH SET pt.shortDescription = {shortDescription}, pt.longDescription = {longDescription}
 
             RETURN team;
             `,
@@ -125,30 +125,39 @@ class Team {
         )
         .getResult('team');
     }
-    // static fetchAdminStats(teamShortName) {
-    //  console.log('fas');
-    //  return db.query(`
-    //                  MATCH (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })-[:LOGO]->(img:Image), (project)-[:SPLASH_IMAGE]-(pimg:Image)
-    //                  RETURN {name: team.name,
-    //                           uuid: team.uuid, shortName: team.shortName, short_description: COALESCE(pt.short_description, project.short_description),
-    //                           long_description: COALESCE(pt.long_description, project.long_description), splash_image_url: {base_url} + pimg.key, logo_url: {base_url} + img.key} as team
-    //                  `
-    //                , {}, {teamShortName: teamShortName})
-    //           .getResult('team')
-    // }
+    static fetchAdminStats(teamShortName) {
+        // console.log('fas');
+        // return db.query(
+        //     `
+        //     MATCH (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })-[:LOGO]->(img:Image), (project)-[:SPLASH_IMAGE]-(pimg:Image)
+        //     RETURN {name: team.name,
+        //         uuid: team.uuid, shortName: team.shortName, shortDescription: COALESCE(pt.shortDescription, project.shortDescription),
+        //         longDescription: COALESCE(pt.longDescription, project.longDescription), splashImageURL: {baseURL} + pimg.key, logoURL: {baseURL} + img.key} as team
+        //         `
+        //         ,
+        //         {},
+        //         { teamShortName }
+        //     )
+        //     .getResult('team');
+    }
 
     static findByShortName(shortName) {
         return db.query(
             `
             MATCH (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })-[:LOGO]->(img:Image), (project)-[:SPLASH_IMAGE]-(pimg:Image)
-            RETURN {name: team.name,
-                uuid: team.uuid, shortName: team.shortName, short_description: COALESCE(pt.short_description, project.short_description),
-                long_description: COALESCE(pt.long_description, project.long_description), splash_image_url: {base_url} + pimg.key, logo_url: {base_url} + img.key} as team
+            RETURN {
+                name: team.name,
+                uuid: team.uuid,
+                shortName: team.shortName,
+                shortDescription: COALESCE(pt.shortDescription, project.shortDescription),
+                longDescription: COALESCE(pt.longDescription, project.longDescription),
+                splashImageURL: {baseURL} + pimg.key, logoURL: {baseURL} + img.key
+            } as team
             `,
             {},
             {
                 shortName,
-                base_url: config.S3_BASE_URL,
+                baseURL: config.S3_BASE_URL,
             }
         )
         .getResult('team');
@@ -158,12 +167,17 @@ class Team {
         return db.query(
             `
             MATCH (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team)-[:LOGO]->(img:Image), (project)-[:SPLASH_IMAGE]->(pimg:Image)
-            RETURN {name: team.name, shortName: team.shortName,
-                uuid: team.uuid, short_description: COALESCE(pt.short_description, project.short_description),
-                long_description: COALESCE(pt.long_description, project.long_description), splash_image_url: {base_url} + pimg.key, logo_url: {base_url} + img.key} as teams
+            RETURN {
+                name: team.name,
+                shortName: team.shortName,
+                uuid: team.uuid,
+                shortDescription: COALESCE(pt.shortDescription, project.shortDescription),
+                longDescription: COALESCE(pt.longDescription, project.longDescription),
+                splashImageURL: {baseURL} + pimg.key, logoURL: {baseURL} + img.key
+            } as teams
             `,
             {},
-            { base_url: config.S3_BASE_URL }
+            { baseURL: config.S3_BASE_URL }
         )
         .getResults('teams');
     }
@@ -172,12 +186,17 @@ class Team {
         return db.query(
             `
             MATCH (img:Image)<-[:HEADSHOT]-(v:User)-[:VOLUNTEER]->(team:Team {shortName: {teamShortName}  } )
-            RETURN {first_name: v.first_name, last_name: v.last_name, uuid: v.uuid, image_url: {base_url} + img.key} as volunteer
+            RETURN {
+                firstName: v.firstName,
+                lastName: v.lastName,
+                uuid: v.uuid,
+                imageURL: {baseURL} + img.key
+            } as volunteer
             `,
             {},
             {
                 teamShortName,
-                base_url: config.S3_BASE_URL,
+                baseURL: config.S3_BASE_URL,
             }
         )
         .getResults('volunteer');
@@ -199,12 +218,21 @@ class Team {
             // and amount raised
             OPTIONAL MATCH (v)-[:RAISED]-(donation:Donation)
 
-            RETURN {first_name: v.first_name, last_name: v.last_name, uuid: v.uuid, image_url: {base_url} + img.key, pledge_count: count(pledge), average_pledge: avg(coalesce(pledge.amount_per_hour, 0)), hourly_rate: sum(coalesce(pledge.amount_per_hour, 0)), amount_raised: sum(coalesce(donation.amount, 0)) } as volunteer
+            RETURN {
+                firstName: v.firstName,
+                lastName: v.lastName,
+                uuid: v.uuid,
+                imageURL: {baseURL} + img.key,
+                pledgeCount: count(pledge),
+                averagePledge: avg(coalesce(pledge.amountPerHour, 0)),
+                hourlyRate: sum(coalesce(pledge.amountPerHour, 0)),
+                amountRaised: sum(coalesce(donation.amount, 0))
+            } as volunteer
             `,
             {},
             {
                 teamShortName,
-                base_url: config.S3_BASE_URL,
+                baseURL: config.S3_BASE_URL,
             }
         )
         .getResults('volunteer');
@@ -224,12 +252,21 @@ class Team {
             // and amount raised
             OPTIONAL MATCH (v)-[:RAISED]-(donation:Donation)
 
-            RETURN {first_name: v.first_name, last_name: v.last_name, uuid: v.uuid, image_url: {base_url} + img.key, pledge_count: count(pledge), average_pledge: avg(coalesce(pledge.amount_per_hour, 0)), hourly_rate: sum(coalesce(pledge.amount_per_hour, 0)), amount_raised: sum(coalesce(donation.amount, 0)) } as volunteer
+            RETURN {
+                firstName: v.firstName,
+                lastName: v.lastName,
+                uuid: v.uuid,
+                imageURL: {baseURL} + img.key,
+                pledgeCount: count(pledge),
+                averagePledge: avg(coalesce(pledge.amountPerHour, 0)),
+                hourlyRate: sum(coalesce(pledge.amountPerHour, 0)),
+                amountRaised: sum(coalesce(donation.amount, 0))
+            } as volunteer
             `,
             {},
             {
                 leaderUUID,
-                base_url: config.S3_BASE_URL,
+                baseURL: config.S3_BASE_URL,
             }
         )
         .getResults('volunteer');
@@ -240,7 +277,10 @@ class Team {
             `
             MATCH (team:Team {shortName: {teamShortName} })
             MATCH (user:User)<-[invite:VOLUNTEER_INVITE|LEADER_INVITE|SUPPORTER_INVITE]-(team)
-            RETURN {email: user.email, type: type(invite)} as invite
+            RETURN {
+                email: user.email,
+                type: type(invite)
+            } as invite
             `,
             {},
             obj
@@ -271,8 +311,8 @@ class Team {
     }
 
     static generateVolunteerInvite(obj) {
-        obj.user_uuid = UUID.v4();
-        obj.invite_uuid = UUID.v4();
+        obj.userUUID = UUID.v4();
+        obj.inviteUUID = UUID.v4();
 
         // TODO: Modify to just create an empty user with a volunteer arc
         // (maybe keep the UUID thing)
@@ -281,13 +321,16 @@ class Team {
             MATCH (team:Team {shortName: {teamShortName} })
 
             MERGE (user:User {email: {email}})
-            ON CREATE SET user.uuid = {user_uuid}
+            ON CREATE SET user.uuid = {userUUID}
 
             MERGE (team)-[invite:VOLUNTEER_INVITE]->(user)
-            ON CREATE SET invite.uuid = {invite_uuid}
+            ON CREATE SET invite.uuid = {inviteUUID}
 
-            RETURN {email: {email}, uuid: {invite_uuid}, teamShortName: {teamShortName}} as invitation
-
+            RETURN {
+                email: {email},
+                uuid: {inviteUUID},
+                teamShortName: {teamShortName}
+            } as invitation
             `
             , {}
             , obj
@@ -296,8 +339,8 @@ class Team {
     }
 
     static generateLeaderInvite(obj) {
-        obj.new_user_uuid = UUID.v4();
-        obj.invite_uuid = UUID.v4();
+        obj.newUserUUID = UUID.v4();
+        obj.inviteUUID = UUID.v4();
 
         // TODO: Modify to just create an empty user with a leader arc
         // (maybe keep the UUID thing)
@@ -306,13 +349,15 @@ class Team {
             MATCH (team:Team {shortName: {teamShortName} })
 
             MERGE (user:User {email: {email}})
-            ON CREATE SET user.uuid = {new_user_uuid}
+            ON CREATE SET user.uuid = {newUserUUID}
 
             MERGE (team)-[invite:LEADER_INVITE]->(user)
-            ON CREATE SET invite.uuid = {invite_uuid}
+            ON CREATE SET invite.uuid = {inviteUUID}
 
-            RETURN {email: {email}, uuid: {invite_uuid} } as invitation
-
+            RETURN {
+                email: {email},
+                uuid: {inviteUUID}
+            } as invitation
             `
             , {}
             , obj

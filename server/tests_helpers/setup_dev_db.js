@@ -2,8 +2,9 @@
 const readline = require('readline');
 
 const config = require('../config');
-const db = require('neo4j-simple')(config.DB_UreadingLine);
+const db = require('neo4j-simple')(config.DB_URL);
 
+const fixtures = require('./fixtures');
 
 const user = require('../user/model');
 const company = require('../user/corporate/company');
@@ -16,13 +17,6 @@ const project = require('../project/model');
 const donation = require('../pledge/donation');
 const pledge = require('../pledge/model');
 const util = require('../helpers/util');
-const fixtures = require('./fixtures');
-const mocks = require('./mocks');
-
-const readingLine = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
 
 class setup {
     static wipeDb() {
@@ -35,16 +29,12 @@ class setup {
     }
 
     static addInitialUsers() {
-        const u = fixtures.initialUsers;
-
-        return user.validate(u)
+        return user.validate(fixtures.initialUsers)
         .then(user.insertIntoDb);
     }
 
     static addCompany() {
-        const raiserve = fixtures.company;
-
-        return company.create(raiserve)
+        return company.create(fixtures.company)
         .then((resp) => {
             console.log('company returned');
             console.log(resp);
@@ -52,7 +42,7 @@ class setup {
     }
 
     static assignSuperAdmins() {
-        company.assignSuperAdmin(fixtures.superAdmin);
+        company.assignCorporate(fixtures.superAdmin);
     }
 
     static addProjects() {
@@ -99,19 +89,19 @@ class setup {
     }
 
     static addLoggedService() {
-        return Promise.all(
-            fixtures.hours.map(
-                (hour) => volunteer.logService(hour)
-            )
-        );
+        // return Promise.all(
+        //     fixtures.hours.map(
+        //         (hour) => volunteer.logService(hour)
+        //     )
+        // );
     }
 
     static addServiceApprovals() {
-        return Promise.all(
-            fixtures.approvals.map(
-                (approv) => leader.approveService(approv)
-            )
-        );
+        // return Promise.all(
+        //     fixtures.approvals.map(
+        //         (approv) => teamLeader.approveService(approv)
+        //     )
+        // );
     }
 
     static addPaymentCaptures() {
@@ -119,7 +109,11 @@ class setup {
 }
 
 
-console.log('Seting up Dev Db');
+console.log('Setting up Dev Db');
+const readingLine = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
 
 readingLine.question(
     'Are you sure you want to wipe and regenerate the development DB? (yes/[no])',

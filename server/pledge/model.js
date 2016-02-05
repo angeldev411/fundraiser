@@ -9,19 +9,19 @@ const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
 const pledgeSchema = schema({
-    first_name: {
+    firstName: {
         type: 'string',
         message: 'A first name is required',
         match: /.{2,50}/,
     },
-    last_name: {
+    lastName: {
         message: 'A last name is required',
         required: true,
     },
-    payment_card_token: {
+    paymentCardToken: {
         type: 'string',
     },
-    team_short_name: {
+    teamShortName: {
         type: 'string',
         required: true,
     },
@@ -29,15 +29,15 @@ const pledgeSchema = schema({
         type: 'string',
         required: true,
     },
-    amount_per_hour: {
+    amountPerHour: {
         required: true,
         type: 'number',
     },
-    max_per_month: {
+    maxPerMonth: {
         message: 'Maximum per month must be a number',
         type: 'number',
     },
-    volunteer_uuid: {},
+    volunteerUUID: {},
 });
 
 /*
@@ -46,10 +46,10 @@ one of the volunteers (or for the whole team).
 */
 class Pledge {
     static create(obj) {
-        return pledge.validate(obj)
-        .then(pledge.insertIntoDb);
-        // .then(pledge.capturePayment)
-        // .then(pledge.savePaymentDetails)
+        return Pledge.validate(obj)
+        .then(Pledge.insertIntoDb);
+        // .then(Pledge.capturePayment)
+        // .then(Pledge.savePaymentDetails)
     }
 
     static validate(obj) {
@@ -69,19 +69,22 @@ class Pledge {
             obj.uuid = UUID.v4();
         }
 
-        console.log('input to pledge.insertIntoDb', obj);
+        console.log('input to Pledge.insertIntoDb', obj);
 
         return db.query(
             `
-            MATCH (team:Team {short_name: {team_short_name} })
+            MATCH (team:Team {short_name: {teamShortName} })
             MERGE (user:User {email: {email} })
-            ON CREATE SET user.uuid = {uuid}, user.first_name = {first_name}, user.last_name = {last_name}
+            ON CREATE SET user.uuid = {uuid}, user.firstName = {firstName}, user.lastName = {lastName}
 
             WITH team, user
 
-            MATCH (raisers) WHERE raisers.uuid IN [team.uuid, {volunteer_uuid}]
+            MATCH (raisers) WHERE raisers.uuid IN [team.uuid, {volunteerUUID}]
 
-            CREATE (pledge:Pledge {amount_per_hour: {amount_per_hour}, max_per_month: {max_per_month} })
+            CREATE (pledge:Pledge {
+                amountPerHour: {amountPerHour},
+                maxPerMonth: {maxPerMonth}
+            })
             CREATE (user)-[:PLEDGED]->(pledge)
             CREATE (raisers)-[:RAISED]->(pledge)
 
