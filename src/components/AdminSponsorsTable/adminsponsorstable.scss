@@ -1,0 +1,44 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+ul.sponsors {
+    padding: 0;
+
+    .sponsor-details {
+        border-bottom: 1px solid $lighter-grey;
+
+        & > .label {
+            color: $lighter-grey;
+            font-family: $conduit-medium;
+            font-size: initial;
+        }
+    }
+
+    li.children-line {
+        .label {
+            color: $lighter-grey;
+            font-family: $conduit-medium;
+            font-size: .75em;
+        }
+    }
+
+    a,
+    .btn-link {
+        color: $green;
+        font-family: $conduit-bold;
+        font-size: 1em;
+        margin-left: 10px;
+
+        &:hover {
+            text-decoration: none;
+            color: $grey;
+        }
+    }
+
+    .expand{
+        font-size: 2em;
+        font-weight: bold;
+    }
+}

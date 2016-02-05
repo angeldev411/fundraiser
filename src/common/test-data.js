@@ -36,10 +36,27 @@ export const volunteer = {
     location: 'York, Pa',
     message: 'Personal Message Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. tecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.',
     team: { null },
-    project: { project }
+    project: { project },
 };
 
 export const volunteers = []
+
+export const sponsor = {
+    name: 'Tim Taylor',
+    email: 'tim.taylor@gmail.com',
+    donations: [],
+};
+
+export const donation = {
+    hourly: 15,
+    cap: 250,
+    total: 170,
+    member: null,
+    team: 'samples',
+    date: '2016-02-05'
+};
+
+export const sponsors = []
 
 // Create array of volunteers in team
 for (let i=0; i < 10; i++) {
@@ -66,3 +83,13 @@ volunteer.team = team;
 
 // Add project to volunteer
 volunteer.project = project
+
+// Create array of donations in sponsors
+for (let i=0; i < 10; i++) {
+    sponsor.donations.push(donation);
+}
+
+// Create array of sponsors
+for (let i=0; i < 10; i++) {
+    sponsors.push(sponsor);
+}
