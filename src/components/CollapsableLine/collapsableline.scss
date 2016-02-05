@@ -1,0 +1,21 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+li.collapsable {
+    color: $grey;
+    line-height: 2.6em;
+    list-style: none;
+
+    ul.children-content {
+        background: #f7f7f7;
+        padding: 0;
+
+        li {
+            &:last-child {
+                border-bottom: 0;
+            }
+        }
+    }
+}
