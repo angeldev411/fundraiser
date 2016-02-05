@@ -21,7 +21,7 @@ export default class RouteNotFound extends Component {
                         </h1>
                         <div>
                             <Button to="/"
-                                type="btn-success btn-lg"
+                                type="btn-green-white btn-lg"
                             >
                                 Back to Home
                             </Button>

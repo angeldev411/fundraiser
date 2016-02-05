@@ -36,7 +36,7 @@ export default class PledgeForm extends Component {
                 </div>
 
                 <div className="form-group form-buttons">
-                    <Button type="btn-pledge">{'Continue'}</Button>
+                    <Button type="btn-transparent-green btn-pledge">{'Continue'}</Button>
                 </div>
             </Form>
         );
