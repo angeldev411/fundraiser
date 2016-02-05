@@ -52,7 +52,7 @@ export const donation = {
     cap: 250,
     total: 170,
     member: null,
-    team: 'samples',
+    team: null,
     date: '2016-02-05'
 };
 
@@ -82,7 +82,10 @@ for (let i=0; i < 10; i++) {
 volunteer.team = team;
 
 // Add project to volunteer
-volunteer.project = project
+volunteer.project = project;
+
+// Add team to donation
+donation.team = team;
 
 // Create array of donations in sponsors
 for (let i=0; i < 10; i++) {
