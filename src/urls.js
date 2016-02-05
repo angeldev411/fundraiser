@@ -29,8 +29,8 @@ export const getVolunteerProfileUrl = (projectslug, teamSlug, volunteerSlug) => 
     return `/${projectslug}/${teamSlug}/${volunteerSlug}`;
 };
 
-export const ADMINPROJECTSURL = `${ADMIN_BASE_URL}/${ADMIN_PROJECTS}`;
+export const ADMIN_PROJECTS_URL = `${ADMIN_BASE_URL}/${ADMIN_PROJECTS}`;
 
-export const ADMINVOLUNTEERSURL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEERS}`;
+export const ADMIN_VOLUNTEERS_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEERS}`;
 
-export const ADMINSPONSORSURL = `${ADMIN_BASE_URL}/${ADMIN_SPONSORS}`;
+export const ADMIN_SPONSORS_URL = `${ADMIN_BASE_URL}/${ADMIN_SPONSORS}`;

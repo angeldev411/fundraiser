@@ -8,15 +8,15 @@ export default class AdminLayout extends Component {
             return [
                 {
                     title: 'Projects',
-                    href: Urls.ADMINPROJECTSURL,
+                    href: Urls.ADMIN_PROJECTS_URL,
                 },
                 {
                     title: 'All Sponsors',
-                    href: Urls.ADMINSPONSORSURL,
+                    href: Urls.ADMIN_SPONSORS_URL,
                 },
                 {
                     title: 'All Volunteers',
-                    href: Urls.ADMINVOLUNTEERSURL,
+                    href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
         } else {
