@@ -10,12 +10,3 @@ li.children-line {
     line-height: 2.6em;
     border-bottom: 1px solid $lighter-grey;
 }
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) {
-    li.children-line {
-        .edit-links {
-            display: inline-block;
-        }
-    }
-}

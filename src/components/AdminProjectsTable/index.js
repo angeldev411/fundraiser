@@ -37,7 +37,7 @@ export default class AdminProjectsTable extends Component {
                             }
                         >
                             <div className="project-details">
-                                <span className="project-name uppercase">Project Name: </span> {project.name}
+                                <span className="label uppercase">Project Name: </span> {project.name}
                                 <ModalButton type="btn-link uppercase"
                                     content={
                                         <AdminProjectForm title={"Edit Project"}

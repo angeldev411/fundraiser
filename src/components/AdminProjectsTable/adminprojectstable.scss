@@ -9,10 +9,10 @@ ul.projects {
     .project-details {
         border-bottom: 1px solid $lighter-grey;
 
-        .project-name {
+        & > .label {
             color: $lighter-grey;
             font-family: $conduit-medium;
-
+            font-size: initial;
         }
     }
 
@@ -40,5 +40,16 @@ ul.projects {
     .expand{
         font-size: 2em;
         font-weight: bold;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    ul.projects {
+        li.children-line {
+            .edit-links {
+                display: inline-block;
+            }
+        }
     }
 }

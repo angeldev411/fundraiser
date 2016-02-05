@@ -9,7 +9,7 @@ import * as Urls from '../urls.js';
 import Home from '../views/Home';
 import SuperAdminProjects from '../views/Admin/SuperAdminProjects';
 import SuperAdminVolunteers from '../views/Admin/SuperAdminVolunteers';
-
+import SuperAdminSponsors from '../views/Admin/SuperAdminSponsors';
 
 export default (
     <Route
@@ -26,6 +26,10 @@ export default (
         <Route
             path={Urls.ADMIN_VOLUNTEERS}
             component={SuperAdminVolunteers}
+        />
+        <Route
+            path={Urls.ADMIN_SPONSORS}
+            component={SuperAdminSponsors}
         />
     </Route>
 );
