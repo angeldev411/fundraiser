@@ -13,11 +13,14 @@ app.use(express.static('public'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
+app.use(session(config.SESSION_CONFIG));
+
 // Routes
 const authRoutes = require('./auth/routes');
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
     res.status(200).send('Welcome to Raiserve!');
+    next();
 });
 app.use(authRoutes);
 
@@ -29,8 +32,6 @@ app.use(authRoutes);
 //  saveUninitialized: true,
 //  resave: false
 // }));
-
-app.use(session(config.SESSION_CONFIG));
 
 app.listen(config.EXPRESS_PORT);
 

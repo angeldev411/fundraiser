@@ -13,6 +13,7 @@ const fixtures = {
     initialUsers: {
         email: 'mmmurf@gmail.com',
         password: 'testtesttest',
+        hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
         firstName: 'matt',
         lastName: 'murphy',
         uuid: 'abcd1234',

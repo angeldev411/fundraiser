@@ -7,16 +7,23 @@ const router = express.Router();
 const userController = require('../user/controller');
 
 router.post('/api/v1/login', (req, res) => {
+    if (!req.body.password) {
+        res.status(400).send(messages.login.passwordEmpty);
+        return;
+    }
+    if (!req.body.email) {
+        res.status(400).send(messages.login.emailEmpty);
+        return;
+    }
+
     const credentials = {
         email: req.body.email,
         password: util.hash(req.body.password),
     };
 
-    console.log(credentials);
-
     userController.checkCredentials(credentials)
     .then((user) => {
-        console.log('credentials passed got uuid' + user.uuid);
+        console.log(`Credentials passed got uuid: ${user.uuid}`);
         req.session.userUUID = user.uuid;
 
         res.status(200).send({
@@ -25,20 +32,17 @@ router.post('/api/v1/login', (req, res) => {
         });
 
         // TODO: replace this with something that just returns 'volunteer', 'leader', etc.
-        user.rolesForUuid(uuid)
-        .then((roles) => {
-            payload.roles = roles;
-            res.send(JSON.stringify(payload));
-        });
+        // user.rolesForUuid(uuid)
+        // .then((roles) => {
+        //     payload.roles = roles;
+        //     res.send(JSON.stringify(payload));
+        // });
     })
     .catch((err) => {
-        console.error('credentials failed ' + err);
+        console.error(`Credentials failed: ${err}`);
 
         req.session.userUUID = null;
-        res.status('401').send({
-            status: 'error',
-            message: 'invalid login credentials'
-        });
+        res.status(400).send(err);
     });
 });
 

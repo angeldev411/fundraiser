@@ -29,7 +29,11 @@ class setup {
     }
 
     static addInitialUsers() {
-        return user.validate(fixtures.initialUsers)
+        const userToAdd = fixtures.initialUsers;
+
+        userToAdd.password = userToAdd.hashedPassword;
+
+        return user.validate(userToAdd)
         .then(user.insertIntoDb);
     }
 

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "front:start": "gulp develop",
-    "server:start": "node server/app",
+    "server:start": "node server/app.js",
+    "server:start:dev": "nodemon server/app.js",
     "test": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\"",
     "setup-db": "babel-node server/tests_helpers/setup_dev_db"
   },
@@ -76,12 +77,12 @@
     "gulp-sourcemaps": "^1.2.2",
     "gulp-webserver": "^0.8.2",
     "mocha": "^2.4.5",
+    "nodemon": "^1.8.1",
     "numeral": "^1.5.3",
     "reactify": "^0.14.0",
     "redux-logger": "^2.0.4",
     "request": "^2.69.0",
     "superagent": "^0.19.0",
-    "supertest": "^1.1.0",
     "vinyl-source-stream": "^1.0.0"
   }
 }

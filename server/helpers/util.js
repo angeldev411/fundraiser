@@ -19,8 +19,12 @@ class util {
         // return it if not expired
     }
 
-    static hashPassword(password) {
-        return sha256(password);
+    static hash(password) {
+        try {
+            return sha256(password);
+        } catch (e) {
+            throw new Error(`Password is not a string! (${password})`);
+        }
     }
 
     static parseJSON(str) {
