@@ -12,7 +12,6 @@ const user = fixtures.initialUsers;
 describe('Authentication', () => {
     describe('Login', () => {
         it('lets an existing user Log in', (done) => {
-            // this.timeout(5000); // need to use function(done)
             request.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/login`,
                 form: {
