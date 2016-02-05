@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import ProjectsTable from '../../../components/ProjectsTable';
+import AdminProjectsTable from '../../../components/AdminProjectsTable';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminProjectForm from '../../../components/AdminProjectForm';
@@ -40,7 +40,7 @@ export default class SuperAdminProjects extends Component {
                             </ModalButton>
                         }
                     />
-                    <ProjectsTable projects={projects} />
+                    <AdminProjectsTable projects={projects} />
                 </AdminLayout>
             </Page>
         );
