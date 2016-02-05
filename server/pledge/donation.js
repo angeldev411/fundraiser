@@ -9,12 +9,12 @@ const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
 const donationSchema = schema({
-    first_name: {
+    firstName: {
         type: 'string',
         message: 'A first name is required',
         match: /.{2,50}/,
     },
-    last_name: {
+    lastName: {
         type: 'string',
         message: 'A last name is required',
         match: /.{2,50}/,
@@ -50,13 +50,13 @@ const donationSchema = schema({
         match: /@/,
         message: 'A Valid email must be provided',
     },
-    team_short_name: {
+    teamShortName: {
         message: "A donation must be associated with a team's short name",
         type: 'string',
         match: /.{2,50}/,
         required: true,
     },
-    recipient_uuid: {
+    recipientUUID: {
         type: 'string',
         match: /.{2,}/,
     },
@@ -65,7 +65,7 @@ const donationSchema = schema({
         type: 'number',
         use: (i) => (parseInt(i, 10) > 0),
     },
-    volunteer_uuid: {
+    volunteerUUID: {
         type: 'string',
     },
     max: {
@@ -83,7 +83,7 @@ class Donation {
         obj.newUserUUID = UUID.v4();
         obj.donationUUID = UUID.v4();
 
-        if (!obj.volunteer_uuid) {
+        if (!obj.volunteerUUID) {
             throw Error('No volunteer!');
         }
 
@@ -91,7 +91,7 @@ class Donation {
 
         return db.query(
             `
-            MATCH (team:Team {short_name: {team_short_name} })
+            MATCH (team:Team {short_name: {teamShortName} })
 
             MERGE (user:User {email: {email} })
             ON CREATE SET user.uuid = {newUserUUID}
@@ -103,7 +103,7 @@ class Donation {
             WITH team, donation
 
             // we match on uuid for the Team AND Volunteer
-            MATCH (raisers) WHERE raisers.uuid IN [team.uuid, {volunteer_uuid}]
+            MATCH (raisers) WHERE raisers.uuid IN [team.uuid, {volunteerUUID}]
             // since we can create relationships on [] we can split this out into two different relationship types.
             // individual raise vs team raise
             CREATE (raisers)-[:RAISED]->(donation)

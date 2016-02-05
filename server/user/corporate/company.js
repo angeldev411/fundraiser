@@ -2,13 +2,13 @@
 const schema = require('validate');
 const UUID = require('uuid');
 const neo4jDB = require('neo4j-simple');
-const config = require('../config');
+const config = require('../../config');
 
 const db = neo4jDB(config.DB_URL);
 
 const companySchema = schema({
     name: {},
-    short_name: {},
+    shortName: {},
     uuid: {},
 });
 
@@ -37,7 +37,7 @@ class Company {
 
         return db.query(
             `
-            MERGE (company:Company {short_name: {short_name}})
+            MERGE (company:Company {shortName: {shortName}})
             ON CREATE SET company.uuid = {uuid}
 
             RETURN company
@@ -54,8 +54,8 @@ class Company {
 
         return db.query(
             `
-            MATCH (company:Company {uuid: {company_uuid}})
-            MATCH (user:User) WHERE user.uuid = {user_uuid}
+            MATCH (company:Company {uuid: {companyUUID}})
+            MATCH (user:User) WHERE user.uuid = {userUUID}
 
             CREATE (user)-[:SUPER_ADMIN]->(company)
 

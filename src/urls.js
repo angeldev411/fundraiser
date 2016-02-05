@@ -7,7 +7,7 @@ export const STORY = '/story';
 
 // TEAMS
 // /!\ If you change :teamSlug to something else,
-// be sure to change it also in /server/models/team.js:250
+// be sure to change it also in /server/team/model.js:250
 export const TEAM_PROFILE = `/:projectSlug/:teamSlug`;
 export const TEAM_SIGNUP = `${TEAM_PROFILE}/join`;
 export const VOLUNTEER_PROFILE = `${TEAM_PROFILE}/:volunteerSlug`;

@@ -1,14 +1,10 @@
 'use strict';
 const express = require('express');
-// const session = require('express-session');
 const session = require('client-sessions');
 const bodyParser = require('body-parser');
 // const multer = require('multer');
 
 const config = require('./config');
-
-// Routes
-const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -17,19 +13,25 @@ app.use(express.static('public'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.get('/', (req, res) => {
+app.use(session(config.SESSION_CONFIG));
+
+// Routes
+const authRoutes = require('./auth/routes');
+
+app.get('/', (req, res, next) => {
     res.status(200).send('Welcome to Raiserve!');
+    next();
 });
 app.use(authRoutes);
 
+// const session = require('express-session');
+// If using classic sessions
 // app.use(session({
 //  secret: 'fuze23232323t',
 //  cookie: { maxAge: 60000000 },
 //  saveUninitialized: true,
 //  resave: false
 // }));
-
-app.use(session(config.SESSION_CONFIG));
 
 app.listen(config.EXPRESS_PORT);
 

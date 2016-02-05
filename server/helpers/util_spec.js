@@ -1,5 +1,5 @@
 'use strict';
-const util = require('../models/util.js');
+const util = require('./util');
 
 function testS3Uploads(){
     var src = "/Users/mmmurf/rs2/public/images/logo.jpg";
@@ -16,8 +16,6 @@ function uploadUsingAWSLib(){
         first_name: 'wilson',
         last_name: 'boone',
         short_name: 'mmm' };
-
-
 
     util.uploadToS3(obj.filedata, 'testkey3', {content_type: 'image/jpg'}, function(resp){
         console.log("finished uploading " + resp);

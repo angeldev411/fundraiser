@@ -1,14 +1,20 @@
 'use strict';
-const User = require('../models/user');
+const User = require('./model');
+const messages = require('../messages');
 
 class userController {
     static checkCredentials(credentials) {
         return User.findByEmail(credentials.email)
-        .then((result) => {
+        .then((results) => {
+            if (results.length === 0) {
+                return Promise.reject(messages.login.failed);
+            }
+            const result = results[0];
+
             if (result.password === credentials.password) {
                 return Promise.resolve(result);
             } else {
-                return Promise.reject('invalid username or password');
+                return Promise.reject(messages.login.failed);
             }
         });
     }
@@ -16,8 +22,9 @@ class userController {
     static safe(user) {
         return {
             email: user.email,
-            first_name: user.first_name,
-            last_name: user.last_name,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            uuid: user.uuid,
         };
     }
 
@@ -29,3 +36,5 @@ class userController {
         .then(Corporate.insertProjectIntoDb);
     }
 }
+
+module.exports = userController;
