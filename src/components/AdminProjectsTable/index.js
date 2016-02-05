@@ -21,9 +21,16 @@ export default class AdminProjectsTable extends Component {
                                             <span className="label uppercase">Average Pledge: </span> {team.pledge}
                                             <span className="label uppercase">$ / HR: </span> {team.pledgePerHour} / hr
                                             <div className="edit-links">
-                                                <a href="#"
-                                                    className={'uppercase'}
-                                                >{'Edit'}</a>
+                                                <ModalButton type="btn-link uppercase"
+                                                    content={
+                                                        <AdminTeamForm title={"Edit team"}
+                                                            project={project}
+                                                            team={team}
+                                                        />
+                                                    }
+                                                >
+                                                    {'Edit'}
+                                                </ModalButton>
                                                 <a href="#"
                                                     className={'uppercase'}
                                                 >{'Remove'}</a>

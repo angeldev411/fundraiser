@@ -15,7 +15,7 @@ export default class AdminProjectForm extends Component {
                     <input type="text"
                         name="name"
                         id="name"
-                        value={this.props.project ? this.props.project.name : null}
+                        defaultValue={this.props.project ? this.props.project.name : null}
                     />
                     <label htmlFor="name">{'Project Name'}</label>
                 </div>
@@ -28,7 +28,7 @@ export default class AdminProjectForm extends Component {
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
-                        value={this.props.project ? this.props.project.slug : null}
+                        defaultValue={this.props.project ? this.props.project.slug : null}
                     />
                     <label htmlFor="slug">{'Public Url'}</label>
                 </div>
@@ -37,12 +37,12 @@ export default class AdminProjectForm extends Component {
                     <input type="email"
                         name="project-admin-email"
                         id="project-admin-email"
-                        value={this.props.project ? this.props.project.projectAdminEmail : null}
+                        defaultValue={this.props.project ? this.props.project.projectAdminEmail : null}
                     />
                     <label htmlFor="project-admin-email">{'Project Admin Email'}</label>
                 </div>
 
-                <Button type="btn-green-white">{'Create Project'}</Button>
+                <Button type="btn-green-white">{this.props.project ? 'Edit Project' : 'Create Project'}</Button>
             </Form>
         );
     }
