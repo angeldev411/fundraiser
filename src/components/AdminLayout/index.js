@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import AdminMenu from '../AdminMenu';
+import * as Urls from '../../urls.js';
 
 export default class AdminLayout extends Component {
     getNav = (type = 'user') => {
@@ -8,15 +8,15 @@ export default class AdminLayout extends Component {
             return [
                 {
                     title: 'Projects',
-                    href: '#',
+                    href: Urls.getAdminProjectsUrl(),
                 },
                 {
                     title: 'All Sponsors',
-                    href: '#',
+                    href: Urls.getAdminSponsorsUrl(),
                 },
                 {
                     title: 'All Volunteers',
-                    href: '#',
+                    href: Urls.getAdminVolunteersUrl(),
                 },
             ];
         } else {
