@@ -8,7 +8,7 @@
     "server:start": "node server/app.js",
     "server:start:dev": "nodemon server/app.js",
     "test": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\"",
-    "test-ci": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./server/auth_spec.js\"",
+    "test-ci": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./server/auth/auth_spec.js\"",
     "setup-db": "babel-node server/tests_helpers/setup_dev_db"
   },
   "dependencies": {

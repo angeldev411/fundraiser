@@ -2,16 +2,21 @@
 
 To install
 
-        npm install
+```sh
+npm install
+```
 
 To start the front
 
-        npm run front:start
+```sh
+npm run front:start
+```
 
 To start the backend
 
-        npm run server:start
-
+```sh
+npm run server:start
+```
 
 ## Components vs Views
 
@@ -36,3 +41,15 @@ Component styles should be in the folder of their own component.
  * [Redux simple router](https://github.com/rackt/redux-simple-router)
  * [Babel](https://github.com/babel/babel) for writing ES6 classes
  * [Eslint](http://eslint.org/docs/user-guide/configuring.html) for the glory of linters (thanks to [Nate's linter](https://bitbucket.org/osedea/osedea-style-guides/src/master/javascript/)) => Configure your IDE ([Atom](https://atom.io/packages/linter-eslint) / [Sublime](http://jonathancreamer.com/setup-eslint-with-es6-in-sublime-text/))
+
+ ## Testing
+
+  * [Mocha](https://mochajs.org/) for launching tests
+  * [Chai](http://chaijs.com/api/bdd/) for writing human readable tests
+  * [Request](https://www.npmjs.com/package/request) for doing HTTP Request
+
+To run the tests (it then waits for files to change to relaunch the tests automatically)
+
+ ```javascript
+npm test
+ ```
