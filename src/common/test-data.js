@@ -20,8 +20,12 @@ export const team = {
     raised : 2500,
     pledge: 150,
     pledgePerHour : 5,
+    totalHours: 841,
+    totalVolunteers: 553,
     teamLeaderEmail: 'iamtheleader@gmail.com'
 };
+
+export const teams = []
 
 export const volunteer = {
     name: 'Heather Miller',
@@ -77,6 +81,11 @@ for (let i=0; i < 3; i++) {
 // Create array of projects
 for (let i=0; i < 10; i++) {
     projects.push(project);
+}
+
+// Create array of teams
+for (let i=0; i < 10; i++) {
+    teams.push(team);
 }
 
 // Add team to volunteer
