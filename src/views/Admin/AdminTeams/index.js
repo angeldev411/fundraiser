@@ -23,7 +23,8 @@ export default class AdminTeams extends Component {
                 type: 'button',
                 title: 'Add New Team',
                 content:
-                    <AdminTeamForm title={"Add New Team"}
+                    <AdminTeamForm
+                        title={"Add New Team"}
                         project={project}
                     />,
             },
@@ -33,10 +34,12 @@ export default class AdminTeams extends Component {
         return (
             <Page>
                 <AdminLayout pageNav={pageNav}>
-                    <AdminContentHeader title={`${project.name} Teams`}
+                    <AdminContentHeader
+                        title={`${project.name} Teams`}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <AdminTeamsTable teams={project.teams}
+                    <AdminTeamsTable
+                        teams={project.teams}
                         project={project}
                         editable={true}
                     />
