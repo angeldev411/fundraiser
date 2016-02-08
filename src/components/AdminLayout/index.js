@@ -20,7 +20,7 @@ export default class AdminLayout extends Component {
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
-        } else if (role === 'team-leader') {
+        } else if (role === 'project-leader') {
             return [
                 {
                     title: 'Teams',

@@ -18,7 +18,7 @@ export default class AdminVolunteers extends Component {
     render() {
         let header = null;
 
-        if (data.user.role === 'team-leader') {
+        if (data.user.role === 'project-leader') {
             header = `${data.project.name} Volunteers`;
         } else {
             header = `Volunteers`;
