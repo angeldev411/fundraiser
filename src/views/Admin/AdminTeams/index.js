@@ -11,7 +11,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import * as data from '../../../common/test-data';
 const project = data.project;
 
-export default class ProjectLeaderTeams extends Component {
+export default class AdminTeams extends Component {
     componentWillMount() {
         document.title = 'Teams | Raiserve';
     }

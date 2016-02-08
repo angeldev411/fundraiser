@@ -13,7 +13,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import * as data from '../../../common/test-data';
 const projects = data.projects;
 
-export default class SuperAdminProjects extends Component {
+export default class AdminProjects extends Component {
     componentWillMount() {
         document.title = 'Edit projects | Raiserve';
     }
@@ -47,6 +47,6 @@ export default class SuperAdminProjects extends Component {
     }
 }
 
-SuperAdminProjects.propTypes = {
+AdminProjects.propTypes = {
     show: React.PropTypes.bool,
 };
