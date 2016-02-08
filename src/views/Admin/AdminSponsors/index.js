@@ -17,10 +17,18 @@ export default class AdminProjects extends Component {
     }
 
     render() {
+        let header = null;
+
+        if (data.user.role === 'team-leader') {
+            header = `${data.project.name} Sponsors`;
+        } else {
+            header = `Sponsors`;
+        }
+
         return (
             <Page>
                 <AdminLayout>
-                    <AdminContentHeader title={'Sponsors'}
+                    <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <AdminSponsorsTable sponsors={sponsors} />
