@@ -1,16 +1,17 @@
 export const user = {
     name: 'Adrien Kühn',
     role: 'team-leader',
-}
+};
 
 export const project = {
     name: 'Habitat for Humanity',
     slug: 'habitat-for-humanity',
     projectAdminEmail: 'jane.doe@gmail.com',
     teams: [],
+    sponsors: [],
 };
 
-export const projects = []
+export const projects = [];
 
 export const team = {
     name: 'York Division',
@@ -27,10 +28,10 @@ export const team = {
     pledgePerHour : 5,
     totalHours: 841,
     totalVolunteers: 553,
-    teamLeaderEmail: 'iamtheleader@gmail.com'
+    teamLeaderEmail: 'iamtheleader@gmail.com',
 };
 
-export const teams = []
+export const teams = [];
 
 export const volunteer = {
     name: 'Heather Miller',
@@ -49,7 +50,7 @@ export const volunteer = {
     project: { project },
 };
 
-export const volunteers = []
+export const volunteers = [];
 
 export const sponsor = {
     name: 'Tim Taylor',
@@ -63,10 +64,10 @@ export const donation = {
     total: 170,
     member: null,
     team: null,
-    date: '2016-02-05'
+    date: '2016-02-05',
 };
 
-export const sponsors = []
+export const sponsors = [];
 
 // Create array of volunteers in team
 for (let i=0; i < 10; i++) {
@@ -110,4 +111,9 @@ for (let i=0; i < 10; i++) {
 // Create array of sponsors
 for (let i=0; i < 10; i++) {
     sponsors.push(sponsor);
+}
+
+// Create array of sponsors in project
+for (let i=0; i < 10; i++) {
+    project.sponsors.push(sponsor);
 }
