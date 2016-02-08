@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AdminMenu from '../AdminMenu';
 import * as Urls from '../../urls.js';
-import * as User from '../../common/test-user.js'; // TODO remove this
+import * as Data from '../../common/test-data.js'; // TODO remove this
 
 export default class AdminLayout extends Component {
     getNav = (role = 'user') => {
@@ -44,7 +44,7 @@ export default class AdminLayout extends Component {
             <div className={"admin-layout"}>
                 <div className={'container'}>
                     <AdminMenu
-                        adminNav={this.getNav(User.role)}
+                        adminNav={this.getNav(Data.user.role)}
                         pageNav={this.props.pageNav}
                     />
                     <div className="col-xs-12 col-lg-9 admin-content">

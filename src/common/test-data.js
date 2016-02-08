@@ -1,3 +1,8 @@
+export const user = {
+    name: 'Adrien Kühn',
+    role: 'team-leader',
+}
+
 export const project = {
     name: 'Habitat for Humanity',
     slug: 'habitat-for-humanity',
