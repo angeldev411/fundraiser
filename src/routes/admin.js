@@ -11,7 +11,7 @@ import AdminProjects from '../views/Admin/AdminProjects';
 import AdminVolunteers from '../views/Admin/AdminVolunteers';
 import AdminSponsors from '../views/Admin/AdminSponsors';
 import AdminTeams from '../views/Admin/AdminTeams';
-
+import TeamDashboard from '../views/Admin/TeamDashboard';
 
 export default (
     <Route
@@ -36,6 +36,10 @@ export default (
         <Route
             path={Urls.ADMIN_TEAMS}
             component={AdminTeams}
+        />
+        <Route
+            path={Urls.ADMIN_TEAM_DASHBOARD}
+            component={TeamDashboard}
         />
     </Route>
 );
