@@ -6,6 +6,7 @@ import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminTeamsTable from '../../../components/AdminTeamsTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
+import AdminTeamForm from '../../../components/AdminTeamForm';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
@@ -17,9 +18,21 @@ export default class AdminTeams extends Component {
     }
 
     render() {
+        const pageNav = [
+            {
+                type: 'button',
+                title: 'Add New Team',
+                content:
+                    <AdminTeamForm title={"Add New Team"}
+                        project={project}
+                    />,
+            },
+        ];
+
+
         return (
             <Page>
-                <AdminLayout>
+                <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader title={`${project.name} Teams`}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
