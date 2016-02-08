@@ -3,32 +3,33 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
+import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
-import AdminProjectForm from '../../../components/AdminProjectForm';
-import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
-const volunteers = data.volunteers;
+const sponsors = data.sponsors;
 
-export default class SuperAdminVolunteers extends Component {
+export default class AdminProjects extends Component {
     componentWillMount() {
-        document.title = 'Volunteers | Raiserve';
+        document.title = 'Sponsors | Raiserve';
     }
 
     render() {
         return (
             <Page>
                 <AdminLayout>
-                    <AdminContentHeader title={'Volunteers'}
+                    <AdminContentHeader title={'Sponsors'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <AdminVolunteersTable volunteers={volunteers}
-                        editable={false}
-                    />
+                    <AdminSponsorsTable sponsors={sponsors} />
                 </AdminLayout>
             </Page>
         );
     }
 }
+
+AdminProjects.propTypes = {
+    show: React.PropTypes.bool,
+};

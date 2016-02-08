@@ -7,10 +7,10 @@ import * as Urls from '../urls.js';
 
 /* Add new views here */
 import Home from '../views/Home';
-import SuperAdminProjects from '../views/Admin/SuperAdminProjects';
-import SuperAdminVolunteers from '../views/Admin/SuperAdminVolunteers';
-import SuperAdminSponsors from '../views/Admin/SuperAdminSponsors';
-import ProjectLeaderTeams from '../views/Admin/ProjectLeaderTeams';
+import AdminProjects from '../views/Admin/AdminProjects';
+import AdminVolunteers from '../views/Admin/AdminVolunteers';
+import AdminSponsors from '../views/Admin/AdminSponsors';
+import AdminTeams from '../views/Admin/AdminTeams';
 
 
 export default (
@@ -23,19 +23,19 @@ export default (
         /* Add new routes here */
         <Route
             path={Urls.ADMIN_PROJECTS}
-            component={SuperAdminProjects}
+            component={AdminProjects}
         />
         <Route
             path={Urls.ADMIN_VOLUNTEERS}
-            component={SuperAdminVolunteers}
+            component={AdminVolunteers}
         />
         <Route
             path={Urls.ADMIN_SPONSORS}
-            component={SuperAdminSponsors}
+            component={AdminSponsors}
         />
         <Route
             path={Urls.ADMIN_TEAMS}
-            component={ProjectLeaderTeams}
+            component={AdminTeams}
         />
     </Route>
 );

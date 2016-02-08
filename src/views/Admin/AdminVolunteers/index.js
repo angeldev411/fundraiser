@@ -3,33 +3,38 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
+import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
-const sponsors = data.sponsors;
 
-export default class SuperAdminProjects extends Component {
+export default class AdminVolunteers extends Component {
     componentWillMount() {
-        document.title = 'Sponsors | Raiserve';
+        document.title = 'Volunteers | Raiserve';
     }
 
     render() {
+        let header = null;
+
+        if (data.user.role === 'team-leader') {
+            header = `${data.project.name} Volunteers`;
+        } else {
+            header = `Volunteers`;
+        }
+
         return (
             <Page>
                 <AdminLayout>
-                    <AdminContentHeader title={'Sponsors'}
+                    <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <AdminSponsorsTable sponsors={sponsors} />
+                    <AdminVolunteersTable volunteers={data.volunteers}
+                        editable={false}
+                    />
                 </AdminLayout>
             </Page>
         );
     }
 }
-
-SuperAdminProjects.propTypes = {
-    show: React.PropTypes.bool,
-};
