@@ -1,0 +1,54 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+table.teams {
+    & > tbody {
+        & > tr {
+            & > td {
+                line-height: 45px;
+
+                &.team-name {
+                    font-weight: bold;
+
+                    img{
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 50%;
+                        margin: 0 5px;
+                    }
+                }
+            }
+
+            a,
+            .btn-link {
+                color: $green;
+                font-family: $conduit-bold;
+                font-size: 1em;
+                margin-left: 10px;
+
+                &:hover {
+                    text-decoration: none;
+                    color: $grey;
+                }
+            }
+        }
+    }
+}
+
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+    table.teams {
+        & > tbody {
+            & > tr {
+                & > td {
+                    .edit-links {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+}

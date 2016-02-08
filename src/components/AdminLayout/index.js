@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import AdminMenu from '../AdminMenu';
 import * as Urls from '../../urls.js';
+import * as Data from '../../common/test-data.js'; // TODO remove this
 
 export default class AdminLayout extends Component {
-    getNav = (type = 'user') => {
-        if (type === 'superadmin') {
+    getNav = (role = 'user') => {
+        if (role === 'super-admin') {
             return [
                 {
                     title: 'Projects',
@@ -19,8 +20,21 @@ export default class AdminLayout extends Component {
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
-        } else {
-            // TODO
+        } else if (role === 'team-leader') {
+            return [
+                {
+                    title: 'Teams',
+                    href: Urls.ADMIN_TEAMS_URL,
+                },
+                {
+                    title: 'All Sponsors',
+                    href: Urls.ADMIN_SPONSORS_URL,
+                },
+                {
+                    title: 'All Volunteers',
+                    href: Urls.ADMIN_VOLUNTEERS_URL,
+                },
+            ];
         }
         return null;
     };
@@ -30,7 +44,7 @@ export default class AdminLayout extends Component {
             <div className={"admin-layout"}>
                 <div className={'container'}>
                     <AdminMenu
-                        adminNav={this.getNav('superadmin')}
+                        adminNav={this.getNav(Data.user.role)}
                         pageNav={this.props.pageNav}
                     />
                     <div className="col-xs-12 col-lg-9 admin-content">

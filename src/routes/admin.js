@@ -10,6 +10,8 @@ import Home from '../views/Home';
 import SuperAdminProjects from '../views/Admin/SuperAdminProjects';
 import SuperAdminVolunteers from '../views/Admin/SuperAdminVolunteers';
 import SuperAdminSponsors from '../views/Admin/SuperAdminSponsors';
+import ProjectLeaderTeams from '../views/Admin/ProjectLeaderTeams';
+
 
 export default (
     <Route
@@ -30,6 +32,10 @@ export default (
         <Route
             path={Urls.ADMIN_SPONSORS}
             component={SuperAdminSponsors}
+        />
+        <Route
+            path={Urls.ADMIN_TEAMS}
+            component={ProjectLeaderTeams}
         />
     </Route>
 );
