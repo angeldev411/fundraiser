@@ -13,6 +13,14 @@
             font-size: .8em;
             margin: 10px 0;
         }
+
+        label.select-label {
+            color: $light-grey;
+            font-size: 1.2em;
+            font-family: $conduit-light;
+            font-weight: initial;
+            padding-left: 15px;
+        }
     }
 
 

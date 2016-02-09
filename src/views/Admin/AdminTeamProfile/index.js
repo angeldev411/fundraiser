@@ -45,7 +45,7 @@ export default class TeamProfile extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <div className="edit-team-profile">
-                        <section className="edit-team-page">
+                        <section>
                             <Button
                                 type="btn-lg btn-transparent-green"
                                 to={"#"}
@@ -54,8 +54,38 @@ export default class TeamProfile extends Component {
                             </Button>
                             <p className={'action-description'}>{'You can edit your public team page visuals and messaging by clicking the link above'}</p>
                         </section>
-                        <section className="edit-password">
+                        <section>
                             <ModalButton type="btn-lg btn-transparent-green">{'Change Password'}</ModalButton>
+                        </section>
+                        <section>
+                            <input
+                                type="checkbox"
+                                name="supervisor-signature"
+                                id="supervisor-signature"
+                                value=""
+                            />
+                            <label
+                                className="select-label"
+                                htmlFor="supervisor-signature"
+                            >
+                                {'Require Supervisor signature'}
+                            </label>
+                            <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
+                        </section>
+                        <section>
+                            <input
+                                type="checkbox"
+                                name="leader-signature"
+                                id="leader-signature"
+                                value=""
+                            />
+                            <label
+                                className="select-label"
+                                htmlFor="leader-signature"
+                            >
+                                {'Require Team Leader approval'}
+                            </label>
+                            <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
                         </section>
                     </div>
                 </AdminLayout>
