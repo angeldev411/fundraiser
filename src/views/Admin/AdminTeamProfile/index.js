@@ -9,7 +9,7 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
-
+import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
@@ -89,6 +89,14 @@ export default class TeamProfile extends Component {
                             <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
                         </section>
                         <AdminShareEfforts/>
+                        <section>
+                            <Button
+                                type="btn-lg btn-green-white"
+                                to={Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}
+                            >
+                                {'View Team Page'}
+                            </Button>
+                        </section>
                     </div>
                 </AdminLayout>
             </Page>
