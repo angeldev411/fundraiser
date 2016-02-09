@@ -35,6 +35,21 @@ export default class AdminLayout extends Component {
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
+        } else if (role === 'team-leader') {
+            return [
+                {
+                    title: 'Teams',
+                    href: Urls.ADMIN_TEAMS_URL,
+                },
+                {
+                    title: 'All Sponsors',
+                    href: Urls.ADMIN_SPONSORS_URL,
+                },
+                {
+                    title: 'All Volunteers',
+                    href: Urls.ADMIN_VOLUNTEERS_URL,
+                },
+            ];
         }
         return null;
     };
