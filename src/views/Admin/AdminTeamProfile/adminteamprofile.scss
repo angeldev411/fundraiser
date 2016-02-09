@@ -1,0 +1,36 @@
+@import '../../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.edit-team-profile {
+    min-height: 400px;
+
+    section {
+        margin: 20px 0;
+
+        p.action-description {
+            color: $light-grey;
+            font-size: .8em;
+            margin: 10px 0;
+        }
+
+        label.select-label {
+            color: $light-grey;
+            font-size: 1.2em;
+            font-family: $conduit-light;
+            font-weight: initial;
+            padding-left: 15px;
+        }
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+
+}
