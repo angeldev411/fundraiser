@@ -10,9 +10,9 @@ import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembe
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminTeams extends Component {
+export default class AdminTeamDashboard extends Component {
     componentWillMount() {
-        document.title = 'Teams | Raiserve';
+        document.title = 'Dashboard | Raiserve';
     }
 
     render() {
