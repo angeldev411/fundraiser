@@ -1,0 +1,46 @@
+@import "../../common/styles/variables.scss";
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.share-efforts{
+
+    .title {
+        color: $green;
+        font-family: $conduit-bold;
+        font-size: 1.45em
+    }
+
+    p {
+        color: $light-grey;
+    }
+
+    a {
+        color: $grey;
+        font-size: 3em;
+        margin: 0 5px;
+
+        &:hover {
+            color: $green;
+            text-decoration: none;
+        }
+    }
+
+
+}
+
+
+/* Medium devices (desktops, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .share-efforts{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 120px;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+
+}

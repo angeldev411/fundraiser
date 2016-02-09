@@ -8,6 +8,7 @@ import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import AdminShareEfforts from '../../../components/AdminShareEfforts';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
@@ -87,6 +88,7 @@ export default class TeamProfile extends Component {
                             </label>
                             <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
                         </section>
+                        <AdminShareEfforts/>
                     </div>
                 </AdminLayout>
             </Page>
