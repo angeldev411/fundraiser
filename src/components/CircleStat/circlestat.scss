@@ -1,0 +1,64 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+$stat-progress-width: 200px;
+$margin-stat-content: 17px;
+$offset-div: 3px;
+$stat-progress-border-width: 1px;
+$stat-content-width: $stat-progress-width - 2 * ($margin-stat-content + $stat-progress-border-width);
+
+.stat-progress-container {
+    padding-bottom: 5em;
+    text-align: center;
+}
+
+.stat-progress {
+    width: $stat-progress-width;
+    height: $stat-progress-width;
+    border-radius: $stat-progress-width;
+    border: solid $stat-progress-border-width rgba($lighter-grey, 0.8);
+    margin: auto;
+
+    &.stat-progress-circle__empty .rc-progress-circle {
+        opacity: 0;
+    }
+
+    .stat-content {
+        width: $stat-content-width;
+        height: $stat-content-width;
+        border-radius: $stat-content-width;
+        border: solid $stat-progress-border-width rgba($lighter-grey, 0.8);
+        background-size: cover;
+        background-position: center center;
+        margin: (-$stat-progress-width - $offset-div - $stat-progress-border-width + $margin-stat-content) 0 0 $margin-stat-content;
+
+        span {
+            color: $green;
+            display: block;
+            text-align: center;
+        }
+
+        .stat-current {
+            font-family: $conduit-medium;
+            font-size: 5em;
+            letter-spacing: -0.1em;
+            margin-top: 15px;
+        }
+
+        .stat-title {
+            font-family: $conduit-light;
+            position: relative;
+            font-size: 1.2em;
+            top: -1.2em;
+        }
+    }
+
+    .rc-progress-circle-path {
+        stroke: $green;
+    }
+    .rc-progress-circle-trail {
+        stroke: none;
+    }
+}
