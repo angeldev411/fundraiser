@@ -1,7 +1,8 @@
 export const user = {
     name: 'Adrien Kühn',
     // role: 'super-admin',
-    role: 'project-leader',
+    // role: 'project-leader',
+    role: 'team-leader',
 };
 
 export const project = {

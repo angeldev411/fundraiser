@@ -21,6 +21,11 @@ export default class TeamProfile extends Component {
     render() {
         const pageNav = [
             {
+                type: 'link',
+                title: 'Email Your Team',
+                href: '#',
+            },
+            {
                 type: 'button',
                 title: 'Invite members',
                 content:
@@ -32,8 +37,13 @@ export default class TeamProfile extends Component {
             },
             {
                 type: 'link',
-                title: 'Email Your Team',
-                href: '#',
+                title: 'My Public Team Page',
+                href: `${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}`,
+            },
+            {
+                type: 'link',
+                title: 'My Team Profile',
+                href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
         ];
 

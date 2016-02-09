@@ -38,15 +38,19 @@ export default class AdminLayout extends Component {
         } else if (role === 'team-leader') {
             return [
                 {
-                    title: 'Teams',
-                    href: Urls.ADMIN_TEAMS_URL,
+                    title: 'My Team Dashboard',
+                    href: Urls.ADMIN_TEAM_DASHBOARD_URL,
                 },
                 {
-                    title: 'All Sponsors',
+                    title: 'My Team',
+                    href: '#users',
+                },
+                {
+                    title: 'My Sponsors',
                     href: Urls.ADMIN_SPONSORS_URL,
                 },
                 {
-                    title: 'All Volunteers',
+                    title: 'Approve Hours',
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
