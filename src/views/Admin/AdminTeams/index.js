@@ -41,7 +41,7 @@ export default class AdminTeams extends Component {
                     <AdminTeamsTable
                         teams={project.teams}
                         project={project}
-                        editable={true}
+                        actionable={true}
                     />
                 </AdminLayout>
             </Page>

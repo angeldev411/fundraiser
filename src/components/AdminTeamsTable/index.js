@@ -13,7 +13,7 @@ export default class AdminTeamsTable extends Component {
                             <th>$ Raised</th>
                             <th>Hours<br/>volunteered</th>
                             <th>Total<br/>volunteers</th>
-                            {this.props.editable ? <th>Actions</th> : null}
+                            {this.props.actionable ? <th>Actions</th> : null}
                         </tr>
                     </thead>
                     <tbody>
@@ -23,7 +23,7 @@ export default class AdminTeamsTable extends Component {
                                 <td>{team.raised}</td>
                                 <td>{team.totalHours}</td>
                                 <td>{team.totalVolunteers}</td>
-                                {this.props.editable ?
+                                {this.props.actionable ?
                                     <td>
                                         <div className={'edit-links'}>
                                             <ModalButton type="btn-link uppercase"
@@ -55,5 +55,5 @@ export default class AdminTeamsTable extends Component {
 
 AdminTeamsTable.propTypes = {
     project: React.PropTypes.object,
-    editable: React.PropTypes.bool,
+    actionable: React.PropTypes.bool,
 };

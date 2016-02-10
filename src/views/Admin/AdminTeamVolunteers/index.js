@@ -3,18 +3,18 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import Button from '../../../components/Button';
 import CircleStat from '../../../components/CircleStat';
+import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
-import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
+import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminTeamSponsors extends Component {
+export default class AdminTeamVolunteers extends Component {
     componentWillMount() {
         document.title = 'Team Sponsors | Raiserve';
     }
@@ -53,11 +53,26 @@ export default class AdminTeamSponsors extends Component {
             <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
-                        title={'Team sponsors'}
+                        title={'My Team'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
+                        buttons={
+                            <ModalButton type="btn-link pull-right uppercase"
+                                content={
+                                    <AdminInviteTeamMembersForm
+                                        title={"Invite Members"}
+                                        project={data.project}
+                                        team={data.team}
+                                    />
+                                }
+                            >
+                                {'Invite members'}
+                            </ModalButton>
+                        }
                     />
                     <div className={'table-limit-height'}>
-                        <AdminSponsorsTable sponsors={data.sponsors} />
+                        <AdminVolunteersTable volunteers={data.team.volunteers}
+                            actionable={true}
+                        />
                     </div>
                     <div className={"col-xs-12"}>
                         <section className={"sponsors-stats col-xs-12 col-sm-10"}>

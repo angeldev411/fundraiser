@@ -21,7 +21,7 @@ export const ADMIN_TEAMS = 'teams';
 export const ADMIN_TEAM_DASHBOARD = 'team';
 export const ADMIN_TEAM_PROFILE = 'team/profile';
 export const ADMIN_TEAM_SPONSORS = 'team/sponsors';
-
+export const ADMIN_TEAM_VOLUNTEERS = 'team/volunteers';
 
 export const ADMIN_PROJECTS_URL = `${ADMIN_BASE_URL}/${ADMIN_PROJECTS}`;
 export const ADMIN_VOLUNTEERS_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEERS}`;
@@ -31,7 +31,7 @@ export const ADMIN_TEAMS_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAMS}`;
 export const ADMIN_TEAM_DASHBOARD_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_DASHBOARD}/`;
 export const ADMIN_TEAM_PROFILE_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_PROFILE}`;
 export const ADMIN_TEAM_SPONSORS_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_SPONSORS}/`;
-
+export const ADMIN_TEAM_VOLUNTEERS_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_VOLUNTEERS}/`;
 
 // PUBLIC
 export const getTeamProfileUrl = (projectslug, teamSlug) => {

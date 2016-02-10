@@ -31,7 +31,7 @@ export default class AdminVolunteers extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <AdminVolunteersTable volunteers={data.volunteers}
-                        editable={false}
+                        actionable={false}
                     />
                 </AdminLayout>
             </Page>
