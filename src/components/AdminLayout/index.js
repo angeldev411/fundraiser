@@ -47,7 +47,7 @@ export default class AdminLayout extends Component {
                 },
                 {
                     title: 'My Sponsors',
-                    href: Urls.ADMIN_SPONSORS_URL,
+                    href: Urls.ADMIN_TEAM_SPONSORS_URL,
                 },
                 {
                     title: 'Approve Hours',

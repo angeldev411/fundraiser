@@ -13,7 +13,7 @@ import AdminSponsors from '../views/Admin/AdminSponsors';
 import AdminTeams from '../views/Admin/AdminTeams';
 import AdminTeamDashboard from '../views/Admin/AdminTeamDashboard';
 import AdminTeamProfile from '../views/Admin/AdminTeamProfile';
-
+import AdminTeamSponsors from '../views/Admin/AdminTeamSponsors';
 
 export default (
     <Route
@@ -46,6 +46,10 @@ export default (
         <Route
             path={Urls.ADMIN_TEAM_PROFILE}
             component={AdminTeamProfile}
+        />
+        <Route
+            path={Urls.ADMIN_TEAM_SPONSORS}
+            component={AdminTeamSponsors}
         />
     </Route>
 );

@@ -1,0 +1,29 @@
+@import "../../common/styles/variables.scss";
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.download-csv{
+
+    .title {
+        color: $green;
+        font-family: $conduit-bold;
+        font-size: 1.45em
+    }
+
+    p {
+        color: $light-grey;
+    }
+
+}
+
+
+/* Medium devices (desktops, 768px and up) */
+@media (min-width: $screen-sm-min) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+
+}
