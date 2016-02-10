@@ -25,6 +25,18 @@
     }
 }
 
+/* Medium devices (desktops, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .edit-team-profile {
+        .share-efforts{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 120px;
+        }
+    }
+}
+
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
 

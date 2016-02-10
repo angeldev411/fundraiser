@@ -16,10 +16,6 @@
         height: 50px;
         font-size: 50px;
         line-height: 50px;
-
-        &:hover {
-            color: $white;
-        }
     }
 
     #previous{
@@ -94,18 +90,68 @@
             }
 
             .user-name {
-                color: $white;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
 
             .user-sponsor {
-                color: $green;
                 text-transform: uppercase;
 
                 &:hover {
                     text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+.color-dark {
+    #previous,
+    #next {
+        color: $light-grey;
+
+        &:hover {
+            color: $grey;
+        }
+    }
+
+    ul{
+        li.user {
+            .user-name {
+                color: $grey;
+            }
+
+            .user-sponsor {
+                color: $green;
+
+                &:hover {
+                    color: $grey;
+                }
+            }
+        }
+    }
+}
+
+.color-light {
+    #previous,
+    #next {
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+    ul{
+        li.user {
+            .user-name {
+                color: $white;
+            }
+
+            .user-sponsor {
+                color: $green;
+
+                &:hover {
                     color: $white;
                 }
             }
@@ -116,6 +162,6 @@
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
     .user-list {
-        padding: 0 90px;
+        padding: 0 60px;
     }
 }

@@ -4,9 +4,11 @@ import React, { Component } from 'react';
 /* Then React components */
 import Page from '../../../components/Page';
 import CircleStat from '../../../components/CircleStat';
+import UserList from '../../../components/UserList';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import AdminShareEfforts from '../../../components/AdminShareEfforts';
 
 // TODO dynamic data
 import * as data from '../../../common/test-data';
@@ -38,31 +40,48 @@ export default class AdminTeamDashboard extends Component {
                         title={'My Team Dashboard'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <CircleStat
-                        data={
-                            {
-                                goal: 10,
-                                current: 5,
-                                title: 'Volunteers'
+                    <section className={"stats col-xs-12"}>
+                        <CircleStat
+                            data={
+                                {
+                                    current: 5,
+                                    title: 'Volunteers'
+                                }
                             }
-                        }
-                    />
-                    <CircleStat
-                        data={
-                            {
-                                current: 210,
-                                title: 'Sponsors'
+                        />
+                        <CircleStat
+                            data={
+                                {
+                                    current: 210,
+                                    title: 'Sponsors'
+                                }
                             }
-                        }
-                    />
-                    <CircleStat
-                        data={
-                            {
-                                current: '7.110',
-                                title: '$ Raised'
+                        />
+                        <CircleStat
+                            data={
+                                {
+                                    current: '7.110',
+                                    title: '$ Raised'
+                                }
                             }
-                        }
-                    />
+                        />
+                    </section>
+                    <section className={"col-xs-12"}>
+                        <section className={"col-xs-12 col-sm-10"}>
+                            <div className="content-header">
+                                <h2 className="uppercase">{'Top earners'}</h2>
+                                <hr/>
+                            </div>
+                            <UserList
+                                team={data.team}
+                                color="dark"
+                                noSponsor
+                            />
+                        </section>
+                        <section className={"col-xs-12 col-sm-2"}>
+                            <AdminShareEfforts/>
+                        </section>
+                    </section>
                 </AdminLayout>
             </Page>
         );

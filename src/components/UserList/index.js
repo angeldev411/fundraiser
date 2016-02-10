@@ -76,7 +76,7 @@ export default class UserList extends Component {
 
     render() {
         return (
-            <div className="user-list clearfix">
+            <div className={`user-list clearfix color-${this.props.color}`}>
                 <div
                     className={classNames({
                         'scroll-button__visible': this.state.previousVisible,
@@ -103,7 +103,7 @@ export default class UserList extends Component {
                                     </div>
                                 </div>
                                 <div className="user-name">{user.name}</div>
-                                 <span className="user-sponsor">{'Sponsor Me'}</span>
+                                { this.props.noSponsor ? (null) : <span className="user-sponsor">{'Sponsor Me'}</span> }
                             </Link>
                         </li>)
                     )}
@@ -127,4 +127,6 @@ export default class UserList extends Component {
 UserList.propTypes = {
     team: React.PropTypes.object,
     onClick: React.PropTypes.func,
+    color: React.PropTypes.string,
+    noSponsor: React.PropTypes.bool,
 };
