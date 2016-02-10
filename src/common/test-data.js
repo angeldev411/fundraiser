@@ -31,6 +31,7 @@ export const team = {
     totalHours: 841,
     totalVolunteers: 553,
     teamLeaderEmail: 'iamtheleader@gmail.com',
+    sponsors: []
 };
 
 export const teams = [];
@@ -119,3 +120,6 @@ for (let i=0; i < 10; i++) {
 for (let i=0; i < 10; i++) {
     project.sponsors.push(sponsor);
 }
+
+// Add sponsors to team
+team.sponsors = sponsors;

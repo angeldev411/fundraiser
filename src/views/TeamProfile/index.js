@@ -53,7 +53,10 @@ export default class TeamProfile extends Component {
                                         </a>
                                     </span>
                                 </div>
-                                <UserList team={team}/>
+                                <UserList
+                                    team={team}
+                                    color={"light"}
+                                />
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,46 @@
+@import '../../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.stats {
+    .stat-progress-container {
+        margin: 20px auto;
+        padding: 0;
+        display: block;
+    }
+}
+
+.share-efforts {
+    border-left: solid 1px $lighter-grey;
+    padding-left: 20px;
+}
+
+.content-header {
+    h2 {
+        color: $green;
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .stats {
+        .stat-progress-container {
+            margin: 20px;
+            display: inline-block;
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min) {
+
+}
