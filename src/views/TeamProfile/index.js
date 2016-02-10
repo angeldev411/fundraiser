@@ -22,15 +22,22 @@ export default class TeamProfile extends Component {
         const SHARE_TEXT = `${team.name} - Raiserve`;
         const SHARE_MESSAGE = `${team.slogan}`;
 
+        // TODO check if user has rights
+        const editable = true;
+
         return (
             <Page>
                 <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage})`}
                     customclass={"cover-team-profile"}
                     tagline={team.tagline}
                     button={"Sponsor Now"}
+                    editable={editable}
                 />
                 <div className={"main-content"}>
-                    <TeamProfileBlock team={team}/>
+                    <TeamProfileBlock
+                        team={team}
+                        editable={editable}
+                    />
                     <div className="team-profile-footer">
                         <div className={"container"}>
                             <div className="team">

@@ -1,0 +1,53 @@
+@import "../../common/styles/variables.scss";
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.btn-edit-container {
+    display: none;
+}
+
+.btn-edit-cover {
+    position: absolute;;
+    left: 0;
+    bottom: 0;
+}
+
+.btn-edit-logo {
+    position: relative;
+    right: 0;
+}
+
+.btn-edit-slogan {
+    position: relative;
+    right: 0;
+}
+
+.btn-edit-description {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 20px;
+}
+
+@media (min-width: $screen-sm-min) {
+    .btn-edit-container {
+        padding: 0 50px;
+        background: url('../images/btn-edit-arrow.png');
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .btn-edit-right {
+        background-position: right 40px top
+    }
+
+    .btn-edit-left {
+        background-position: left 40px top
+    }
+
+    .btn-edit-top {
+        background-position: top 10px center;
+        padding: 20px 0;
+    }
+}
