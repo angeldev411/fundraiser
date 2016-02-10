@@ -45,7 +45,7 @@ export default class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: 5,
-                                    title: 'Volunteers'
+                                    title: 'Volunteers',
                                 }
                             }
                         />
@@ -53,7 +53,7 @@ export default class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: 210,
-                                    title: 'Sponsors'
+                                    title: 'Sponsors',
                                 }
                             }
                         />
@@ -61,7 +61,7 @@ export default class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: '7.110',
-                                    title: '$ Raised'
+                                    title: '$ Raised',
                                 }
                             }
                         />

@@ -103,7 +103,7 @@ export default class UserList extends Component {
                                     </div>
                                 </div>
                                 <div className="user-name">{user.name}</div>
-                                { this.props.noSponsor ? (null) : <span className="user-sponsor">{'Sponsor Me'}</span> }
+                                {this.props.noSponsor ? (null) : <span className="user-sponsor">{'Sponsor Me'}</span>}
                             </Link>
                         </li>)
                     )}
