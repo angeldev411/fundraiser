@@ -9,5 +9,11 @@ table {
     thead {
         color: $green;
         text-transform: uppercase;
+        font-family: $conduit-light;
     }
+}
+
+.table-limit-height {
+    height: 500px;
+    overflow-y: scroll;
 }

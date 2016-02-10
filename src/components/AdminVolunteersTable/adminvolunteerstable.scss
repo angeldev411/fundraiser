@@ -4,10 +4,15 @@
 /* No media query since this is the default in Bootstrap */
 
 table.volunteers {
+    input#check-all {
+        margin-right: 10px;
+    }
+
     & > tbody {
         & > tr {
             & > td {
                 line-height: 45px;
+                font-size: .9em;
 
                 &.volunteer-name {
                     font-weight: bold;
@@ -19,7 +24,39 @@ table.volunteers {
                         margin: 0 5px;
                     }
                 }
+
+                input {
+                    text-align: center;
+                }
             }
         }
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        min-width: 80px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+        background: $white;
+        z-index: 1;
+        padding: 10px 0;
+
+        li {
+            list-style: none;
+
+            .btn-link {
+                font-weight: bold;
+                padding: 5px;
+            }
+        }
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
     }
 }
