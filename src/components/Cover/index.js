@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
-import PledgeButton from '../PledgeButton/';
+import PledgeButton from '../PledgeButton';
+import EditButton from '../EditButton';
 
 const SET_IS_DESKTOP = () => {
     this.setState({
@@ -95,6 +96,14 @@ export default class Cover extends Component {
                         <PledgeButton type="btn-default">
                             {this.props.button}
                         </PledgeButton>
+                        {this.props.editable ?
+                            <EditButton
+                                direction="right"
+                                name="cover"
+                            >
+                                {'Cover'}
+                            </EditButton>
+                        : null}
                     </div>
                 </div>
             );
@@ -133,4 +142,5 @@ Cover.propTypes = {
     logo: React.PropTypes.string,
     volunteer: React.PropTypes.object,
     pathname: React.PropTypes.string,
+    editable: React.PropTypes.bool,
 };
