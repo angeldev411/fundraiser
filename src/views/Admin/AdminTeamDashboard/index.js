@@ -44,7 +44,7 @@ export default class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: 5,
+                                    current: data.team.volunteers.length,
                                     title: 'Volunteers',
                                 }
                             }
@@ -52,7 +52,7 @@ export default class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: 210,
+                                    current: data.team.sponsors.length,
                                     title: 'Sponsors',
                                 }
                             }
@@ -60,7 +60,7 @@ export default class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: '7.110',
+                                    current: data.team.raised,
                                     title: '$ Raised',
                                 }
                             }
