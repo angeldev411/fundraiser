@@ -13,7 +13,7 @@ import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class TeamProfile extends Component {
+export default class AdminTeamProfile extends Component {
     componentWillMount() {
         document.title = 'Teams | Raiserve';
     }

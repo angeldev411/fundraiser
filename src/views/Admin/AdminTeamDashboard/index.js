@@ -21,6 +21,11 @@ export default class AdminTeamDashboard extends Component {
     render() {
         const pageNav = [
             {
+                type: 'link',
+                title: 'Email Your Team',
+                href: '#',
+            },
+            {
                 type: 'button',
                 title: 'Invite members',
                 content:
@@ -29,6 +34,16 @@ export default class AdminTeamDashboard extends Component {
                         project={data.project}
                         team={data.team}
                     />,
+            },
+            {
+                type: 'link',
+                title: 'My Public Team Page',
+                href: `${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}`,
+            },
+            {
+                type: 'link',
+                title: 'My Team Profile',
+                href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
         ];
 
