@@ -15,7 +15,7 @@ import * as data from '../../../common/test-data';
 
 export default class AdminTeamProfile extends Component {
     componentWillMount() {
-        document.title = 'Teams | Raiserve';
+        document.title = 'Team profile | Raiserve';
     }
 
     render() {
