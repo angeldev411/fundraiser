@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import Button from '../../../components/Button';
 import CircleStat from '../../../components/CircleStat';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
@@ -58,7 +57,13 @@ export default class AdminTeamVolunteers extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                         buttons={
                             <ModalButton type="btn-link pull-right uppercase"
-                                content={<AdminInviteTeamMembersForm title={"Invite New Members"}/>}
+                                content={
+                                    <AdminInviteTeamMembersForm
+                                        title={"Invite Members"}
+                                        project={data.project}
+                                        team={data.team}
+                                    />
+                                }
                             >
                                 {'Invite members'}
                             </ModalButton>
@@ -66,7 +71,7 @@ export default class AdminTeamVolunteers extends Component {
                     />
                     <div className={'table-limit-height'}>
                         <AdminVolunteersTable volunteers={data.team.volunteers}
-                            editable={true}
+                            actionable={true}
                         />
                     </div>
                     <div className={"col-xs-12"}>

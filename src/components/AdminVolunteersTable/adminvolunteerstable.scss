@@ -31,9 +31,16 @@ table.volunteers {
             }
         }
     }
+}
+
+.actions {
+    color: $green;
+    position: relative;
+    height: 30px;
 
     .dropdown {
-        position: relative;
+        position: absolute;
+        right: 0;
         display: inline-block;
     }
 

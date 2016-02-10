@@ -6,32 +6,36 @@ export default class AdminVolunteersTable extends Component {
     render() {
         return (
             <div className="table-responsive">
+                {this.props.actionable ?
+                    <div className={'actions'}>
+                        <div className="dropdown">
+                            <span>
+                                {'Actions'} <i className="fa fa-chevron-down"></i>
+                            </span>
+                            <ul className="dropdown-content">
+                                <li>
+                                    <Button type="btn-link">{'Email'}</Button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> : null
+                }
                 <table className="volunteers table">
                     <thead>
                         <tr>
-                            <th>Member</th>
-                            <th>Email</th>
-                            <th>Hours</th>
-                            <th>Sponsors</th>
-                            <th>$ Raised</th>
-                            <th>$/Hr</th>
-                            {this.props.editable ?
+                            <th>{'Member'}</th>
+                            <th>{'Email'}</th>
+                            <th>{'Hours'}</th>
+                            <th>{'Sponsors'}</th>
+                            <th>{'$ Raised'}</th>
+                            <th>{'$/Hr'}</th>
+                            {this.props.actionable ?
                                 <th>
                                     <input
                                         type="checkbox"
                                         name={'check-all'}
                                         id={'check-all'}
                                     />
-                                    <div className="dropdown">
-                                        <span>
-                                            {'Actions'} <i className="fa fa-chevron-down"></i>
-                                        </span>
-                                        <ul className="dropdown-content">
-                                            <li>
-                                                <Button type="btn-link">{'Email'}</Button>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </th> : null}
                         </tr>
                     </thead>
@@ -44,7 +48,7 @@ export default class AdminVolunteersTable extends Component {
                                 <td>{volunteer.sponsors}</td>
                                 <td>{volunteer.raised}</td>
                                 <td>{volunteer.hourPledge}</td>
-                                {this.props.editable ?
+                                {this.props.actionable ?
                                     <td>
                                         <input
                                             type="checkbox"
@@ -63,5 +67,5 @@ export default class AdminVolunteersTable extends Component {
 
 AdminVolunteersTable.propTypes = {
     volunteers: React.PropTypes.array,
-    editable: React.PropTypes.bool,
+    actionable: React.PropTypes.bool,
 };
