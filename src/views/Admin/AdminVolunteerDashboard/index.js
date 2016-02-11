@@ -54,6 +54,7 @@ export default class AdminVolunteerDashboard extends Component {
                                 {
                                     current: data.team.volunteers.length,
                                     title: 'Volunteered hours',
+                                    goal: 12,
                                 },
                                 {
                                     current: data.team.sponsors.length,

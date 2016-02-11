@@ -3,8 +3,8 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-$stat-progress-width: 200px;
-$margin-stat-content: 17px;
+$stat-progress-width: 160px;
+$margin-stat-content: 13px;
 $offset-div: 3px;
 $stat-progress-border-width: 1px;
 $stat-content-width: $stat-progress-width - 2 * ($margin-stat-content + $stat-progress-border-width);
@@ -12,6 +12,7 @@ $stat-content-width: $stat-progress-width - 2 * ($margin-stat-content + $stat-pr
 .stat-progress-container {
     padding-bottom: 5em;
     text-align: center;
+    display: inline-block;
 }
 
 .stat-progress {
@@ -42,15 +43,15 @@ $stat-content-width: $stat-progress-width - 2 * ($margin-stat-content + $stat-pr
 
         .stat-current {
             font-family: $conduit-medium;
-            font-size: 5em;
+            font-size: 3.8em;
             letter-spacing: -0.1em;
-            margin-top: 15px;
+            margin-top: 5px;;
         }
 
         .stat-title {
             font-family: $conduit-light;
             position: relative;
-            font-size: 1.2em;
+            font-size: 1em;
             top: -1.2em;
         }
     }
