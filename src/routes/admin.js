@@ -15,7 +15,8 @@ import AdminTeamDashboard from '../views/Admin/AdminTeamDashboard';
 import AdminTeamProfile from '../views/Admin/AdminTeamProfile';
 import AdminTeamSponsors from '../views/Admin/AdminTeamSponsors';
 import AdminTeamVolunteers from '../views/Admin/AdminTeamVolunteers';
-
+import AdminVolunteerSponsors from '../views/Admin/AdminVolunteerSponsors';
+import AdminVolunteerProfile from '../views/Admin/AdminVolunteerProfile';
 
 export default (
     <Route
@@ -41,6 +42,7 @@ export default (
             path={Urls.ADMIN_TEAMS}
             component={AdminTeams}
         />
+
         <Route
             path={Urls.ADMIN_TEAM_DASHBOARD}
             component={AdminTeamDashboard}
@@ -56,6 +58,15 @@ export default (
         <Route
             path={Urls.ADMIN_TEAM_VOLUNTEERS}
             component={AdminTeamVolunteers}
+        />
+
+        <Route
+            path={Urls.ADMIN_VOLUNTEER_PROFILE}
+            component={AdminVolunteerProfile}
+        />
+        <Route
+            path={Urls.ADMIN_VOLUNTEER_SPONSORS}
+            component={AdminVolunteerSponsors}
         />
     </Route>
 );

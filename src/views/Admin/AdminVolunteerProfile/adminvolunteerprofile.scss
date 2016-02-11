@@ -3,8 +3,37 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-.edit-team-profile {
+.edit-volunteer-profile {
     min-height: 400px;
+
+    form {
+        input,
+        label,
+        textarea {
+            color: $grey;
+        }
+
+        input,
+        textarea {
+            border-bottom: 1px solid $grey;
+        }
+
+        .dropzone {
+            margin: 30px 0 15px;
+
+            .dropzone-image {
+                border-radius: 50%;
+                max-width: 114px;
+                max-height: 114px;
+            }
+
+            .dropzone-text {
+                color: $green;
+                margin: 20px;
+                display: inline-block;
+            }
+        }
+    }
 
     section {
         margin: 20px 0;
@@ -27,14 +56,12 @@
 
 /* Medium devices (desktops, 768px and up) */
 @media (min-width: $screen-sm-min) {
-    .edit-team-profile {
         .share-efforts{
             position: absolute;
             bottom: 100px;
             right: 0;
             width: 180px;
         }
-    }
 }
 
 /* Medium devices (desktops, 992px and up) */

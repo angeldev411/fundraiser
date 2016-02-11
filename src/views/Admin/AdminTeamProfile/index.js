@@ -98,7 +98,6 @@ export default class AdminTeamProfile extends Component {
                             </label>
                             <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
                         </section>
-                        <AdminShareEfforts/>
                         <section>
                             <Button
                                 type="btn-lg btn-green-white"
@@ -107,6 +106,7 @@ export default class AdminTeamProfile extends Component {
                                 {'View Team Page'}
                             </Button>
                         </section>
+                        <AdminShareEfforts/>
                     </div>
                 </AdminLayout>
             </Page>
