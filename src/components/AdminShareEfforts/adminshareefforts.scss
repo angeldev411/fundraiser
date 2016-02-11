@@ -4,7 +4,6 @@
 /* No media query since this is the default in Bootstrap */
 
 .share-efforts{
-
     .title {
         color: $green;
         font-family: $conduit-bold;
@@ -25,14 +24,12 @@
             text-decoration: none;
         }
     }
-
-
 }
 
 
 /* Medium devices (desktops, 768px and up) */
 @media (min-width: $screen-sm-min) {
-    
+
 }
 
 /* Large devices (large desktops, 1200px and up) */
