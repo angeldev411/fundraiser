@@ -49,7 +49,7 @@ export default class AdminVolunteerSponsors extends Component {
                     <div className={'table-limit-height'}>
                         <AdminSponsorsTable
                             sponsors={data.sponsors}
-                            volunteer
+                            isVolunteer
                         />
                     </div>
                     <div className={"col-xs-12"}>

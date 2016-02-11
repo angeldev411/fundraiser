@@ -19,7 +19,7 @@ export default class AdminSponsorsTable extends Component {
                                             <span className="label uppercase">{'Hourly: '}</span> {`$${donation.hourly}/hr`}
                                             <span className="label uppercase">{'$ CAP: '}</span> {donation.cap ? `$${donation.cap}` : 'None'}
                                             <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${donation.total}`}</span>
-                                            {!this.props.volunteer ?
+                                            {!this.props.isVolunteer ?
                                                 (<span><span className="label uppercase">{donation.member ? 'Member: ' : 'Team: '}</span> {donation.member ? donation.member.name : donation.team.name} </span>)
                                             : null}
                                             <span className="label uppercase">{'Date: '}</span> {donation.date}
@@ -42,5 +42,5 @@ export default class AdminSponsorsTable extends Component {
 
 AdminSponsorsTable.propTypes = {
     sponsors: React.PropTypes.array,
-    volunteer: React.PropTypes.bool,
+    isVolunteer: React.PropTypes.bool,
 };

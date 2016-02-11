@@ -27,9 +27,9 @@ export const ADMIN_TEAMS_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAMS}`;
 
 
 export const ADMIN_TEAM_DASHBOARD = 'team';
-export const ADMIN_TEAM_PROFILE = 'team/profile';
-export const ADMIN_TEAM_SPONSORS = 'team/sponsors';
-export const ADMIN_TEAM_VOLUNTEERS = 'team/volunteers';
+export const ADMIN_TEAM_PROFILE = `${ADMIN_TEAM_DASHBOARD}/profile`;
+export const ADMIN_TEAM_SPONSORS = `${ADMIN_TEAM_DASHBOARD}/sponsors`;
+export const ADMIN_TEAM_VOLUNTEERS = `${ADMIN_TEAM_DASHBOARD}/volunteers`;
 
 export const ADMIN_TEAM_DASHBOARD_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_DASHBOARD}/`;
 export const ADMIN_TEAM_PROFILE_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_PROFILE}`;
@@ -38,8 +38,8 @@ export const ADMIN_TEAM_VOLUNTEERS_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAM_VOLUNTE
 
 
 export const ADMIN_VOLUNTEER_DASHBOARD = 'volunteer';
-export const ADMIN_VOLUNTEER_PROFILE = 'volunteer/profile';
-export const ADMIN_VOLUNTEER_SPONSORS = 'volunteer/sponsors';
+export const ADMIN_VOLUNTEER_PROFILE = `${ADMIN_VOLUNTEER_DASHBOARD}/profile`;
+export const ADMIN_VOLUNTEER_SPONSORS = `${ADMIN_VOLUNTEER_DASHBOARD}/sponsors`;
 
 export const ADMIN_VOLUNTEER_DASHBOARD_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEER_DASHBOARD}/`;
 export const ADMIN_VOLUNTEER_PROFILE_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEER_PROFILE}`;
