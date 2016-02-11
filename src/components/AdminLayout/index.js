@@ -55,7 +55,16 @@ export default class AdminLayout extends Component {
                 },
             ];
         }
-        return null;
+        return [
+            {
+                title: 'My Dashboard',
+                href: Urls.ADMIN_VOLUNTEER_DASHBOARD_URL,
+            },
+            {
+                title: 'My Sponsors',
+                href: Urls.ADMIN_VOLUNTEER_SPONSORS_URL,
+            },
+        ];
     };
 
     render() {

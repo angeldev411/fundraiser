@@ -27,16 +27,6 @@ export default class AdminVolunteerSponsors extends Component {
                 href: '#',
             },
             {
-                type: 'button',
-                title: 'Invite members',
-                content:
-                    <AdminInviteTeamMembersForm
-                        title={"Invite New Team Members"}
-                        project={data.project}
-                        team={data.team}
-                    />,
-            },
-            {
                 type: 'link',
                 title: 'My Public Page',
                 href: `${Urls.getVolunteerProfileUrl(data.project.slug, data.team.slug, data.volunteer.slug)}`,
