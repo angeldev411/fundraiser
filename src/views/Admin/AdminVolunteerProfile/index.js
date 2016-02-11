@@ -28,7 +28,7 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Volunteer profile | Raiserve';
+        document.title = 'My profile | Raiserve';
     }
 
     onDrop = (files) => {
