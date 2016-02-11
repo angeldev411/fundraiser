@@ -3,47 +3,37 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
-import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
-import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
+import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
+import AdminShareEfforts from '../../../components/AdminShareEfforts';
+
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminTeamSponsors extends Component {
+export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
-        document.title = 'Team Sponsors | Raiserve';
+        document.title = 'Dashboard | Raiserve';
     }
 
     render() {
         const pageNav = [
             {
                 type: 'link',
-                title: 'Email Your Team',
+                title: 'Record my hours',
                 href: '#',
             },
             {
-                type: 'button',
-                title: 'Invite members',
-                content:
-                    <AdminInviteTeamMembersForm
-                        title={"Invite New Team Members"}
-                        project={data.project}
-                        team={data.team}
-                    />,
+                type: 'link',
+                title: 'My Public Page',
+                href: `${Urls.getVolunteerProfileUrl(data.project.slug, data.team.slug, data.volunteer.slug)}`,
             },
             {
                 type: 'link',
-                title: 'My Public Team Page',
-                href: `${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}`,
-            },
-            {
-                type: 'link',
-                title: 'My Team Profile',
-                href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
+                title: 'My Profile',
+                href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];
 
@@ -52,18 +42,18 @@ export default class AdminTeamSponsors extends Component {
             <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
-                        title={'Team sponsors'}
-                        description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
+                        title={'My Dashboard'}
+                        description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
                     />
-                    <div className={'table-limit-height'}>
-                        <AdminSponsorsTable sponsors={data.sponsors} />
+                    <div>
+
                     </div>
                     <AdminStatsBlock
                         stats={
                             [
                                 {
                                     current: data.team.volunteers.length,
-                                    title: 'Volunteers',
+                                    title: 'Volunteered hours',
                                 },
                                 {
                                     current: data.team.sponsors.length,
@@ -76,7 +66,7 @@ export default class AdminTeamSponsors extends Component {
                             ]
                         }
                     >
-                        <AdminDownloadCsv/>
+                        <AdminShareEfforts/>
                     </AdminStatsBlock>
                 </AdminLayout>
             </Page>

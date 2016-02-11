@@ -56,12 +56,14 @@
 
 /* Medium devices (desktops, 768px and up) */
 @media (min-width: $screen-sm-min) {
+    .edit-volunteer-profile {
         .share-efforts{
             position: absolute;
             bottom: 100px;
             right: 0;
             width: 180px;
         }
+    }
 }
 
 /* Medium devices (desktops, 992px and up) */

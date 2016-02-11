@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import CircleStat from '../../../components/CircleStat';
+import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -71,40 +71,29 @@ export default class AdminTeamVolunteers extends Component {
                     />
                     <div className={'table-limit-height'}>
                         <AdminVolunteersTable volunteers={data.team.volunteers}
-                            actionable={true}
+                            actionable
                         />
                     </div>
-                    <div className={"col-xs-12"}>
-                        <section className={"sponsors-stats col-xs-12 col-sm-10"}>
-                            <CircleStat
-                                data={
-                                    {
-                                        current: data.team.volunteers.length,
-                                        title: 'Volunteers',
-                                    }
-                                }
-                            />
-                            <CircleStat
-                                data={
-                                    {
-                                        current: data.team.sponsors.length,
-                                        title: 'Sponsors',
-                                    }
-                                }
-                            />
-                            <CircleStat
-                                data={
-                                    {
-                                        current: data.team.raised,
-                                        title: '$ Raised',
-                                    }
-                                }
-                            />
-                        </section>
-                        <section className={"col-xs-12 col-sm-2"}>
-                            <AdminDownloadCsv/>
-                        </section>
-                    </div>
+                    <AdminStatsBlock
+                        stats={
+                            [
+                                {
+                                    current: data.team.volunteers.length,
+                                    title: 'Volunteers',
+                                },
+                                {
+                                    current: data.team.sponsors.length,
+                                    title: 'Sponsors',
+                                },
+                                {
+                                    current: data.team.raised,
+                                    title: '$ Raised',
+                                },
+                            ]
+                        }
+                    >
+                        <AdminDownloadCsv/>
+                    </AdminStatsBlock>
                 </AdminLayout>
             </Page>
         );

@@ -1,13 +1,9 @@
-@import '../../../common/styles/variables.scss';
+@import "../../common/styles/variables.scss";
 
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-.sponsors-table {
-    margin-bottom: 40px;
-}
-
-.sponsors-stats {
+.stats-block {
     margin: 20px 0;
     padding: 0;
 
@@ -18,14 +14,9 @@
     }
 }
 
-.download-csv {
-    border-left: solid 1px $lighter-grey;
-    padding: 20px 0 20px 10px;
-}
-
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
-    .sponsors-stats {
+    .stats-block {
         .stat-progress-container {
             margin: 20px 7px;
             display: inline-block;
@@ -39,9 +30,4 @@
             }
         }
     }
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) {
-
 }

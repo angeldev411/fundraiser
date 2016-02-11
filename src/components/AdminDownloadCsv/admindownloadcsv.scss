@@ -4,6 +4,8 @@
 /* No media query since this is the default in Bootstrap */
 
 .download-csv{
+    border-left: solid 1px $lighter-grey;
+    padding: 20px 0 20px 10px;
 
     .title {
         color: $green;
@@ -14,9 +16,7 @@
     p {
         color: $light-grey;
     }
-
 }
-
 
 /* Medium devices (desktops, 768px and up) */
 @media (min-width: $screen-sm-min) {

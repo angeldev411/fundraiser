@@ -3,13 +3,12 @@ import React, { Component } from 'react';
 
 /* Then React components */
 import Page from '../../../components/Page';
-import Button from '../../../components/Button';
-import CircleStat from '../../../components/CircleStat';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
-import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
-import AdminShareEfforts from '../../../components/AdminShareEfforts';
+import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
+import AdminShareEfforts from '../../../components/AdminShareEfforts';
+
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
@@ -52,37 +51,26 @@ export default class AdminVolunteerSponsors extends Component {
                             isVolunteer
                         />
                     </div>
-                    <div className={"col-xs-12"}>
-                        <section className={"sponsors-stats col-xs-12 col-sm-10"}>
-                            <CircleStat
-                                data={
-                                    {
-                                        current: data.team.volunteers.length,
-                                        title: 'Volunteered hours',
-                                    }
-                                }
-                            />
-                            <CircleStat
-                                data={
-                                    {
-                                        current: data.team.sponsors.length,
-                                        title: 'Sponsors',
-                                    }
-                                }
-                            />
-                            <CircleStat
-                                data={
-                                    {
-                                        current: data.team.raised,
-                                        title: '$ Raised',
-                                    }
-                                }
-                            />
-                        </section>
-                        <section className={"col-xs-12 col-sm-2"}>
-                            <AdminShareEfforts/>
-                        </section>
-                    </div>
+                    <AdminStatsBlock
+                        stats={
+                            [
+                                {
+                                    current: data.team.volunteers.length,
+                                    title: 'Volunteered hours',
+                                },
+                                {
+                                    current: data.team.sponsors.length,
+                                    title: 'Sponsors',
+                                },
+                                {
+                                    current: data.team.raised,
+                                    title: '$ Raised',
+                                },
+                            ]
+                        }
+                    >
+                        <AdminShareEfforts/>
+                    </AdminStatsBlock>
                 </AdminLayout>
             </Page>
         );
