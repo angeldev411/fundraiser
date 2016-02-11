@@ -18,11 +18,6 @@
     }
 }
 
-.download-csv {
-    border-left: solid 1px $lighter-grey;
-    padding: 20px 0 20px 10px;
-}
-
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
     .sponsors-stats {
@@ -39,9 +34,4 @@
             }
         }
     }
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) {
-
 }
