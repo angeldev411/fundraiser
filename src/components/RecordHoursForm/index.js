@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import DateTimeInput from 'react-bootstrap-datetimepicker';
+import SignaturePad from 'react-signature-pad';
 
 export default class RecordHoursForm extends Component {
     render() {
@@ -39,14 +40,7 @@ export default class RecordHoursForm extends Component {
                     />
                     <label htmlFor="supervisor">{'Supervisor'}</label>
                 </div>
-
-                <div className="form-group">
-                    <input type="password"
-                        name="password"
-                        id="password"
-                    />
-                    <label htmlFor="password">{'Password'}</label>
-                </div>
+                <SignaturePad/>
 
                 <Button type="btn-green-white">{'Submit'}</Button>
             </Form>

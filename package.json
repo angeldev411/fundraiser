@@ -50,6 +50,7 @@
     "react-redux": "^4.0.0",
     "react-router": "^1.0.3",
     "react-router-component": "^0.28.0",
+    "react-signature-pad": "0.0.4",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.0",
     "redbox-react": "^1.0.1",
