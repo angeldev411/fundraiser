@@ -26,6 +26,7 @@
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.3",
     "client-sessions": "^0.7.0",
+    "d3": "^3.5.15",
     "datauri": "^1.0.0-alpha.5",
     "express": "^4.13.4",
     "font-awesome": "^4.5.0",
