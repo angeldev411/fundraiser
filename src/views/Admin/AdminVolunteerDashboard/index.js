@@ -32,7 +32,7 @@ export default class AdminVolunteerDashboard extends Component {
             },
             {
                 type: 'link',
-                title: 'My Profile',
+                title: 'Edit Profile',
                 href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];

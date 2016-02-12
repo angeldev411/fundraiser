@@ -8,6 +8,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
+import RecordHoursForm from '../../../components/RecordHoursForm';
 
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
@@ -21,9 +22,9 @@ export default class AdminVolunteerSponsors extends Component {
     render() {
         const pageNav = [
             {
-                type: 'link',
+                type: 'button',
                 title: 'Record my hours',
-                href: '#',
+                content: <RecordHoursForm/>,
             },
             {
                 type: 'link',
@@ -32,7 +33,7 @@ export default class AdminVolunteerSponsors extends Component {
             },
             {
                 type: 'link',
-                title: 'My Profile',
+                title: 'Edit Profile',
                 href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];

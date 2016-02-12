@@ -42,7 +42,7 @@ export default class AdminTeamSponsors extends Component {
             },
             {
                 type: 'link',
-                title: 'My Team Profile',
+                title: 'Edit Team Profile',
                 href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
         ];

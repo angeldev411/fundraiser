@@ -42,7 +42,7 @@ export default class AdminTeamProfile extends Component {
             },
             {
                 type: 'link',
-                title: 'My Team Profile',
+                title: 'Edit Team Profile',
                 href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
         ];
@@ -52,7 +52,7 @@ export default class AdminTeamProfile extends Component {
             <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
-                        title={'My Team Profile'}
+                        title={'Edit Team Profile'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <div className="edit-team-profile">
@@ -106,7 +106,6 @@ export default class AdminTeamProfile extends Component {
                                 {'View Team Page'}
                             </Button>
                         </section>
-                        <AdminShareEfforts/>
                     </div>
                 </AdminLayout>
             </Page>

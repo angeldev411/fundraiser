@@ -39,7 +39,7 @@ export default class AdminProjectForm extends Component {
                         id="project-admin-email"
                         defaultValue={this.props.project ? this.props.project.projectAdminEmail : null}
                     />
-                    <label htmlFor="project-admin-email">{'Project Admin Email'}</label>
+                    <label htmlFor="project-admin-email">{'Project Admin Email (Optional)'}</label>
                 </div>
 
                 <Button type="btn-green-white">{this.props.project ? 'Edit Project' : 'Create Project'}</Button>

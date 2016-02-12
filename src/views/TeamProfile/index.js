@@ -42,7 +42,7 @@ export default class TeamProfile extends Component {
                         <div className={"container"}>
                             <div className="team">
                                 <div className={'team-header clearfix'}>
-                                    <span className="team-title">{'Team of volunteers'}</span>
+                                    <span className="team-title">{'Our volunteers'}</span>
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
                                         <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}>

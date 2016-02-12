@@ -4,10 +4,9 @@ import React, { Component } from 'react';
 /* Then React components */
 import Page from '../../../components/Page';
 import Button from '../../../components/Button';
-import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
-import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import Dropzone from 'react-dropzone';
 
@@ -40,9 +39,9 @@ export default class AdminVolunteerProfile extends Component {
     render() {
         const pageNav = [
             {
-                type: 'link',
+                type: 'button',
                 title: 'Record my hours',
-                href: '#',
+                content: <RecordHoursForm/>,
             },
             {
                 type: 'link',
@@ -51,7 +50,7 @@ export default class AdminVolunteerProfile extends Component {
             },
             {
                 type: 'link',
-                title: 'My Profile',
+                title: 'Edit Profile',
                 href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];
@@ -122,13 +121,6 @@ export default class AdminVolunteerProfile extends Component {
                                     </Dropzone>
                                 </div>
                                 <div className="form-group">
-                                    <input type="text"
-                                        name="goal"
-                                        id="goal"
-                                    />
-                                    <label htmlFor="goal">{'Goal Hours'}</label>
-                                </div>
-                                <div className="form-group">
                                     <textarea
                                         name="description"
                                         id="description"
@@ -137,10 +129,16 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="description">{'Description'}</label>
                                 </div>
+                                <div className="form-group">
+                                    <input type="text"
+                                        name="goal"
+                                        id="goal"
+                                    />
+                                    <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
+                                </div>
                                 <Button type="btn-green-white">{'Save'}</Button>
                             </form>
                         </section>
-                        <AdminShareEfforts/>
                     </div>
                 </AdminLayout>
             </Page>
