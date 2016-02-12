@@ -9,11 +9,11 @@ export default class AdminTeamsTable extends Component {
                 <table className="teams table">
                     <thead>
                         <tr>
-                            <th>Team Name</th>
-                            <th>$ Raised</th>
-                            <th>Hours<br/>volunteered</th>
-                            <th>Total<br/>volunteers</th>
-                            {this.props.actionable ? <th>Actions</th> : null}
+                            <th>{'Team Name'}</th>
+                            <th>{'Total $'}</th>
+                            <th>{'Total hours'}</th>
+                            <th>{'# Volunteers'}</th>
+                            {this.props.actionable ? <th>{'Actions'}</th> : null}
                         </tr>
                     </thead>
                     <tbody>
