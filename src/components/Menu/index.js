@@ -133,11 +133,9 @@ export default class Menu extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            title=""
-                                        >
+                                        <Link to={Urls.PRIVACY}>
                                             {'Privacy Policy'}
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             </li>

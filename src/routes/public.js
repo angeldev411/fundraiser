@@ -16,6 +16,7 @@ import TeamProfile from '../views/TeamProfile';
 import TeamSignup from '../views/TeamSignup';
 import VolunteerProfile from '../views/VolunteerProfile';
 import Legals from '../views/Legals';
+import Privacy from '../views/Privacy';
 
 export default (
     <Route
@@ -53,6 +54,10 @@ export default (
         <Route
             path={Urls.LEGALS}
             component={Legals}
+        />
+        <Route
+            path={Urls.PRIVACY}
+            component={Privacy}
         />
     </Route>
 

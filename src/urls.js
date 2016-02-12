@@ -4,6 +4,8 @@ export const FOUNDERS = '/founders';
 export const RAISERVE_BASICS = '/raiserve-basics';
 export const LEGALS = '/terms-and-conditions';
 export const STORY = '/story';
+export const PRIVACY = '/privacy-policy';
+
 
 // TEAMS
 // /!\ If you change :teamSlug to something else,
