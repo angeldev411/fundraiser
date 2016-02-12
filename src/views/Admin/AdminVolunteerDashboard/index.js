@@ -6,7 +6,7 @@ import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
-import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
+import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 
 import * as Urls from '../../../urls.js';
@@ -21,9 +21,9 @@ export default class AdminVolunteerDashboard extends Component {
     render() {
         const pageNav = [
             {
-                type: 'link',
+                type: 'button',
                 title: 'Record my hours',
-                href: '#',
+                content: <RecordHoursForm/>,
             },
             {
                 type: 'link',

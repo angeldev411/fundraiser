@@ -1,0 +1,17 @@
+@import '../../common/styles/variables.scss';
+
+.m-signature-pad {
+  background-color: $lighter-grey;
+  position: relative;
+  height: 150px;
+}
+
+.m-signature-pad--body canvas {
+    width: 100%;
+}
+
+.m-signature-pad--footer .button.clear {
+    position: absolute;
+    right: 0;
+    top: 30px;
+}

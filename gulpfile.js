@@ -70,6 +70,11 @@ gulp.task('fa', function() {
     .pipe(gulp.dest('./www/assets/'));
 });
 
+gulp.task('glyphicons', function() {
+    gulp.src('./node_modules/bootstrap/**/*.{ttf,woff,woff2,eot,svg}')
+    .pipe(gulp.dest('./www/assets/'));
+});
+
 gulp.task('jquery', function() {
     gulp.src('./node_modules/jquery/dist/jquery.min.js')
     .pipe(gulp.dest('./www/assets/js'));
@@ -88,10 +93,10 @@ gulp.task('webserver', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(assetList, ['moveAssets', 'sass', 'jquery', 'fa']);
+  gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons', 'jquery']);
   gulp.watch(['./src/**/*.js'], ['js']);
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'jquery']);
+gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons', 'jquery']);
 gulp.task('develop', ['default', 'webserver', 'watch']);
