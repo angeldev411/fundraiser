@@ -231,7 +231,7 @@ export default class AdminVolunteerChart extends Component {
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', '11px')
                 .attr('fill', 'white')
-                .attr('transform', 'rotate(-90)' );
+                .attr('transform', 'rotate(-90)');
 
         return (
             <div className={'graph-container'}>
