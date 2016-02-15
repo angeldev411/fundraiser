@@ -181,4 +181,32 @@ export const graph = [
         date: '2014-02',
         value: 478,
     },
+    {
+        date: '2014-03',
+        value: 478,
+    },
+    {
+        date: '2014-04',
+        value: 478,
+    },
+    {
+        date: '2014-05',
+        value: 478,
+    },
+    {
+        date: '2014-06',
+        value: 478,
+    },
+    {
+        date: '2014-07',
+        value: 478,
+    },
+    {
+        date: '2014-08',
+        value: 478,
+    },
+    {
+        date: '2014-09',
+        value: 478,
+    },
 ];

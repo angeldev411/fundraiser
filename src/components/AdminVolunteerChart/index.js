@@ -64,7 +64,7 @@ export default class AdminVolunteerChart extends Component {
         svg.selectAll('bar')
             .data(data)
         .enter().append('rect')
-            .style('fill', 'steelblue')
+            .style('fill', 'rgb(189, 212, 66)')
             .attr('x', function(d) { return x(d.date); })
             .attr('width', x.rangeBand())
             .attr('y', function(d) { return y(d.value); })
