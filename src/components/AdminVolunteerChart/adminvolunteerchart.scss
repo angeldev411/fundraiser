@@ -1,0 +1,41 @@
+@import '../../common/styles/variables.scss';
+
+.graph-container {
+    position: relative;
+
+    #previous,
+    #next {
+        position: absolute;
+        top: 40%;
+        width: 35px;
+        height: 50px;
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    #previous{
+        left: 0;
+    }
+
+    #next {
+        right: 0;
+    }
+
+    .scroll-button__visible{
+        display: inline-block;
+    }
+
+    .scroll-button__hidden{
+        display: none;
+    }
+
+    #graph {
+        overflow: scroll;
+        margin: 0 50px;
+
+        svg {
+            position: relative;
+            left: 0;
+        }
+    }
+}

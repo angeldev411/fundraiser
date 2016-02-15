@@ -123,3 +123,46 @@ for (let i=0; i < 10; i++) {
 
 // Add sponsors to team
 team.sponsors = sponsors;
+
+export const graph = [
+    {
+        date: new Date(2016, 2, 1),
+        new: 3,
+    },
+    {
+        date: new Date(2016, 2, 2),
+        new: 5,
+    },
+    {
+        date: new Date(2016, 2, 3),
+        new: 2,
+    },
+    {
+        date: new Date(2016, 2, 5),
+        new: 6,
+    },
+    {
+        date: new Date(2016, 2, 6),
+        new: 4,
+    },
+    {
+        date: new Date(2016, 2, 7),
+        new: 5,
+    },
+    {
+        date: new Date(2016, 2, 11),
+        new: 50,
+    },
+    {
+        date: new Date(2016, 2, 15),
+        new: 51,
+    },
+    {
+        date: new Date(2016, 2, 19),
+        new: 49,
+    },
+    {
+        date: new Date(2016, 2, 23),
+        new: 5,
+    },
+];

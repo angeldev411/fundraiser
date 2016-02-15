@@ -8,6 +8,8 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
+import AdminVolunteerChart from '../../../components/AdminVolunteerChart';
+
 
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
@@ -45,9 +47,9 @@ export default class AdminVolunteerDashboard extends Component {
                         title={'My Dashboard'}
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
                     />
-                    <div>
-
-                    </div>
+                    <AdminVolunteerChart
+                        data={data.graph}
+                    />
                     <AdminStatsBlock
                         stats={
                             [
