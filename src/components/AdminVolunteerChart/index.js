@@ -1,18 +1,49 @@
 import React, { Component } from 'react';
-import AdminMenu from '../AdminMenu';
 import ReactFauxDOM from 'react-faux-dom';
-import * as Data from '../../common/test-data.js'; // TODO remove this
 import d3 from 'd3';
+import classNames from 'classnames';
 
-let graphData = [];
+const goal = 140;
+let totalHours = 0;
+const graphData = [];
 
 let currentDay = 1;
 const currentMonth = 2; // February
 const currentYear = 2016;
 
+const SCROLL_INCREMENT = 50;
+let node = null;
+let previous = null;
+let next = null;
+
 export default class AdminVolunteerChart extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            previousVisible: false,
+            nextVisible: false,
+        };
+    }
+
     componentWillMount() {
         this.prepareGraphData(this.props.data);
+    }
+
+    componentDidMount() {
+        node = document.getElementById('graph');
+        previous = document.getElementById('previous');
+        next = document.getElementById('next');
+
+        if (node.scrollWidth - node.offsetWidth !== 0) {
+            this.setState({ nextVisible: true });
+        }
+    }
+
+    componentWillUnmount() {
+        node = null;
+        previous = null;
+        next = null;
     }
 
     getDaysInMonth = (month, year) => {
@@ -20,7 +51,6 @@ export default class AdminVolunteerChart extends Component {
     };
 
     prepareGraphData = (rawData) => {
-        let totalHours = 0;
         const daysInMonth = this.getDaysInMonth(currentMonth, currentYear);
 
         rawData.map(function(d) {
@@ -29,7 +59,7 @@ export default class AdminVolunteerChart extends Component {
                 const diff = d.date.getDate() - currentDay;
 
                 // Add missing item(s)
-                for (var i = 0; i < diff; i++) {
+                for (let i = 0; i < diff; i++) {
                     graphData.push({
                         date: new Date(currentYear, currentMonth, currentDay),
                         new: 0,
@@ -52,7 +82,7 @@ export default class AdminVolunteerChart extends Component {
             const diff = daysInMonth - currentDay + 1;
 
             // Add missing item(s)
-            for (var i = 0; i < diff; i++) {
+            for (let i = 0; i < diff; i++) {
                 graphData.push({
                     date: new Date(currentYear, currentMonth, currentDay),
                     new: 0,
@@ -63,17 +93,65 @@ export default class AdminVolunteerChart extends Component {
         }
     };
 
+    animate = (increment) => {
+        const endValue = node.scrollLeft + increment;
+
+        const loop = setInterval(
+            () => {
+                node.scrollLeft += increment / 5;
+                if (
+                    node.scrollLeft === 0
+                    || node.scrollLeft >= (node.scrollWidth - node.offsetWidth)
+                    || (increment > 0 && node.scrollLeft > endValue)
+                    || (increment < 0 && node.scrollLeft < endValue)
+                ) {
+                    clearInterval(loop);
+                }
+
+                // Hide / show scroll buttons
+                if (node.scrollLeft === 0 && this.state.previousVisible === true) {
+                    this.setState({ previousVisible: false });
+                } else {
+                    this.setState({ previousVisible: true });
+                }
+
+                if (node.scrollLeft >= (node.scrollWidth - node.offsetWidth) && this.state.nextVisible === true) {
+                    this.setState({ nextVisible: false });
+                } else {
+                    this.setState({ nextVisible: true });
+                }
+            }, 30
+        );
+    };
+
+    scrollLeft = () => {
+        this.animate(-SCROLL_INCREMENT);
+    };
+
+    scrollRight = () => {
+        this.animate(SCROLL_INCREMENT);
+    };
+
     render() {
         const container = ReactFauxDOM.createElement('div');
 
-        //Width and height
-        var w = '100%';
-        var h = 320;
-        var barPadding = 5;
-        var barWidth = 20;
+        // Width and height
+        const barPadding = 5;
+        const barWidth = 20;
 
+        const w = this.getDaysInMonth(currentMonth, currentYear) * (barWidth + barPadding);
+        const h = 320;
 
-        var svg = d3.select(container)
+        let heightCoef = 0;
+
+        if (totalHours < goal) {
+            heightCoef = Math.floor(h / totalHours);
+        } else {
+            heightCoef = 1;
+        }
+        const borderRadius = 7;
+
+        let svg = d3.select(container)
             .append('svg')
             .attr('width', w)
             .attr('height', h);
@@ -83,10 +161,10 @@ export default class AdminVolunteerChart extends Component {
             .enter()
             .append('rect')
                 .attr('x', function(d, i) {
-                    return i * (barWidth + barPadding); // i * (w / graphData.length)
+                    return i * (barWidth + barPadding);
                 })
                 .attr('y', 0)
-                .attr('width', barWidth) // w / graphData.length - barPadding
+                .attr('width', barWidth)
                 .attr('height', h)
                 .attr('fill', 'rgb(110, 107, 108)');
 
@@ -98,14 +176,14 @@ export default class AdminVolunteerChart extends Component {
                     return i * (barWidth + barPadding);
                 })
                 .attr('y', function(d) {
-                    return h - (d.total * 4);
+                    return h - (d.total * heightCoef);
                 })
                 .attr('width', barWidth)
                 .attr('height', function(d) {
-                    return d.total * 4;
+                    return d.total * heightCoef;
                 })
-                .attr('rx', 10)
-                .attr('ry', 10)
+                .attr('rx', borderRadius)
+                .attr('ry', borderRadius)
                 .attr('fill', 'rgb(53, 51, 52)');
 
         svg.selectAll('new')
@@ -116,14 +194,14 @@ export default class AdminVolunteerChart extends Component {
                     return i * (barWidth + barPadding);
                 })
                 .attr('y', function(d) {
-                    return h - (d.total * 4);
+                    return h - (d.total * heightCoef);
                 })
                 .attr('width', barWidth)
                 .attr('height', function(d) {
-                    return d.new * 4;
+                    return d.new * heightCoef;
                 })
-                .attr('rx', 10)
-                .attr('ry', 10)
+                .attr('rx', borderRadius)
+                .attr('ry', borderRadius)
                 .attr('fill', 'rgb(189, 212, 66)');
 
         svg.selectAll('text')
@@ -156,8 +234,32 @@ export default class AdminVolunteerChart extends Component {
                 .attr('transform', 'rotate(-90)' );
 
         return (
-            <div id="graph">
-                {container.toReact()}
+            <div className={'graph-container'}>
+                <div
+                    className={classNames({
+                        'scroll-button__visible': this.state.previousVisible,
+                        'scroll-button__hidden' : !this.state.previousVisible,
+                    })}
+                    id="previous"
+                    onClick={this.scrollLeft}
+                >
+                    <i className="fa fa-chevron-left"/>
+                </div>
+
+                <div id="graph">
+                    {container.toReact()}
+                </div>
+
+                <div
+                    className={classNames({
+                        'scroll-button__visible': this.state.nextVisible,
+                        'scroll-button__hidden' : !this.state.nextVisible,
+                    })}
+                    id="next"
+                    onClick={this.scrollRight}
+                >
+                    <i className="fa fa-chevron-right"/>
+                </div>
             </div>
         )
     }
