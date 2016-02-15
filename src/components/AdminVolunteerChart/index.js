@@ -141,15 +141,16 @@ export default class AdminVolunteerChart extends Component {
 
         const w = this.getDaysInMonth(currentMonth, currentYear) * (barWidth + barPadding);
         const h = 320;
-
-        let heightCoef = 0;
+        const innerH = h - 65;
+        let maxOfGoalAndTotalHours;
 
         if (totalHours < goal) {
-            heightCoef = Math.floor(h / totalHours);
+            maxOfGoalAndTotalHours = goal;
         } else {
-            heightCoef = 1;
+            maxOfGoalAndTotalHours = totalHours;
         }
         const borderRadius = 7;
+        console.log(totalHours)
 
         let svg = d3.select(container)
             .append('svg')
@@ -176,11 +177,11 @@ export default class AdminVolunteerChart extends Component {
                     return i * (barWidth + barPadding);
                 })
                 .attr('y', function(d) {
-                    return h - (d.total * heightCoef);
+                    return h - (d.total / maxOfGoalAndTotalHours * innerH);
                 })
                 .attr('width', barWidth)
                 .attr('height', function(d) {
-                    return d.total * heightCoef;
+                    return d.total / maxOfGoalAndTotalHours * innerH;
                 })
                 .attr('rx', borderRadius)
                 .attr('ry', borderRadius)
@@ -194,15 +195,17 @@ export default class AdminVolunteerChart extends Component {
                     return i * (barWidth + barPadding);
                 })
                 .attr('y', function(d) {
-                    return h - (d.total * heightCoef);
+                    return h - (d.total / maxOfGoalAndTotalHours * innerH);
                 })
                 .attr('width', barWidth)
                 .attr('height', function(d) {
-                    return d.new * heightCoef;
+                    return d.new / maxOfGoalAndTotalHours * innerH;
                 })
                 .attr('rx', borderRadius)
                 .attr('ry', borderRadius)
-                .attr('fill', 'rgb(189, 212, 66)');
+                .attr('fill', 'rgb(189, 212, 66)')
+                .append('title')
+                        .text(function(d) { return d.new + ' hrs'; });
 
         svg.selectAll('text')
             .data(graphData)
@@ -226,7 +229,7 @@ export default class AdminVolunteerChart extends Component {
                     return -60;
                 })
                 .attr('y', function(d, i) {
-                    return i * (barWidth + barPadding) + 15;
+                    return i * (barWidth + barPadding) + 14;
                 })
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', '11px')

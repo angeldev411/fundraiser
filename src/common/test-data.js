@@ -147,19 +147,19 @@ export const graph = [
     },
     {
         date: new Date(2016, 2, 7),
-        new: 10,
+        new: 5,
     },
     {
         date: new Date(2016, 2, 11),
-        new: 2,
+        new: 50,
     },
     {
         date: new Date(2016, 2, 15),
-        new: 11,
+        new: 51,
     },
     {
         date: new Date(2016, 2, 19),
-        new: 9,
+        new: 49,
     },
     {
         date: new Date(2016, 2, 23),
