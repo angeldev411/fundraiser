@@ -4,74 +4,159 @@ import ReactFauxDOM from 'react-faux-dom';
 import * as Data from '../../common/test-data.js'; // TODO remove this
 import d3 from 'd3';
 
+let graphData = [];
+
+let currentDay = 1;
+const currentMonth = 2; // February
+const currentYear = 2016;
+
 export default class AdminVolunteerChart extends Component {
+    componentWillMount() {
+        this.prepareGraphData(this.props.data);
+    }
+
+    getDaysInMonth = (month, year) => {
+        return new Date(year, month, 0).getDate();
+    };
+
+    prepareGraphData = (rawData) => {
+        let totalHours = 0;
+        const daysInMonth = this.getDaysInMonth(currentMonth, currentYear);
+
+        rawData.map(function(d) {
+            // If date(s) missing, manually create date
+            if (d.date.getDate() !== currentDay) {
+                const diff = d.date.getDate() - currentDay;
+
+                // Add missing item(s)
+                for (var i = 0; i < diff; i++) {
+                    graphData.push({
+                        date: new Date(currentYear, currentMonth, currentDay),
+                        new: 0,
+                        total: totalHours,
+                    });
+                    currentDay++;
+                }
+            }
+
+            // Increment totalHours
+            totalHours += d.new;
+            d.total = totalHours;
+
+            // push data
+            graphData.push(d);
+            currentDay++;
+        });
+
+        if (!(currentDay > daysInMonth)) { // If month is incomplete
+            const diff = daysInMonth - currentDay + 1;
+
+            // Add missing item(s)
+            for (var i = 0; i < diff; i++) {
+                graphData.push({
+                    date: new Date(currentYear, currentMonth, currentDay),
+                    new: 0,
+                    total: totalHours,
+                });
+                currentDay++;
+            }
+        }
+    };
+
     render() {
         const container = ReactFauxDOM.createElement('div');
 
-        const margin = { top: 20, right: 20, bottom: 70, left: 40 },
-            width = 600 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
-
-        // Parse the date / time
-        const parseDate = d3.time.format('%Y-%m').parse;
-        const x = d3.scale.ordinal().rangeRoundBands([0, width], 0.05);
-        const y = d3.scale.linear().range([height, 0]);
-        const xAxis = d3.svg.axis()
-            .scale(x)
-            .orient('bottom')
-            .tickFormat(d3.time.format('%Y-%m'));
-        const yAxis = d3.svg.axis()
-            .scale(y)
-            .orient('left')
-            .ticks(10);
-        const svg = d3.select(container).append('svg')
-            .attr('width', width + margin.left + margin.right)
-            .attr('height', height + margin.top + margin.bottom)
-            .append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        //Width and height
+        var w = '100%';
+        var h = 320;
+        var barPadding = 5;
+        var barWidth = 20;
 
 
-        const data = Data.graph;
-
-        data.map(function (d) {
-            d.date = parseDate(d.date);
-            d.value = +d.value;
-        });
-
-        x.domain(data.map(function(d) { return d.date; }));
-        y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-        svg.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + height + ')')
-            .call(xAxis)
-            .selectAll('text')
-            .style('text-anchor', 'end')
-            .attr('dx', '-.8em')
-            .attr('dy', '-.55em')
-            .attr('transform', 'rotate(-90)' );
-
-        svg.append('g')
-            .attr('class', 'y axis')
-            .call(yAxis)
-            .append('text')
-            .attr('transform', 'rotate(-90)')
-            .attr('y', 6)
-            .attr('dy', '.71em')
-            .style('text-anchor', 'end')
-            .text('Value ($)');
+        var svg = d3.select(container)
+            .append('svg')
+            .attr('width', w)
+            .attr('height', h);
 
         svg.selectAll('bar')
-            .data(data)
-        .enter().append('rect')
-            .style('fill', 'rgb(189, 212, 66)')
-            .attr('x', function(d) { return x(d.date); })
-            .attr('width', x.rangeBand())
-            .attr('y', function(d) { return y(d.value); })
-            .attr('height', function(d) { return height - y(d.value); });
+            .data(graphData)
+            .enter()
+            .append('rect')
+                .attr('x', function(d, i) {
+                    return i * (barWidth + barPadding); // i * (w / graphData.length)
+                })
+                .attr('y', 0)
+                .attr('width', barWidth) // w / graphData.length - barPadding
+                .attr('height', h)
+                .attr('fill', 'rgb(110, 107, 108)');
+
+        svg.selectAll('total')
+            .data(graphData)
+            .enter()
+            .append('rect')
+                .attr('x', function(d, i) {
+                    return i * (barWidth + barPadding);
+                })
+                .attr('y', function(d) {
+                    return h - (d.total * 4);
+                })
+                .attr('width', barWidth)
+                .attr('height', function(d) {
+                    return d.total * 4;
+                })
+                .attr('rx', 10)
+                .attr('ry', 10)
+                .attr('fill', 'rgb(53, 51, 52)');
+
+        svg.selectAll('new')
+            .data(graphData)
+            .enter()
+            .append('rect')
+                .attr('x', function(d, i) {
+                    return i * (barWidth + barPadding);
+                })
+                .attr('y', function(d) {
+                    return h - (d.total * 4);
+                })
+                .attr('width', barWidth)
+                .attr('height', function(d) {
+                    return d.new * 4;
+                })
+                .attr('rx', 10)
+                .attr('ry', 10)
+                .attr('fill', 'rgb(189, 212, 66)');
+
+        svg.selectAll('text')
+            .data(graphData)
+            .enter()
+            .append('text')
+                .text(function(d) {
+                    const year = d.date.getFullYear();
+                    let month = d.date.getMonth();
+                    let day = d.date.getDate();
+
+                    if (month.toString().length === 1) {
+                        month = '0' + month;
+                    }
+                    if (day.toString().length === 1) {
+                        day = '0' + day;
+                    }
+
+                    return year + '-' + month + '-' + day;
+                })
+                .attr('x', function(d, i) {
+                    return -60;
+                })
+                .attr('y', function(d, i) {
+                    return i * (barWidth + barPadding) + 15;
+                })
+                .attr('font-family', 'sans-serif')
+                .attr('font-size', '11px')
+                .attr('fill', 'white')
+                .attr('transform', 'rotate(-90)' );
 
         return (
-            <div>
+            <div id="graph">
                 {container.toReact()}
             </div>
         )

@@ -48,7 +48,7 @@ export default class AdminVolunteerDashboard extends Component {
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
                     />
                     <AdminVolunteerChart
-                        data={[1, 2, 3]}
+                        data={data.graph}
                     />
                     <AdminStatsBlock
                         stats={

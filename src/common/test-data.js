@@ -126,87 +126,43 @@ team.sponsors = sponsors;
 
 export const graph = [
     {
-        date: '2013-01',
-        value: 53,
+        date: new Date(2016, 2, 1),
+        new: 3,
     },
     {
-        date: '2013-02',
-        value: 165,
+        date: new Date(2016, 2, 2),
+        new: 5,
     },
     {
-        date: '2013-03',
-        value: 269,
+        date: new Date(2016, 2, 3),
+        new: 2,
     },
     {
-        date: '2013-04',
-        value: 344,
+        date: new Date(2016, 2, 5),
+        new: 6,
     },
     {
-        date: '2013-05',
-        value: 376,
+        date: new Date(2016, 2, 6),
+        new: 4,
     },
     {
-        date: '2013-06',
-        value: 410,
+        date: new Date(2016, 2, 7),
+        new: 10,
     },
     {
-        date: '2013-07',
-        value: 421,
+        date: new Date(2016, 2, 11),
+        new: 2,
     },
     {
-        date: '2013-08',
-        value: 405,
+        date: new Date(2016, 2, 15),
+        new: 11,
     },
     {
-        date: '2013-09',
-        value: 376,
+        date: new Date(2016, 2, 19),
+        new: 9,
     },
     {
-        date: '2013-10',
-        value: 359,
-    },
-    {
-        date: '2013-11',
-        value: 392,
-    },
-    {
-        date: '2013-12',
-        value: 433,
-    },
-    {
-        date: '2014-01',
-        value: 455,
-    },
-    {
-        date: '2014-02',
-        value: 478,
-    },
-    {
-        date: '2014-03',
-        value: 478,
-    },
-    {
-        date: '2014-04',
-        value: 478,
-    },
-    {
-        date: '2014-05',
-        value: 478,
-    },
-    {
-        date: '2014-06',
-        value: 478,
-    },
-    {
-        date: '2014-07',
-        value: 478,
-    },
-    {
-        date: '2014-08',
-        value: 478,
-    },
-    {
-        date: '2014-09',
-        value: 478,
+        date: new Date(2016, 2, 23),
+        new: 5,
     },
 ];
