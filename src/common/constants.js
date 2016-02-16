@@ -10,3 +10,5 @@ export const USER_IMAGES_FOLDER = config.USER_IMAGES_FOLDER;
 
 export const USER_PROGRESS_WIDTH = 7.5;
 export const STAT_PROGRESS_WIDTH = 8.5;
+
+export const GRAPH_SCROLL_INCREMENT = 50;

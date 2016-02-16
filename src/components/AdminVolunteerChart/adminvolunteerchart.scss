@@ -38,4 +38,35 @@
             left: 0;
         }
     }
+
+    .legends {
+        color: $grey;
+        font-family: $conduit-light;
+        font-size: .8em;
+
+        .legend {
+            margin: 5px 0 5px 50px;
+        }
+
+        span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .circle {
+            display: inline-block;
+            height: 20px;
+            width: 20px;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .legend-new .circle {
+            background: $green;
+        }
+
+        .legend-total .circle {
+            background: $dark-grey;
+        }
+    }
 }
