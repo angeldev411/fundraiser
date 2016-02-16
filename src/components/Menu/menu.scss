@@ -168,6 +168,13 @@ header {
 
     .login-container{
         line-height: 45px;
+        text-transform: uppercase;
+        color: $green;
+        font-family: $conduit-light;
+
+        .btn {
+            margin-left: 20px;
+        }
     }
 }
 
