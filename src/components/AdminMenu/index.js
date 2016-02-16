@@ -20,7 +20,7 @@ export default class AdminMenu extends Component {
                         {this.props.pageNav.map((element, i) => (
                             <li key={i}>
                                 {element.type === 'button' ?
-                                    <ModalButton type="btn-link"
+                                    <ModalButton customClass="btn-link"
                                         content={element.content}
                                     >
                                         {element.title}

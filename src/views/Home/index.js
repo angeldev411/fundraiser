@@ -28,7 +28,7 @@ export default class Home extends Component {
                             {'Other giving individuals and companies sponsor those hours.'}<br/>
                             <span className={'bold'}>{'Together we help your organization make twice the difference.'}</span>
                         </p>
-                        <Button type="btn-contact btn-transparent-green">
+                        <Button customClass="btn-contact btn-transparent-green">
                             {'Contact US'}
                         </Button>
                         <div className={'links'}>

@@ -7,7 +7,7 @@ export default class EditButton extends Component {
             <div className={`btn-edit-container btn-edit-${this.props.direction} btn-edit-${this.props.name}`}>
                 <ModalButton
                     content={this.props.content}
-                    type={'btn-lg btn-edit'}
+                    customClass={'btn-lg btn-edit'}
                 >
                     {`Edit ${this.props.children}`}
                 </ModalButton>

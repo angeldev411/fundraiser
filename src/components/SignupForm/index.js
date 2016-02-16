@@ -33,7 +33,7 @@ export default class SignupForm extends Component {
                     />
                     <label htmlFor="password-confirmation">{'Password Confirmation'}</label>
                 </div>
-                <Button type="btn-green-white">{'Submit'}</Button>
+                <Button customClass="btn-green-white">{'Submit'}</Button>
             </Form>
         );
     }

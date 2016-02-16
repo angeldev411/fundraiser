@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 
 export default class Form extends Component {
+    submit = (event) => {
+        event.preventDefault();
+        this.props.onSubmit();
+    };
+
     render() {
         return (
             <div id={this.props.id}
@@ -9,7 +14,7 @@ export default class Form extends Component {
             >
                 <h2>{this.props.title}</h2>
                 <p>{this.props.description}</p>
-                <form>
+                <form onSubmit={this.submit}>
                     {this.props.children}
                 </form>
             </div>

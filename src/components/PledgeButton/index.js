@@ -21,7 +21,7 @@ export default class PledgeButton extends Component {
                 <div className={"container"}>
                     <div className="col-xs-12">
                         <Button
-                            type={this.props.type}
+                            customClass={this.props.customClass}
                             onClick={!this.state.clicked ? this.togglePledge : null}
                         >{this.props.children}</Button>
                     </div>
@@ -35,5 +35,5 @@ export default class PledgeButton extends Component {
 }
 
 PledgeButton.propTypes = {
-    type: React.PropTypes.string,
+    customClass: React.PropTypes.string,
 };

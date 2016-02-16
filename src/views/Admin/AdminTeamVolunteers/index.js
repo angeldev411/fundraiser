@@ -56,7 +56,7 @@ export default class AdminTeamVolunteers extends Component {
                         title={'My Team'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                         buttons={
-                            <ModalButton type="btn-link pull-right uppercase"
+                            <ModalButton customClass="btn-link pull-right uppercase"
                                 content={
                                     <AdminInviteTeamMembersForm
                                         title={"Invite Members"}

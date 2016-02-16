@@ -11,16 +11,24 @@ export default class ModalButton extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user && this.state.clicked) {
+            this.handleClick();
+        }
+    }
+
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked });
-        this.props.onModalToggle();
+        if (this.props.onModalToggle) {
+            this.props.onModalToggle();
+        }
     };
 
     render() {
         if (this.state.clicked) {
             return (
                 <div>
-                    <Button type={this.props.type}>{this.props.children}</Button>
+                    <Button customClass={this.props.customClass}>{this.props.children}</Button>
                     <Modal content={this.props.content}
                         onClick={this.handleClick}
                     />
@@ -28,7 +36,7 @@ export default class ModalButton extends Component {
             );
         }
         return (
-            <Button type={this.props.type}
+            <Button customClass={this.props.customClass}
                 onClick={this.handleClick}
             >
                 {this.props.children}

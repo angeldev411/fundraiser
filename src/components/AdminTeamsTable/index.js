@@ -26,7 +26,7 @@ export default class AdminTeamsTable extends Component {
                                 {this.props.actionable ?
                                     <td>
                                         <div className={'edit-links'}>
-                                            <ModalButton type="btn-link uppercase"
+                                            <ModalButton customClass="btn-link uppercase"
                                                 content={
                                                     <AdminTeamForm title={"Edit team"}
                                                         project={this.props.project}

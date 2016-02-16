@@ -33,7 +33,7 @@ export default class AdminProjects extends Component {
                     <AdminContentHeader title={'Projects'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                         buttons={
-                            <ModalButton type="btn-link pull-right uppercase"
+                            <ModalButton customClass="btn-link pull-right uppercase"
                                 content={<AdminProjectForm title={"Add New Project"}/>}
                             >
                                 {'New project'}

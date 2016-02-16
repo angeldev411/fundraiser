@@ -48,7 +48,7 @@ export default class Cover extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <PledgeButton type="btn-default">
+                                <PledgeButton customClass="btn-default">
                                     {this.props.button}
                                 </PledgeButton>
                             </div>
@@ -73,7 +73,7 @@ export default class Cover extends Component {
                                 </div>
                             </div>
                         </div>
-                        <PledgeButton type="btn-default">
+                        <PledgeButton customClass="btn-default">
                             {this.props.button}
                         </PledgeButton>
                         <VolunteerProfileBlock volunteer={this.props.volunteer}
@@ -93,7 +93,7 @@ export default class Cover extends Component {
                                 </div>
                             </div>
                         </div>
-                        <PledgeButton type="btn-default">
+                        <PledgeButton customClass="btn-default">
                             {this.props.button}
                         </PledgeButton>
                         {this.props.editable ?

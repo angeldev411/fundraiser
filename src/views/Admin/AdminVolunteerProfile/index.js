@@ -136,7 +136,7 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
-                                <Button type="btn-green-white">{'Save'}</Button>
+                                <Button customClass="btn-green-white">{'Save'}</Button>
                             </form>
                         </section>
                     </div>

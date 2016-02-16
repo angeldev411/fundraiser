@@ -6,13 +6,15 @@ export default class Button extends Component {
         const BUTTON = (
             <button
                 type="button"
-                className={`btn ${this.props.type}`}
+                className={`btn ${this.props.customClass}`}
                 onClick={this.props.onClick}
+                {...this.props}
             >
                 {this.props.children}
             </button>
         );
-        if(this.props.to) {
+
+        if (this.props.to) {
             return (
                 <Link to={this.props.to}>
                     {BUTTON}
@@ -25,5 +27,5 @@ export default class Button extends Component {
 
 Button.propTypes = {
     onClick: React.PropTypes.func,
-    type: React.PropTypes.string,
+    customClass: React.PropTypes.string,
 };
