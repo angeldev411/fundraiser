@@ -42,7 +42,7 @@ export default class RecordHoursForm extends Component {
                 </div>
                 <SignaturePad/>
 
-                <Button type="btn-green-white">{'Submit'}</Button>
+                <Button customClass="btn-green-white">{'Submit'}</Button>
             </Form>
         );
     }

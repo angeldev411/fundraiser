@@ -57,7 +57,7 @@ export default class AdminTeamProfile extends Component {
                     <div className="edit-team-profile">
                         <section>
                             <Button
-                                type="btn-lg btn-transparent-green"
+                                customClass="btn-lg btn-transparent-green"
                                 to={"#"}
                             >
                                 {'Edit Your Page'}
@@ -65,7 +65,7 @@ export default class AdminTeamProfile extends Component {
                             <p className={'action-description'}>{'You can edit your public team page visuals and messaging by clicking the link above'}</p>
                         </section>
                         <section>
-                            <ModalButton type="btn-lg btn-transparent-green">{'Change Password'}</ModalButton>
+                            <ModalButton customClass="btn-lg btn-transparent-green">{'Change Password'}</ModalButton>
                         </section>
                         <section>
                             <input
@@ -99,7 +99,7 @@ export default class AdminTeamProfile extends Component {
                         </section>
                         <section>
                             <Button
-                                type="btn-lg btn-green-white"
+                                customClass="btn-lg btn-green-white"
                                 to={Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}
                             >
                                 {'View Team Page'}

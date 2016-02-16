@@ -14,7 +14,7 @@ export default class AdminVolunteersTable extends Component {
                             </span>
                             <ul className="dropdown-content">
                                 <li>
-                                    <Button type="btn-link">{'Email'}</Button>
+                                    <Button customClass="btn-link">{'Email'}</Button>
                                 </li>
                             </ul>
                         </div>

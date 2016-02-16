@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Button from '../Button/';
 import Modal from '../Modal/';
+import { connect } from 'react-redux';
 
-export default class ModalButton extends Component {
+class ModalButton extends Component {
     constructor(props) {
         super(props);
 
@@ -11,16 +12,24 @@ export default class ModalButton extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user && this.state.clicked) {
+            this.handleClick();
+        }
+    }
+
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked });
-        this.props.onModalToggle();
+        if (this.props.onModalToggle) {
+            this.props.onModalToggle();
+        }
     };
 
     render() {
         if (this.state.clicked) {
             return (
                 <div>
-                    <Button type={this.props.type}>{this.props.children}</Button>
+                    <Button customClass={this.props.customClass}>{this.props.children}</Button>
                     <Modal content={this.props.content}
                         onClick={this.handleClick}
                     />
@@ -28,7 +37,7 @@ export default class ModalButton extends Component {
             );
         }
         return (
-            <Button type={this.props.type}
+            <Button customClass={this.props.customClass}
                 onClick={this.handleClick}
             >
                 {this.props.children}
@@ -39,7 +48,11 @@ export default class ModalButton extends Component {
 
 ModalButton.propTypes = {
     onClick: React.PropTypes.func,
-    type: React.PropTypes.string,
+    customClass: React.PropTypes.string,
     content: React.PropTypes.element,
     onModalToggle: React.PropTypes.func,
 };
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+}))(ModalButton);

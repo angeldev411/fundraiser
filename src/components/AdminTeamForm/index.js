@@ -48,7 +48,7 @@ export default class AdminTeamForm extends Component {
                     <label htmlFor="team-leader-email">{'Team leader Email'}</label>
                 </div>
 
-                <Button type="btn-green-white">{this.props.team ? 'Edit Team' : 'Create Team'}</Button>
+                <Button customClass="btn-green-white">{this.props.team ? 'Edit Team' : 'Create Team'}</Button>
             </Form>
         );
     }

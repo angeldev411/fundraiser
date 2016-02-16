@@ -10,7 +10,8 @@ export default class Modal extends Component {
             <div>
                 <div className={'fullscreen-modal'}>
                     <div className="container">
-                        <button type="button"
+                        <button
+                            type="button"
                             className="close"
                             onClick={this.props.onClick}
                         >

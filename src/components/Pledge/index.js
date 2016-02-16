@@ -14,7 +14,8 @@ export default class Pledge extends Component {
                 pledge__closed: !this.props.open,
             }, 'pledge col-xs-12')}
             >
-                <button type="button"
+                <button
+                    type="button"
                     className="close"
                     onClick={this.props.togglePledge}
                 >

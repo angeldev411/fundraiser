@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import * as Urls from '../../urls.js';
 import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+import * as Actions from '../../redux/auth/actions';
 
 import ModalButton from '../ModalButton/';
+import Button from '../Button/';
 import SigninForm from '../SigninForm/';
 
-export default class Menu extends Component {
+class Menu extends Component {
     constructor(props) {
         super(props);
 
@@ -16,14 +19,27 @@ export default class Menu extends Component {
         this.state = {
             visible: false,
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
-            scrollable: true
+            scrollable: true,
+            user: this.props.user
         };
 
         window.addEventListener('resize', () => {
             this.setState({
                 isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH
             });
-        })
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user) {
+            this.setState({
+                user: nextProps.user,
+            });
+        } else if (nextProps.hasOwnProperty('user')) {
+            this.setState({
+                user: null,
+            });
+        }
     }
 
     toggle = () => {
@@ -32,6 +48,10 @@ export default class Menu extends Component {
 
     toggleOverflow = () => {
         this.setState({ scrollable: !this.state.scrollable });
+    };
+
+    logout = () => {
+        Actions.logout()(this.props.dispatch);
     };
 
     render() {
@@ -140,12 +160,20 @@ export default class Menu extends Component {
                                 </ul>
                             </li>
                             <li className={'login-container'}>
-                                <ModalButton type="btn-default"
-                                    content={<SigninForm/>}
-                                    onModalToggle={this.toggleOverflow}
-                                >
-                                    {'Sign In'}
-                                </ModalButton>
+                                {this.state.user ? `Welcome back ${this.state.user.firstName}` : null}
+                                {this.state.user ?
+                                    <Button
+                                        onClick={this.logout}
+                                        customClass={'btn-default'}
+                                    >{'Logout'}</Button> :
+                                    <ModalButton
+                                        customClass="btn-default"
+                                        content={<SigninForm/>}
+                                        onModalToggle={this.toggleOverflow}
+                                    >
+                                        {'Sign In'}
+                                    </ModalButton>
+                                }
                             </li>
                         </ul>
                     </nav>
@@ -176,12 +204,20 @@ export default class Menu extends Component {
                 </nav>
 
                 <span className={'login-container pull-right'}>
-                    <ModalButton type="btn-default"
-                        content={<SigninForm/>}
-                    >
-                        {'Sign In'}
-                    </ModalButton>
-                </span>
+                    {this.state.user ? `Welcome back ${this.state.user.firstName}` : null}
+                    {this.state.user ?
+                        <Button
+                            onClick={this.logout}
+                            customClass={'btn-default'}
+                        >{'Logout'}</Button> :
+                        <ModalButton
+                            customClass="btn-default"
+                            content={<SigninForm/>}
+                        >
+                            {'Sign In'}
+                        </ModalButton>
+                    }
+                    </span>
             </div>
         );
 
@@ -192,3 +228,7 @@ export default class Menu extends Component {
         return mobileMenu;
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+}))(Menu);
