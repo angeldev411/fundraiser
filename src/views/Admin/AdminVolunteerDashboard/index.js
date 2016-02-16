@@ -46,11 +46,11 @@ export default class AdminVolunteerDashboard extends Component {
                     <AdminContentHeader
                         title={'My Dashboard'}
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
-                        goal
+                        goal={data.volunteer.goal}
                     />
                     <AdminVolunteerChart
                         data={data.graph}
-                        goal={140}
+                        goal={data.volunteer.goal}
                         currentMonth={2}
                         currentYear={2016}
                     />

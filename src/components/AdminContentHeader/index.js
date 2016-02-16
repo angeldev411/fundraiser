@@ -20,7 +20,7 @@ export default class AdminContentHeader extends Component {
                         <p className={'current-goal pull-left col-xs-12 col-md-6'}>
                             <Link to={Urls.ADMIN_VOLUNTEER_PROFILE_URL}>{'Edit'}</Link>
                             <span className={'goal-title'}>{'Current Goal'}</span>
-                            <span className={'goal-number'}>{'250 hrs'}</span>
+                            <span className={'goal-number'}>{`${this.props.goal} hrs`}</span>
                         </p>
                     </div>
                 </div>
@@ -43,5 +43,5 @@ AdminContentHeader.propTypes = {
     title: React.PropTypes.string,
     buttons: React.PropTypes.element,
     description: React.PropTypes.string,
-    goal: React.PropTypes.bool,
+    goal: React.PropTypes.number,
 };
