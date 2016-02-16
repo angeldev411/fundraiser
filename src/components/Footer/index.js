@@ -71,11 +71,9 @@ export default class Footer extends Component {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#"
-                                        title=""
-                                    >
+                                    <Link to={Urls.PRIVACY}>
                                         {'Privacy Policy'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className={'copyright'}>
                                     &#169; {`Copyright Raiserve.org ${YEAR.toString()}`}
