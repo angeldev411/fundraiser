@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "front:start": "gulp develop",
-    "server:start": "node server/app.js",
+    "server:start": "babel-node server/app.js",
     "server:start:dev": "nodemon server/app.js",
     "test": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\"",
     "test-ci": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./server/auth/auth_spec.js\"",

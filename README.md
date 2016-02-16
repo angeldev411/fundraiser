@@ -32,6 +32,18 @@ Really common/reusable styles should be in `src/common/styles/`.
 
 Component styles should be in the folder of their own component.
 
+## Database configuration
+
+* Download [Neo4J](http://neo4j.com/download/)
+* Launch it
+* Go to Options > Server configuration
+* Edit the `dbms.security.auth_enabled` constante to `false`
+
+To reset your DB with test values:
+```sh
+npm run setup-db
+```
+
 ## Includes
 
  * [React](https://facebook.github.io/react/)
