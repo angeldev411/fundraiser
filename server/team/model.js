@@ -302,9 +302,9 @@ class Team {
         const emailingOptions = {
             to: invitee.email,
             subject: 'Your invitation',
-            onboard_url: `${config.DOMAIN}${frontEndUrls.SIGNUP_URL}`.replace(
-                ':teamSlug', invitee.teamShortName
-            ),
+            onboard_url: `${config.DOMAIN}${
+                frontEndUrls.getTeamSignupUrl(invitee.projectShortName, invitee.teamShortName)
+            }`,
         };
 
         return mailer.sendInvite(emailingOptions);
