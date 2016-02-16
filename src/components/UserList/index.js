@@ -4,7 +4,6 @@ import * as constants from '../../common/constants';
 import * as Urls from '../../urls.js';
 import { Link } from 'react-router';
 
-const SCROLL_INCREMENT = 150;
 let node = null;
 let previous = null;
 let next = null;
@@ -67,11 +66,11 @@ export default class UserList extends Component {
     };
 
     scrollLeft = () => {
-        this.animate(-SCROLL_INCREMENT);
+        this.animate(-constants.USER_LIST_SCROLL_INCREMENT);
     };
 
     scrollRight = () => {
-        this.animate(SCROLL_INCREMENT);
+        this.animate(constants.USER_LIST_SCROLL_INCREMENT);
     };
 
     render() {

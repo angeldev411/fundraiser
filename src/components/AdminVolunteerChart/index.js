@@ -4,11 +4,6 @@ import d3 from 'd3';
 import classNames from 'classnames';
 import * as Constants from '../../common/constants.js';
 
-// const this.props.goal = 140;
-
-// const this.props.currentMonth = 2; // February
-// const this.props.currentYear = 2016;
-
 let node = null;
 let previous = null;
 let next = null;

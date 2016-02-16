@@ -7,12 +7,12 @@ import * as Urls from '../../urls.js';
 
 export default class AdminContentHeader extends Component {
     render() {
-        if (this.props.goal) {
-            return (
-                <div className="content-header clearfix">
-                    <h1 className="uppercase">{this.props.title}</h1>
-                    {this.props.buttons}
-                    <hr/>
+        return (
+            <div className="content-header clearfix">
+                <h1 className="uppercase">{this.props.title}</h1>
+                {this.props.buttons}
+                <hr/>
+                {this.props.goal ?
                     <div className={'col-xs-12'}>
                         <p className={'pull-left col-xs-12 col-md-6'}>
                             {this.props.description}
@@ -23,17 +23,11 @@ export default class AdminContentHeader extends Component {
                             <span className={'goal-number'}>{`${this.props.goal} hrs`}</span>
                         </p>
                     </div>
-                </div>
-            );
-        }
-        return (
-            <div className="content-header">
-                <h1 className="uppercase">{this.props.title}</h1>
-                {this.props.buttons}
-                <hr/>
-                <p>
-                    {this.props.description}
-                </p>
+                :
+                    <p>
+                        {this.props.description}
+                    </p>
+                }
             </div>
         );
     }
