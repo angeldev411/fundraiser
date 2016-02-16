@@ -76,7 +76,7 @@ export default class AdminLayout extends Component {
                         pageNav={this.props.pageNav}
                     />
                     <div className="col-xs-12 col-lg-9 admin-content">
-                        <section className="">
+                        <section>
                             {this.props.children}
                         </section>
                     </div>

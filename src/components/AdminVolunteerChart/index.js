@@ -2,16 +2,8 @@ import React, { Component } from 'react';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
 import classNames from 'classnames';
+import * as Constants from '../../common/constants.js';
 
-const goal = 140;
-let totalHours = 0;
-const graphData = [];
-
-let currentDay = 1;
-const currentMonth = 2; // February
-const currentYear = 2016;
-
-const SCROLL_INCREMENT = 50;
 let node = null;
 let previous = null;
 let next = null;
@@ -23,6 +15,9 @@ export default class AdminVolunteerChart extends Component {
         this.state = {
             previousVisible: false,
             nextVisible: false,
+            totalHours: 0,
+            graphData: [],
+            currentDay: 1,
         };
     }
 
@@ -51,44 +46,44 @@ export default class AdminVolunteerChart extends Component {
     };
 
     prepareGraphData = (rawData) => {
-        const daysInMonth = this.getDaysInMonth(currentMonth, currentYear);
+        const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
 
-        rawData.map(function(d) {
+        rawData.map((d) => {
             // If date(s) missing, manually create date
-            if (d.date.getDate() !== currentDay) {
-                const diff = d.date.getDate() - currentDay;
+            if (d.date.getDate() !== this.state.currentDay) {
+                const diff = d.date.getDate() - this.state.currentDay;
 
                 // Add missing item(s)
                 for (let i = 0; i < diff; i++) {
-                    graphData.push({
-                        date: new Date(currentYear, currentMonth, currentDay),
+                    this.state.graphData.push({
+                        date: new Date(this.props.currentYear, this.props.currentMonth, this.state.currentDay),
                         new: 0,
-                        total: totalHours,
+                        total: this.state.totalHours,
                     });
-                    currentDay++;
+                    this.state.currentDay++;
                 }
             }
 
-            // Increment totalHours
-            totalHours += d.new;
-            d.total = totalHours;
+            // Increment this.state.totalHours
+            this.state.totalHours += d.new;
+            d.total = this.state.totalHours;
 
             // push data
-            graphData.push(d);
-            currentDay++;
+            this.state.graphData.push(d);
+            this.state.currentDay++;
         });
 
-        if (!(currentDay > daysInMonth)) { // If month is incomplete
-            const diff = daysInMonth - currentDay + 1;
+        if (!(this.state.currentDay > daysInMonth)) { // If month is incomplete
+            const diff = daysInMonth - this.state.currentDay + 1;
 
             // Add missing item(s)
             for (let i = 0; i < diff; i++) {
-                graphData.push({
-                    date: new Date(currentYear, currentMonth, currentDay),
+                this.state.graphData.push({
+                    date: new Date(this.props.currentYear, this.props.currentMonth, this.state.currentDay),
                     new: 0,
-                    total: totalHours,
+                    total: this.state.totalHours,
                 });
-                currentDay++;
+                this.state.currentDay++;
             }
         }
     };
@@ -125,11 +120,11 @@ export default class AdminVolunteerChart extends Component {
     };
 
     scrollLeft = () => {
-        this.animate(-SCROLL_INCREMENT);
+        this.animate(-Constants.GRAPH_SCROLL_INCREMENT);
     };
 
     scrollRight = () => {
-        this.animate(SCROLL_INCREMENT);
+        this.animate(Constants.GRAPH_SCROLL_INCREMENT);
     };
 
     render() {
@@ -139,18 +134,17 @@ export default class AdminVolunteerChart extends Component {
         const barPadding = 5;
         const barWidth = 20;
 
-        const w = this.getDaysInMonth(currentMonth, currentYear) * (barWidth + barPadding);
+        const w = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear) * (barWidth + barPadding);
         const h = 320;
         const innerH = h - 65;
         let maxOfGoalAndTotalHours;
 
-        if (totalHours < goal) {
-            maxOfGoalAndTotalHours = goal;
+        if (this.state.totalHours < this.props.goal) {
+            maxOfGoalAndTotalHours = this.props.goal;
         } else {
-            maxOfGoalAndTotalHours = totalHours;
+            maxOfGoalAndTotalHours = this.state.totalHours;
         }
         const borderRadius = 7;
-        console.log(totalHours)
 
         let svg = d3.select(container)
             .append('svg')
@@ -158,10 +152,10 @@ export default class AdminVolunteerChart extends Component {
             .attr('height', h);
 
         svg.selectAll('bar')
-            .data(graphData)
+            .data(this.state.graphData)
             .enter()
             .append('rect')
-                .attr('x', function(d, i) {
+                .attr('x', (d, i) => {
                     return i * (barWidth + barPadding);
                 })
                 .attr('y', 0)
@@ -170,17 +164,17 @@ export default class AdminVolunteerChart extends Component {
                 .attr('fill', 'rgb(110, 107, 108)');
 
         svg.selectAll('total')
-            .data(graphData)
+            .data(this.state.graphData)
             .enter()
             .append('rect')
-                .attr('x', function(d, i) {
+                .attr('x', (d, i) => {
                     return i * (barWidth + barPadding);
                 })
-                .attr('y', function(d) {
+                .attr('y', (d) => {
                     return h - (d.total / maxOfGoalAndTotalHours * innerH);
                 })
                 .attr('width', barWidth)
-                .attr('height', function(d) {
+                .attr('height', (d) => {
                     return d.total / maxOfGoalAndTotalHours * innerH;
                 })
                 .attr('rx', borderRadius)
@@ -188,30 +182,30 @@ export default class AdminVolunteerChart extends Component {
                 .attr('fill', 'rgb(53, 51, 52)');
 
         svg.selectAll('new')
-            .data(graphData)
+            .data(this.state.graphData)
             .enter()
             .append('rect')
-                .attr('x', function(d, i) {
+                .attr('x', (d, i) => {
                     return i * (barWidth + barPadding);
                 })
-                .attr('y', function(d) {
+                .attr('y', (d) => {
                     return h - (d.total / maxOfGoalAndTotalHours * innerH);
                 })
                 .attr('width', barWidth)
-                .attr('height', function(d) {
+                .attr('height', (d) => {
                     return d.new / maxOfGoalAndTotalHours * innerH;
                 })
                 .attr('rx', borderRadius)
                 .attr('ry', borderRadius)
                 .attr('fill', 'rgb(189, 212, 66)')
                 .append('title')
-                        .text(function(d) { return d.new + ' hrs'; });
+                        .text((d) => { return d.new + ' hrs'; });
 
         svg.selectAll('text')
-            .data(graphData)
+            .data(this.state.graphData)
             .enter()
             .append('text')
-                .text(function(d) {
+                .text((d) => {
                     const year = d.date.getFullYear();
                     let month = d.date.getMonth();
                     let day = d.date.getDate();
@@ -225,10 +219,10 @@ export default class AdminVolunteerChart extends Component {
 
                     return year + '-' + month + '-' + day;
                 })
-                .attr('x', function(d, i) {
+                .attr('x', (d, i) => {
                     return -60;
                 })
-                .attr('y', function(d, i) {
+                .attr('y', (d, i) => {
                     return i * (barWidth + barPadding) + 14;
                 })
                 .attr('font-family', 'sans-serif')
@@ -263,6 +257,11 @@ export default class AdminVolunteerChart extends Component {
                 >
                     <i className="fa fa-chevron-right"/>
                 </div>
+
+                <div className={'legends'}>
+                    <div className="legend legend-new"><span className={'circle'}></span>{'New hours'}</div>
+                    <div className="legend legend-total"><span className={'circle'}></span>{'Combined hours'}</div>
+                </div>
             </div>
         )
     }
@@ -270,4 +269,7 @@ export default class AdminVolunteerChart extends Component {
 
 AdminVolunteerChart.propTypes = {
     data: React.PropTypes.array,
+    goal: React.PropTypes.number,
+    currentMonth: React.PropTypes.number,
+    currentYear: React.PropTypes.number,
 };

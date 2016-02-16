@@ -35,4 +35,28 @@
     p {
         color: $light-grey;
     }
+
+    p.current-goal{
+        font-family: $conduit-light;
+        text-align: right;
+        margin-bottom: 0;
+
+        a {
+            font-size: .9em;
+            text-decoration: none;
+            color: $light-grey;
+            text-transform: uppercase;
+        }
+
+        span.goal-title {
+            font-size: 1.5em;
+            color: $grey;
+        }
+
+        span.goal-number {
+            color: $green;
+            font-size: 2em;
+            letter-spacing: -3px;
+        }
+    }
 }
