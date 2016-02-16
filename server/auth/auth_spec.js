@@ -87,4 +87,16 @@ describe('Authentication', () => {
             });
         });
     });
+    describe('Logout', () => {
+        it('always accept the logout', (done) => {
+            request.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/logout`,
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(200);
+                expect(body).to.equal(messages.logout);
+                done();
+            });
+        });
+    });
 });
