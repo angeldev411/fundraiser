@@ -48,14 +48,8 @@ export const ADMIN_VOLUNTEER_PROFILE_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEER_
 export const ADMIN_VOLUNTEER_SPONSORS_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEER_SPONSORS}/`;
 
 // PUBLIC
-export const getTeamProfileUrl = (projectslug, teamSlug) => {
-    return `/${projectslug}/${teamSlug}`;
-};
+export const getTeamProfileUrl = (projectslug, teamSlug) => (`/${projectslug}/${teamSlug}`);
 
-export const getTeamSignupUrl = (projectslug, teamSlug) => {
-    return `/${projectslug}/${teamSlug}/join`;
-};
+export const getTeamSignupUrl = (projectslug, teamSlug) => (`/${projectslug}/${teamSlug}/join`);
 
-export const getVolunteerProfileUrl = (projectslug, teamSlug, volunteerSlug) => {
-    return `/${projectslug}/${teamSlug}/${volunteerSlug}`;
-};
+export const getVolunteerProfileUrl = (projectslug, teamSlug, volunteerSlug) => (`/${projectslug}/${teamSlug}/${volunteerSlug}`);
