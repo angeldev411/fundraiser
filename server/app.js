@@ -15,6 +15,14 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(session(config.SESSION_CONFIG));
 
+// CORS
+app.use((rea, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // TODO change this in production
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
 // Routes
 const authRoutes = require('./auth/routes');
 

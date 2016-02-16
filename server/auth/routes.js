@@ -6,7 +6,7 @@ const router = express.Router();
 
 const userController = require('../user/controller');
 
-router.post('/api/v1/login', (req, res) => {
+router.post('/api/v1/auth/login', (req, res) => {
     if (!req.body.password || !req.body.email) {
         res.status(401).send(messages.login.failed);
         return;
@@ -39,12 +39,12 @@ router.post('/api/v1/login', (req, res) => {
     });
 });
 
-router.post('/api/v1/logout', (req, res) => {
+router.get('/api/v1/auth/logout', (req, res) => {
     req.session.userUUID = null;
     res.send(messages.logout);
 });
 
-router.post('/api/v1/reset_password', (req, res) => {
+router.post('/api/v1/auth/reset_password', (req, res) => {
     userController.resetPassword(req.body.email)
     .then((token) => {
         res.status(200).send(messages.resetPassword.success);

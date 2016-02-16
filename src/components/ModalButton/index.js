@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Button from '../Button/';
 import Modal from '../Modal/';
+import { connect } from 'react-redux';
 
-export default class ModalButton extends Component {
+class ModalButton extends Component {
     constructor(props) {
         super(props);
 
@@ -47,7 +48,11 @@ export default class ModalButton extends Component {
 
 ModalButton.propTypes = {
     onClick: React.PropTypes.func,
-    type: React.PropTypes.string,
+    customClass: React.PropTypes.string,
     content: React.PropTypes.element,
     onModalToggle: React.PropTypes.func,
 };
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+}))(ModalButton);

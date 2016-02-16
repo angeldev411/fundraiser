@@ -13,7 +13,7 @@ describe('Authentication', () => {
     describe('Login', () => {
         it('lets an existing user Log in', (done) => {
             request.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/login`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
                 form: {
                     email: user.email,
                     password: user.password,
@@ -32,7 +32,7 @@ describe('Authentication', () => {
         });
         it('gives an error if an existing user tries to log in with a bad password', (done) => {
             request.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/login`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
                 form: {
                     email: user.email,
                     password: 'test',
@@ -46,7 +46,7 @@ describe('Authentication', () => {
         });
         it('gives an error if a non existing user tries to log in', (done) => {
             request.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/login`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
                 form: {
                     email: 'test',
                     password: 'test',
@@ -60,7 +60,7 @@ describe('Authentication', () => {
         });
         it('gives an error if a user tries to log in with an empty password', (done) => {
             request.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/login`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
                 form: {
                     email: 'test',
                     password: '',
@@ -74,7 +74,7 @@ describe('Authentication', () => {
         });
         it('gives an error if a user tries to log in with an empty password', (done) => {
             request.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/login`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
                 form: {
                     email: '',
                     password: 'test',
