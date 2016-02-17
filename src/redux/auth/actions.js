@@ -26,9 +26,6 @@ export function signIn(email, password) {
             {
                 email,
                 password,
-            },
-            {
-                withCredentials: true,
             }
         )
         .then(
@@ -50,7 +47,9 @@ export const loggedout = () => ({
 
 export function logout() {
     return (dispatch) => {
-        return axios.get(`${API_URL}/auth/logout`)
+        return axios.get(
+            `${API_URL}/auth/logout`
+        )
         .then(
             (response) => {
                 dispatch(loggedout());
@@ -59,6 +58,24 @@ export function logout() {
         .catch(
             (errorResponse) => {
                 console.error('Couldnt log out');
+                dispatch(loggedout());
+            }
+        );
+    };
+}
+
+export function checkIfLoggedIn() {
+    return (dispatch) => {
+        return axios.get(
+            `${API_URL}/auth/whoami`
+        )
+        .then(
+            (response) => {
+                dispatch(receivedUser(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
                 dispatch(loggedout());
             }
         );

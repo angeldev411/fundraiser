@@ -10,6 +10,7 @@ import { createStore, combineReducers } from 'redux';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import mainReducer from './redux/reducers';
 import ga from 'react-ga';
+import axios from 'axios';
 
 const reducer = combineReducers({
     main: mainReducer,
@@ -29,12 +30,18 @@ export const store = createStoreWithMiddleware(reducer);
 // export const store = createStore(reducer);
 const history = createBrowserHistory();
 
-var options = { debug: true };
-ga.initialize('UA-72900949-1', options);
+const googleAnalyticsOptions = { debug: true };
 
-history.listen(location => {
-    if (location.action === "POP" || location.action === "REPLACE") {
-        console.log('Google Analytics', location.pathname);
+// Init stuff
+ga.initialize('UA-72900949-1', googleAnalyticsOptions);
+axios.defaults.withCredentials = true;
+
+import * as ActionsAuth from './redux/auth/actions';
+
+ActionsAuth.checkIfLoggedIn()(store.dispatch);
+
+history.listen((location) => {
+    if (location.action === 'POP' || location.action === 'REPLACE') {
         ga.pageview(location.pathname);
     }
 });
@@ -46,7 +53,7 @@ const container = document.getElementById('root');
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}
-            onUpdate={function() {
+            onUpdate={function () {
                 window.scrollTo(0, 0);
             }}
         >

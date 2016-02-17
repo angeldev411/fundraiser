@@ -8,7 +8,8 @@ const config = {
     SESSION_CONFIG: {
         secret: 'rsn0telll33333',
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
+        unset: 'destroy',
         cookie: {
             maxAge: 720 * 60 * 60 * 1000,
             secure: false // TODO: set to true with HTTPS
