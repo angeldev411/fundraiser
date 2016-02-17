@@ -20,16 +20,9 @@ router.post('/api/v1/auth/login', (req, res) => {
     userController.checkCredentials(credentials)
     .then((user) => {
         console.log(`Credentials passed got uuid: ${user.uuid}`);
-        req.session.userUUID = user.uuid;
+        req.session.user = user;
 
         res.status(200).send(userController.safe(user));
-
-        // TODO: replace this with something that just returns 'volunteer', 'leader', etc.
-        // user.rolesForUuid(uuid)
-        // .then((roles) => {
-        //     payload.roles = roles;
-        //     res.send(JSON.stringify(payload));
-        // });
     })
     .catch((err) => {
         console.error(`Credentials failed: ${err}`);
@@ -39,9 +32,21 @@ router.post('/api/v1/auth/login', (req, res) => {
     });
 });
 
+router.get('/api/v1/auth/whoami', (req, res) => {
+    if (req.session.user) {
+        res.send(userController.safe(req.session.user));
+    } else {
+        res.status(404).send();
+    }
+});
+
 router.get('/api/v1/auth/logout', (req, res) => {
-    req.session.userUUID = null;
-    res.send(messages.logout);
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Couldnt destroy session');
+        }
+    });
+    res.status(200).send(messages.logout);
 });
 
 router.post('/api/v1/auth/reset_password', (req, res) => {
