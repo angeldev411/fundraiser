@@ -31,7 +31,7 @@ export const team = {
     totalHours: 841,
     totalVolunteers: 553,
     teamLeaderEmail: 'iamtheleader@gmail.com',
-    sponsors: []
+    sponsors: [],
 };
 
 export const teams = [];

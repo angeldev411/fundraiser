@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import ModalButton from '../ModalButton';
+import classNames from 'classnames';
 
-export default class AdminMenu extends Component {
+class AdminMenu extends Component {
     render() {
+        console.log(this)
         return (
             <nav className={'admin-navigation col-xs-12 col-lg-3'}>
                 <ul className="admin-nav">
                     {this.props.adminNav.map((link, i) => (
                         <li key={i}>
-                            <Link to={link.href}>
+                            <Link
+                                to={link.href}
+                                className={classNames({
+                                    active: this.props.path === link.href,
+                                })}
+                            >
                                 {link.title}
                             </Link>
                         </li>
@@ -24,10 +32,15 @@ export default class AdminMenu extends Component {
                                         content={element.content}
                                     >
                                         {element.title}
-                                    </ModalButton>
-                                    : <a href={element.href}>
+                                    </ModalButton> :
+                                    <Link
+                                        to={element.href}
+                                        className={classNames({
+                                            active: this.props.path === element.href,
+                                        })}
+                                    >
                                         {element.title}
-                                    </a>
+                                    </Link>
                                 }
                             </li>
                         ))}
@@ -42,3 +55,7 @@ AdminMenu.propTypes = {
     adminNav: React.PropTypes.array,
     pageNav: React.PropTypes.array,
 };
+
+export default connect((reduxState) => ({
+    path: reduxState.routing.path,
+}))(AdminMenu);

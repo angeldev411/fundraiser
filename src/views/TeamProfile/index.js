@@ -23,7 +23,7 @@ export default class TeamProfile extends Component {
         const SHARE_MESSAGE = `${team.slogan}`;
 
         // TODO check if user has rights
-        const editable = true;
+        const editable = window.location.search.substring(1) === 'edit';
 
         return (
             <Page>

@@ -58,7 +58,7 @@ export default class AdminTeamProfile extends Component {
                         <section>
                             <Button
                                 customClass="btn-lg btn-transparent-green"
-                                to={"#"}
+                                to={`${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}?edit`}
                             >
                                 {'Edit Your Page'}
                             </Button>

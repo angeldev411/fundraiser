@@ -31,6 +31,10 @@
             li > a {
                 color: $green;
 
+                &.active {
+                    color: $white;
+                }
+
                 &:hover {
                     color: $white;
                 }
@@ -42,11 +46,17 @@
             li > button {
                 color: $lighter-grey;
 
+                &.active {
+                    color: $white;
+                }
+
                 &:hover {
                     color: $green;
                 }
             }
+
         }
+
     }
 }
 
