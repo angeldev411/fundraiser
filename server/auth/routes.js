@@ -20,7 +20,7 @@ router.post('/api/v1/auth/login', (req, res) => {
     userController.checkCredentials(credentials)
     .then((user) => {
         console.log(`Credentials passed got uuid: ${user.uuid}`);
-        req.session.userUUID = user.uuid;
+        req.session.user = user;
 
         res.status(200).send(userController.safe(user));
 
@@ -40,7 +40,9 @@ router.post('/api/v1/auth/login', (req, res) => {
 });
 
 router.get('/api/v1/auth/logout', (req, res) => {
-    req.session.userUUID = null;
+    req.session.destroy((err) => {
+        console.error('Couldnt destroy session');
+    });
     res.send(messages.logout);
 });
 

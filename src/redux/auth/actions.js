@@ -21,10 +21,16 @@ export const signinFailed = (error) => ({
 
 export function signIn(email, password) {
     return (dispatch) => {
-        return axios.post(`${API_URL}/auth/login`, {
-            email,
-            password,
-        })
+        return axios.post(
+            `${API_URL}/auth/login`,
+            {
+                email,
+                password,
+            },
+            {
+                withCredentials: true,
+            }
+        )
         .then(
             (response) => {
                 dispatch(receivedUser(response.data));
