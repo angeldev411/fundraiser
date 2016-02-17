@@ -27,7 +27,7 @@ export default class TeamProfile extends Component {
 
         return (
             <Page>
-                <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage})`}
+                <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage}`}
                     customclass={"cover-team-profile"}
                     tagline={team.tagline}
                     button={"Sponsor Now"}

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Layout34 from '../Layout34';
 import EditButton from '../EditButton';
 import * as constants from '../../common/constants';
-
+import EditLogoForm from '../EditLogoForm';
+import EditSloganForm from '../EditSloganForm';
+import EditDescriptionForm from '../EditDescriptionForm';
 
 export default class TeamProfileBlock extends Component {
     render() {
@@ -17,6 +19,11 @@ export default class TeamProfileBlock extends Component {
                         <EditButton
                             direction="left"
                             name="logo"
+                            content={
+                                <EditLogoForm
+                                    value={`${constants.TEAM_IMAGES_FOLDER}/${this.props.team.uniqid}/${this.props.team.logo}`}
+                                />
+                            }
                         >
                             {'Logo'}
                         </EditButton>
@@ -32,6 +39,11 @@ export default class TeamProfileBlock extends Component {
                                 (<EditButton
                                     direction="top"
                                     name="slogan"
+                                    content={
+                                        <EditSloganForm
+                                            value={this.props.team.slogan}
+                                        />
+                                    }
                                  >
                                     {'Slogan'}
                                 </EditButton>)
@@ -47,6 +59,11 @@ export default class TeamProfileBlock extends Component {
                         <EditButton
                             direction="left"
                             name="description"
+                            content={
+                                <EditDescriptionForm
+                                    value={this.props.team.description}
+                                />
+                            }
                         >
                             {'Description'}
                         </EditButton>

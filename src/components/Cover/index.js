@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 import PledgeButton from '../PledgeButton';
 import EditButton from '../EditButton';
+import EditCoverForm from '../EditCoverForm';
 
 const SET_IS_DESKTOP = () => {
     this.setState({
@@ -28,7 +29,7 @@ export default class Cover extends Component {
 
     render() {
         const style = {
-            backgroundImage : this.props.image,
+            backgroundImage : `url(${this.props.image})`,
         };
 
         let COVERCONTENT = null;
@@ -100,6 +101,11 @@ export default class Cover extends Component {
                             <EditButton
                                 direction="right"
                                 name="cover"
+                                content={
+                                    <EditCoverForm
+                                        value={this.props.image}
+                                    />
+                                }
                             >
                                 {'Cover'}
                             </EditButton>

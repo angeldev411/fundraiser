@@ -7,7 +7,6 @@ import Button from '../../../components/Button';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
-import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import Dropzone from 'react-dropzone';
 
 
@@ -105,7 +104,7 @@ export default class AdminVolunteerProfile extends Component {
                                         name="new-password-confirmation"
                                         id="new-password-confirmation"
                                     />
-                                    <label htmlFor="new-password-confirmation">{'Mew Password Confirmation'}</label>
+                                    <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
                                 </div>
                                 <div className="dropzone form-group">
                                     <Dropzone

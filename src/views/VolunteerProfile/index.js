@@ -19,7 +19,7 @@ export default class VolunteerProfile extends Component {
     render() {
         return (
             <Page>
-                <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${volunteer.team.uniqid}/${volunteer.team.coverImage})`}
+                <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${volunteer.team.uniqid}/${volunteer.team.coverImage}`}
                     customclass={"cover-volunteer-profile"}
                     tagline={volunteer.team.tagline}
                     button={"Sponsor Now"}
