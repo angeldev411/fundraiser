@@ -1,5 +1,5 @@
 'use strict';
-const user = require('../models/user.js');
+const user = require('./model.js');
 
 
 var matt = {
