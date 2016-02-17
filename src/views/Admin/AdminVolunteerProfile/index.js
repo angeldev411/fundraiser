@@ -7,7 +7,6 @@ import Button from '../../../components/Button';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
-import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import Dropzone from 'react-dropzone';
 
 
