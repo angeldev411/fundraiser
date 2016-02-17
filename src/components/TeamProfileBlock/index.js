@@ -3,6 +3,7 @@ import Layout34 from '../Layout34';
 import EditButton from '../EditButton';
 import * as constants from '../../common/constants';
 import EditLogoForm from '../EditLogoForm';
+import EditDescriptionForm from '../EditDescriptionForm';
 
 export default class TeamProfileBlock extends Component {
     render() {
@@ -48,6 +49,7 @@ export default class TeamProfileBlock extends Component {
                         <EditButton
                             direction="left"
                             name="description"
+                            content={<EditDescriptionForm />}
                         >
                             {'Description'}
                         </EditButton>
