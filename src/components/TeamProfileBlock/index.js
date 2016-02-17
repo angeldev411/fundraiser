@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Layout34 from '../Layout34';
 import EditButton from '../EditButton';
 import * as constants from '../../common/constants';
-
+import EditLogoForm from '../EditLogoForm';
 
 export default class TeamProfileBlock extends Component {
     render() {
@@ -17,6 +17,7 @@ export default class TeamProfileBlock extends Component {
                         <EditButton
                             direction="left"
                             name="logo"
+                            content={<EditLogoForm />}
                         >
                             {'Logo'}
                         </EditButton>

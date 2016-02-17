@@ -1,0 +1,20 @@
+@import "../../common/styles/variables.scss";
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+#edit-logo-form{
+    .dropzone {
+        margin: 30px 0 15px;
+
+        .dropzone-image {
+            width: 210px;
+        }
+
+        .dropzone-text {
+            color: $green;
+            margin: 20px;
+            display: inline-block;
+        }
+    }
+}
