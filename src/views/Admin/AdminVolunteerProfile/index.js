@@ -104,7 +104,7 @@ export default class AdminVolunteerProfile extends Component {
                                         name="new-password-confirmation"
                                         id="new-password-confirmation"
                                     />
-                                    <label htmlFor="new-password-confirmation">{'Mew Password Confirmation'}</label>
+                                    <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
                                 </div>
                                 <div className="dropzone form-group">
                                     <Dropzone

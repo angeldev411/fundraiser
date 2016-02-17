@@ -7,7 +7,7 @@ export default class EditDescriptionForm extends Component {
         return (
             <Form title={'Edit Description'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
-                id={"edit-logo-form"}
+                id={"edit-description-form"}
             >
                 <div className="form-group">
                     <textarea
