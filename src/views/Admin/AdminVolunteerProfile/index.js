@@ -7,10 +7,9 @@ import Button from '../../../components/Button';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
-import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import Dropzone from 'react-dropzone';
 
-
+import * as constants from '../../../common/constants';
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
@@ -21,7 +20,7 @@ export default class AdminVolunteerProfile extends Component {
 
         this.state = {
             file: {
-                preview: '/assets/images/user.png',
+                preview: data.volunteer.image ? `${constants.USER_IMAGES_FOLDER}/${data.volunteer.uniqid}/${data.volunteer.image}` : '/assets/images/user.png',
             },
         };
     }
@@ -69,6 +68,7 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="firstname"
                                         id="firstname"
+                                        defaultValue={data.volunteer.firstname ? data.volunteer.firstname : null}
                                     />
                                     <label htmlFor="firstname">{'Firstname'}</label>
                                 </div>
@@ -76,13 +76,15 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="lastname"
                                         id="lastname"
+                                        defaultValue={data.volunteer.lastname ? data.volunteer.lastname : null}
                                     />
                                     <label htmlFor="lastname">{'Lastname'}</label>
                                 </div>
                                 <div className="form-group">
                                     <input type="text"
-                                        name="zipcode"
-                                        id="zipcode"
+                                        name="location"
+                                        id="location"
+                                        defaultValue={data.volunteer.location ? data.volunteer.location : null}
                                     />
                                     <label htmlFor="zipcode">{'Zip Code'}</label>
                                 </div>
@@ -90,6 +92,7 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="email"
                                         name="email"
                                         id="email"
+                                        defaultValue={data.volunteer.email ? data.volunteer.email : null}
                                     />
                                     <label htmlFor="email">{'Email address'}</label>
                                 </div>
@@ -124,7 +127,11 @@ export default class AdminVolunteerProfile extends Component {
                                     <textarea
                                         name="description"
                                         id="description"
-                                        defaultValue="Why Your Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you."
+                                        defaultValue={
+                                            data.volunteer.message
+                                            ? data.volunteer.message
+                                            : 'Why Your Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you.'
+                                        }
                                         rows="3"
                                     />
                                     <label htmlFor="description">{'Description'}</label>
@@ -133,6 +140,7 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="goal"
                                         id="goal"
+                                        defaultValue={data.volunteer.goal ? data.volunteer.goal : null}
                                     />
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>

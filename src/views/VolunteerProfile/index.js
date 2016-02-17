@@ -13,7 +13,7 @@ const volunteer = data.volunteer;
 
 export default class VolunteerProfile extends Component {
     componentWillMount() {
-        document.title = `${volunteer.name} | Raiserve`;
+        document.title = `${volunteer.firstname} ${volunteer.lastname} | Raiserve`;
     }
 
     render() {
