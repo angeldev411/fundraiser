@@ -3,6 +3,7 @@ import Layout34 from '../Layout34';
 import EditButton from '../EditButton';
 import * as constants from '../../common/constants';
 import EditLogoForm from '../EditLogoForm';
+import EditSloganForm from '../EditSloganForm';
 import EditDescriptionForm from '../EditDescriptionForm';
 
 export default class TeamProfileBlock extends Component {
@@ -34,6 +35,7 @@ export default class TeamProfileBlock extends Component {
                                 (<EditButton
                                     direction="top"
                                     name="slogan"
+                                    content={<EditSloganForm />}
                                  >
                                     {'Slogan'}
                                 </EditButton>)
