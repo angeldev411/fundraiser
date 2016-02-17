@@ -1,5 +1,5 @@
 'use strict';
-const project = require('../models/project.js');
+const project = require('./model.js');
 
 
 // create project, etc. then test it.

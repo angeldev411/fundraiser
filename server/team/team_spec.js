@@ -1,5 +1,5 @@
 'use strict';
-const team = require('../models/team.js');
+const team = require('./model.js');
 
 
 // test team stuff

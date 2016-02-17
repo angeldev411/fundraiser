@@ -1,5 +1,5 @@
 'use strict';
-const donation = require('../models/donation.js');
+const donation = require('./donation.js');
 
 console.log(JSON.stringify(donation));
 

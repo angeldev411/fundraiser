@@ -1,7 +1,7 @@
 'use strict';
-const volunteer = require('../models/volunteer.js');
-const user = require('../models/user.js');
-const team = require('../models/team.js');
+const volunteer = require('./model.js');
+const user = require('../model.js');
+const team = require('../../team/model.js');
 
 let vol = {email: "wilson@asdfadfasdf.org", first_name: "wilson",
           last_name: "hubertson",
