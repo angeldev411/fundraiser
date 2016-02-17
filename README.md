@@ -1,12 +1,24 @@
 # Raiserve
 
-To install
+To install the package manager
+
+```sh
+nvm install `cat .node-version`
+```
+
+Use the right npm version
+
+```sh
+nvm use `cat .node-version`
+```
+
+Install dependencies
 
 ```sh
 npm install
 ```
 
-To start the front
+To start the frontend
 
 ```sh
 npm run front:start
