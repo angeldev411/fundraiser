@@ -101,7 +101,7 @@ export default class UserList extends Component {
                                         <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
                                     </div>
                                 </div>
-                                <div className="user-name">{user.name}</div>
+                                <div className="user-name">{`${user.firstname} ${user.lastname}`}</div>
                                 {this.props.noSponsor ? (null) : <span className="user-sponsor">{'Sponsor Me'}</span>}
                             </Link>
                         </li>)
