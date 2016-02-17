@@ -13,6 +13,7 @@ export default class EditSloganForm extends Component {
                     <input type="text"
                         name="slogan"
                         id="slogan"
+                        defaultValue={this.props.value ? this.props.value : null}
                     />
                     <label htmlFor="slogan">{'Slogan'}</label>
                 </div>
@@ -26,3 +27,7 @@ export default class EditSloganForm extends Component {
         );
     }
 }
+
+EditSloganForm.propTypes = {
+    value: React.PropTypes.string,
+};

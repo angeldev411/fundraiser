@@ -13,7 +13,7 @@ export default class EditDescriptionForm extends Component {
                     <textarea
                         name="description"
                         id="description"
-                        defaultValue="Why Your Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you."
+                        defaultValue={this.props.value ? this.props.value : null}
                         rows="3"
                     />
                     <label htmlFor="description">{'Description'}</label>
@@ -28,3 +28,7 @@ export default class EditDescriptionForm extends Component {
         );
     }
 }
+
+EditDescriptionForm.propTypes = {
+    value: React.PropTypes.string,
+};

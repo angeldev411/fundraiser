@@ -9,7 +9,7 @@ export default class EditCoverForm extends Component {
 
         this.state = {
             file: {
-                preview: '/assets/images/team/default-cover.png',
+                preview: this.props.value ? `${this.props.value}` : '/assets/images/team/default-cover.png',
             },
         };
     }
@@ -49,3 +49,7 @@ export default class EditCoverForm extends Component {
         );
     }
 }
+
+EditCoverForm.propTypes = {
+    value: React.PropTypes.string,
+};

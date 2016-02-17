@@ -19,7 +19,11 @@ export default class TeamProfileBlock extends Component {
                         <EditButton
                             direction="left"
                             name="logo"
-                            content={<EditLogoForm />}
+                            content={
+                                <EditLogoForm
+                                    value={`${constants.TEAM_IMAGES_FOLDER}/${this.props.team.uniqid}/${this.props.team.logo}`}
+                                />
+                            }
                         >
                             {'Logo'}
                         </EditButton>
@@ -35,7 +39,11 @@ export default class TeamProfileBlock extends Component {
                                 (<EditButton
                                     direction="top"
                                     name="slogan"
-                                    content={<EditSloganForm />}
+                                    content={
+                                        <EditSloganForm
+                                            value={this.props.team.slogan}
+                                        />
+                                    }
                                  >
                                     {'Slogan'}
                                 </EditButton>)
@@ -51,7 +59,11 @@ export default class TeamProfileBlock extends Component {
                         <EditButton
                             direction="left"
                             name="description"
-                            content={<EditDescriptionForm />}
+                            content={
+                                <EditDescriptionForm
+                                    value={this.props.team.description}
+                                />
+                            }
                         >
                             {'Description'}
                         </EditButton>

@@ -9,7 +9,7 @@ export default class EditLogoForm extends Component {
 
         this.state = {
             file: {
-                preview: '/assets/images/team/default-logo.png',
+                preview: this.props.value ? `${this.props.value}` : '/assets/images/team/default-logo.png',
             },
         };
     }
@@ -49,3 +49,7 @@ export default class EditLogoForm extends Component {
         );
     }
 }
+
+EditLogoForm.propTypes = {
+    value: React.PropTypes.string,
+};

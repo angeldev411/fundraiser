@@ -29,7 +29,7 @@ export default class Cover extends Component {
 
     render() {
         const style = {
-            backgroundImage : this.props.image,
+            backgroundImage : `url(${this.props.image})`,
         };
 
         let COVERCONTENT = null;
@@ -101,7 +101,11 @@ export default class Cover extends Component {
                             <EditButton
                                 direction="right"
                                 name="cover"
-                                content={<EditCoverForm />}
+                                content={
+                                    <EditCoverForm
+                                        value={this.props.image}
+                                    />
+                                }
                             >
                                 {'Cover'}
                             </EditButton>

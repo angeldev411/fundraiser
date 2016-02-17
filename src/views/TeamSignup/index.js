@@ -22,7 +22,7 @@ export default class TeamSignup extends Component {
             <Page noHeader={true}
                 bodyBackground={{ backgroundColor: 'black' }}
             >
-                <Cover image={`url(${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage})`}
+                <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage}`}
                     customclass={"cover-signup"}
                     tagline={team.tagline}
                     logo={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.logo}`}
