@@ -14,7 +14,7 @@ export const volunteerSchema = {
 
 export default class Volunteer {
     constructor(data) {
-        return new User(data, 'Volunteer')
+        return new User(data, 'VOLUNTEER')
         .then((volunteer) => {
             console.log(volunteer);
             // create relationShip

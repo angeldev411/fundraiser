@@ -83,7 +83,7 @@ describe('Authentication', () => {
                 expect(JSON.parse(body)).to.contain.keys('email');
                 expect(JSON.parse(body)).to.contain.keys('firstName');
                 expect(JSON.parse(body)).to.contain.keys('lastName');
-                expect(JSON.parse(body)).to.contain.keys('uuid');
+                expect(JSON.parse(body)).to.contain.keys('id');
                 expect(JSON.parse(body)).to.not.contain.keys('password');
                 expect(JSON.parse(body)).to.contain.keys('roles');
                 expect(JSON.parse(body).roles).to.contain('SUPER_ADMIN');
@@ -107,7 +107,7 @@ describe('Authentication', () => {
                 expect(JSON.parse(body)).to.contain.keys('email');
                 expect(JSON.parse(body)).to.contain.keys('firstName');
                 expect(JSON.parse(body)).to.contain.keys('lastName');
-                expect(JSON.parse(body)).to.contain.keys('uuid');
+                expect(JSON.parse(body)).to.contain.keys('id');
                 expect(JSON.parse(body)).to.not.contain.keys('password');
                 expect(JSON.parse(body)).to.contain.keys('roles');
                 expect(JSON.parse(body).roles).to.contain('SUPER_ADMIN');

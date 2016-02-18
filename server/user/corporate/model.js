@@ -12,10 +12,10 @@ import User from '../model';
 
 class Corporate {
     constructor(data) {
-        return new User(data, 'Corporate')
+        return new User(data, 'CORPORATE')
         .then((corporate) => {
             console.log(corporate);
-            // create relationShip
+            // create relationShip with company
             return corporate;
         });
     }

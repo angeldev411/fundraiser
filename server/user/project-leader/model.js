@@ -8,7 +8,7 @@ import User from '../model';
 
 class ProjectLeader {
     constructor(data) {
-        return new User(data, 'ProjectLeader')
+        return new User(data, 'PROJECT_LEADER')
         .then((projectLeader) => {
             // create relationShip
             return projectLeader;

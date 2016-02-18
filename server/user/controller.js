@@ -1,6 +1,7 @@
 'use strict';
 import User from './model';
 import messages from '../messages';
+import mailer from '../helpers/mailer';
 
 class userController {
     static checkCredentials(credentials) {
@@ -16,17 +17,22 @@ class userController {
     static getUserWithRoles(credentials) {
         return User.findByEmail(credentials.email)
         .then((results) => {
+            console.log(credentials.email, ':', results)
             if (results.length === 0) {
                 return Promise.resolve(false);
             }
             const user = results[0];
 
             if (user.password === credentials.password) {
-                return User.rolesForUuid(user.uuid)
-                .then((roles) => {
-                    user.roles = roles;
+                return User.rolesForUser(user.id)
+                .then((rolesResults) => {
+                    console.log(rolesResults)
+                    user.roles = rolesResults[0];
 
                     return Promise.resolve(user);
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
             } else {
                 return Promise.resolve(false);
@@ -40,7 +46,7 @@ class userController {
             firstName: user.firstName,
             lastName: user.lastName,
             roles: user.roles,
-            uuid: user.uuid,
+            id: user.id,
         };
     }
 
@@ -48,7 +54,10 @@ class userController {
         return new User({
             email,
         })
-        .then((user) => Promise.resolve(user))
+        .then((user) => {
+            // TODO : generate token + send email
+            return Promise.resolve(user);
+        })
         .catch(
             (err) => {
                 console.log(err);

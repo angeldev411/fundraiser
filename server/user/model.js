@@ -34,7 +34,7 @@ export default class User {
         // Check if not UUID or not in DB
         data.id = UUID.v4();
         const Node = db.defineNode({
-            label: [label || 'User'],
+            label: [ label, 'USER'],
             schemas: userSchemas,
         });
 
@@ -85,7 +85,7 @@ export default class User {
     static addHeadshotImageToDb(obj) {
         return db.query(
             `
-            MATCH (user:User {uuid: {uuid} })
+            MATCH (user:USER {uuid: {uuid} })
             CREATE (img:Image {key: {key} })
 
             CREATE (user)-[:HEADSHOT]->(img)
@@ -98,28 +98,25 @@ export default class User {
         .getResults('img');
     }
 
-    static rolesForUuid(uuid) {
-        if (!uuid) {
-            return Promise.resolve([]); // reject('Must provide uuid')
+    static rolesForUser(id) {
+        if (!id) {
+            return Promise.reject('You must provide an id');
         }
         return db.query(
             `
-            MATCH (u:User {uuid: {uuid} })-[r]-(t:Team)
-            RETURN type(r) as type
-            UNION
-            MATCH (u:User {uuid: {uuid}})-[raiserveRoles]->(company:Company {shortName: 'raiserve'})
-            RETURN type(raiserveRoles) as type
+            MATCH (u:USER {id: {id} })
+            RETURN labels(u) as roles
             `,
             {},
-            { uuid }
+            { id }
         )
-        .getResults('type');
+        .getResults('roles');
     }
 
     static volunteeringForTeams(uuid) {
         return db.query(
             `
-            MATCH (u:User {uuid: {uuid}} )-[:VOLUNTEER]->(t:Team) return t
+            MATCH (u:USER {uuid: {uuid}} )-[:VOLUNTEER]->(t:Team) return t
             `,
             {},
             { uuid }
@@ -130,7 +127,7 @@ export default class User {
     static leadingTeams(uuid) {
         return db.query(
             `
-            MATCH (u:User {uuid: {uuid}} )-[:LEADER]->(t:Team) return t
+            MATCH (u:USER {uuid: {uuid}} )-[:LEADER]->(t:Team) return t
             `,
             {},
             { uuid }
@@ -141,7 +138,7 @@ export default class User {
     static roleMapForUuid(uuid) {
         return db.query(
             `
-            MATCH (user:User {uuid: {uuid} })
+            MATCH (user:USER {uuid: {uuid} })
             MATCH (user)-[r:LEADER|VOLUNTEER|CREATOR|OWNER|SUPER_ADMIN]-(b) WHERE b:Team or b:Project or b:Company
             RETURN {
                 type: head(labels(b)),
@@ -160,7 +157,7 @@ export default class User {
     static findByUuid(uuid) {
         return db.query(
             `
-            MATCH (user:User {uuid: {uuid} }) RETURN user
+            MATCH (user:USER {uuid: {uuid} }) RETURN user
             `,
             {},
             { uuid }
@@ -169,9 +166,10 @@ export default class User {
     }
 
     static findByEmail(email) {
+        console.log(email)
         return db.query(
             `
-            MATCH (user:User {email: {email} }) RETURN user
+            MATCH (user:USER {email: {email} }) RETURN user
             `,
             {},
             { email }

@@ -9,7 +9,8 @@ import fixtures from './fixtures';
 import User from '../user/model';
 import Volunteer from '../user/volunteer/model';
 import company from '../user/corporate/company';
-import corporate from '../user/corporate/model';
+import SuperAdmin from '../user/super-admin/model';
+import Corporate from '../user/corporate/model';
 import team from '../team/model';
 import teamLeader from '../user/team-leader/model';
 import projectLeader from '../user/project-leader/model';
@@ -17,7 +18,6 @@ import projectController from '../project/controller';
 import project from '../project/model';
 import donation from '../pledge/donation';
 import pledge from '../pledge/model';
-import util from '../helpers/util';
 
 class setup {
     static wipeDb() {
@@ -32,7 +32,8 @@ class setup {
     static addSuperAdmins() {
         const promises = fixtures.initialUsers.map((userToAdd) => {
             userToAdd.password = userToAdd.hashedPassword;
-            return new User(userToAdd);
+            delete userToAdd.hashedPassword;
+            return new SuperAdmin(userToAdd);
         });
 
         return Promise.all(promises)
@@ -152,7 +153,6 @@ readingLine.question(
             .then(setup.wipeDb)
             .then(setup.addCompany)
             .then(setup.addSuperAdmins)
-            .then(setup.assignSuperAdmins)
             .then(setup.addProjects)
             .then(setup.addTeams)
             .then(setup.addTeamLeaders)
