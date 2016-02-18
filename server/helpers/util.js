@@ -52,7 +52,7 @@ class util {
         bucket,
         key,
         fileParams,
-        cbc
+        cb
     ) {
         // AWS.config.logger = process.stdout;
         const s3Bucket = new AWS.S3({ params: { Bucket: bucket } });
@@ -63,10 +63,8 @@ class util {
             ContentEncoding: 'base64',
             ContentType: fileParams.contentType,
         };
-
         s3Bucket.putObject(data, (err, resp) => {
             if (err) {
-                console.log(err);
                 console.log('Error uploading to s3:  ', resp);
                 cb(err, resp);
             } else {
