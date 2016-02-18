@@ -75,6 +75,7 @@ class userController {
         .then(Project.uploadSplashImage)
         .then(Corporate.insertProjectIntoDb);
     }
+
 }
 
 export default userController;

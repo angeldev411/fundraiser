@@ -187,11 +187,12 @@ const fixtures = {
         {
             userUUID: '12341234',
             hours: 1.0,
+            uuid: 'svc10101',
             signatureData: signature('sig1'),
             teamShortName: 'sjbo',
-            uuid: 'svc10101',
             place: 'Day Camp',
-            date: new Date(), supervisor_name: 'Robin Brenner',
+            date: new Date(),
+            supervisor_name: 'Robin Brenner',
         },
         {
             userUUID: '12341234',
@@ -203,13 +204,14 @@ const fixtures = {
             supervisor_name: 'Dawn V',
         },
         {
-            userUUID: '121212',
             hours: 5.0,
+            userUUID: '121212',
+            uuid: 'svc10102',
             signatureData: signature('sig1'),
             teamShortName: 'sjbo',
-            uuid: 'svc10102',
             place: '49th Street Soup Kitchen',
-            date: new Date(), supervisor_name: 'Tiger Hsu',
+            date: new Date(),
+            supervisor_name: 'Tiger Hsu',
         },
     ],
 
