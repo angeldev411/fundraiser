@@ -32,16 +32,6 @@ export default class Volunteer {
         });
     }
 
-    static validate(obj) {
-        const errs = volunteerSchema.validate(obj);
-
-        if (errs.length === 0) {
-            return Promise.resolve(obj);
-        } else {
-            return Promise.reject(errs);
-        }
-    }
-
     static onboard(obj) {
         console.log(obj);
 

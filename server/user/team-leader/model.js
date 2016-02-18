@@ -4,7 +4,18 @@ import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
 
+import User from '../model';
+
 class TeamLeader {
+    constructor(data) {
+        return new User(data, 'TeamLeader')
+        .then((teamLeader) => {
+            console.log(teamLeader);
+            // create relationShip
+            return teamLeader;
+        });
+    }
+
     static approveHours(hoursID) {
         return leader
         .approveHours(hoursID);

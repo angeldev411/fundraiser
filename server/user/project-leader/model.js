@@ -4,7 +4,17 @@ import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
 
+import User from '../model';
+
 class ProjectLeader {
+    constructor(data) {
+        return new User(data, 'ProjectLeader')
+        .then((projectLeader) => {
+            // create relationShip
+            return projectLeader;
+        });
+    }
+
     // TODO: Service changed to Hours (arc)
     static findServiceNeedingApprovalByTeam(obj) {
         console.log(obj);

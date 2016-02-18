@@ -9,54 +9,45 @@ import config from '../config';
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
-const userSchema = schema({
-    firstName: {
-        type: 'string',
-        message: 'A first name is required',
-    },
-    lastName: {
-        type: 'string',
-        message: 'A last name is required',
-    },
-    email: {
-        type: 'string',
-        required: true,
-        match: /@/,
-        message: 'A Valid email must be provided',
-    },
-}, {
-    strip: false,
-});
+const defaultSchema = {
+    id: db.Joi.string().required(),
+    email: db.Joi.string().email().required(),
+    password: db.Joi.string().required(),
+};
 
+import { volunteerSchema } from './volunteer/model';
 
-class User {
-    static validate(obj) {
-        const errs = userSchema.validate(obj);
+const userSchemas = {
+    'default': defaultSchema,
+    invitee: {
+        ...defaultSchema,
+        inviteCode: db.Joi.string().required(),
+    },
+    volunteer: {
+        ...defaultSchema,
+        ...volunteerSchema,
+    },
+};
 
-        return new Promise((resolve, reject) => {
-            if (errs.length === 0) {
-                resolve(obj);
-            } else {
-                reject(errs);
-            }
+export default class User {
+    constructor(data, label) {
+        // Check if not UUID or not in DB
+        data.id = UUID.v4();
+        const Node = db.defineNode({
+            label: [label || 'User'],
+            schemas: userSchemas,
         });
-    }
 
-    static insertIntoDb(obj) {
-        if (!obj.uuid) {
-            obj.uuid = UUID.v4();
-        }
+        const user = new Node(data);
 
-        return db.query(
-            `
-            MERGE (user:User {email: {email} })
-            ON CREATE SET user.password = {password}, user.uuid = {uuid}, user.firstName = {firstName}, user.lastName = {lastName}
-            RETURN user
-            `,
-            {},
-            obj
-        )
-        .getResults('user');
+        return user.save()
+        .then((results) => {
+            console.log(results[0]);
+            return Promise.resolve(results);
+        })
+        .catch((err) => {
+            console.error('Couldnt save user ', err);
+        });
     }
 
     static uploadHeadshotImage(obj) {

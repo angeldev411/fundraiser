@@ -44,6 +44,19 @@ class userController {
         };
     }
 
+    static invite(email) {
+        return new User({
+            email,
+        })
+        .then((user) => Promise.resolve(user))
+        .catch(
+            (err) => {
+                console.log(err);
+                return Promise.reject('User already in DB');
+            }
+        );
+    }
+
     // Corporate?
     static createProject(obj) {
         return Project.validate(obj)

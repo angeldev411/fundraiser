@@ -11,6 +11,15 @@ import Project from '../../project/model';
 import User from '../model';
 
 class Corporate {
+    constructor(data) {
+        return new User(data, 'Corporate')
+        .then((corporate) => {
+            console.log(corporate);
+            // create relationShip
+            return corporate;
+        });
+    }
+
     static findProjects(uuid) {
 
     }

@@ -30,19 +30,27 @@ class setup {
     }
 
     static addSuperAdmins() {
-        const userToAdd = fixtures.superAdmins[0];
+        const promises = fixtures.initialUsers.map((userToAdd) => {
+            userToAdd.password = userToAdd.hashedPassword;
+            return new User(userToAdd);
+        });
 
-        userToAdd.password = userToAdd.hashedPassword;
-
-        return user.validate(userToAdd)
-        .then(user.insertIntoDb);
+        return Promise.all(promises)
+        .then((resp) => {
+            console.log('superAdmins : ok');
+        })
+        .catch((err) => {
+            console.error('superAdmins : ', err);
+        });
     }
 
     static addCompany() {
         return company.create(fixtures.company)
         .then((resp) => {
-            console.log('company returned');
-            console.log(resp);
+            console.log('Company : ok');
+        })
+        .catch((err) => {
+            console.error('Company : ', err);
         });
     }
 
@@ -77,7 +85,9 @@ class setup {
     static addVolunteers() {
         return Promise.all(
             fixtures.volunteers.map(
-                (volunteerMapped) => volunteer.create(volunteerMapped)
+                (volunteerMapped) => {
+                    return new Volunteer(volunteerMapped);
+                }
             )
         );
     }
