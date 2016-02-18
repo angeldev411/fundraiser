@@ -17,14 +17,6 @@ class Corporate {
 
     }
 
-    // static createProject(project, currentUser) {
-    //     Project.validateUniqueSlug(project)
-    //     .then(ProjectController.store({ project, currentUser }))
-    //     .catch((err) => {
-    //         console.error(err);
-    //     });
-    // }
-
     static createTeam(team) {
         Team.validate(team)
         .then(Team.create)
