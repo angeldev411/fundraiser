@@ -2,13 +2,6 @@ import * as actionTypes from './action-types';
 import axios from 'axios';
 import { API_URL } from '../../common/constants';
 
-export const setLoading = function setLoading(bool) {
-    return {
-        type: actionTypes.LOADING,
-        isLoading: bool,
-    };
-};
-
 export const receivedUser = (user) => ({
     type: actionTypes.SIGN_IN,
     user,
