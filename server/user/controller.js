@@ -17,7 +17,6 @@ class userController {
     static getUserWithRoles(credentials) {
         return User.findByEmail(credentials.email)
         .then((results) => {
-            console.log(credentials.email, ':', results)
             if (results.length === 0) {
                 return Promise.resolve(false);
             }
@@ -26,7 +25,6 @@ class userController {
             if (user.password === credentials.password) {
                 return User.rolesForUser(user.id)
                 .then((rolesResults) => {
-                    console.log(rolesResults)
                     user.roles = rolesResults[0];
 
                     return Promise.resolve(user);

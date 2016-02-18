@@ -33,8 +33,18 @@ export default class User {
     constructor(data, label) {
         // Check if not UUID or not in DB
         data.id = UUID.v4();
+        if (!data.password) {
+            data.inviteCode = UUID.v4();
+            data.password = '';
+        }
+        const labels = ['USER'];
+
+        if (label) {
+            labels.push(label);
+        }
+
         const Node = db.defineNode({
-            label: [ label, 'USER'],
+            label: labels,
             schemas: userSchemas,
         });
 
@@ -42,7 +52,6 @@ export default class User {
 
         return user.save()
         .then((results) => {
-            console.log(results[0]);
             return Promise.resolve(results);
         })
         .catch((err) => {
@@ -166,7 +175,6 @@ export default class User {
     }
 
     static findByEmail(email) {
-        console.log(email)
         return db.query(
             `
             MATCH (user:USER {email: {email} }) RETURN user

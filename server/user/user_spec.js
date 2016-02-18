@@ -23,13 +23,15 @@ const invitee = {
 };
 
 describe('User', () => {
-    describe('Invite' () => {
+    describe('Invite', () => {
         it('should create an empty user (email + inviteeCode)', (done) => {
             userController.invite(invite)
             .then((user) => {
                 expect(user.email).to.equal(invite);
                 expect(user).to.contain.keys('id');
-            })
+                expect(user).to.contain.keys('inviteCode');
+                done();
+            });
         });
     });
 });
