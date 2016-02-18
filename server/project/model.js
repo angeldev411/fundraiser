@@ -11,7 +11,7 @@ class Project {
 
     constructor(data) {
         const Node = db.defineNode({
-            label: ['Project'],
+            label: ['PROJECT'],
             schema: {
                 id: db.Joi.string().required(),
                 name: db.Joi.string().required(),
