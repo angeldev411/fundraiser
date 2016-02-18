@@ -15,8 +15,12 @@ class Corporate {
 
     }
 
-    static createProject(project) {
-        Project.create(project);
+    static createProject(project, currentUser) {
+        Project.validateUniqueSlug(project)
+        .then(Project.create({ project, currentUser }))
+        .catch((err) => {
+            console.error(err);
+        });
     }
 
     static createTeam(team) {

@@ -6,49 +6,7 @@ const config = require('../config');
 
 const db = neo4jDB(config.DB_URL);
 
-// const projectSchema = schema({
-//     uuid: {
-//         type: 'string',
-//         message: 'Project UUID is required',
-//         required: true,
-//     },
-//     name: {
-//         type: 'string',
-//         message: 'A Project name is required',
-//         required: true,
-//     },
-//     slug: {
-//         type: 'string',
-//         message: 'A Project slug is required',
-//         match: (/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/),
-//         required: true,
-//     },
-//     shortDescription: {
-//         type: 'string',
-//         message: 'A Project short description must be 50-140 chars',
-//         match: (/.{50,140}/),
-//         required: true,
-//     },
-//     teamLeaderEmail: {
-//         type: 'string',
-//         message: 'Please verify email address',
-//         match: (/^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi),
-//     },
-// });
-
 class Project {
-
-    // static validate(project) {
-    //     const schemaErrs = projectSchema.validate(project);
-    //
-    //     if (schemaErrs.length === 0) {
-    //         return this.validateUniqueSlug(project)
-    //             .then((uniqueProject) => (Promise.resolve(uniqueProject)))
-    //             .catch((errs) => (Promise.reject(errs)));
-    //     } else {
-    //         return Promise.reject(schemaErrs);
-    //     }
-    // }
 
     static validateUniqueSlug(project) {
         return db.query(
@@ -67,7 +25,7 @@ class Project {
     }
 
     /* deprecated REALLY? */
-    static create(project, currentUser, leader) {
+    static create(data) {
         const Node = db.defineNode({
             label: ['Project'],
             schema: {
@@ -79,52 +37,37 @@ class Project {
             },
         });
 
-        const newProject = new Node({
-            id: uuid.v4(),
-            name: project.name,
-            slug: project.slug,
-            shortDescription: project.shortDescription,
-            teamLeaderEmail: project.teamLeaderEmail,
+        const CreatorRelationship = db.defineRelationship({
+            type: 'CREATOR',
         });
 
+        const LeadRelationship = db.defineRelationship({
+            type: 'LEAD',
+        });
+
+        const project = new Node({
+            id: uuid.v4(),
+            name: data.project.name,
+            slug: data.project.slug,
+            shortDescription: data.project.shortDescription,
+            teamLeaderEmail: data.project.teamLeaderEmail,
+        });
+
+        // const projectCreator = new CreatorRelationship({}, [project.id, data.currentUser.id], db.DIRECTION.RIGHT);
+        // const projectLeader = new CreatorRelationship({}, [project.id, data.teamLeader.id], db.DIRECTION.RIGHT);
+
         Promise.all([
-            newProject.save(),
+            project.save(),
         ]).then(function (response) {
             console.log('NEW PROJECT', response);
+            // projectCreator.save();
+            // projectLeader.save();
+
             // Send welcome email to project leader?
         })
         .catch((err) => {
             console.error(err);
         });
-
-        // MATCH (creator:User {uuid: {currentUser.uuid}})
-        // MATCH (leader:User {uuid: {leader.uuid}})
-        // CREATE (creator)-[:CREATOR]->(project)
-        // CREATE (leader)-[:LEAD]->(project)
-        // return db.query(
-        //     `
-        //     CREATE (project:Project
-        //         {
-        //             uuid: { project.uuid },
-        //             name: { project.name },
-        //             slug: { project.slug },
-        //             shortDescription: { project.shortDescription }
-        //         }
-        //     )
-        //
-        //     RETURN project
-        //     `,
-        //     {},
-        //     { project, currentUser, leader }
-        // )
-        // .getResults('project')
-        // .then((result) => {
-        //     // Send welcome email to project leader?
-        //
-        //     // we put the image url back in
-        //     result[0].splashImageData = obj.splashImageData;
-        //     return Promise.resolve(result[0]);
-        // });
     }
 
     // SECURITY: explicitly define return attributes

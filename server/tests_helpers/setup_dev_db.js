@@ -51,7 +51,7 @@ class setup {
 
     static addProjects() {
         return Promise.all([
-            corporate.createProject(fixtures.projects[0]),
+            corporate.createProject(fixtures.projects[0], fixtures.superAdmin),
             corporate.createProject(fixtures.projects[1]),
         ]);
     }
