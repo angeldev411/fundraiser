@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Button from '../../components/Button';
-import Form from '../../components/Form';
-import * as Constants from '../../common/constants.js';
 import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
 

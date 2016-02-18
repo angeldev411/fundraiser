@@ -16,11 +16,7 @@ class Corporate {
     }
 
     static createProject(project) {
-        Project.validate(project)
-        .then(Project.create)
-        .catch((err) => {
-            console.error(err);
-        });
+        Project.create(project);
     }
 
     static createTeam(team) {

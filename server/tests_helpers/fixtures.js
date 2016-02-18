@@ -33,21 +33,13 @@ const fixtures = {
     projects: [
         {
             name: 'Toys for Tots',
-            shortName: 't4t',
-            shortDescription: 'bring toys to the tots',
-            longDescription: 'toys for tots is an amazing program',
-            creatorUUID: 'abcd1234',
-            uuid: '543234',
-            splashImageData: splashImage('t4t'),
+            slug: 't4t',
+            shortDescription: 'Bring toys to the tots I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
         },
         {
             name: 'Buildon',
-            shortName: 'bo',
-            shortDescription: 'build schools for your dollars',
-            longDescription: 'this is one of the most innovative programs',
-            creatorUUID: 'abcd1234',
-            uuid: '565656',
-            splashImageData: splashImage('buildon'),
+            slug: 'bo',
+            shortDescription: 'build schools for your dollars I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
         },
     ],
 
