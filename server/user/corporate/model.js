@@ -7,6 +7,8 @@ const db = neo4jDB(config.DB_URL);
 
 const Team = require('../../team/model');
 const Project = require('../../project/model');
+const ProjectController = require('../../project/controller');
+
 
 // TODO: corporate_schema ?
 
@@ -15,13 +17,13 @@ class Corporate {
 
     }
 
-    static createProject(project, currentUser) {
-        Project.validateUniqueSlug(project)
-        .then(Project.create({ project, currentUser }))
-        .catch((err) => {
-            console.error(err);
-        });
-    }
+    // static createProject(project, currentUser) {
+    //     Project.validateUniqueSlug(project)
+    //     .then(ProjectController.store({ project, currentUser }))
+    //     .catch((err) => {
+    //         console.error(err);
+    //     });
+    // }
 
     static createTeam(team) {
         Team.validate(team)

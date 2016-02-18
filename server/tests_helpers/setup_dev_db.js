@@ -14,6 +14,7 @@ const teamLeader = require('../user/team-leader/model');
 const projectLeader = require('../user/project-leader/model');
 const volunteer = require('../user/volunteer/model');
 const project = require('../project/model');
+const projectController = require('../project/controller');
 const donation = require('../pledge/donation');
 const pledge = require('../pledge/model');
 const util = require('../helpers/util');
@@ -51,8 +52,8 @@ class setup {
 
     static addProjects() {
         return Promise.all([
-            corporate.createProject(fixtures.projects[0], fixtures.superAdmin),
-            corporate.createProject(fixtures.projects[1]),
+            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.superAdmin }),
+            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.superAdmin }),
         ]);
     }
 

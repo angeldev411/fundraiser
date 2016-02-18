@@ -3,37 +3,21 @@ const schema = require('validate');
 const uuid = require('uuid');
 const neo4jDB = require('neo4j-simple');
 const config = require('../config');
+const messages = require('../messages');
 
 const db = neo4jDB(config.DB_URL);
 
 class Project {
 
-    static validateUniqueSlug(project) {
-        return db.query(
-            `MATCH (project:Project {slug: {slug} }) RETURN project`,
-            {},
-            project
-        )
-        .getResults('project')
-        .then((result) => {
-            if (result.length === 0) {
-                return project;
-            } else {
-                return Promise.reject('Duplicate Project slug)');
-            }
-        });
-    }
-
-    /* deprecated REALLY? */
-    static create(data) {
+    constructor(data) {
         const Node = db.defineNode({
             label: ['Project'],
             schema: {
                 id: db.Joi.string().required(),
                 name: db.Joi.string().required(),
                 slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
-                shortDescription: db.Joi.string().regex(/.{50,140}/).required(),
-                teamLeaderEmail: db.Joi.string().email().optional(),
+                shortDescription: db.Joi.string().regex(/.{50,140}/).optional(),
+                projectLeaderEmail: db.Joi.string().email().optional(),
             },
         });
 
@@ -50,23 +34,50 @@ class Project {
             name: data.project.name,
             slug: data.project.slug,
             shortDescription: data.project.shortDescription,
-            teamLeaderEmail: data.project.teamLeaderEmail,
+            projectLeaderEmail: data.project.projectLeaderEmail,
         });
 
+        // TODO Link projectLeader
         // const projectCreator = new CreatorRelationship({}, [project.id, data.currentUser.id], db.DIRECTION.RIGHT);
-        // const projectLeader = new CreatorRelationship({}, [project.id, data.teamLeader.id], db.DIRECTION.RIGHT);
+        // const projectLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
 
-        Promise.all([
-            project.save(),
-        ]).then(function (response) {
-            console.log('NEW PROJECT', response);
-            // projectCreator.save();
-            // projectLeader.save();
-
-            // Send welcome email to project leader?
+        return project.save()
+        // .then((response) => {
+        //     console.log('NEW PROJECT', response);
+        //
+        //     return Promise.all([
+        //         // projectCreator.save(),
+        //         // projectLeader.save(),
+        //     ]);
+        // })
+        .then((response) => {
+            if (response.id === project.id) {
+                return project.data;
+            }
+            throw new Error('Unexpected error occurred.');
         })
         .catch((err) => {
-            console.error(err);
+            return Promise.reject(messages.project.required);
+        });
+    }
+
+    static validateUniqueSlug(project) {
+        if (!project.slug) {
+            return Promise.reject(messages.project.required);
+        }
+
+        return db.query(
+            `MATCH (project:Project {slug: {slug} }) RETURN project`,
+            {},
+            project
+        )
+        .getResults('project')
+        .then((result) => {
+            if (result.length === 0) {
+                return project;
+            } else {
+                return Promise.reject(messages.project.uniqueSlug);
+            }
         });
     }
 
