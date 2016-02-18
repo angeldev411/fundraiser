@@ -1,8 +1,8 @@
 'use strict';
-const uuid = require('uuid');
-const neo4jDB = require('neo4j-simple');
-const config = require('../config');
-const messages = require('../messages');
+import uuid from 'uuid';
+import neo4jDB from 'neo4j-simple';
+import config from '../config';
+import messages from '../messages';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -121,4 +121,4 @@ class Project {
 }
 
 
-module.exports = Project;
+export default Project;

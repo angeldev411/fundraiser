@@ -1,10 +1,10 @@
 'use strict';
-const mandrill = require('mandrill-api');
-const config = require('../config');
+import mandrill from 'mandrill-api';
+import config from '../config';
 
 const mandrillClient = new mandrill.Mandrill(config.MANDRILL_API_KEY);
 
-module.exports = class mailer {
+export default class mailer {
     static sendEmail(content = {}, consts = []) {
         const message = {
             text: (content.body || ''),

@@ -1,11 +1,10 @@
 'use strict';
-const schema = require('validate');
-const stripelib = require('stripe');
-const sha256 = require('js-sha256');
-const UUID = require('uuid');
-const util = require('../helpers/util');
-const neo4jDB = require('neo4j-simple');
-const config = require('../config');
+import stripelib from 'stripe';
+import sha256 from 'js-sha256';
+import UUID from 'uuid';
+import util from '../helpers/util';
+import neo4jDB from 'neo4j-simple';
+import config from '../config';
 
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -223,5 +222,3 @@ class User {
         });
     }
 }
-
-module.exports = User;

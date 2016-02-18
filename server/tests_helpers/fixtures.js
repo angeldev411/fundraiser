@@ -1,5 +1,5 @@
 'use strict';
-const DataURI = require('datauri');
+import DataURI from 'datauri';
 
 const signature = (name = 'sig1') => new DataURI(`${__dirname}/files/images/signatures/${name}.png`);
 
@@ -261,4 +261,4 @@ const fixtures = {
     ],
 };
 
-module.exports = fixtures;
+export default fixtures;

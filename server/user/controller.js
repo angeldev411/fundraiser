@@ -1,6 +1,6 @@
 'use strict';
-const User = require('./model');
-const messages = require('../messages');
+import User from './model';
+import messages from '../messages';
 
 class userController {
     static checkCredentials(credentials) {
@@ -53,4 +53,4 @@ class userController {
     }
 }
 
-module.exports = userController;
+export default userController;

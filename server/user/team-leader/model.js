@@ -1,12 +1,8 @@
 'use strict';
-const schema = require('validate');
-const UUID = require('uuid');
-const stripelib = require('stripe');
-const neo4jDB = require('neo4j-simple');
-const config = require('../../config');
+import neo4jDB from 'neo4j-simple';
+import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
-const stripe = stripelib(config.STRIPE_TOKEN);
 
 class TeamLeader {
     static approveHours(hoursID) {
@@ -94,4 +90,4 @@ class TeamLeader {
     }
 }
 
-module.exports = TeamLeader;
+export default TeamLeader;

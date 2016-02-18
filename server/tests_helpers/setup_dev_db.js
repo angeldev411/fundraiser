@@ -1,23 +1,23 @@
 'use strict';
-const readline = require('readline');
+import readline from 'readline';
 
-const config = require('../config');
+import config from '../config';
 const db = require('neo4j-simple')(config.DB_URL);
 
-const fixtures = require('./fixtures');
+import fixtures from './fixtures';
 
-const user = require('../user/model');
-const company = require('../user/corporate/company');
-const corporate = require('../user/corporate/model');
-const team = require('../team/model');
-const teamLeader = require('../user/team-leader/model');
-const projectLeader = require('../user/project-leader/model');
-const volunteer = require('../user/volunteer/model');
-const projectController = require('../project/controller');
-const teamController = require('../team/controller');
-const donation = require('../pledge/donation');
-const pledge = require('../pledge/model');
-const util = require('../helpers/util');
+import User from '../user/model';
+import Volunteer from '../user/volunteer/model';
+import company from '../user/corporate/company';
+import corporate from '../user/corporate/model';
+import team from '../team/model';
+import teamLeader from '../user/team-leader/model';
+import projectLeader from '../user/project-leader/model';
+import projectController from '../project/controller';
+import project from '../project/model';
+import donation from '../pledge/donation';
+import pledge from '../pledge/model';
+import util from '../helpers/util';
 
 class setup {
     static wipeDb() {

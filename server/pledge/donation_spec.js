@@ -1,5 +1,5 @@
 'use strict';
-const donation = require('./donation.js');
+import donation from './donation.js';
 
 console.log(JSON.stringify(donation));
 

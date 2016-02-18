@@ -1,52 +1,24 @@
 'use strict';
-const schema = require('validate');
-const UUID = require('uuid');
-const neo4jDB = require('neo4j-simple');
-const config = require('../../config');
+import neo4jDB from 'neo4j-simple';
+import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
 
-const User = require('../model');
-const Hours = require('../../hours/model');
+import User from '../model';
+import Hours from '../../hours/model';
 
-const volunteerSchema = schema({
-    teamShortName: {
-        type: 'string',
-        required: true,
-    },
-    headshotData: {
-        type: 'string',
-        message: 'A headshot image is required to create a volunteer',
-        required: true,
-    },
-    bio: {
-        type: 'string',
-    },
-    projectStatement: {
-        type: 'string',
-    },
-}, {
-    strip: false,
-});
+export const volunteerSchema = {
+    headshotData: db.Joi.object(),
+    description: db.Joi.string(),
+};
 
-class Volunteer extends User {
-    /* Validates input, creates a new volunteer record
-    in the database.
-    Expects a teamShortName */
-    static create(obj) {
-        if (!obj.password) {
-            obj.password = UUID.v4();
-        }
-        if (!obj.uuid) {
-            obj.uuid = UUID.v4();
-        }
-
-        return User.validate(obj)
-        .then(Volunteer.validate)
-        .then(User.uploadHeadshotImage)
-        .then(Volunteer.insertIntoDb)
-        .catch((err) => {
-            // handle error
+export default class Volunteer {
+    constructor(data) {
+        return new User(data, 'Volunteer')
+        .then((volunteer) => {
+            console.log(volunteer);
+            // create relationShip
+            return volunteer;
         });
     }
 
@@ -150,6 +122,3 @@ class Volunteer extends User {
         .getResults('pledges');
     }
 }
-
-
-module.exports = Volunteer;

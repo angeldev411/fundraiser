@@ -1,16 +1,14 @@
 'use strict';
-const schema = require('validate');
-const neo4jDB = require('neo4j-simple');
-const config = require('../../config');
+import schema from 'validate';
+import neo4jDB from 'neo4j-simple';
+import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
 
-const Team = require('../../team/model');
-const Project = require('../../project/model');
-const ProjectController = require('../../project/controller');
+import Team from '../../team/model';
+import Project from '../../project/model';
 
-
-// TODO: corporate_schema ?
+import User from '../model';
 
 class Corporate {
     static findProjects(uuid) {
@@ -62,4 +60,4 @@ class Corporate {
     }
 }
 
-module.exports = Corporate;
+export default Corporate;

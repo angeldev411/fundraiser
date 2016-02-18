@@ -1,5 +1,5 @@
 'use strict';
-module.exports = {
+export default {
     login: {
         success: 'Login successful',
         failed: 'Invalid login credentials',

@@ -1,7 +1,7 @@
 'use strict';
-const fixtures = require('../tests_helpers/fixtures');
-const config = require('../config');
-const messages = require('../messages');
+import fixtures from '../tests_helpers/fixtures';
+import config from '../config';
+import messages from '../messages';
 
 // test tools
 let request = require('request');

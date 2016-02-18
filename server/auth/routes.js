@@ -1,10 +1,10 @@
 'use strict';
-const express = require('express');
-const util = require('../helpers/util');
-const messages = require('../messages');
+import express from 'express';
+import util from '../helpers/util';
+import messages from '../messages';
 const router = express.Router();
 
-const userController = require('../user/controller');
+import userController from '../user/controller';
 
 router.post('/api/v1/auth/login', (req, res) => {
     if (!req.body.password || !req.body.email) {
@@ -59,4 +59,4 @@ router.post('/api/v1/auth/reset_password', (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;
