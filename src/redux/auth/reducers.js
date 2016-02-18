@@ -19,7 +19,7 @@ export default function reducers(state = initialState, action) {
         case actionTypes.SIGN_IN_FAIL:
             return {
                 ...state,
-                signInError: action.error.data,
+                signInError: action.error,
             };
         case actionTypes.LOGOUT:
             return {

@@ -1,126 +1,84 @@
 'use strict';
 const schema = require('validate');
-const UUID = require('uuid');
+const uuid = require('uuid');
 const neo4jDB = require('neo4j-simple');
 const config = require('../config');
+const messages = require('../messages');
 
 const db = neo4jDB(config.DB_URL);
 
-const projectSchema = schema({
-    name: {
-        type: 'string',
-        message: 'A name is required',
-    },
-    creatorUUID: {
-        type: 'string',
-        message: 'UUID of the creating user is required',
-    },
-    shortName: {
-        type: 'string',
-    },
-    shortDescription: {},
-    longDescription: {},
-    uuid: {
-        type: 'string',
-    },
-    splashImageData: {
-        required: true,
-    },
-});
-
 class Project {
-    static validate(obj) {
-        const errs = projectSchema.validate(obj);
 
-        return new Promise((resolve, reject) => {
-            if (errs.length === 0) {
-                resolve(obj);
-            } else {
-                reject(errs);
+    constructor(data) {
+        const Node = db.defineNode({
+            label: ['Project'],
+            schema: {
+                id: db.Joi.string().required(),
+                name: db.Joi.string().required(),
+                slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
+                shortDescription: db.Joi.string().regex(/.{50,140}/).optional(),
+                projectLeaderEmail: db.Joi.string().email().optional(),
+            },
+        });
+
+        const CreatorRelationship = db.defineRelationship({
+            type: 'CREATOR',
+        });
+
+        const LeadRelationship = db.defineRelationship({
+            type: 'LEAD',
+        });
+
+        const project = new Node({
+            id: uuid.v4(),
+            name: data.project.name,
+            slug: data.project.slug,
+            shortDescription: data.project.shortDescription,
+            projectLeaderEmail: data.project.projectLeaderEmail,
+        });
+
+        // TODO Link projectLeader
+        // const projectCreator = new CreatorRelationship({}, [project.id, data.currentUser.id], db.DIRECTION.RIGHT);
+        // const projectLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
+
+        return project.save()
+        // .then((response) => {
+        //     console.log('NEW PROJECT', response);
+        //
+        //     return Promise.all([
+        //         // projectCreator.save(),
+        //         // projectLeader.save(),
+        //     ]);
+        // })
+        .then((response) => {
+            if (response.id === project.id) {
+                return project.data;
             }
+            throw new Error('Unexpected error occurred.');
+        })
+        .catch((err) => {
+            return Promise.reject(messages.project.required);
         });
     }
 
-    static validateUniqueName(obj) {
+    static validateUniqueSlug(project) {
+        if (!project.slug) {
+            return Promise.reject(messages.project.required);
+        }
+
         return db.query(
-            `
-            MATCH (project:Project {name: {name} }) RETURN project
-            `,
+            `MATCH (project:Project {slug: {slug} }) RETURN project`,
             {},
-            obj
+            project
         )
         .getResults('project')
         .then((result) => {
             if (result.length === 0) {
-                return obj;
+                return project;
             } else {
-                return Promise.reject('duplicate project name :)');
+                return Promise.reject(messages.project.uniqueSlug);
             }
         });
-    }
-
-    /* deprecated */
-    static create(obj) {
-        obj.uuid = UUID.v4();
-
-        return db.query(
-            `
-            MATCH (creator:User {uuid: {creatorUUID}})
-
-            CREATE (project:Project
-                {name: {name},
-                shortName: {shortName},
-                shortDescription: {shortDescription},
-                longDescription: {longDescription},
-                uuid: {uuid} }
-            )
-
-            CREATE (creator)-[:CREATOR]->(project)
-            CREATE (creator)-[:OWNER]->(project)
-
-            RETURN project
-
-            `,
-            {},
-            obj
-        )
-        .getResults('project')
-        .then((result) => {
-            // we put the image url back in
-            result[0].splashImageData = obj.splashImageData;
-            return Promise.resolve(result[0]);
-        });
-    }
-
-    static uploadSplashImage(obj: {splashImageData: string}) {
-        return util.uploadRsImage({
-            key_prefix: 'images/splash/',
-            uuid: obj.uuid,
-            image_data: obj.splashImageData,
-        })
-        .then((result) => {
-            obj.splash_image_key = result.key;
-            return Promise.resolve(obj);
-        });
-    }
-
-    /* expects obj.uuid and obj.key */
-    static insertSplashImageIntoDb(obj) {
-        console.log('trying to insert splash image into db');
-        console.log(obj.uuid);
-
-        return db.query(
-            `
-            MATCH (project:Project {uuid: {uuid} })
-            CREATE (img:Image {key: {key} })
-            CREATE (project)-[:SPLASH_IMAGE]->(img)
-
-            RETURN img
-            `,
-            {},
-            obj
-        )
-        .getResults('img');
     }
 
     // SECURITY: explicitly define return attributes

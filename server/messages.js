@@ -9,4 +9,8 @@ module.exports = {
         success: 'The email has been sent',
         failed: 'Sorry, there has been an error',
     },
+    project: {
+        uniqueSlug: 'The project slug already exist',
+        required: 'Please fill all required fields and verify slug',
+    },
 };

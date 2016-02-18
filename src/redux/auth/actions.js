@@ -35,7 +35,7 @@ export function signIn(email, password) {
         )
         .catch(
             (errorResponse) => {
-                dispatch(signinFailed(errorResponse));
+                dispatch(signinFailed(errorResponse.data));
             }
         );
     };

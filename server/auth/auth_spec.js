@@ -54,7 +54,7 @@ describe('Authentication', () => {
                 done();
             });
         });
-        it('gives an error if a user tries to log in with an empty password', (done) => {
+        it('gives an error if a user tries to log in with an empty email', (done) => {
             request.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
                 form: {

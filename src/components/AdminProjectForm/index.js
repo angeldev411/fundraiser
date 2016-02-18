@@ -1,21 +1,61 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Constants from '../../common/constants.js';
+import * as Actions from '../../redux/project/actions';
 
-export default class AdminProjectForm extends Component {
+class AdminProjectForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.project) {
+            // TODO Push new project]
+            // this.setState(
+            //     {
+            //         user: nextProps.user,
+            //         error: null
+            //     }
+            // );
+        }
+    }
+
+    submit = () => {
+        Actions.newProject(
+            this.state.name,
+            this.state.slug,
+            this.state.shortDescription,
+            this.state.projectLeaderEmail,
+        )(this.props.dispatch);
+    };
+
+    handleChange = (event, name) => {
+        const newState = {};
+
+        newState[name] = event.nativeEvent.target.value;
+        this.setState(newState);
+    };
+
     render() {
         return (
             <Form id="project-form"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={this.props.title}
                 description="Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+                onSubmit={this.submit}
             >
                 <div className="form-group">
                     <input type="text"
                         name="name"
                         id="name"
                         defaultValue={this.props.project ? this.props.project.name : null}
+                        onChange={(e) => { this.handleChange(e, 'name') }}
                     />
                     <label htmlFor="name">{'Project Name'}</label>
                 </div>
@@ -29,20 +69,29 @@ export default class AdminProjectForm extends Component {
                         id="slug"
                         aria-describedby="slug-addon"
                         defaultValue={this.props.project ? this.props.project.slug : null}
+                        onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
                     <label htmlFor="slug">{'Public Url'}</label>
                 </div>
 
                 <div className="form-group">
                     <input type="email"
-                        name="project-admin-email"
-                        id="project-admin-email"
+                        name="projectLeaderEmail"
+                        id="projectLeaderEmail"
                         defaultValue={this.props.project ? this.props.project.projectAdminEmail : null}
+                        onChange={(e) => { this.handleChange(e, 'projectLeaderEmail') }}
                     />
                     <label htmlFor="project-admin-email">{'Project Admin Email (Optional)'}</label>
                 </div>
 
-                <Button customClass="btn-green-white">{this.props.project ? 'Edit Project' : 'Create Project'}</Button>
+                {this.state.error ? <p>{this.state.error}</p> : null}
+
+                <Button
+                    customClass="btn-green-white"
+                    type={'submit'}
+                >
+                    {this.props.project ? 'Edit Project' : 'Create Project'}
+                </Button>
             </Form>
         );
     }
@@ -52,3 +101,8 @@ AdminProjectForm.propTypes = {
     title: React.PropTypes.string,
     project: React.PropTypes.object,
 };
+
+export default connect((reduxState) => ({
+    error: reduxState.main.project.error,
+    project: reduxState.main.project.project,
+}))(AdminProjectForm);

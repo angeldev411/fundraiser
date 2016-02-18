@@ -7,20 +7,14 @@ const db = neo4jDB(config.DB_URL);
 
 const Team = require('../../team/model');
 const Project = require('../../project/model');
+const ProjectController = require('../../project/controller');
+
 
 // TODO: corporate_schema ?
 
 class Corporate {
     static findProjects(uuid) {
 
-    }
-
-    static createProject(project) {
-        Project.validate(project)
-        .then(Project.create)
-        .catch((err) => {
-            console.error(err);
-        });
     }
 
     static createTeam(team) {
