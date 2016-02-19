@@ -51,10 +51,13 @@ class setup {
     }
 
     static addProjects() {
-        return Promise.all([
-            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.superAdmins[0] }),
-            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.superAdmins[0] }),
-        ]);
+        const promises = fixtures.projects.map((project) => {
+            return projectController.store({
+                project, currentUser: fixtures.superAdmins[0],
+            });
+        });
+
+        Promise.all(promises);
     }
 
     static addTeamLeaders() {
