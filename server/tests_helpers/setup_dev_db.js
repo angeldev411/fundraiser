@@ -26,7 +26,20 @@ class setup {
             OPTIONAL MATCH (n)-[r]-()
             DELETE n,r`
         )
-        .getResults('donation', 'user');
+        .getResults('donation', 'user')
+        .then(setup.initDB);
+    }
+
+    static initDB() {
+        return db.query(
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.email IS UNIQUE`
+        )
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (project:PROJECT) ASSERT project.slug IS UNIQUE`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (team:TEAM) ASSERT team.slug IS UNIQUE`
+        )));
     }
 
     static addSuperAdmins() {

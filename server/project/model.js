@@ -7,7 +7,6 @@ import messages from '../messages';
 const db = neo4jDB(config.DB_URL);
 
 class Project {
-
     constructor(data) {
         const Node = db.defineNode({
             label: ['PROJECT'],
@@ -57,26 +56,6 @@ class Project {
         })
         .catch((err) => {
             return Promise.reject(messages.project.required);
-        });
-    }
-
-    static validateUniqueSlug(project) {
-        if (!project.slug) {
-            return Promise.reject(messages.project.required);
-        }
-
-        return db.query(
-            `MATCH (project:Project {slug: {slug} }) RETURN project`,
-            {},
-            project
-        )
-        .getResults('project')
-        .then((result) => {
-            if (result.length === 0) {
-                return project;
-            } else {
-                return Promise.reject(messages.project.uniqueSlug);
-            }
         });
     }
 

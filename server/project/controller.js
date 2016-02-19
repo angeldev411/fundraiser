@@ -1,13 +1,10 @@
 'use strict';
-const Project = require('./model');
-const messages = require('../messages');
+import Project from './model';
+import messages from '../messages';
 
 class projectController {
     static store(data) {
-        return Project.validateUniqueSlug(data.project)
-        .then((project) => {
-            return new Project(data);
-        })
+        return new Project(data)
         .then((p) => {
             return Promise.resolve(p);
         });
