@@ -41,7 +41,7 @@ class Hours {
                 })
                   .getResults()
                     .then(() => {
-                        console.log('Rel');
+                        console.log('Rel', hourCreateResult);
                         resolve(hourCreateResult);
                     }).catch((error) => {
                         console.log('Fail Rel',error);

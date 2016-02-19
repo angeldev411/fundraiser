@@ -30,10 +30,12 @@ app.use(express.static('public'));
 import authRoutes from './auth/routes';
 import projectRoutes from './project/routes';
 import teamRoutes from './team/routes';
+import volunteersRoutes from './user/volunteer/routes';
 
 app.use(authRoutes);
 app.use(projectRoutes);
 app.use(teamRoutes);
+app.use(volunteersRoutes);
 
 app.listen(config.EXPRESS_PORT);
 

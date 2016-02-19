@@ -3,8 +3,56 @@ import Button from '../../components/Button';
 import Form from '../../components/Form';
 import DateTimeInput from 'react-bootstrap-datetimepicker';
 import SignaturePad from 'react-signature-pad';
+import * as Actions from '../../redux/volunteer/actions';
+import { connect } from 'react-redux';
+import moment from 'moment'
+
 
 export default class RecordHoursForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            place: '',
+            hours: 0,
+            date: moment(),
+            supervisor: '',
+            signature: ''
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('nextProps', nextProps);
+        if (nextProps.hourLogFailure) {
+            this.setState({ error: nextProps.hourLogFailure });
+        } else if (nextProps.hourLogSuccess) {
+            this.setState({ hasSuccessfulRecord: nextProps.hourLogSuccess });
+        }
+    }
+
+    recordHours = () => {
+        // Get the Signature as a base64 encode string
+        const signature = this.refs.signature.toDataURL();
+
+        Actions.createHourLog(
+            this.state.place,
+            this.state.hours,
+            this.state.date,
+            this.state.supervisor,
+            signature,
+        )(this.props.dispatch);
+    };
+
+    handleChange = (event, name) => {
+        const newState = {};
+
+        newState[name] = event.nativeEvent.target.value;
+        this.setState(newState);
+    };
+
+    setDate = (value) => {
+        this.state.date = moment.utc(value).local();
+    }
+
     render() {
         return (
             <Form title={'Record your time'}
@@ -14,6 +62,7 @@ export default class RecordHoursForm extends Component {
                     <input type="text"
                         name="place"
                         id="place"
+                        onChange={(e) => { this.handleChange(e, 'place') }}
                     />
                     <label htmlFor="place">{'Place volunteered'}</label>
                 </div>
@@ -21,6 +70,7 @@ export default class RecordHoursForm extends Component {
                     <input type="text"
                         name="hours"
                         id="hours"
+                        onChange={(e) => { this.handleChange(e, 'hours') }}
                     />
                     <label htmlFor="hours">{'Hours'}</label>
                 </div>
@@ -30,6 +80,7 @@ export default class RecordHoursForm extends Component {
                             name: 'date',
                             id: 'date',
                         }}
+                        onChange={(e) => { this.setDate(e) }}
                     />
                     <label htmlFor="date">{'Date'}</label>
                 </div>
@@ -37,13 +88,21 @@ export default class RecordHoursForm extends Component {
                     <input type="text"
                         name="supervisor"
                         id="supervisor"
+                        onChange={(e) => { this.handleChange(e, 'supervisor') }}
                     />
                     <label htmlFor="supervisor">{'Supervisor'}</label>
                 </div>
-                <SignaturePad/>
+                <SignaturePad ref="signature"/>
 
-                <Button customClass="btn-green-white">{'Submit'}</Button>
+                {this.state.error ? <p>{this.state.error}</p> : null}
+
+                <Button onClick={this.recordHours} customClass="btn-green-white">{'Submit'}</Button>
             </Form>
         );
     }
 }
+
+export default connect((reduxState) => ({
+    hourLogSuccess: reduxState.main.volunteer.hourLogSuccess,
+    hourLogFailure: reduxState.main.volunteer.hourLogFailure,
+}))(RecordHoursForm);
