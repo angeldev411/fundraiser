@@ -1,77 +1,64 @@
 'use strict';
-const schema = require('validate');
-const UUID = require('uuid');
+const uuid = require('uuid');
 const mailer = require('../helpers/mailer.js');
 const util = require('../helpers/util.js');
 const neo4jDB = require('neo4j-simple');
 const config = require('../config');
 const frontEndUrls = require('../../src/urls.js');
+const messages = require('../messages');
 
 const db = neo4jDB(config.DB_URL);
 
-const teamSchema = schema({
-    name: {
-        type: 'string',
-        message: 'A name is required',
-        match: /.{4,100}/,
-    },
-    creatorUUID: {
-        type: 'string',
-        message: 'UUID of the creating user is required',
-    },
-    shortName: {
-        type: 'string',
-        message: 'A short name is required',
-        required: true,
-    },
-    shortDescription: {
-        type: 'string',
-    },
-    longDescription: {
-        type: 'string',
-    },
-    projectUUID: {
-        type: 'string',
-    },
-    leaderUUID: {},
-    logoImageData: {
-    },
-    uuid: {},
-    invitationUUID: {},
-    message: {},
-});
-
 class Team {
-    static validate(obj) {
-        const errs = teamSchema.validate(obj);
+    constructor(data) {
+        const Node = db.defineNode({
+            label: ['TEAM'],
+            schema: {
+                id: db.Joi.string().required(),
+                name: db.Joi.string().required(),
+                slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
+                teamLeaderEmail: db.Joi.string().email().optional(),
+            },
+        });
 
-        return new Promise((resolve, reject) => {
-            if (errs.length === 0) {
-                resolve(obj);
-            } else {
-                reject(errs);
+        const CreatorRelationship = db.defineRelationship({
+            type: 'CREATOR',
+        });
+
+        const ProjectRelationship = db.defineRelationship({
+            type: 'CONTRIBUTE',
+        });
+
+        const team = new Node({
+            id: uuid.v4(),
+            name: data.team.name,
+            slug: data.team.slug,
+            teamLeaderEmail: data.team.teamLeaderEmail,
+        });
+
+        // TODO Link teamLeader
+        // const teamCreator = new CreatorRelationship({}, [project.id, data.currentUser.id], db.DIRECTION.RIGHT);
+        // const teamLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
+
+        return team.save()
+        // .then((response) => {
+        //     console.log('NEW PROJECT', response);
+        //
+        //     return Promise.all([
+        //         // projectCreator.save(),
+        //         // projectLeader.save(),
+        //     ]);
+        // })
+        .then((response) => {
+            if (response.id === team.id) {
+                return team.data;
             }
+            throw new Error('Unexpected error occurred.');
+        })
+        .catch((err) => {
+            return Promise.reject(messages.team.required);
         });
     }
-
-    static validateUniqueShortName(obj) {
-        return db.query(
-            `
-            MATCH (team:Team {shortName: {shortName} }) RETURN team
-            `,
-            {},
-            obj
-        )
-        .getResults('team')
-        .then((result) => {
-            if (result.length === 0) {
-                return Promise.resolve(obj);
-            } else {
-                return Promise.reject('duplicate team short-name :)');
-            }
-        });
-    }
-
 
     static uploadLogoImage(obj) {
         console.log('upload logo image ' + obj.uuid);

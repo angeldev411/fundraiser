@@ -24,6 +24,7 @@ app.use((req, res, next) => {
 
 const authRoutes = require('./auth/routes');
 const projectRoutes = require('./project/routes');
+const teamRoutes = require('./team/routes');
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -37,6 +38,7 @@ app.get('/', (req, res, next) => {
 });
 app.use(authRoutes);
 app.use(projectRoutes);
+app.use(teamRoutes);
 
 app.listen(config.EXPRESS_PORT);
 

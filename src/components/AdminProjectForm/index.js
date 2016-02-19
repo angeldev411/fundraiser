@@ -8,8 +8,7 @@ import * as Actions from '../../redux/project/actions';
 class AdminProjectForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {};
     }
 
     componentWillReceiveProps(nextProps) {

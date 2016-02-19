@@ -13,4 +13,8 @@ module.exports = {
         uniqueSlug: 'The project slug already exist',
         required: 'Please fill all required fields and verify slug',
     },
+    team: {
+        uniqueSlug: 'The team slug already exist',
+        required: 'Please fill all required fields and verify slug',
+    },
 };
