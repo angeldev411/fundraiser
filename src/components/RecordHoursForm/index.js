@@ -53,6 +53,10 @@ export default class RecordHoursForm extends Component {
         this.state.date = moment.utc(value).local();
     }
 
+    getError = () => {
+        return this.state.error
+    }
+
     render() {
         return (
             <Form title={'Record your time'}
@@ -93,8 +97,6 @@ export default class RecordHoursForm extends Component {
                     <label htmlFor="supervisor">{'Supervisor'}</label>
                 </div>
                 <SignaturePad ref="signature"/>
-
-                {this.state.error ? <p>{this.state.error}</p> : null}
 
                 <Button onClick={this.recordHours} customClass="btn-green-white">{'Submit'}</Button>
             </Form>
