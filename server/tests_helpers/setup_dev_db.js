@@ -11,8 +11,9 @@ import Volunteer from '../user/volunteer/model';
 import company from '../user/corporate/company';
 import SuperAdmin from '../user/super-admin/model';
 import Corporate from '../user/corporate/model';
-import team from '../team/model';
-import teamLeader from '../user/team-leader/model';
+import Team from '../team/model';
+import TeamLeader from '../user/team-leader/model';
+import TeamController from '../team/controller';
 import projectLeader from '../user/project-leader/model';
 import projectController from '../project/controller';
 import project from '../project/model';
@@ -43,7 +44,7 @@ class setup {
     }
 
     static addSuperAdmins() {
-        const promises = fixtures.initialUsers.map((userToAdd) => {
+        const promises = fixtures.superAdmins.map((userToAdd) => {
             userToAdd.password = userToAdd.hashedPassword;
             delete userToAdd.hashedPassword;
             return new SuperAdmin(userToAdd);
@@ -88,12 +89,11 @@ class setup {
 
         userToAdd.password = userToAdd.hashedPassword;
 
-        return user.validate(userToAdd)
-        .then(user.insertIntoDb);
+        return new TeamLeader(userToAdd);
     }
 
     static addTeams() {
-        return teamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
+        return TeamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
     }
 
     static addVolunteers() {

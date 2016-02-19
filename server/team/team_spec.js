@@ -25,7 +25,7 @@ describe('Team', () => {
         }, (error, response, body) => {
             expect(error).to.be.a('null');
             expect(response.statusCode).to.equal(400);
-            expect(body).to.equal(messages.team.uniqueSlug);
+            expect(body).to.equal(messages.team.required);
             done();
         });
     });

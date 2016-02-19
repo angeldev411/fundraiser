@@ -1,6 +1,6 @@
 'use strict';
-const Team = require('./model');
-const messages = require('../messages');
+import Team from './model';
+import messages from '../messages';
 
 class teamController {
     static store(data) {
