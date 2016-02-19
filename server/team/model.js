@@ -289,7 +289,7 @@ class Team {
         const emailingOptions = {
             to: invitee.email,
             subject: 'Your invitation',
-            onboard_url: `${config.DOMAIN}${
+            onboard_url: `${config.URL}${
                 frontEndUrls.getTeamSignupUrl(invitee.projectShortName, invitee.teamShortName)
             }`,
         };
