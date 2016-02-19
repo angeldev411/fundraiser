@@ -45,13 +45,13 @@ const fixtures = {
 
     team: {
         name: "St. John's BuildOn",
-        shortName: 'sjbo',
-        shortDescription: 'build schools for your dollars',
-        longDescription: 'custom long desc?',
-        creatorUUID: 'abcd1234',
-        leaderUUID: 'abcd1234', // this is matt
-        projectUUID: '565656',
-        logoImageData: logo('sjbo'),
+        slug: 'sjbo',
+        // shortDescription: 'build schools for your dollars',
+        // longDescription: 'custom long desc?',
+        // creatorUUID: 'abcd1234',
+        // leaderUUID: 'abcd1234', // this is matt
+        // projectUUID: '565656',
+        // logoImageData: logo('sjbo'),
     },
 
     volunteers: [

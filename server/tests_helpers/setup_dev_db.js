@@ -13,8 +13,8 @@ const team = require('../team/model');
 const teamLeader = require('../user/team-leader/model');
 const projectLeader = require('../user/project-leader/model');
 const volunteer = require('../user/volunteer/model');
-const project = require('../project/model');
 const projectController = require('../project/controller');
+const teamController = require('../team/controller');
 const donation = require('../pledge/donation');
 const pledge = require('../pledge/model');
 const util = require('../helpers/util');
@@ -52,13 +52,13 @@ class setup {
 
     static addProjects() {
         return Promise.all([
-            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.superAdmin }),
-            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.superAdmin }),
+            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.initialUsers }),
+            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.initialUsers }),
         ]);
     }
 
     static addTeams() {
-        return corporate.createTeam(fixtures.team);
+        return teamController.store({ team: fixtures.team, currentUser: fixtures.initialUsers});
     }
 
     static addVolunteers() {
