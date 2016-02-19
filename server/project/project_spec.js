@@ -9,7 +9,7 @@ const uuid = require('uuid');
 let request = require('request');
 const expect = require('chai').expect;
 
-const superAdmin = fixtures.initialUsers;
+const superAdmin = fixtures.superAdmins[0];
 const project = fixtures.projects[0];
 let Cookies = null;
 

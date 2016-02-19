@@ -29,8 +29,8 @@ class setup {
         .getResults('donation', 'user');
     }
 
-    static addInitialUsers() {
-        const userToAdd = fixtures.initialUsers;
+    static addSuperAdmins() {
+        const userToAdd = fixtures.superAdmins[0];
 
         userToAdd.password = userToAdd.hashedPassword;
 
@@ -47,18 +47,28 @@ class setup {
     }
 
     static assignSuperAdmins() {
-        company.assignCorporate(fixtures.superAdmin);
+        company.assignCorporate(fixtures.superAdmins[0]);
     }
 
     static addProjects() {
         return Promise.all([
-            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.initialUsers }),
-            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.initialUsers }),
+            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.superAdmins[0] }),
+            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.superAdmins[0] }),
         ]);
     }
 
+    static addTeamLeaders() {
+        // TODO check this
+        const userToAdd = fixtures.teamLeaders[0];
+
+        userToAdd.password = userToAdd.hashedPassword;
+
+        return user.validate(userToAdd)
+        .then(user.insertIntoDb);
+    }
+
     static addTeams() {
-        return teamController.store({ team: fixtures.team, currentUser: fixtures.initialUsers});
+        return teamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
     }
 
     static addVolunteers() {
@@ -128,10 +138,11 @@ readingLine.question(
             Promise.resolve()
             .then(setup.wipeDb)
             .then(setup.addCompany)
-            .then(setup.addInitialUsers)
+            .then(setup.addSuperAdmins)
             .then(setup.assignSuperAdmins)
             .then(setup.addProjects)
             .then(setup.addTeams)
+            .then(setup.addTeamLeaders)
             .then(setup.addVolunteers)
             .then(setup.addSimpleDonations)
             .then(setup.addPledges)
