@@ -75,28 +75,11 @@ gulp.task('glyphicons', function() {
     .pipe(gulp.dest('./www/assets/'));
 });
 
-gulp.task('jquery', function() {
-    gulp.src('./node_modules/jquery/dist/jquery.min.js')
-    .pipe(gulp.dest('./www/assets/js'));
-});
-
-gulp.task('webserver', function() {
-  gulp.src('./www/')
-    .pipe(webserver({
-      host: 'localhost',
-      port: 3000,
-      livereload: false,
-      directoryListing: false,
-      open: false,
-      fallback: 'index.html'
-    }));
-});
-
 gulp.task('watch', function() {
-  gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons', 'jquery']);
+  gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons']);
   gulp.watch(['./src/**/*.js'], ['js']);
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons', 'jquery']);
-gulp.task('develop', ['default', 'webserver', 'watch']);
+gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons']);
+gulp.task('develop', ['default', 'watch']);

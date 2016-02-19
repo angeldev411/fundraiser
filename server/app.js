@@ -13,18 +13,8 @@ const app = express();
 app.use(cookieParser());
 app.use(session(config.SESSION_CONFIG));
 
-// CORS
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Origin', req.headers.origin); // TODO change this in production
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
-    next();
-});
-
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-app.use(express.static('public'));
 
 // Routes
 import authRoutes from './auth/routes';
@@ -34,6 +24,9 @@ import teamRoutes from './team/routes';
 app.use(authRoutes);
 app.use(projectRoutes);
 app.use(teamRoutes);
+
+app.use(express.static(`${__dirname}/../www/`));
+app.use('*', express.static(`${__dirname}/../www/`));
 
 app.listen(config.EXPRESS_PORT);
 
