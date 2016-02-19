@@ -52,7 +52,7 @@ class Project {
             if (response.id === project.id) {
                 return project.data;
             }
-            throw new Error('Unexpected error occurred.');
+            return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
             return Promise.reject(messages.project.required);

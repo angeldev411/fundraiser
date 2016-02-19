@@ -5,6 +5,7 @@ import UUID from 'uuid';
 import util from '../helpers/util';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
+import Promise from 'bluebird';
 
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -50,12 +51,13 @@ export default class User {
 
         const user = new Node(data);
 
-        return user.save()
+        return Promise.resolve(user.save())
         .then((results) => {
-            return Promise.resolve(results);
+            return results;
         })
         .catch((err) => {
             console.error('Couldnt save user ', err);
+            return Promise.reject(err);
         });
     }
 
@@ -144,37 +146,18 @@ export default class User {
         .getResults('t');
     }
 
-    static roleMapForUuid(uuid) {
+    static getById(id) {
         return db.query(
             `
-            MATCH (user:USER {uuid: {uuid} })
-            MATCH (user)-[r:LEADER|VOLUNTEER|CREATOR|OWNER|SUPER_ADMIN]-(b) WHERE b:Team or b:Project or b:Company
-            RETURN {
-                type: head(labels(b)),
-                uuid: b.uuid,
-                name: b.name,
-                shortName: b.shortName,
-                relation: type(r)
-            } as role_map
+            MATCH (user:USER {id: {id} }) RETURN user
             `,
             {},
-            { uuid }
-        )
-        .getResults('role_map');
-    }
-
-    static findByUuid(uuid) {
-        return db.query(
-            `
-            MATCH (user:USER {uuid: {uuid} }) RETURN user
-            `,
-            {},
-            { uuid }
+            { id }
         )
         .getResults('user');
     }
 
-    static findByEmail(email) {
+    static getByEmail(email) {
         return db.query(
             `
             MATCH (user:USER {email: {email} }) RETURN user

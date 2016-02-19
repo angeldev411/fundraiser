@@ -15,7 +15,7 @@ class userController {
     }
 
     static getUserWithRoles(credentials) {
-        return User.findByEmail(credentials.email)
+        return User.getByEmail(credentials.email)
         .then((results) => {
             if (results.length === 0) {
                 return Promise.resolve(false);
@@ -52,16 +52,20 @@ class userController {
         return new User({
             email,
         })
-        .then((user) => {
-            // TODO : generate token + send email
-            return Promise.resolve(user);
+        .then((idObject) => {
+            return User.getById(idObject.id);
         })
-        .catch(
-            (err) => {
-                console.log(err);
-                return Promise.reject('User already in DB');
+        .then((users) => {
+            if (users.length === 0) {
+                Promise.reject('Not in DB');
             }
-        );
+            // TODO : generate token + send email
+            return Promise.resolve(users[0]);
+        })
+        .catch((err) => {
+            console.log(err);
+            return Promise.reject('User already in DB');
+        });
     }
 
     // Corporate?
