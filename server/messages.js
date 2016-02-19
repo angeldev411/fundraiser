@@ -15,6 +15,6 @@ module.exports = {
     },
     team: {
         uniqueSlug: 'The team slug already exist',
-        required: 'Please fill all required fields and verify slug',
+        required: 'Please fill all required fields and verify that slug is unique and valid',
     },
 };
