@@ -1,7 +1,8 @@
 'use strict';
 
-const Hours = require('./model.js');
-const UUID = require('uuid');
+import Promise from 'bluebird';
+import Hours from './model.js';
+import UUID from 'uuid';
 
 class hoursController {
     static log(userId, newHours) {

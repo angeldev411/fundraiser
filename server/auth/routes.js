@@ -19,7 +19,7 @@ router.post('/api/v1/auth/login', (req, res) => {
 
     userController.checkCredentials(credentials)
     .then((user) => {
-        console.log(`Credentials passed got uuid: ${user.uuid}`);
+        console.log(`Credentials passed got id: ${user.id}`);
         req.session.user = user;
 
         res.status(200).send(userController.safe(user));

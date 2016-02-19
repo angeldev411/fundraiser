@@ -3,6 +3,7 @@ import UUID from 'uuid';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import util from '../helpers/util.js';
+import Promise from 'bluebird';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -33,20 +34,20 @@ class Hours {
             return (new Hour(hourValues)).save()
             .then((hourCreateResult) => {
                 db.query(`
-                    MATCH (u:User {id: {userId} }), (h:Hour {id: {id} })
+                    MATCH (u:VOLUNTEER {id: {userId} }), (h:Hour {id: {id} })
                     CREATE (u)-[:OWNER]->(h)
                 `, {}, {
                     id: hourValues.id,
                     userId,
                 })
-                  .getResults()
-                    .then(() => {
-                        console.log('Rel', hourCreateResult);
-                        resolve(hourCreateResult);
-                    }).catch((error) => {
-                        console.log('Fail Rel',error);
-                        reject(null);
-                    });
+                .getResults()
+                .then(() => {
+                    console.log('Rel', hourCreateResult);
+                    resolve(hourCreateResult);
+                }).catch((error) => {
+                    console.log('Fail Rel',error);
+                    reject(null);
+                });
             }).catch((hourCreateError) => {
                 reject(null);
             });

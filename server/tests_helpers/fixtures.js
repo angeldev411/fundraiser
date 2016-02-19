@@ -65,6 +65,7 @@ const fixtures = {
 
     volunteers: [
         {
+            id: 'iamapredefinedId',
             firstName: 'Wilson',
             lastName: 'Chen',
             email: 'wchen@aol.com',
