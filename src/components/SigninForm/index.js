@@ -7,8 +7,7 @@ import * as Actions from '../../redux/auth/actions';
 class SigninForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
 
     componentWillReceiveProps(nextProps) {

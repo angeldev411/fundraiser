@@ -9,7 +9,7 @@ const uuid = require('uuid');
 let request = require('request');
 const expect = require('chai').expect;
 
-const superAdmin = fixtures.initialUsers;
+const superAdmin = fixtures.superAdmins[0];
 const project = fixtures.projects[0];
 let Cookies = null;
 
@@ -70,7 +70,7 @@ describe('Project', () => {
             });
         });
 
-        it('gives an error if a user tries to create project with an empty name', (done) => {
+        it('gives an error if a super admin tries to create project with an empty name', (done) => {
             request.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {

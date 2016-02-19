@@ -7,7 +7,7 @@ const messages = require('../messages');
 let request = require('request');
 const expect = require('chai').expect;
 
-const user = fixtures.initialUsers;
+const user = fixtures.superAdmins[0];
 let Cookies = null;
 
 describe('Authentication', () => {

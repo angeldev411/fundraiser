@@ -10,24 +10,32 @@ const splashImage = (name = 'buildon') => new DataURI(`${__dirname}/files/images
 const logo = (name = 'buildon') => new DataURI(`${__dirname}/files/images/logos/${name}.jpg`);
 
 const fixtures = {
-    initialUsers: {
-        email: 'mmmurf@gmail.com',
-        password: 'testtesttest',
-        hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
-        firstName: 'matt',
-        lastName: 'murphy',
-        uuid: 'abcd1234',
-    },
+    superAdmins: [
+        {
+            email: 'mmmurf@gmail.com',
+            password: 'testtesttest',
+            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
+            firstName: 'matt',
+            lastName: 'murphy',
+            uuid: 'abcd1234',
+        },
+    ],
+
+    teamLeaders: [
+        {
+            email: 'team-leader@gmail.com',
+            password: 'testtesttest',
+            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
+            firstName: 'team',
+            lastName: 'leader',
+            uuid: 'abcd4321',
+        },
+    ],
 
     company: {
         name: 'Raiserve',
         shortName: 'raiserve',
         uuid: 'ghighi',
-    },
-
-    superAdmin: {
-        companyUUID: 'ghighi',
-        userUUID: 'abcd1234',
     },
 
     projects: [
@@ -45,13 +53,13 @@ const fixtures = {
 
     team: {
         name: "St. John's BuildOn",
-        shortName: 'sjbo',
-        shortDescription: 'build schools for your dollars',
-        longDescription: 'custom long desc?',
-        creatorUUID: 'abcd1234',
-        leaderUUID: 'abcd1234', // this is matt
-        projectUUID: '565656',
-        logoImageData: logo('sjbo'),
+        slug: 'sjbo',
+        // shortDescription: 'build schools for your dollars',
+        // longDescription: 'custom long desc?',
+        // creatorUUID: 'abcd1234',
+        // leaderUUID: 'abcd1234', // this is matt
+        // projectUUID: '565656',
+        // logoImageData: logo('sjbo'),
     },
 
     volunteers: [

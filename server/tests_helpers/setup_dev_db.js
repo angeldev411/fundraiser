@@ -13,8 +13,8 @@ const team = require('../team/model');
 const teamLeader = require('../user/team-leader/model');
 const projectLeader = require('../user/project-leader/model');
 const volunteer = require('../user/volunteer/model');
-const project = require('../project/model');
 const projectController = require('../project/controller');
+const teamController = require('../team/controller');
 const donation = require('../pledge/donation');
 const pledge = require('../pledge/model');
 const util = require('../helpers/util');
@@ -29,8 +29,8 @@ class setup {
         .getResults('donation', 'user');
     }
 
-    static addInitialUsers() {
-        const userToAdd = fixtures.initialUsers;
+    static addSuperAdmins() {
+        const userToAdd = fixtures.superAdmins[0];
 
         userToAdd.password = userToAdd.hashedPassword;
 
@@ -47,18 +47,31 @@ class setup {
     }
 
     static assignSuperAdmins() {
-        company.assignCorporate(fixtures.superAdmin);
+        company.assignCorporate(fixtures.superAdmins[0]);
     }
 
     static addProjects() {
-        return Promise.all([
-            projectController.store({ project: fixtures.projects[0], currentUser: fixtures.superAdmin }),
-            projectController.store({ project: fixtures.projects[1], currentUser: fixtures.superAdmin }),
-        ]);
+        const promises = fixtures.projects.map((project) => {
+            return projectController.store({
+                project, currentUser: fixtures.superAdmins[0],
+            });
+        });
+
+        Promise.all(promises);
+    }
+
+    static addTeamLeaders() {
+        // TODO check this
+        const userToAdd = fixtures.teamLeaders[0];
+
+        userToAdd.password = userToAdd.hashedPassword;
+
+        return user.validate(userToAdd)
+        .then(user.insertIntoDb);
     }
 
     static addTeams() {
-        return corporate.createTeam(fixtures.team);
+        return teamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
     }
 
     static addVolunteers() {
@@ -128,10 +141,11 @@ readingLine.question(
             Promise.resolve()
             .then(setup.wipeDb)
             .then(setup.addCompany)
-            .then(setup.addInitialUsers)
+            .then(setup.addSuperAdmins)
             .then(setup.assignSuperAdmins)
             .then(setup.addProjects)
             .then(setup.addTeams)
+            .then(setup.addTeamLeaders)
             .then(setup.addVolunteers)
             .then(setup.addSimpleDonations)
             .then(setup.addPledges)
