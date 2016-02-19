@@ -1,8 +1,8 @@
 'use strict';
 
-const constantsFront = require('../src/common/constants');
+import * as constantsFront from '../src/common/constants';
 
-const config = {
+export default {
     DB_URL: (process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/'),
     EXPRESS_PORT: process.env.PORT || 3777,
     SESSION_CONFIG: {
@@ -27,5 +27,3 @@ const config = {
     MANDRILL_API_KEY: 'vojeuQGTtCu70meDb7C8ww',
     DOMAIN: process.env.HOSTNAME || constantsFront.DOMAIN || 'https://raiserve.org',
 };
-
-module.exports = config;

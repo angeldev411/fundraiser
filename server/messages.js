@@ -1,5 +1,5 @@
 'use strict';
-module.exports = {
+export default {
     login: {
         success: 'Login successful',
         failed: 'Invalid login credentials',
@@ -10,11 +10,9 @@ module.exports = {
         failed: 'Sorry, there has been an error',
     },
     project: {
-        uniqueSlug: 'The project slug already exist',
-        required: 'Please fill all required fields and verify slug',
+        required: 'Please fill all required fields and verify that the slug is valid and not taken already',
     },
     team: {
-        uniqueSlug: 'The team slug already exist',
         required: 'Please fill all required fields and verify that slug is unique and valid',
     },
 };

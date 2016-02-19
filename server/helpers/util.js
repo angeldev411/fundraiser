@@ -1,9 +1,9 @@
 'use strict';
-// const s3 = require('s3');
-const AWS = require('aws-sdk');
-const crypto = require('crypto');
-const sha256 = require('js-sha256');
-const config = require('../config');
+// import s3 from 's3';
+import AWS from 'aws-sdk';
+import crypto from 'crypto';
+import sha256 from 'js-sha256';
+import config from '../config';
 
 AWS.config.update(config.S3_ACCESS);
 
@@ -125,4 +125,4 @@ class util {
     }
 }
 
-module.exports = util;
+export default util;

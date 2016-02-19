@@ -1,13 +1,12 @@
 'use strict';
-const uuid = require('uuid');
-const neo4jDB = require('neo4j-simple');
-const config = require('../config');
-const messages = require('../messages');
+import uuid from 'uuid';
+import neo4jDB from 'neo4j-simple';
+import config from '../config';
+import messages from '../messages';
 
 const db = neo4jDB(config.DB_URL);
 
 class Project {
-
     constructor(data) {
         const Node = db.defineNode({
             label: ['PROJECT'],
@@ -53,30 +52,10 @@ class Project {
             if (response.id === project.id) {
                 return project.data;
             }
-            throw new Error('Unexpected error occurred.');
+            return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
             return Promise.reject(messages.project.required);
-        });
-    }
-
-    static validateUniqueSlug(project) {
-        if (!project.slug) {
-            return Promise.reject(messages.project.required);
-        }
-
-        return db.query(
-            `MATCH (project:Project {slug: {slug} }) RETURN project`,
-            {},
-            project
-        )
-        .getResults('project')
-        .then((result) => {
-            if (result.length === 0) {
-                return project;
-            } else {
-                return Promise.reject(messages.project.uniqueSlug);
-            }
         });
     }
 
@@ -121,4 +100,4 @@ class Project {
 }
 
 
-module.exports = Project;
+export default Project;

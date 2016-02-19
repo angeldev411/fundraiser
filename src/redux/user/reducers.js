@@ -4,21 +4,15 @@ const initialState = {};
 
 export default function reducers(state = initialState, action) {
     switch (action.type) {
-        case actionTypes.SIGN_IN:
+        case actionTypes.INVITE_USER:
             return {
                 ...state,
                 user: action.user,
-                signInError: null,
             };
-        case actionTypes.SIGN_IN_FAIL:
+        case actionTypes.INVITE_FAILED:
             return {
                 ...state,
-                signInError: action.error,
-            };
-        case actionTypes.LOGOUT:
-            return {
-                ...state,
-                user: null,
+                inviteError: action.error,
             };
         default:
             return state;

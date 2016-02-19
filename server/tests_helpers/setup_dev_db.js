@@ -1,23 +1,24 @@
 'use strict';
-const readline = require('readline');
+import readline from 'readline';
 
-const config = require('../config');
+import config from '../config';
 const db = require('neo4j-simple')(config.DB_URL);
 
-const fixtures = require('./fixtures');
+import fixtures from './fixtures';
 
-const user = require('../user/model');
-const company = require('../user/corporate/company');
-const corporate = require('../user/corporate/model');
-const team = require('../team/model');
-const teamLeader = require('../user/team-leader/model');
-const projectLeader = require('../user/project-leader/model');
-const volunteer = require('../user/volunteer/model');
-const projectController = require('../project/controller');
-const teamController = require('../team/controller');
-const donation = require('../pledge/donation');
-const pledge = require('../pledge/model');
-const util = require('../helpers/util');
+import User from '../user/model';
+import Volunteer from '../user/volunteer/model';
+import company from '../user/corporate/company';
+import SuperAdmin from '../user/super-admin/model';
+import Corporate from '../user/corporate/model';
+import Team from '../team/model';
+import TeamLeader from '../user/team-leader/model';
+import TeamController from '../team/controller';
+import projectLeader from '../user/project-leader/model';
+import projectController from '../project/controller';
+import project from '../project/model';
+import donation from '../pledge/donation';
+import pledge from '../pledge/model';
 
 class setup {
     static wipeDb() {
@@ -26,23 +27,45 @@ class setup {
             OPTIONAL MATCH (n)-[r]-()
             DELETE n,r`
         )
-        .getResults('donation', 'user');
+        .getResults('donation', 'user')
+        .then(setup.initDB);
+    }
+
+    static initDB() {
+        return db.query(
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.email IS UNIQUE`
+        )
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (project:PROJECT) ASSERT project.slug IS UNIQUE`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (team:TEAM) ASSERT team.slug IS UNIQUE`
+        )));
     }
 
     static addSuperAdmins() {
-        const userToAdd = fixtures.superAdmins[0];
+        const promises = fixtures.superAdmins.map((userToAdd) => {
+            userToAdd.password = userToAdd.hashedPassword;
+            delete userToAdd.hashedPassword;
+            return new SuperAdmin(userToAdd);
+        });
 
-        userToAdd.password = userToAdd.hashedPassword;
-
-        return user.validate(userToAdd)
-        .then(user.insertIntoDb);
+        return Promise.all(promises)
+        .then((resp) => {
+            console.log('superAdmins : ok');
+        })
+        .catch((err) => {
+            console.error('superAdmins : ', err);
+        });
     }
 
     static addCompany() {
         return company.create(fixtures.company)
         .then((resp) => {
-            console.log('company returned');
-            console.log(resp);
+            console.log('Company : ok');
+        })
+        .catch((err) => {
+            console.error('Company : ', err);
         });
     }
 
@@ -66,18 +89,19 @@ class setup {
 
         userToAdd.password = userToAdd.hashedPassword;
 
-        return user.validate(userToAdd)
-        .then(user.insertIntoDb);
+        return new TeamLeader(userToAdd);
     }
 
     static addTeams() {
-        return teamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
+        return TeamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
     }
 
     static addVolunteers() {
         return Promise.all(
             fixtures.volunteers.map(
-                (volunteerMapped) => volunteer.create(volunteerMapped)
+                (volunteerMapped) => {
+                    return new Volunteer(volunteerMapped);
+                }
             )
         );
     }
@@ -142,7 +166,6 @@ readingLine.question(
             .then(setup.wipeDb)
             .then(setup.addCompany)
             .then(setup.addSuperAdmins)
-            .then(setup.assignSuperAdmins)
             .then(setup.addProjects)
             .then(setup.addTeams)
             .then(setup.addTeamLeaders)

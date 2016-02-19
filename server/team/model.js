@@ -1,11 +1,11 @@
 'use strict';
-const uuid = require('uuid');
-const mailer = require('../helpers/mailer.js');
-const util = require('../helpers/util.js');
-const neo4jDB = require('neo4j-simple');
-const config = require('../config');
-const frontEndUrls = require('../../src/urls.js');
-const messages = require('../messages');
+import uuid from 'uuid';
+import mailer from '../helpers/mailer.js';
+import util from '../helpers/util.js';
+import neo4jDB from 'neo4j-simple';
+import config from '../config';
+import frontEndUrls from '../../src/urls.js';
+import messages from '../messages';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -353,4 +353,4 @@ class Team {
     }
 }
 
-module.exports = Team;
+export default Team;

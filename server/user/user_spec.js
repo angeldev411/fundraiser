@@ -1,59 +1,53 @@
 'use strict';
-const user = require('./model.js');
+import userController from './controller.js';
+import messages from '../messages';
+import config from '../config';
+const db = require('neo4j-simple')(config.DB_URL);
 
+// test tools
+let request = require('request');
+const expect = require('chai').expect;
 
-var matt = {
-  first_name: "matt",
-  last_name: 'murphy',
-  email: "test2@aol.com",
-  password: 'password',
+const matt = {
+    first_name: 'matt',
+    last_name: 'murphy',
+    email: 'test2@aol.com',
+    password: 'password',
 };
 
-user.validate(matt)
-    .then(function(obj){
-      console.log("successful insert " + JSON.stringify(obj));
-    }, function(obj){
-      console.log('err handler bad bad ' + JSON.stringify(obj));
-    })
-    .catch(function(err){
-      console.log("PROMISE ERRO " + err)
-    })
+const invite = 'ad@ad.com';
 
+const invitee = {
+    email: 'ad@ad.com',
+    firstName: 'Adrien',
+    lastName: 'Something',
+    password: 'password',
+};
 
-//user.login('test2@aol.com', 'password')
-//    .then(function(uuid){
-//        console.log("successs with " + uuid);
-//    })
-//    .catch(function(obj){
-//        console.log("failure " + JSON.stringify(obj));
-//    });
-
-
-
-// user.findByUuid("abcde12345")
-//    .then(function(uuid){
-//         console.log("successs with " + uuid);
-//     })
-//     .catch(function(obj){
-//         console.log("failure " + JSON.stringify(obj));
-//     });
-
-// user.rolesForUuid("abcde12345")
-//     .then(function(roles){
-//         console.log("Roles are " + JSON.stringify(roles));
-//     })
-//     .catch(function(err){
-//         console.log(JSON.stringify(err));
-//     });
-
-
-// const imager = {uuid: "abcde12345", url: "/path/to/headshot.jpg"};
-
-// // expects obj.uuid and obj.url
-// user.addHeadshotImageToDatabase(imager)
-//     .then(function(obj){
-//         console.log("success " + JSON.stringify(obj));
-//     })
-//     .catch(function(obj){
-//         console.log("err " + JSON.stringify(obj));
-//     });
+describe('User', () => {
+    describe('Invite', () => {
+        after((done) => { // Log out from super admin
+            return db.query(
+                `
+                MATCH (user:USER {email: {email}})
+                DELETE user
+                `,
+                {},
+                {
+                    email: invite,
+                }
+            ).then((response) => {
+                done();
+            });
+        });
+        it('should create an empty user (email + inviteeCode)', (done) => {
+            userController.invite(invite)
+            .then((user) => {
+                expect(user.email).to.equal(invite);
+                expect(user).to.contain.keys('id');
+                expect(user).to.contain.keys('inviteCode');
+                done();
+            });
+        });
+    });
+});

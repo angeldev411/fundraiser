@@ -8,6 +8,7 @@
     "server:start": "babel-node server/app.js",
     "server:start:dev": "nodemon --exec \"babel-node server/app.js\"",
     "test": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\"",
+    "TDD": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\" --watch",
     "test-ci": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./server/auth/auth_spec.js\"",
     "setup-db": "babel-node server/tests_helpers/setup_dev_db"
   },
@@ -24,6 +25,7 @@
     "babel-preset-stage-0": "^6.3.13",
     "babelify": "^7.2.0",
     "bindings": "1.2.1",
+    "bluebird": "^3.3.1",
     "bootstrap": "^3.3.6",
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.3",

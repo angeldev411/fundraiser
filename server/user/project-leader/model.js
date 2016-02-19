@@ -1,14 +1,20 @@
 'use strict';
-const schema = require('validate');
-const UUID = require('uuid');
-const stripelib = require('stripe');
-const neo4jDB = require('neo4j-simple');
-const config = require('../../config');
+import neo4jDB from 'neo4j-simple';
+import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
-const stripe = stripelib(config.STRIPE_TOKEN);
+
+import User from '../model';
 
 class ProjectLeader {
+    constructor(data) {
+        return new User(data, 'PROJECT_LEADER')
+        .then((projectLeader) => {
+            // create relationShip
+            return projectLeader;
+        });
+    }
+
     // TODO: Service changed to Hours (arc)
     static findServiceNeedingApprovalByTeam(obj) {
         console.log(obj);
@@ -67,4 +73,4 @@ class ProjectLeader {
     }
 }
 
-module.exports = ProjectLeader;
+export default ProjectLeader;

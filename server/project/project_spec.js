@@ -1,8 +1,8 @@
 'use strict';
-const fixtures = require('../tests_helpers/fixtures');
-const config = require('../config');
-const messages = require('../messages');
-const uuid = require('uuid');
+import fixtures from '../tests_helpers/fixtures';
+import config from '../config';
+import messages from '../messages';
+import uuid from 'uuid';
 
 
 // test tools
@@ -42,7 +42,7 @@ describe('Project', () => {
             request.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
-                    name: project.name,
+                    name: 'Test Project',
                     slug: uuid.v4(), // Create a unique slug
                 },
             },
@@ -65,7 +65,7 @@ describe('Project', () => {
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
                 expect(response.statusCode).to.equal(400);
-                expect(body).to.equal(messages.project.uniqueSlug);
+                expect(body).to.equal(messages.project.required);
                 done();
             });
         });

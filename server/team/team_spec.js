@@ -1,9 +1,8 @@
 'use strict';
-const fixtures = require('../tests_helpers/fixtures');
-const config = require('../config');
-const messages = require('../messages');
-const uuid = require('uuid');
-
+import fixtures from '../tests_helpers/fixtures';
+import config from '../config';
+import messages from '../messages';
+import uuid from 'uuid';
 
 // test tools
 let request = require('request');
@@ -16,7 +15,6 @@ const team = fixtures.team;
 let Cookies = null;
 
 describe('Team', () => {
-
     it('gives an error if the team slug already exists in the database', (done) => {
         request.post({
             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
@@ -27,7 +25,7 @@ describe('Team', () => {
         }, (error, response, body) => {
             expect(error).to.be.a('null');
             expect(response.statusCode).to.equal(400);
-            expect(body).to.equal(messages.team.uniqueSlug);
+            expect(body).to.equal(messages.team.required);
             done();
         });
     });
@@ -77,7 +75,7 @@ describe('Team', () => {
     });
 
     describe('SuperAdmin', () => {
-        before( (done) => { // Log in as superadmin
+        before((done) => { // Log in as superadmin
             request = request.defaults({ jar: true });
             request.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
@@ -91,7 +89,7 @@ describe('Team', () => {
             });
         });
 
-        after( (done) => { // Log out from super admin
+        after((done) => { // Log out from super admin
             request.get({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/logout`,
             }, (error, response) => {
@@ -119,7 +117,7 @@ describe('Team', () => {
     });
 
     describe('ProjectLeader', () => {
-        before( (done) => { // Log in as superadmin
+        before((done) => { // Log in as superadmin
             request = request.defaults({ jar: true });
             request.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
@@ -133,7 +131,7 @@ describe('Team', () => {
             });
         });
 
-        after( (done) => { // Log out from super admin
+        after((done) => { // Log out from super admin
             request.get({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/logout`,
             }, (error, response) => {

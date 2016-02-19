@@ -1,5 +1,5 @@
 'use strict';
-const user = require('./models/user');
+import user from './models/user';
 
 /* Security Middlewares  */
 const requireLogin = (req, res, next) => {

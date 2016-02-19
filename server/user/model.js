@@ -1,63 +1,64 @@
 'use strict';
-const schema = require('validate');
-const stripelib = require('stripe');
-const sha256 = require('js-sha256');
-const UUID = require('uuid');
-const util = require('../helpers/util');
-const neo4jDB = require('neo4j-simple');
-const config = require('../config');
+import stripelib from 'stripe';
+import sha256 from 'js-sha256';
+import UUID from 'uuid';
+import util from '../helpers/util';
+import neo4jDB from 'neo4j-simple';
+import config from '../config';
+import Promise from 'bluebird';
 
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
-const userSchema = schema({
-    firstName: {
-        type: 'string',
-        message: 'A first name is required',
+const defaultSchema = {
+    id: db.Joi.string().required(),
+    email: db.Joi.string().email().required(),
+    password: db.Joi.string().required(),
+};
+
+import { volunteerSchema } from './volunteer/model';
+
+const userSchemas = {
+    'default': defaultSchema,
+    invitee: {
+        ...defaultSchema,
+        inviteCode: db.Joi.string().required(),
     },
-    lastName: {
-        type: 'string',
-        message: 'A last name is required',
+    volunteer: {
+        ...defaultSchema,
+        ...volunteerSchema,
     },
-    email: {
-        type: 'string',
-        required: true,
-        match: /@/,
-        message: 'A Valid email must be provided',
-    },
-}, {
-    strip: false,
-});
+};
 
+export default class User {
+    constructor(data, label) {
+        // Check if not UUID or not in DB
+        data.id = UUID.v4();
+        if (!data.password) {
+            data.inviteCode = UUID.v4();
+            data.password = '';
+        }
+        const labels = ['USER'];
 
-class User {
-    static validate(obj) {
-        const errs = userSchema.validate(obj);
-
-        return new Promise((resolve, reject) => {
-            if (errs.length === 0) {
-                resolve(obj);
-            } else {
-                reject(errs);
-            }
-        });
-    }
-
-    static insertIntoDb(obj) {
-        if (!obj.uuid) {
-            obj.uuid = UUID.v4();
+        if (label) {
+            labels.push(label);
         }
 
-        return db.query(
-            `
-            MERGE (user:User {email: {email} })
-            ON CREATE SET user.password = {password}, user.uuid = {uuid}, user.firstName = {firstName}, user.lastName = {lastName}
-            RETURN user
-            `,
-            {},
-            obj
-        )
-        .getResults('user');
+        const Node = db.defineNode({
+            label: labels,
+            schemas: userSchemas,
+        });
+
+        const user = new Node(data);
+
+        return Promise.resolve(user.save())
+        .then((results) => {
+            return results;
+        })
+        .catch((err) => {
+            console.error('Couldnt save user ', err);
+            return Promise.reject(err);
+        });
     }
 
     static uploadHeadshotImage(obj) {
@@ -95,7 +96,7 @@ class User {
     static addHeadshotImageToDb(obj) {
         return db.query(
             `
-            MATCH (user:User {uuid: {uuid} })
+            MATCH (user:USER {uuid: {uuid} })
             CREATE (img:Image {key: {key} })
 
             CREATE (user)-[:HEADSHOT]->(img)
@@ -108,28 +109,25 @@ class User {
         .getResults('img');
     }
 
-    static rolesForUuid(uuid) {
-        if (!uuid) {
-            return Promise.resolve([]); // reject('Must provide uuid')
+    static rolesForUser(id) {
+        if (!id) {
+            return Promise.reject('You must provide an id');
         }
         return db.query(
             `
-            MATCH (u:User {uuid: {uuid} })-[r]-(t:Team)
-            RETURN type(r) as type
-            UNION
-            MATCH (u:User {uuid: {uuid}})-[raiserveRoles]->(company:Company {shortName: 'raiserve'})
-            RETURN type(raiserveRoles) as type
+            MATCH (u:USER {id: {id} })
+            RETURN labels(u) as roles
             `,
             {},
-            { uuid }
+            { id }
         )
-        .getResults('type');
+        .getResults('roles');
     }
 
     static volunteeringForTeams(uuid) {
         return db.query(
             `
-            MATCH (u:User {uuid: {uuid}} )-[:VOLUNTEER]->(t:Team) return t
+            MATCH (u:USER {uuid: {uuid}} )-[:VOLUNTEER]->(t:Team) return t
             `,
             {},
             { uuid }
@@ -140,7 +138,7 @@ class User {
     static leadingTeams(uuid) {
         return db.query(
             `
-            MATCH (u:User {uuid: {uuid}} )-[:LEADER]->(t:Team) return t
+            MATCH (u:USER {uuid: {uuid}} )-[:LEADER]->(t:Team) return t
             `,
             {},
             { uuid }
@@ -148,40 +146,21 @@ class User {
         .getResults('t');
     }
 
-    static roleMapForUuid(uuid) {
+    static getById(id) {
         return db.query(
             `
-            MATCH (user:User {uuid: {uuid} })
-            MATCH (user)-[r:LEADER|VOLUNTEER|CREATOR|OWNER|SUPER_ADMIN]-(b) WHERE b:Team or b:Project or b:Company
-            RETURN {
-                type: head(labels(b)),
-                uuid: b.uuid,
-                name: b.name,
-                shortName: b.shortName,
-                relation: type(r)
-            } as role_map
+            MATCH (user:USER {id: {id} }) RETURN user
             `,
             {},
-            { uuid }
-        )
-        .getResults('role_map');
-    }
-
-    static findByUuid(uuid) {
-        return db.query(
-            `
-            MATCH (user:User {uuid: {uuid} }) RETURN user
-            `,
-            {},
-            { uuid }
+            { id }
         )
         .getResults('user');
     }
 
-    static findByEmail(email) {
+    static getByEmail(email) {
         return db.query(
             `
-            MATCH (user:User {email: {email} }) RETURN user
+            MATCH (user:USER {email: {email} }) RETURN user
             `,
             {},
             { email }
@@ -223,5 +202,3 @@ class User {
         });
     }
 }
-
-module.exports = User;

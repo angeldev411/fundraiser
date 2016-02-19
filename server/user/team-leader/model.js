@@ -1,14 +1,21 @@
 'use strict';
-const schema = require('validate');
-const UUID = require('uuid');
-const stripelib = require('stripe');
-const neo4jDB = require('neo4j-simple');
-const config = require('../../config');
+import neo4jDB from 'neo4j-simple';
+import config from '../../config';
 
 const db = neo4jDB(config.DB_URL);
-const stripe = stripelib(config.STRIPE_TOKEN);
+
+import User from '../model';
 
 class TeamLeader {
+    constructor(data) {
+        return new User(data, 'TEAM_LEADER')
+        .then((teamLeader) => {
+            console.log(teamLeader);
+            // create relationShip
+            return teamLeader;
+        });
+    }
+
     static approveHours(hoursID) {
         return leader
         .approveHours(hoursID);
@@ -94,4 +101,4 @@ class TeamLeader {
     }
 }
 
-module.exports = TeamLeader;
+export default TeamLeader;
