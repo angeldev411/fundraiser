@@ -1,5 +1,6 @@
 'use strict';
 import fixtures from '../tests_helpers/fixtures';
+import { logout } from '../tests_helpers/helpers';
 import config from '../config';
 import messages from '../messages';
 
@@ -11,6 +12,7 @@ const user = fixtures.superAdmins[0];
 let Cookies = null;
 
 describe('Authentication', () => {
+    before(logout);
     describe('Login', () => {
         it('gives an error if an existing user tries to log in with a bad password', (done) => {
             request.post({

@@ -33,6 +33,16 @@ const fixtures = {
         },
     ],
 
+    projectLeaders: [
+        {
+            email: 'project-leader@gmail.com',
+            password: 'testtesttest',
+            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
+            firstName: 'project',
+            lastName: 'leader',
+        },
+    ],
+
     company: {
         name: 'Raiserve',
         shortName: 'raiserve',

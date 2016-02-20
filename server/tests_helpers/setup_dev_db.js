@@ -14,7 +14,7 @@ import Corporate from '../user/corporate/model';
 import Team from '../team/model';
 import TeamLeader from '../user/team-leader/model';
 import TeamController from '../team/controller';
-import projectLeader from '../user/project-leader/model';
+import ProjectLeader from '../user/project-leader/model';
 import projectController from '../project/controller';
 import project from '../project/model';
 import donation from '../pledge/donation';
@@ -79,7 +79,11 @@ class setup {
     static addCompany() {
         return company.create(fixtures.company)
         .then((resp) => {
-            console.log('Company : ok');
+            if (resp) {
+                console.log('Company : ok');
+                return;
+            }
+            console.error('Company : empty');
         })
         .catch((err) => {
             console.error('Company : ', err);
@@ -97,7 +101,41 @@ class setup {
             });
         });
 
-        Promise.all(promises);
+        Promise.all(promises)
+        .then((projects) => {
+            if (projects) {
+                console.log('projects : ok');
+                return;
+            }
+            console.error('projects : empty');
+        })
+        .catch((err) => {
+            console.error('projects : ', err);
+        });
+    }
+
+    static addProjectLeaders() {
+        // TODO check this
+        const userToAdd = fixtures.projectLeaders[0];
+
+        userToAdd.password = userToAdd.hashedPassword;
+
+        return new ProjectLeader(userToAdd, fixtures.projects[0].slug)
+        .then((userAdded) => {
+            if (userAdded) {
+                console.log('projectLeader : ok');
+                return;
+            }
+            console.error('projectLeader : empty');
+        })
+        .catch((err) => {
+            console.error('projectLeader : ', err);
+        });
+    }
+
+
+    static addTeams() {
+        return TeamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
     }
 
     static addTeamLeaders() {
@@ -106,21 +144,26 @@ class setup {
 
         userToAdd.password = userToAdd.hashedPassword;
 
-        return new TeamLeader(userToAdd);
-    }
-
-    static addTeams() {
-        return TeamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
+        return new TeamLeader(userToAdd, fixtures.team.slug);
     }
 
     static addVolunteers() {
         return Promise.all(
             fixtures.volunteers.map(
                 (volunteerMapped) => {
-                    return new Volunteer(volunteerMapped);
+                    return new Volunteer(volunteerMapped, fixtures.team.slug);
                 }
             )
-        );
+        ).then((user) => {
+            if (user) {
+                console.log('Volunteers : ok');
+                return;
+            }
+            console.error('Volunteers : empty');
+        })
+        .catch((err) => {
+            console.error('Volunteers :', err);
+        });
     }
 
     /*
@@ -175,9 +218,9 @@ const readingLine = readline.createInterface({
 });
 
 readingLine.question(
-    'Are you sure you want to wipe and regenerate the development DB? (yes/[no])',
+    'Are you sure you want to wipe and regenerate the development DB? (y/yes/[no])',
     (answer) => {
-        if (answer === 'yes') {
+        if (answer === 'yes' || answer === 'y') {
             console.log('Let\'s go!');
             Promise.resolve()
             .then(setup.wipeDb)
@@ -187,6 +230,7 @@ readingLine.question(
             .then(setup.addProjects)
             .then(setup.addTeams)
             .then(setup.addTeamLeaders)
+            .then(setup.addProjectLeaders)
             .then(setup.addVolunteers)
             .then(setup.addSimpleDonations)
             .then(setup.addPledges)

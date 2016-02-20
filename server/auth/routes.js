@@ -19,13 +19,18 @@ router.post('/api/v1/auth/login', (req, res) => {
 
     userController.checkCredentials(credentials)
     .then((user) => {
-        console.log(`Credentials passed got id: ${user.id}`);
+        if (!user.id) {
+            // This shouldn't happen but who knows
+            res.status(500).send();
+            return;
+        }
         req.session.user = user;
 
+        console.log(`[AUTH] User connected`, user);
         res.status(200).send(userController.safe(user));
     })
     .catch((err) => {
-        console.error(`Credentials failed: ${err}`);
+        console.error(`[AUTH] Credentials failed: ${err}`);
 
         req.session.userUUID = null;
         res.status(401).send(err);
@@ -43,7 +48,7 @@ router.get('/api/v1/auth/whoami', (req, res) => {
 router.get('/api/v1/auth/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            console.error('Couldnt destroy session');
+            console.error('[AUTH] Couldnt destroy session');
         }
     });
     res.status(200).send(messages.logout);
