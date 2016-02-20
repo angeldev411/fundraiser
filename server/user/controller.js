@@ -76,9 +76,12 @@ class userController {
                 Klass = Volunteer;
         }
 
-        return new Klass({
-            email,
-        }, slugIfNeedBe)
+        return new Klass(
+            {
+                email,
+            },
+            slugIfNeedBe
+        )
         .then((user) => {
             // TODO : generate token + send email
             return Promise.resolve(user);
@@ -90,30 +93,32 @@ class userController {
     }
 
     // @data includes password and invitecode
-    static signup(userData) {
+    static signup(userData, teamSlug) {
         return this.getUserWithRoles(userData)
-        .then((results) => {
-            let user;
-
-            if (results.length === 0) {
-                // Team.invite Volunteer
-                // user = gottenBackFromInvite
+        .then((user) => {
+            if (user.inviteCode === userData.inviteCode) {
+                return User.update(user, userData)
+                .then((user) => {
+                    return Promise.resolve(user);
+                })
+                .catch((err) => {
+                    return Promise.reject(messages.signup.error);
+                });
             } else {
-                // user exists in DB, so it has an invite code
-                user = results[0];
-                if (user.inviteCode === userData.inviteCode) {
-                    return User.update(user, userData)
-                    .then(/* login */)
-                    .then(() => {
-                        return Promise.resolve(messages.signup.success);
-                    })
-                    .catch((err) => {
-                        return Promise.reject(messages.signup.error);
-                    });
-                } else {
-                    return Promise.reject(messages.signup.badInviteCode);
-                }
+                return Promise.reject(messages.signup.badInviteCode);
             }
+        })
+        .catch((err) => {
+            if (err === 'User not in db') {
+                return new Volunteer(userData, teamSlug)
+                .then((user) => {
+                    return Promise.resolve(user);
+                })
+                .catch((err) => {
+                    return Promise.reject(messages.signup.error);
+                });
+            }
+            return Promise.reject(messages.signup.error);
         });
     }
 

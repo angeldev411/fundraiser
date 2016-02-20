@@ -13,7 +13,7 @@ import {
 // test tools
 const expect = require('chai').expect;
 
-const team = fixtures.team;
+const team = fixtures.teams[0];
 
 describe('Team', () => {
     before(loginAsSuperAdmin);

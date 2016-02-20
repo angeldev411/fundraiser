@@ -31,7 +31,8 @@ const userSchemas = {
 };
 
 export default class User {
-    constructor(data, label) {
+    // id should never be passed, except for the update
+    constructor(data, label, id) {
         if (!data.id) {
             data.id = UUID.v4();
         }
@@ -50,7 +51,7 @@ export default class User {
             schemas: userSchemas,
         });
 
-        const user = new Node(data);
+        const user = new Node(data, id);
 
         return user.save()
         .then((idObject) => {
@@ -66,7 +67,8 @@ export default class User {
     }
 
     static update(userNode, data) {
-        console.log(userNode)
+        data.inviteCode = null;
+        return new User(data, userNode.roles[1], userNode.id);
     }
 
     static uploadHeadshotImage(obj) {

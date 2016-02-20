@@ -2,6 +2,8 @@ import fixtures from './fixtures';
 import config from '../config';
 import request from 'request';
 const expect = require('chai').expect;
+const db = require('neo4j-simple')(config.DB_URL);
+import Promise from 'bluebird';
 
 const superAdmin = fixtures.superAdmins[0];
 const teamLeader = fixtures.teamLeaders[0];
@@ -50,7 +52,6 @@ export const loginAsTeamLeader = (done) => {
     });
 };
 
-
 export const loginAsVolunteer = (done) => {
     request.defaults({ jar: true });
     request.post({
@@ -59,12 +60,11 @@ export const loginAsVolunteer = (done) => {
             email: volunteer.email,
             password: volunteer.password,
         },
-    }, (rerror, response) => {
+    }, (error, response, body) => {
         expect(response.statusCode).to.equal(200);
         done();
     });
 };
-
 
 export const logout = (done) => {
     request.get({
@@ -73,5 +73,39 @@ export const logout = (done) => {
         expect(response.statusCode).to.equal(200);
         request.defaults({ jar: false });
         done();
+    });
+};
+
+export const deleteUserInviteesByEmail = (done) => {
+    // Remove the user we just invited
+    return Promise.resolve(
+        db.query(
+            `
+            MATCH (user:USER {email: {email}})
+            DELETE user
+            `,
+            {},
+            {
+                email: fixtures.invite,
+            }
+        )
+    ).then((response) => {
+        return Promise.resolve(
+            db.query(
+                `
+                MATCH (user:USER {email: {email}})
+                DELETE user
+                `,
+                {},
+                {
+                    email: fixtures.newUser.email,
+                }
+            )
+        );
+    }).then((Something) => {
+        done();
+    })
+    .catch((err) => {
+        console.log('FAIL', err);
     });
 };
