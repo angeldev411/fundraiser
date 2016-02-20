@@ -16,6 +16,9 @@ app.use(session(config.SESSION_CONFIG));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
+import securityMiddleware from './auth/middleware';
+app.use(securityMiddleware);
+
 // Routes
 import authRoutes from './auth/routes';
 import projectRoutes from './project/routes';
