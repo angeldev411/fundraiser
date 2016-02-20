@@ -20,10 +20,12 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 import authRoutes from './auth/routes';
 import projectRoutes from './project/routes';
 import teamRoutes from './team/routes';
+import volunteersRoutes from './user/volunteer/routes';
 
 app.use(authRoutes);
 app.use(projectRoutes);
 app.use(teamRoutes);
+app.use(volunteersRoutes);
 
 app.use(express.static(`${__dirname}/../www/`));
 app.use('*', express.static(`${__dirname}/../www/`));

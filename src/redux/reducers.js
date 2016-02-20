@@ -2,6 +2,7 @@ import authReducers from './auth/reducers';
 import projectReducers from './project/reducers';
 import teamReducers from './team/reducers';
 import userReducers from './user/reducers';
+import volunteerReducers from './volunteer/reducers';
 import { combineReducers } from 'redux';
 
 // App Wide reducer
@@ -26,4 +27,5 @@ export default combineReducers({
     project: projectReducers,
     team: teamReducers,
     user: userReducers,
+    volunteer: volunteerReducers,
 });

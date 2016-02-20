@@ -1,95 +1,67 @@
 'use strict';
-import schema from 'validate';
 import UUID from 'uuid';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
+import util from '../helpers/util.js';
+import Promise from 'bluebird';
 
 const db = neo4jDB(config.DB_URL);
 
-const hoursSchema = schema({
-    hours: {
-        type: 'number',
-        required: true,
-        message: 'The number of hours volunteered is required',
+const Hour = db.defineNode({
+    label: ['Hour'],
+    schemas: {
+        'default': {
+            id:  db.Joi.string().required(),
+            hours: db.Joi.number().required(),
+            signatureData: db.Joi.string().required(),
+            place : db.Joi.string().required(),
+            date: db.Joi.date().required(),
+            supervisorName: db.Joi.string().required(),
+        },
     },
-    signatureData: {
-        type: 'string',
-        required: true,
-    },
-    userUUID: {
-        type: 'string',
-        required: true,
-    },
-    place: {
-        type: 'string',
-        required: true,
-        message: 'a place is required',
-    },
-    date: {
-        type: 'date',
-        required: true,
-        message: 'the date is required',
-    },
-    supervisorName: {
-        type: 'string',
-        required: true,
-        message: "your supervisor's name is required",
-    },
-}, {
-    strip: false,
-    typecast: true,
 });
 
-/**
-    Hours are a relation between a User (voluteer) and a Team
-*/
+const Relationship = db.defineRelationship({
+    type: 'LOVE',
+    schema: {
+        description: db.Joi.string(),
+    },
+});
+
 class Hours {
-    static insertIntoDb(obj) {
-        if (!obj.uuid) {
-            obj.uuid = UUID.v4();
-        }
-
-        console.log('hours log entry');
-        console.log(obj);
-
-        return db.query(
-            // TODO: Remove, switch for link
-            // `
-            // MATCH (volunteer:User {uuid: {userUUID} })-[:VOLUNTEER]->(team:Team)-[:FUNDRAISING_FOR]->(project:Project)
-            // WHERE team.short_name = {team_short_name}
-            //
-            // CREATE (service:ServiceLogEntry {hours: {hours}, uuid: {uuid}, place: {place}, date: {date}, supervisorName: {supervisorName}, signature_url: {signature_url} })
-            // CREATE (volunteer)-[:LOGGED]->(service)
-            // CREATE (service)-[:LOGGED_FOR_TEAM]->(team)
-            // CREATE (service)-[:LOGGED_FOR_PROJECT]->(project)
-            //
-            // RETURN service`
-            // , {}, obj
-        )
-        .getResults('service')
-        .then((results) => {
-            if (results.length > 0) {
-                const hoursSaved = results[0];
-
-                hoursSaved.signatureData = obj.signatureData;
-                return Promise.resolve(hoursSaved);
-            } else {
-                return Promise.reject("No access: Either user is not volunteer or team short name doesn't exist");
-            }
+    static insert(userId, hourValues) {
+        return new Promise((resolve, reject) => {
+            return (new Hour(hourValues)).save()
+            .then((hourCreateResult) => {
+                db.query(`
+                    MATCH (u:VOLUNTEER {id: {userId} }), (h:Hour {id: {id} })
+                    CREATE (u)-[:OWNER]->(h)
+                `, {}, {
+                    id: hourValues.id,
+                    userId,
+                })
+                .getResults()
+                .then(() => {
+                    console.log('Rel', hourCreateResult);
+                    resolve(hourCreateResult);
+                }).catch((error) => {
+                    console.log('Fail Rel',error);
+                    reject(null);
+                });
+            }).catch((hourCreateError) => {
+                reject(null);
+            });
         });
     }
 
     static uploadSignature(obj) {
         const key = `signatures/${obj.uuid}.png`;
-
-        const contentType = util.detectContentType(obj.signatureData);
-
         return new Promise((resolve, reject) => {
             util.uploadToS3(
                 obj.signatureData,
                 'raiserve',
                 key,
-                { contentType },
+                { contentType: 'base64' },
                 (err, res) => {
                     if (err) {
                         reject(`Unable to upload signature: ${err}`);
@@ -101,16 +73,6 @@ class Hours {
                 }
             );
         });
-    }
-
-    static validateHours(obj) {
-        const errs = hoursSchema.validate(obj);
-
-        if (errs.length === 0) {
-            return Promise.resolve(obj);
-        } else {
-            return Promise.reject(`Validation error: ${errs}`);
-        }
     }
 }
 

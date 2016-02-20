@@ -43,6 +43,23 @@ class setup {
         )));
     }
 
+    static createIndexes() {
+        return db.query(
+            `
+            CREATE INDEX ON :Hour(id)
+            `
+        )
+        .getResults('donation', 'user')
+        .then(() => {
+            return db.query(
+                `
+                CREATE INDEX ON :User(id)
+                `
+            )
+            .getResults('donation', 'user');
+        });
+    }
+
     static addSuperAdmins() {
         const promises = fixtures.superAdmins.map((userToAdd) => {
             userToAdd.password = userToAdd.hashedPassword;
@@ -164,6 +181,7 @@ readingLine.question(
             console.log('Let\'s go!');
             Promise.resolve()
             .then(setup.wipeDb)
+            .then(setup.createIndexes)
             .then(setup.addCompany)
             .then(setup.addSuperAdmins)
             .then(setup.addProjects)

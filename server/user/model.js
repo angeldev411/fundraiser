@@ -32,8 +32,9 @@ const userSchemas = {
 
 export default class User {
     constructor(data, label) {
-        // Check if not UUID or not in DB
-        data.id = UUID.v4();
+        if (!data.id) {
+            data.id = UUID.v4();
+        }
         if (!data.password) {
             data.inviteCode = UUID.v4();
             data.password = '';
