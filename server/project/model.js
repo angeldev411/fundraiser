@@ -3,6 +3,7 @@ import uuid from 'uuid';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import messages from '../messages';
+import UserController from '../user/controller';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -19,14 +20,6 @@ class Project {
             },
         });
 
-        // const CreatorRelationship = db.defineRelationship({
-        //     type: 'CREATOR',
-        // });
-        //
-        // const LeadRelationship = db.defineRelationship({
-        //     type: 'LEAD',
-        // });
-
         const project = new Node({
             id: uuid.v4(),
             name: data.project.name,
@@ -35,36 +28,36 @@ class Project {
             projectLeaderEmail: data.project.projectLeaderEmail,
         });
 
-        console.log(data.currentUser.id);
+        // console.log(data.currentUser.id);
 
         return project.save()
-        .then((response) => {
-            console.log('NEW PROJECT', project.data);
 
-            // TODO Link projectLeader
-            // TODO check Phil relations query
-
-            projectCreator = db.query(`
-                    MATCH (p:PROJECT {id: {projectId} }), (u:SUPER_ADMIN {id: {userId} })
-                    CREATE (u)-[:CREATOR]->(p)
-                `,
-                {},
-                {
-                    projectId: project.data.id,
-                    userId: data.currentUser.id
-                }
-            );
-            // const projectCreator = new CreatorRelationship({}, [project.data.id, data.currentUser.id], db.DIRECTION.RIGHT);
-            // const projectLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
-
-            return Promise.all([
-                projectCreator,
-                // projectLeader.save(),
-            ]);
-        })
         .then((response) => {
             if (response.id === project.id) {
-                return project.data;
+                console.log('NEW PROJECT', project.data);
+
+                // Link projectCreator
+                db.query(`
+                        MATCH (p:PROJECT {id: {projectId} }), (u:SUPER_ADMIN {id: {userId} })
+                        CREATE (u)-[:CREATOR]->(p)
+                    `,
+                    {},
+                    {
+                        projectId: project.data.id,
+                        userId: data.currentUser.id
+                    }
+                ).then(() => {
+                    // Link projectLeader
+                    console.log('project-leader', data.project.projectLeaderEmail);
+
+                    if (true) { // TODO If projectLeaderEmail is defined in form
+                        UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
+
+                        .then(() => {
+                            return Promise.resolve(project.data)
+                        })
+                    }
+                })
             }
             return Promise.reject('Unexpected error occurred.');
         })
