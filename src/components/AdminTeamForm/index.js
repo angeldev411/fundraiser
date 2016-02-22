@@ -28,6 +28,7 @@ class AdminTeamForm extends Component {
     submit = () => {
         Actions.newTeam(
             this.state.name,
+            this.props.project.slug,
             this.state.slug,
             this.state.teamLeaderEmail,
         )(this.props.dispatch);
@@ -68,11 +69,6 @@ class AdminTeamForm extends Component {
                     <span className="input-group-addon"
                         id="slug-addon"
                     >{`${domain}/${this.props.project.slug}/`}</span>
-                    <input type="hidden"
-                        name="projectSlug"
-                        id="projectSlug"
-                        value={this.props.project.slug}
-                    />
                     <input type="text"
                         name="slug"
                         id="slug"

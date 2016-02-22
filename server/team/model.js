@@ -12,8 +12,6 @@ const db = neo4jDB(config.DB_URL);
 
 class Team {
     constructor(data, projectSlug) {
-
-        projectSlug = 't4t';
         const Node = db.defineNode({
             label: ['TEAM'],
             schema: {
