@@ -14,4 +14,4 @@ www/bundle.js
 .DS_Store
 
 # Sessions
-server/sessions/*
+sessions/*
