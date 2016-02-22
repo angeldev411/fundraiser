@@ -20,24 +20,32 @@ class Project {
             },
         });
 
-        const project = new Node({
+        const baseInfo = {
             id: uuid.v4(),
             name: data.project.name,
             slug: data.project.slug,
-            shortDescription: data.project.shortDescription,
-            projectLeaderEmail: data.project.projectLeaderEmail,
-        });
+        };
 
-        // console.log(data.currentUser.id);
+        const optionalInfo = {};
+
+        if (data.project.shortDescription) {
+            optionalInfo.shortDescription = data.project.shortDescription;
+        }
+        if (data.project.projectLeaderEmail) {
+            optionalInfo.projectLeaderEmail = data.project.projectLeaderEmail;
+        }
+
+        const project = new Node({
+            ...baseInfo,
+            ...optionalInfo,
+        });
 
         return project.save()
 
         .then((response) => {
             if (response.id === project.id) {
-                console.log('NEW PROJECT', project.data);
-
                 // Link projectCreator
-                db.query(`
+                return db.query(`
                         MATCH (p:PROJECT {id: {projectId} }), (u:SUPER_ADMIN {id: {userId} })
                         CREATE (u)-[:CREATOR]->(p)
                     `,
@@ -48,13 +56,14 @@ class Project {
                     }
                 ).then(() => {
                     // Link projectLeader
-                    console.log('project-leader', data.project.projectLeaderEmail);
-
-                    if (true) { // TODO If projectLeaderEmail is defined in form
+                    if (data.project.projectLeaderEmail) {
                         UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
 
                         .then(() => {
                             return Promise.resolve(project.data)
+                        })
+                        .catch((err) => {
+                            return Promise.reject(messages.invite.error);
                         })
                     }
                 })
