@@ -75,6 +75,14 @@ class Project {
         });
     }
 
+    static getProjects() {
+        return db.query(`
+            MATCH (p:PROJECT)<--(t:TEAM)
+            RETURN { project: p, teams: collect(t) } AS projects
+            `
+        ).getResults('projects');
+    }
+
     // SECURITY: explicitly define return attributes
     static findByShortName(shortName) {
         return db.query(

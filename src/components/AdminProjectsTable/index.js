@@ -4,13 +4,39 @@ import ChildrenLine from '../ChildrenLine';
 import AdminProjectForm from '../AdminProjectForm';
 import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
+import * as Actions from '../../redux/project/actions';
+import { connect } from 'react-redux';
 
-export default class AdminProjectsTable extends Component {
+class AdminProjectsTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            projects: []
+        };
+    }
+
+    componentWillMount() {
+        Actions.indexProjects()(this.props.dispatch);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.projects) {
+            this.setState(
+                {
+                    projects: nextProps.projects,
+                    error: null,
+                }
+            );
+        }
+    }
+
     render() {
         return (
             <div className="projects-table">
                 <ul className="projects">
-                    {this.props.projects.map((project, i) => (
+                    {this.state.projects.map((project, i) => (
                         <CollapsableLine key={i}
                             childrenContent={
                                 <ul className="children-content clearfix">
@@ -75,3 +101,8 @@ export default class AdminProjectsTable extends Component {
 AdminProjectsTable.propTypes = {
     projects: React.PropTypes.array,
 };
+
+export default connect((reduxState) => ({
+    error: reduxState.main.project.error,
+    projects: reduxState.main.project.projects,
+}))(AdminProjectsTable);

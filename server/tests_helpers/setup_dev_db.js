@@ -13,7 +13,7 @@ import SuperAdmin from '../user/super-admin/model';
 import Corporate from '../user/corporate/model';
 import Team from '../team/model';
 import TeamLeader from '../user/team-leader/model';
-import TeamController from '../team/controller';
+import teamController from '../team/controller';
 import ProjectLeader from '../user/project-leader/model';
 import projectController from '../project/controller';
 import project from '../project/model';
@@ -136,7 +136,36 @@ class setup {
 
 
     static addTeams() {
-        return TeamController.store({ team: fixtures.teams[0], currentUser: fixtures.superAdmins[0] });
+        const promises = fixtures.teams.map((team, i) => {
+            if (i === 0) {
+                return teamController.store(
+                    {
+                        team,
+                        currentUser: fixtures.superAdmins[0],
+                    },
+                    fixtures.projects[1].slug,
+                );
+            }
+            return teamController.store(
+                {
+                    team,
+                    currentUser: fixtures.superAdmins[0],
+                },
+                fixtures.projects[0].slug,
+            );
+        });
+
+        Promise.all(promises)
+        .then((teams) => {
+            if (teams) {
+                console.log('teams : ok');
+                return;
+            }
+            console.error('teams : empty');
+        })
+        .catch((err) => {
+            console.error('teams : ', err);
+        });
     }
 
     static addTeamLeaders() {

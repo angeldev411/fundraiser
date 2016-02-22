@@ -9,6 +9,13 @@ class projectController {
             return Promise.resolve(p);
         });
     }
+
+    static index() {
+        return Project.getProjects()
+        .then((projects) => {
+            return Promise.resolve(projects);
+        });
+    }
 }
 
 module.exports = projectController;
