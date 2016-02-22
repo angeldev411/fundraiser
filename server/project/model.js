@@ -19,13 +19,13 @@ class Project {
             },
         });
 
-        const CreatorRelationship = db.defineRelationship({
-            type: 'CREATOR',
-        });
-
-        const LeadRelationship = db.defineRelationship({
-            type: 'LEAD',
-        });
+        // const CreatorRelationship = db.defineRelationship({
+        //     type: 'CREATOR',
+        // });
+        //
+        // const LeadRelationship = db.defineRelationship({
+        //     type: 'LEAD',
+        // });
 
         const project = new Node({
             id: uuid.v4(),
@@ -35,19 +35,33 @@ class Project {
             projectLeaderEmail: data.project.projectLeaderEmail,
         });
 
-        // TODO Link projectLeader
-        // const projectCreator = new CreatorRelationship({}, [project.id, data.currentUser.id], db.DIRECTION.RIGHT);
-        // const projectLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
+        console.log(data.currentUser.id);
 
         return project.save()
-        // .then((response) => {
-        //     console.log('NEW PROJECT', response);
-        //
-        //     return Promise.all([
-        //         // projectCreator.save(),
-        //         // projectLeader.save(),
-        //     ]);
-        // })
+        .then((response) => {
+            console.log('NEW PROJECT', project.data);
+
+            // TODO Link projectLeader
+            // TODO check Phil relations query
+
+            projectCreator = db.query(`
+                    MATCH (p:PROJECT {id: {projectId} }), (u:SUPER_ADMIN {id: {userId} })
+                    CREATE (u)-[:CREATOR]->(p)
+                `,
+                {},
+                {
+                    projectId: project.data.id,
+                    userId: data.currentUser.id
+                }
+            );
+            // const projectCreator = new CreatorRelationship({}, [project.data.id, data.currentUser.id], db.DIRECTION.RIGHT);
+            // const projectLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
+
+            return Promise.all([
+                projectCreator,
+                // projectLeader.save(),
+            ]);
+        })
         .then((response) => {
             if (response.id === project.id) {
                 return project.data;
