@@ -16,7 +16,6 @@ class Project {
                 name: db.Joi.string().required(),
                 slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
                 shortDescription: db.Joi.string().regex(/.{50,140}/).optional(),
-                projectLeaderEmail: db.Joi.string().email().optional(),
             },
         });
 
@@ -30,9 +29,6 @@ class Project {
 
         if (data.project.shortDescription) {
             optionalInfo.shortDescription = data.project.shortDescription;
-        }
-        if (data.project.projectLeaderEmail) {
-            optionalInfo.projectLeaderEmail = data.project.projectLeaderEmail;
         }
 
         const project = new Node({
