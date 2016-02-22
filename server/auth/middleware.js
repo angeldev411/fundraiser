@@ -4,7 +4,7 @@ import express from 'express';
 const router = express.Router();
 
 router.use('api/v1/:role(super-admin|volunteer|project-leader|team-leader)/*', (req, res, next) => {
-    if (req.session.user.roles) {
+    if (req.session.user && req.session.user.roles.length > 1) {
         next();
     }
     res.status(404).send();

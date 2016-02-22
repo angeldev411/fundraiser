@@ -14,6 +14,11 @@ router.post('/api/v1/project', (req, res) => {
         projectLeaderEmail: req.body.projectLeaderEmail,
     };
 
+    if (!req.session.user) {
+        res.status(404).send();
+        return;
+    }
+
     const data = {
         project,
         currentUser: req.session.user,

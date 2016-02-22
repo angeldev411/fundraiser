@@ -54,11 +54,13 @@ const fixtures = {
             name: 'Toys for Tots',
             slug: 't4t',
             shortDescription: 'Bring toys to the tots I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+            projectLeaderEmail: 'project-leader1@gmail.com',
         },
         {
             name: 'Buildon',
             slug: 'bo',
             shortDescription: 'build schools for your dollars I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+            projectLeaderEmail: 'project-leader2@gmail.com',
         },
     ],
 

@@ -1,4 +1,6 @@
 'use strict';
+import express from 'express';
+const router = express.Router();
 import UserController from '../controller';
 
 router.post('/api/v1/volunteer/record_hours', (req, res) => {

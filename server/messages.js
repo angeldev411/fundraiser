@@ -19,6 +19,6 @@ export default {
         volunteerOk: 'The new Volunteer has been invited successfully!',
         teamLeaderOk: 'The new Team Leader has been invited successfully!',
         projectLeaderOk: 'The new Project Leader has been invited successfully!',
-        error: 'Sorry, the email you entered is either invalid or the user is already part of a Team.',
+        error: 'Sorry, the email you entered is either invalid or the user is already part of a Team or Project.',
     },
 };
