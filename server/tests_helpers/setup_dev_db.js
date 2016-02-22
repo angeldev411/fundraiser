@@ -231,7 +231,11 @@ setTimeout(() => {
     .then(setup.addPledges)
     .then(setup.addLoggedService)
     .then(setup.addServiceApprovals)
+    .then(() => {
+        process.exit();
+    })
     .catch((err) => {
         console.log(`Error in setup: ${err} stack is :`, err.stack);
+        process.exit();
     });
 }, 4000);
