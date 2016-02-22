@@ -12,3 +12,6 @@ www/bundle.js
 .idea/
 .*~
 .DS_Store
+
+# Sessions
+sessions/*
