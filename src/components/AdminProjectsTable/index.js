@@ -49,9 +49,12 @@ class AdminProjectsTable extends Component {
                                             <div className="edit-links">
                                                 <ModalButton customClass="btn-link uppercase"
                                                     content={
-                                                        <AdminTeamForm title={"Edit team"}
-                                                            project={project}
-                                                            team={team}
+                                                        <AdminTeamForm
+                                                            title={"Edit team"}
+                                                            defaultData={{
+                                                                project,
+                                                                team,
+                                                            }}
                                                         />
                                                     }
                                                 >
@@ -82,8 +85,11 @@ class AdminProjectsTable extends Component {
                                 </ModalButton>
                                 <ModalButton customClass="btn-link uppercase"
                                     content={
-                                        <AdminTeamForm title={"Add New Team"}
-                                            project={project}
+                                        <AdminTeamForm
+                                            title={"Add New Team"}
+                                            defaultData={{
+                                                project,
+                                            }}
                                         />
                                     }
                                 >

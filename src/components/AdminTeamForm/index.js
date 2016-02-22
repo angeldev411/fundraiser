@@ -28,7 +28,7 @@ class AdminTeamForm extends Component {
     submit = () => {
         Actions.newTeam(
             this.state.name,
-            this.props.project.slug,
+            this.props.defaultData.project.slug,
             this.state.slug,
             this.state.teamLeaderEmail,
         )(this.props.dispatch);
@@ -44,7 +44,7 @@ class AdminTeamForm extends Component {
     render() {
         let domain = Constants.DOMAIN;
 
-        if (this.props.project.slug.length > 10) {
+        if (this.props.defaultData.project.slug.length > 10) {
             domain = '...';
         }
 
@@ -59,7 +59,7 @@ class AdminTeamForm extends Component {
                     <input type="text"
                         name="name"
                         id="name"
-                        defaultValue={this.props.team ? this.props.team.name : null}
+                        defaultValue={this.props.defaultData.team ? this.props.defaultData.team.name : null}
                         onChange={(e) => { this.handleChange(e, 'name') }}
                     />
                     <label htmlFor="name">{'Team Name'}</label>
@@ -68,12 +68,12 @@ class AdminTeamForm extends Component {
                 <div className="input-group">
                     <span className="input-group-addon"
                         id="slug-addon"
-                    >{`${domain}/${this.props.project.slug}/`}</span>
+                    >{`${domain}/${this.props.defaultData.project.slug}/`}</span>
                     <input type="text"
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
-                        defaultValue={this.props.team ? this.props.team.slug : null}
+                        defaultValue={this.props.defaultData.team ? this.props.defaultData.team.slug : null}
                         onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
                     <label htmlFor="slug">{'Public Url'}</label>
@@ -83,7 +83,7 @@ class AdminTeamForm extends Component {
                     <input type="email"
                         name="teamLeaderEmail"
                         id="teamLeaderEmail"
-                        defaultValue={this.props.team ? this.props.team.teamLeaderEmail : null}
+                        defaultValue={this.props.defaultData.team ? this.props.defaultData.team.teamLeaderEmail : null}
                         onChange={(e) => { this.handleChange(e, 'teamLeaderEmail') }}
                     />
                     <label htmlFor="team-leader-email">{'Team leader Email'}</label>
@@ -95,7 +95,7 @@ class AdminTeamForm extends Component {
                     customClass="btn-green-white"
                     type={"submit"}
                 >
-                    {this.props.team ? 'Edit Team' : 'Create Team'}
+                    {this.props.defaultData.team ? 'Edit Team' : 'Create Team'}
                 </Button>
             </Form>
         );
@@ -104,8 +104,7 @@ class AdminTeamForm extends Component {
 
 AdminTeamForm.propTypes = {
     title: React.PropTypes.string,
-    project: React.PropTypes.object,
-    team: React.PropTypes.object,
+    defaultData: React.PropTypes.object,
 };
 
 export default connect((reduxState) => ({
