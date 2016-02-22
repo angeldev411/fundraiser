@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -25,7 +25,7 @@ export default class AdminVolunteers extends Component {
         }
 
         return (
-            <Page>
+            <AuthenticatedView accessLevel={'PROJECT_LEADER'}>
                 <AdminLayout>
                     <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
@@ -34,7 +34,7 @@ export default class AdminVolunteers extends Component {
                         actionable={false}
                     />
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }

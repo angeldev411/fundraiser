@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import CircleStat from '../../../components/CircleStat';
 import UserList from '../../../components/UserList';
 import AdminLayout from '../../../components/AdminLayout';
@@ -50,7 +50,7 @@ export default class AdminTeamDashboard extends Component {
 
 
         return (
-            <Page>
+            <AuthenticatedView accessLevel={'TEAM_LEADER'}>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Team Dashboard'}
@@ -99,7 +99,7 @@ export default class AdminTeamDashboard extends Component {
                         </section>
                     </section>
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }

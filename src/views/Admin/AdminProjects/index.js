@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import AdminProjectsTable from '../../../components/AdminProjectsTable';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
@@ -28,7 +28,7 @@ export default class AdminProjects extends Component {
         ];
 
         return (
-            <Page>
+            <AuthenticatedView>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader title={'Projects'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
@@ -42,7 +42,7 @@ export default class AdminProjects extends Component {
                     />
                     <AdminProjectsTable projects={projects} />
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }
