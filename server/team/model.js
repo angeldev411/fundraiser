@@ -18,25 +18,13 @@ class Team {
                 id: db.Joi.string().required(),
                 name: db.Joi.string().required(),
                 slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
-                teamLeaderEmail: db.Joi.string().email().optional(),
             },
         });
 
-        const baseInfo = {
+        const team = new Node({
             id: uuid.v4(),
             name: data.team.name,
             slug: data.team.slug,
-        };
-
-        const optionalInfo = {};
-
-        if (data.team.teamLeaderEmail) {
-            optionalInfo.teamLeaderEmail = data.team.teamLeaderEmail;
-        }
-
-        const team = new Node({
-            ...baseInfo,
-            ...optionalInfo,
         });
 
         return team.save()
