@@ -31,7 +31,8 @@ const userSchemas = {
 };
 
 export default class User {
-    constructor(data, label) {
+    // id should never be passed, except for the update
+    constructor(data, label, id) {
         if (!data.id) {
             data.id = UUID.v4();
         }
@@ -50,16 +51,24 @@ export default class User {
             schemas: userSchemas,
         });
 
-        const user = new Node(data);
+        const user = new Node(data, id);
 
-        return Promise.resolve(user.save())
-        .then((results) => {
-            return results;
+        return user.save()
+        .then((idObject) => {
+            return User.getById(idObject.id);
+        })
+        .then((usersBrandNew) => {
+            return Promise.resolve(usersBrandNew[0]);
         })
         .catch((err) => {
-            console.error('Couldnt save user ', err);
+            console.error('[USER] Couldnt save user ', err);
             return Promise.reject(err);
         });
+    }
+
+    static update(userNode, data) {
+        data.inviteCode = null;
+        return new User(data, userNode.roles[1], userNode.id);
     }
 
     static uploadHeadshotImage(obj) {
@@ -123,28 +132,6 @@ export default class User {
             { id }
         )
         .getResults('roles');
-    }
-
-    static volunteeringForTeams(uuid) {
-        return db.query(
-            `
-            MATCH (u:USER {uuid: {uuid}} )-[:VOLUNTEER]->(t:Team) return t
-            `,
-            {},
-            { uuid }
-        )
-        .getResults('t');
-    }
-
-    static leadingTeams(uuid) {
-        return db.query(
-            `
-            MATCH (u:USER {uuid: {uuid}} )-[:LEADER]->(t:Team) return t
-            `,
-            {},
-            { uuid }
-        )
-        .getResults('t');
     }
 
     static getById(id) {

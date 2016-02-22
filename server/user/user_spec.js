@@ -1,51 +1,45 @@
 'use strict';
 import userController from './controller.js';
 import messages from '../messages';
-import config from '../config';
-const db = require('neo4j-simple')(config.DB_URL);
+import { deleteUserInviteesByEmail } from '../tests_helpers/helpers';
+import fixtures from '../tests_helpers/fixtures';
 
 // test tools
-let request = require('request');
 const expect = require('chai').expect;
-
-const matt = {
-    first_name: 'matt',
-    last_name: 'murphy',
-    email: 'test2@aol.com',
-    password: 'password',
-};
-
-const invite = 'ad@ad.com';
-
-const invitee = {
-    email: 'ad@ad.com',
-    firstName: 'Adrien',
-    lastName: 'Something',
-    password: 'password',
-};
+let inviteCode;
 
 describe('User', () => {
     describe('Invite', () => {
-        after((done) => { // Log out from super admin
-            return db.query(
-                `
-                MATCH (user:USER {email: {email}})
-                DELETE user
-                `,
-                {},
-                {
-                    email: invite,
-                }
-            ).then((response) => {
+        after(deleteUserInviteesByEmail);
+        it('should create an empty user (email + inviteeCode)', (done) => {
+            userController.invite(fixtures.invite, null, fixtures.teams[1].slug)
+            .then((user) => {
+                expect(user.email).to.equal(fixtures.invite);
+                inviteCode = user.inviteCode;
+                expect(user).to.contain.keys('id');
+                expect(user).to.contain.keys('inviteCode');
                 done();
             });
         });
-        it('should create an empty user (email + inviteeCode)', (done) => {
-            userController.invite(invite)
-            .then((user) => {
-                expect(user.email).to.equal(invite);
-                expect(user).to.contain.keys('id');
-                expect(user).to.contain.keys('inviteCode');
+        it('should update an invited user in DB', (done) => {
+            const user = fixtures.invitee;
+
+            user.inviteCode = inviteCode;
+            userController.signup(user)
+            .then((userResponse) => {
+                expect(userResponse.email).to.equal(user.email);
+                expect(userResponse.firstName).to.equal(user.firstName);
+                expect(userResponse).to.not.contain.keys('inviteCode');
+                done();
+            });
+        });
+        it('should add an uninvited user to the DB', (done) => {
+            const user = fixtures.newUser;
+
+            userController.signup(user, fixtures.teams[1].slug)
+            .then((userResponse) => {
+                expect(userResponse.email).to.equal(user.email);
+                expect(userResponse.firstName).to.equal(user.firstName);
                 done();
             });
         });

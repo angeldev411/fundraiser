@@ -1,24 +1,53 @@
 'use strict';
 import neo4jDB from 'neo4j-simple';
 import config from '../../config';
+import { TEAM_LEADER } from '../roles';
+import Promise from 'bluebird';
 
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
 
 class TeamLeader {
-    constructor(data) {
-        return new User(data, 'TEAM_LEADER')
-        .then((teamLeader) => {
-            console.log(teamLeader);
-            // create relationShip
-            return teamLeader;
+    constructor(data, teamSlug) {
+        let teamLeader;
+
+        return new User(data, TEAM_LEADER)
+        .then((teamLeaderCreated) => {
+            teamLeader = teamLeaderCreated;
+            return db.query(`
+                MATCH (user:TEAM_LEADER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                CREATE (user)-[:LEAD]->(team)
+                `,
+                {},
+                {
+                    userId: teamLeader.id,
+                    teamSlug,
+                }
+            );
+        })
+        .then((link) => {
+            return Promise.resolve(teamLeader);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
     }
 
     static approveHours(hoursID) {
         return leader
         .approveHours(hoursID);
+    }
+
+    static leadingTeams(uuid) {
+        return db.query(
+            `
+            MATCH (u:USER {uuid: {uuid}} )-[:LEADER]->(t:Team) return t
+            `,
+            {},
+            { uuid }
+        )
+        .getResults('t');
     }
 
     // TODO: Service changed to Hours (arc)

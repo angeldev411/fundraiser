@@ -1,16 +1,28 @@
 'use strict';
 import User from './model';
+import Volunteer from './volunteer/model';
+import TeamLeader from './team-leader/model';
+import ProjectLeader from './project-leader/model';
 import messages from '../messages';
 import mailer from '../helpers/mailer';
+import * as roles from './roles';
+import Promise from 'bluebird';
 
 class userController {
     static checkCredentials(credentials) {
         return this.getUserWithRoles(credentials)
         .then((user) => {
-            if (!user) {
+            if (!user.id) {
                 return Promise.reject(messages.login.failed);
             }
-            return Promise.resolve(user);
+            if (user.password === credentials.password) {
+                return Promise.resolve(user);
+            } else {
+                return Promise.reject(messages.login.failed);
+            }
+        })
+        .catch((err) => {
+            return Promise.reject(messages.login.failed);
         });
     }
 
@@ -18,23 +30,26 @@ class userController {
         return User.getByEmail(credentials.email)
         .then((results) => {
             if (results.length === 0) {
-                return Promise.resolve(false);
+                return Promise.reject('User not in db');
             }
             const user = results[0];
 
-            if (user.password === credentials.password) {
-                return User.rolesForUser(user.id)
-                .then((rolesResults) => {
-                    user.roles = rolesResults[0];
-
-                    return Promise.resolve(user);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            } else {
-                return Promise.resolve(false);
+            if (!user.id) {
+                return Promise.reject('User without ID?');
             }
+
+            return User.rolesForUser(user.id)
+            .then((rolesResults) => {
+                if (rolesResults.length === 0) {
+                    return Promise.reject(`User ${credentials.email} has no role?!`);
+                }
+                user.roles = rolesResults[0];
+
+                return Promise.resolve(user);
+            })
+            .catch((err) => {
+                return Promise.reject(`There was an error getting user with roles: ${err}`);
+            });
         });
     }
 
@@ -48,25 +63,66 @@ class userController {
         };
     }
 
-    static invite(email) {
-        return new User({
-            email,
-        })
-        .then((idObject) => {
-            return User.getById(idObject.id);
-        })
-        .then((users) => {
-            if (users.length === 0) {
-                Promise.reject('Not in DB');
-            }
+    static invite(email, role, slugIfNeedBe) {
+        let Klass;
+
+        switch (role) {
+            case roles.TEAM_LEADER:
+                Klass = TeamLeader;
+                break;
+            case roles.PROJECT_LEADER:
+                Klass = ProjectLeader;
+                break;
+            default:
+                Klass = Volunteer;
+        }
+
+        return new Klass(
+            {
+                email,
+            },
+            slugIfNeedBe
+        )
+        .then((user) => {
             // TODO : generate token + send email
-            return Promise.resolve(users[0]);
+            return Promise.resolve(user);
         })
         .catch((err) => {
             console.log(err);
             return Promise.reject('User already in DB');
         });
     }
+
+    // @data includes password and invitecode
+    static signup(userData, teamSlug) {
+        return this.getUserWithRoles(userData)
+        .then((user) => {
+            if (user.inviteCode === userData.inviteCode) {
+                return User.update(user, userData)
+                .then((user) => {
+                    return Promise.resolve(user);
+                })
+                .catch((err) => {
+                    return Promise.reject(messages.signup.error);
+                });
+            } else {
+                return Promise.reject(messages.signup.badInviteCode);
+            }
+        })
+        .catch((err) => {
+            if (err === 'User not in db') {
+                return new Volunteer(userData, teamSlug)
+                .then((user) => {
+                    return Promise.resolve(user);
+                })
+                .catch((err) => {
+                    return Promise.reject(messages.signup.error);
+                });
+            }
+            return Promise.reject(messages.signup.error);
+        });
+    }
+
 
     // Corporate?
     static createProject(obj) {

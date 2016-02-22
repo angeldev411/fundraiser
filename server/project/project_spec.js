@@ -3,40 +3,21 @@ import fixtures from '../tests_helpers/fixtures';
 import config from '../config';
 import messages from '../messages';
 import uuid from 'uuid';
-
+import request from 'request';
+import {
+    loginAsSuperAdmin,
+    logout,
+} from '../tests_helpers/helpers';
 
 // test tools
-let request = require('request');
 const expect = require('chai').expect;
 
-const superAdmin = fixtures.superAdmins[0];
 const project = fixtures.projects[0];
-let Cookies = null;
 
 describe('Project', () => {
     describe('SuperAdmin', () => {
-        before( (done) => { // Log in as superadmin
-            request = request.defaults({ jar: true });
-            request.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
-                form: {
-                    email: superAdmin.email,
-                    password: superAdmin.password,
-                },
-            }, (rerror, response) => {
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
-
-        after( (done) => { // Log out from super admin
-            request.get({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/logout`,
-            }, (error, response) => {
-                expect(response.statusCode).to.equal(200);
-                done();
-            });
-        });
+        before(loginAsSuperAdmin);
+        after(logout);
 
         it('lets a super admin create project', (done) => {
             request.post({

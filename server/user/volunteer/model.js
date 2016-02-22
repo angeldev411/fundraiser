@@ -1,6 +1,7 @@
 'use strict';
 import neo4jDB from 'neo4j-simple';
 import config from '../../config';
+import { VOLUNTEER } from '../roles';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -13,12 +14,28 @@ export const volunteerSchema = {
 };
 
 export default class Volunteer {
-    constructor(data) {
-        return new User(data, 'VOLUNTEER')
-        .then((volunteer) => {
-            console.log(volunteer);
-            // create relationShip
-            return volunteer;
+    constructor(data, teamSlug) {
+        let volunteer;
+
+        return new User(data, VOLUNTEER)
+        .then((volunteerCreated) => {
+            volunteer = volunteerCreated;
+            return db.query(`
+                MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                CREATE (user)-[:VOLUNTEER]->(team)
+                `,
+                {},
+                {
+                    userId: volunteer.id,
+                    teamSlug,
+                }
+            );
+        })
+        .then((link) => {
+            return Promise.resolve(volunteer);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
     }
 
@@ -32,9 +49,18 @@ export default class Volunteer {
         });
     }
 
-    static onboard(obj) {
-        console.log(obj);
+    static volunteeringForTeams(uuid) {
+        return db.query(
+            `
+            MATCH (u:USER {uuid: {uuid}} )-[:VOLUNTEER]->(t:Team) return t
+            `,
+            {},
+            { uuid }
+        )
+        .getResults('t');
+    }
 
+    static onboard(obj) {
         return Volunteer.create(obj)
         .then((newVolunteer) => db.query(`
                 MATCH (team:Team {short_name: {teamShortName} })

@@ -33,6 +33,16 @@ const fixtures = {
         },
     ],
 
+    projectLeaders: [
+        {
+            email: 'project-leader@gmail.com',
+            password: 'testtesttest',
+            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
+            firstName: 'project',
+            lastName: 'leader',
+        },
+    ],
+
     company: {
         name: 'Raiserve',
         shortName: 'raiserve',
@@ -52,16 +62,23 @@ const fixtures = {
         },
     ],
 
-    team: {
-        name: "St. John's BuildOn",
-        slug: 'sjbo',
-        // shortDescription: 'build schools for your dollars',
-        // longDescription: 'custom long desc?',
-        // creatorUUID: 'abcd1234',
-        // leaderUUID: 'abcd1234', // this is matt
-        // projectUUID: '565656',
-        // logoImageData: logo('sjbo'),
-    },
+    teams: [
+        {
+            name: `St. John's BuildOn NYC`,
+            slug: 'sjbo',
+            // shortDescription: 'build schools for your dollars',
+            // longDescription: 'custom long desc?',
+            // logoImageData: logo('sjbo'),
+        },
+        {
+            name: 'Toy for tots LA',
+            slug: 'totLA',
+        },
+        {
+            name: 'Toy for tots MTL',
+            slug: 'totMTL',
+        },
+    ],
 
     volunteers: [
         {
@@ -70,6 +87,7 @@ const fixtures = {
             lastName: 'Chen',
             email: 'wchen@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: 'Born on the west coast. Going to school on the east coast',
         },
         {
@@ -77,6 +95,7 @@ const fixtures = {
             lastName: 'Simmons',
             email: 'ksim@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -84,6 +103,7 @@ const fixtures = {
             lastName: 'Stevens',
             email: 'hst@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -91,6 +111,7 @@ const fixtures = {
             lastName: 'Stein',
             email: 'oste@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -98,6 +119,7 @@ const fixtures = {
             lastName: 'Shen',
             email: 'jshe@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -105,6 +127,7 @@ const fixtures = {
             lastName: 'Li',
             email: 'kli@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -112,6 +135,7 @@ const fixtures = {
             lastName: 'Gartner',
             email: 'ng@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -119,9 +143,26 @@ const fixtures = {
             lastName: 'Brisby',
             email: 'vbrisb@aol.com',
             password: 'wilson',
+            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
     ],
+
+    invite : 'ad@ad.com',
+
+    invitee : {
+        email: 'ad@ad.com',
+        firstName: 'Adrien',
+        lastName: 'Something',
+        password: 'password',
+    },
+
+    newUser: {
+        email: 'adtest@ad.com',
+        firstName: 'AdrienTest',
+        lastName: 'Something',
+        password: 'password',
+    },
 
     donors : [
         {

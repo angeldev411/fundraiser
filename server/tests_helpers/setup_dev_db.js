@@ -14,7 +14,7 @@ import Corporate from '../user/corporate/model';
 import Team from '../team/model';
 import TeamLeader from '../user/team-leader/model';
 import TeamController from '../team/controller';
-import projectLeader from '../user/project-leader/model';
+import ProjectLeader from '../user/project-leader/model';
 import projectController from '../project/controller';
 import project from '../project/model';
 import donation from '../pledge/donation';
@@ -79,7 +79,11 @@ class setup {
     static addCompany() {
         return company.create(fixtures.company)
         .then((resp) => {
-            console.log('Company : ok');
+            if (resp) {
+                console.log('Company : ok');
+                return;
+            }
+            console.error('Company : empty');
         })
         .catch((err) => {
             console.error('Company : ', err);
@@ -97,7 +101,42 @@ class setup {
             });
         });
 
-        Promise.all(promises);
+        Promise.all(promises)
+        .then((projects) => {
+            if (projects) {
+                console.log('projects : ok');
+                return;
+            }
+            console.error('projects : empty');
+        })
+        .catch((err) => {
+            console.error('projects : ', err);
+        });
+    }
+
+    static addProjectLeaders() {
+        // TODO check this
+        const userToAdd = fixtures.projectLeaders[0];
+
+        userToAdd.password = userToAdd.hashedPassword;
+        delete userToAdd.hashedPassword;
+
+        return new ProjectLeader(userToAdd, fixtures.projects[0].slug)
+        .then((userAdded) => {
+            if (userAdded) {
+                console.log('projectLeader : ok');
+                return;
+            }
+            console.error('projectLeader : empty');
+        })
+        .catch((err) => {
+            console.error('projectLeader : ', err);
+        });
+    }
+
+
+    static addTeams() {
+        return TeamController.store({ team: fixtures.teams[0], currentUser: fixtures.superAdmins[0] });
     }
 
     static addTeamLeaders() {
@@ -105,22 +144,30 @@ class setup {
         const userToAdd = fixtures.teamLeaders[0];
 
         userToAdd.password = userToAdd.hashedPassword;
+        delete userToAdd.hashedPassword;
 
-        return new TeamLeader(userToAdd);
-    }
-
-    static addTeams() {
-        return TeamController.store({ team: fixtures.team, currentUser: fixtures.superAdmins[0] });
+        return new TeamLeader(userToAdd, fixtures.teams[0].slug);
     }
 
     static addVolunteers() {
         return Promise.all(
             fixtures.volunteers.map(
                 (volunteerMapped) => {
-                    return new Volunteer(volunteerMapped);
+                    volunteerMapped.password = volunteerMapped.hashedPassword;
+                    delete volunteerMapped.hashedPassword;
+                    return new Volunteer(volunteerMapped, fixtures.teams[0].slug);
                 }
             )
-        );
+        ).then((user) => {
+            if (user) {
+                console.log('Volunteers : ok');
+                return;
+            }
+            console.error('Volunteers : empty');
+        })
+        .catch((err) => {
+            console.error('Volunteers :', err);
+        });
     }
 
     /*
@@ -167,37 +214,24 @@ class setup {
     }
 }
 
-
-console.log('Setting up Dev Db');
-const readingLine = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-
-readingLine.question(
-    'Are you sure you want to wipe and regenerate the development DB? (yes/[no])',
-    (answer) => {
-        if (answer === 'yes') {
-            console.log('Let\'s go!');
-            Promise.resolve()
-            .then(setup.wipeDb)
-            .then(setup.createIndexes)
-            .then(setup.addCompany)
-            .then(setup.addSuperAdmins)
-            .then(setup.addProjects)
-            .then(setup.addTeams)
-            .then(setup.addTeamLeaders)
-            .then(setup.addVolunteers)
-            .then(setup.addSimpleDonations)
-            .then(setup.addPledges)
-            .then(setup.addLoggedService)
-            .then(setup.addServiceApprovals)
-            .catch((err) => {
-                console.log('Error in setup: ' + err + ' stack is ' + err.stack);
-            });
-        } else {
-            console.log('You did not say yes, stopping.');
-        }
-        readingLine.close();
-    }
-);
+console.log('Setting up Dev Db : You have 2 sec to abort!');
+setTimeout(() => {
+    console.log('Let\'s go!');
+    Promise.resolve()
+    .then(setup.wipeDb)
+    .then(setup.createIndexes)
+    .then(setup.addCompany)
+    .then(setup.addSuperAdmins)
+    .then(setup.addProjects)
+    .then(setup.addTeams)
+    .then(setup.addTeamLeaders)
+    .then(setup.addProjectLeaders)
+    .then(setup.addVolunteers)
+    .then(setup.addSimpleDonations)
+    .then(setup.addPledges)
+    .then(setup.addLoggedService)
+    .then(setup.addServiceApprovals)
+    .catch((err) => {
+        console.log(`Error in setup: ${err} stack is :`, err.stack);
+    });
+}, 4000);
