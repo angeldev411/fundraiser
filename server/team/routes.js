@@ -18,7 +18,9 @@ router.post('/api/v1/team', (req, res) => {
         currentUser: req.session.user,
     };
 
-    teamController.store(data)
+    const projectSlug = req.body.projectSlug;
+
+    teamController.store(data, projectSlug)
     .then((response) => {
         res.status(200).send(response);
     })

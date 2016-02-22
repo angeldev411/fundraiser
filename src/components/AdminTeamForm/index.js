@@ -28,6 +28,7 @@ class AdminTeamForm extends Component {
     submit = () => {
         Actions.newTeam(
             this.state.name,
+            this.props.project.slug,
             this.state.slug,
             this.state.teamLeaderEmail,
         )(this.props.dispatch);

@@ -12,10 +12,11 @@ export const newTeamFailed = (error) => ({
     error,
 });
 
-export function newTeam(name, slug, teamLeaderEmail) {
+export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
     return (dispatch) => {
         return axios.post(`${API_URL}/team`, {
             name,
+            projectSlug,
             slug,
             teamLeaderEmail,
         })

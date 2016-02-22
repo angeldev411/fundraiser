@@ -3,8 +3,8 @@ import Team from './model';
 import messages from '../messages';
 
 class teamController {
-    static store(data) {
-        return new Team(data)
+    static store(data, projectSlug) {
+        return new Team(data, projectSlug)
         .then((team) => {
             return Promise.resolve(team);
         });
