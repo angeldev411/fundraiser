@@ -16,6 +16,18 @@ import * as data from '../../common/test-data';
 const team = data.team;
 
 class TeamProfile extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            team: {
+                tagline: 'YOU + US = A WORLD OF CHANGE',
+                slogan: 'Your Team slogan here',
+                description: 'Put your description here',
+            },
+        };
+    }
+
     componentWillMount() {
         document.title = `${team.name} | Raiserve`;
         Actions.getTeam(
@@ -36,30 +48,38 @@ class TeamProfile extends Component {
 
     render() {
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
-        const SHARE_TEXT = `${team.name} - Raiserve`;
-        const SHARE_MESSAGE = `${team.slogan}`;
+        const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
+        const SHARE_MESSAGE = `${this.state.team.slogan}`;
 
         // TODO check if user has rights
         const editable = window.location.search.substring(1) === 'edit';
 
         return (
             <Page>
-                <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${team.uniqid}/${team.coverImage}`}
+                <Cover image={
+                        this.state.team.coverImage ?
+                        `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}` :
+                        `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}`
+                    }
                     customclass={"cover-team-profile"}
-                    tagline={team.tagline}
+                    tagline={this.state.team.tagline}
                     button={"Sponsor Now"}
                     editable={editable}
                 />
                 <div className={"main-content"}>
                     <TeamProfileBlock
-                        team={team}
+                        team={this.state.team}
                         editable={editable}
                     />
                     <div className="team-profile-footer">
                         <div className={"container"}>
                             <div className="team">
                                 <div className={'team-header clearfix'}>
-                                    <span className="team-title">{'Our volunteers'}</span>
+                                    {
+                                        this.state.team.users ?
+                                        (<span className="team-title">{'Our volunteers'}</span>) :
+                                        null
+                                    }
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
                                         <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}>
@@ -78,7 +98,7 @@ class TeamProfile extends Component {
                                     </span>
                                 </div>
                                 <UserList
-                                    team={team}
+                                    team={this.state.team}
                                     color={"light"}
                                 />
                             </div>
