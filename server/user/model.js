@@ -57,8 +57,8 @@ export default class User {
         .then((idObject) => {
             return User.getById(idObject.id);
         })
-        .then((usersBrandNew) => {
-            return Promise.resolve(usersBrandNew[0]);
+        .then((userBrandNew) => {
+            return Promise.resolve(userBrandNew);
         })
         .catch((err) => {
             console.error('[USER] Couldnt save user ', err);
@@ -142,7 +142,7 @@ export default class User {
             {},
             { id }
         )
-        .getResults('user');
+        .getResult('user');
     }
 
     static getByEmail(email) {
@@ -153,7 +153,7 @@ export default class User {
             {},
             { email }
         )
-        .getResults('user');
+        .getResult('user');
     }
 
     /* Stripe related stuff */

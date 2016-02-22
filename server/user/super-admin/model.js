@@ -6,7 +6,6 @@ export default class SuperAdmin {
     constructor(data) {
         return new User(data, SUPER_ADMIN)
         .then((superAdmin) => {
-            // create relationShip with company
             return superAdmin;
         });
     }

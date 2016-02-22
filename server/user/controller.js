@@ -28,12 +28,7 @@ class userController {
 
     static getUserWithRoles(credentials) {
         return User.getByEmail(credentials.email)
-        .then((results) => {
-            if (results.length === 0) {
-                return Promise.reject('User not in db');
-            }
-            const user = results[0];
-
+        .then((user) => {
             if (!user.id) {
                 return Promise.reject('User without ID?');
             }
@@ -50,6 +45,9 @@ class userController {
             .catch((err) => {
                 return Promise.reject(`There was an error getting user with roles: ${err}`);
             });
+        })
+        .catch((err) => {
+            return Promise.reject(`There was an error getting user: ${err}`);
         });
     }
 
@@ -122,16 +120,6 @@ class userController {
             return Promise.reject(messages.signup.error);
         });
     }
-
-
-    // Corporate?
-    static createProject(obj) {
-        return Project.validate(obj)
-        .then(Project.validateUniqueName)
-        .then(Project.uploadSplashImage)
-        .then(Corporate.insertProjectIntoDb);
-    }
-
 }
 
 export default userController;
