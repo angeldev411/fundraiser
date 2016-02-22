@@ -53,7 +53,7 @@ class Team {
                     {
                         teamId: team.data.id,
                         userId: data.currentUser.id,
-                        projectSlug
+                        projectSlug,
                     }
                 ).then(() => {
                     // Link teamLeader
@@ -61,13 +61,13 @@ class Team {
                         UserController.invite(data.team.teamLeaderEmail, 'TEAM_LEADER', data.team.slug)
 
                         .then(() => {
-                            return Promise.resolve(team.data)
+                            return Promise.resolve(team.data);
                         })
                         .catch((err) => {
                             return Promise.reject(messages.invite.error);
-                        })
+                        });
                     }
-                    return Promise.resolve(team.data)
+                    return Promise.resolve(team.data);
                 });
             }
             return Promise.reject('Unexpected error occurred.');
