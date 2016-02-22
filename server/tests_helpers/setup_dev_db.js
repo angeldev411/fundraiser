@@ -175,7 +175,17 @@ class setup {
         userToAdd.password = userToAdd.hashedPassword;
         delete userToAdd.hashedPassword;
 
-        return new TeamLeader(userToAdd, fixtures.teams[0].slug);
+        return new TeamLeader(userToAdd, fixtures.teams[0].slug)
+        .then((team) => {
+            if (team) {
+                console.log('teamLeaders : ok');
+                return;
+            }
+            console.error('teamLeaders : empty');
+        })
+        .catch((err) => {
+            console.error('teamLeaders :', err)
+        });
     }
 
     static addVolunteers() {

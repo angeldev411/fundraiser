@@ -40,7 +40,6 @@ class Team {
         });
 
         return team.save()
-
         .then((response) => {
             if (response.id === team.id) {
                 // Link teamCreator and project
@@ -77,9 +76,9 @@ class Team {
         });
     }
 
-    static getBySlugs(teamSlug, projectSlug) {
+    static getBySlugs(projectSlug, teamSlug) {
         return db.query(`
-                MATCH (team:TEAM {slug: {teamSlug} })-[contributing:CONTRIBUTE]->(project:PROJECT {slug: {projectSlug}})
+                MATCH (team:TEAM {slug: {teamSlug} })-[:CONTRIBUTE]->(project:PROJECT {slug: {projectSlug}})
                 RETURN team
             `,
             {},
