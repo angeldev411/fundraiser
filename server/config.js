@@ -1,12 +1,16 @@
 'use strict';
 
 import * as constantsFront from '../src/common/constants';
+import session from 'express-session';
+import sessionFileStore from 'session-file-store';
+const FileStore = sessionFileStore(session);
 
 export default {
     DB_URL: (process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/'),
     EXPRESS_PORT: process.env.PORT || 3777,
     SESSION_CONFIG: {
         secret: 'rsn0telll33333',
+        store: new FileStore(),
         resave: false,
         saveUninitialized: false,
         unset: 'destroy',

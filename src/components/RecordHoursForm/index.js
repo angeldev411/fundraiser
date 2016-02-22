@@ -51,11 +51,11 @@ export default class RecordHoursForm extends Component {
 
     setDate = (value) => {
         this.state.date = moment.utc(value).local();
-    }
+    };
 
     getError = () => {
         return this.state.error
-    }
+    };
 
     render() {
         return (

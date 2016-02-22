@@ -63,6 +63,7 @@
     "react-transform-hmr": "^1.0.0",
     "redux": "^3.0.4",
     "redux-simple-router": "^1.0.2",
+    "session-file-store": "0.0.24",
     "stripe": "^4.3.0",
     "uuid": "^2.0.1",
     "validate": "^3.0.1",
