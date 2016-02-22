@@ -1,6 +1,9 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
 import * as constants from '../../common/constants';
+import { connect } from 'react-redux';
+import * as Actions from '../../redux/team/actions';
+import { pushPath } from 'redux-simple-router';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -12,9 +15,23 @@ import UserList from '../../components/UserList';
 import * as data from '../../common/test-data';
 const team = data.team;
 
-export default class TeamProfile extends Component {
+class TeamProfile extends Component {
     componentWillMount() {
         document.title = `${team.name} | Raiserve`;
+        Actions.getTeam(
+            this.props.params.projectSlug,
+            this.props.params.teamSlug,
+        )(this.props.dispatch);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.team) {
+            this.setState({
+                team: nextProps.team,
+            });
+        } else if (nextProps.error) {
+            this.props.dispatch(pushPath('/teamNotFound'));
+        }
     }
 
     render() {
@@ -76,3 +93,8 @@ export default class TeamProfile extends Component {
 TeamProfile.propTypes = {
     show: React.PropTypes.bool,
 };
+
+export default connect((reduxState) => ({
+    team: reduxState.main.team.team,
+    error: reduxState.main.team.error,
+}))(TeamProfile);
