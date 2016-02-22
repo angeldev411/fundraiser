@@ -5,6 +5,7 @@ import TeamLeader from './team-leader/model';
 import ProjectLeader from './project-leader/model';
 import messages from '../messages';
 import mailer from '../helpers/mailer';
+import * as roles from './roles';
 import Promise from 'bluebird';
 
 class userController {
@@ -66,10 +67,10 @@ class userController {
         let Klass;
 
         switch (role) {
-            case 'TeamLeader':
+            case roles.TEAM_LEADER:
                 Klass = TeamLeader;
                 break;
-            case 'ProjectLeader':
+            case roles.PROJECT_LEADER:
                 Klass = ProjectLeader;
                 break;
             default:
