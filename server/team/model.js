@@ -21,6 +21,12 @@ class Team {
             },
         });
 
+        const email = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi
+
+        if (data.team.teamLeaderEmail && !email.test(data.team.teamLeaderEmail)) {
+            return Promise.reject(messages.notEmail);
+        }
+
         const team = new Node({
             id: uuid.v4(),
             name: data.team.name,
