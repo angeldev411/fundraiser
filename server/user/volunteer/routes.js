@@ -4,6 +4,7 @@ const router = express.Router();
 import hoursController from '../../hours/controller';
 import volunteerController from './controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
+import UserController from '../controller';
 
 router.post('/api/v1/volunteer/record_hours', (req, res) => {
     const hour = {
