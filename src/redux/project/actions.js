@@ -13,12 +13,12 @@ export const newProjectFailed = (error) => ({
 });
 
 export const receivedProjects = (projects) => ({
-    type: actionTypes.INDEX_PROJECTS,
+    type: actionTypes.LIST_PROJECTS,
     projects,
 });
 
 export const indexProjectsFailed = (error) => ({
-    type: actionTypes.INDEX_PROJECTS_FAIL,
+    type: actionTypes.LIST_PROJECTS_FAIL,
     error,
 });
 
@@ -53,7 +53,6 @@ export function indexProjects() {
         )
         .catch(
             (errorResponse) => {
-                console.log(errorResponse);
                 dispatch(indexProjectsFailed(errorResponse.data));
             }
         );

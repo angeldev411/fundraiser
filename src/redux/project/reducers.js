@@ -16,13 +16,13 @@ export default function reducers(state = initialState, action) {
                 error: action.error,
             };
 
-        case actionTypes.INDEX_PROJECTS:
+        case actionTypes.LIST_PROJECTS:
             return {
                 ...state,
                 projects: action.projects,
             };
 
-        case actionTypes.INDEX_PROJECTS_FAIL:
+        case actionTypes.LIST_PROJECTS_FAIL:
             return {
                 ...state,
                 error: action.error,
