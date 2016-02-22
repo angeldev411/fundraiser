@@ -3,10 +3,10 @@ import fixtures from '../tests_helpers/fixtures';
 import config from '../config';
 import uuid from 'uuid';
 import messages from '../messages';
-import request from 'request';
 import {
     loginAsSuperAdmin,
     loginAsVolunteer,
+    requestCookie,
     logout,
 } from '../tests_helpers/helpers';
 
@@ -16,7 +16,7 @@ const expect = require('chai').expect;
 describe('Security', () => {
     describe('Not Logged', () => {
         it('accessing a super-admin route gives an 404 if not logged', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/super-admin/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -28,7 +28,7 @@ describe('Security', () => {
             });
         });
         it('accessing a project-leader route gives an 404 if not logged', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project-leader/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -40,7 +40,7 @@ describe('Security', () => {
             });
         });
         it('accessing a team-leader route gives an 404 if not logged', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team-leader/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -52,7 +52,7 @@ describe('Security', () => {
             });
         });
         it('accessing a volunteer route gives an 404 if not logged', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -68,7 +68,7 @@ describe('Security', () => {
         before(loginAsVolunteer);
         after(logout);
         it('accessing a super-admin route gives an 403 if I am not a super-admin', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/super-admin/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -80,7 +80,7 @@ describe('Security', () => {
             });
         });
         it('accessing a project-leader route gives an 403 if I am a volunteer', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project-leader/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -92,7 +92,7 @@ describe('Security', () => {
             });
         });
         it('accessing a team-leader route gives an 403 if I am a volunteer', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team-leader/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
@@ -104,7 +104,7 @@ describe('Security', () => {
             });
         });
         it('accessing a volunteer route gives an 200 if I am a volunteer', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer/invite`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,

@@ -70,7 +70,7 @@ class Project {
             }
             return Promise.reject('Unexpected error occurred.');
         })
-        .catch(() => {
+        .catch((err) => {
             return Promise.reject(messages.project.required);
         });
     }

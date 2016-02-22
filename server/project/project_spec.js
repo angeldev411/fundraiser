@@ -7,6 +7,7 @@ import request from 'request';
 import {
     loginAsSuperAdmin,
     logout,
+    requestCookie,
 } from '../tests_helpers/helpers';
 
 // test tools
@@ -20,7 +21,7 @@ describe('Project', () => {
         after(logout);
 
         it('lets a super admin create project', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
                     name: 'Test Project',
@@ -37,7 +38,7 @@ describe('Project', () => {
         });
 
         it('gives an error if the project slug already exists in the database', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
                     name: project.name,
@@ -52,7 +53,7 @@ describe('Project', () => {
         });
 
         it('gives an error if a super admin tries to create project with an empty name', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
                     name: '',
@@ -66,7 +67,7 @@ describe('Project', () => {
             });
         });
         it('gives an error if a super admin tries to create project with an empty slug', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
                     name: 'test',
@@ -80,7 +81,7 @@ describe('Project', () => {
             });
         });
         it('gives an error if a super admin tries to create project with an malformed email', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
                     name: 'test',
@@ -98,7 +99,7 @@ describe('Project', () => {
 
     // describe('Non SuperAdmin', () => {
     //     it('gives an error if an non super admin try to create project', (done) => {
-    //         request.post({
+    //         requestCookie.post({
     //             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
     //             form: {
     //                 email: user.email,

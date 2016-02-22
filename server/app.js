@@ -24,11 +24,17 @@ import authRoutes from './auth/routes';
 import projectRoutes from './project/routes';
 import teamRoutes from './team/routes';
 import volunteersRoutes from './user/volunteer/routes';
+import superAdminRoutes from './user/super-admin/routes';
+import teamLeadersRoutes from './user/team-leader/routes';
+import projectLeadersRoutes from './user/project-leader/routes';
 
 app.use(authRoutes);
 app.use(projectRoutes);
 app.use(teamRoutes);
 app.use(volunteersRoutes);
+app.use(superAdminRoutes);
+app.use(teamLeadersRoutes);
+app.use(projectLeadersRoutes);
 
 app.use(express.static(`${__dirname}/../www/`));
 app.use('*', express.static(`${__dirname}/../www/`));

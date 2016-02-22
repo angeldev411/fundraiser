@@ -16,3 +16,5 @@ router.post('/api/v1/project-leader/invite', (req, res) => {
         res.status(500).send(messages.invite.error);
     });
 });
+
+export default router;

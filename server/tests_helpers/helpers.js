@@ -1,6 +1,7 @@
 import fixtures from './fixtures';
 import config from '../config';
 import request from 'request';
+export const requestCookie = request.defaults({ jar: true });
 const expect = require('chai').expect;
 const db = require('neo4j-simple')(config.DB_URL);
 import Promise from 'bluebird';
@@ -11,7 +12,6 @@ const projectLeader = fixtures.projectLeaders[0];
 const volunteer = fixtures.volunteers[0];
 
 export const loginAsSuperAdmin = (done) => {
-    request.defaults({ jar: true });
     request.post({
         url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
         form: {
@@ -25,7 +25,6 @@ export const loginAsSuperAdmin = (done) => {
 };
 
 export const loginAsProjectLeader = (done) => {
-    request.defaults({ jar: true });
     request.post({
         url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
         form: {
@@ -39,7 +38,6 @@ export const loginAsProjectLeader = (done) => {
 };
 
 export const loginAsTeamLeader = (done) => {
-    request.defaults({ jar: true });
     request.post({
         url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
         form: {
@@ -53,7 +51,6 @@ export const loginAsTeamLeader = (done) => {
 };
 
 export const loginAsVolunteer = (done) => {
-    request.defaults({ jar: true });
     request.post({
         url: `http://localhost:${config.EXPRESS_PORT}/api/v1/auth/login`,
         form: {
