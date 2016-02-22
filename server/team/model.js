@@ -6,11 +6,14 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import frontEndUrls from '../../src/urls.js';
 import messages from '../messages';
+import UserController from '../user/controller';
 
 const db = neo4jDB(config.DB_URL);
 
 class Team {
-    constructor(data) {
+    constructor(data, projectSlug) {
+
+        projectSlug = 't4t';
         const Node = db.defineNode({
             label: ['TEAM'],
             schema: {
@@ -21,39 +24,55 @@ class Team {
             },
         });
 
-        const CreatorRelationship = db.defineRelationship({
-            type: 'CREATOR',
-        });
-
-        const ProjectRelationship = db.defineRelationship({
-            type: 'CONTRIBUTE',
-        });
-
-        const team = new Node({
+        const baseInfo = {
             id: uuid.v4(),
             name: data.team.name,
             slug: data.team.slug,
-            teamLeaderEmail: data.team.teamLeaderEmail,
+        };
+
+        const optionalInfo = {};
+
+        if (data.team.teamLeaderEmail) {
+            optionalInfo.teamLeaderEmail = data.team.teamLeaderEmail;
+        }
+
+        const team = new Node({
+            ...baseInfo,
+            ...optionalInfo,
         });
 
-        // TODO Link teamLeader
-        // const teamCreator = new CreatorRelationship({}, [project.id, data.currentUser.id], db.DIRECTION.RIGHT);
-        // const teamLeader = new CreatorRelationship({}, [project.id, data.projectLeader.id], db.DIRECTION.RIGHT);
-
         return team.save()
-        // .then((response) => {
-        //     console.log('NEW PROJECT', response);
-        //
-        //     return Promise.all([
-        //         // projectCreator.save(),
-        //         // projectLeader.save(),
-        //     ]);
-        // })
+
         .then((response) => {
             if (response.id === team.id) {
-                return team.data;
+                // Link teamCreator and project
+                return db.query(`
+                        MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
+                        CREATE (u)-[:CREATOR]->(t)
+                        CREATE (t)-[:CONTRIBUTE]->(p)
+                    `,
+                    {},
+                    {
+                        teamId: team.data.id,
+                        userId: data.currentUser.id,
+                        projectSlug
+                    }
+                ).then(() => {
+                    // Link teamLeader
+                    if (data.team.teamLeaderEmail) {
+                        UserController.invite(data.team.teamLeaderEmail, 'TEAM_LEADER', data.team.slug)
+
+                        .then(() => {
+                            return Promise.resolve(team.data)
+                        })
+                        .catch((err) => {
+                            return Promise.reject(messages.invite.error);
+                        })
+                    }
+                    return Promise.resolve(team.data)
+                });
             }
-            throw new Error('Unexpected error occurred.');
+            return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
             return Promise.reject(messages.team.required);

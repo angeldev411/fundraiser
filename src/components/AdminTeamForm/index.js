@@ -68,6 +68,11 @@ class AdminTeamForm extends Component {
                     <span className="input-group-addon"
                         id="slug-addon"
                     >{`${domain}/${this.props.project.slug}/`}</span>
+                    <input type="hidden"
+                        name="projectSlug"
+                        id="projectSlug"
+                        value={this.props.project.slug}
+                    />
                     <input type="text"
                         name="slug"
                         id="slug"
