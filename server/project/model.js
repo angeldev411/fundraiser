@@ -52,25 +52,25 @@ class Project {
                     {},
                     {
                         projectId: project.data.id,
-                        userId: data.currentUser.id
+                        userId: data.currentUser.id,
                     }
                 ).then(() => {
                     // Link projectLeader
                     if (data.project.projectLeaderEmail) {
-                        UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
-
+                        return UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
                         .then(() => {
-                            return Promise.resolve(project.data)
+                            return Promise.resolve(project.data);
                         })
-                        .catch((err) => {
+                        .catch(() => {
                             return Promise.reject(messages.invite.error);
-                        })
+                        });
                     }
-                })
+                    return Promise.resolve(project.data);
+                });
             }
             return Promise.reject('Unexpected error occurred.');
         })
-        .catch((err) => {
+        .catch(() => {
             return Promise.reject(messages.project.required);
         });
     }
