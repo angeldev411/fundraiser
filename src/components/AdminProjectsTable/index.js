@@ -74,7 +74,7 @@ class AdminProjectsTable extends Component {
                                 <ModalButton customClass="btn-link uppercase"
                                     content={
                                         <AdminProjectForm title={"Edit Project"}
-                                            project={project}
+                                            defaultData={project}
                                         />
                                     }
                                 >
