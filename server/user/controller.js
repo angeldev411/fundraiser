@@ -47,7 +47,7 @@ class userController {
             });
         })
         .catch((err) => {
-            return Promise.reject(`There was an error getting user: ${err}`);
+            return Promise.reject(messages.user.notInDB);
         });
     }
 
@@ -97,8 +97,8 @@ class userController {
         .then((user) => {
             if (user.inviteCode === userData.inviteCode) {
                 return User.update(user, userData)
-                .then((user) => {
-                    return Promise.resolve(user);
+                .then((userUpdated) => {
+                    return Promise.resolve(userUpdated);
                 })
                 .catch((err) => {
                     return Promise.reject(messages.signup.error);
@@ -108,7 +108,7 @@ class userController {
             }
         })
         .catch((err) => {
-            if (err === 'User not in db') {
+            if (err === messages.user.notInDB) {
                 return new Volunteer(userData, teamSlug)
                 .then((user) => {
                     return Promise.resolve(user);

@@ -21,13 +21,6 @@ const Hour = db.defineNode({
     },
 });
 
-const Relationship = db.defineRelationship({
-    type: 'LOVE',
-    schema: {
-        description: db.Joi.string(),
-    },
-});
-
 class Hours {
     static insert(userId, hourValues) {
         return new Promise((resolve, reject) => {

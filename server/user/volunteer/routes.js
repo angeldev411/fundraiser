@@ -1,12 +1,9 @@
 'use strict';
 import express from 'express';
 const router = express.Router();
-import UserController from '../controller';
+import hoursController from '../../hours/controller';
 
 router.post('/api/v1/volunteer/record_hours', (req, res) => {
-    if (!req.session.user) {
-        res.status(403).send('Not logged in');
-    }
     const hour = {
         hours: req.body.hours,
         signatureData: req.body.signature,
@@ -18,8 +15,10 @@ router.post('/api/v1/volunteer/record_hours', (req, res) => {
     // console.log(hoursController.log(req.session.user.id, hour));
     hoursController.log(req.session.user.id, hour).then((result) => {
         res.status(200).send(result);
-    }).catch((result) => {
+        return;
+    }).catch((err) => {
         res.status(400).send(err);
+        return;
     });
 });
 

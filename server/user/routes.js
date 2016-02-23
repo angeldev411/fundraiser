@@ -12,6 +12,9 @@ router.post('/api/v1/signup', (req, res) => {
 
     return userController.signup(data)
     .then((user) => {
-
+        res.status(200).send(user);
+    })
+    .catch((err) => {
+        res.status(500).send(err);
     });
 });

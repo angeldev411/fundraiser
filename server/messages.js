@@ -15,6 +15,13 @@ export default {
     team: {
         required: 'Please fill all required fields and verify that the Team slug is unique and valid',
     },
+    signup: {
+        error: 'There was an error signing you up, sorry. Are you sure you are not already part of a Team or Project?',
+        badInviteCode: 'The invite code you are using is not good anymore, sorry',
+    },
+    user: {
+        notInDB: 'User does not exist yet.',
+    },
     invite: {
         volunteerOk: 'The new Volunteer has been invited successfully!',
         teamLeaderOk: 'The new Team Leader has been invited successfully!',

@@ -36,11 +36,14 @@ describe('User', () => {
         it('should add an uninvited user to the DB', (done) => {
             const user = fixtures.newUser;
 
-            userController.signup(user, fixtures.teams[1].slug)
+            userController.signup(user, fixtures.teams[2].slug)
             .then((userResponse) => {
                 expect(userResponse.email).to.equal(user.email);
                 expect(userResponse.firstName).to.equal(user.firstName);
                 done();
+            })
+            .catch((err) => {
+                expect(err).to.be.undefined;
             });
         });
     });
