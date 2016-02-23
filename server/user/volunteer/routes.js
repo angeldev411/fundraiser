@@ -1,9 +1,9 @@
 'use strict';
 import express from 'express';
 const router = express.Router();
-import hoursController from '../../hours/controller';
 import volunteerController from './controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
+import hoursController from '../../hours/controller';
 import UserController from '../controller';
 
 router.post('/api/v1/volunteer/record_hours', (req, res) => {
@@ -97,6 +97,18 @@ router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
         res.status(200).send(data);
     })
     .catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
+router.post('/api/v1/volunteer/get_hours', (req, res) => {
+    if (!req.session.user) {
+        res.status(403).send('Not logged in');
+    }
+
+    UserController.getUserWithHours(req.session.user.id).then((result) => {
+        res.status(200).send(result);
+    }).catch((err) => {
         res.status(400).send(err);
     });
 });

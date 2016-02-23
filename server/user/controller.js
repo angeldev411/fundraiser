@@ -1,5 +1,6 @@
 'use strict';
 import User from './model';
+import Hour from '../hours/model';
 import Volunteer from './volunteer/model';
 import TeamLeader from './team-leader/model';
 import ProjectLeader from './project-leader/model';
@@ -77,6 +78,10 @@ class userController {
         .catch((err) => {
             return Promise.reject(messages.user.notInDB);
         });
+    }
+
+    static getUserWithHours(userId) {
+        return User.hoursForUser(userId);
     }
 
     static safe(user) {

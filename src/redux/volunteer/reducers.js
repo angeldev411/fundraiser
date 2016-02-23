@@ -14,6 +14,12 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 hourLogFailure: action.error,
             };
+        case actionTypes.GET_HOURS:
+            console.log('Action', action, 'State', state);
+            return {
+                ...state,
+                hourLogsGet: action.hours,
+            };
         case actionTypes.VOLUNTEER:
             return {
                 ...state,

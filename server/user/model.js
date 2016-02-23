@@ -134,7 +134,22 @@ export default class User {
         .getResults('roles');
     }
 
-    static getByID(id) {
+    static hoursForUser(id) {
+        if (!id) {
+            return Promise.reject('You must provide an id');
+        }
+        return db.query(
+            `
+            MATCH (u:USER {id: {id} })-[r:OWNER]->(c)
+            RETURN c as hours
+            `,
+            {},
+            { id }
+        )
+        .getResults('hours');
+    }
+
+    static getById(id) {
         return db.query(
             `
             MATCH (user:USER {id: {id} }) RETURN user

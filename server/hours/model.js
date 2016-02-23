@@ -21,7 +21,14 @@ const Hour = db.defineNode({
     },
 });
 
-class Hours {
+const Relationship = db.defineRelationship({
+    type: 'LOVE',
+    schema: {
+        description: db.Joi.string(),
+    },
+});
+
+class HourRepository {
     static insert(userId, hourValues) {
         return new Promise((resolve, reject) => {
             return (new Hour(hourValues)).save()
@@ -70,4 +77,4 @@ class Hours {
     }
 }
 
-export default Hours;
+export default HourRepository;

@@ -12,6 +12,27 @@ export const hourLogFailure = (error) => ({
     error,
 });
 
+export const hourLogsGet = (hours) => ({
+    type: actionTypes.GET_HOURS,
+    hours,
+});
+
+export const getHourLogs = () => {
+    return (dispatch) => {
+        return axios.post(`${API_URL}/volunteer/get_hours`, {})
+        .then(
+            (response) => {
+                dispatch(hourLogsGet(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(hourLogsGet([]));
+            }
+        );
+    }
+};
+
 export const createHourLog = (place, hours, date, supervisor, signature) => {
     return (dispatch) => {
         return axios.post(`${API_URL}/volunteer/record_hours`, {

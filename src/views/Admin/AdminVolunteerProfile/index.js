@@ -130,7 +130,7 @@ export default class AdminVolunteerProfile extends Component {
                                         defaultValue={
                                             data.volunteer.message
                                             ? data.volunteer.message
-                                            : 'Why Your Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you.'
+                                            : 'Why You\'re Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you.'
                                         }
                                         rows="3"
                                     />

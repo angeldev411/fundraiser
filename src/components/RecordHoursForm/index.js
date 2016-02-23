@@ -14,7 +14,7 @@ export default class RecordHoursForm extends Component {
         this.state = {
             place: '',
             hours: 0,
-            date: moment(),
+            date: moment().format('DD MM YYYY').toString(),
             supervisor: '',
             signature: ''
         };
@@ -40,6 +40,8 @@ export default class RecordHoursForm extends Component {
             this.state.supervisor,
             signature,
         )(this.props.dispatch);
+
+        console.log(this.state.date);
     };
 
     handleChange = (event, name) => {
@@ -50,11 +52,16 @@ export default class RecordHoursForm extends Component {
     };
 
     setDate = (value) => {
-        this.state.date = moment.utc(value).local();
+        this.setState(
+            {
+                date: moment.utc(value).local(),
+            }
+        );
+        // this.state.date = moment.unix(value/1000).format('DD MM YYYY').toString();
     };
 
     getError = () => {
-        return this.state.error
+        return this.state.error;
     };
 
     render() {
