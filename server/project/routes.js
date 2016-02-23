@@ -1,11 +1,19 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+import * as AUTH_CHECKER from '../auth/auth-checker';
+
 
 const projectController = require('../project/controller');
 
 router.post('/api/v1/project', (req, res) => {
-    // TODO check rights
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || !AUTH_CHECKER.isSuperAdmin(req.session.user)
+    ) {
+        res.status(404).send();
+        return;
+    }
 
     const project = {
         name: req.body.name,
