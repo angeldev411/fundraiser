@@ -1,5 +1,5 @@
 export const DOMAIN = 'https://raiserve.org';
-export const API_URL = 'http://localhost:3777/api/v1';
+export const API_URL = '/api/v1';
 
 export const TWITTER_USERNAME = 'raiserve';
 export const CONTACT_EMAIL = 'contact@raiserve.org';
