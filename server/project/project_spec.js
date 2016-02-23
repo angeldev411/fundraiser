@@ -91,7 +91,7 @@ describe('Project', () => {
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
                 expect(response.statusCode).to.equal(400);
-                expect(body).to.equal(messages.project.required);
+                expect(body).to.equal(messages.notEmail);
                 done();
             });
         });
