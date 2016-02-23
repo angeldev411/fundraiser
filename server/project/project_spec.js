@@ -19,7 +19,7 @@ const expect = require('chai').expect;
 const project = fixtures.projects[0];
 
 describe('Project', () => {
-    describe('SuperAdmin', () => {
+    describe('as SuperAdmin', () => {
         before(loginAsSuperAdmin);
         after(logout);
 
@@ -100,7 +100,7 @@ describe('Project', () => {
         });
     });
 
-    describe('Project Leader', () => {
+    describe('as Project Leader', () => {
         before(loginAsProjectLeader);
         after(logout);
 
@@ -119,7 +119,7 @@ describe('Project', () => {
         });
     });
 
-    describe('Team Leader', () => {
+    describe('as Team Leader', () => {
         before(loginAsTeamLeader);
         after(logout);
 
@@ -138,7 +138,7 @@ describe('Project', () => {
         });
     });
 
-    describe('Volunteer', () => {
+    describe('as Volunteer', () => {
         before(loginAsVolunteer);
         after(logout);
 
