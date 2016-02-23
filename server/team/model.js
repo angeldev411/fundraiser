@@ -7,6 +7,7 @@ import config from '../config';
 import frontEndUrls from '../../src/urls.js';
 import messages from '../messages';
 import UserController from '../user/controller';
+import utils from '../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -18,25 +19,17 @@ class Team {
                 id: db.Joi.string().required(),
                 name: db.Joi.string().required(),
                 slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
-                teamLeaderEmail: db.Joi.string().email().optional(),
             },
         });
 
-        const baseInfo = {
-            id: uuid.v4(),
-            name: data.team.name,
-            slug: data.team.slug,
-        };
-
-        const optionalInfo = {};
-
-        if (data.team.teamLeaderEmail) {
-            optionalInfo.teamLeaderEmail = data.team.teamLeaderEmail;
+        if (data.team.teamLeaderEmail && !utils.isEmailValid(data.team.teamLeaderEmail)) {
+            return Promise.reject(messages.notEmail);
         }
 
         const team = new Node({
-            ...baseInfo,
-            ...optionalInfo,
+            id: uuid.v4(),
+            name: data.team.name,
+            slug: data.team.slug,
         });
 
         return team.save()

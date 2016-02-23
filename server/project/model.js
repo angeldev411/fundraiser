@@ -4,6 +4,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import messages from '../messages';
 import UserController from '../user/controller';
+import utils from '../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -16,9 +17,12 @@ class Project {
                 name: db.Joi.string().required(),
                 slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
                 shortDescription: db.Joi.string().regex(/.{50,140}/).optional(),
-                projectLeaderEmail: db.Joi.string().email().optional(),
             },
         });
+
+        if (data.project.projectLeaderEmail && !utils.isEmailValid(data.project.projectLeaderEmail)) {
+            return Promise.reject(messages.notEmail);
+        }
 
         const baseInfo = {
             id: uuid.v4(),
@@ -30,9 +34,6 @@ class Project {
 
         if (data.project.shortDescription) {
             optionalInfo.shortDescription = data.project.shortDescription;
-        }
-        if (data.project.projectLeaderEmail) {
-            optionalInfo.projectLeaderEmail = data.project.projectLeaderEmail;
         }
 
         const project = new Node({

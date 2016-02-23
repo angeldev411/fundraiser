@@ -8,6 +8,12 @@ import config from '../config';
 AWS.config.update(config.S3_ACCESS);
 
 class util {
+    static isEmailValid(email) {
+        const emailRegexp = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi;
+
+        return emailRegexp.test(email);
+    }
+
     static cacheResponse(obj) {
         const shasum = crypto.createHash('sha1');
 

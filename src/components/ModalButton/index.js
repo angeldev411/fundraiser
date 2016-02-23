@@ -13,7 +13,11 @@ class ModalButton extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user && this.state.clicked) {
+        if (
+            nextProps.user && this.state.clicked
+            || nextProps.team && this.state.clicked
+            || nextProps.project && this.state.clicked
+        ) {
             this.handleClick();
         }
     }
@@ -55,4 +59,6 @@ ModalButton.propTypes = {
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
+    team: reduxState.main.team.team,
+    project: reduxState.main.project.project,
 }))(ModalButton);
