@@ -64,6 +64,14 @@ class userController {
             lastName: user.lastName,
             roles: user.roles,
             id: user.id,
+            image: user.image,
+            hours: user.hours,
+            goal: user.goal,
+            raised: user.raised,
+            hourPledge: user.hourPledge,
+            sponsors: user.sponsors,
+            location: user.location,
+            message: user.message,
         };
     }
 

@@ -17,7 +17,7 @@ export const projects = [];
 
 export const team = {
     name: 'York Division',
-    uniqid : 'samples',
+    id : 'samples',
     slug: 'york-division',
     logo: 'team_logo.png',
     coverImage : 'team_cover.jpg',
@@ -40,7 +40,7 @@ export const volunteer = {
     firstName: 'Heather',
     lastName: 'Miller',
     slug: 'heather-miller',
-    uniqid: 'samples',
+    id: 'samples',
     email: 'heather.miler@gmail.com',
     image: 'user.jpg',
     hours: 240,
