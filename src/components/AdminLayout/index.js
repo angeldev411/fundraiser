@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import AdminMenu from '../AdminMenu';
 import * as Urls from '../../urls.js';
-import * as Data from '../../common/test-data.js'; // TODO remove this
+import { connect } from 'react-redux';
 
-export default class AdminLayout extends Component {
-    getNav = (role = 'user') => {
-        if (role === 'super-admin') {
+class AdminLayout extends Component {
+    getNav = () => {
+        const roles = this.props.user.roles;
+
+        if (roles.indexOf('SUPER_ADMIN') >= 0) {
             return [
                 {
                     title: 'Projects',
@@ -20,7 +22,7 @@ export default class AdminLayout extends Component {
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
-        } else if (role === 'project-leader') {
+        } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
             return [
                 {
                     title: 'Teams',
@@ -35,7 +37,7 @@ export default class AdminLayout extends Component {
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
-        } else if (role === 'team-leader') {
+        } else if (roles.indexOf('TEAM_LEADER') >= 0) {
             return [
                 {
                     title: 'My Team Dashboard',
@@ -72,7 +74,7 @@ export default class AdminLayout extends Component {
             <div className={"admin-layout"}>
                 <div className={'container'}>
                     <AdminMenu
-                        adminNav={this.getNav(Data.user.role)}
+                        adminNav={this.getNav()}
                         pageNav={this.props.pageNav}
                     />
                     <div className="col-xs-12 col-lg-9 admin-content">
@@ -90,3 +92,7 @@ export default class AdminLayout extends Component {
 AdminLayout.propTypes = {
     pageNav: React.PropTypes.array,
 };
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+}))(AdminLayout);
