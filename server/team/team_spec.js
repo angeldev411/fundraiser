@@ -7,6 +7,8 @@ import request from 'request';
 import {
     loginAsSuperAdmin,
     loginAsProjectLeader,
+    loginAsTeamLeader,
+    loginAsVolunteer,
     logout,
     createTestProject,
     deleteTestProject,
@@ -83,7 +85,7 @@ describe('Team', () => {
         });
     });
 
-    describe('SuperAdmin', () => {
+    describe('as SuperAdmin', () => {
         before(loginAsSuperAdmin);
         after(logout);
 
@@ -106,7 +108,7 @@ describe('Team', () => {
         });
     });
 
-    describe('ProjectLeader', () => {
+    describe('as ProjectLeader', () => {
         before(loginAsProjectLeader);
         after(logout);
 
@@ -129,20 +131,45 @@ describe('Team', () => {
         });
     });
 
-    // describe('Non SuperAdmin', () => {
-    //     it('gives an error if an non super admin try to create team', (done) => {
-    //         request.post({
-    //             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
-    //             form: {
-    //                 email: user.email,
-    //                 password: 'test',
-    //             },
-    //         }, (error, response, body) => {
-    //             expect(error).to.be.a('null');
-    //             expect(response.statusCode).to.equal(401);
-    //             expect(body).to.equal(messages.login.failed);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe('as Team Leader', () => {
+        before(loginAsTeamLeader);
+        after(logout);
+
+        it('gives an error if a team leader try to create team', (done) => {
+            requestCookie.post({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
+                form: {
+                    name: `Test Team Team Leader`,
+                    slug: uuid.v4(), // Create a unique slug
+                    projectSlug: fixtures.testProject.slug,
+                },
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+
+    describe('as Volunteer', () => {
+        before(loginAsVolunteer);
+        after(logout);
+
+        it('gives an error if a volunteer try to create team', (done) => {
+            requestCookie.post({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
+                form: {
+                    name: `Test Team Volunteer`,
+                    slug: uuid.v4(), // Create a unique slug
+                    projectSlug: fixtures.testProject.slug,
+                },
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
 });
