@@ -5,11 +5,6 @@ import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
 import * as constants from '../../common/constants';
 
-const SET_IS_DESKTOP = () => {
-    this.setState({
-        isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
-    });
-};
 
 export default class Cover extends Component {
     constructor(props) {
@@ -21,11 +16,16 @@ export default class Cover extends Component {
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         };
 
-        window.addEventListener('resize', SET_IS_DESKTOP);
+        window.addEventListener('resize', this.SET_IS_DESKTOP);
     }
 
+    SET_IS_DESKTOP = () => {
+        this.setState({
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+        });
+    };
     componentWillUnmount() {
-        window.removeEventListener('resize', SET_IS_DESKTOP);
+        window.removeEventListener('resize', this.SET_IS_DESKTOP);
     }
 
     render() {
@@ -68,7 +68,6 @@ export default class Cover extends Component {
         if (this.props.customclass === 'cover-volunteer-profile') {
             COVERCONTENT = (
                 <div>
-
                     <div className={"cover-content"}>
                         <div className="team-tagline">
                             <div className="container">

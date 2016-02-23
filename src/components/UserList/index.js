@@ -23,7 +23,7 @@ export default class UserList extends Component {
         previous = document.getElementById('previous');
         next = document.getElementById('next');
 
-        if (node.scrollWidth - node.offsetWidth !== 0) {
+        if (node && node.scrollWidth - node.offsetWidth !== 0) {
             this.setState({ nextVisible: true });
         }
     }
