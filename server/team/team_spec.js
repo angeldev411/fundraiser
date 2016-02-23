@@ -8,6 +8,9 @@ import {
     loginAsSuperAdmin,
     loginAsProjectLeader,
     logout,
+    createTestProject,
+    deleteTestProject,
+    requestCookie,
 } from '../tests_helpers/helpers';
 
 // test tools
@@ -17,10 +20,12 @@ const team = fixtures.teams[0];
 
 describe('Team', () => {
     before(loginAsSuperAdmin);
+    before(createTestProject);
+    after(deleteTestProject);
     after(logout);
 
     it('gives an error if the team slug already exists in the database', (done) => {
-        request.post({
+        requestCookie.post({
             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
             form: {
                 name: team.name,
@@ -35,7 +40,7 @@ describe('Team', () => {
     });
 
     it('gives an error if a super admin tries to create team with an empty name', (done) => {
-        request.post({
+        requestCookie.post({
             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
             form: {
                 name: '',
@@ -49,7 +54,7 @@ describe('Team', () => {
         });
     });
     it('gives an error if a super admin tries to create team with an empty slug', (done) => {
-        request.post({
+        requestCookie.post({
             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
             form: {
                 name: 'test',
@@ -63,7 +68,7 @@ describe('Team', () => {
         });
     });
     it('gives an error if a super admin tries to create team with an malformed email', (done) => {
-        request.post({
+        requestCookie.post({
             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
             form: {
                 name: 'test',
@@ -83,11 +88,12 @@ describe('Team', () => {
         after(logout);
 
         it('lets a super admin create team', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
-                    name: team.name,
+                    name: `Test Team`,
                     slug: uuid.v4(), // Create a unique slug
+                    projectSlug: fixtures.testProject.slug,
                 },
             },
             (error, response, body) => {
@@ -105,11 +111,12 @@ describe('Team', () => {
         after(logout);
 
         it('lets a Project leader create team', (done) => {
-            request.post({
+            requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
-                    name: team.name,
+                    name: 'Test Team',
                     slug: uuid.v4(), // Create a unique slug
+                    projectSlug: fixtures.testProject.slug,
                 },
             },
             (error, response, body) => {

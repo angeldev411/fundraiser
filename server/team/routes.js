@@ -1,12 +1,22 @@
 'use strict';
 import express from 'express';
 const router = express.Router();
+import * as AUTH_CHECKER from '../auth/auth-checker';
 
 import teamController from '../team/controller';
 import Team from '../team/model';
 
 router.post('/api/v1/team', (req, res) => {
-    // TODO check rights
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isSuperAdmin(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
 
     const team = {
         name: req.body.name,

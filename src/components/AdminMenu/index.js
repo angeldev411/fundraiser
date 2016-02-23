@@ -6,7 +6,6 @@ import classNames from 'classnames';
 
 class AdminMenu extends Component {
     render() {
-        console.log(this)
         return (
             <nav className={'admin-navigation col-xs-12 col-lg-3'}>
                 <ul className="admin-nav">

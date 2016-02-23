@@ -1,10 +1,10 @@
 'use strict';
-import * as ROLES from '../user/roles';
+import * as AUTH_CHECKER from './auth-checker';
 import express from 'express';
 const router = express.Router();
 
 router.use('/api/v1/:role(super-admin|volunteer|project-leader|team-leader)/*', (req, res, next) => {
-    if (req.session.user && req.session.user.roles.length > 1) {
+    if (AUTH_CHECKER.isLogged(req.session)) {
         next();
         return;
     }
@@ -13,7 +13,7 @@ router.use('/api/v1/:role(super-admin|volunteer|project-leader|team-leader)/*', 
 });
 
 router.use('/api/v1/volunteer/*', (req, res, next) => {
-    if (req.session.user.roles.indexOf(ROLES.VOLUNTEER) >= 0) {
+    if (AUTH_CHECKER.isVolunteer(req.session.user) >= 0) {
         next();
         return;
     }
@@ -22,7 +22,7 @@ router.use('/api/v1/volunteer/*', (req, res, next) => {
 });
 
 router.use('/api/v1/team-leader/*', (req, res, next) => {
-    if (req.session.user.roles.indexOf(ROLES.TEAM_LEADER) >= 0) {
+    if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
         next();
         return;
     }
@@ -31,7 +31,7 @@ router.use('/api/v1/team-leader/*', (req, res, next) => {
 });
 
 router.use('/api/v1/project-leader/*', (req, res, next) => {
-    if (req.session.user.roles.indexOf(ROLES.PROJECT_LEADER) >= 0) {
+    if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
         next();
         return;
     }
@@ -40,7 +40,7 @@ router.use('/api/v1/project-leader/*', (req, res, next) => {
 });
 
 router.use('/api/v1/super-admin/*', (req, res, next) => {
-    if (req.session.user.roles.indexOf(ROLES.SUPER_ADMIN) >= 0) {
+    if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
         next();
         return;
     }

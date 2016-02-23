@@ -109,3 +109,41 @@ export const deleteUserInviteesByEmail = (done) => {
         console.log('FAIL', err);
     });
 };
+
+export const createTestProject = (done) => {
+    requestCookie.post({
+        url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+        form: {
+            name: fixtures.testProject.name,
+            slug: fixtures.testProject.slug,
+        },
+    },
+    (error, response, body) => {
+        expect(error).to.be.a('null');
+        expect(response.statusCode).to.equal(200);
+        expect(JSON.parse(body)).to.contain.keys('name');
+        expect(JSON.parse(body)).to.contain.keys('slug');
+        done();
+    });
+};
+
+export const deleteTestProject = (done) => {
+    // Remove the project we just created
+    return Promise.resolve(
+        db.query(
+            `
+            MATCH (project:PROJECT {name: {name}})<-[rel:CONTRIBUTE]-(team:TEAM)
+            DETACH DELETE team, project
+            `,
+            {},
+            {
+                name: fixtures.testProject.name,
+            }
+        )
+    ).then((response) => {
+        done();
+    })
+    .catch((err) => {
+        console.log('FAIL', err);
+    });
+};

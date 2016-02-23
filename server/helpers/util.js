@@ -69,6 +69,7 @@ class util {
             ContentEncoding: 'base64',
             ContentType: fileParams.contentType,
         };
+
         s3Bucket.putObject(data, (err, resp) => {
             if (err) {
                 console.log('Error uploading to s3:  ', resp);

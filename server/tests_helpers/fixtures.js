@@ -268,6 +268,13 @@ const fixtures = {
             signatureData: signature('sig1'),
         },
     ],
+
+    testProject : {
+        name: 'TEST PROJECT',
+        slug: 'test-project',
+        shortDescription: 'Bring toys to the tots I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+    },
+
 };
 
 export default fixtures;
