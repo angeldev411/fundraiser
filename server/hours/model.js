@@ -49,10 +49,10 @@ class Hours {
 
     static uploadSignature(obj) {
         const key = `signatures/${obj.uuid}.png`;
+
         return new Promise((resolve, reject) => {
             util.uploadToS3(
                 obj.signatureData,
-                'raiserve',
                 key,
                 { contentType: 'base64' },
                 (err, res) => {
@@ -60,7 +60,8 @@ class Hours {
                         reject(`Unable to upload signature: ${err}`);
                     } else {
                         delete obj.signatureData;
-                        obj.signature_url = key;
+                        // Signatures are not in public on S3. Should they?
+                        obj.signature_url = `${config.S3.BASE_URL}/${key}`;
                         resolve(obj);
                     }
                 }

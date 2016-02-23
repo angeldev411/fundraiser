@@ -19,10 +19,13 @@ export default {
             secure: false // TODO: set to true with HTTPS
         },
     },
-    S3_BASE_URL: '//s3.amazonaws.com/raiserve/',
+    S3: {
+        BASE_URL: 'https://s3.amazonaws.com/raiserve-images',
+        BUCKET: 'raiserve-images',
+    },
     S3_ACCESS: {
-        accessKeyId: 'AKIAJWMS4PAKZZ2LTEOA',
-        secretAccessKey: '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',
+        accessKeyId: 'AKIAIGQPJ2MQF6YBZBWQ',
+        secretAccessKey: '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',
         region: 'us-east-1',
     },
     STRIPE_TOKEN: 'sk_test_WNYEwSIelo8oPutqjz22lzqQ',
