@@ -8,6 +8,8 @@ import {
     loginAsSuperAdmin,
     loginAsProjectLeader,
     logout,
+    createTestProject,
+    deleteTestProject,
     requestCookie,
 } from '../tests_helpers/helpers';
 
@@ -18,6 +20,8 @@ const team = fixtures.teams[0];
 
 describe('Team', () => {
     before(loginAsSuperAdmin);
+    before(createTestProject);
+    after(deleteTestProject);
     after(logout);
 
     it('gives an error if the team slug already exists in the database', (done) => {
@@ -87,8 +91,9 @@ describe('Team', () => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
-                    name: `${team.name}${uuid.v4()}`,
+                    name: `Test Team`,
                     slug: uuid.v4(), // Create a unique slug
+                    projectSlug: fixtures.testProject.slug,
                 },
             },
             (error, response, body) => {
@@ -109,8 +114,9 @@ describe('Team', () => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
-                    name: team.name,
+                    name: 'Test Team',
                     slug: uuid.v4(), // Create a unique slug
+                    projectSlug: fixtures.testProject.slug,
                 },
             },
             (error, response, body) => {
