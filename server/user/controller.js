@@ -10,7 +10,7 @@ import Promise from 'bluebird';
 
 class userController {
     static checkCredentials(credentials) {
-        return this.getUserWithRoles(credentials)
+        return this.getUserWithRoles(credentials.email)
         .then((user) => {
             if (!user.id) {
                 return Promise.reject(messages.login.failed);
@@ -26,8 +26,14 @@ class userController {
         });
     }
 
-    static getUserWithRoles(credentials) {
-        return User.getByEmail(credentials.email)
+    static getUserWithRoles(emailOrID) {
+        let userPromise;
+        if (emailOrID.indexOf('@') > 0) {
+            userPromise = User.getByEmail(emailOrID);
+        } else {
+            userPromise = User.getByID(emailOrID);
+        }
+        return userPromise
         .then((user) => {
             if (!user.id) {
                 return Promise.reject('User without ID?');
@@ -36,7 +42,7 @@ class userController {
             return User.rolesForUser(user.id)
             .then((rolesResults) => {
                 if (rolesResults.length === 0) {
-                    return Promise.reject(`User ${credentials.email} has no role?!`);
+                    return Promise.reject(`User ${email} has no role?!`);
                 }
                 user.roles = rolesResults[0];
 
@@ -93,7 +99,7 @@ class userController {
 
     // @data includes password and invitecode
     static signup(userData, teamSlug) {
-        return this.getUserWithRoles(userData)
+        return this.getUserWithRoles(userData.email)
         .then((user) => {
             if (user.inviteCode === userData.inviteCode) {
                 return User.update(user, userData)
@@ -118,6 +124,20 @@ class userController {
                 });
             }
             return Promise.reject(messages.signup.error);
+        });
+    }
+
+    static getVolunteer(id) {
+        return userController.getUserWithRoles(id)
+        .then((user) => {
+            if (user.roles.indexOf(roles.VOLUNTEER) >= 0) {
+                return Promise.resolve(user);
+            }
+            return Promise.reject('Tried to get a higher role user than Volunteer');
+        })
+        .catch((err) => {
+            console.error('[USER CONTROLLER] error:', err);
+            return Promise.reject(err);
         });
     }
 }

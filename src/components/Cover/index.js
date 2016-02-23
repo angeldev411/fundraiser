@@ -45,7 +45,7 @@ export default class Cover extends Component {
                                 <div className="team-tagline">
                                     <div className="container">
                                         <div className="col-xs-12">
-                                            <p>{this.props.volunteer.team.tagline}</p>
+                                            <p>{this.props.tagline}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -55,8 +55,10 @@ export default class Cover extends Component {
                             </div>
                         </div>
                     </div>
-                    <VolunteerProfileBlock volunteer={this.props.volunteer}
+                    <VolunteerProfileBlock
+                        volunteer={this.props.volunteer}
                         pathname={this.props.pathname}
+                        team={this.props.team}
                     />
                 </div>
             );
@@ -70,14 +72,16 @@ export default class Cover extends Component {
                         <div className="team-tagline">
                             <div className="container">
                                 <div className="col-xs-12">
-                                    <p>{this.props.volunteer.team.tagline}</p>
+                                    <p>{this.props.tagline}</p>
                                 </div>
                             </div>
                         </div>
                         <PledgeButton customClass="btn-default">
                             {this.props.button}
                         </PledgeButton>
-                        <VolunteerProfileBlock volunteer={this.props.volunteer}
+                        <VolunteerProfileBlock
+                            volunteer={this.props.volunteer}
+                            team={this.props.team}
                             pathname={this.props.pathname}
                         />
                     </div>
@@ -144,6 +148,7 @@ Cover.propTypes = {
     image: React.PropTypes.string,
     customclass: React.PropTypes.string,
     tagline: React.PropTypes.string,
+    team: React.PropTypes.object,
     button: React.PropTypes.string,
     logo: React.PropTypes.string,
     volunteer: React.PropTypes.object,

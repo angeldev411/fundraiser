@@ -37,8 +37,8 @@ export const team = {
 export const teams = [];
 
 export const volunteer = {
-    firstname: 'Heather',
-    lastname: 'Miller',
+    firstName: 'Heather',
+    lastName: 'Miller',
     slug: 'heather-miller',
     uniqid: 'samples',
     email: 'heather.miler@gmail.com',

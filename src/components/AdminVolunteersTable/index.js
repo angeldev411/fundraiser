@@ -42,7 +42,7 @@ export default class AdminVolunteersTable extends Component {
                     <tbody>
                         {this.props.volunteers.map((volunteer, i) => (
                             <tr key={i}>
-                                <td className="volunteer-name"><img src={`${constants.USER_IMAGES_FOLDER}/${volunteer.uniqid}/${volunteer.image}`}/>{`${volunteer.firstname} ${volunteer.lastname}`}</td>
+                                <td className="volunteer-name"><img src={`${constants.USER_IMAGES_FOLDER}/${volunteer.uniqid}/${volunteer.image}`}/>{`${volunteer.firstName} ${volunteer.lastName}`}</td>
                                 <td className="volunteer-email">{volunteer.email}</td>
                                 <td>{volunteer.hours}</td>
                                 <td>{volunteer.sponsors}</td>

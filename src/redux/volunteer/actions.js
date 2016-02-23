@@ -40,3 +40,29 @@ export const createHourLog = (place, hours, date, supervisor, signature) => {
         );
     };
 };
+
+export const gotVolunteer = (volunteer) => ({
+    type: actionTypes.VOLUNTEER,
+    volunteer,
+});
+
+export const getVolunteerError = (error) => ({
+    type: actionTypes.VOLUNTEER_ERROR,
+    error,
+});
+
+export const getVolunteer = (id) => {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/user/${id}`)
+        .then(
+            (response) => {
+                dispatch(gotVolunteer(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getVolunteerError(errorResponse.data));
+            }
+        );
+    };
+};

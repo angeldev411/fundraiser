@@ -14,6 +14,17 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 hourLogFailure: action.error,
             };
+        case actionTypes.VOLUNTEER:
+            return {
+                ...state,
+                volunteer: action.volunteer,
+                error: null,
+            };
+        case actionTypes.VOLUNTEER_ERROR:
+            return {
+                ...state,
+                error: action.error,
+            };
         default:
             return state;
     }

@@ -1,2 +1,4 @@
 export const HOUR_LOG_ON_SUCCESS = 'HOUR_LOG_ON_SUCCESS';
 export const HOUR_LOG_ON_FAIL = 'HOUR_LOG_ON_FAIL';
+export const VOLUNTEER = 'VOLUNTEER';
+export const VOLUNTEER_ERROR = 'VOLUNTEER_ERROR';

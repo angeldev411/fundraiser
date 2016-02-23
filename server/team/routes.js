@@ -42,6 +42,10 @@ router.post('/api/v1/team', (req, res) => {
 });
 
 router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
+    if (!req.params.projectSlug || !req.params.teamSlug) {
+        res.status(404).send();
+        return;
+    }
     Team.getBySlugs(req.params.projectSlug, req.params.teamSlug)
     .then((team) => {
         res.status(200).send(team);

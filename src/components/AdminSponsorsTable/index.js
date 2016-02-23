@@ -20,7 +20,7 @@ export default class AdminSponsorsTable extends Component {
                                             <span className="label uppercase">{'$ CAP: '}</span> {donation.cap ? `$${donation.cap}` : 'None'}
                                             <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${donation.total}`}</span>
                                             {!this.props.isVolunteer ?
-                                                (<span><span className="label uppercase">{donation.member ? 'Member: ' : 'Team: '}</span> {donation.member ? `${donation.member.firstname} ${donation.member.lastname}` : donation.team.name} </span>)
+                                                (<span><span className="label uppercase">{donation.member ? 'Member: ' : 'Team: '}</span> {donation.member ? `${donation.member.firstName} ${donation.member.lastName}` : donation.team.name} </span>)
                                             : null}
                                             <span className="label uppercase">{'Date: '}</span> {donation.date}
                                         </ChildrenLine>

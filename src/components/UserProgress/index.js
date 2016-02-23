@@ -32,7 +32,7 @@ export default class UserProgress extends Component {
                     >
                     </div>
                     <div className="user-name-and-location">
-                        <div className="user-name">{`${this.props.user.firstname} ${this.props.user.lastname}`}</div>
+                        <div className="user-name">{`${this.props.user.firstName} ${this.props.user.lastName}`}</div>
                         <div className="user-location">{this.props.user.location}</div>
                     </div>
                 </div>

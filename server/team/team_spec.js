@@ -172,4 +172,37 @@ describe('Team', () => {
             });
         });
     });
+
+    describe('GET', () => {
+        it('gives a 200 if the team exists', (done) => {
+            request.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${fixtures.projects[1].slug}/${fixtures.teams[0].slug}`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(200);
+                done();
+            });
+        });
+        it('gives a 404 if the team does not exist', (done) => {
+            request.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/123456789123456789/dkshkjghkjdfh`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+        it('gives a 404 if the request is not valid', (done) => {
+            request.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/123456789123456789`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
 });
