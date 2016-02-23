@@ -21,8 +21,8 @@ router.post('/api/v1/signup', (req, res) => {
     });
 });
 
-router.get('/api/v1/user/:volunteerID', (req, res) => {
-    return userController.getVolunteer(req.params.volunteerID)
+router.get('/api/v1/user/:slug', (req, res) => {
+    return userController.getVolunteer(req.params.slug)
     .then((user) => {
         res.status(200).send(userController.safe(user));
     })
