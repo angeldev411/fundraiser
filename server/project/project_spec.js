@@ -6,6 +6,9 @@ import uuid from 'uuid';
 import request from 'request';
 import {
     loginAsSuperAdmin,
+    loginAsProjectLeader,
+    loginAsTeamLeader,
+    loginAsVolunteer,
     logout,
     requestCookie,
 } from '../tests_helpers/helpers';
@@ -24,7 +27,7 @@ describe('Project', () => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
-                    name: 'Test Project',
+                    name: 'Test Project Super Admin',
                     slug: uuid.v4(), // Create a unique slug
                 },
             },
@@ -97,20 +100,60 @@ describe('Project', () => {
         });
     });
 
-    // describe('Non SuperAdmin', () => {
-    //     it('gives an error if an non super admin try to create project', (done) => {
-    //         requestCookie.post({
-    //             url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
-    //             form: {
-    //                 email: user.email,
-    //                 password: 'test',
-    //             },
-    //         }, (error, response, body) => {
-    //             expect(error).to.be.a('null');
-    //             expect(response.statusCode).to.equal(401);
-    //             expect(body).to.equal(messages.login.failed);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe('Project Leader', () => {
+        before(loginAsProjectLeader);
+        after(logout);
+
+        it('gives an error if a project leader try to create project', (done) => {
+            requestCookie.post({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+                form: {
+                    name: 'Test Project Project Leader',
+                    slug: uuid.v4(), // Create a unique slug
+                },
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+
+    describe('Team Leader', () => {
+        before(loginAsTeamLeader);
+        after(logout);
+
+        it('gives an error if a team leader try to create project', (done) => {
+            requestCookie.post({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+                form: {
+                    name: 'Test Project Team Leader',
+                    slug: uuid.v4(), // Create a unique slug
+                },
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+
+    describe('Volunteer', () => {
+        before(loginAsVolunteer);
+        after(logout);
+
+        it('gives an error if a volunteer try to create project', (done) => {
+            requestCookie.post({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+                form: {
+                    name: 'Test Project Volunteer',
+                    slug: uuid.v4(), // Create a unique slug
+                },
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
 });
