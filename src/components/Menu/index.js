@@ -160,7 +160,7 @@ class Menu extends Component {
                                 </ul>
                             </li>
                             <li className={'login-container'}>
-                                {this.state.user ? `Welcome back ${this.state.user.firstName}` : null}
+                                {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
                                 {this.state.user ?
                                     <Button
                                         onClick={this.logout}
@@ -204,7 +204,7 @@ class Menu extends Component {
                 </nav>
 
                 <span className={'login-container pull-right'}>
-                    {this.state.user ? `Welcome back ${this.state.user.firstName}` : null}
+                    {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
                     {this.state.user ?
                         <Button
                             onClick={this.logout}

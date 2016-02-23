@@ -3,6 +3,7 @@ import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 import PledgeButton from '../PledgeButton';
 import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
+import * as constants from '../../common/constants';
 
 const SET_IS_DESKTOP = () => {
     this.setState({
@@ -29,7 +30,7 @@ export default class Cover extends Component {
 
     render() {
         const style = {
-            backgroundImage : `url(${this.props.image})`,
+            backgroundImage : `url(${this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
         };
 
         let COVERCONTENT = null;
@@ -122,7 +123,7 @@ export default class Cover extends Component {
                 <div className={"cover-content container"}>
                     <div className={"logo col-xs-12 col-md-3"}>
                         <span className={"helper"}></span>
-                        <img src={this.props.logo}/>
+                        <img src={this.props.logo || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`}/>
                     </div>
                     <div className="team-tagline col-xs-12 col-md-9">
                         <h1 className={'uppercase'}>{"Welcome to the Team"}</h1>

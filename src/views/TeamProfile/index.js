@@ -56,10 +56,11 @@ class TeamProfile extends Component {
 
         return (
             <Page>
-                <Cover image={
+                <Cover
+                    image={
                         this.state.team.coverImage ?
                         `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}` :
-                        `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}`
+                        null
                     }
                     customclass={"cover-team-profile"}
                     tagline={this.state.team.tagline}

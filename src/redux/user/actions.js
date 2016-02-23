@@ -31,10 +31,11 @@ export function invite() {
     };
 }
 
-export function signup() {
+export function signup(data) {
     return (dispatch) => {
-        return axios.put(
-            `${API_URL}/user`
+        return axios.post(
+            `${API_URL}/signup`,
+            data
         )
         .then(
             (response) => {
