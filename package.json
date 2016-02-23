@@ -64,6 +64,7 @@
     "redux": "^3.0.4",
     "redux-simple-router": "^1.0.2",
     "session-file-store": "0.0.24",
+    "spawn-sync": "1.0.4",
     "stripe": "^4.3.0",
     "uuid": "^2.0.1",
     "validate": "^3.0.1",
