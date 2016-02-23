@@ -47,21 +47,14 @@ class util {
         });
     }
 
-    /*
-    Access Key ID:
-    AKIAJWMS4PAKZZ2LTEOA
-    Secret Access Key:
-    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
-    */
     static uploadToS3(
         filedata,
-        bucket,
         key,
         fileParams,
         cb
     ) {
         // AWS.config.logger = process.stdout;
-        const s3Bucket = new AWS.S3({ params: { Bucket: bucket } });
+        const s3Bucket = new AWS.S3({ params: { Bucket: config.S3.BUCKET } });
         const buf = new Buffer(filedata.replace(/^data:image\/\w+;base64,/, ''), 'base64');
         const data = {
             Key: key,
