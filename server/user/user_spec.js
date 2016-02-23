@@ -51,8 +51,10 @@ describe('User', () => {
     });
     describe('GET', () => {
         it('gives a 200 if the volunteer exists', (done) => {
+            const volunteer = fixtures.volunteers[0];
+
             request.get({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/user/${fixtures.volunteers[0].id}`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/user/${volunteer.firstName.toLowerCase()}_${volunteer.lastName.toLowerCase()}`,
             },
             (error, response, body) => {
                 expect(error).to.be.a('null');
@@ -63,16 +65,6 @@ describe('User', () => {
         it('gives a 404 if the volunteer does not exist', (done) => {
             request.get({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/user/123456789123456789`,
-            },
-            (error, response, body) => {
-                expect(error).to.be.a('null');
-                expect(response.statusCode).to.equal(404);
-                done();
-            });
-        });
-        it('gives a 404 if the user is more than a volunteer', (done) => {
-            request.get({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/user/${fixtures.superAdmins[0].id}`,
             },
             (error, response, body) => {
                 expect(error).to.be.a('null');

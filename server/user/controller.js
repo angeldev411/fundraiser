@@ -127,13 +127,10 @@ class userController {
         });
     }
 
-    static getVolunteer(id) {
-        return userController.getUserWithRoles(id)
+    static getVolunteer(slug) {
+        return Volunteer.getBySlug(slug)
         .then((user) => {
-            if (user.roles.indexOf(roles.VOLUNTEER) >= 0) {
-                return Promise.resolve(user);
-            }
-            return Promise.reject('Tried to get a higher role user than Volunteer');
+            return Promise.resolve(user);
         })
         .catch((err) => {
             console.error('[USER CONTROLLER] error:', err);

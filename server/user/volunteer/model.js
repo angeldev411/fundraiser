@@ -9,6 +9,7 @@ import User from '../model';
 import Hours from '../../hours/model';
 
 export const volunteerSchema = {
+    slug: db.Joi.string(),
     headshotData: db.Joi.object(),
     description: db.Joi.string(),
 };
@@ -16,6 +17,10 @@ export const volunteerSchema = {
 export default class Volunteer {
     constructor(data, teamSlug) {
         let volunteer;
+
+        if (data.firstName && data.lastName) {
+            data.slug = `${data.firstName.toLowerCase()}_${data.lastName.toLowerCase()}`;
+        }
 
         return new User(data, VOLUNTEER)
         .then((volunteerCreated) => {
@@ -58,6 +63,18 @@ export default class Volunteer {
             { uuid }
         )
         .getResults('t');
+    }
+
+    static getBySlug(slug) {
+        return db.query(
+            `
+            MATCH (user:VOLUNTEER {slug: {slug}})
+            RETURN user
+            `,
+            {},
+            { slug }
+        )
+        .getResult('user');
     }
 
     static onboard(obj) {
