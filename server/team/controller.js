@@ -7,6 +7,9 @@ class teamController {
         return new Team(data, projectSlug)
         .then((team) => {
             return Promise.resolve(team);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
     }
 }

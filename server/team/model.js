@@ -7,6 +7,7 @@ import config from '../config';
 import frontEndUrls from '../../src/urls.js';
 import messages from '../messages';
 import UserController from '../user/controller';
+import utils from '../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -21,9 +22,7 @@ class Team {
             },
         });
 
-        const email = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi
-
-        if (data.team.teamLeaderEmail && !email.test(data.team.teamLeaderEmail)) {
+        if (data.team.teamLeaderEmail && !utils.isEmailValid(data.team.teamLeaderEmail)) {
             return Promise.reject(messages.notEmail);
         }
 

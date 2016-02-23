@@ -4,6 +4,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import messages from '../messages';
 import UserController from '../user/controller';
+import utils from '../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -19,9 +20,7 @@ class Project {
             },
         });
 
-        const email = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi
-
-        if (data.project.projectLeaderEmail && !email.test(data.project.projectLeaderEmail)) {
+        if (data.project.projectLeaderEmail && !utils.isEmailValid(data.project.projectLeaderEmail)) {
             return Promise.reject(messages.notEmail);
         }
 
