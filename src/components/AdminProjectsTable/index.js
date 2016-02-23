@@ -4,28 +4,57 @@ import ChildrenLine from '../ChildrenLine';
 import AdminProjectForm from '../AdminProjectForm';
 import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
+import * as Actions from '../../redux/project/actions';
+import { connect } from 'react-redux';
 
-export default class AdminProjectsTable extends Component {
+class AdminProjectsTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            projects: []
+        };
+    }
+
+    componentWillMount() {
+        Actions.indexProjects()(this.props.dispatch);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.projects) {
+            this.setState(
+                {
+                    projects: nextProps.projects,
+                    error: null,
+                }
+            );
+        }
+    }
+
     render() {
         return (
             <div className="projects-table">
                 <ul className="projects">
-                    {this.props.projects.map((project, i) => (
+                    {this.state.projects.map((project, i) => (
                         <CollapsableLine key={i}
                             childrenContent={
                                 <ul className="children-content clearfix">
                                     {project.teams.map((team, x) => (
                                         <ChildrenLine key={x}>
-                                            <span className="label uppercase">Team Name: </span> {team.name}
-                                            <span className="label uppercase">Raised: </span> {team.raised}
-                                            <span className="label uppercase">Average Pledge: </span> {team.pledge}
-                                            <span className="label uppercase">$ / HR: </span> {team.pledgePerHour} / hr
+                                            <span className="label uppercase">{'Team Name: '}</span> {team.name}
+                                            <span className="label uppercase">{'Raised: '}</span> {team.raised ? team.raised : 0}
+                                            <span className="label uppercase">{'Average Pledge: '}</span> {team.pledge ? team.pledge : 0}
+                                            <span className="label uppercase">{'$ / HR: '}</span> {team.pledgePerHour ? team.pledgePerHour : 0} {'/ hr'}
                                             <div className="edit-links">
                                                 <ModalButton customClass="btn-link uppercase"
                                                     content={
-                                                        <AdminTeamForm title={"Edit team"}
-                                                            project={project}
-                                                            team={team}
+                                                        <AdminTeamForm
+                                                            title={"Edit team"}
+                                                            defaultData={{
+                                                                project,
+                                                                team,
+                                                            }}
                                                         />
                                                     }
                                                 >
@@ -44,11 +73,11 @@ export default class AdminProjectsTable extends Component {
                             }
                         >
                             <div className="project-details">
-                                <span className="label uppercase">Project Name: </span> {project.name}
+                                <span className="label uppercase">{'Project Name: '}</span> {project.name}
                                 <ModalButton customClass="btn-link uppercase"
                                     content={
                                         <AdminProjectForm title={"Edit Project"}
-                                            project={project}
+                                            defaultData={project}
                                         />
                                     }
                                 >
@@ -56,8 +85,11 @@ export default class AdminProjectsTable extends Component {
                                 </ModalButton>
                                 <ModalButton customClass="btn-link uppercase"
                                     content={
-                                        <AdminTeamForm title={"Add New Team"}
-                                            project={project}
+                                        <AdminTeamForm
+                                            title={"Add New Team"}
+                                            defaultData={{
+                                                project,
+                                            }}
                                         />
                                     }
                                 >
@@ -75,3 +107,8 @@ export default class AdminProjectsTable extends Component {
 AdminProjectsTable.propTypes = {
     projects: React.PropTypes.array,
 };
+
+export default connect((reduxState) => ({
+    error: reduxState.main.project.error,
+    projects: reduxState.main.project.projects,
+}))(AdminProjectsTable);

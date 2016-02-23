@@ -34,4 +34,28 @@ router.post('/api/v1/project', (req, res) => {
     });
 });
 
+router.get('/api/v1/project', (req, res) => {
+    // TODO check rights
+
+    if (!req.session.user) {
+        res.status(404).send();
+        return;
+    }
+
+    projectController.index()
+    .then((response) => {
+        const data = [];
+        response.map((item) => {
+            let project = item.project;
+            project.teams = item.teams;
+            data.push(project);
+        })
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send(err);
+    });
+});
+
 module.exports = router;

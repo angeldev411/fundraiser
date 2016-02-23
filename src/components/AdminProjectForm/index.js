@@ -53,7 +53,7 @@ class AdminProjectForm extends Component {
                     <input type="text"
                         name="name"
                         id="name"
-                        defaultValue={this.props.project ? this.props.project.name : null}
+                        defaultValue={this.props.defaultData ? this.props.defaultData.name : null}
                         onChange={(e) => { this.handleChange(e, 'name') }}
                     />
                     <label htmlFor="name">{'Project Name'}</label>
@@ -67,7 +67,7 @@ class AdminProjectForm extends Component {
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
-                        defaultValue={this.props.project ? this.props.project.slug : null}
+                        defaultValue={this.props.defaultData ? this.props.defaultData.slug : null}
                         onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
                     <label htmlFor="slug">{'Public Url'}</label>
@@ -77,7 +77,7 @@ class AdminProjectForm extends Component {
                     <input type="email"
                         name="projectLeaderEmail"
                         id="projectLeaderEmail"
-                        defaultValue={this.props.project ? this.props.project.projectAdminEmail : null}
+                        defaultValue={this.props.defaultData ? this.props.defaultData.projectAdminEmail : null}
                         onChange={(e) => { this.handleChange(e, 'projectLeaderEmail') }}
                     />
                     <label htmlFor="project-admin-email">{'Project Admin Email (Optional)'}</label>
@@ -89,7 +89,7 @@ class AdminProjectForm extends Component {
                     customClass="btn-green-white"
                     type={'submit'}
                 >
-                    {this.props.project ? 'Edit Project' : 'Create Project'}
+                    {this.props.defaultData ? 'Edit Project' : 'Create Project'}
                 </Button>
             </Form>
         );
@@ -98,7 +98,7 @@ class AdminProjectForm extends Component {
 
 AdminProjectForm.propTypes = {
     title: React.PropTypes.string,
-    project: React.PropTypes.object,
+    defaultData: React.PropTypes.object,
 };
 
 export default connect((reduxState) => ({

@@ -68,9 +68,6 @@ const fixtures = {
         {
             name: `St. John's BuildOn NYC`,
             slug: 'sjbo',
-            // shortDescription: 'build schools for your dollars',
-            // longDescription: 'custom long desc?',
-            // logoImageData: logo('sjbo'),
         },
         {
             name: 'Toy for tots LA',
