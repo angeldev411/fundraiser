@@ -74,52 +74,56 @@ export default class UserList extends Component {
     };
 
     render() {
-        return (
-            <div className={`user-list clearfix color-${this.props.color}`}>
-                <div
-                    className={classNames({
-                        'scroll-button__visible': this.state.previousVisible,
-                        'scroll-button__hidden' : !this.state.previousVisible,
-                    })}
-                    id="previous"
-                    onClick={this.scrollLeft}
-                >
-                    <i className="fa fa-chevron-left"/>
-                </div>
+        if (this.props.team.users) {
+            return (
+                <div className={`user-list clearfix color-${this.props.color}`}>
+                    <div
+                        className={classNames({
+                            'scroll-button__visible': this.state.previousVisible,
+                            'scroll-button__hidden' : !this.state.previousVisible,
+                        })}
+                        id="previous"
+                        onClick={this.scrollLeft}
+                    >
+                        <i className="fa fa-chevron-left"/>
+                    </div>
 
-                <ul id={'scrollable-user-list'}>
-                    {this.props.team.volunteers.map((user, i) =>
-                        (<li
-                            className="user"
-                            key={i}
-                         >
-                            <Link to={Urls.getVolunteerProfileUrl(user.project.slug, user.team.slug, user.slug)}>
-                                <div className="user-face"
-                                    style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
-                                >
-                                    <div className="user-hours">
-                                        <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
+                    <ul id={'scrollable-user-list'}>
+                        {this.props.team.volunteers.map((user, i) =>
+                            (<li
+                                className="user"
+                                key={i}
+                             >
+                                <Link to={Urls.getVolunteerProfileUrl(user.project.slug, user.team.slug, user.slug)}>
+                                    <div className="user-face"
+                                        style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
+                                    >
+                                        <div className="user-hours">
+                                            <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="user-name">{`${user.firstname} ${user.lastname}`}</div>
-                                {this.props.noSponsor ? (null) : <span className="user-sponsor">{'Sponsor Me'}</span>}
-                            </Link>
-                        </li>)
-                    )}
-                </ul>
+                                    <div className="user-name">{`${user.firstname} ${user.lastname}`}</div>
+                                    {this.props.noSponsor ? (null) : <span className="user-sponsor">{'Sponsor Me'}</span>}
+                                </Link>
+                            </li>)
+                        )}
+                    </ul>
 
-                <div
-                    className={classNames({
-                        'scroll-button__visible': this.state.nextVisible,
-                        'scroll-button__hidden' : !this.state.nextVisible,
-                    })}
-                    id="next"
-                    onClick={this.scrollRight}
-                >
-                    <i className="fa fa-chevron-right"/>
+                    <div
+                        className={classNames({
+                            'scroll-button__visible': this.state.nextVisible,
+                            'scroll-button__hidden' : !this.state.nextVisible,
+                        })}
+                        id="next"
+                        onClick={this.scrollRight}
+                    >
+                        <i className="fa fa-chevron-right"/>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return null;
+        }
     }
 }
 

@@ -1,8 +1,9 @@
 'use strict';
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const teamController = require('../team/controller');
+import teamController from '../team/controller';
+import Team from '../team/model';
 
 router.post('/api/v1/team', (req, res) => {
     // TODO check rights
@@ -30,7 +31,19 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
-module.exports = router;
+router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
+    Team.getBySlugs(req.params.projectSlug, req.params.teamSlug)
+    .then((team) => {
+        res.status(200).send(team);
+        return;
+    })
+    .catch((err) => {
+        res.status(404).send();
+        return;
+    });
+});
+
+export default router;
 
 
 // router.get("/api/v1/teams", function(req, res){

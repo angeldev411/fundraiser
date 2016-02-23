@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import Button from '../../../components/Button';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
@@ -48,7 +48,7 @@ export default class AdminTeamProfile extends Component {
 
 
         return (
-            <Page>
+            <AuthenticatedView accessLevel={'TEAM_LEADER'}>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'Edit Team Profile'}
@@ -107,7 +107,7 @@ export default class AdminTeamProfile extends Component {
                         </section>
                     </div>
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }

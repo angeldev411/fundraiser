@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -26,14 +26,14 @@ export default class AdminProjects extends Component {
         }
 
         return (
-            <Page>
+            <AuthenticatedView accessLevel={'PROJECT_LEADER'}>
                 <AdminLayout>
                     <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <AdminSponsorsTable sponsors={sponsors} />
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }

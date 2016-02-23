@@ -12,7 +12,11 @@ export default class TeamProfileBlock extends Component {
             <div className={"container"}>
                 <Layout34 page={'team-profile'}>
                     <img id="team-logo"
-                        src={`${constants.TEAM_IMAGES_FOLDER}/${this.props.team.uniqid}/${this.props.team.logo}`}
+                        src={
+                            this.props.team.logo ?
+                            `${constants.TEAM_IMAGES_FOLDER}/${this.props.team.id}/${this.props.team.logo}`:
+                            `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
+                        }
                         title=""
                     />
                     {this.props.editable ?
@@ -21,7 +25,7 @@ export default class TeamProfileBlock extends Component {
                             name="logo"
                             content={
                                 <EditLogoForm
-                                    value={`${constants.TEAM_IMAGES_FOLDER}/${this.props.team.uniqid}/${this.props.team.logo}`}
+                                    value={`${constants.TEAM_IMAGES_FOLDER}/${this.props.team.id}/${this.props.team.logo}`}
                                 />
                             }
                         >

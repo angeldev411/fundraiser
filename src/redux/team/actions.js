@@ -32,3 +32,19 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
         );
     };
 }
+
+export function getTeam(projectSlug, slug) {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/team/${projectSlug}/${slug}`)
+        .then(
+            (response) => {
+                dispatch(receivedTeam(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(newTeamFailed('Team not found'));
+            }
+        );
+    };
+}

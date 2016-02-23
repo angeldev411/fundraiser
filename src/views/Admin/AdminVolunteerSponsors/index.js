@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
@@ -40,7 +40,7 @@ export default class AdminVolunteerSponsors extends Component {
 
 
         return (
-            <Page>
+            <AuthenticatedView accessLevel={'VOLUNTEER'}>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My sponsors'}
@@ -73,7 +73,7 @@ export default class AdminVolunteerSponsors extends Component {
                         <AdminShareEfforts/>
                     </AdminStatsBlock>
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import Page from '../../../components/Page';
+import AuthenticatedView from '../AuthenticatedView';
 import Button from '../../../components/Button';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -55,7 +55,7 @@ export default class AdminVolunteerProfile extends Component {
         ];
 
         return (
-            <Page>
+            <AuthenticatedView accessLevel={'VOLUNTEER'}>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}
@@ -149,7 +149,7 @@ export default class AdminVolunteerProfile extends Component {
                         </section>
                     </div>
                 </AdminLayout>
-            </Page>
+            </AuthenticatedView>
         );
     }
 }
