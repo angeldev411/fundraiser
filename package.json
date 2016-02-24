@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "front:start": "gulp develop",
-    "server:start": "babel-node server/app.js",
+    "server:start": "./node_modules/.bin/babel-node server/app.js",
     "server:start:dev": "nodemon --exec \"babel-node server/app.js\" --ignore \"sessions\"",
     "test": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\"",
     "TDD": "./node_modules/.bin/mocha --reporter spec --compilers js:babel-register \"./**/*_spec.js\" --watch",
