@@ -194,7 +194,7 @@ class setup {
                 (volunteerMapped, i) => {
                     volunteerMapped.password = volunteerMapped.hashedPassword;
                     delete volunteerMapped.hashedPassword;
-                    if (!i % 2) {
+                    if (!(i % 2)) {
                         return new Volunteer(volunteerMapped, fixtures.teams[0].slug);
                     }
                     return new Volunteer(volunteerMapped, fixtures.teams[1].slug);
