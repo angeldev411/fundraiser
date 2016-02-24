@@ -78,8 +78,17 @@ export default class Volunteer {
         .getResult('user');
     }
 
-    static getVolunteers(teamSlug = null) {
-        if (teamSlug) {
+    static getVolunteers(projectSlug = null, teamSlug = null) {
+        if (projectSlug) {
+            return db.query(
+                `
+                MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM)-[:CONTRIBUTE]->(:PROJECT {slug: {projectSlug}})
+                RETURN users
+                `,
+                {},
+                { projectSlug }
+            ).getResults('users');
+        } else if (teamSlug) {
             return db.query(
                 `
                 MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {slug: {teamSlug}})
@@ -87,7 +96,7 @@ export default class Volunteer {
                 `,
                 {},
                 { teamSlug }
-            ).getResult('users');
+            ).getResults('users');
         }
         return db.query(
             `
