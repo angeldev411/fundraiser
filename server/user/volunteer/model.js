@@ -79,7 +79,7 @@ export default class Volunteer {
     }
 
     static getVolunteers(projectSlug = null, teamSlug = null) {
-        if (projectSlug) {
+        if (!teamSlug && projectSlug) {
             return db.query(
                 `
                 MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM)-[:CONTRIBUTE]->(:PROJECT {slug: {projectSlug}})
