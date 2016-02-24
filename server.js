@@ -1,6 +1,6 @@
 var exec = require('child_process').exec;
 
-var child = exec('/usr/local/bin/npm run server:start', // command line argument directly in string
+var child = exec('PATH="$PATH:/usr/local/bin" && npm run server:start', // command line argument directly in string
   function (error, stdout, stderr) {      // one easy function to capture data/errors
     console.log('stdout: ' + stdout);
     console.error('stderr: ' + stderr);
