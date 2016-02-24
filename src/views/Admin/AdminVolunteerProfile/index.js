@@ -66,19 +66,19 @@ export default class AdminVolunteerProfile extends Component {
                             <form className="col-xs-12 col-md-6">
                                 <div className="form-group">
                                     <input type="text"
-                                        name="firstname"
-                                        id="firstname"
-                                        defaultValue={data.volunteer.firstname ? data.volunteer.firstname : null}
+                                        name="firstName"
+                                        id="firstName"
+                                        defaultValue={data.volunteer.firstName ? data.volunteer.firstName : null}
                                     />
-                                    <label htmlFor="firstname">{'Firstname'}</label>
+                                    <label htmlFor="firstName">{'Firstname'}</label>
                                 </div>
                                 <div className="form-group">
                                     <input type="text"
-                                        name="lastname"
-                                        id="lastname"
-                                        defaultValue={data.volunteer.lastname ? data.volunteer.lastname : null}
+                                        name="lastName"
+                                        id="lastName"
+                                        defaultValue={data.volunteer.lastName ? data.volunteer.lastName : null}
                                     />
-                                    <label htmlFor="lastname">{'Lastname'}</label>
+                                    <label htmlFor="lastName">{'Lastname'}</label>
                                 </div>
                                 <div className="form-group">
                                     <input type="text"

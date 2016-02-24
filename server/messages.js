@@ -18,6 +18,7 @@ export default {
     signup: {
         error: 'There was an error signing you up, sorry. Are you sure you are not already part of a Team or Project?',
         badInviteCode: 'The invite code you are using is not good anymore, sorry',
+        missingData: 'A field is missing, please check your form',
     },
     user: {
         notInDB: 'User does not exist yet.',

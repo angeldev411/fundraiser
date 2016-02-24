@@ -3,12 +3,8 @@ import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 import PledgeButton from '../PledgeButton';
 import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
+import * as constants from '../../common/constants';
 
-const SET_IS_DESKTOP = () => {
-    this.setState({
-        isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
-    });
-};
 
 export default class Cover extends Component {
     constructor(props) {
@@ -20,16 +16,21 @@ export default class Cover extends Component {
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         };
 
-        window.addEventListener('resize', SET_IS_DESKTOP);
+        window.addEventListener('resize', this.SET_IS_DESKTOP);
     }
 
+    SET_IS_DESKTOP = () => {
+        this.setState({
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+        });
+    };
     componentWillUnmount() {
-        window.removeEventListener('resize', SET_IS_DESKTOP);
+        window.removeEventListener('resize', this.SET_IS_DESKTOP);
     }
 
     render() {
         const style = {
-            backgroundImage : `url(${this.props.image})`,
+            backgroundImage : `url(${this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
         };
 
         let COVERCONTENT = null;
@@ -45,7 +46,7 @@ export default class Cover extends Component {
                                 <div className="team-tagline">
                                     <div className="container">
                                         <div className="col-xs-12">
-                                            <p>{this.props.volunteer.team.tagline}</p>
+                                            <p>{this.props.tagline}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -55,8 +56,10 @@ export default class Cover extends Component {
                             </div>
                         </div>
                     </div>
-                    <VolunteerProfileBlock volunteer={this.props.volunteer}
+                    <VolunteerProfileBlock
+                        volunteer={this.props.volunteer}
                         pathname={this.props.pathname}
+                        team={this.props.team}
                     />
                 </div>
             );
@@ -65,19 +68,20 @@ export default class Cover extends Component {
         if (this.props.customclass === 'cover-volunteer-profile') {
             COVERCONTENT = (
                 <div>
-
                     <div className={"cover-content"}>
                         <div className="team-tagline">
                             <div className="container">
                                 <div className="col-xs-12">
-                                    <p>{this.props.volunteer.team.tagline}</p>
+                                    <p>{this.props.tagline}</p>
                                 </div>
                             </div>
                         </div>
                         <PledgeButton customClass="btn-default">
                             {this.props.button}
                         </PledgeButton>
-                        <VolunteerProfileBlock volunteer={this.props.volunteer}
+                        <VolunteerProfileBlock
+                            volunteer={this.props.volunteer}
+                            team={this.props.team}
                             pathname={this.props.pathname}
                         />
                     </div>
@@ -118,7 +122,7 @@ export default class Cover extends Component {
                 <div className={"cover-content container"}>
                     <div className={"logo col-xs-12 col-md-3"}>
                         <span className={"helper"}></span>
-                        <img src={this.props.logo}/>
+                        <img src={this.props.logo || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`}/>
                     </div>
                     <div className="team-tagline col-xs-12 col-md-9">
                         <h1 className={'uppercase'}>{"Welcome to the Team"}</h1>
@@ -144,6 +148,7 @@ Cover.propTypes = {
     image: React.PropTypes.string,
     customclass: React.PropTypes.string,
     tagline: React.PropTypes.string,
+    team: React.PropTypes.object,
     button: React.PropTypes.string,
     logo: React.PropTypes.string,
     volunteer: React.PropTypes.object,

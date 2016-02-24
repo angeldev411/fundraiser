@@ -6,7 +6,7 @@ import { Circle } from 'rc-progress';
 export default class UserProgress extends Component {
     render() {
         const percentage = this.props.user.hours / this.props.user.goal * 100;
-        const backgroundImage = `url(${constants.USER_IMAGES_FOLDER}/${this.props.user.uniqid}/${this.props.user.image})`;
+        const backgroundImage = `url(${constants.USER_IMAGES_FOLDER}/${this.props.user.id}/${this.props.user.image})`;
 
         return (
             <div className="user-progress-container">
@@ -32,7 +32,7 @@ export default class UserProgress extends Component {
                     >
                     </div>
                     <div className="user-name-and-location">
-                        <div className="user-name">{`${this.props.user.firstname} ${this.props.user.lastname}`}</div>
+                        <div className="user-name">{`${this.props.user.firstName} ${this.props.user.lastName}`}</div>
                         <div className="user-location">{this.props.user.location}</div>
                     </div>
                 </div>

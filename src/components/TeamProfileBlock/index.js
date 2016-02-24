@@ -14,7 +14,7 @@ export default class TeamProfileBlock extends Component {
                     <img id="team-logo"
                         src={
                             this.props.team.logo ?
-                            `${constants.TEAM_IMAGES_FOLDER}/${this.props.team.id}/${this.props.team.logo}`:
+                            `${constants.TEAM_IMAGES_FOLDER}/${this.props.team.id}/${this.props.team.logo}` :
                             `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
                         }
                         title=""

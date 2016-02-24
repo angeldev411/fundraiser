@@ -11,10 +11,6 @@ import Cover from '../../components/Cover';
 import TeamProfileBlock from '../../components/TeamProfileBlock';
 import UserList from '../../components/UserList';
 
-// TODO dynamic data
-import * as data from '../../common/test-data';
-const team = data.team;
-
 class TeamProfile extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +25,6 @@ class TeamProfile extends Component {
     }
 
     componentWillMount() {
-        document.title = `${team.name} | Raiserve`;
         Actions.getTeam(
             this.props.params.projectSlug,
             this.props.params.teamSlug,
@@ -47,19 +42,20 @@ class TeamProfile extends Component {
     }
 
     render() {
+        document.title = `${this.state.team.name} | Raiserve`;
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
         const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
         const SHARE_MESSAGE = `${this.state.team.slogan}`;
 
-        // TODO check if user has rights
         const editable = window.location.search.substring(1) === 'edit';
 
         return (
             <Page>
-                <Cover image={
+                <Cover
+                    image={
                         this.state.team.coverImage ?
                         `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}` :
-                        `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}`
+                        null
                     }
                     customclass={"cover-team-profile"}
                     tagline={this.state.team.tagline}

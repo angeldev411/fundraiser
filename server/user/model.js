@@ -55,7 +55,7 @@ export default class User {
 
         return user.save()
         .then((idObject) => {
-            return User.getById(idObject.id);
+            return User.getByID(idObject.id);
         })
         .then((userBrandNew) => {
             return Promise.resolve(userBrandNew);
@@ -134,7 +134,7 @@ export default class User {
         .getResults('roles');
     }
 
-    static getById(id) {
+    static getByID(id) {
         return db.query(
             `
             MATCH (user:USER {id: {id} }) RETURN user

@@ -19,6 +19,16 @@ class Team {
                 id: db.Joi.string().required(),
                 name: db.Joi.string().required(),
                 slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
+                logo: db.Joi.string(),
+                coverImage : db.Joi.string(),
+                tagline: db.Joi.string(),
+                slogan: db.Joi.string(),
+                description: db.Joi.string(),
+                raised : db.Joi.number(),
+                pledge: db.Joi.number(),
+                pledgePerHour : db.Joi.number(),
+                totalHours: db.Joi.number(),
+                totalVolunteers: db.Joi.number(),
             },
         });
 
@@ -27,9 +37,19 @@ class Team {
         }
 
         const team = new Node({
-            id: uuid.v4(),
+            id: data.team.id || uuid.v4(),
             name: data.team.name,
             slug: data.team.slug,
+            logo: data.team.logo,
+            coverImage : data.team.coverImage,
+            tagline: data.team.tagline,
+            slogan: data.team.slogan,
+            description: data.team.description,
+            raised : data.team.raised,
+            pledge: data.team.pledge,
+            pledgePerHour : data.team.pledgePerHour,
+            totalHours: data.team.totalHours,
+            totalVolunteers: data.team.totalVolunteers,
         });
 
         return team.save()

@@ -2,6 +2,7 @@
 import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { VOLUNTEER } from '../roles';
+import slug from 'slug';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -9,6 +10,7 @@ import User from '../model';
 import Hours from '../../hours/model';
 
 export const volunteerSchema = {
+    slug: db.Joi.string(),
     headshotData: db.Joi.object(),
     description: db.Joi.string(),
 };
@@ -16,6 +18,10 @@ export const volunteerSchema = {
 export default class Volunteer {
     constructor(data, teamSlug) {
         let volunteer;
+
+        if (data.firstName && data.lastName) {
+            data.slug = slug(`${data.firstName.toLowerCase()}_${data.lastName.toLowerCase()}`);
+        }
 
         return new User(data, VOLUNTEER)
         .then((volunteerCreated) => {
@@ -60,6 +66,18 @@ export default class Volunteer {
         .getResults('t');
     }
 
+    static getBySlug(volunteerSlug) {
+        return db.query(
+            `
+            MATCH (user:VOLUNTEER {slug: {volunteerSlug}})
+            RETURN user
+            `,
+            {},
+            { volunteerSlug }
+        )
+        .getResult('user');
+    }
+
     static onboard(obj) {
         return Volunteer.create(obj)
         .then((newVolunteer) => db.query(`
@@ -75,50 +93,6 @@ export default class Volunteer {
                 newVolunteer
             )
             .getResult('user'));
-    }
-
-    static insertIntoDb(obj) {
-        console.log("insert vol started " + obj.email);
-
-        return super.insertIntoDb(obj)
-        .then((userSaved) => db.query(
-            `
-            MATCH (team:Team {short_name: {teamShortName} })
-
-            MERGE (user:User {email: {email} })
-            ON CREATE SET user.password = {password}, user.uuid = {uuid}, user.firstName = {firstName}, user.lastName = {lastName}, user.bio = {bio}
-
-            MERGE (user)-[v:VOLUNTEER]->(team)
-            ON CREATE SET v.projectStatement = {projectStatement}
-
-            MERGE (headshot:Image)-[:HEADSHOT]->(user)
-            ON CREATE SET headshot.key = {headshotImageKey}
-
-            RETURN user
-            `,
-            {},
-            userSaved
-        )
-        .getResult('user'));
-    }
-
-    static fetchByUuid(uuid) {
-        return db.query(
-            `
-            MATCH (v:User {uuid: {volunteer_uuid}})<-[:HEADSHOT]-(img:Image)
-            RETURN {
-                firstName: v.firstName,
-                lastName: v.lastName,
-                imageURL: {baseURL} + img.key, bio: v.bio
-            } as volunteer
-            `,
-            {},
-            {
-                volunteer_uuid: uuid,
-                baseURL: config.S3_BASE_URL,
-            }
-        )
-        .getResult('volunteer');
     }
 
     static fetchSponsors(uuid) {

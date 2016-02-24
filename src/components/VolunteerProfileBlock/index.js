@@ -7,7 +7,7 @@ import UserProgress from '../../components/UserProgress';
 export default class VolunteerProfileBlock extends Component {
     render() {
         const SHARE_URL = `${constants.DOMAIN}${this.props.pathname}`;
-        const SHARE_TEXT = `${this.props.volunteer.firstname} ${this.props.volunteer.lastname} from ${this.props.volunteer.team.name} - Raiserve`;
+        const SHARE_TEXT = `${this.props.volunteer.firstName} ${this.props.volunteer.lastName} from ${this.props.team.name} - Raiserve`;
         const SHARE_MESSAGE = `${this.props.volunteer.message}`;
 
         return (
@@ -17,7 +17,7 @@ export default class VolunteerProfileBlock extends Component {
                         <UserProgress user={this.props.volunteer}/>
                     </div>
                     <div className={'col-xs-12 col-md-8 volunteer-description'}>
-                        <div className={'team-slogan'}>{this.props.volunteer.team.slogan}</div>
+                        <div className={'team-slogan'}>{this.props.team.slogan}</div>
                         <p>
                             {this.props.volunteer.message}
                         </p>
