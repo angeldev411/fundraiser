@@ -13,7 +13,19 @@ class AdminVolunteersTable extends Component {
     }
 
     componentWillMount() {
-        Actions.getVolunteers()(this.props.dispatch);
+        const roles = this.props.user.roles;
+
+        // TODO dynamic slugs please
+        let projectSlug = 'bo';
+        let teamSlug = 'sjbo';
+
+        if (roles.indexOf('SUPER_ADMIN') >= 0) {
+            Actions.getVolunteers()(this.props.dispatch);
+        } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
+            Actions.getVolunteers(projectSlug)(this.props.dispatch);
+        } else if (roles.indexOf('TEAM_LEADER') >= 0) {
+            Actions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -104,6 +116,7 @@ AdminVolunteersTable.propTypes = {
 };
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
     error: reduxState.main.volunteer.error,
     volunteers: reduxState.main.volunteer.volunteers,
 }))(AdminVolunteersTable);

@@ -77,9 +77,17 @@ export const getVolunteersError = (error) => ({
     error,
 });
 
-export const getVolunteers = () => {
+export const getVolunteers = (projectSlug = null, teamSlug = null) => {
     return (dispatch) => {
-        return axios.get(`${API_URL}/volunteer`)
+        let apiRoute = `${API_URL}/volunteer`;
+
+        if (projectSlug && !teamSlug) {
+            apiRoute = `${API_URL}/volunteer/${projectSlug}`;
+        } else if (teamSlug) {
+            apiRoute = `${API_URL}/volunteer/${projectSlug}/${teamSlug}`;
+        }
+
+        return axios.get(apiRoute)
         .then(
             (response) => {
                 dispatch(gotVolunteers(response.data));
