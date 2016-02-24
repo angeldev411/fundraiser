@@ -2,6 +2,8 @@
 import express from 'express';
 const router = express.Router();
 import hoursController from '../../hours/controller';
+import volunteerController from './controller';
+import * as AUTH_CHECKER from '../../auth/auth-checker';
 
 router.post('/api/v1/volunteer/record_hours', (req, res) => {
     const hour = {
@@ -19,6 +21,30 @@ router.post('/api/v1/volunteer/record_hours', (req, res) => {
     }).catch((err) => {
         res.status(400).send(err);
         return;
+    });
+});
+
+router.get('/api/v1/volunteer', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || !AUTH_CHECKER.isSuperAdmin(req.session.user)
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    if (!req.session.user) {
+        res.status(404).send();
+        return;
+    }
+
+    volunteerController.index()
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send(err);
     });
 });
 

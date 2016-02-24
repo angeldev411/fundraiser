@@ -78,6 +78,26 @@ export default class Volunteer {
         .getResult('user');
     }
 
+    static getVolunteers(teamSlug = null) {
+        // TODO REMOVE PASSWORD FROM RETURNED DATA
+        if (teamSlug) {
+            return db.query(
+                `
+                MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {slug: {teamSlug}})
+                RETURN users
+                `,
+                {},
+                { teamSlug }
+            ).getResult('users');
+        }
+        return db.query(
+            `
+            MATCH (users:VOLUNTEER)
+            RETURN users
+            `
+        ).getResults('users');
+    }
+
     static onboard(obj) {
         return Volunteer.create(obj)
         .then((newVolunteer) => db.query(`
