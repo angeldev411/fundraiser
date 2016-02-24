@@ -79,7 +79,6 @@ export default class Volunteer {
     }
 
     static getVolunteers(teamSlug = null) {
-        // TODO REMOVE PASSWORD FROM RETURNED DATA
         if (teamSlug) {
             return db.query(
                 `
