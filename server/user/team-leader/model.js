@@ -34,6 +34,24 @@ class TeamLeader {
         });
     }
 
+    static getTeamAndProject(teamLeader) {
+        return db.query(`
+            MATCH (project:PROJECT)<-[:CONTRIBUTE]-(team:TEAM)<-[:LEAD]-(:TEAM_LEADER { id: {userId} })
+            RETURN project, team
+            `,
+            {},
+            {
+                userId: teamLeader.id,
+            }
+        ).getResult('project', 'team')
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static approveHours(hoursID) {
         return leader
         .approveHours(hoursID);

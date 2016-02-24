@@ -29,7 +29,25 @@ class ProjectLeader {
         })
         .catch((err) => {
             return Promise.reject(err);
+        });
+    }
+
+    static getProject(projectLeader) {
+        return db.query(`
+            MATCH (project:PROJECT)<-[:LEAD]-(:PROJECT_LEADER { id: {userId} })
+            RETURN project
+            `,
+            {},
+            {
+                userId: projectLeader.id,
+            }
+        ).getResult('project')
+        .then((project) => {
+            return Promise.resolve(project);
         })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
     }
 
     // TODO: Service changed to Hours (arc)

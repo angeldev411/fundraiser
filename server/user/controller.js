@@ -16,7 +16,28 @@ class userController {
                 return Promise.reject(messages.login.failed);
             }
             if (user.password === credentials.password) {
-                return Promise.resolve(user);
+                if (user.roles.indexOf(roles.PROJECT_LEADER) >= 0) {
+                    return ProjectLeader.getProject(user)
+                    .then((project) => {
+                        user.project = project;
+                        return Promise.resolve(user);
+                    })
+                    .catch((err) => {
+                        return Promise.reject(err);
+                    });
+                } else if (user.roles.indexOf(roles.TEAM_LEADER) >= 0) {
+                    return TeamLeader.getTeamAndProject(user)
+                    .then((data) => {
+                        user.project = data.project;
+                        user.team = data.team;
+                        return Promise.resolve(user);
+                    })
+                    .catch((err) => {
+                        return Promise.reject(err);
+                    });
+                } else {
+                    return Promise.resolve(user);
+                }
             } else {
                 return Promise.reject(messages.login.failed);
             }
@@ -28,6 +49,7 @@ class userController {
 
     static getUserWithRoles(emailOrID) {
         let userPromise;
+
         if (emailOrID.indexOf('@') > 0) {
             userPromise = User.getByEmail(emailOrID);
         } else {
@@ -59,20 +81,21 @@ class userController {
 
     static safe(user) {
         return {
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            slug: user.slug,
-            roles: user.roles,
-            id: user.id,
-            image: user.image,
-            hours: user.hours,
-            goal: user.goal,
-            raised: user.raised,
-            hourPledge: user.hourPledge,
-            sponsors: user.sponsors,
-            location: user.location,
-            message: user.message,
+            ...(user.email ? { email: user.email } : {}),
+            ...(user.firstName ? { firstName: user.firstName } : {}),
+            ...(user.lastName ? { lastName: user.lastName } : {}),
+            ...(user.slug ? { slug: user.slug } : {}),
+            ...(user.roles ? { roles: user.roles } : {}),
+            ...(user.id ? { id: user.id } : {}),
+            ...(user.image ? { image: user.image } : {}),
+            ...(user.hours ? { hours: user.hours } : {}),
+            ...(user.goal ? { goal: user.goal } : {}),
+            ...(user.raised ? { raised: user.raised } : {}),
+            ...(user.hourPledge ? { hourPledge: user.hourPledge } : {}),
+            ...(user.sponsors ? { sponsors: user.sponsors } : {}),
+            ...(user.location ? { location: user.location } : {}),
+            ...(user.message ? { message: user.message } : {}),
+            ...(user.project ? { project: user.project } : {}),
         };
     }
 
