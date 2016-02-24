@@ -43,7 +43,6 @@ router.get('/api/v1/volunteer', (req, res) => {
         res.status(200).send(data);
     })
     .catch((err) => {
-        console.log(err);
         res.status(400).send(err);
     });
 });

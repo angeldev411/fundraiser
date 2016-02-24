@@ -20,7 +20,7 @@ export default class AdminVolunteerProfile extends Component {
 
         this.state = {
             file: {
-                preview: data.volunteer.image ? `${constants.USER_IMAGES_FOLDER}/${data.volunteer.uniqid}/${data.volunteer.image}` : '/assets/images/user.png',
+                preview: data.volunteer.image ? `${constants.USER_IMAGES_FOLDER}/${data.volunteer.uniqid}/${data.volunteer.image}` : `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`,
             },
         };
     }

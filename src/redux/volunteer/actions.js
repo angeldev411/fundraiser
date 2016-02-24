@@ -66,3 +66,29 @@ export const getVolunteer = (id) => {
         );
     };
 };
+
+export const gotVolunteers = (volunteers) => ({
+    type: actionTypes.VOLUNTEERS,
+    volunteers,
+});
+
+export const getVolunteersError = (error) => ({
+    type: actionTypes.VOLUNTEERS_ERROR,
+    error,
+});
+
+export const getVolunteers = () => {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/volunteer`)
+        .then(
+            (response) => {
+                dispatch(gotVolunteers(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getVolunteersError(errorResponse.data));
+            }
+        );
+    };
+};
