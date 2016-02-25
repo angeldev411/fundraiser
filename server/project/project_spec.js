@@ -23,6 +23,22 @@ describe('Project', () => {
         before(loginAsSuperAdmin);
         after(logout);
 
+        it('lets a super admin list all projects', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(200);
+                expect(JSON.parse(body)).to.be.an('array');
+                expect(JSON.parse(body)[0]).to.contain.keys('id');
+                expect(JSON.parse(body)[0]).to.contain.keys('name');
+                expect(JSON.parse(body)[0]).to.contain.keys('slug');
+                expect(body).to.contain(project.name);
+                done();
+            });
+        });
+
         it('lets a super admin create project', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
@@ -69,6 +85,7 @@ describe('Project', () => {
                 done();
             });
         });
+
         it('gives an error if a super admin tries to create project with an empty slug', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
@@ -83,6 +100,7 @@ describe('Project', () => {
                 done();
             });
         });
+
         it('gives an error if a super admin tries to create project with an malformed email', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
