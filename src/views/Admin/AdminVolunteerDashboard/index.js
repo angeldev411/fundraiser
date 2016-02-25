@@ -29,7 +29,6 @@ export default class AdminVolunteerDashboard extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.hourLogsGet) {
-            console.log('Next Props', nextProps.hourLogsGet);
             this.setState({ hours: nextProps.hourLogsGet });
         }
     }
@@ -44,13 +43,10 @@ export default class AdminVolunteerDashboard extends Component {
 
         for (let i = 0; i < hours.length; i++) {
             hourList.push({
-                date: hours[i].date,
+                date: new Date(hours[i].date),
                 'new': parseInt(hours[i].hours, 10),
             });
         }
-
-        console.log('Graph', data.graph);
-        console.log('Hour List', hourList);
 
         return (<AdminVolunteerChart
             data={hourList}
@@ -61,7 +57,6 @@ export default class AdminVolunteerDashboard extends Component {
     }
 
     render() {
-        console.log('Admin Volunteer Dashboard', this);
         const pageNav = [
             {
                 type: 'button',

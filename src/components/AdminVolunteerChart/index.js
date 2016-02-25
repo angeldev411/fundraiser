@@ -49,18 +49,16 @@ export default class AdminVolunteerChart extends Component {
     prepareGraphData = (rawData) => {
         const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
 
-        rawData.map((date) => {
+        rawData.map((dataPoint) => {
             // If date(s) missing, manually create date
-            const dateArray = date.date.split(' ');
-            const d = new Date(dateArray[2], dateArray[1], dateArray[0]);
 
-            if (parseInt(dateArray[0], 10) !== this.state.currentDay) {
-                const diff = d.getDate() - this.state.currentDay;
+            if (dataPoint.date.getDate() !== this.state.currentDay) {
+                const diff = dataPoint.date.getDate() - this.state.currentDay;
 
                 // Add missing item(s)
                 for (let i = 0; i < diff; i++) {
                     this.state.graphData.push({
-                        date: `${this.state.currentDay} ${this.props.currentMonth} ${this.props.currentYear}`,
+                        date: new Date(this.props.currentYear, this.props.currentMonth, this.state.currentDay),
                         'new': 0,
                         total: this.state.totalHours,
                     });
@@ -69,11 +67,11 @@ export default class AdminVolunteerChart extends Component {
             }
 
             // Increment this.state.totalHours
-            this.state.totalHours += date.new;
-            date.total = this.state.totalHours;
+            this.state.totalHours += dataPoint.new;
+            dataPoint.total = this.state.totalHours;
 
             // push data
-            this.state.graphData.push(date);
+            this.state.graphData.push(dataPoint);
             this.state.currentDay++;
         });
 
@@ -83,7 +81,7 @@ export default class AdminVolunteerChart extends Component {
             // Add missing item(s)
             for (let i = 0; i < diff; i++) {
                 this.state.graphData.push({
-                    date: `${this.state.currentDay} ${this.props.currentMonth} ${this.props.currentYear}`,
+                    date: new Date(this.props.currentYear, this.props.currentMonth, this.state.currentDay),
                     'new': 0,
                     total: this.state.totalHours,
                 });
@@ -210,10 +208,9 @@ export default class AdminVolunteerChart extends Component {
             .enter()
             .append('text')
                 .text((d) => {
-                    const dateArray = d.date.split(' ');
-                    const year = dateArray[2];
-                    let month = dateArray[1];
-                    let day = dateArray[0];
+                    const year = d.date.getFullYear();
+                    let month = d.date.getMonth();
+                    let day = d.date.getDate();
 
                     if (month.toString().length === 1) {
                         month = `0${month}`;

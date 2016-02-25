@@ -254,7 +254,7 @@ const fixtures = {
     hours : [
         {
             userUUID: '12341234',
-            hours: 1.0,
+            hours: 9,
             uuid: 'svc10101',
             signatureData: signature('sig1'),
             teamShortName: 'sjbo',
