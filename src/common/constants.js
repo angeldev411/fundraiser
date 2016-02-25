@@ -6,6 +6,7 @@ export const CONTACT_EMAIL = 'contact@raiserve.org';
 
 export const TEAM_IMAGES_FOLDER = '/assets/images/team';
 export const USER_IMAGES_FOLDER = '/assets/images/users';
+export const DEFAULT_AVATAR = 'default-user.png';
 export const DEFAULT_LOGO = 'default-logo.png';
 export const DEFAULT_COVER = 'default-cover.png';
 

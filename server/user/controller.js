@@ -62,6 +62,7 @@ class userController {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
+            slug: user.slug,
             roles: user.roles,
             id: user.id,
             image: user.image,
@@ -73,6 +74,13 @@ class userController {
             location: user.location,
             message: user.message,
         };
+    }
+
+    static safeArray(users) {
+        for (let i = 0; i < users.length; i++) {
+            users[i] = this.safe(users[i]);
+        }
+        return users;
     }
 
     static invite(email, role, slugIfNeedBe) {

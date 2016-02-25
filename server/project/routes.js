@@ -3,8 +3,7 @@ const express = require('express');
 const router = express.Router();
 import * as AUTH_CHECKER from '../auth/auth-checker';
 
-
-const projectController = require('../project/controller');
+import projectController from './controller';
 
 router.post('/api/v1/project', (req, res) => {
     if (
