@@ -96,6 +96,7 @@ class userController {
             ...(user.location ? { location: user.location } : {}),
             ...(user.message ? { message: user.message } : {}),
             ...(user.project ? { project: user.project } : {}),
+            ...(user.team ? { team: user.team } : {}),
         };
     }
 

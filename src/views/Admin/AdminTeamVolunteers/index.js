@@ -1,5 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
+import * as Actions from '../../../redux/volunteer/actions';
+import { connect } from 'react-redux';
 
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
@@ -14,12 +16,56 @@ import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminTeamVolunteers extends Component {
-    componentWillMount() {
-        document.title = 'Team Sponsors | Raiserve';
+class AdminTeamVolunteers extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            volunteers: [],
+        };
     }
 
+    componentWillMount() {
+        document.title = 'Team volunteers | Raiserve';
+
+        if (this.props.user) {
+            this.doAction(this.props.user);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.volunteers) {
+            this.setState(
+                {
+                    volunteers: nextProps.volunteers,
+                    error: null,
+                }
+            );
+        } else if (nextProps.user) {
+            this.doAction(nextProps.user);
+
+            this.setState(
+                {
+                    user: nextProps.user,
+                    error: null,
+                }
+            );
+        }
+    }
+
+    doAction = ((user) => {
+        const projectSlug = user.project.slug;
+        const teamSlug = user.team.slug;
+
+        Actions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+    });
+
     render() {
+        if (!this.props.user) {
+            return (null);
+        }
+
         const pageNav = [
             {
                 type: 'link',
@@ -32,14 +78,14 @@ export default class AdminTeamVolunteers extends Component {
                 content:
                     <AdminInviteTeamMembersForm
                         title={"Invite New Team Members"}
-                        project={data.project}
-                        team={data.team}
+                        project={this.props.user.project}
+                        team={this.props.user.team}
                     />,
             },
             {
                 type: 'link',
                 title: 'My Public Team Page',
-                href: `${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}`,
+                href: `${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`,
             },
             {
                 type: 'link',
@@ -47,7 +93,6 @@ export default class AdminTeamVolunteers extends Component {
                 href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
         ];
-
 
         return (
             <AuthenticatedView accessLevel={'TEAM_LEADER'}>
@@ -60,8 +105,8 @@ export default class AdminTeamVolunteers extends Component {
                                 content={
                                     <AdminInviteTeamMembersForm
                                         title={"Invite Members"}
-                                        project={data.project}
-                                        team={data.team}
+                                        project={this.props.user.project}
+                                        team={this.props.user.team}
                                     />
                                 }
                             >
@@ -70,7 +115,7 @@ export default class AdminTeamVolunteers extends Component {
                         }
                     />
                     <div className={'table-limit-height'}>
-                        <AdminVolunteersTable volunteers={data.team.volunteers}
+                        <AdminVolunteersTable volunteers={this.state.volunteers}
                             actionable
                         />
                     </div>
@@ -99,3 +144,9 @@ export default class AdminTeamVolunteers extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+    error: reduxState.main.volunteer.error,
+    volunteers: reduxState.main.volunteer.volunteers,
+}))(AdminTeamVolunteers);

@@ -57,14 +57,6 @@ class AdminVolunteers extends Component {
 
             Actions.getVolunteers(projectSlug)(this.props.dispatch);
         }
-
-        // Code reminder. TODO move this to Team Leader Team DASHBOARD
-        // else if (roles.indexOf('TEAM_LEADER') >= 0) {
-        //     const projectSlug = user.project.slug;
-        //     const teamSlug = user.team.slug;
-        //
-        //     Actions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
-        // }
     });
 
     render() {
