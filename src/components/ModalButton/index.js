@@ -17,6 +17,8 @@ class ModalButton extends Component {
             nextProps.user && this.state.clicked
             || nextProps.team && this.state.clicked
             || nextProps.project && this.state.clicked
+            || nextProps.hourLogSuccess && this.state.clicked
+
         ) {
             this.handleClick();
         }
@@ -61,4 +63,5 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     team: reduxState.main.team.team,
     project: reduxState.main.project.project,
+    hourLogSuccess: reduxState.main.volunteer.hourLogSuccess,
 }))(ModalButton);
