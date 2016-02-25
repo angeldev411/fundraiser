@@ -1,5 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
+import * as Actions from '../../../redux/project/actions';
+import { connect } from 'react-redux';
 
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
@@ -9,13 +11,31 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminProjectForm from '../../../components/AdminProjectForm';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
-// TODO dynamic data
-import * as data from '../../../common/test-data';
-const projects = data.projects;
+class AdminProjects extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            projects: []
+        };
+    }
 
-export default class AdminProjects extends Component {
     componentWillMount() {
         document.title = 'Edit projects | Raiserve';
+
+        Actions.indexProjects()(this.props.dispatch);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.projects) {
+            this.setState(
+                {
+                    projects: nextProps.projects,
+                    error: null,
+                }
+            );
+        }
     }
 
     render() {
@@ -40,7 +60,7 @@ export default class AdminProjects extends Component {
                             </ModalButton>
                         }
                     />
-                    <AdminProjectsTable projects={projects} />
+                    <AdminProjectsTable projects={this.state.projects} />
                 </AdminLayout>
             </AuthenticatedView>
         );
@@ -50,3 +70,8 @@ export default class AdminProjects extends Component {
 AdminProjects.propTypes = {
     show: React.PropTypes.bool,
 };
+
+export default connect((reduxState) => ({
+    error: reduxState.main.project.error,
+    projects: reduxState.main.project.projects,
+}))(AdminProjects);
