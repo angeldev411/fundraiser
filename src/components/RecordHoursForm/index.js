@@ -14,14 +14,13 @@ export default class RecordHoursForm extends Component {
         this.state = {
             place: '',
             hours: 0,
-            date: moment().format('DD MM YYYY').toString(),
+            date: moment().format('YYYY-MM-DD').toString(),
             supervisor: '',
             signature: ''
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps);
         if (nextProps.hourLogFailure) {
             this.setState({ error: nextProps.hourLogFailure });
         } else if (nextProps.hourLogSuccess) {
@@ -40,8 +39,6 @@ export default class RecordHoursForm extends Component {
             this.state.supervisor,
             signature,
         )(this.props.dispatch);
-
-        console.log(this.state.date);
     };
 
     handleChange = (event, name) => {
@@ -54,10 +51,9 @@ export default class RecordHoursForm extends Component {
     setDate = (value) => {
         this.setState(
             {
-                date: moment.utc(value).local(),
+                date: moment(value).format().toString(),
             }
         );
-        // this.state.date = moment.unix(value/1000).format('DD MM YYYY').toString();
     };
 
     getError = () => {
@@ -92,6 +88,10 @@ export default class RecordHoursForm extends Component {
                             id: 'date',
                         }}
                         onChange={(e) => { this.setDate(e) }}
+                        inputFormat={'YYYY-MM-DD'}
+                        format={'YYYY-MM-DD'}
+                        mode={'date'}
+                        dateTime={this.state.date}
                     />
                     <label htmlFor="date">{'Date'}</label>
                 </div>
