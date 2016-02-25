@@ -9,7 +9,9 @@ import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import AdminVolunteerChart from '../../../components/AdminVolunteerChart';
-
+import * as Actions from '../../../redux/volunteer/actions';
+import { connect } from 'react-redux';
+import moment from 'moment';
 
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
@@ -18,6 +20,40 @@ import * as data from '../../../common/test-data';
 export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
         document.title = 'Dashboard | Raiserve';
+
+        this.state = {
+
+        };
+        Actions.getHourLogs()(this.props.dispatch);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.hourLogsGet) {
+            this.setState({ hours: nextProps.hourLogsGet });
+        }
+    }
+
+    getVolunteerChart() {
+        const hours = this.state.hours;
+        const hourList = [];
+
+        if (!hours || !hours.length) {
+            return '';
+        }
+
+        for (let i = 0; i < hours.length; i++) {
+            hourList.push({
+                date: new Date(hours[i].date),
+                'new': parseInt(hours[i].hours, 10),
+            });
+        }
+
+        return (<AdminVolunteerChart
+            data={hourList}
+            goal={data.volunteer.goal}
+            currentMonth={moment().month() + 1}
+            currentYear={moment().year()}
+                />);
     }
 
     render() {
@@ -38,7 +74,7 @@ export default class AdminVolunteerDashboard extends Component {
                 href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];
-
+        const volunteerChart = this.getVolunteerChart();
 
         return (
             <AuthenticatedView accessLevel={'VOLUNTEER'}>
@@ -48,12 +84,7 @@ export default class AdminVolunteerDashboard extends Component {
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
                         goal={data.volunteer.goal}
                     />
-                    <AdminVolunteerChart
-                        data={data.graph}
-                        goal={data.volunteer.goal}
-                        currentMonth={2}
-                        currentYear={2016}
-                    />
+                    {volunteerChart}
                     <AdminStatsBlock
                         stats={
                             [
@@ -80,3 +111,7 @@ export default class AdminVolunteerDashboard extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    hourLogsGet: reduxState.main.volunteer.hourLogsGet,
+}))(AdminVolunteerDashboard);

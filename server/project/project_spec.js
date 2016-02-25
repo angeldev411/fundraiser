@@ -3,7 +3,6 @@ import fixtures from '../tests_helpers/fixtures';
 import config from '../config';
 import messages from '../messages';
 import uuid from 'uuid';
-import request from 'request';
 import {
     loginAsSuperAdmin,
     loginAsProjectLeader,
@@ -135,6 +134,16 @@ describe('Project', () => {
                 done();
             });
         });
+
+        it('gives an error if a project leader try to list projects', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
     });
 
     describe('as Team Leader', () => {
@@ -154,6 +163,16 @@ describe('Project', () => {
                 done();
             });
         });
+
+        it('gives an error if a team leader try to list projects', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
     });
 
     describe('as Volunteer', () => {
@@ -167,6 +186,16 @@ describe('Project', () => {
                     name: 'Test Project Volunteer',
                     slug: uuid.v4(), // Create a unique slug
                 },
+            }, (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+
+        it('gives an error if a volunteer try to list projects', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
                 expect(response.statusCode).to.equal(404);

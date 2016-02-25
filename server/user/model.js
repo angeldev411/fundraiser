@@ -134,6 +134,21 @@ export default class User {
         .getResults('roles');
     }
 
+    static hoursForUser(id) {
+        if (!id) {
+            return Promise.reject('You must provide an id');
+        }
+        return db.query(
+            `
+            MATCH (u:USER {id: {id} })-[r:VOLUNTEERED]->(c)
+            RETURN c as hours
+            `,
+            {},
+            { id }
+        )
+        .getResults('hours');
+    }
+
     static getByID(id) {
         return db.query(
             `

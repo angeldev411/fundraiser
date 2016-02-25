@@ -1,19 +1,50 @@
 import fixtures from '../tests_helpers/fixtures';
-import hoursController from './controller.js';
+import config from '../config';
+import {
+    loginAsVolunteer,
+    logout,
+    requestCookie,
+} from '../tests_helpers/helpers';
 
 const expect = require('chai').expect;
+const hour = fixtures.hours[0];
 
-describe('Hours', () => {
-    describe('Log', () => {
-        it('stores a hours object in the database', (done) => {
-            const hour = fixtures.hours[0];
+describe('Record Hours', () => {
+    describe('as Volunteer', () => {
+        before(loginAsVolunteer);
+        after(logout);
 
-            hour.signatureData = hour.signatureData.base64;
-            hoursController.log(fixtures.volunteers[0].id, hour).then((result) => {
-                expect(result.id).not.to.be.undefined;
+        it('lets a volunteer record hours', (done) => {
+            requestCookie.post({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/hours`,
+                form: hour,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(200);
+                expect(JSON.parse(body)).to.be.an('object');
+                expect(JSON.parse(body)).to.contain.keys('id');
+                expect(JSON.parse(body)).to.contain.keys('hours');
+                expect(JSON.parse(body)).to.contain.keys('place');
+                expect(JSON.parse(body)).to.contain.keys('date');
+                expect(JSON.parse(body)).to.contain.keys('signature_url');
                 done();
-            }).catch((result) => {
-                expect(result.id).not.to.be.undefined;
+            });
+        });
+
+        it('lets a volunteer list his hours', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/hours`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(200);
+                expect(JSON.parse(body)).to.be.an('array');
+                expect(JSON.parse(body)[0]).to.contain.keys('id');
+                expect(JSON.parse(body)[0]).to.contain.keys('hours');
+                expect(JSON.parse(body)[0]).to.contain.keys('place');
+                expect(JSON.parse(body)[0]).to.contain.keys('date');
+                expect(JSON.parse(body)[0]).to.contain.keys('signature_url');
                 done();
             });
         });

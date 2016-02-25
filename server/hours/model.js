@@ -8,7 +8,7 @@ import Promise from 'bluebird';
 const db = neo4jDB(config.DB_URL);
 
 const Hour = db.defineNode({
-    label: ['Hour'],
+    label: ['HOUR'],
     schemas: {
         'default': {
             id:  db.Joi.string().required(),
@@ -21,24 +21,22 @@ const Hour = db.defineNode({
     },
 });
 
-class Hours {
+class HourRepository {
     static insert(userId, hourValues) {
         return new Promise((resolve, reject) => {
             return (new Hour(hourValues)).save()
             .then((hourCreateResult) => {
                 db.query(`
-                    MATCH (u:VOLUNTEER {id: {userId} }), (h:Hour {id: {id} })
-                    CREATE (u)-[:OWNER]->(h)
+                    MATCH (u:VOLUNTEER {id: {userId} }), (h:HOUR {id: {id} })
+                    CREATE (u)-[:VOLUNTEERED]->(h)
                 `, {}, {
                     id: hourValues.id,
                     userId,
                 })
                 .getResults()
                 .then(() => {
-                    console.log('Rel', hourCreateResult);
-                    resolve(hourCreateResult);
+                    resolve(hourValues);
                 }).catch((error) => {
-                    console.log('Fail Rel',error);
                     reject(null);
                 });
             }).catch((hourCreateError) => {
@@ -48,7 +46,7 @@ class Hours {
     }
 
     static uploadSignature(obj) {
-        const key = `signatures/${obj.uuid}.png`;
+        const key = `signatures/${obj.id}.png`;
 
         return new Promise((resolve, reject) => {
             util.uploadToS3(
@@ -70,4 +68,4 @@ class Hours {
     }
 }
 
-export default Hours;
+export default HourRepository;

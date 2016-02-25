@@ -113,7 +113,7 @@ describe('Security', () => {
         });
         it('accessing a volunteer route gives an 400 if I am a volunteer because my request in not good', (done) => {
             requestCookie.post({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer/record_hours`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/hours`,
                 form: {
                     email: `${uuid.v4()}@${uuid.v4()}.ca`,
                     teamSlug: fixtures.teams[2].slug,
