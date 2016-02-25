@@ -19,7 +19,7 @@ export const hourLogsGet = (hours) => ({
 
 export const getHourLogs = () => {
     return (dispatch) => {
-        return axios.post(`${API_URL}/volunteer/get_hours`, {})
+        return axios.get(`${API_URL}/hours`, {})
         .then(
             (response) => {
                 dispatch(hourLogsGet(response.data));
@@ -30,12 +30,12 @@ export const getHourLogs = () => {
                 dispatch(hourLogsGet([]));
             }
         );
-    }
+    };
 };
 
 export const createHourLog = (place, hours, date, supervisor, signature) => {
     return (dispatch) => {
-        return axios.post(`${API_URL}/volunteer/record_hours`, {
+        return axios.post(`${API_URL}/volunteer/hours`, {
             place,
             hours,
             date,

@@ -6,25 +6,6 @@ import * as AUTH_CHECKER from '../../auth/auth-checker';
 import hoursController from '../../hours/controller';
 import UserController from '../controller';
 
-router.post('/api/v1/volunteer/record_hours', (req, res) => {
-    const hour = {
-        hours: req.body.hours,
-        signatureData: req.body.signature,
-        place: req.body.place,
-        date: req.body.date,
-        supervisorName: req.body.supervisor,
-    };
-
-    // console.log(hoursController.log(req.session.user.id, hour));
-    hoursController.log(req.session.user.id, hour).then((result) => {
-        res.status(200).send(result);
-        return;
-    }).catch((err) => {
-        res.status(400).send(err);
-        return;
-    });
-});
-
 router.get('/api/v1/volunteer', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)
@@ -97,18 +78,6 @@ router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
         res.status(200).send(data);
     })
     .catch((err) => {
-        res.status(400).send(err);
-    });
-});
-
-router.post('/api/v1/volunteer/get_hours', (req, res) => {
-    if (!req.session.user) {
-        res.status(403).send('Not logged in');
-    }
-
-    UserController.getUserWithHours(req.session.user.id).then((result) => {
-        res.status(200).send(result);
-    }).catch((err) => {
         res.status(400).send(err);
     });
 });

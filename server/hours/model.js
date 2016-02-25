@@ -21,13 +21,6 @@ const Hour = db.defineNode({
     },
 });
 
-const Relationship = db.defineRelationship({
-    type: 'LOVE',
-    schema: {
-        description: db.Joi.string(),
-    },
-});
-
 class HourRepository {
     static insert(userId, hourValues) {
         return new Promise((resolve, reject) => {
@@ -42,10 +35,8 @@ class HourRepository {
                 })
                 .getResults()
                 .then(() => {
-                    console.log('Rel', hourCreateResult);
-                    resolve(hourCreateResult);
+                    resolve(hourValues);
                 }).catch((error) => {
-                    console.log('Fail Rel',error);
                     reject(null);
                 });
             }).catch((hourCreateError) => {
@@ -55,7 +46,7 @@ class HourRepository {
     }
 
     static uploadSignature(obj) {
-        const key = `signatures/${obj.uuid}.png`;
+        const key = `signatures/${obj.id}.png`;
 
         return new Promise((resolve, reject) => {
             util.uploadToS3(

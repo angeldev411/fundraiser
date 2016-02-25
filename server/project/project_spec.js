@@ -3,7 +3,6 @@ import fixtures from '../tests_helpers/fixtures';
 import config from '../config';
 import messages from '../messages';
 import uuid from 'uuid';
-import request from 'request';
 import {
     loginAsSuperAdmin,
     loginAsProjectLeader,
