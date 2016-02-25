@@ -149,7 +149,7 @@ export default class User {
         .getResults('hours');
     }
 
-    static getById(id) {
+    static getByID(id) {
         return db.query(
             `
             MATCH (user:USER {id: {id} }) RETURN user
