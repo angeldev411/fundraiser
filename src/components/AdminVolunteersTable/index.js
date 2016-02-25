@@ -1,50 +1,8 @@
 import React, { Component } from 'react';
 import Button from '../Button';
 import * as constants from '../../common/constants';
-import * as Actions from '../../redux/volunteer/actions';
-import { connect } from 'react-redux';
 
-class AdminVolunteersTable extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            volunteers: []
-        };
-    }
-
-    componentWillMount() {
-        const roles = this.props.user.roles;
-
-        if (roles.indexOf('SUPER_ADMIN') >= 0) {
-            Actions.getVolunteers()(this.props.dispatch);
-        } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
-            const projectSlug = this.props.user.project.slug;
-
-            Actions.getVolunteers(projectSlug)(this.props.dispatch);
-        }
-
-        // Code reminder. TODO move this to Team Leader Team DASHBOARD
-        // else if (roles.indexOf('TEAM_LEADER') >= 0) {
-        //     const projectSlug = this.props.user.project.slug;
-        //     const teamSlug = this.props.user.team.slug;
-        //
-        //     Actions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
-        // }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.error) {
-            this.setState({ error: nextProps.error });
-        } else if (nextProps.volunteers) {
-            this.setState(
-                {
-                    volunteers: nextProps.volunteers,
-                    error: null,
-                }
-            );
-        }
-    }
-
+export default class AdminVolunteersTable extends Component {
     render() {
         return (
             <div className="table-responsive">
@@ -82,7 +40,7 @@ class AdminVolunteersTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.volunteers.map((volunteer, i) => (
+                        {this.props.volunteers.map((volunteer, i) => (
                             <tr key={i}>
                                 <td className="volunteer-name">
                                     {volunteer.image ?
@@ -118,9 +76,3 @@ AdminVolunteersTable.propTypes = {
     volunteers: React.PropTypes.array,
     actionable: React.PropTypes.bool,
 };
-
-export default connect((reduxState) => ({
-    user: reduxState.main.auth.user,
-    error: reduxState.main.volunteer.error,
-    volunteers: reduxState.main.volunteer.volunteers,
-}))(AdminVolunteersTable);
