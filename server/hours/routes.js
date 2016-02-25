@@ -14,11 +14,6 @@ router.post('/api/v1/hours', (req, res) => {
         return;
     }
 
-    if (!req.session.user) {
-        res.status(404).send();
-        return;
-    }
-
     const hour = {
         hours: req.body.hours,
         signatureData: req.body.signature,
@@ -37,8 +32,12 @@ router.post('/api/v1/hours', (req, res) => {
 });
 
 router.get('/api/v1/hours', (req, res) => {
-    if (!req.session.user) {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || !AUTH_CHECKER.isVolunteer(req.session.user)
+    ) {
         res.status(404).send();
+        return;
     }
 
     UserController.getUserWithHours(req.session.user.id).then((result) => {

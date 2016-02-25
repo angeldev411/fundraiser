@@ -15,11 +15,6 @@ router.get('/api/v1/volunteer', (req, res) => {
         return;
     }
 
-    if (!req.session.user) {
-        res.status(404).send();
-        return;
-    }
-
     volunteerController.index()
     .then((data) => {
         res.status(200).send(data);
@@ -37,11 +32,6 @@ router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
             && !AUTH_CHECKER.isSuperAdmin(req.session.user)
         )
     ) {
-        res.status(404).send();
-        return;
-    }
-
-    if (!req.session.user) {
         res.status(404).send();
         return;
     }
@@ -64,11 +54,6 @@ router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
             && !AUTH_CHECKER.isSuperAdmin(req.session.user)
         )
     ) {
-        res.status(404).send();
-        return;
-    }
-
-    if (!req.session.user) {
         res.status(404).send();
         return;
     }

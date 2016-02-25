@@ -21,11 +21,6 @@ router.post('/api/v1/project', (req, res) => {
         projectLeaderEmail: req.body.projectLeaderEmail,
     };
 
-    if (!req.session.user) {
-        res.status(404).send();
-        return;
-    }
-
     const data = {
         project,
         currentUser: req.session.user,
@@ -42,9 +37,10 @@ router.post('/api/v1/project', (req, res) => {
 });
 
 router.get('/api/v1/project', (req, res) => {
-    // TODO check rights
-
-    if (!req.session.user) {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || !AUTH_CHECKER.isSuperAdmin(req.session.user)
+    ) {
         res.status(404).send();
         return;
     }

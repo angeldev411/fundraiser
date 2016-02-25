@@ -35,7 +35,7 @@ export const getHourLogs = () => {
 
 export const createHourLog = (place, hours, date, supervisor, signature) => {
     return (dispatch) => {
-        return axios.post(`${API_URL}/volunteer/hours`, {
+        return axios.post(`${API_URL}/hours`, {
             place,
             hours,
             date,
