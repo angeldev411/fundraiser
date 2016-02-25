@@ -8,7 +8,7 @@ import Promise from 'bluebird';
 const db = neo4jDB(config.DB_URL);
 
 const Hour = db.defineNode({
-    label: ['Hour'],
+    label: ['HOUR'],
     schemas: {
         'default': {
             id:  db.Joi.string().required(),
@@ -27,8 +27,8 @@ class HourRepository {
             return (new Hour(hourValues)).save()
             .then((hourCreateResult) => {
                 db.query(`
-                    MATCH (u:VOLUNTEER {id: {userId} }), (h:Hour {id: {id} })
-                    CREATE (u)-[:OWNER]->(h)
+                    MATCH (u:VOLUNTEER {id: {userId} }), (h:HOUR {id: {id} })
+                    CREATE (u)-[:VOLUNTEERED]->(h)
                 `, {}, {
                     id: hourValues.id,
                     userId,

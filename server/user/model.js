@@ -140,7 +140,7 @@ export default class User {
         }
         return db.query(
             `
-            MATCH (u:USER {id: {id} })-[r:OWNER]->(c)
+            MATCH (u:USER {id: {id} })-[r:VOLUNTEERED]->(c)
             RETURN c as hours
             `,
             {},
