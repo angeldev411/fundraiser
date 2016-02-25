@@ -19,6 +19,7 @@ import projectController from '../project/controller';
 import project from '../project/model';
 import donation from '../pledge/donation';
 import pledge from '../pledge/model';
+import HourRepository from '../hours/model';
 
 class setup {
     static wipeDb() {
@@ -212,6 +213,28 @@ class setup {
         });
     }
 
+    static addHours() {
+        return Promise.all(
+            fixtures.hours.map(
+                (hour, i) => {
+                    if (!(i % 2)) {
+                        return HourRepository.insert(fixtures.volunteers[0].id, fixtures.hours[i])
+                    }
+                    return HourRepository.insert(fixtures.volunteers[1].id, fixtures.hours[i]);
+                }
+            )
+        ).then((user) => {
+            if (user) {
+                console.log('Hours : ok');
+                return;
+            }
+            console.error('Hours : empty');
+        })
+        .catch((err) => {
+            console.error('Hours :', err);
+        });
+    }
+
     /*
     these donor data may not be complete for the needed semanatics.
     - donation is always the total amount either entered or derived from pledges
@@ -269,6 +292,7 @@ setTimeout(() => {
     .then(setup.addTeamLeaders)
     .then(setup.addProjectLeaders)
     .then(setup.addVolunteers)
+    .then(setup.addHours)
     .then(setup.addSimpleDonations)
     .then(setup.addPledges)
     .then(setup.addLoggedService)
