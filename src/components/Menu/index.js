@@ -52,9 +52,26 @@ class Menu extends Component {
 
     logout = () => {
         Actions.logout()(this.props.dispatch);
+        if (window.location.pathname !== '/') {
+            window.location.href = '/';
+        }
     };
 
     render() {
+        let dashboardUrl = null;
+
+        if (this.state.user) {
+            if (this.state.user.roles.indexOf('SUPER_ADMIN') >= 0) {
+                dashboardUrl = Urls.ADMIN_PROJECTS_URL;
+            } else if (this.state.user.roles.indexOf('PROJECT_LEADER') >= 0) {
+                dashboardUrl = Urls.ADMIN_TEAMS_URL;
+            } else if (this.state.user.roles.indexOf('TEAM_LEADER') >= 0) {
+                dashboardUrl = Urls.ADMIN_TEAM_DASHBOARD_URL;
+            } else if (this.state.user.roles.indexOf('VOLUNTEER') >= 0) {
+                dashboardUrl = Urls.ADMIN_VOLUNTEER_DASHBOARD_URL;
+            }
+        }
+
         // TODO address microformat
         const mobileMenu = (
             <div>
@@ -162,10 +179,16 @@ class Menu extends Component {
                             <li className={'login-container'}>
                                 {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
                                 {this.state.user ?
-                                    <Button
-                                        onClick={this.logout}
-                                        customClass={'btn-default'}
-                                    >{'Logout'}</Button> :
+                                    <span>
+                                        <Button
+                                            to={dashboardUrl}
+                                            customClass={'btn-default'}
+                                        >{'Dashboard'}</Button>
+                                        <Button
+                                            onClick={this.logout}
+                                            customClass={'btn-default'}
+                                        >{'Logout'}</Button>
+                                    </span> :
                                     <ModalButton
                                         customClass="btn-default"
                                         content={<SigninForm/>}
@@ -206,10 +229,16 @@ class Menu extends Component {
                 <span className={'login-container pull-right'}>
                     {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
                     {this.state.user ?
-                        <Button
-                            onClick={this.logout}
-                            customClass={'btn-default'}
-                        >{'Logout'}</Button> :
+                        <span>
+                            <Button
+                                to={dashboardUrl}
+                                customClass={'btn-default'}
+                            >{'Dashboard'}</Button>
+                            <Button
+                                onClick={this.logout}
+                                customClass={'btn-default'}
+                            >{'Logout'}</Button>
+                        </span> :
                         <ModalButton
                             customClass="btn-default"
                             content={<SigninForm/>}
