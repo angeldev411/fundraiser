@@ -50,6 +50,8 @@ export default class AdminVolunteerChart extends Component {
         const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
 
         rawData.map((dataPoint) => {
+            console.log(dataPoint);
+            console.log(dataPoint.date.getDate());
             // If date(s) missing, manually create date
 
             if (dataPoint.date.getDate() !== this.state.currentDay) {
@@ -209,7 +211,7 @@ export default class AdminVolunteerChart extends Component {
             .append('text')
                 .text((d) => {
                     const year = d.date.getFullYear();
-                    let month = d.date.getMonth();
+                    let month = d.date.getMonth() + 1;
                     let day = d.date.getDate();
 
                     if (month.toString().length === 1) {
