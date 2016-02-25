@@ -13,7 +13,23 @@ class AdminVolunteersTable extends Component {
     }
 
     componentWillMount() {
-        Actions.getVolunteers()(this.props.dispatch);
+        const roles = this.props.user.roles;
+
+        if (roles.indexOf('SUPER_ADMIN') >= 0) {
+            Actions.getVolunteers()(this.props.dispatch);
+        } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
+            const projectSlug = this.props.user.project.slug;
+
+            Actions.getVolunteers(projectSlug)(this.props.dispatch);
+        }
+
+        // Code reminder. TODO move this to Team Leader Team DASHBOARD
+        // else if (roles.indexOf('TEAM_LEADER') >= 0) {
+        //     const projectSlug = this.props.user.project.slug;
+        //     const teamSlug = this.props.user.team.slug;
+        //
+        //     Actions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+        // }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -104,6 +120,7 @@ AdminVolunteersTable.propTypes = {
 };
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
     error: reduxState.main.volunteer.error,
     volunteers: reduxState.main.volunteer.volunteers,
 }))(AdminVolunteersTable);

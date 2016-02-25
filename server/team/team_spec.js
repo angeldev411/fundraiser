@@ -176,7 +176,7 @@ describe('Team', () => {
     describe('GET', () => {
         it('gives a 200 if the team exists', (done) => {
             request.get({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${fixtures.projects[1].slug}/${fixtures.teams[0].slug}`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${fixtures.projects[0].slug}/${fixtures.teams[0].slug}`,
             },
             (error, response, body) => {
                 expect(error).to.be.a('null');

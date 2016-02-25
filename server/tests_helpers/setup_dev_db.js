@@ -143,7 +143,7 @@ class setup {
                         team,
                         currentUser: fixtures.superAdmins[0],
                     },
-                    fixtures.projects[1].slug,
+                    fixtures.projects[0].slug,
                 );
             }
             return teamController.store(
@@ -151,7 +151,7 @@ class setup {
                     team,
                     currentUser: fixtures.superAdmins[0],
                 },
-                fixtures.projects[0].slug,
+                fixtures.projects[1].slug,
             );
         });
 
@@ -191,10 +191,13 @@ class setup {
     static addVolunteers() {
         return Promise.all(
             fixtures.volunteers.map(
-                (volunteerMapped) => {
+                (volunteerMapped, i) => {
                     volunteerMapped.password = volunteerMapped.hashedPassword;
                     delete volunteerMapped.hashedPassword;
-                    return new Volunteer(volunteerMapped, fixtures.teams[0].slug);
+                    if (!(i % 2)) {
+                        return new Volunteer(volunteerMapped, fixtures.teams[0].slug);
+                    }
+                    return new Volunteer(volunteerMapped, fixtures.teams[1].slug);
                 }
             )
         ).then((user) => {

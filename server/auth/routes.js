@@ -32,7 +32,7 @@ router.post('/api/v1/auth/login', (req, res) => {
     .catch((err) => {
         console.error(`[AUTH] Credentials failed: ${err}`);
 
-        req.session.userUUID = null;
+        req.session.user = null;
         res.status(401).send(err);
     });
 });
