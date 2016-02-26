@@ -26,12 +26,9 @@ router.post('/api/v1/auth/login', (req, res) => {
         }
         req.session.user = user;
 
-        // console.log(`[AUTH] User connected`, user);
         res.status(200).send(userController.safe(user));
     })
     .catch((err) => {
-        // console.error(`[AUTH] Credentials failed: ${err}`);
-
         req.session.user = null;
         res.status(401).send(err);
     });
@@ -46,11 +43,7 @@ router.get('/api/v1/auth/whoami', (req, res) => {
 });
 
 router.get('/api/v1/auth/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            // console.error('[AUTH] Couldnt destroy session');
-        }
-    });
+    req.session.destroy();
     res.status(200).send(messages.logout);
 });
 

@@ -10,7 +10,7 @@ class volunteerController {
             return Promise.resolve(UserController.safeArray(volunteers));
         })
         .catch((err) => {
-            // console.log(err);
+            return Promise.reject(err);
         });
     }
 }
