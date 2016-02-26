@@ -28,6 +28,7 @@ import volunteersRoutes from './user/volunteer/routes';
 import superAdminRoutes from './user/super-admin/routes';
 import teamLeadersRoutes from './user/team-leader/routes';
 import projectLeadersRoutes from './user/project-leader/routes';
+import sponsorRoutes from './user/sponsor/routes';
 import hoursRoutes from './hours/routes';
 
 app.use(authRoutes);
@@ -39,6 +40,7 @@ app.use(superAdminRoutes);
 app.use(teamLeadersRoutes);
 app.use(projectLeadersRoutes);
 app.use(hoursRoutes);
+app.use(sponsorRoutes);
 
 app.use('/api/v1/*', (req, res) => {
     res.status(404).send();

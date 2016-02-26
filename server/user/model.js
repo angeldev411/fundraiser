@@ -7,11 +7,16 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import Promise from 'bluebird';
 
+import * as roles from './roles';
+
+
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
 
 const defaultSchema = {
     id: db.Joi.string().required(),
+    firstName: db.Joi.string().optional(),
+    lastName: db.Joi.string().optional(),
     email: db.Joi.string().email().required(),
     password: db.Joi.string().required(),
 };
@@ -36,10 +41,14 @@ export default class User {
         if (!data.id) {
             data.id = UUID.v4();
         }
+
         if (!data.password) {
-            data.inviteCode = UUID.v4();
+            if (label !== roles.SPONSOR) { // Sponsors don't have invite code
+                data.inviteCode = UUID.v4();
+            }
             data.password = '';
         }
+
         const labels = ['USER'];
 
         if (label) {

@@ -30,4 +30,7 @@ export default {
         error: 'Sorry, the email you entered is either invalid or the user is already part of a Team or Project.',
     },
     notEmail: 'The email is not a valid email.',
+    sponsor: {
+        missingData: 'A field is missing, please check your form',
+    },
 };
