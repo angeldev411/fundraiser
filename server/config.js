@@ -10,7 +10,7 @@ export default {
     EXPRESS_PORT: process.env.PORT || 3777,
     SESSION_CONFIG: {
         secret: 'rsn0telll33333',
-        store: new FileStore(),
+        store: new FileStore({ logFn: function(){} }), // Remove logFn to debug
         resave: false,
         saveUninitialized: false,
         unset: 'destroy',
