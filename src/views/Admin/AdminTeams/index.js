@@ -54,8 +54,6 @@ class AdminTeams extends Component {
             return (null);
         }
 
-        console.log(this.props.user.project);
-
         const pageNav = [
             {
                 type: 'button',
