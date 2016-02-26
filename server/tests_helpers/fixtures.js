@@ -208,34 +208,47 @@ const fixtures = {
             firstName: 'Renee',
             lastName: 'Raeburn',
             email: 'rr@aol.com',
-            hourly: 10,
-            cap: 100,
         },
         {
             firstName: 'Dennis',
             lastName: 'Lord',
             email: 'dlord@aol.com',
-            hourly: 1,
-            cap: 1000,
         },
         {
             firstName: 'Jacob',
             lastName: 'Lawler',
             email: 'jl@aol.com',
-            hourly: 2.15,
-            cap: 500,
         },
         {
             firstName: 'Dani',
             lastName: 'Boehle',
             email: 'db@aol.com',
-            hourly: 1.10,
-            cap: 500,
         },
         {
             firstName: 'Frank',
             lastName: 'Boehle',
             email: 'fb@aol.com',
+        },
+    ],
+
+    pledges : [
+        {
+            hourly: 10,
+            cap: 100,
+        },
+        {
+            hourly: 1,
+            cap: 1000,
+        },
+        {
+            hourly: 2.15,
+            cap: 500,
+        },
+        {
+            hourly: 1.10,
+            cap: 500,
+        },
+        {
             hourly: 3,
             cap: 700,
         },
@@ -324,6 +337,14 @@ const fixtures = {
         name: 'TEST PROJECT',
         slug: 'test-project',
         shortDescription: 'Bring toys to the tots I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+    },
+
+    testSponsor : {
+        firstName: 'Test',
+        lastName: 'Sponsor',
+        email: 'test-sponsor@test.com',
+        hourly: 10,
+        cap: 100,
     },
 
 };

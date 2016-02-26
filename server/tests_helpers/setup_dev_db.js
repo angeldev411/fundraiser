@@ -8,6 +8,7 @@ import fixtures from './fixtures';
 
 import User from '../user/model';
 import Volunteer from '../user/volunteer/model';
+import Sponsor from '../user/sponsor/model';
 import company from '../user/corporate/company';
 import SuperAdmin from '../user/super-admin/model';
 import Corporate from '../user/corporate/model';
@@ -235,6 +236,28 @@ class setup {
         });
     }
 
+    static addSponsors() {
+        return Promise.all(
+            fixtures.sponsors.map(
+                (sponsor, i) => {
+                    if (!(i % 2)) {
+                        return new Sponsor(sponsor, fixtures.pledges[i], fixtures.teams[0].slug);
+                    }
+                    return new Sponsor(sponsor, fixtures.pledges[i], fixtures.teams[1].slug);
+                }
+            )
+        ).then((sponsor) => {
+            if (sponsor) {
+                console.log('Sponsors : ok');
+                return;
+            }
+            console.error('Sponsors : empty');
+        })
+        .catch((err) => {
+            console.error('Sponsors :', err);
+        });
+    }
+
     /*
     these donor data may not be complete for the needed semanatics.
     - donation is always the total amount either entered or derived from pledges
@@ -293,10 +316,11 @@ setTimeout(() => {
     .then(setup.addProjectLeaders)
     .then(setup.addVolunteers)
     .then(setup.addHours)
-    .then(setup.addSimpleDonations)
-    .then(setup.addPledges)
-    .then(setup.addLoggedService)
-    .then(setup.addServiceApprovals)
+    .then(setup.addSponsors)
+    // .then(setup.addSimpleDonations)
+    // .then(setup.addPledges)
+    // .then(setup.addLoggedService)
+    // .then(setup.addServiceApprovals)
     .then(() => {
         process.exit();
     })

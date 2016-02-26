@@ -147,3 +147,24 @@ export const deleteTestProject = (done) => {
         console.log('FAIL', err);
     });
 };
+
+export const deleteTestSponsor = (done) => {
+    // Remove the sponsor we just created
+    return Promise.resolve(
+        db.query(
+            `
+            MATCH (sponsor:SPONSOR {email: {email}})
+            DETACH DELETE sponsor
+            `,
+            {},
+            {
+                email: fixtures.testSponsor.email,
+            }
+        )
+    ).then((response) => {
+        done();
+    })
+    .catch((err) => {
+        console.log('FAIL', err);
+    });
+};
