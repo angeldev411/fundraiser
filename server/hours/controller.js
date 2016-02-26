@@ -17,7 +17,7 @@ class hoursController {
                     reject(result);
                 });
             }).catch((result) => {
-                console.log('[HOUR CONTROLLER] Error', result);
+                // console.log('[HOUR CONTROLLER] Error', result);
                 reject(result);
             });
         });

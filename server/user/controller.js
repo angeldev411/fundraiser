@@ -137,7 +137,7 @@ class userController {
             return Promise.resolve(user);
         })
         .catch((err) => {
-            console.log(err);
+            // console.log(err);
             return Promise.reject('User already in DB');
         });
     }
@@ -178,7 +178,7 @@ class userController {
             return Promise.resolve(user);
         })
         .catch((err) => {
-            console.error('[USER CONTROLLER] error:', err);
+            // console.error('[USER CONTROLLER] error:', err);
             return Promise.reject(err);
         });
     }

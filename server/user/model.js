@@ -70,7 +70,7 @@ export default class User {
             return Promise.resolve(userBrandNew);
         })
         .catch((err) => {
-            console.error('[USER] Couldnt save user ', err);
+            // console.error('[USER] Couldnt save user ', err);
             return Promise.reject(err);
         });
     }

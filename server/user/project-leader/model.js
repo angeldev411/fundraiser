@@ -52,7 +52,7 @@ class ProjectLeader {
 
     // TODO: Service changed to Hours (arc)
     static findServiceNeedingApprovalByTeam(obj) {
-        console.log(obj);
+        // console.log(obj);
 
         return db.query(
             `
@@ -90,7 +90,7 @@ class ProjectLeader {
 
     // expects obj.email and obj.inviteUUID
     static onboard(obj) {
-        console.log(obj);
+        // console.log(obj);
 
         return db.query(
             `
