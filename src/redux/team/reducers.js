@@ -11,7 +11,14 @@ export default function reducers(state = initialState, action) {
                 error: null,
             };
 
-        case actionTypes.NEW_TEAM_FAIL:
+        case actionTypes.GOT_TEAMS:
+            return {
+                ...state,
+                teams: action.teams,
+                error: null,
+            };
+
+        case actionTypes.GET_TEAMS_FAIL:
             return {
                 ...state,
                 error: action.error,

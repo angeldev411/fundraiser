@@ -89,6 +89,20 @@ class Team {
         });
     }
 
+    static getByProject(userId, projectSlug) {
+        return db.query(`
+                MATCH (teams:TEAM)-[:CONTRIBUTE]->(project:PROJECT {slug: {projectSlug}})<-[:LEAD]-(user:PROJECT_LEADER { id: {userId}})
+                RETURN teams
+            `,
+            {},
+            {
+                userId,
+                projectSlug,
+            }
+        )
+        .getResults('teams');
+    }
+
     static getBySlugs(projectSlug, teamSlug) {
         return db.query(`
                 MATCH (team:TEAM {slug: {teamSlug} })-[:CONTRIBUTE]->(project:PROJECT {slug: {projectSlug}})

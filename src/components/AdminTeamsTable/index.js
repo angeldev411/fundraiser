@@ -17,7 +17,7 @@ export default class AdminTeamsTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.project.teams.map((team, i) => (
+                        {this.props.teams.map((team, i) => (
                             <tr key={i}>
                                 <td className={'team-name'}>{team.name}</td>
                                 <td>{team.raised}</td>
@@ -29,8 +29,12 @@ export default class AdminTeamsTable extends Component {
                                             <ModalButton customClass="btn-link uppercase"
                                                 content={
                                                     <AdminTeamForm title={"Edit team"}
-                                                        project={this.props.project}
-                                                        team={team}
+                                                        defaultData={
+                                                            {
+                                                                project: this.props.project,
+                                                                team,
+                                                            }
+                                                        }
                                                     />
                                                 }
                                             >
@@ -54,6 +58,7 @@ export default class AdminTeamsTable extends Component {
 }
 
 AdminTeamsTable.propTypes = {
+    teams: React.PropTypes.array,
     project: React.PropTypes.object,
     actionable: React.PropTypes.bool,
 };

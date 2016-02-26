@@ -41,6 +41,36 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
+router.get('/api/v1/team/:projectSlug', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isProjectLeader(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    if (!req.params.projectSlug) {
+        res.status(404).send();
+        return;
+    }
+    Team.getByProject(req.session.user.id, req.params.projectSlug)
+    .then((teams) => {
+        if (!teams[0]) {
+            res.status(404).send();
+            return
+        }
+        res.status(200).send(teams);
+        return;
+    })
+    .catch((err) => {
+        res.status(404).send();
+        return;
+    });
+});
+
 router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
     if (!req.params.projectSlug || !req.params.teamSlug) {
         res.status(404).send();

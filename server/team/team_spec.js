@@ -18,7 +18,10 @@ import {
 // test tools
 const expect = require('chai').expect;
 
+const project = fixtures.projects[0];
 const team = fixtures.teams[0];
+const otherProject = fixtures.projects[1];
+const otherProjectTeam = fixtures.teams[1];
 
 describe('Team', () => {
     before(loginAsSuperAdmin);
@@ -28,7 +31,7 @@ describe('Team', () => {
 
     it('gives a 200 if the team exists', (done) => {
         request.get({
-            url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${fixtures.projects[0].slug}/${fixtures.teams[0].slug}`,
+            url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${project.slug}/${team.slug}`,
         },
         (error, response, body) => {
             expect(error).to.be.a('null');
@@ -146,7 +149,7 @@ describe('Team', () => {
         before(loginAsProjectLeader);
         after(logout);
 
-        it('lets a Project leader create team', (done) => {
+        it('lets a Project Leader create team', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
@@ -160,6 +163,46 @@ describe('Team', () => {
                 expect(response.statusCode).to.equal(200);
                 expect(JSON.parse(body)).to.contain.keys('name');
                 expect(JSON.parse(body)).to.contain.keys('slug');
+                done();
+            });
+        });
+
+        it('lets a Project Leader list his project teams', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${project.slug}`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(200);
+                expect(JSON.parse(body)).to.be.an('array');
+                expect(JSON.parse(body)[0]).to.contain.keys('name');
+                expect(JSON.parse(body)[0]).to.contain.keys('slug');
+                expect(body).to.contain(team.name);
+                expect(body).to.not.contain(otherProjectTeam.name);
+                done();
+            });
+        });
+
+        it('gives a 404 if the project does not belongs to connected Project Leader', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${otherProject.slug}`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                expect(body).to.be.empty;
+                done();
+            });
+        });
+
+        it('gives a 404 if the project does not exist', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/sdgfhgfh`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                expect(body).to.be.empty;
                 done();
             });
         });
