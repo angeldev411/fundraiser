@@ -12,6 +12,16 @@ export const newTeamFailed = (error) => ({
     error,
 });
 
+export const receivedTeams = (teams) => ({
+    type: actionTypes.GOT_TEAMS,
+    teams,
+});
+
+export const getFailed = (error) => ({
+    type: actionTypes.GET_TEAMS_FAIL,
+    error,
+});
+
 export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
     return (dispatch) => {
         return axios.post(`${API_URL}/team`, {
@@ -44,6 +54,22 @@ export function getTeam(projectSlug, slug) {
         .catch(
             (errorResponse) => {
                 dispatch(newTeamFailed('Team not found'));
+            }
+        );
+    };
+}
+
+export function indexTeams(projectSlug) {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/team/${projectSlug}`)
+        .then(
+            (response) => {
+                dispatch(receivedTeams(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getFailed(errorResponse.data));
             }
         );
     };
