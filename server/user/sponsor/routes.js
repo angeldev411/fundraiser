@@ -40,4 +40,37 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
     });
 });
 
+router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
+    if (!req.body.email
+        || !req.body.firstName
+        || !req.body.lastName
+        || !req.body.hourly
+        || !req.body.cap
+        || !req.params.volunteerSlug
+    ) {
+        res.status(400).send(messages.sponsor.missingData);
+        return;
+    }
+
+    const data = {
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+    };
+
+    const pledge = {
+        hourly: req.body.hourly,
+        cap: req.body.cap,
+    };
+
+    new Sponsor(data, pledge, null, req.params.volunteerSlug)
+    .then((sponsor) => {
+        res.status(200).send(sponsor);
+    })
+    .catch((err) => {
+        console.log('OUPS', err);
+        res.status(500).send(err);
+    });
+});
+
 module.exports = router;

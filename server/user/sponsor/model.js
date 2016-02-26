@@ -35,7 +35,6 @@ export default class Sponsor {
                 });
             });
         });
-
     }
 
     getSponsorByEmail(userEmail) {
@@ -69,21 +68,14 @@ export default class Sponsor {
         } else if (volunteerSlug) {
             return db.query(`
                 MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
-                CREATE (user)
-                -[:SUPPORT {
-                    hourly: {hourlyPledge}
-                    cap: {pledgeCap}
-                    total: {pledgetotal}
-                    date: {date}
-                }]
-                ->(volunteer)
+                CREATE (user)-[:SUPPORT {hourly: {hourly}, cap: {cap}, total: {total}, date: {date}}]->(volunteer)
                 `,
                 {},
                 {
                     userId: sponsor.id,
                     volunteerSlug,
-                    hourlyPledge : pledge.hourly,
-                    cap: pledge.pledgeCap,
+                    hourly : pledge.hourly,
+                    cap: pledge.cap,
                     total: 0,
                     date: new Date(),
                 }

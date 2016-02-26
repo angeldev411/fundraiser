@@ -95,6 +95,7 @@ const fixtures = {
             id: 'iamapredefinedId',
             firstName: 'Wilson',
             lastName: 'Chen',
+            slug: 'wilson-chen',
             email: 'wchen@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -104,6 +105,7 @@ const fixtures = {
             id: 'samples',
             firstName: 'Heather',
             lastName: 'Miller',
+            slug: 'heather-miller',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             email: 'heather.miler@gmail.com',
@@ -119,6 +121,7 @@ const fixtures = {
         {
             firstName: 'Kathy',
             lastName: 'Simmons',
+            slug: 'kathy-simmons',
             email: 'ksim@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -127,6 +130,7 @@ const fixtures = {
         {
             firstName: 'Henry',
             lastName: 'Stevens',
+            slug: 'henry-stevens',
             email: 'hst@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -135,6 +139,7 @@ const fixtures = {
         {
             firstName: 'Owen',
             lastName: 'Stein',
+            slug: 'owen-stein',
             email: 'oste@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -143,6 +148,7 @@ const fixtures = {
         {
             firstName: 'Jules',
             lastName: 'Shen',
+            slug: 'jules-shen',
             email: 'jshe@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -151,6 +157,7 @@ const fixtures = {
         {
             firstName: 'Kendra',
             lastName: 'Li',
+            slug: 'kendra-li',
             email: 'kli@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -159,6 +166,7 @@ const fixtures = {
         {
             firstName: 'Neha',
             lastName: 'Gartner',
+            slug: 'neha-gartner',
             email: 'ng@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -167,6 +175,7 @@ const fixtures = {
         {
             firstName: 'Valerie',
             lastName: 'Brisby',
+            slug: 'valerie-brisby',
             email: 'vbrisb@aol.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -226,8 +235,8 @@ const fixtures = {
         },
         {
             firstName: 'Frank',
-            lastName: 'Boehle',
-            email: 'fb@aol.com',
+            lastName: 'Sinatra',
+            email: 'fs@aol.com',
         },
     ],
 

@@ -243,7 +243,7 @@ class setup {
                     if (!(i % 2)) {
                         return new Sponsor(sponsor, fixtures.pledges[i], fixtures.teams[0].slug);
                     }
-                    return new Sponsor(sponsor, fixtures.pledges[i], fixtures.teams[1].slug);
+                    return new Sponsor(sponsor, fixtures.pledges[i], null, fixtures.volunteers[0].slug);
                 }
             )
         ).then((sponsor) => {
