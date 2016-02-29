@@ -57,7 +57,7 @@ export default class Sponsor {
             query1 = () => {
                 return db.query(`
                         MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
-                        RETURN users
+                        RETURN DISTINCT users
                     `,
                     {},
                     {
@@ -69,7 +69,7 @@ export default class Sponsor {
             query1 = () => {
                 return db.query(`
                         MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM { slug: {teamSlug}})
-                        RETURN users
+                        RETURN DISTINCT users
                     `,
                     {},
                     {
@@ -81,7 +81,7 @@ export default class Sponsor {
             query1 = () => {
                 return db.query(`
                         MATCH (users:SPONSOR)-[:SUPPORT]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
-                        RETURN users
+                        RETURN DISTINCT users
                     `,
                     {},
                     {
@@ -93,7 +93,7 @@ export default class Sponsor {
             query1 = () => {
                 return db.query(`
                     MATCH (users:SPONSOR)
-                    RETURN users
+                    RETURN DISTINCT users
                 `)
                 .getResults('users');
             };
@@ -114,68 +114,70 @@ export default class Sponsor {
                     if (projectSlug && !teamSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
-                                RETURN {support: support, sponsored: team} AS pledge
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
+                                RETURN {support: support, sponsored: sponsored} AS pledges
                                 `,
                                 {},
                                 {
                                     userId,
                                     projectSlug,
                                 }
-                            ).getResult('pledge');
+                            ).getResults('pledges');
                         };
                     } else if (teamSlug && !volunteerSlug) {
                         query2 = () => {
                             return db.query(`
                                 MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(team:TEAM { slug: {teamSlug}})
-                                RETURN {support: support, sponsored: team} AS pledge
+                                RETURN {support: support, sponsored: team} AS pledges
                                 `,
                                 {},
                                 {
                                     userId,
                                     teamSlug,
                                 }
-                            ).getResult('pledge');
+                            ).getResults('pledges');
                         };
                     } else if (volunteerSlug) {
                         query2 = () => {
                             return db.query(`
                                 MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
-                                RETURN {support: support, sponsored: volunteer} AS pledge
+                                RETURN {support: support, sponsored: volunteer} AS pledges
                                 `,
                                 {},
                                 {
                                     userId,
                                     volunteerSlug,
                                 }
-                            ).getResult('pledge');
+                            ).getResults('pledges');
                         };
                     } else {
                         query2 = () => {
                             return db.query(`
                                 MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)
-                                RETURN {support: support, sponsored:sponsored} AS pledge
+                                RETURN {support: support, sponsored:sponsored} AS pledges
                                 `,
                                 {},
                                 {
                                     userId,
                                 }
-                            ).getResult('pledge');
+                            ).getResults('pledges');
                         };
                     }
 
                     query2()
-                    .then((pledge) => {
+                    .then((pledges) => {
                         numberOfUsersTreated++;
 
-                        const currentPledge = {
-                            support: pledge.support,
-                            sponsored: pledge.sponsored,
-                        };
+                        for (let j = 0; j < pledges.length; j++) {
+                            const currentPledge = {
+                                support: pledges[j].support,
+                                sponsored: pledges[j].sponsored,
+                            };
 
-                        users[i].pledges.push(currentPledge);
-                        // console.log(users[i]);
-                        // return Promise.resolve(pledge);
+                            users[i].pledges.push(currentPledge);
+                        }
+
+
                         if (numberOfUsersTreated === users.length) {
                             return resolve(users);
                         }
