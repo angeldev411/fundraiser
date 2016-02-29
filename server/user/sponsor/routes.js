@@ -84,7 +84,6 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
         res.status(200).send(sponsor);
     })
     .catch((err) => {
-        console.log('OUPS', err);
         res.status(500).send(err);
     });
 });
