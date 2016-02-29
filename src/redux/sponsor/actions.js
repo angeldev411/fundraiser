@@ -21,7 +21,7 @@ export function indexSponsors(projectSlug = null, teamSlug = null, volunteerSlug
         } else if (teamSlug && !volunteerSlug) {
             apiRoute = `${API_URL}/sponsor/${projectSlug}/${teamSlug}`;
         } else if (volunteerSlug) {
-            apiRoute = `${API_URL}/sponsor/${projectSlug}/${teamSlug}/volunteerSlug`;
+            apiRoute = `${API_URL}/sponsor/${projectSlug}/${teamSlug}/${volunteerSlug}`;
         }
 
         return axios.get(apiRoute)

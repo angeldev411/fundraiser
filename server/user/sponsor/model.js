@@ -50,10 +50,10 @@ export default class Sponsor {
         ).getResult('user');
     }
 
-    static getSponsors(projectSlug = null, teamslug = null, volunteerSlug = null) {
+    static getSponsors(projectSlug = null, teamSlug = null, volunteerSlug = null) {
         let query1;
 
-        if (projectSlug) {
+        if (projectSlug && !teamSlug) {
             query1 = () => {
                 return db.query(`
                         MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
@@ -62,6 +62,30 @@ export default class Sponsor {
                     {},
                     {
                         projectSlug,
+                    }
+                ).getResults('users');
+            };
+        } else if (teamSlug && !volunteerSlug) {
+            query1 = () => {
+                return db.query(`
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM { slug: {teamSlug}})
+                        RETURN users
+                    `,
+                    {},
+                    {
+                        teamSlug,
+                    }
+                ).getResults('users');
+            };
+        } else if (volunteerSlug) {
+            query1 = () => {
+                return db.query(`
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
+                        RETURN users
+                    `,
+                    {},
+                    {
+                        volunteerSlug,
                     }
                 ).getResults('users');
             };
@@ -87,18 +111,44 @@ export default class Sponsor {
 
                     users[i].pledges = [];
 
-                    if (projectSlug) {
+                    if (projectSlug && !teamSlug) {
                         query2 = () => {
                             return db.query(`
                                 MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
-                                RETURN {support: support, sponsored:team} AS pledge
+                                RETURN {support: support, sponsored: team} AS pledge
                                 `,
                                 {},
                                 {
                                     userId,
                                     projectSlug,
                                 }
-                            ).getResult('pledge')
+                            ).getResult('pledge');
+                        };
+                    } else if (teamSlug && !volunteerSlug) {
+                        query2 = () => {
+                            return db.query(`
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(team:TEAM { slug: {teamSlug}})
+                                RETURN {support: support, sponsored: team} AS pledge
+                                `,
+                                {},
+                                {
+                                    userId,
+                                    teamSlug,
+                                }
+                            ).getResult('pledge');
+                        };
+                    } else if (volunteerSlug) {
+                        query2 = () => {
+                            return db.query(`
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
+                                RETURN {support: support, sponsored: volunteer} AS pledge
+                                `,
+                                {},
+                                {
+                                    userId,
+                                    volunteerSlug,
+                                }
+                            ).getResult('pledge');
                         };
                     } else {
                         query2 = () => {
@@ -110,7 +160,7 @@ export default class Sponsor {
                                 {
                                     userId,
                                 }
-                            ).getResult('pledge')
+                            ).getResult('pledge');
                         };
                     }
 
