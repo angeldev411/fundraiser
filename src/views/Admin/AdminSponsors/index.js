@@ -65,7 +65,7 @@ class AdminSponsors extends Component {
 
         let header = null;
 
-        if (this.props.user.role.indexOf('PROJECT_LEADER') >= 0) {
+        if (this.props.user.roles.indexOf('PROJECT_LEADER') >= 0) {
             header = `${this.props.user.project.name} Sponsors`;
         } else {
             header = `Sponsors`;

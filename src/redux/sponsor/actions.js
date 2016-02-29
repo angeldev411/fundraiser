@@ -14,17 +14,7 @@ export const indexSponsorsFailed = (error) => ({
 
 export function indexSponsors(projectSlug = null, teamSlug = null, volunteerSlug = null) {
     return (dispatch) => {
-        let apiRoute = `${API_URL}/sponsor`;
-
-        if (projectSlug && !teamSlug) {
-            apiRoute = `${API_URL}/sponsor/${projectSlug}`;
-        } else if (teamSlug && !volunteerSlug) {
-            apiRoute = `${API_URL}/sponsor/${projectSlug}/${teamSlug}`;
-        } else if (volunteerSlug) {
-            apiRoute = `${API_URL}/sponsor/${projectSlug}/${teamSlug}/${volunteerSlug}`;
-        }
-
-        return axios.get(apiRoute)
+        return axios.get(`${API_URL}/sponsor`)
         .then(
             (response) => {
                 dispatch(receivedSponsors(response.data));
