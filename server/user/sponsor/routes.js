@@ -1,12 +1,28 @@
 'use strict';
 import express from 'express';
 const router = express.Router();
-import volunteerController from './controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
-import hoursController from '../../hours/controller';
-import UserController from '../controller';
+import sponsorController from './controller';
 import messages from '../../messages';
 import Sponsor from './model';
+
+router.get('/api/v1/sponsor', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || !AUTH_CHECKER.isSuperAdmin(req.session.user)
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    sponsorController.index()
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
 
 router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
     if (!req.body.email
