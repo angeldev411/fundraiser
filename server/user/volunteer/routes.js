@@ -3,8 +3,6 @@ import express from 'express';
 const router = express.Router();
 import volunteerController from './controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
-import hoursController from '../../hours/controller';
-import UserController from '../controller';
 
 router.get('/api/v1/volunteer', (req, res) => {
     if (

@@ -2,6 +2,7 @@
 import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { SPONSOR } from '../roles';
+import userController from '../controller';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -47,6 +48,58 @@ export default class Sponsor {
                 userEmail,
             }
         ).getResult('user');
+    }
+
+    static getSponsors(projectSlug = null, teamslug = null, volunteerSlug = null) {
+        return db.query(`
+            MATCH (users:SPONSOR)
+            RETURN users
+            `
+        ).getResults('users')
+        .then((users) => {
+            return new Promise((resolve, reject) => {
+                users = userController.safeArray(users);
+                let numberOfUsersTreated = 0;
+
+                for (let i = 0; i < users.length; i++) {
+                    const userId = users[i].id;
+
+                    users[i].pledges = [];
+
+                    db.query(`
+                        MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)
+                        RETURN {support: support, sponsored:sponsored} AS pledge
+                        `,
+                        {},
+                        {
+                            userId,
+                        }
+                    ).getResult('pledge')
+                    .then((pledge) => {
+                        numberOfUsersTreated++;
+
+                        const currentPledge = {
+                            support: pledge.support,
+                            sponsored: pledge.sponsored,
+                        };
+
+                        users[i].pledges.push(currentPledge);
+                        // console.log(users[i]);
+                        // return Promise.resolve(pledge);
+                        if (numberOfUsersTreated === users.length) {
+                            return resolve(users);
+                        }
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
+
+                }
+            });
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
     }
 
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {

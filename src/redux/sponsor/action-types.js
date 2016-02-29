@@ -1,0 +1,2 @@
+export const LIST_SPONSORS = 'LIST_SPONSORS';
+export const LIST_SPONSORS_FAIL = 'LIST_SPONSORS_FAIL';
