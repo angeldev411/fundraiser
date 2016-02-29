@@ -1,6 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-
+import * as Actions from '../../../redux/sponsor/actions';
+import { connect } from 'react-redux';
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
@@ -13,12 +14,55 @@ import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminTeamSponsors extends Component {
+class AdminTeamSponsors extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sponsors: [],
+        };
+    }
+
     componentWillMount() {
         document.title = 'Team Sponsors | Raiserve';
+
+        if (this.props.user) {
+            const projectSlug = this.props.user.project.slug;
+            const teamSlug = this.props.user.team.slug;
+
+            Actions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.sponsors) {
+            this.setState(
+                {
+                    sponsors: nextProps.sponsors,
+                    error: null,
+                }
+            );
+        } else if (nextProps.user) {
+            const projectSlug = nextProps.user.project.slug;
+            const teamSlug = nextProps.user.team.slug;
+
+            Actions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+
+            this.setState(
+                {
+                    user: nextProps.user,
+                    error: null,
+                }
+            );
+        }
     }
 
     render() {
+        if (!this.props.user) {
+            return (null);
+        }
+
         const pageNav = [
             {
                 type: 'link',
@@ -56,7 +100,7 @@ export default class AdminTeamSponsors extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <div className={'table-limit-height'}>
-                        <AdminSponsorsTable sponsors={data.sponsors} />
+                        <AdminSponsorsTable sponsors={this.state.sponsors} />
                     </div>
                     <AdminStatsBlock
                         stats={
@@ -83,3 +127,9 @@ export default class AdminTeamSponsors extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+    error: reduxState.main.sponsor.error,
+    sponsors: reduxState.main.sponsor.sponsors,
+}))(AdminTeamSponsors);

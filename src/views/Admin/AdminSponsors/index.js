@@ -8,10 +8,6 @@ import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
-// TODO dynamic data
-import * as data from '../../../common/test-data';
-const sponsors = data.sponsors;
-
 class AdminSponsors extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +65,7 @@ class AdminSponsors extends Component {
 
         let header = null;
 
-        if (this.props.user.role === 'PROJECT_LEADER') {
+        if (this.props.user.role.indexOf('PROJECT_LEADER') >= 0) {
             header = `${this.props.user.project.name} Sponsors`;
         } else {
             header = `Sponsors`;
