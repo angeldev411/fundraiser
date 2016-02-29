@@ -19,8 +19,8 @@ export default class Volunteer {
     constructor(data, teamSlug) {
         let volunteer;
 
-        if (data.firstName && data.lastName) {
-            data.slug = slug(`${data.firstName.toLowerCase()}_${data.lastName.toLowerCase()}`);
+        if (data.firstName && data.lastName && !data.slug) {
+            data.slug = slug(`${data.firstName.toLowerCase()}-${data.lastName.toLowerCase()}`);
         }
 
         return new User(data, VOLUNTEER)

@@ -31,7 +31,6 @@ router.post('/api/v1/project', (req, res) => {
         res.status(200).send(response);
     })
     .catch((err) => {
-        console.log(err);
         res.status(400).send(err);
     });
 });
@@ -56,7 +55,6 @@ router.get('/api/v1/project', (req, res) => {
         res.status(200).send(data);
     })
     .catch((err) => {
-        console.log(err);
         res.status(400).send(err);
     });
 });

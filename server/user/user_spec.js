@@ -54,7 +54,7 @@ describe('User', () => {
             const volunteer = fixtures.volunteers[0];
 
             request.get({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/user/${volunteer.firstName.toLowerCase()}_${volunteer.lastName.toLowerCase()}`,
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/user/${volunteer.firstName.toLowerCase()}-${volunteer.lastName.toLowerCase()}`,
             },
             (error, response, body) => {
                 expect(error).to.be.a('null');
