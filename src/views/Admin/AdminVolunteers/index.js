@@ -36,7 +36,7 @@ class AdminVolunteers extends Component {
                 }
             );
         } else if (nextProps.user) {
-            this.doActions(nextProps.user)
+            this.doActions(nextProps.user);
 
             this.setState(
                 {

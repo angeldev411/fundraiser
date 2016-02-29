@@ -24,6 +24,27 @@ router.get('/api/v1/sponsor', (req, res) => {
     });
 });
 
+router.get('/api/v1/sponsor/:projectSlug', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isSuperAdmin(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    sponsorController.index(req.params.projectSlug)
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
 router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
     if (!req.body.email
         || !req.body.firstName

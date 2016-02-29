@@ -51,30 +51,70 @@ export default class Sponsor {
     }
 
     static getSponsors(projectSlug = null, teamslug = null, volunteerSlug = null) {
-        return db.query(`
-            MATCH (users:SPONSOR)
-            RETURN users
-            `
-        ).getResults('users')
+        let query1;
+
+        if (projectSlug) {
+            query1 = () => {
+                return db.query(`
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
+                        RETURN users
+                    `,
+                    {},
+                    {
+                        projectSlug,
+                    }
+                ).getResults('users');
+            };
+        } else {
+            query1 = () => {
+                return db.query(`
+                    MATCH (users:SPONSOR)
+                    RETURN users
+                `)
+                .getResults('users');
+            };
+        }
+
+        return query1()
         .then((users) => {
             return new Promise((resolve, reject) => {
                 users = userController.safeArray(users);
                 let numberOfUsersTreated = 0;
 
                 for (let i = 0; i < users.length; i++) {
+                    let query2;
                     const userId = users[i].id;
 
                     users[i].pledges = [];
 
-                    db.query(`
-                        MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)
-                        RETURN {support: support, sponsored:sponsored} AS pledge
-                        `,
-                        {},
-                        {
-                            userId,
-                        }
-                    ).getResult('pledge')
+                    if (projectSlug) {
+                        query2 = () => {
+                            return db.query(`
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
+                                RETURN {support: support, sponsored:team} AS pledge
+                                `,
+                                {},
+                                {
+                                    userId,
+                                    projectSlug,
+                                }
+                            ).getResult('pledge')
+                        };
+                    } else {
+                        query2 = () => {
+                            return db.query(`
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)
+                                RETURN {support: support, sponsored:sponsored} AS pledge
+                                `,
+                                {},
+                                {
+                                    userId,
+                                }
+                            ).getResult('pledge')
+                        };
+                    }
+
+                    query2()
                     .then((pledge) => {
                         numberOfUsersTreated++;
 
