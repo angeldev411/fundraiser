@@ -40,6 +40,45 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
+router.put('/api/v1/team/:teamId', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isSuperAdmin(req.session.user)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    // TODO verify if project leader is indirect owner of team
+    // TODO verify if team leader is owner of team
+
+    const team = {
+        id: req.params.id,
+        name: req.body.name,
+        slug: req.body.slug,
+        teamLeaderEmail: req.body.teamLeaderEmail,
+    };
+
+    const data = {
+        team,
+        currentUser: req.session.user,
+    };
+
+    const projectSlug = req.body.projectSlug;
+
+    teamController.store(data, projectSlug)
+    .then((response) => {
+        res.status(200).send(response);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
 router.get('/api/v1/team/:projectSlug', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

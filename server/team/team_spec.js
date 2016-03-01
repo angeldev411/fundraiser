@@ -12,6 +12,8 @@ import {
     logout,
     createTestProject,
     deleteTestProject,
+    getTestTeamId,
+    deleteTestTeam,
     requestCookie,
 } from '../tests_helpers/helpers';
 
@@ -61,7 +63,6 @@ describe('Team', () => {
     });
 
     describe('as SuperAdmin and Project Leader', () => {
-
         it('gives an error if the team slug already exists in the database', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
@@ -124,13 +125,14 @@ describe('Team', () => {
 
     describe('as SuperAdmin', () => {
         before(loginAsSuperAdmin);
+        after(deleteTestTeam);
         after(logout);
 
         it('lets a super admin create team', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
-                    name: `Test Team`,
+                    name: fixtures.testTeam.name,
                     slug: uuid.v4(), // Create a unique slug
                     projectSlug: fixtures.testProject.slug,
                 },
@@ -143,6 +145,27 @@ describe('Team', () => {
                 done();
             });
         });
+
+        it('lets a super admin update team', (done) => {
+            getTestTeamId(fixtures.testTeam.name)
+            .then((team) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    form: {
+                        name: fixtures.testTeam.name,
+                        slug: uuid.v4(),
+                        projectSlug: fixtures.testProject.slug,
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(200);
+                    expect(JSON.parse(body)).to.contain.keys('name');
+                    expect(JSON.parse(body)).to.contain.keys('slug');
+                    done();
+                });
+            });
+        });
     });
 
     describe('as ProjectLeader', () => {
@@ -153,7 +176,7 @@ describe('Team', () => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
-                    name: 'Test Team',
+                    name: fixtures.testTeam.name,
                     slug: uuid.v4(), // Create a unique slug
                     projectSlug: fixtures.testProject.slug,
                 },
@@ -164,6 +187,27 @@ describe('Team', () => {
                 expect(JSON.parse(body)).to.contain.keys('name');
                 expect(JSON.parse(body)).to.contain.keys('slug');
                 done();
+            });
+        });
+
+        it('lets a Project Leader update team', (done) => {
+            getTestTeamId(fixtures.testTeam.name)
+            .then((team) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    form: {
+                        name: fixtures.testTeam.name,
+                        slug: uuid.v4(),
+                        projectSlug: fixtures.testProject.slug,
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(200);
+                    expect(JSON.parse(body)).to.contain.keys('name');
+                    expect(JSON.parse(body)).to.contain.keys('slug');
+                    done();
+                });
             });
         });
 
@@ -212,7 +256,7 @@ describe('Team', () => {
         before(loginAsTeamLeader);
         after(logout);
 
-        it('gives an error if a team leader try to create team', (done) => {
+        it('gives an error if a Team Leader try to create team', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
                 form: {
@@ -227,10 +271,35 @@ describe('Team', () => {
                 done();
             });
         });
+
+        it('lets a Team Leader update team', (done) => {
+            getTestTeamId(fixtures.testTeam.name)
+            .then((team) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    form: {
+                        name: fixtures.testTeam.name,
+                        slug: uuid.v4(),
+                        projectSlug: fixtures.testProject.slug,
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(200);
+                    expect(JSON.parse(body)).to.contain.keys('name');
+                    expect(JSON.parse(body)).to.contain.keys('slug');
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        });
     });
 
     describe('as Volunteer', () => {
         before(loginAsVolunteer);
+        after(deleteTestTeam);
         after(logout);
 
         it('gives an error if a volunteer try to create team', (done) => {

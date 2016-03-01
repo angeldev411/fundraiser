@@ -162,6 +162,41 @@ export const getTestProjectId = (name) => {
     .getResult('project');
 };
 
+export const deleteTestTeam = (done) => {
+    // Remove the team we just created
+    return Promise.resolve(
+        db.query(
+            `
+            MATCH (team:TEAM {name: {name}})
+            DETACH DELETE team
+            `,
+            {},
+            {
+                name: fixtures.testTeam.name,
+            }
+        )
+    ).then((response) => {
+        done();
+    })
+    .catch((err) => {
+        console.log('FAIL', err);
+    });
+};
+
+export const getTestTeamId = (name) => {
+    return db.query(
+        `
+        MATCH (team:TEAM {name: {name}})
+        RETURN team
+        `,
+        {},
+        {
+            name
+        }
+    )
+    .getResult('team');
+};
+
 export const deleteTestSponsor = (done) => {
     // Remove the sponsor we just created
     return Promise.resolve(

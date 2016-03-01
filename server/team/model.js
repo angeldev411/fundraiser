@@ -50,11 +50,23 @@ class Team {
             pledgePerHour : data.team.pledgePerHour,
             totalHours: data.team.totalHours,
             totalVolunteers: data.team.totalVolunteers,
-        });
+        }, data.team.id ? data.team.id : null);
 
         return team.save()
         .then((response) => {
-            if (response.id === team.id) {
+            if (data.team.id && !data.team.teamLeaderEmail) {
+                // If it's an update, don't relink team creator and return team immediately
+                return Promise.resolve(team.data);
+            } else if (data.team.id && data.team.teamLeaderEmail) {
+                // If it's an update, but new team leader email is defined
+                return UserController.invite(data.team.teamLeaderEmail, 'TEAM_LEADER', data.team.slug)
+                .then(() => {
+                    return Promise.resolve(team.data);
+                })
+                .catch((err) => {
+                    return Promise.reject(messages.invite.error);
+                });
+            } else if (response.id === team.id) {
                 // Link teamCreator and project
                 return db.query(`
                         MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
@@ -71,7 +83,6 @@ class Team {
                     // Link teamLeader
                     if (data.team.teamLeaderEmail) {
                         UserController.invite(data.team.teamLeaderEmail, 'TEAM_LEADER', data.team.slug)
-
                         .then(() => {
                             return Promise.resolve(team.data);
                         })
@@ -85,6 +96,7 @@ class Team {
             return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
+            console.log(err);
             return Promise.reject(messages.team.required);
         });
     }
