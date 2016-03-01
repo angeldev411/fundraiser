@@ -8,6 +8,8 @@ import {
     loginAsProjectLeader,
     loginAsTeamLeader,
     loginAsVolunteer,
+    getTestProjectId,
+    deleteTestProject,
     logout,
     requestCookie,
 } from '../tests_helpers/helpers';
@@ -15,9 +17,12 @@ import {
 // test tools
 const expect = require('chai').expect;
 
-const project = fixtures.projects[0];
+const testProject = fixtures.testProject;
+const existingProject = fixtures.projects[0];
 
 describe('Project', () => {
+    after(deleteTestProject);
+
     describe('as SuperAdmin', () => {
         before(loginAsSuperAdmin);
         after(logout);
@@ -33,7 +38,7 @@ describe('Project', () => {
                 expect(JSON.parse(body)[0]).to.contain.keys('id');
                 expect(JSON.parse(body)[0]).to.contain.keys('name');
                 expect(JSON.parse(body)[0]).to.contain.keys('slug');
-                expect(body).to.contain(project.name);
+                expect(body).to.contain(existingProject.name);
                 done();
             });
         });
@@ -41,10 +46,7 @@ describe('Project', () => {
         it('lets a super admin create project', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
-                form: {
-                    name: 'Test Project Super Admin',
-                    slug: uuid.v4(), // Create a unique slug
-                },
+                form: testProject,
             },
             (error, response, body) => {
                 expect(error).to.be.a('null');
@@ -59,8 +61,8 @@ describe('Project', () => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
                 form: {
-                    name: project.name,
-                    slug: project.slug,
+                    name: existingProject.name,
+                    slug: existingProject.slug,
                 },
             }, (error, response, body) => {
                 expect(error).to.be.a('null');
@@ -115,6 +117,26 @@ describe('Project', () => {
                 done();
             });
         });
+
+        it('lets a super admin update project', (done) => {
+            getTestProjectId(testProject.name)
+            .then((project) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project/${project.id}`,
+                    form: {
+                        name: testProject.name,
+                        slug: uuid.v4(),
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(200);
+                    expect(JSON.parse(body)).to.contain.keys('name');
+                    expect(JSON.parse(body)).to.contain.keys('slug');
+                    done();
+                });
+            });
+        });
     });
 
     describe('as Project Leader', () => {
@@ -132,6 +154,29 @@ describe('Project', () => {
                 expect(error).to.be.a('null');
                 expect(response.statusCode).to.equal(404);
                 done();
+            });
+        });
+
+        it('gives an error if a project leader try to update project', (done) => {
+            getTestProjectId(testProject.name)
+            .then((project) => {
+                console.log(project);
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project/${project.id}`,
+                    form: {
+                        name: testProject.name,
+                        slug: uuid.v4(),
+                    },
+                },
+                (error, response, body) => {
+                    console.log(arguments);
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(404);
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
             });
         });
 
@@ -164,6 +209,24 @@ describe('Project', () => {
             });
         });
 
+        it('gives an error if a team leader try to update project', (done) => {
+            getTestProjectId(testProject.name)
+            .then((project) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project/${project.id}`,
+                    form: {
+                        name: testProject.name,
+                        slug: uuid.v4(),
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(404);
+                    done();
+                });
+            });
+        });
+
         it('gives an error if a team leader try to list projects', (done) => {
             requestCookie.get({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project`,
@@ -190,6 +253,24 @@ describe('Project', () => {
                 expect(error).to.be.a('null');
                 expect(response.statusCode).to.equal(404);
                 done();
+            });
+        });
+
+        it('gives an error if a volunteer try to update project', (done) => {
+            getTestProjectId(testProject.name)
+            .then((project) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project/${project.id}`,
+                    form: {
+                        name: testProject.name,
+                        slug: uuid.v4(),
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(404);
+                    done();
+                });
             });
         });
 
