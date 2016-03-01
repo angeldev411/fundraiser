@@ -25,7 +25,7 @@ class Project {
         }
 
         const baseInfo = {
-            id: uuid.v4(),
+            id: data.project.id ? data.project.id : uuid.v4(),
             name: data.project.name,
             slug: data.project.slug,
         };
@@ -39,10 +39,9 @@ class Project {
         const project = new Node({
             ...baseInfo,
             ...optionalInfo,
-        });
+        }, data.project.id ? data.project.id : null);
 
         return project.save()
-
         .then((response) => {
             if (response.id === project.id) {
                 // Link projectCreator
@@ -67,7 +66,7 @@ class Project {
                         });
                     }
                     return Promise.resolve(project.data);
-                });
+                })
             }
             return Promise.reject('Unexpected error occurred.');
         })
