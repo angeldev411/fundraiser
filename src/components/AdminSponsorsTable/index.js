@@ -7,7 +7,6 @@ import ModalButton from '../ModalButton';
 
 export default class AdminSponsorsTable extends Component {
     render() {
-        console.log(this.props.sponsors);
         return (
             <div className="sponsors-table">
                 <ul className="sponsors">

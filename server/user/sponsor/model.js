@@ -55,8 +55,9 @@ export default class Sponsor {
 
         if (projectSlug && !teamSlug) {
             query1 = () => {
+                // MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                 return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM)-[:CONTRIBUTE]->(:PROJECT { slug: {projectSlug}})
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
@@ -68,19 +69,44 @@ export default class Sponsor {
         } else if (teamSlug && !volunteerSlug) {
             query1 = () => {
                 return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(team:TEAM { slug: {teamSlug}})
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(:TEAM { slug: {teamSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
                     {
                         teamSlug,
                     }
-                ).getResults('users');
+                ).getResults('users')
+                .then((results1) => {
+                    const exclude = [];
+
+                    for (let i = 0; i < results1.length; i++) {
+                        exclude.push(results1[i].id);
+                    }
+
+                    return db.query(`
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(:VOLUNTEER)-->(:TEAM { slug: {teamSlug}})
+                        WHERE NOT(users.id IN {exclude})
+                        RETURN DISTINCT users
+                        `,
+                        {},
+                        {
+                            teamSlug,
+                            exclude
+                        }
+                    ).getResults('users')
+                    .then((results2) => {
+                        return Promise.resolve([
+                            ...results1,
+                            ...results2,
+                        ]);
+                    });
+                });
             };
         } else if (volunteerSlug) {
             query1 = () => {
                 return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
+                        MATCH (users:SPONSOR)-[:SUPPORT]->(:VOLUNTEER { slug: {volunteerSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
@@ -135,7 +161,25 @@ export default class Sponsor {
                                     userId,
                                     teamSlug,
                                 }
-                            ).getResults('pledges');
+                            ).getResults('pledges')
+                            .then((results1) => {
+                                return db.query(`
+                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
+                                    RETURN {support: support, sponsored: volunteer} AS pledges
+                                    `,
+                                    {},
+                                    {
+                                        userId,
+                                        teamSlug,
+                                    }
+                                ).getResults('pledges')
+                                .then((results2) => {
+                                    return Promise.resolve([
+                                        ...results1,
+                                        ...results2,
+                                    ])
+                                })
+                            });
                         };
                     } else if (volunteerSlug) {
                         query2 = () => {
@@ -171,7 +215,7 @@ export default class Sponsor {
                         for (let j = 0; j < pledges.length; j++) {
                             const currentPledge = {
                                 support: pledges[j].support,
-                                sponsored: pledges[j].sponsored,
+                                sponsored: pledges[j].name ? pledges[j].sponsored : userController.safe(pledges[j].sponsored),
                             };
 
                             users[i].pledges.push(currentPledge);
