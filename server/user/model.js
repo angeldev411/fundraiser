@@ -1,4 +1,5 @@
 'use strict';
+
 import stripelib from 'stripe';
 import sha256 from 'js-sha256';
 import UUID from 'uuid';
@@ -37,7 +38,6 @@ const userSchemas = {
 
 export default class User {
     // id should never be passed, except for the update
-    static schemas = userSchemas;
     constructor(data, label, id) {
         if (!data.id) {
             data.id = UUID.v4();
