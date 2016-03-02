@@ -138,7 +138,7 @@ RETURN ${resultName}
 
             if (typeof user.email !== 'undefined') {
                 if (!util.isEmailValid(user.email)) {
-                    return reject('Invalid email');
+                    return reject('Invalid Email');
                 }
                 setQuery += `${resultName}.email = { email },`;
                 hasSet = true;
@@ -146,7 +146,7 @@ RETURN ${resultName}
 
             if (typeof user.password !== 'undefined') {
                 if (!util.isPasswordValid(user.password)) {
-                    return reject('Invalid password');
+                    return reject('Invalid Password');
                 }
                 user.password = util.hash(user.password);
                 setQuery += `${resultName}.password = { password },`;
@@ -189,23 +189,13 @@ RETURN ${resultName}
     }
 
     static updateVolunteer(user) {
-        return new Promise((resolve, reject) => {
-            Volunteer.updateVolunteerQueryBuilder(user)
-                .then((updateQuery) => {
-                    db.query(
-                        updateQuery,
-                        {},
-                        user
-                    )
-                    .getResult().then((result) => {
-                        return resolve(result);
-                    }).catch((error) => {
-                        return reject(error);
-                    });
-                }).catch((error) => {
-                    return reject(error);
-                });
-        });
+        if (typeof user.goal !== 'undefined') {
+            user.goal = parseInt(user.goal, 10);
+        }
+        if (typeof user.password !== 'undefined') {
+            user.password = util.hash(user.password);
+        }
+        return User.update(user, user);
     }
 
     static onboard(obj) {
