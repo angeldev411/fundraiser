@@ -33,6 +33,12 @@ class util {
         return false;
     }
 
+    static isPasswordValid(password) {
+        const passwordRegexp = /^.+$/g;
+
+        return passwordRegexp.test(password);
+    }
+
     static cacheResponse(obj) {
         const shasum = crypto.createHash('sha1');
 
