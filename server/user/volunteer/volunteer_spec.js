@@ -108,12 +108,22 @@ describe('Volunteers', () => {
         });
 
         it('gives an error if I update my profile with invalid data', (done) => {
-            requestCookie.get({
-                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`,
-            },
-            (error, response, body) => {
-                expect(error).to.be.a('null');
-                expect(response.statusCode).to.equal(404);
+            const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
+
+            Promise.all([
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                    },
+                    (error, response, body) => {
+                        // Should fail on no data
+                        expect(response.statusCode).to.equal(400);
+                    });
+                }),
+            ]).then((result) => {
+                done();
+            }).catch((error) => {
+                fail();
                 done();
             });
         });

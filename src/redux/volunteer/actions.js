@@ -76,7 +76,7 @@ export const updateProfile = (user) => {
     return (dispatch) => {
         const volunteerProfile = user;
 
-        return axios.post(`${API_URL}/volunteer`, volunteerProfile)
+        return axios.put(`${API_URL}/volunteer`, volunteerProfile)
         .then(
             (response) => {
                 dispatch(volunteerUpdateSuccess(true));
