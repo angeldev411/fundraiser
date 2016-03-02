@@ -34,6 +34,12 @@
                 display: inline-block;
             }
         }
+        .error-message {
+            color: red;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: inline;
+        }
     }
 
     section {

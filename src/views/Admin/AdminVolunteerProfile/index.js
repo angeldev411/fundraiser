@@ -30,9 +30,17 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('Next Props', nextProps);
         if (nextProps.user) {
+            console.log('User', nextProps.user);
             this.setState({
                 user: nextProps.user,
+            });
+        }
+
+        if (nextProps.volunteerUpdateStatus) {
+            this.setState({
+                volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
             });
         }
     }
@@ -41,10 +49,10 @@ export default class AdminVolunteerProfile extends Component {
         const user = this.state.user;
 
         if (!user.password || user.password !== user.password2) {
-            delete user.password;
+            Reflect.deleteProperty(user, 'password');
         }
 
-        delete user.password2;
+        Reflect.deleteProperty(user, 'password2');
 
         user.image = files[0];
         this.setState({
@@ -81,8 +89,8 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     getUserMessage = () => {
-        if (this.state.user && this.state.user.message) {
-            return this.state.user.message;
+        if (this.state.user && this.state.user.description) {
+            return this.state.user.description;
         }
     }
 
@@ -112,6 +120,10 @@ export default class AdminVolunteerProfile extends Component {
                 return `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`;
             }
         }
+    }
+
+    getErrorMessage = () => {
+        return (<div className="error-message">Error in the form!</div>);
     }
 
     handleChange = (evt, name) => {
@@ -224,10 +236,10 @@ export default class AdminVolunteerProfile extends Component {
                                     <textarea
                                         name="description"
                                         id="description"
-                                        placeholder="Why You\'re Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you."
+                                        placeholder="Why You're Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you."
                                         defaultValue={this.getUserMessage()}
                                         rows="3"
-                                        onChange={(e) => { this.handleChange(e, 'message') }}
+                                        onChange={(e) => { this.handleChange(e, 'description') }}
                                     />
                                     <label htmlFor="description">{'Description'}</label>
                                 </div>
@@ -240,7 +252,7 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
-                                <Button customClass="btn-green-white" onClick={this.submitProfile}>{'Save'}</Button>
+                                <Button customClass="btn-green-white" onClick={this.submitProfile}>{'Save'}</Button> {this.state.volunteerUpdateStatus === false ? this.getErrorMessage() : ''}
                             </form>
                         </section>
                     </div>
@@ -252,4 +264,5 @@ export default class AdminVolunteerProfile extends Component {
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
+    volunteerUpdateStatus: reduxState.main.volunteer.volunteerUpdateStatus,
 }))(AdminVolunteerProfile);

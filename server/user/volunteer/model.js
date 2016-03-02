@@ -3,6 +3,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { VOLUNTEER } from '../roles';
 import slug from 'slug';
+import util from '../../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -127,8 +128,6 @@ export default class Volunteer {
     static updateVolunteer(user) {
         let setQueries = '';
 
-        console.log('User Data :::', user);
-
         if (typeof user.firstName !== 'undefined') {
             setQueries += 'user.firstName = { firstName },';
         }
@@ -142,6 +141,7 @@ export default class Volunteer {
         }
 
         if (typeof user.password !== 'undefined') {
+            user.password = util.hash(user.password);
             setQueries += 'user.password = { password },';
         }
 
