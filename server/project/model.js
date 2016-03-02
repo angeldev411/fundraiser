@@ -83,7 +83,6 @@ class Project {
             return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
-            console.log(err);
             return Promise.reject(messages.project.required);
         });
     }

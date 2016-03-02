@@ -160,7 +160,6 @@ describe('Project', () => {
         it('gives an error if a project leader try to update project', (done) => {
             getTestProjectId(testProject.name)
             .then((project) => {
-                console.log(project);
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/project/${project.id}`,
                     form: {
@@ -169,14 +168,10 @@ describe('Project', () => {
                     },
                 },
                 (error, response, body) => {
-                    console.log(arguments);
                     expect(error).to.be.a('null');
                     expect(response.statusCode).to.equal(404);
                     done();
                 });
-            })
-            .catch((err) => {
-                console.log(err);
             });
         });
 

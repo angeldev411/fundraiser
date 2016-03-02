@@ -8,7 +8,11 @@ import * as Actions from '../../redux/team/actions';
 class AdminTeamForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        if (this.props.defaultData) {
+            this.state = this.props.defaultData.team;
+        } else {
+            this.state = {};
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,12 +30,22 @@ class AdminTeamForm extends Component {
     }
 
     submit = () => {
-        Actions.newTeam(
-            this.state.name,
-            this.props.defaultData.project.slug,
-            this.state.slug,
-            this.state.teamLeaderEmail,
-        )(this.props.dispatch);
+        if (this.state.id) {
+            Actions.updateTeam(
+                this.state.id,
+                this.state.name,
+                this.props.defaultData.project.slug,
+                this.state.slug,
+                this.state.teamLeaderEmail,
+            )(this.props.dispatch);
+        } else {
+            Actions.newTeam(
+                this.state.name,
+                this.props.defaultData.project.slug,
+                this.state.slug,
+                this.state.teamLeaderEmail,
+            )(this.props.dispatch);
+        }
     };
 
     handleChange = (event, name) => {
@@ -47,6 +61,8 @@ class AdminTeamForm extends Component {
         if (this.props.defaultData.project.slug.length > 10) {
             domain = '...';
         }
+
+        console.log(this.state);
 
         return (
             <Form id="team-form"
