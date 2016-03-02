@@ -108,68 +108,107 @@ export default class Volunteer {
         ).getResults('users');
     }
 
+    static updateVolunteerQueryBuilder(user) {
+        const matchQuery = `
+        MATCH (user { id: {id} })
+
+        `;
+        let setQuery = `
+        SET `;
+        const returnQuery = `
+
+        RETURN user
+        `;
+
+        let hasSet = false;
+
+        return new Promise((resolve, reject) => {
+            if (typeof user.firstName !== 'undefined') {
+                if (!util.isFirstNameValid(user.firstName)) {
+                    return reject('Invalid firstname');
+                }
+                setQuery += 'user.firstName = { firstName },';
+                hasSet = true;
+            }
+
+            if (typeof user.lastName !== 'undefined') {
+                if (!util.isLastNameValid(user.lastName)) {
+                    return reject('Invalid lastname');
+                }
+                setQuery += 'user.lastName = { lastName },';
+                hasSet = true;
+            }
+
+            if (typeof user.email !== 'undefined') {
+                if (!util.isEmailValid(user.email)) {
+                    return reject('Invalid Email');
+                }
+                setQuery += 'user.email = { email },';
+                hasSet = true;
+            }
+
+            if (typeof user.password !== 'undefined') {
+                if (!util.isPasswordValid(user.password)) {
+                    return reject('Invalid Password');
+                }
+                user.password = util.hash(user.password);
+                setQuery += 'user.password = { password },';
+                hasSet = true;
+            }
+
+            if (typeof user.slug !== 'undefined') {
+                setQuery += 'user.slug = { slug },';
+                hasSet = true;
+            }
+
+            if (typeof user.headshotData !== 'undefined') {
+                setQuery += 'user.headshotData = { headshotData },';
+                hasSet = true;
+            }
+
+            if (typeof user.goal !== 'undefined') {
+                user.goal = parseInt(user.goal, 10);
+                if (!util.isGoalValid(user.goal)) {
+                    return reject('Invalid goal');
+                }
+                setQuery += 'user.goal = { goal },';
+                hasSet = true;
+            }
+
+            if (typeof user.description !== 'undefined') {
+                setQuery += 'user.description = { description },';
+                hasSet = true;
+            }
+
+            if (!hasSet) {
+                return reject('Nothing to update');
+            }
+
+            // Remove trailing comma from the set query
+            setQuery = setQuery.slice(0, -1);
+
+            return resolve(`${matchQuery}${setQuery}${returnQuery}`);
+        });
+    }
+
     static updateVolunteer(user) {
-        let setQueries = '';
-
-        if (typeof user.firstName !== 'undefined') {
-            if (!util.isFirstNameValid(user.firstName)) {
-                throw new Error('Invalid firstname');
-            }
-            setQueries += 'user.firstName = { firstName },';
-        }
-
-        if (typeof user.lastName !== 'undefined') {
-            if (!util.isLastNameValid(user.lastName)) {
-                throw new Error('Invalid lastname');
-            }
-            setQueries += 'user.lastName = { lastName },';
-        }
-
-        if (typeof user.email !== 'undefined') {
-            if (!util.isEmailValid(user.email)) {
-                throw new Error('Invalid Email');
-            }
-            setQueries += 'user.email = { email },';
-        }
-
-        if (typeof user.password !== 'undefined') {
-            user.password = util.hash(user.password);
-            setQueries += 'user.password = { password },';
-        }
-
-        if (typeof user.slug !== 'undefined') {
-            setQueries += 'user.slug = { slug },';
-        }
-
-        if (typeof user.headshotData !== 'undefined') {
-            setQueries += 'user.headshotData = { headshotData },';
-        }
-
-        if (typeof user.goal !== 'undefined') {
-            user.goal = parseInt(user.goal, 10);
-            if (!util.isGoalValid(user.goal)) {
-                throw new Error('Invalid goal');
-            }
-            setQueries += 'user.goal = { goal },';
-        }
-
-        if (typeof user.description !== 'undefined') {
-            setQueries += 'user.description = { description },';
-        }
-
-        setQueries = setQueries.slice(0, -1);
-
-        return db.query(`
-            MATCH (user { id: {id} })
-
-            SET ${setQueries}
-
-            RETURN user
-            `,
-            {},
-            user
-        )
-        .getResult('user');
+        return new Promise((resolve, reject) => {
+            updateVolunteerQueryBuilder(user)
+                .then((updateQuery) => {
+                    db.query(
+                        updateQuery,
+                        {},
+                        user
+                    )
+                    .getResult().then((result) => {
+                        return resolve(result);
+                    }).catch((error) => {
+                        return reject(error);
+                    });
+                }).catch((error) => {
+                    return reject(error);
+                });
+        });
     }
 
     static onboard(obj) {
