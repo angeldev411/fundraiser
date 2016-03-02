@@ -351,6 +351,7 @@ const fixtures = {
     testTeam: {
         name: 'Test Team',
         slug: 'test-team',
+        projectSlug: 'bo',
     },
 
     testSponsor : {

@@ -53,9 +53,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         return;
     }
 
-    // TODO verify if project leader is indirect owner of team
-    // TODO verify if team leader is owner of team
-
     const team = {
         name: req.body.name,
         slug: req.body.slug,
@@ -69,13 +66,47 @@ router.put('/api/v1/team/:teamId', (req, res) => {
 
     const projectSlug = req.body.projectSlug;
 
-    teamController.store(data, projectSlug, req.params.id)
-    .then((response) => {
-        res.status(200).send(response);
-    })
-    .catch((err) => {
-        res.status(400).send(err);
-    });
+    if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
+        teamController.store(data, projectSlug, req.params.id)
+        .then((response) => {
+            res.status(200).send(response);
+        })
+        .catch((err) => {
+            res.status(400).send(err);
+        });
+    } else if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
+        // TODO verify if team leader is owner of team
+        Team.isTeamLeaderTeamOwner(req.params.teamId, req.session.user.id)
+        .then((response1) => {
+            teamController.store(data, projectSlug, req.params.id)
+            .then((response) => {
+                res.status(200).send(response);
+            })
+            .catch((err) => {
+                res.status(400).send(err);
+            });
+        })
+        .catch(() => {
+            res.status(403).send();
+            return;
+        });
+    } else if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
+        // TODO verify if project leader is indirect owner of team
+        Team.isProjectLeaderIndirectTeamOwner(req.params.teamId, req.session.user.id)
+        .then(() => {
+            teamController.store(data, projectSlug, req.params.id)
+            .then((response) => {
+                res.status(200).send(response);
+            })
+            .catch((err) => {
+                res.status(400).send(err);
+            });
+        })
+        .catch(() => {
+            res.status(403).send();
+            return;
+        });
+    }
 });
 
 router.get('/api/v1/team/:projectSlug', (req, res) => {

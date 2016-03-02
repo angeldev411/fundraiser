@@ -96,7 +96,6 @@ class Team {
             return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
-            console.log(err);
             return Promise.reject(messages.team.required);
         });
     }
@@ -127,6 +126,32 @@ class Team {
             }
         )
         .getResult('team');
+    }
+
+    static isTeamLeaderTeamOwner(teamId, teamLeaderId) {
+        return db.query(`
+                MATCH (t:TEAM {id: {teamId}})<-[:LEAD]-(u:TEAM_LEADER {id: {teamLeaderId}})
+                RETURN { team: t, user: u } AS result
+            `,
+            {},
+            {
+                teamId,
+                teamLeaderId,
+            }
+        ).getResult('result');
+    }
+
+    static isProjectLeaderIndirectTeamOwner(teamId, projectLeaderId) {
+        return db.query(`
+                MATCH (t:TEAM {id: {teamId}})<--(u:PROJECT_LEADER {id: {projectLeaderId}})
+                RETURN { team: t, user: u } AS result
+            `,
+            {},
+            {
+                teamId,
+                projectLeaderId,
+            }
+        ).getResult('result');
     }
 
     static uploadLogoImage(obj) {

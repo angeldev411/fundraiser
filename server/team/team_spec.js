@@ -92,6 +92,7 @@ describe('Team', () => {
                 done();
             });
         });
+
         it('gives an error if a super admin tries to create team with an empty slug', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
@@ -106,6 +107,7 @@ describe('Team', () => {
                 done();
             });
         });
+
         it('gives an error if a super admin tries to create team with an malformed email', (done) => {
             requestCookie.post({
                 url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team`,
@@ -134,7 +136,7 @@ describe('Team', () => {
                 form: {
                     name: fixtures.testTeam.name,
                     slug: uuid.v4(), // Create a unique slug
-                    projectSlug: fixtures.testProject.slug,
+                    projectSlug: project.slug,
                 },
             },
             (error, response, body) => {
@@ -154,7 +156,7 @@ describe('Team', () => {
                     form: {
                         name: fixtures.testTeam.name,
                         slug: uuid.v4(),
-                        projectSlug: fixtures.testProject.slug,
+                        projectSlug: project.slug,
                     },
                 },
                 (error, response, body) => {
@@ -178,7 +180,7 @@ describe('Team', () => {
                 form: {
                     name: fixtures.testTeam.name,
                     slug: uuid.v4(), // Create a unique slug
-                    projectSlug: fixtures.testProject.slug,
+                    projectSlug: project.slug,
                 },
             },
             (error, response, body) => {
@@ -198,7 +200,7 @@ describe('Team', () => {
                     form: {
                         name: fixtures.testTeam.name,
                         slug: uuid.v4(),
-                        projectSlug: fixtures.testProject.slug,
+                        projectSlug: project.slug,
                     },
                 },
                 (error, response, body) => {
@@ -206,6 +208,25 @@ describe('Team', () => {
                     expect(response.statusCode).to.equal(200);
                     expect(JSON.parse(body)).to.contain.keys('name');
                     expect(JSON.parse(body)).to.contain.keys('slug');
+                    done();
+                });
+            });
+        });
+
+        it('gives a 403 if the Project Leader is not indirect owner of Team', (done) => {
+            getTestTeamId(otherProjectTeam.name)
+            .then((team) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    form: {
+                        name: otherProjectTeam.name,
+                        slug: uuid.v4(),
+                        projectSlug: otherProject.slug,
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(403);
                     done();
                 });
             });
@@ -262,7 +283,7 @@ describe('Team', () => {
                 form: {
                     name: `Test Team Team Leader`,
                     slug: uuid.v4(), // Create a unique slug
-                    projectSlug: fixtures.testProject.slug,
+                    projectSlug: project.slug,
                 },
             },
             (error, response, body) => {
@@ -273,14 +294,14 @@ describe('Team', () => {
         });
 
         it('lets a Team Leader update team', (done) => {
-            getTestTeamId(fixtures.testTeam.name)
+            getTestTeamId(team.name)
             .then((team) => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
-                        name: fixtures.testTeam.name,
+                        name: team.name,
                         slug: uuid.v4(),
-                        projectSlug: fixtures.testProject.slug,
+                        projectSlug: project.slug,
                     },
                 },
                 (error, response, body) => {
@@ -291,15 +312,31 @@ describe('Team', () => {
                     done();
                 });
             })
-            .catch((err) => {
-                console.log(err);
+        });
+
+        it('gives a 403 if the Team Leader is not owner of the Team', (done) => {
+            getTestTeamId(otherProjectTeam.name)
+            .then((team) => {
+                requestCookie.put({
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    form: {
+                        name: otherProjectTeam.name,
+                        slug: uuid.v4(),
+                        projectSlug: otherProject.slug,
+                    },
+                },
+                (error, response, body) => {
+                    expect(error).to.be.a('null');
+                    expect(response.statusCode).to.equal(403);
+                    done();
+                });
             });
         });
     });
 
     describe('as Volunteer', () => {
         before(loginAsVolunteer);
-        after(deleteTestTeam);
+        // after(deleteTestTeam);
         after(logout);
 
         it('gives an error if a volunteer try to create team', (done) => {
