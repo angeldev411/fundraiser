@@ -34,11 +34,18 @@
                 display: inline-block;
             }
         }
-        .error-message {
-            color: red;
+        .status-message {
             font-size: 1.5em;
             font-weight: bold;
             display: inline;
+        }
+        .error-message {
+            @extend .status-message;
+            color: red;
+        }
+        .success-message {
+            @extend .status-message;
+            color: green;
         }
     }
 
