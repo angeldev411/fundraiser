@@ -30,22 +30,17 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('Next Props', nextProps);
         if (nextProps.user) {
-            console.log('User', nextProps.user);
             this.setState({
                 user: nextProps.user,
             });
         }
 
         if (nextProps.volunteerUpdateStatus) {
+            console.log('Updated Status to ', nextProps.volunteerUpdateStatus);
             this.setState({
                 volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
             });
-
-            if (nextProps.volunteerUpdateStatus) {
-                transitionTo(`${Urls.VOLUNTEER_PROFILE}`);
-            }
         }
     }
 

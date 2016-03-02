@@ -8,10 +8,29 @@ import config from '../config';
 AWS.config.update(config.S3_ACCESS);
 
 class util {
+    static isFirstNameValid(firstName) {
+        const firstNameRegexp = /^.+$/g;
+
+        return firstNameRegexp.test(firstName);
+    }
+
+    static isLastNameValid(lastName) {
+        const lastNameRegexp = /^.+$/g;
+
+        return lastNameRegexp.test(lastName);
+    }
+
     static isEmailValid(email) {
         const emailRegexp = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi;
 
         return emailRegexp.test(email);
+    }
+
+    static isGoalValid(goal) {
+        if (goal >= 0 && goal < 1000) {
+            return true;
+        }
+        return false;
     }
 
     static cacheResponse(obj) {

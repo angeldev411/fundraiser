@@ -14,6 +14,7 @@ export const volunteerSchema = {
     slug: db.Joi.string(),
     headshotData: db.Joi.object(),
     description: db.Joi.string(),
+    goal: db.Joi.number(),
 };
 
 export default class Volunteer {
@@ -111,14 +112,23 @@ export default class Volunteer {
         let setQueries = '';
 
         if (typeof user.firstName !== 'undefined') {
+            if (!util.isFirstNameValid(user.firstName)) {
+                throw new Error('Invalid firstname');
+            }
             setQueries += 'user.firstName = { firstName },';
         }
 
         if (typeof user.lastName !== 'undefined') {
+            if (!util.isLastNameValid(user.lastName)) {
+                throw new Error('Invalid lastname');
+            }
             setQueries += 'user.lastName = { lastName },';
         }
 
         if (typeof user.email !== 'undefined') {
+            if (!util.isEmailValid(user.email)) {
+                throw new Error('Invalid Email');
+            }
             setQueries += 'user.email = { email },';
         }
 
@@ -133,6 +143,14 @@ export default class Volunteer {
 
         if (typeof user.headshotData !== 'undefined') {
             setQueries += 'user.headshotData = { headshotData },';
+        }
+
+        if (typeof user.goal !== 'undefined') {
+            user.goal = parseInt(user.goal, 10);
+            if (!util.isGoalValid(user.goal)) {
+                throw new Error('Invalid goal');
+            }
+            setQueries += 'user.goal = { goal },';
         }
 
         if (typeof user.description !== 'undefined') {
