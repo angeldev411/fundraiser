@@ -57,6 +57,12 @@ class Menu extends Component {
         }
     };
 
+    handleChange = (evt) => {
+        this.setState({
+            value: evt.target.value,
+        });
+    };
+
     render() {
         let dashboardUrl = null;
 

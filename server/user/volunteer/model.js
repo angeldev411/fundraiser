@@ -124,6 +124,54 @@ export default class Volunteer {
         ).getResults('users');
     }
 
+    static updateVolunteer(user) {
+        let setQueries = '';
+
+        console.log('User Data :::', user);
+
+        if (typeof user.firstName !== 'undefined') {
+            setQueries += 'user.firstName = { firstName },';
+        }
+
+        if (typeof user.lastName !== 'undefined') {
+            setQueries += 'user.lastName = { lastName },';
+        }
+
+        if (typeof user.email !== 'undefined') {
+            setQueries += 'user.email = { email },';
+        }
+
+        if (typeof user.password !== 'undefined') {
+            setQueries += 'user.password = { password },';
+        }
+
+        if (typeof user.slug !== 'undefined') {
+            setQueries += 'user.slug = { slug },';
+        }
+
+        if (typeof user.headshotData !== 'undefined') {
+            setQueries += 'user.headshotData = { headshotData },';
+        }
+
+        if (typeof user.description !== 'undefined') {
+            setQueries += 'user.description = { description },';
+        }
+
+        setQueries = setQueries.slice(0, -1);
+
+        return db.query(`
+            MATCH (user { id: {id} })
+
+            SET ${setQueries}
+
+            RETURN user
+            `,
+            {},
+            user
+        )
+        .getResult('user');
+    }
+
     static onboard(obj) {
         return Volunteer.create(obj)
         .then((newVolunteer) => db.query(`
