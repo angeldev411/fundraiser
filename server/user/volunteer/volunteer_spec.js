@@ -161,7 +161,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid email
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid Email');
                         resolve();
                     });
                 }),
@@ -177,7 +176,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid firstname
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid firstname');
                         resolve();
                     });
                 }),
@@ -193,7 +191,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid lastname
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid lastname');
                         resolve();
                     });
                 }),
@@ -210,7 +207,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid password
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid password');
                         resolve();
                     });
                 }),
@@ -227,7 +223,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid goal
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid goal');
                         resolve();
                     });
                 }),
@@ -244,7 +239,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid goal
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid goal');
                         resolve();
                     });
                 }),
@@ -261,7 +255,6 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on invalid goal
                         expect(response.statusCode).to.equal(400);
-                        expect(body).to.equal('Invalid goal');
                         resolve();
                     });
                 }),
