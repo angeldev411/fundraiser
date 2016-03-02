@@ -42,6 +42,10 @@ export default class AdminVolunteerProfile extends Component {
             this.setState({
                 volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
             });
+
+            if (nextProps.volunteerUpdateStatus) {
+                transitionTo(`${Urls.VOLUNTEER_PROFILE}`);
+            }
         }
     }
 
@@ -120,6 +124,10 @@ export default class AdminVolunteerProfile extends Component {
                 return `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`;
             }
         }
+    }
+
+    getSuccessMessage = () => {
+        return (<div className="success-message">Profile updated!</div>);
     }
 
     getErrorMessage = () => {
@@ -252,7 +260,8 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
-                                <Button customClass="btn-green-white" onClick={this.submitProfile}>{'Save'}</Button> {this.state.volunteerUpdateStatus === false ? this.getErrorMessage() : ''}
+                                <Button customClass="btn-green-white" onClick={this.submitProfile}>{'Save'}</Button> {this.state.volunteerUpdateStatus === false && this.getErrorMessage()}
+                                {this.state.volunteerUpdateStatus === true && this.getSuccessMessage()}
                             </form>
                         </section>
                     </div>
