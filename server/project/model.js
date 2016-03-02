@@ -43,10 +43,10 @@ class Project {
 
         return project.save()
         .then((response) => {
-            if (data.project.id && !data.project.projectLeaderEmail) {
+            if (id && !data.project.projectLeaderEmail) {
                 // If it's an update, don't relink project creator and return project immediately
                 return Promise.resolve(project.data);
-            } else if (data.project.id && data.project.projectLeaderEmail) {
+            } else if (id && data.project.projectLeaderEmail) {
                 // If it's an update, but new project leader email is defined
                 return UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
                 .then(() => {
@@ -55,7 +55,7 @@ class Project {
                 .catch(() => {
                     return Promise.reject(messages.invite.error);
                 });
-            } else if (!data.project.id && response.id === project.id) {
+            } else if (!id && response.id === project.id) {
                 // If it's a new project, link projectCreator
                 return db.query(`
                         MATCH (p:PROJECT {id: {projectId} }), (u:SUPER_ADMIN {id: {userId} })
