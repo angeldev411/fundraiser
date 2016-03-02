@@ -138,7 +138,7 @@ RETURN ${resultName}
 
             if (typeof user.email !== 'undefined') {
                 if (!util.isEmailValid(user.email)) {
-                    return reject('Invalid Email');
+                    return reject('Invalid email');
                 }
                 setQuery += `${resultName}.email = { email },`;
                 hasSet = true;
@@ -146,7 +146,7 @@ RETURN ${resultName}
 
             if (typeof user.password !== 'undefined') {
                 if (!util.isPasswordValid(user.password)) {
-                    return reject('Invalid Password');
+                    return reject('Invalid password');
                 }
                 user.password = util.hash(user.password);
                 setQuery += `${resultName}.password = { password },`;

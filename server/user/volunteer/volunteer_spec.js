@@ -118,6 +118,123 @@ describe('Volunteers', () => {
                     (error, response, body) => {
                         // Should fail on no data
                         expect(response.statusCode).to.equal(400);
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaaaaa',
+                            firstName: 'John',
+                            lastName: 'Smith',
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid email
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid Email');
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: '',
+                            lastName: 'Smith',
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid firstname
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid firstname');
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: 'John',
+                            lastName: '',
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid lastname
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid lastname');
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: 'John',
+                            lastName: 'Smith',
+                            password: '',
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid password
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid password');
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: 'John',
+                            lastName: 'Smith',
+                            goal: 10000,
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid goal
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid goal');
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: 'John',
+                            lastName: 'Smith',
+                            goal: -111,
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid goal
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid goal');
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: 'John',
+                            lastName: 'Smith',
+                            goal: 'whatever',
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should fail on invalid goal
+                        expect(response.statusCode).to.equal(400);
+                        expect(body).to.equal('Invalid goal');
+                        resolve();
                     });
                 }),
             ]).then((result) => {
