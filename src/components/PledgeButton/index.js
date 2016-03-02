@@ -28,6 +28,9 @@ export default class PledgeButton extends Component {
                 </div>
                 <Pledge open={this.state.clicked}
                     togglePledge={this.togglePledge}
+                    teamSlug={this.props.teamSlug}
+                    volunteerSlug={this.props.volunteerSlug}
+                    oneTimeOnly={this.props.oneTimeOnly}
                 />
             </div>
         );
@@ -36,4 +39,7 @@ export default class PledgeButton extends Component {
 
 PledgeButton.propTypes = {
     customClass: React.PropTypes.string,
+    teamSlug: React.PropTypes.string,
+    volunteerSlug: React.PropTypes.string,
+    oneTimeOnly: React.PropTypes.bool,
 };

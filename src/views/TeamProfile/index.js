@@ -61,6 +61,7 @@ class TeamProfile extends Component {
                     tagline={this.state.team.tagline}
                     button={"Sponsor Now"}
                     editable={editable}
+                    team={this.state.team}
                 />
                 <div className={"main-content"}>
                     <TeamProfileBlock
