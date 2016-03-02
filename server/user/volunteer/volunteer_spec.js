@@ -107,6 +107,34 @@ describe('Volunteers', () => {
             });
         });
 
+        it('gives updates my profile', (done) => {
+            const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
+
+            Promise.all([
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
+                        form: {
+                            email: 'aaaa@aaa.com',
+                            firstName: 'John',
+                            lastName: 'Smith',
+                            goal: 100,
+                        },
+                    },
+                    (error, response, body) => {
+                        // Should work on valid data
+                        expect(response.statusCode).to.equal(200);
+                        resolve();
+                    });
+                }),
+            ]).then((result) => {
+                done();
+            }).catch((error) => {
+                fail();
+                done();
+            });
+        });
+
         it('gives an error if I update my profile with invalid data', (done) => {
             const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
 
