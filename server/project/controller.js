@@ -10,8 +10,8 @@ class projectController {
         });
     }
 
-    static update(data) {
-        return new Project(data)
+    static update(data, id) {
+        return new Project(data, id)
         .then((p) => {
             return Promise.resolve(p);
         });

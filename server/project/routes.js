@@ -45,7 +45,6 @@ router.put('/api/v1/project/:projectId', (req, res) => {
     }
 
     const project = {
-        id: req.params.projectId,
         name: req.body.name,
         slug: req.body.slug,
         shortDescription: req.body.shortDescription,
@@ -57,7 +56,7 @@ router.put('/api/v1/project/:projectId', (req, res) => {
         currentUser: req.session.user,
     };
 
-    projectController.update(data)
+    projectController.update(data, req.params.projectId)
     .then((response) => {
         res.status(200).send(response);
     })

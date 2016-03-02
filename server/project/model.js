@@ -9,7 +9,7 @@ import utils from '../helpers/util';
 const db = neo4jDB(config.DB_URL);
 
 class Project {
-    constructor(data) {
+    constructor(data, id) {
         const Node = db.defineNode({
             label: ['PROJECT'],
             schema: {
@@ -25,7 +25,7 @@ class Project {
         }
 
         const baseInfo = {
-            id: data.project.id ? data.project.id : uuid.v4(),
+            id: data.project.id || uuid.v4(),
             name: data.project.name,
             slug: data.project.slug,
         };
@@ -39,7 +39,7 @@ class Project {
         const project = new Node({
             ...baseInfo,
             ...optionalInfo,
-        }, data.project.id ? data.project.id : null);
+        }, id);
 
         return project.save()
         .then((response) => {
