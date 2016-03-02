@@ -295,12 +295,12 @@ describe('Team', () => {
 
         it('lets a Team Leader update team', (done) => {
             getTestTeamId(team.name)
-            .then((team) => {
+            .then((result) => {
                 requestCookie.put({
-                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${result.id}`,
                     form: {
                         name: team.name,
-                        slug: uuid.v4(),
+                        slug: team.slug,
                         projectSlug: project.slug,
                     },
                 },
@@ -336,7 +336,7 @@ describe('Team', () => {
 
     describe('as Volunteer', () => {
         before(loginAsVolunteer);
-        // after(deleteTestTeam);
+        after(deleteTestTeam);
         after(logout);
 
         it('gives an error if a volunteer try to create team', (done) => {

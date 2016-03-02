@@ -11,6 +11,25 @@ export default function reducers(state = initialState, action) {
                 error: null,
             };
 
+        case actionTypes.NEW_TEAM_FAIL:
+            return {
+                ...state,
+                error: action.error,
+            };
+
+        case actionTypes.UPDATE_TEAM:
+            return {
+                ...state,
+                team: action.team,
+                error: null,
+            };
+
+        case actionTypes.UPDATE_TEAM_FAIL:
+            return {
+                ...state,
+                error: action.error,
+            };
+
         case actionTypes.GOT_TEAMS:
             return {
                 ...state,

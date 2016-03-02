@@ -40,16 +40,16 @@ class Team {
             id: data.team.id || uuid.v4(),
             name: data.team.name,
             slug: data.team.slug,
-            logo: data.team.logo,
-            coverImage : data.team.coverImage,
-            tagline: data.team.tagline,
-            slogan: data.team.slogan,
-            description: data.team.description,
-            raised : data.team.raised,
-            pledge: data.team.pledge,
-            pledgePerHour : data.team.pledgePerHour,
-            totalHours: data.team.totalHours,
-            totalVolunteers: data.team.totalVolunteers,
+            ...(data.team.logo ? { logo: data.team.logo } : {}),
+            ...(data.team.coverImage ? { coverImage : data.team.coverImage } : {}),
+            ...(data.team.tagline ? { tagline: data.team.tagline } : {}),
+            ...(data.team.slogan ? { slogan: data.team.slogan } : {}),
+            ...(data.team.description ? { description: data.team.description } : {}),
+            ...(data.team.raised ? { raised : data.team.raised } : {}),
+            ...(data.team.pledge ? { pledge: data.team.pledge } : {}),
+            ...(data.team.pledgePerHour ? { pledgePerHour : data.team.pledgePerHour } : {}),
+            ...(data.team.totalHours ? { totalHours: data.team.totalHours } : {}),
+            ...(data.team.totalVolunteers ? { totalVolunteers: data.team.totalVolunteers } : {}),
         }, id);
 
         return team.save()
@@ -143,7 +143,7 @@ class Team {
 
     static isProjectLeaderIndirectTeamOwner(teamId, projectLeaderId) {
         return db.query(`
-                MATCH (t:TEAM {id: {teamId}})<--(u:PROJECT_LEADER {id: {projectLeaderId}})
+                MATCH (t:TEAM {id: {teamId}})-->(:PROJECT)<--(u:PROJECT_LEADER {id: {projectLeaderId}})
                 RETURN { team: t, user: u } AS result
             `,
             {},

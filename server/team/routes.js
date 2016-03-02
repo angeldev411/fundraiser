@@ -67,7 +67,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
     const projectSlug = req.body.projectSlug;
 
     if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
-        teamController.store(data, projectSlug, req.params.id)
+        teamController.store(data, projectSlug, req.params.teamId)
         .then((response) => {
             res.status(200).send(response);
         })
@@ -78,7 +78,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         // TODO verify if team leader is owner of team
         Team.isTeamLeaderTeamOwner(req.params.teamId, req.session.user.id)
         .then((response1) => {
-            teamController.store(data, projectSlug, req.params.id)
+            teamController.store(data, projectSlug, req.params.teamId)
             .then((response) => {
                 res.status(200).send(response);
             })
@@ -94,7 +94,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         // TODO verify if project leader is indirect owner of team
         Team.isProjectLeaderIndirectTeamOwner(req.params.teamId, req.session.user.id)
         .then(() => {
-            teamController.store(data, projectSlug, req.params.id)
+            teamController.store(data, projectSlug, req.params.teamId)
             .then((response) => {
                 res.status(200).send(response);
             })
