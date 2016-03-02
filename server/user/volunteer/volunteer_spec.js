@@ -106,5 +106,16 @@ describe('Volunteers', () => {
                 done();
             });
         });
+
+        it('gives an error if I update my profile with invalid data', (done) => {
+            requestCookie.get({
+                url: `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`,
+            },
+            (error, response, body) => {
+                expect(error).to.be.a('null');
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
     });
 });
