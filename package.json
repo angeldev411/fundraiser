@@ -67,6 +67,7 @@
     "slug": "^0.9.1",
     "spawn-sync": "1.0.4",
     "stripe": "^4.3.0",
+    "unicode": "^0.6.1",
     "uuid": "^2.0.1",
     "validate": "^3.0.1",
     "vinyl-buffer": "^1.0.0"
