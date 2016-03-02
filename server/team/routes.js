@@ -57,7 +57,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
     // TODO verify if team leader is owner of team
 
     const team = {
-        id: req.params.id,
         name: req.body.name,
         slug: req.body.slug,
         teamLeaderEmail: req.body.teamLeaderEmail,
@@ -70,7 +69,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
 
     const projectSlug = req.body.projectSlug;
 
-    teamController.store(data, projectSlug)
+    teamController.store(data, projectSlug, req.params.id)
     .then((response) => {
         res.status(200).send(response);
     })

@@ -12,7 +12,7 @@ import utils from '../helpers/util';
 const db = neo4jDB(config.DB_URL);
 
 class Team {
-    constructor(data, projectSlug) {
+    constructor(data, projectSlug, id) {
         const Node = db.defineNode({
             label: ['TEAM'],
             schema: {
@@ -50,7 +50,7 @@ class Team {
             pledgePerHour : data.team.pledgePerHour,
             totalHours: data.team.totalHours,
             totalVolunteers: data.team.totalVolunteers,
-        }, data.team.id ? data.team.id : null);
+        }, id);
 
         return team.save()
         .then((response) => {
