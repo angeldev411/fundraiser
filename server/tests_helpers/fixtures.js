@@ -243,23 +243,18 @@ const fixtures = {
     pledges : [
         {
             hourly: 10,
-            cap: 100,
         },
         {
             hourly: 1,
-            cap: 1000,
         },
         {
-            hourly: 2.15,
-            cap: 500,
+            amount: 50,
         },
         {
             hourly: 1.10,
-            cap: 500,
         },
         {
             hourly: 3,
-            cap: 700,
         },
     ],
 

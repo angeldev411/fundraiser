@@ -107,8 +107,7 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
     if (!req.body.email
         || !req.body.firstName
         || !req.body.lastName
-        || !req.body.hourly
-        || !req.body.cap
+        || (!req.body.hourly || req.body.amount)
         || !req.params.teamSlug
     ) {
         res.status(400).send(messages.sponsor.missingData);
@@ -122,8 +121,8 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
     };
 
     const pledge = {
-        hourly: req.body.hourly,
-        cap: req.body.cap,
+        ...(req.body.hourly ? { hourly: req.body.hourly } : {}),
+        ...(req.body.amount ? { amount: req.body.amount } : {}),
     };
 
     new Sponsor(data, pledge, req.params.teamSlug)
@@ -139,8 +138,7 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
     if (!req.body.email
         || !req.body.firstName
         || !req.body.lastName
-        || !req.body.hourly
-        || !req.body.cap
+        || (!req.body.hourly || req.body.amount)
         || !req.params.volunteerSlug
     ) {
         res.status(400).send(messages.sponsor.missingData);
@@ -154,8 +152,8 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
     };
 
     const pledge = {
-        hourly: req.body.hourly,
-        cap: req.body.cap,
+        ...(req.body.hourly ? { hourly: req.body.hourly } : {}),
+        ...(req.body.amount ? { amount: req.body.amount } : {}),
     };
 
     new Sponsor(data, pledge, null, req.params.volunteerSlug)
