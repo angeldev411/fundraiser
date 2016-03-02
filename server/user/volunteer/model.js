@@ -127,16 +127,13 @@ export default class Volunteer {
     }
 
     static updateVolunteerQueryBuilder(user) {
-        const matchQuery = `
-        MATCH (user { id: {id} })
-
-        `;
-        let setQuery = `
-        SET `;
+        const resultName = `n`
+        const matchQuery = `MATCH (${resultName} { id: {id} })
+`;
+        let setQuery = `SET `;
         const returnQuery = `
-
-        RETURN user
-        `;
+RETURN ${resultName}
+`;
 
         let hasSet = false;
 
@@ -145,7 +142,7 @@ export default class Volunteer {
                 if (!util.isFirstNameValid(user.firstName)) {
                     return reject('Invalid firstname');
                 }
-                setQuery += 'user.firstName = { firstName },';
+                setQuery += `${resultName}.firstName = { firstName },`;
                 hasSet = true;
             }
 
@@ -153,7 +150,7 @@ export default class Volunteer {
                 if (!util.isLastNameValid(user.lastName)) {
                     return reject('Invalid lastname');
                 }
-                setQuery += 'user.lastName = { lastName },';
+                setQuery += `${resultName}.lastName = { lastName },`;
                 hasSet = true;
             }
 
@@ -161,7 +158,7 @@ export default class Volunteer {
                 if (!util.isEmailValid(user.email)) {
                     return reject('Invalid Email');
                 }
-                setQuery += 'user.email = { email },';
+                setQuery += `${resultName}.email = { email },`;
                 hasSet = true;
             }
 
@@ -170,17 +167,17 @@ export default class Volunteer {
                     return reject('Invalid Password');
                 }
                 user.password = util.hash(user.password);
-                setQuery += 'user.password = { password },';
+                setQuery += `${resultName}.password = { password },`;
                 hasSet = true;
             }
 
             if (typeof user.slug !== 'undefined') {
-                setQuery += 'user.slug = { slug },';
+                setQuery += `${resultName}.slug = { slug },`;
                 hasSet = true;
             }
 
             if (typeof user.headshotData !== 'undefined') {
-                setQuery += 'user.headshotData = { headshotData },';
+                setQuery += `${resultName}.headshotData = { headshotData },`;
                 hasSet = true;
             }
 
@@ -189,12 +186,12 @@ export default class Volunteer {
                 if (!util.isGoalValid(user.goal)) {
                     return reject('Invalid goal');
                 }
-                setQuery += 'user.goal = { goal },';
+                setQuery += `${resultName}.goal = { goal },`;
                 hasSet = true;
             }
 
             if (typeof user.description !== 'undefined') {
-                setQuery += 'user.description = { description },';
+                setQuery += `${resultName}.description = { description },`;
                 hasSet = true;
             }
 
@@ -211,7 +208,7 @@ export default class Volunteer {
 
     static updateVolunteer(user) {
         return new Promise((resolve, reject) => {
-            updateVolunteerQueryBuilder(user)
+            Volunteer.updateVolunteerQueryBuilder(user)
                 .then((updateQuery) => {
                     db.query(
                         updateQuery,
