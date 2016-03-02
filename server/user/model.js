@@ -37,6 +37,7 @@ const userSchemas = {
 
 export default class User {
     // id should never be passed, except for the update
+    static schemas = userSchemas;
     constructor(data, label, id) {
         if (!data.id) {
             data.id = UUID.v4();

@@ -22,6 +22,26 @@ router.get('/api/v1/volunteer', (req, res) => {
     });
 });
 
+router.post('/api/v1/volunteer', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session) || req.session.user.id !== req.body.id
+    ) {
+        res.status(403).send();
+        return;
+    }
+
+    const user = req.body;
+
+    volunteerController.update(user)
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send(err);
+    });
+});
+
 router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

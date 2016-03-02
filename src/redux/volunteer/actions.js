@@ -62,6 +62,27 @@ export const createHourLog = (place, hours, date, supervisor, signature) => {
     };
 };
 
+export const updateProfile = (user) => {
+    return (dispatch) => {
+
+        const volunteerProfile = user;
+
+        return axios.post(`${API_URL}/volunteer`, volunteerProfile)
+        .then(
+            (response) => {
+                // dispatch(updateVolunteerSuccess({}));
+                console.log('Success', '--------------------');
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                // dispatch(updateVolunteerFailure(errorResponse.data));
+                console.log('Error', '--------------------');
+            }
+        );
+    };
+};
+
 export const gotVolunteer = (volunteer) => ({
     type: actionTypes.VOLUNTEER,
     volunteer,
