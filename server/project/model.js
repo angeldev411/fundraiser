@@ -90,7 +90,8 @@ class Project {
 
     static getProjects() {
         return db.query(`
-            MATCH (p:PROJECT)<--(t:TEAM)
+            MATCH (p:PROJECT)
+            OPTIONAL MATCH (p)<--(t:TEAM)
             RETURN { project: p, teams: collect(t) } AS projects
             `
         ).getResults('projects');
