@@ -74,7 +74,7 @@ export default class UserList extends Component {
     };
 
     render() {
-        if (this.props.team.users) {
+        if (this.props.volunteers) {
             return (
                 <div className={`user-list clearfix color-${this.props.color}`}>
                     <div
@@ -89,17 +89,19 @@ export default class UserList extends Component {
                     </div>
 
                     <ul id={'scrollable-user-list'}>
-                        {this.props.team.volunteers.map((user, i) =>
+                        {this.props.volunteers.map((user, i) =>
                             (<li
                                 className="user"
                                 key={i}
                              >
-                                <Link to={Urls.getVolunteerProfileUrl(user.project.slug, user.team.slug, user.slug)}>
+                                <Link to={Urls.getVolunteerProfileUrl(this.props.projectSlug, this.props.teamSlug, user.slug)}>
                                     <div className="user-face"
-                                        style={{ backgroundImage : `url(${constants.USER_IMAGES_FOLDER}/${user.uniqid}/${user.image})` }}
+                                        style={{ backgroundImage : user.image
+                                            ? `url(${constants.USER_IMAGES_FOLDER}/${user.id}/${user.image})`
+                                            : `url(${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR})` }}
                                     >
                                         <div className="user-hours">
-                                            <span className="user-hours-number">{user.hours}</span><br/>{'hours'}
+                                            <span className="user-hours-number">{user.hours ? user.hours : 0}</span><br/>{'hours'}
                                         </div>
                                     </div>
                                     <div className="user-name">{`${user.firstName} ${user.lastName}`}</div>
@@ -128,7 +130,9 @@ export default class UserList extends Component {
 }
 
 UserList.propTypes = {
-    team: React.PropTypes.object,
+    volunteers: React.PropTypes.array,
+    teamSlug: React.PropTypes.string,
+    projectSlug: React.PropTypes.string,
     onClick: React.PropTypes.func,
     color: React.PropTypes.string,
     noSponsor: React.PropTypes.bool,
