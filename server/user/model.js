@@ -77,8 +77,13 @@ export default class User {
     }
 
     static update(userNode, data) {
+        let role = null;
         data.inviteCode = null;
-        return new User(data, userNode.roles[1], userNode.id);
+
+        if (userNode.roles && userNode.roles[1]) {
+            role = userNode.roles[1]
+        }
+        return new User(data, role, userNode.id);
     }
 
     static uploadHeadshotImage(obj) {
