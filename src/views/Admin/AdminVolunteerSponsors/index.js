@@ -1,6 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-
+import * as Actions from '../../../redux/sponsor/actions';
+import { connect } from 'react-redux';
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
 import AdminLayout from '../../../components/AdminLayout';
@@ -14,12 +15,58 @@ import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminVolunteerSponsors extends Component {
+class AdminVolunteerSponsors extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sponsors: [],
+        };
+    }
+
     componentWillMount() {
         document.title = 'My Sponsors | Raiserve';
+
+        if (this.props.user) {
+            const projectSlug = this.props.user.project.slug;
+            const teamSlug = this.props.user.team.slug;
+            const volunteerSlug = this.props.user.slug;
+
+            Actions.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.sponsors) {
+            this.setState(
+                {
+                    sponsors: nextProps.sponsors,
+                    error: null,
+                }
+            );
+        } else if (nextProps.user) {
+            const projectSlug = nextProps.user.project.slug;
+            const teamSlug = nextProps.user.team.slug;
+            const volunteerSlug = nextProps.user.slug;
+
+            console.log(volunteerSlug);
+
+            Actions.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
+
+            this.setState(
+                {
+                    user: nextProps.user,
+                    error: null,
+                }
+            );
+        }
     }
 
     render() {
+        if (!this.props.user) {
+            return (null);
+        }
         const pageNav = [
             {
                 type: 'button',
@@ -38,7 +85,6 @@ export default class AdminVolunteerSponsors extends Component {
             },
         ];
 
-
         return (
             <AuthenticatedView accessLevel={'VOLUNTEER'}>
                 <AdminLayout pageNav={pageNav}>
@@ -48,7 +94,7 @@ export default class AdminVolunteerSponsors extends Component {
                     />
                     <div className={'table-limit-height'}>
                         <AdminSponsorsTable
-                            sponsors={data.sponsors}
+                            sponsors={this.state.sponsors}
                             isVolunteer
                         />
                     </div>
@@ -77,3 +123,9 @@ export default class AdminVolunteerSponsors extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+    error: reduxState.main.sponsor.error,
+    sponsors: reduxState.main.sponsor.sponsors,
+}))(AdminVolunteerSponsors);

@@ -35,6 +35,36 @@ router.post('/api/v1/project', (req, res) => {
     });
 });
 
+router.put('/api/v1/project/:projectId', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || !AUTH_CHECKER.isSuperAdmin(req.session.user)
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    const project = {
+        name: req.body.name,
+        slug: req.body.slug,
+        shortDescription: req.body.shortDescription,
+        projectLeaderEmail: req.body.projectLeaderEmail,
+    };
+
+    const data = {
+        project,
+        currentUser: req.session.user,
+    };
+
+    projectController.update(data, req.params.projectId)
+    .then((response) => {
+        res.status(200).send(response);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
 router.get('/api/v1/project', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

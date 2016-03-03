@@ -8,6 +8,7 @@ class sponsorController {
             return Promise.resolve(sponsors);
         })
         .catch((err) => {
+            console.log(err);
             return Promise.reject(err);
         });
     }

@@ -57,6 +57,24 @@ export default class Volunteer {
         });
     }
 
+    static getTeamAndProject(volunteer) {
+        return db.query(`
+            MATCH (project:PROJECT)<-[:CONTRIBUTE]-(team:TEAM)<-[:VOLUNTEER]-(:VOLUNTEER { id: {userId} })
+            RETURN project, team
+            `,
+            {},
+            {
+                userId: volunteer.id,
+            }
+        ).getResult('project', 'team')
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static volunteeringForTeams(uuid) {
         return db.query(
             `

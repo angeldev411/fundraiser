@@ -8,7 +8,11 @@ import * as Actions from '../../redux/project/actions';
 class AdminProjectForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        if (this.props.defaultData) {
+            this.state = this.props.defaultData;
+        } else {
+            this.state = {};
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -18,7 +22,7 @@ class AdminProjectForm extends Component {
             // TODO Push new project]
             // this.setState(
             //     {
-            //         user: nextProps.user,
+            //         user: nextProps.project,
             //         error: null
             //     }
             // );
@@ -26,12 +30,22 @@ class AdminProjectForm extends Component {
     }
 
     submit = () => {
-        Actions.newProject(
-            this.state.name,
-            this.state.slug,
-            this.state.shortDescription,
-            this.state.projectLeaderEmail,
-        )(this.props.dispatch);
+        if (this.state.id) {
+            Actions.updateProject(
+                this.state.id,
+                this.state.name,
+                this.state.slug,
+                this.state.shortDescription,
+                this.state.projectLeaderEmail,
+            )(this.props.dispatch);
+        } else {
+            Actions.newProject(
+                this.state.name,
+                this.state.slug,
+                this.state.shortDescription,
+                this.state.projectLeaderEmail,
+            )(this.props.dispatch);
+        }
     };
 
     handleChange = (event, name) => {

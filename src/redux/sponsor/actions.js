@@ -12,7 +12,7 @@ export const indexSponsorsFailed = (error) => ({
     error,
 });
 
-export function indexSponsors() {
+export function indexSponsors(projectSlug = null, teamSlug = null, volunteerSlug = null) {
     return (dispatch) => {
         return axios.get(`${API_URL}/sponsor`)
         .then(

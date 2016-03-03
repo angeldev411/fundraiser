@@ -7,8 +7,18 @@ export const receivedProject = (project) => ({
     project,
 });
 
+export const updatedProject = (project) => ({
+    type: actionTypes.UPDATE_PROJECT,
+    project,
+});
+
 export const newProjectFailed = (error) => ({
     type: actionTypes.NEW_PROJECT_FAIL,
+    error,
+});
+
+export const updateProjectFailed = (error) => ({
+    type: actionTypes.UPDATE_PROJECT_FAIL,
     error,
 });
 
@@ -38,6 +48,27 @@ export function newProject(name, slug, shortDescription, projectLeaderEmail) {
         .catch(
             (errorResponse) => {
                 dispatch(newProjectFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
+export function updateProject(id, name, slug, shortDescription, projectLeaderEmail) {
+    return (dispatch) => {
+        return axios.put(`${API_URL}/project/${id}`, {
+            name,
+            slug,
+            shortDescription,
+            projectLeaderEmail,
+        })
+        .then(
+            (response) => {
+                dispatch(updatedProject(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(updateProjectFailed(errorResponse.data));
             }
         );
     };

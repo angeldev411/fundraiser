@@ -36,6 +36,16 @@ class userController {
                     .catch((err) => {
                         return Promise.reject(err);
                     });
+                } else if (user.roles.indexOf(roles.VOLUNTEER) >= 0) {
+                    return Volunteer.getTeamAndProject(user)
+                    .then((data) => {
+                        user.project = data.project;
+                        user.team = data.team;
+                        return Promise.resolve(user);
+                    })
+                    .catch((err) => {
+                        return Promise.reject(err);
+                    });
                 } else {
                     return Promise.resolve(user);
                 }

@@ -8,10 +8,6 @@ import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 
-// TODO dynamic data
-import * as data from '../../../common/test-data';
-const sponsors = data.sponsors;
-
 class AdminSponsors extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +20,7 @@ class AdminSponsors extends Component {
         document.title = 'Sponsors | Raiserve';
 
         if (this.props.user) {
-            Actions.indexSponsors()(this.props.dispatch);
+            this.doAction(this.props.user);
         }
     }
 
@@ -39,7 +35,7 @@ class AdminSponsors extends Component {
                 }
             );
         } else if (nextProps.user) {
-            Actions.indexSponsors()(this.props.dispatch);
+            this.doAction(nextProps.user);
 
             this.setState(
                 {
@@ -50,6 +46,18 @@ class AdminSponsors extends Component {
         }
     }
 
+    doAction = ((user) => {
+        const roles = user.roles;
+
+        if (roles.indexOf('SUPER_ADMIN') >= 0) {
+            Actions.indexSponsors()(this.props.dispatch);
+        } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
+            const projectSlug = user.project.slug;
+
+            Actions.indexSponsors(projectSlug)(this.props.dispatch);
+        }
+    });
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -57,7 +65,7 @@ class AdminSponsors extends Component {
 
         let header = null;
 
-        if (this.props.user.role === 'PROJECT_LEADER') {
+        if (this.props.user.roles.indexOf('PROJECT_LEADER') >= 0) {
             header = `${this.props.user.project.name} Sponsors`;
         } else {
             header = `Sponsors`;

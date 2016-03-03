@@ -40,6 +40,75 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
+router.put('/api/v1/team/:teamId', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isSuperAdmin(req.session.user)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    const team = {
+        name: req.body.name,
+        slug: req.body.slug,
+        teamLeaderEmail: req.body.teamLeaderEmail,
+    };
+
+    const data = {
+        team,
+        currentUser: req.session.user,
+    };
+
+    const projectSlug = req.body.projectSlug;
+
+    if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
+        teamController.store(data, projectSlug, req.params.teamId)
+        .then((response) => {
+            res.status(200).send(response);
+        })
+        .catch((err) => {
+            res.status(400).send(err);
+        });
+    } else if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
+        // TODO verify if team leader is owner of team
+        Team.isTeamLeaderTeamOwner(req.params.teamId, req.session.user.id)
+        .then((response1) => {
+            teamController.store(data, projectSlug, req.params.teamId)
+            .then((response) => {
+                res.status(200).send(response);
+            })
+            .catch((err) => {
+                res.status(400).send(err);
+            });
+        })
+        .catch(() => {
+            res.status(403).send();
+            return;
+        });
+    } else if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
+        // TODO verify if project leader is indirect owner of team
+        Team.isProjectLeaderIndirectTeamOwner(req.params.teamId, req.session.user.id)
+        .then(() => {
+            teamController.store(data, projectSlug, req.params.teamId)
+            .then((response) => {
+                res.status(200).send(response);
+            })
+            .catch((err) => {
+                res.status(400).send(err);
+            });
+        })
+        .catch(() => {
+            res.status(403).send();
+            return;
+        });
+    }
+});
+
 router.get('/api/v1/team/:projectSlug', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

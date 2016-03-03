@@ -132,8 +132,8 @@ export const deleteTestProject = (done) => {
     return Promise.resolve(
         db.query(
             `
-            MATCH (project:PROJECT {name: {name}})<-[rel:CONTRIBUTE]-(team:TEAM)
-            DETACH DELETE team, project
+            MATCH (project:PROJECT {name: {name}})
+            DETACH DELETE project
             `,
             {},
             {
@@ -146,6 +146,55 @@ export const deleteTestProject = (done) => {
     .catch((err) => {
         console.log('FAIL', err);
     });
+};
+
+export const getTestProjectId = (name) => {
+    return db.query(
+        `
+        MATCH (project:PROJECT {name: {name}})
+        RETURN project
+        `,
+        {},
+        {
+            name,
+        }
+    )
+    .getResult('project');
+};
+
+export const deleteTestTeam = (done) => {
+    // Remove the team we just created
+    return Promise.resolve(
+        db.query(
+            `
+            MATCH (team:TEAM {name: {name}})
+            DETACH DELETE team
+            `,
+            {},
+            {
+                name: fixtures.testTeam.name,
+            }
+        )
+    ).then((response) => {
+        done();
+    })
+    .catch((err) => {
+        console.log('FAIL', err);
+    });
+};
+
+export const getTestTeamId = (name) => {
+    return db.query(
+        `
+        MATCH (team:TEAM {name: {name}})
+        RETURN team
+        `,
+        {},
+        {
+            name
+        }
+    )
+    .getResult('team');
 };
 
 export const deleteTestSponsor = (done) => {

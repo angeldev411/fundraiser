@@ -9,7 +9,7 @@ import utils from '../helpers/util';
 const db = neo4jDB(config.DB_URL);
 
 class Project {
-    constructor(data) {
+    constructor(data, id) {
         const Node = db.defineNode({
             label: ['PROJECT'],
             schema: {
@@ -25,7 +25,7 @@ class Project {
         }
 
         const baseInfo = {
-            id: uuid.v4(),
+            id: data.project.id || uuid.v4(),
             name: data.project.name,
             slug: data.project.slug,
         };
@@ -39,13 +39,24 @@ class Project {
         const project = new Node({
             ...baseInfo,
             ...optionalInfo,
-        });
+        }, id);
 
         return project.save()
-
         .then((response) => {
-            if (response.id === project.id) {
-                // Link projectCreator
+            if (id && !data.project.projectLeaderEmail) {
+                // If it's an update, don't relink project creator and return project immediately
+                return Promise.resolve(project.data);
+            } else if (id && data.project.projectLeaderEmail) {
+                // If it's an update, but new project leader email is defined
+                return UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
+                .then(() => {
+                    return Promise.resolve(project.data);
+                })
+                .catch(() => {
+                    return Promise.reject(messages.invite.error);
+                });
+            } else if (!id && response.id === project.id) {
+                // If it's a new project, link projectCreator
                 return db.query(`
                         MATCH (p:PROJECT {id: {projectId} }), (u:SUPER_ADMIN {id: {userId} })
                         CREATE (u)-[:CREATOR]->(p)
@@ -78,7 +89,8 @@ class Project {
 
     static getProjects() {
         return db.query(`
-            MATCH (p:PROJECT)<--(t:TEAM)
+            MATCH (p:PROJECT)
+            OPTIONAL MATCH (p)<--(t:TEAM)
             RETURN { project: p, teams: collect(t) } AS projects
             `
         ).getResults('projects');

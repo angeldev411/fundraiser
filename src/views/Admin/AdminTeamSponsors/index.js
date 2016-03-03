@@ -1,6 +1,8 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-
+import * as SponsorActions from '../../../redux/sponsor/actions';
+import * as VolunteerActions from '../../../redux/volunteer/actions';
+import { connect } from 'react-redux';
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
@@ -10,15 +12,66 @@ import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembe
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import * as Urls from '../../../urls.js';
-// TODO dynamic data
-import * as data from '../../../common/test-data';
 
-export default class AdminTeamSponsors extends Component {
+class AdminTeamSponsors extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            volunteers: [],
+            sponsors: [],
+        };
+    }
+
     componentWillMount() {
         document.title = 'Team Sponsors | Raiserve';
+
+        if (this.props.user) {
+            const projectSlug = this.props.user.project.slug;
+            const teamSlug = this.props.user.team.slug;
+
+            VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.setState({ error: nextProps.error });
+        } else if (nextProps.sponsors) {
+            this.setState(
+                {
+                    sponsors: nextProps.sponsors,
+                    error: null,
+                }
+            );
+        } else if (nextProps.volunteers) {
+            this.setState(
+                {
+                    volunteers: nextProps.volunteers,
+                    error: null,
+                }
+            );
+        } else if (nextProps.user) {
+            const projectSlug = nextProps.user.project.slug;
+            const teamSlug = nextProps.user.team.slug;
+
+            VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+
+            this.setState(
+                {
+                    user: nextProps.user,
+                    error: null,
+                }
+            );
+        }
     }
 
     render() {
+        if (!this.props.user) {
+            return (null);
+        }
+
         const pageNav = [
             {
                 type: 'link',
@@ -31,14 +84,14 @@ export default class AdminTeamSponsors extends Component {
                 content:
                     <AdminInviteTeamMembersForm
                         title={"Invite New Team Members"}
-                        project={data.project}
-                        team={data.team}
+                        project={this.props.user.project}
+                        team={this.props.user.team}
                     />,
             },
             {
                 type: 'link',
                 title: 'My Public Team Page',
-                href: `${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}`,
+                href: `${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`,
             },
             {
                 type: 'link',
@@ -56,21 +109,21 @@ export default class AdminTeamSponsors extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <div className={'table-limit-height'}>
-                        <AdminSponsorsTable sponsors={data.sponsors} />
+                        <AdminSponsorsTable sponsors={this.state.sponsors} />
                     </div>
                     <AdminStatsBlock
                         stats={
                             [
                                 {
-                                    current: data.team.volunteers.length,
+                                    current: this.state.volunteers.length,
                                     title: 'Volunteers',
                                 },
                                 {
-                                    current: data.team.sponsors.length,
+                                    current: this.state.sponsors.length,
                                     title: 'Sponsors',
                                 },
                                 {
-                                    current: data.team.raised,
+                                    current: this.props.user.team.raised,
                                     title: '$ Raised',
                                 },
                             ]
@@ -83,3 +136,10 @@ export default class AdminTeamSponsors extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+    error: reduxState.main.sponsor.error,
+    volunteers: reduxState.main.volunteer.volunteers,
+    sponsors: reduxState.main.sponsor.sponsors,
+}))(AdminTeamSponsors);
