@@ -131,7 +131,11 @@ export default class Volunteer {
             user.goal = parseInt(user.goal, 10);
         }
         if (typeof user.password !== 'undefined') {
-            user.password = util.hash(user.password);
+            if (user.password !== '') {
+                user.password = util.hash(user.password);
+            } else {
+                Reflect.deleteProperty(user, 'password');
+            }
         }
         return User.update(user, user);
     }
