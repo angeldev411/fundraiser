@@ -248,8 +248,8 @@ export default class Sponsor {
                 {
                     userId: sponsor.id,
                     teamSlug,
-                    ...(pledge.hourly ? { hourly : pledge.hourly } : { hourly : null }),
-                    ...(pledge.amount ? { amount : pledge.amount } : { amount: null }),
+                    hourly: pledge.hourly || null,
+                    amount: pledge.amount || null,
                     total: 0,
                     date: new Date(),
                 }
@@ -263,8 +263,8 @@ export default class Sponsor {
                 {
                     userId: sponsor.id,
                     volunteerSlug,
-                    ...(pledge.hourly ? { hourly : pledge.hourly } : { hourly : null }),
-                    ...(pledge.amount ? { amount : pledge.amount } : { amount: null }),
+                    hourly: pledge.hourly || null,
+                    amount: pledge.amount || null,
                     total: 0,
                     date: new Date(),
                 }
