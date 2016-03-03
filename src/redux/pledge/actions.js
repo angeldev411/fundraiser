@@ -14,24 +14,22 @@ export const newPledgeFailed = (error) => ({
 
 export function newPledge(hourly, amount, teamSlug, volunteerSlug) {
     return (dispatch) => {
-        if (teamId) {
-            // return axios.post(`${API_URL}/sponsor/team/${teamSlug}`, {
-            //     hourly,
-            //     slug,
-            //     shortDescription,
-            //     projectLeaderEmail,
-            // })
-            // .then(
-            //     (response) => {
-            //         dispatch(receivedProject(response.data));
-            //     }
-            // )
-            // .catch(
-            //     (errorResponse) => {
-            //         dispatch(newProjectFailed(errorResponse.data));
-            //     }
-            // );
-        } else if (volunteerId) {
+        if (teamSlug) {
+            return axios.post(`${API_URL}/sponsor/team/${teamSlug}`, {
+                hourly,
+                amount,
+            })
+            .then(
+                (response) => {
+                    dispatch(receivedPledge(response.data));
+                }
+            )
+            .catch(
+                (errorResponse) => {
+                    dispatch(newPledgeFailed(errorResponse.data));
+                }
+            );
+        } else if (volunteerSlug) {
             return axios.post(`${API_URL}/sponsor/volunteer/${volunteerSlug}`, {
                 hourly,
                 amount,

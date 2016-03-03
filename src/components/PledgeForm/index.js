@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import { connect } from 'react-redux';
-// import * as Actions from '../../redux/pledge/actions';
+import * as Actions from '../../redux/pledge/actions';
 
 
 // $ symbol and numbers are inversed in Options due to "direction: rtl" in the select CSS
@@ -12,7 +12,9 @@ const cap = false;
 class PledgeForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            ...(this.props.oneTimeOnly ? { amount: pledgeValues[0] } : { hourly: pledgeValues[0] })
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,11 +26,17 @@ class PledgeForm extends Component {
     }
 
     submit = () => {
+        console.log(
+            this.state.hourly,
+            this.state.amount,
+            this.props.teamSlug,
+            this.props.volunteerSlug
+        );
         Actions.newPledge(
             this.state.hourly,
             this.state.amount,
-            this.props.teamId,
-            this.props.volunteerId
+            this.props.teamSlug,
+            this.props.volunteerSlug
         )(this.props.dispatch);
     };
 
@@ -43,6 +51,7 @@ class PledgeForm extends Component {
         return (
             <Form id="pledge"
                 cols={"col-xs-12"}
+                onSubmit={this.submit}
             >
                 <div className="form-group">
                     <select name="amount"
@@ -75,7 +84,10 @@ class PledgeForm extends Component {
                 ) : null}
 
                 <div className="form-group form-buttons">
-                    <Button customClass="btn-transparent-green btn-pledge">{'Continue'}</Button>
+                    <Button
+                        customClass="btn-transparent-green btn-pledge"
+                        type={'submit'}
+                    >{'Continue'}</Button>
                 </div>
             </Form>
         );
@@ -83,8 +95,8 @@ class PledgeForm extends Component {
 }
 
 PledgeForm.propTypes = {
-    teamId: React.PropTypes.string,
-    volunteerId: React.PropTypes.string,
+    teamSlug: React.PropTypes.string,
+    volunteerSlug: React.PropTypes.string,
     oneTimeOnly: React.PropTypes.bool,
 };
 

@@ -5,7 +5,6 @@ import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
 import * as constants from '../../common/constants';
 
-
 export default class Cover extends Component {
     constructor(props) {
         super(props);
