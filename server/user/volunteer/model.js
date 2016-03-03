@@ -119,6 +119,9 @@ export default class Volunteer {
                 Reflect.deleteProperty(user, 'password');
             }
         }
+        if (typeof user.roles !== 'undefined') {
+            Reflect.deleteProperty(user, 'roles');
+        }
         return User.update(user, user);
     }
 
