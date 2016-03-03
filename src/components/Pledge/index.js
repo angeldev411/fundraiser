@@ -21,7 +21,11 @@ export default class Pledge extends Component {
                 >
                     <i className="fa fa-times"></i>
                 </button>
-                <PledgeForm />
+                <PledgeForm
+                    teamSlug={this.props.teamSlug}
+                    volunteerSlug={this.props.volunteerSlug}
+                    oneTimeOnly={this.props.oneTimeOnly}
+                />
             </div>
         );
     }
@@ -30,4 +34,7 @@ export default class Pledge extends Component {
 Pledge.propTypes = {
     open: React.PropTypes.bool,
     togglePledge: React.PropTypes.func,
+    teamSlug: React.PropTypes.string,
+    volunteerSlug: React.PropTypes.string,
+    oneTimeOnly: React.PropTypes.bool,
 };

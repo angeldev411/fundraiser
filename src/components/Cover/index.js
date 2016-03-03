@@ -5,7 +5,6 @@ import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
 import * as constants from '../../common/constants';
 
-
 export default class Cover extends Component {
     constructor(props) {
         super(props);
@@ -50,7 +49,10 @@ export default class Cover extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <PledgeButton customClass="btn-default">
+                                <PledgeButton
+                                    customClass="btn-default"
+                                    volunteerSlug={this.props.volunteer.slug}
+                                >
                                     {this.props.button}
                                 </PledgeButton>
                             </div>
@@ -76,7 +78,10 @@ export default class Cover extends Component {
                                 </div>
                             </div>
                         </div>
-                        <PledgeButton customClass="btn-default">
+                        <PledgeButton
+                            customClass="btn-default"
+                            volunteerSlug={this.props.volunteer.slug}
+                        >
                             {this.props.button}
                         </PledgeButton>
                         <VolunteerProfileBlock
@@ -98,7 +103,11 @@ export default class Cover extends Component {
                                 </div>
                             </div>
                         </div>
-                        <PledgeButton customClass="btn-default">
+                        <PledgeButton
+                            customClass="btn-default"
+                            teamSlug={this.props.team.slug}
+                            oneTimeOnly
+                        >
                             {this.props.button}
                         </PledgeButton>
                         {this.props.editable ?
