@@ -107,7 +107,8 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
     if (!req.body.email
         || !req.body.firstName
         || !req.body.lastName
-        || (!req.body.hourly || req.body.amount)
+        || (req.body.hourly && req.body.amount)
+        || (!req.body.hourly && !req.body.amount)
         || !req.params.teamSlug
     ) {
         res.status(400).send(messages.sponsor.missingData);
@@ -138,7 +139,8 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
     if (!req.body.email
         || !req.body.firstName
         || !req.body.lastName
-        || (!req.body.hourly || req.body.amount)
+        || (req.body.hourly && req.body.amount)
+        || (!req.body.hourly && !req.body.amount)
         || !req.params.volunteerSlug
     ) {
         res.status(400).send(messages.sponsor.missingData);

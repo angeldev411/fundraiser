@@ -12,12 +12,15 @@ export const newPledgeFailed = (error) => ({
     error,
 });
 
-export function newPledge(hourly, amount, teamSlug, volunteerSlug) {
+export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, volunteerSlug) {
     return (dispatch) => {
         if (teamSlug) {
             return axios.post(`${API_URL}/sponsor/team/${teamSlug}`, {
                 hourly,
                 amount,
+                email,
+                firstName,
+                lastName,
             })
             .then(
                 (response) => {
@@ -33,6 +36,9 @@ export function newPledge(hourly, amount, teamSlug, volunteerSlug) {
             return axios.post(`${API_URL}/sponsor/volunteer/${volunteerSlug}`, {
                 hourly,
                 amount,
+                email,
+                firstName,
+                lastName,
             })
             .then(
                 (response) => {
