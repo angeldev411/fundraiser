@@ -119,9 +119,7 @@ describe('Sponsor', () => {
                 expect(JSON.parse(body)[0]).to.not.contain.keys('password');
                 expect(JSON.parse(body)[0]).to.not.contain.keys('slug');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('total');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('cap');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('date');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('hourly');
                 expect(body).to.contain(project1Volunteer.email);
                 expect(body).to.contain(fixtures.testSponsor.email);
                 done();
@@ -148,9 +146,7 @@ describe('Sponsor', () => {
                 expect(JSON.parse(body)[0]).to.not.contain.keys('password');
                 expect(JSON.parse(body)[0]).to.not.contain.keys('slug');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('total');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('cap');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('date');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('hourly');
                 expect(body).to.contain(project1Volunteer.email);
                 expect(body).to.not.contain(fixtures.testSponsor.email);
                 done();
@@ -177,9 +173,7 @@ describe('Sponsor', () => {
                 expect(JSON.parse(body)[0]).to.not.contain.keys('password');
                 expect(JSON.parse(body)[0]).to.not.contain.keys('slug');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('total');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('cap');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('date');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('hourly');
                 expect(body).to.contain(project1Volunteer.email);
                 expect(body).to.not.contain(fixtures.testSponsor.email);
                 done();
@@ -206,9 +200,7 @@ describe('Sponsor', () => {
                 expect(JSON.parse(body)[0]).to.not.contain.keys('password');
                 expect(JSON.parse(body)[0]).to.not.contain.keys('slug');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('total');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('cap');
                 expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('date');
-                expect(JSON.parse(body)[0].pledges[0].support).to.contain.keys('hourly');
                 expect(body).to.contain(project1Volunteer.email);
                 expect(body).to.not.contain(fixtures.testSponsor.email);
                 done();

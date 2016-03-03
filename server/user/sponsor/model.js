@@ -34,7 +34,7 @@ export default class Sponsor {
                 .catch((error) => {
                     return Promise.reject(err);
                 });
-            });
+            })
         });
     }
 
@@ -242,14 +242,14 @@ export default class Sponsor {
         if (teamSlug) {
             return db.query(`
                 MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
-                CREATE (user)-[:SUPPORT {hourly: {hourly}, cap: {cap}, total: {total}, date: {date}}]->(team)
+                CREATE (user)-[:SUPPORT {hourly: {hourly}, amount: {amount}, total: {total}, date: {date}}]->(team)
                 `,
                 {},
                 {
                     userId: sponsor.id,
                     teamSlug,
-                    hourly : pledge.hourly,
-                    cap: pledge.cap,
+                    hourly: pledge.hourly || null,
+                    amount: pledge.amount || null,
                     total: 0,
                     date: new Date(),
                 }
@@ -257,14 +257,14 @@ export default class Sponsor {
         } else if (volunteerSlug) {
             return db.query(`
                 MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
-                CREATE (user)-[:SUPPORT {hourly: {hourly}, cap: {cap}, total: {total}, date: {date}}]->(volunteer)
+                CREATE (user)-[:SUPPORT {hourly: {hourly}, amount: {amount}, total: {total}, date: {date}}]->(volunteer)
                 `,
                 {},
                 {
                     userId: sponsor.id,
                     volunteerSlug,
-                    hourly : pledge.hourly,
-                    cap: pledge.cap,
+                    hourly: pledge.hourly || null,
+                    amount: pledge.amount || null,
                     total: 0,
                     date: new Date(),
                 }
