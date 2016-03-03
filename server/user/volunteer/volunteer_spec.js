@@ -115,7 +115,6 @@ describe('Volunteers', () => {
                     requestCookie.put({
                         url,
                         form: {
-                            email: 'aaaa@aaa.com',
                             firstName: 'John',
                             lastName: 'Smith',
                             goal: 100,
@@ -145,7 +144,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on no data
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),
@@ -160,7 +159,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on invalid email
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),
@@ -175,7 +174,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on invalid firstname
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),
@@ -190,23 +189,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on invalid lastname
-                        expect(response.statusCode).to.equal(400);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaa@aaa.com',
-                            firstName: 'John',
-                            lastName: 'Smith',
-                            password: '',
-                        },
-                    },
-                    (error, response, body) => {
-                        // Should fail on invalid password
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),
@@ -222,7 +205,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on invalid goal
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),
@@ -238,7 +221,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on invalid goal
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),
@@ -254,7 +237,7 @@ describe('Volunteers', () => {
                     },
                     (error, response, body) => {
                         // Should fail on invalid goal
-                        expect(response.statusCode).to.equal(400);
+                        expect(response.statusCode).to.equal(403);
                         resolve();
                     });
                 }),

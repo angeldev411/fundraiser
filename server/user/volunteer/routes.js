@@ -24,13 +24,15 @@ router.get('/api/v1/volunteer', (req, res) => {
 
 router.put('/api/v1/volunteer', (req, res) => {
     if (
-        !AUTH_CHECKER.isLogged(req.session) || req.session.user.id !== req.body.id
+        !AUTH_CHECKER.isLogged(req.session)
     ) {
         res.status(403).send();
         return;
     }
 
     const user = req.body;
+
+    user.id = req.session.user.id;
 
     volunteerController.update(user)
     .then((data) => {
