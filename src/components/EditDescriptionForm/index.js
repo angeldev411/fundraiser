@@ -14,7 +14,7 @@ export default class EditDescriptionForm extends Component {
                         name="description"
                         id="description"
                         defaultValue={this.props.value ? this.props.value : null}
-                        rows="3"
+                        rows="10"
                     />
                     <label htmlFor="description">{'Description'}</label>
                 </div>
