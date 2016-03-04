@@ -29,7 +29,17 @@ export default class AdminVolunteerDashboard extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.hourLogsGet) {
-            this.setState({ hours: nextProps.hourLogsGet });
+            this.setState(
+                {
+                    hours: nextProps.hourLogsGet,
+                }
+            );
+        } else if (nextProps.user) {
+            this.setState(
+                {
+                    user: nextProps.user,
+                }
+            );
         }
     }
 
@@ -50,13 +60,17 @@ export default class AdminVolunteerDashboard extends Component {
 
         return (<AdminVolunteerChart
             data={hourList}
-            goal={data.volunteer.goal}
-            currentMonth={1}
+            goal={this.props.user.goal}
+            currentMonth={moment().month()}
             currentYear={moment().year()}
                 />);
     }
 
     render() {
+        if (!this.props.user) {
+            return (null);
+        }
+
         const pageNav = [
             {
                 type: 'button',
@@ -66,7 +80,7 @@ export default class AdminVolunteerDashboard extends Component {
             {
                 type: 'link',
                 title: 'My Public Page',
-                href: `${Urls.getVolunteerProfileUrl(data.project.slug, data.team.slug, data.volunteer.slug)}`,
+                href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
             },
             {
                 type: 'link',
@@ -82,7 +96,8 @@ export default class AdminVolunteerDashboard extends Component {
                     <AdminContentHeader
                         title={'My Dashboard'}
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
-                        goal={data.volunteer.goal}
+                        volunteerDashboard
+                        goal={this.props.user.goal}
                     />
                     {volunteerChart}
                     <AdminStatsBlock
@@ -113,5 +128,6 @@ export default class AdminVolunteerDashboard extends Component {
 }
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
     hourLogsGet: reduxState.main.volunteer.hourLogsGet,
 }))(AdminVolunteerDashboard);
