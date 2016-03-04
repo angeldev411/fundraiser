@@ -14,7 +14,7 @@ export const volunteerSchema = {
     slug: db.Joi.string(),
     headshotData: db.Joi.object(),
     description: db.Joi.string(),
-    goal: db.Joi.number(),
+    goal: db.Joi.number().min(0).max(999),
 };
 
 export default class Volunteer {
@@ -127,8 +127,18 @@ export default class Volunteer {
     }
 
     static updateVolunteer(user) {
+
+        if (typeof user.email !== 'undefined') {
+            if (!util.isEmailValid(user.email)) {
+                return Promise.reject('Invalid email');
+            }
+        }
+
         if (typeof user.goal !== 'undefined') {
             user.goal = parseInt(user.goal, 10);
+            if (isNaN(user.goal) || user.goal < 0 || user.goal > 999) {
+                return Promise.reject('Invalid goal');
+            }
         }
         if (typeof user.password !== 'undefined') {
             if (user.password !== '') {

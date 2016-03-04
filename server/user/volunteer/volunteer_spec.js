@@ -114,9 +114,20 @@ describe('Volunteers', () => {
                 new Promise((resolve, reject) => {
                     requestCookie.put({
                         url,
+                    },
+                    (error, response, body) => {
+                        // Should succeed on no data
+                        expect(response.statusCode).to.equal(200);
+                        resolve();
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    requestCookie.put({
+                        url,
                         form: {
-                            firstName: 'John',
-                            lastName: 'Smith',
+                            email: project1Volunteer.email,
+                            firstName: project1Volunteer.firstName,
+                            lastName: project1Volunteer.lastName,
                             goal: 100,
                         },
                     },
@@ -134,114 +145,102 @@ describe('Volunteers', () => {
             });
         });
 
-        it('gives an error if I update my profile with invalid data', (done) => {
+        it('gives an error if I update my profile with invalid email', (done) => {
             const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
 
-            Promise.all([
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
+            new Promise((resolve, reject) => {
+                requestCookie.put({
+                    url,
+                    form: {
+                        email: '',
+                        firstName: project1Volunteer.firstName,
+                        lastName: project1Volunteer.lastName,
                     },
-                    (error, response, body) => {
-                        // Should fail on no data
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaaaaa',
-                            firstName: 'John',
-                            lastName: 'Smith',
-                        },
+                },
+                (error, response, body) => {
+                    // Should fail on invalid email
+                    expect(response.statusCode).to.equal(400);
+                    resolve();
+                });
+            }).then((result) => {
+                done();
+            }).catch((error) => {
+                fail();
+                done();
+            });
+        });
+
+        it('gives an error if I update my profile with invalid too big goal', (done) => {
+            const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
+
+            new Promise((resolve, reject) => {
+                requestCookie.put({
+                    url,
+                    form: {
+                        email: project1Volunteer.email,
+                        firstName: project1Volunteer.firstName,
+                        lastName: project1Volunteer.lastName,
+                        goal: 10000,
                     },
-                    (error, response, body) => {
-                        // Should fail on invalid email
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaa@aaa.com',
-                            firstName: '',
-                            lastName: 'Smith',
-                        },
+                },
+                (error, response, body) => {
+                    // Should fail on invalid email
+                    expect(response.statusCode).to.equal(400);
+                    resolve();
+                });
+            }).then((result) => {
+                done();
+            }).catch((error) => {
+                fail();
+                done();
+            });
+        });
+
+        it('gives an error if I update my profile with invalid too small goal', (done) => {
+            const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
+
+            new Promise((resolve, reject) => {
+                requestCookie.put({
+                    url,
+                    form: {
+                        email: project1Volunteer.email,
+                        firstName: project1Volunteer.firstName,
+                        lastName: project1Volunteer.lastName,
+                        goal: -111,
                     },
-                    (error, response, body) => {
-                        // Should fail on invalid firstname
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaa@aaa.com',
-                            firstName: 'John',
-                            lastName: '',
-                        },
+                },
+                (error, response, body) => {
+                    // Should fail on invalid email
+                    expect(response.statusCode).to.equal(400);
+                    resolve();
+                });
+            }).then((result) => {
+                done();
+            }).catch((error) => {
+                fail();
+                done();
+            });
+        });
+
+        it('gives an error if I update my profile with invalid string instead of int goal', (done) => {
+            const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
+
+            new Promise((resolve, reject) => {
+                requestCookie.put({
+                    url,
+                    form: {
+                        email: project1Volunteer.email,
+                        firstName: project1Volunteer.firstName,
+                        lastName: project1Volunteer.lastName,
+                        goal: 'whatever',
                     },
-                    (error, response, body) => {
-                        // Should fail on invalid lastname
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaa@aaa.com',
-                            firstName: 'John',
-                            lastName: 'Smith',
-                            goal: 10000,
-                        },
-                    },
-                    (error, response, body) => {
-                        // Should fail on invalid goal
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaa@aaa.com',
-                            firstName: 'John',
-                            lastName: 'Smith',
-                            goal: -111,
-                        },
-                    },
-                    (error, response, body) => {
-                        // Should fail on invalid goal
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                        form: {
-                            email: 'aaaa@aaa.com',
-                            firstName: 'John',
-                            lastName: 'Smith',
-                            goal: 'whatever',
-                        },
-                    },
-                    (error, response, body) => {
-                        // Should fail on invalid goal
-                        expect(response.statusCode).to.equal(403);
-                        resolve();
-                    });
-                }),
-            ]).then((result) => {
+                },
+                (error, response, body) => {
+                    // Should fail on invalid email
+                    expect(response.statusCode).to.equal(400);
+                    resolve();
+                });
+            }).then((result) => {
                 done();
             }).catch((error) => {
                 fail();
