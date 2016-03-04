@@ -126,8 +126,24 @@ export default class Volunteer {
         ).getResults('users');
     }
 
-    static updateVolunteer(user) {
+    static getTopVolunteers(projectSlug = null, teamSlug = null) {
+        return db.query(
+            `
+            MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {slug: {teamSlug}})-[:CONTRIBUTE]->(:PROJECT {slug: {projectSlug}})
+            WHERE exists(users.raised)
+            RETURN users
+            ORDER BY users.raised DESC
+            LIMIT 5
+            `,
+            {},
+            {
+                projectSlug,
+                teamSlug,
+            }
+        ).getResults('users');
+    }
 
+    static updateVolunteer(user) {
         if (typeof user.email !== 'undefined') {
             if (!util.isEmailValid(user.email)) {
                 return Promise.reject('Invalid email');
@@ -164,6 +180,8 @@ export default class Volunteer {
                     ...(user.description ? { description: user.description } : {}),
                     ...(uploadUrl ? { headshotData: uploadUrl } : {}),
                     ...(user.slug ? { slug: user.slug } : {}),
+                    ...(user.totalHours ? { totalHours: user.totalHours } : {}),
+                    ...(user.currentHours ? { currentHours: user.currentHours } : {}),
                 }).then((data) => {
                     return resolve(data);
                 }).catch((error) => {

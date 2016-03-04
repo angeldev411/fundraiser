@@ -13,6 +13,17 @@ class volunteerController {
             return Promise.reject(err);
         });
     }
+
+    static indexTopVolunteers(projectSlug = null, teamslug = null) {
+        return Volunteer.getTopVolunteers(projectSlug, teamslug)
+        .then((volunteers) => {
+            return Promise.resolve(UserController.safeArray(volunteers));
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static update(userData) {
         return Volunteer.updateVolunteer(userData);
     }
