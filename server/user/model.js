@@ -1,4 +1,5 @@
 'use strict';
+
 import stripelib from 'stripe';
 import sha256 from 'js-sha256';
 import UUID from 'uuid';
@@ -17,8 +18,8 @@ const defaultSchema = {
     id: db.Joi.string().required(),
     firstName: db.Joi.string().optional(),
     lastName: db.Joi.string().optional(),
-    email: db.Joi.string().email().required(),
-    password: db.Joi.string().required(),
+    email: db.Joi.string().email().regex(/^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/).required(),
+    password: db.Joi.string().regex(/^.+$/).required(),
 };
 
 import { volunteerSchema } from './volunteer/model';
@@ -76,8 +77,13 @@ export default class User {
     }
 
     static update(userNode, data) {
+        let role = null;
         data.inviteCode = null;
-        return new User(data, userNode.roles[1], userNode.id);
+
+        if (userNode.roles && userNode.roles[1]) {
+            role = userNode.roles[1]
+        }
+        return new User(data, role, userNode.id);
     }
 
     static uploadHeadshotImage(obj) {

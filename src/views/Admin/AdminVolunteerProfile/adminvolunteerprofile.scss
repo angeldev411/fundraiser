@@ -19,6 +19,7 @@
         }
 
         .dropzone {
+            cursor: pointer;
             margin: 30px 0 15px;
 
             .dropzone-image {
@@ -32,6 +33,20 @@
                 margin: 20px;
                 display: inline-block;
             }
+        }
+        .status-message {
+            font-size: 1.2em;
+            font-weight: bold;
+            display: inline;
+            margin-left: 80px;
+        }
+        .error-message {
+            @extend .status-message;
+            color: red;
+        }
+        .success-message {
+            @extend .status-message;
+            color: green;
         }
     }
 

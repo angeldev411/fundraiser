@@ -1,5 +1,6 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
@@ -8,6 +9,7 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import Dropzone from 'react-dropzone';
+import * as Actions from '../../../redux/volunteer/actions';
 
 import * as constants from '../../../common/constants';
 import * as Urls from '../../../urls.js';
@@ -19,9 +21,7 @@ export default class AdminVolunteerProfile extends Component {
         super(props);
 
         this.state = {
-            file: {
-                preview: data.volunteer.image ? `${constants.USER_IMAGES_FOLDER}/${data.volunteer.uniqid}/${data.volunteer.image}` : `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`,
-            },
+            user: this.props.user,
         };
     }
 
@@ -29,13 +29,119 @@ export default class AdminVolunteerProfile extends Component {
         document.title = 'My profile | Raiserve';
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user) {
+            this.setState({
+                user: nextProps.user,
+            });
+        }
+
+        if (nextProps.volunteerUpdateStatus) {
+            console.log('Updated Status to ', nextProps.volunteerUpdateStatus);
+            this.setState({
+                volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
+            });
+        }
+    }
+
     onDrop = (files) => {
+        const user = this.state.user;
+
+        if (!user.password || user.password !== user.password2) {
+            Reflect.deleteProperty(user, 'password');
+        }
+
+        Reflect.deleteProperty(user, 'password2');
+
+        user.image = files[0];
         this.setState({
-            file: files[0],
+            user,
+        });
+    };
+
+    submitProfile = () => {
+        Actions.updateProfile(this.state.user)(this.props.dispatch);
+    }
+
+    getUserFirstName = () => {
+        if (this.state.user && this.state.user.firstName) {
+            return this.state.user.firstName;
+        }
+    }
+
+    getUserLastName = () => {
+        if (this.state.user && this.state.user.lastName) {
+            return this.state.user.lastName;
+        }
+    }
+
+    getUserEmail = () => {
+        if (this.state.user && this.state.user.email) {
+            return this.state.user.email;
+        }
+    }
+
+    getUserLocation = () => {
+        if (this.state.user && this.state.user.location) {
+            return this.state.user.location;
+        }
+    }
+
+    getUserMessage = () => {
+        if (this.state.user && this.state.user.description) {
+            return this.state.user.description;
+        }
+    }
+
+    getUserGoal = () => {
+        if (this.state.user && this.state.user.goal) {
+            return this.state.user.goal;
+        }
+    }
+
+    getUserId = () => {
+        if (this.state.user && this.state.user.id) {
+            return this.state.user.id;
+        }
+    }
+
+    getUserImage = () => {
+        if (this.state.user && this.state.user.preview) {
+            return this.state.user.preview;
+        }
+    }
+
+    getUserPreview = () => {
+        if (this.state.user) {
+            if (this.getUserImage()) {
+                return `${constants.USER_IMAGES_FOLDER}/${this.getUserId()}/${this.getUserImage()}`;
+            } else {
+                return `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`;
+            }
+        }
+    }
+
+    getSuccessMessage = () => {
+        return (<div className="success-message">Profile updated!</div>);
+    }
+
+    getErrorMessage = () => {
+        return (<div className="error-message">Error in the form!</div>);
+    }
+
+    handleChange = (evt, name) => {
+        const user = this.state.user;
+
+        user[name] = evt.target.value;
+        this.setState({
+            user,
         });
     };
 
     render() {
+        if (!this.state.user) {
+            return null;
+        }
         const pageNav = [
             {
                 type: 'button',
@@ -68,7 +174,8 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="firstName"
                                         id="firstName"
-                                        defaultValue={data.volunteer.firstName ? data.volunteer.firstName : null}
+                                        defaultValue={this.getUserFirstName() ? this.getUserFirstName() : null}
+                                        onChange={(e) => { this.handleChange(e, 'firstName') }}
                                     />
                                     <label htmlFor="firstName">{'Firstname'}</label>
                                 </div>
@@ -76,7 +183,8 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="lastName"
                                         id="lastName"
-                                        defaultValue={data.volunteer.lastName ? data.volunteer.lastName : null}
+                                        defaultValue={this.getUserLastName() ? this.getUserLastName() : null}
+                                        onChange={(e) => { this.handleChange(e, 'lastName') }}
                                     />
                                     <label htmlFor="lastName">{'Lastname'}</label>
                                 </div>
@@ -84,7 +192,8 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="location"
                                         id="location"
-                                        defaultValue={data.volunteer.location ? data.volunteer.location : null}
+                                        defaultValue={this.getUserLocation()}
+                                        onChange={(e) => { this.handleChange(e, 'location') }}
                                     />
                                     <label htmlFor="zipcode">{'Zip Code'}</label>
                                 </div>
@@ -92,7 +201,8 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="email"
                                         name="email"
                                         id="email"
-                                        defaultValue={data.volunteer.email ? data.volunteer.email : null}
+                                        defaultValue={this.getUserEmail() ? this.getUserEmail() : null}
+                                        onChange={(e) => { this.handleChange(e, 'email') }}
                                     />
                                     <label htmlFor="email">{'Email address'}</label>
                                 </div>
@@ -100,6 +210,7 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="password"
                                         name="new-password"
                                         id="new-password"
+                                        onChange={(e) => { this.handleChange(e, 'password') }}
                                     />
                                     <label htmlFor="new-password">{'New Password'}</label>
                                 </div>
@@ -107,6 +218,7 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="password"
                                         name="new-password-confirmation"
                                         id="new-password-confirmation"
+                                        onChange={(e) => { this.handleChange(e, 'password2') }}
                                     />
                                     <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
                                 </div>
@@ -118,7 +230,7 @@ export default class AdminVolunteerProfile extends Component {
                                     >
                                         <img
                                             className={"dropzone-image"}
-                                            src={this.state.file.preview}
+                                            src={this.getUserPreview()}
                                         />
                                         <p className={"dropzone-text"}>{'Upload profile photo'}</p>
                                     </Dropzone>
@@ -127,12 +239,10 @@ export default class AdminVolunteerProfile extends Component {
                                     <textarea
                                         name="description"
                                         id="description"
-                                        defaultValue={
-                                            data.volunteer.message
-                                            ? data.volunteer.message
-                                            : 'Why You\'re Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you.'
-                                        }
+                                        placeholder="Why You're Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you."
+                                        defaultValue={this.getUserMessage()}
                                         rows="3"
+                                        onChange={(e) => { this.handleChange(e, 'description') }}
                                     />
                                     <label htmlFor="description">{'Description'}</label>
                                 </div>
@@ -140,11 +250,13 @@ export default class AdminVolunteerProfile extends Component {
                                     <input type="text"
                                         name="goal"
                                         id="goal"
-                                        defaultValue={data.volunteer.goal ? data.volunteer.goal : null}
+                                        defaultValue={this.getUserGoal()}
+                                        onChange={(e) => { this.handleChange(e, 'goal') }}
                                     />
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
-                                <Button customClass="btn-green-white">{'Save'}</Button>
+                                <Button customClass="btn-green-white" onClick={this.submitProfile}>{'Save'}</Button> {this.state.volunteerUpdateStatus === false && this.getErrorMessage()}
+                                {this.state.volunteerUpdateStatus === true && this.getSuccessMessage()}
                             </form>
                         </section>
                     </div>
@@ -153,3 +265,8 @@ export default class AdminVolunteerProfile extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+    volunteerUpdateStatus: reduxState.main.volunteer.volunteerUpdateStatus,
+}))(AdminVolunteerProfile);

@@ -12,6 +12,16 @@ export const hourLogFailure = (error) => ({
     error,
 });
 
+export const volunteerUpdateSuccess = (success) => ({
+    type: actionTypes.VOLUNTEER_UPDATE_ON_SUCCESS,
+    success,
+});
+
+export const volunteerUpdateFailure = (error) => ({
+    type: actionTypes.VOLUNTEER_UPDATE_ON_FAILURE,
+    error,
+});
+
 export const hourLogsGet = (hours) => ({
     type: actionTypes.GET_HOURS,
     hours,
@@ -57,6 +67,24 @@ export const createHourLog = (place, hours, date, supervisor, signature) => {
         .catch(
             (errorResponse) => {
                 dispatch(hourLogFailure(errorResponse.data));
+            }
+        );
+    };
+};
+
+export const updateProfile = (user) => {
+    return (dispatch) => {
+        const volunteerProfile = user;
+
+        return axios.put(`${API_URL}/volunteer`, volunteerProfile)
+        .then(
+            (response) => {
+                dispatch(volunteerUpdateSuccess(true));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(volunteerUpdateFailure(false));
             }
         );
     };

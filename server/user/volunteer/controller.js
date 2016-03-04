@@ -13,6 +13,9 @@ class volunteerController {
             return Promise.reject(err);
         });
     }
+    static update(userData) {
+        return Volunteer.updateVolunteer(userData);
+    }
 }
 
 module.exports = volunteerController;

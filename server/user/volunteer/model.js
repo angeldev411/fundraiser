@@ -3,6 +3,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { VOLUNTEER } from '../roles';
 import slug from 'slug';
+import util from '../../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -13,6 +14,7 @@ export const volunteerSchema = {
     slug: db.Joi.string(),
     headshotData: db.Joi.object(),
     description: db.Joi.string(),
+    goal: db.Joi.number().min(0).max(999),
 };
 
 export default class Volunteer {
@@ -122,6 +124,33 @@ export default class Volunteer {
             RETURN users
             `
         ).getResults('users');
+    }
+
+    static updateVolunteer(user) {
+
+        if (typeof user.email !== 'undefined') {
+            if (!util.isEmailValid(user.email)) {
+                return Promise.reject('Invalid email');
+            }
+        }
+
+        if (typeof user.goal !== 'undefined') {
+            user.goal = parseInt(user.goal, 10);
+            if (isNaN(user.goal) || user.goal < 0 || user.goal > 999) {
+                return Promise.reject('Invalid goal');
+            }
+        }
+        if (typeof user.password !== 'undefined') {
+            if (user.password !== '') {
+                user.password = util.hash(user.password);
+            } else {
+                Reflect.deleteProperty(user, 'password');
+            }
+        }
+        if (typeof user.roles !== 'undefined') {
+            Reflect.deleteProperty(user, 'roles');
+        }
+        return User.update(user, user);
     }
 
     static onboard(obj) {

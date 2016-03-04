@@ -109,7 +109,7 @@ class userController {
             ...(user.hourPledge ? { hourPledge: user.hourPledge } : {}),
             ...(user.sponsors ? { sponsors: user.sponsors } : {}),
             ...(user.location ? { location: user.location } : {}),
-            ...(user.message ? { message: user.message } : {}),
+            ...(user.description ? { message: user.description } : {}),
             ...(user.project ? { project: user.project } : {}),
             ...(user.team ? { team: user.team } : {}),
         };
