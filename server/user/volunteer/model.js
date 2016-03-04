@@ -14,7 +14,7 @@ export const volunteerSchema = {
     slug: db.Joi.string(),
     headshotData: db.Joi.object(),
     description: db.Joi.string(),
-    goal: db.Joi.number().min(0).max(999),
+    goal: db.Joi.number(),
 };
 
 export default class Volunteer {
@@ -150,7 +150,19 @@ export default class Volunteer {
         if (typeof user.roles !== 'undefined') {
             Reflect.deleteProperty(user, 'roles');
         }
-        return User.update(user, user);
+
+        return User.update(user, {
+            ...(user.id ? { id: user.id } : {}),
+            ...(user.firstName ? { firstName: user.firstName } : {}),
+            ...(user.lastName ? { lastName: user.lastName } : {}),
+            ...(user.email ? { email: user.email } : {}),
+            ...(user.goal ? { goal: user.goal } : {}),
+            ...(user.password ? { password: user.password } : {}),
+            ...(user.roles ? { roles: user.roles } : {}),
+            ...(user.description ? { description: user.description } : {}),
+            ...(user.headshotData ? { headshotData: user.headshotData } : {}),
+            ...(user.slug ? { slug: user.slug } : {}),
+        });
     }
 
     static onboard(obj) {
