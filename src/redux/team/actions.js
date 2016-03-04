@@ -32,6 +32,7 @@ export const getFailed = (error) => ({
     error,
 });
 
+
 export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
     return (dispatch) => {
         return axios.post(`${API_URL}/team`, {
@@ -48,6 +49,24 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
         .catch(
             (errorResponse) => {
                 dispatch(newTeamFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
+export function updateTagline(tagline) {
+    return (dispatch) => {
+        return axios.put(`${API_URL}/team/${id}`, {
+            tagline,
+        })
+        .then(
+            (response) => {
+                dispatch(updatedTeam(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(updateTeamFailed(errorResponse.data));
             }
         );
     };
