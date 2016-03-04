@@ -152,10 +152,7 @@ export default class Volunteer {
         }
 
         return new Promise((resolve, reject) => {
-            return Volunteer.uploadHeadshot({
-                id: user.id,
-                headshotData: user.headshotData,
-            }).then((uploadUrl) => {
+            const callUserUpdate = (uploadUrl) => {
                 return User.update(user, {
                     ...(user.id ? { id: user.id } : {}),
                     ...(user.firstName ? { firstName: user.firstName } : {}),
@@ -165,16 +162,26 @@ export default class Volunteer {
                     ...(user.password ? { password: user.password } : {}),
                     ...(user.roles ? { roles: user.roles } : {}),
                     ...(user.description ? { description: user.description } : {}),
-                    ...(user.headshotData ? { headshotData: uploadUrl } : {}),
+                    ...(uploadUrl ? { headshotData: uploadUrl } : {}),
                     ...(user.slug ? { slug: user.slug } : {}),
                 }).then((data) => {
                     return resolve(data);
                 }).catch((error) => {
                     return reject(error);
                 });
-            }).catch((error) => {
-                return reject(error);
-            });
+            };
+
+            if (typeof user.headshotData !== 'undefined') {
+                return Volunteer.uploadHeadshot({
+                    id: user.id,
+                    headshotData: user.headshotData,
+                }).then((uploadUrl) => {
+                    return callUserUpdate(uploadUrl);
+                }).catch((error) => {
+                    return reject(error);
+                });
+            }
+            return callUserUpdate();
         });
     }
 

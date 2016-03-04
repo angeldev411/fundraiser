@@ -110,18 +110,7 @@ describe('Volunteers', () => {
         it('gives updates my profile', (done) => {
             const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
 
-            Promise.all([
-                new Promise((resolve, reject) => {
-                    requestCookie.put({
-                        url,
-                    },
-                    (error, response, body) => {
-                        // Should succeed on no data
-                        expect(response.statusCode).to.equal(200);
-                        resolve();
-                    });
-                }),
-                new Promise((resolve, reject) => {
+            new Promise((resolve, reject) => {
                     requestCookie.put({
                         url,
                         form: {
@@ -136,8 +125,27 @@ describe('Volunteers', () => {
                         expect(response.statusCode).to.equal(200);
                         resolve();
                     });
-                }),
-            ]).then((result) => {
+            }).then((result) => {
+                done();
+            }).catch((error) => {
+                fail();
+                done();
+            });
+        });
+
+        it('works if I update my profile with empty data', (done) => {
+            const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
+
+            new Promise((resolve, reject) => {
+                requestCookie.put({
+                    url,
+                },
+                (error, response, body) => {
+                    // Should succeed on no data
+                    expect(response.statusCode).to.equal(200);
+                    resolve();
+                });
+            }).then((result) => {
                 done();
             }).catch((error) => {
                 fail();
