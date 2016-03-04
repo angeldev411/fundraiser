@@ -61,55 +61,55 @@ export default class AdminVolunteerProfile extends Component {
 
     submitProfile = () => {
         Actions.updateProfile(this.state.user)(this.props.dispatch);
-    }
+    };
 
     getUserFirstName = () => {
         if (this.state.user && this.state.user.firstName) {
             return this.state.user.firstName;
         }
-    }
+    };
 
     getUserLastName = () => {
         if (this.state.user && this.state.user.lastName) {
             return this.state.user.lastName;
         }
-    }
+    };
 
     getUserEmail = () => {
         if (this.state.user && this.state.user.email) {
             return this.state.user.email;
         }
-    }
+    };
 
     getUserLocation = () => {
         if (this.state.user && this.state.user.location) {
             return this.state.user.location;
         }
-    }
+    };
 
     getUserMessage = () => {
         if (this.state.user && this.state.user.description) {
             return this.state.user.description;
         }
-    }
+    };
 
     getUserGoal = () => {
         if (this.state.user && this.state.user.goal) {
             return this.state.user.goal;
         }
-    }
+    };
 
     getUserId = () => {
         if (this.state.user && this.state.user.id) {
             return this.state.user.id;
         }
-    }
+    };
 
     getUserImage = () => {
         if (this.state.user && this.state.user.preview) {
             return this.state.user.preview;
         }
-    }
+    };
 
     getUserPreview = () => {
         if (this.state.user) {
@@ -119,15 +119,15 @@ export default class AdminVolunteerProfile extends Component {
                 return `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`;
             }
         }
-    }
+    };
 
     getSuccessMessage = () => {
         return (<div className="success-message">Profile updated!</div>);
-    }
+    };
 
     getErrorMessage = () => {
         return (<div className="error-message">Error in the form!</div>);
-    }
+    };
 
     handleChange = (evt, name) => {
         const user = this.state.user;
