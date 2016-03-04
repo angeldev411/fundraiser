@@ -121,6 +121,11 @@ export const gotVolunteers = (volunteers) => ({
     volunteers,
 });
 
+export const gotTopVolunteers = (volunteers) => ({
+    type: actionTypes.TOP_VOLUNTEERS,
+    volunteers,
+});
+
 export const getVolunteersError = (error) => ({
     type: actionTypes.VOLUNTEERS_ERROR,
     error,
@@ -140,6 +145,22 @@ export const getVolunteers = (projectSlug = null, teamSlug = null) => {
         .then(
             (response) => {
                 dispatch(gotVolunteers(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getVolunteersError(errorResponse.data));
+            }
+        );
+    };
+};
+
+export const getTopVolunteers = (projectSlug = null, teamSlug = null) => {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/volunteer/${projectSlug}/${teamSlug}/top`)
+        .then(
+            (response) => {
+                dispatch(gotTopVolunteers(response.data));
             }
         )
         .catch(

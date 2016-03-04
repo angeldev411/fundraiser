@@ -13,9 +13,6 @@ import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembe
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import * as Urls from '../../../urls.js';
 
-// TODO dynamic data
-import * as data from '../../../common/test-data';
-
 class AdminTeamDashboard extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +27,7 @@ class AdminTeamDashboard extends Component {
             const teamSlug = this.props.user.team.slug;
 
             VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
             SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
         }
     }
@@ -37,7 +35,8 @@ class AdminTeamDashboard extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
-        } else if (nextProps.sponsors) {
+        }
+        if (nextProps.sponsors) {
             this.setState(
                 {
                     sponsors: nextProps.sponsors,
@@ -53,6 +52,14 @@ class AdminTeamDashboard extends Component {
                 }
             );
         }
+        if (nextProps.topVolunteers) {
+            this.setState(
+                {
+                    topVolunteers: nextProps.topVolunteers,
+                    error: null,
+                }
+            );
+        }
         if (nextProps.user) {
             const projectSlug = nextProps.user.project.slug;
             const teamSlug = nextProps.user.team.slug;
@@ -62,6 +69,10 @@ class AdminTeamDashboard extends Component {
             }
             if (!this.state.volunteers) {
                 VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            }
+
+            if (!this.state.topVolunteers) {
+                VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
             }
 
             this.setState(
@@ -74,7 +85,7 @@ class AdminTeamDashboard extends Component {
     }
 
     render() {
-        if (!this.props.user || !this.state.sponsors || !this.state.volunteers) {
+        if (!this.props.user || !this.state.sponsors || !this.state.volunteers || !this.state.topVolunteers) {
             return (null);
         }
 
@@ -147,7 +158,9 @@ class AdminTeamDashboard extends Component {
                                 <hr/>
                             </div>
                             <UserList
-                                team={data.team}
+                                volunteers={this.state.topVolunteers}
+                                projectSlug={this.props.user.project.slug}
+                                teamSlug={this.props.user.team.slug}
                                 color="dark"
                                 noSponsor
                             />
@@ -165,6 +178,7 @@ class AdminTeamDashboard extends Component {
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     error: reduxState.main.sponsor.error,
+    topVolunteers: reduxState.main.volunteer.topVolunteers,
     volunteers: reduxState.main.volunteer.volunteers,
     sponsors: reduxState.main.sponsor.sponsors,
 }))(AdminTeamDashboard);

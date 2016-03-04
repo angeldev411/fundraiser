@@ -13,10 +13,7 @@ import * as Actions from '../../../redux/volunteer/actions';
 import * as ActionsSponsor from '../../../redux/sponsor/actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
 import * as Urls from '../../../urls.js';
-// TODO dynamic data
-import * as data from '../../../common/test-data';
 
 export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
@@ -99,7 +96,7 @@ export default class AdminVolunteerDashboard extends Component {
                 />);
     }
 
-    getTotalHours() {
+    getTotalMonthHours() {
         if (this.state.monthHours) {
             let totalHours = 0;
 
@@ -149,7 +146,7 @@ export default class AdminVolunteerDashboard extends Component {
                         stats={
                             [
                                 {
-                                    current: this.getTotalHours(),
+                                    current: this.getTotalMonthHours(),
                                     title: 'Volunteered hours',
                                     goal: this.props.user.goal,
                                 },

@@ -36,6 +36,12 @@ export default function reducers(state = initialState, action) {
                 volunteers: action.volunteers,
                 error: null,
             };
+        case actionTypes.TOP_VOLUNTEERS:
+            return {
+                ...state,
+                topVolunteers: action.volunteers,
+                error: null,
+            };
         case actionTypes.VOLUNTEERS_ERROR:
             return {
                 ...state,
