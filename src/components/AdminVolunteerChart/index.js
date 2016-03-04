@@ -51,7 +51,6 @@ export default class AdminVolunteerChart extends Component {
 
         rawData.map((dataPoint) => {
             // If date(s) missing, manually create date
-
             if (dataPoint.date.getDate() !== this.state.currentDay) {
                 const diff = dataPoint.date.getDate() - this.state.currentDay;
 
@@ -209,7 +208,7 @@ export default class AdminVolunteerChart extends Component {
             .append('text')
                 .text((d) => {
                     const year = d.date.getFullYear();
-                    let month = d.date.getMonth();
+                    let month = d.date.getMonth() + 1;
                     let day = d.date.getDate();
 
                     if (month.toString().length === 1) {

@@ -157,6 +157,7 @@ export default class User {
             `
             MATCH (u:USER {id: {id} })-[r:VOLUNTEERED]->(c)
             RETURN c as hours
+            ORDER BY c.date
             `,
             {},
             { id }
