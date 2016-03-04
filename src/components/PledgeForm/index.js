@@ -32,7 +32,6 @@ class PledgeForm extends Component {
                 step: 2,
             })
         } else {
-            console.log(this.state);
             Actions.newPledge(
                 this.state.firstName,
                 this.state.lastName,
@@ -53,7 +52,6 @@ class PledgeForm extends Component {
     };
 
     render() {
-        console.log(this.state);
         const step1 = (
             <Form id="pledge"
                 cols={"col-xs-12"}

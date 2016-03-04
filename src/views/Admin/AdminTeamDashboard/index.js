@@ -19,10 +19,7 @@ import * as data from '../../../common/test-data';
 class AdminTeamDashboard extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            volunteers: [],
-            sponsors: [],
-        };
+        this.state = {};
     }
 
     componentWillMount() {
@@ -47,19 +44,25 @@ class AdminTeamDashboard extends Component {
                     error: null,
                 }
             );
-        } else if (nextProps.volunteers) {
+        }
+        if (nextProps.volunteers) {
             this.setState(
                 {
                     volunteers: nextProps.volunteers,
                     error: null,
                 }
             );
-        } else if (nextProps.user) {
+        }
+        if (nextProps.user) {
             const projectSlug = nextProps.user.project.slug;
             const teamSlug = nextProps.user.team.slug;
 
-            VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
-            SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+            if (!this.state.sponsors) {
+                SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+            }
+            if (!this.state.volunteers) {
+                VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            }
 
             this.setState(
                 {
@@ -71,7 +74,7 @@ class AdminTeamDashboard extends Component {
     }
 
     render() {
-        if (!this.props.user) {
+        if (!this.props.user || !this.state.sponsors || !this.state.volunteers) {
             return (null);
         }
 

@@ -68,7 +68,7 @@ const fixtures = {
         {
             name: `St. John's BuildOn NYC`,
             slug: 'sjbo',
-            // id: 'samples',
+            id: 'samples',
             logo: 'team_logo.png',
             coverImage : 'team_cover.jpg',
             tagline: 'I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',

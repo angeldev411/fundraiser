@@ -15,3 +15,6 @@ www/bundle.js
 
 # Sessions
 sessions/*
+
+# Newrelic
+newrelic_agent.log

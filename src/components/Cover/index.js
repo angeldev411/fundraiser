@@ -3,6 +3,7 @@ import VolunteerProfileBlock from '../../components/VolunteerProfileBlock';
 import PledgeButton from '../PledgeButton';
 import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
+import EditTaglineForm from '../EditTaglineForm';
 import * as constants from '../../common/constants';
 
 export default class Cover extends Component {
@@ -103,6 +104,19 @@ export default class Cover extends Component {
                                 </div>
                             </div>
                         </div>
+                        {this.props.editable ?
+                            <EditButton
+                                direction="top"
+                                name="tagline"
+                                content={
+                                    <EditTaglineForm
+                                        value={this.props.tagline}
+                                    />
+                                }
+                            >
+                                {'Tagline'}
+                            </EditButton>
+                        : null}
                         <PledgeButton
                             customClass="btn-default"
                             teamSlug={this.props.team.slug}

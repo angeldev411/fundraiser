@@ -2,30 +2,42 @@
 import React, { Component } from 'react';
 import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
-import * as Actions from '../../redux/team/actions';
-import { pushPath } from 'redux-simple-router';
+import * as ActionsTeam from '../../redux/team/actions';
+import * as ActionsVolunteer from '../../redux/volunteer/actions';
 
 /* Then React components */
 import Page from '../../components/Page';
 import Cover from '../../components/Cover';
 import TeamProfileBlock from '../../components/TeamProfileBlock';
 import UserList from '../../components/UserList';
+import RouteNotFound from '../RouteNotFound';
 
 class TeamProfile extends Component {
     constructor(props) {
         super(props);
 
+        this.defaultTeam = {
+            tagline: 'Put your Team tagline here',
+            slogan: 'PUT YOUR TEAM SLOGAN HERE',
+            description: 'Put your description here',
+        };
+
         this.state = {
-            team: {
-                tagline: 'YOU + US = A WORLD OF CHANGE',
-                slogan: 'Your Team slogan here',
-                description: 'Put your description here',
-            },
+            team: this.defaultTeam,
+            volunteers: [],
         };
     }
 
     componentWillMount() {
-        Actions.getTeam(
+        ActionsTeam.getTeam(
+            this.props.params.projectSlug,
+            this.props.params.teamSlug,
+        )(this.props.dispatch);
+        ActionsVolunteer.getVolunteers(
+            this.props.params.projectSlug,
+            this.props.params.teamSlug,
+        )(this.props.dispatch);
+        ActionsVolunteer.getVolunteers(
             this.props.params.projectSlug,
             this.props.params.teamSlug,
         )(this.props.dispatch);
@@ -34,14 +46,27 @@ class TeamProfile extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.team) {
             this.setState({
-                team: nextProps.team,
+                team: {
+                    ...this.defaultTeam,
+                    ...nextProps.team,
+                },
             });
-        } else if (nextProps.error) {
-            this.props.dispatch(pushPath('/teamNotFound'));
+        }
+        if (nextProps.volunteers) {
+            this.setState({
+                volunteers: nextProps.volunteers,
+            });
+        }
+        if (nextProps.error) {
+            this.setState({ team: null });
         }
     }
 
     render() {
+        if (this.state.team === null) {
+            return (<RouteNotFound />);
+        }
+
         document.title = `${this.state.team.name} | Raiserve`;
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
         const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
@@ -73,7 +98,7 @@ class TeamProfile extends Component {
                             <div className="team">
                                 <div className={'team-header clearfix'}>
                                     {
-                                        this.state.team.users ?
+                                        this.state.volunteers ?
                                         (<span className="team-title">{'Our volunteers'}</span>) :
                                         null
                                     }
@@ -95,7 +120,9 @@ class TeamProfile extends Component {
                                     </span>
                                 </div>
                                 <UserList
-                                    team={this.state.team}
+                                    volunteers={this.state.volunteers}
+                                    teamSlug={this.props.params.teamSlug}
+                                    projectSlug={this.props.params.projectSlug}
                                     color={"light"}
                                 />
                             </div>
@@ -113,5 +140,6 @@ TeamProfile.propTypes = {
 
 export default connect((reduxState) => ({
     team: reduxState.main.team.team,
+    volunteers: reduxState.main.volunteer.volunteers,
     error: reduxState.main.team.error,
 }))(TeamProfile);
