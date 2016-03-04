@@ -30,6 +30,12 @@
     margin-bottom: 20px;
 }
 
+.btn-edit-tagline {
+    position: absolute;
+    right: 0;
+    margin: 15px 0;
+}
+
 @media (min-width: $screen-sm-min) {
     .btn-edit-container {
         padding: 0 50px;
