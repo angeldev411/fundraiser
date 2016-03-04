@@ -127,7 +127,6 @@ export default class Volunteer {
     }
 
     static updateVolunteer(user) {
-
         if (typeof user.email !== 'undefined') {
             if (!util.isEmailValid(user.email)) {
                 return Promise.reject('Invalid email');
@@ -140,13 +139,7 @@ export default class Volunteer {
                 return Promise.reject('Invalid goal');
             }
         }
-        if (typeof user.password !== 'undefined') {
-            if (user.password !== '') {
-                user.password = util.hash(user.password);
-            } else {
-                Reflect.deleteProperty(user, 'password');
-            }
-        }
+
         if (typeof user.roles !== 'undefined') {
             Reflect.deleteProperty(user, 'roles');
         }
