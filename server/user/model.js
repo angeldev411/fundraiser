@@ -86,37 +86,6 @@ export default class User {
         return new User(data, role, userNode.id);
     }
 
-    static uploadHeadshotImage(obj) {
-        console.log('upload headshot image GOT UUID ' + obj.uuid);
-        return new Promise((resolve, reject) => {
-            const contentType = util.detectContentType(obj.headshotData);
-
-            try {
-                const hash = sha256(obj.headshotData);
-
-                obj.headshotImageKey = `${config.USER_IMAGES_FOLDER}/${hash}.jpg`;
-                console.log(`uploading hs image with key ${obj.headshotImageKey}`);
-
-                util.uploadToS3(
-                    obj.headshotData,
-                    'raiserve',
-                    obj.headshotImageKey,
-                    { contentType },
-                    (err, data) => {
-                        if (err) {
-                            reject(`error uploading headshot data ${err}`);
-                        } else {
-                            delete obj.headshotData;
-                            resolve(obj);
-                        }
-                    }
-                );
-            } catch (e) {
-                reject(`upload error: ${e} ${e.stack}`);
-            }
-        });
-    }
-
     /* expects obj.uuid and obj.key */
     static addHeadshotImageToDb(obj) {
         return db.query(

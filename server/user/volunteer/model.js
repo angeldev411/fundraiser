@@ -12,7 +12,7 @@ import Hours from '../../hours/model';
 
 export const volunteerSchema = {
     slug: db.Joi.string(),
-    headshotData: db.Joi.object(),
+    headshotData: db.Joi.string(),
     description: db.Joi.string(),
     goal: db.Joi.number(),
 };
@@ -151,17 +151,49 @@ export default class Volunteer {
             Reflect.deleteProperty(user, 'roles');
         }
 
-        return User.update(user, {
-            ...(user.id ? { id: user.id } : {}),
-            ...(user.firstName ? { firstName: user.firstName } : {}),
-            ...(user.lastName ? { lastName: user.lastName } : {}),
-            ...(user.email ? { email: user.email } : {}),
-            ...(user.goal ? { goal: user.goal } : {}),
-            ...(user.password ? { password: user.password } : {}),
-            ...(user.roles ? { roles: user.roles } : {}),
-            ...(user.description ? { description: user.description } : {}),
-            ...(user.headshotData ? { headshotData: user.headshotData } : {}),
-            ...(user.slug ? { slug: user.slug } : {}),
+        return new Promise((resolve, reject) => {
+            return Volunteer.uploadHeadshot({
+                id: user.id,
+                headshotData: user.headshotData,
+            }).then((uploadUrl) => {
+                return User.update(user, {
+                    ...(user.id ? { id: user.id } : {}),
+                    ...(user.firstName ? { firstName: user.firstName } : {}),
+                    ...(user.lastName ? { lastName: user.lastName } : {}),
+                    ...(user.email ? { email: user.email } : {}),
+                    ...(user.goal ? { goal: user.goal } : {}),
+                    ...(user.password ? { password: user.password } : {}),
+                    ...(user.roles ? { roles: user.roles } : {}),
+                    ...(user.description ? { description: user.description } : {}),
+                    ...(user.headshotData ? { headshotData: uploadUrl } : {}),
+                    ...(user.slug ? { slug: user.slug } : {}),
+                }).then((data) => {
+                    return resolve(data);
+                }).catch((error) => {
+                    return reject(error);
+                });
+            }).catch((error) => {
+                return reject(error);
+            });
+        });
+    }
+
+    static uploadHeadshot(obj) {
+        const key = `users/${obj.id}.png`;
+
+        return new Promise((resolve, reject) => {
+            util.uploadToS3(
+                obj.headshotData,
+                key,
+                { contentType: 'base64' },
+                (err, res) => {
+                    if (err) {
+                        reject(`Unable to upload signature: ${err}`);
+                    } else {
+                        resolve(`${config.S3.BASE_URL}/${key}`);
+                    }
+                }
+            );
         });
     }
 
