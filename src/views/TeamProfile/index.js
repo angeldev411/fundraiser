@@ -64,16 +64,10 @@ class TeamProfile extends Component {
     }
 
     render() {
-<<<<<<< 277f717e37ddb5c7149901fa64fc98fed67e302d
         if (this.state.team === null) {
             return (<RouteNotFound />);
         }
 
-        console.log(this.state);
-
-=======
-        console.log(this.state.team);
->>>>>>> Fixes for button position and defaultData.
         document.title = `${this.state.team.name} | Raiserve`;
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
         const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
