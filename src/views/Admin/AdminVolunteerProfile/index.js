@@ -37,7 +37,6 @@ export default class AdminVolunteerProfile extends Component {
         }
 
         if (nextProps.volunteerUpdateStatus) {
-            console.log('Updated Status to ', nextProps.volunteerUpdateStatus);
             this.setState({
                 volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
             });
@@ -46,21 +45,28 @@ export default class AdminVolunteerProfile extends Component {
 
     onDrop = (files) => {
         const user = this.state.user;
+        const reader = new FileReader();
+        const file = files[0];
 
-        if (!user.password || user.password !== user.password2) {
-            Reflect.deleteProperty(user, 'password');
-        }
-
-        Reflect.deleteProperty(user, 'password2');
-
-        user.image = files[0];
-        this.setState({
-            user,
-        });
+        reader.onload = (upload) => {
+            user.headshotData = upload.target.result;
+            this.setState({
+                user,
+            });
+        };
+        reader.readAsDataURL(file);
     };
 
     submitProfile = () => {
-        Actions.updateProfile(this.state.user)(this.props.dispatch);
+        const user = this.state.user;
+
+        if (!user.password || user.password !== user.password2) {
+            delete user.password;
+        }
+
+        delete user.password2;
+
+        Actions.updateProfile(user)(this.props.dispatch);
     }
 
     getUserFirstName = () => {
@@ -106,15 +112,17 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     getUserImage = () => {
-        if (this.state.user && this.state.user.preview) {
-            return this.state.user.preview;
+        if (this.state.user && this.state.user.headshotData) {
+            return this.state.user.headshotData;
         }
     }
 
+
     getUserPreview = () => {
+        console.log('Get User Image', this.getUserImage());
         if (this.state.user) {
             if (this.getUserImage()) {
-                return `${constants.USER_IMAGES_FOLDER}/${this.getUserId()}/${this.getUserImage()}`;
+                return this.getUserImage();
             } else {
                 return `${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`;
             }
