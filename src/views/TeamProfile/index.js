@@ -44,7 +44,6 @@ class TeamProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.team) {
             this.setState({
                 team: {
