@@ -51,7 +51,7 @@ export default class AdminVolunteerDashboard extends Component {
         return (<AdminVolunteerChart
             data={hourList}
             goal={data.volunteer.goal}
-            currentMonth={moment().month()}
+            currentMonth={1}
             currentYear={moment().year()}
                 />);
     }
