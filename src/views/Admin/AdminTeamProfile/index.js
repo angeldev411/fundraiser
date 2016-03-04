@@ -1,6 +1,6 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 /* Then React components */
 import AuthenticatedView from '../AuthenticatedView';
 import Button from '../../../components/Button';
@@ -12,12 +12,26 @@ import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 
-export default class AdminTeamProfile extends Component {
+class AdminTeamProfile extends Component {
     componentWillMount() {
         document.title = 'Team profile | Raiserve';
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user) {
+            this.setState(
+                {
+                    user: nextProps.user,
+                }
+            );
+        }
+    }
+
     render() {
+        if (!this.props.user) {
+            return (null);
+        }
+
         const pageNav = [
             {
                 type: 'link',
@@ -30,14 +44,14 @@ export default class AdminTeamProfile extends Component {
                 content:
                     <AdminInviteTeamMembersForm
                         title={"Invite New Team Members"}
-                        project={data.project}
-                        team={data.team}
+                        project={this.props.user.project}
+                        team={this.props.user.team}
                     />,
             },
             {
                 type: 'link',
                 title: 'My Public Team Page',
-                href: `${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}`,
+                href: `${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`,
             },
             {
                 type: 'link',
@@ -58,7 +72,7 @@ export default class AdminTeamProfile extends Component {
                         <section>
                             <Button
                                 customClass="btn-lg btn-transparent-green"
-                                to={`${Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}?edit`}
+                                to={`${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}?edit`}
                             >
                                 {'Edit Your Page'}
                             </Button>
@@ -111,3 +125,7 @@ export default class AdminTeamProfile extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+}))(AdminTeamProfile);
