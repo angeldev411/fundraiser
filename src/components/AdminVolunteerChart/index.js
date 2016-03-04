@@ -43,35 +43,37 @@ export default class AdminVolunteerChart extends Component {
     }
 
     getDaysInMonth = (month, year) => {
-        return new Date(year, month, 0).getDate();
+        return new Date(year, month + 1, 0).getDate();
     };
 
     prepareGraphData = (rawData) => {
         const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
 
         rawData.map((dataPoint) => {
-            // If date(s) missing, manually create date
-            if (dataPoint.date.getDate() !== this.state.currentDay) {
-                const diff = dataPoint.date.getDate() - this.state.currentDay;
+            if (dataPoint.date.getMonth() === this.props.currentMonth) {
+                // If date(s) missing, manually create date
+                if (dataPoint.date.getDate() !== this.state.currentDay) {
+                    const diff = dataPoint.date.getDate() - this.state.currentDay;
 
-                // Add missing item(s)
-                for (let i = 0; i < diff; i++) {
-                    this.state.graphData.push({
-                        date: new Date(this.props.currentYear, this.props.currentMonth, this.state.currentDay),
-                        'new': 0,
-                        total: this.state.totalHours,
-                    });
-                    this.state.currentDay++;
+                    // Add missing item(s)
+                    for (let i = 0; i < diff; i++) {
+                        this.state.graphData.push({
+                            date: new Date(this.props.currentYear, this.props.currentMonth, this.state.currentDay),
+                            'new': 0,
+                            total: this.state.totalHours,
+                        });
+                        this.state.currentDay++;
+                    }
                 }
+
+                // Increment this.state.totalHours
+                this.state.totalHours += dataPoint.new;
+                dataPoint.total = this.state.totalHours;
+
+                // push data
+                this.state.graphData.push(dataPoint);
+                this.state.currentDay++;
             }
-
-            // Increment this.state.totalHours
-            this.state.totalHours += dataPoint.new;
-            dataPoint.total = this.state.totalHours;
-
-            // push data
-            this.state.graphData.push(dataPoint);
-            this.state.currentDay++;
         });
 
         if (!(this.state.currentDay > daysInMonth)) { // If month is incomplete

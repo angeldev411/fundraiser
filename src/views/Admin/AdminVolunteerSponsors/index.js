@@ -50,8 +50,6 @@ class AdminVolunteerSponsors extends Component {
             const teamSlug = nextProps.user.team.slug;
             const volunteerSlug = nextProps.user.slug;
 
-            console.log(volunteerSlug);
-
             Actions.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
 
             this.setState(

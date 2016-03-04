@@ -10,6 +10,7 @@ import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import AdminVolunteerChart from '../../../components/AdminVolunteerChart';
 import * as Actions from '../../../redux/volunteer/actions';
+import * as ActionsSponsor from '../../../redux/sponsor/actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -21,20 +22,53 @@ export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
         document.title = 'Dashboard | Raiserve';
 
-        this.state = {
+        this.state = {};
 
-        };
+        if (this.props.user) {
+            const projectSlug = this.props.user.project.slug;
+            const teamSlug = this.props.user.team.slug;
+            const volunteerSlug = this.props.user.slug;
+
+            ActionsSponsor.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
+        }
+
         Actions.getHourLogs()(this.props.dispatch);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.hourLogsGet) {
-            this.setState({ hours: nextProps.hourLogsGet });
+            this.setState(
+                {
+                    hours: nextProps.hourLogsGet,
+                }
+            );
+            this.getMonthHoursList(nextProps.hourLogsGet);
+        }
+        if (nextProps.user) {
+            const projectSlug = nextProps.user.project.slug;
+            const teamSlug = nextProps.user.team.slug;
+            const volunteerSlug = nextProps.user.slug;
+
+            if (!nextProps.sponsors) {
+                ActionsSponsor.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
+            }
+
+            this.setState(
+                {
+                    user: nextProps.user,
+                }
+            );
+        }
+        if (nextProps.sponsors) {
+            this.setState(
+                {
+                    sponsors: nextProps.sponsors,
+                }
+            );
         }
     }
 
-    getVolunteerChart() {
-        const hours = this.state.hours;
+    getMonthHoursList(hours) {
         const hourList = [];
 
         if (!hours || !hours.length) {
@@ -42,21 +76,46 @@ export default class AdminVolunteerDashboard extends Component {
         }
 
         for (let i = 0; i < hours.length; i++) {
-            hourList.push({
-                date: new Date(hours[i].date),
-                'new': parseInt(hours[i].hours, 10),
-            });
-        }
+            const date = new Date(hours[i].date);
 
+            if (date.getMonth() === moment().month()) {
+                hourList.push({
+                    date: new Date(hours[i].date),
+                    'new': parseInt(hours[i].hours, 10),
+                });
+            }
+        }
+        this.setState({
+            monthHours: hourList,
+        });
+    }
+
+    getVolunteerChart() {
         return (<AdminVolunteerChart
-            data={hourList}
-            goal={data.volunteer.goal}
+            data={this.state.monthHours}
+            goal={this.props.user.goal}
             currentMonth={moment().month()}
             currentYear={moment().year()}
                 />);
     }
 
+    getTotalHours() {
+        if (this.state.monthHours) {
+            let totalHours = 0;
+
+            for (let i = 0; i < this.state.monthHours.length; i++) {
+                totalHours += this.state.monthHours[i].new;
+            }
+            return totalHours;
+        }
+        return 0;
+    }
+
     render() {
+        if (!this.props.user || !this.state.sponsors) {
+            return (null);
+        }
+
         const pageNav = [
             {
                 type: 'button',
@@ -66,7 +125,7 @@ export default class AdminVolunteerDashboard extends Component {
             {
                 type: 'link',
                 title: 'My Public Page',
-                href: `${Urls.getVolunteerProfileUrl(data.project.slug, data.team.slug, data.volunteer.slug)}`,
+                href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
             },
             {
                 type: 'link',
@@ -74,7 +133,7 @@ export default class AdminVolunteerDashboard extends Component {
                 href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];
-        const volunteerChart = this.getVolunteerChart();
+        const volunteerChart = this.state.monthHours ? this.getVolunteerChart() : null;
 
         return (
             <AuthenticatedView accessLevel={'VOLUNTEER'}>
@@ -82,23 +141,24 @@ export default class AdminVolunteerDashboard extends Component {
                     <AdminContentHeader
                         title={'My Dashboard'}
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}
-                        goal={data.volunteer.goal}
+                        volunteerDashboard
+                        goal={this.props.user.goal}
                     />
                     {volunteerChart}
                     <AdminStatsBlock
                         stats={
                             [
                                 {
-                                    current: data.team.volunteers.length,
+                                    current: this.getTotalHours(),
                                     title: 'Volunteered hours',
-                                    goal: 12,
+                                    goal: this.props.user.goal,
                                 },
                                 {
-                                    current: data.team.sponsors.length,
+                                    current: this.state.sponsors.length,
                                     title: 'Sponsors',
                                 },
                                 {
-                                    current: data.team.raised,
+                                    current: this.props.user.raised || 0,
                                     title: '$ Raised',
                                 },
                             ]
@@ -113,5 +173,7 @@ export default class AdminVolunteerDashboard extends Component {
 }
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
+    sponsors: reduxState.main.sponsor.sponsors,
     hourLogsGet: reduxState.main.volunteer.hourLogsGet,
 }))(AdminVolunteerDashboard);
