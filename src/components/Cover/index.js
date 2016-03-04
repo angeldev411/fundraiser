@@ -102,19 +102,19 @@ export default class Cover extends Component {
                                 <div className="col-xs-12">
                                     <p>{this.props.tagline}</p>
                                 </div>
-                                <EditButton
-                                    direction="left"
-                                    name="tagline"
-                                    content={
-                                        <EditTaglineForm
-                                            value={this.props.tagline}
-                                        />
-                                    }
-                                >
-                                    {'Tagline'}
-                                </EditButton>
                             </div>
                         </div>
+                        <EditButton
+                            direction="top"
+                            name="tagline"
+                            content={
+                                <EditTaglineForm
+                                    value={this.props.tagline}
+                                />
+                            }
+                        >
+                            {'Tagline'}
+                        </EditButton>
                         <PledgeButton
                             customClass="btn-default"
                             teamSlug={this.props.team.slug}

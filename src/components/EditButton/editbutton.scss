@@ -10,7 +10,7 @@
 .btn-edit-cover {
     position: absolute;;
     left: 0;
-    bottom: 0;
+    bottom: 20px;
 }
 
 .btn-edit-logo {
@@ -31,9 +31,7 @@
 }
 
 .btn-edit-tagline {
-    position: absolute;
-    right: 0;
-    margin: 15px 0;
+    //
 }
 
 @media (min-width: $screen-sm-min) {
@@ -54,6 +52,11 @@
 
     .btn-edit-top {
         background-position: top 10px center;
+        padding: 20px 0;
+    }
+
+    .btn-edit-bottom {
+        background-position: bottom 10px center;
         padding: 20px 0;
     }
 }

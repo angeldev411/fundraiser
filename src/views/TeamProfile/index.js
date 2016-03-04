@@ -16,12 +16,14 @@ class TeamProfile extends Component {
     constructor(props) {
         super(props);
 
+        this.defaultTeam = {
+            tagline: 'Put your Team tagline here',
+            slogan: 'PUT YOUR TEAM SLOGAN HERE',
+            description: 'Put your description here',
+        };
+
         this.state = {
-            team: {
-                tagline: 'YOU + US = A WORLD OF CHANGE',
-                slogan: 'Your Team slogan here',
-                description: 'Put your description here',
-            },
+            team: this.defaultTeam,
             volunteers: [],
         };
     }
@@ -45,7 +47,10 @@ class TeamProfile extends Component {
         console.log(nextProps);
         if (nextProps.team) {
             this.setState({
-                team: nextProps.team,
+                team: {
+                    ...this.defaultTeam,
+                    ...nextProps.team,
+                },
             });
         }
         if (nextProps.volunteers) {
@@ -59,12 +64,16 @@ class TeamProfile extends Component {
     }
 
     render() {
+<<<<<<< 277f717e37ddb5c7149901fa64fc98fed67e302d
         if (this.state.team === null) {
             return (<RouteNotFound />);
         }
 
         console.log(this.state);
 
+=======
+        console.log(this.state.team);
+>>>>>>> Fixes for button position and defaultData.
         document.title = `${this.state.team.name} | Raiserve`;
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
         const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
