@@ -67,7 +67,7 @@ export default class AdminVolunteerProfile extends Component {
         delete user.password2;
 
         Actions.updateProfile(user)(this.props.dispatch);
-    }
+    };
 
     getUserFirstName = () => {
         if (this.state.user && this.state.user.firstName) {

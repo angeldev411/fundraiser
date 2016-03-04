@@ -183,6 +183,8 @@ export default class Volunteer {
                     ...(user.description ? { description: user.description } : {}),
                     ...(user.headshotData ? { headshotData: uploadUrl } : {}),
                     ...(user.slug ? { slug: user.slug } : {}),
+                    ...(user.totalHours ? { totalHours: user.totalHours } : {}),
+                    ...(user.currentHours ? { currentHours: user.currentHours } : {}),
                 }).then((data) => {
                     return resolve(data);
                 }).catch((error) => {

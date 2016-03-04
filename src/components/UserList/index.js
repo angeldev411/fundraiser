@@ -101,7 +101,7 @@ export default class UserList extends Component {
                                             : `url(${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR})` }}
                                     >
                                         <div className="user-hours">
-                                            <span className="user-hours-number">{user.hours ? user.hours : 0}</span><br/>{'hours'}
+                                            <span className="user-hours-number">{user.currentHours ? user.currentHours : 0}</span><br/>{'hours'}
                                         </div>
                                     </div>
                                     <div className="user-name">{`${user.firstName} ${user.lastName}`}</div>

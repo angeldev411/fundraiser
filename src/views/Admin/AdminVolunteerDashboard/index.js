@@ -96,18 +96,6 @@ export default class AdminVolunteerDashboard extends Component {
                 />);
     }
 
-    getTotalMonthHours() {
-        if (this.state.monthHours) {
-            let totalHours = 0;
-
-            for (let i = 0; i < this.state.monthHours.length; i++) {
-                totalHours += this.state.monthHours[i].new;
-            }
-            return totalHours;
-        }
-        return 0;
-    }
-
     render() {
         if (!this.props.user || !this.state.sponsors) {
             return (null);
@@ -146,7 +134,7 @@ export default class AdminVolunteerDashboard extends Component {
                         stats={
                             [
                                 {
-                                    current: this.getTotalMonthHours(),
+                                    current: this.props.user.currentHours || 0,
                                     title: 'Volunteered hours',
                                     goal: this.props.user.goal,
                                 },
