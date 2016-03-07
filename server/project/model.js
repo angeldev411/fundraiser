@@ -96,6 +96,18 @@ class Project {
         ).getResults('projects');
     }
 
+    static getProject(projectSlug) {
+        return db.query(`
+            MATCH (p:PROJECT {slug: {projectSlug}})
+            RETURN p
+            `,
+            {},
+            {
+                projectSlug,
+            }
+        ).getResult('p');
+    }
+
     // SECURITY: explicitly define return attributes
     static findByShortName(shortName) {
         return db.query(

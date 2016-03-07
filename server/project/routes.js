@@ -89,4 +89,14 @@ router.get('/api/v1/project', (req, res) => {
     });
 });
 
+router.get('/api/v1/project/:projectSlug', (req, res) => {
+    projectController.getProject(req.params.projectSlug)
+    .then((response) => {
+        res.status(200).send(response);
+    })
+    .catch((err) => {
+        res.status(404).send('Project not found');
+    });
+});
+
 module.exports = router;

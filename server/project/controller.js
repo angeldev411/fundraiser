@@ -23,6 +23,16 @@ class projectController {
             return Promise.resolve(projects);
         });
     }
+
+    static getProject(projectSlug) {
+        return Project.getProject(projectSlug)
+        .then((project) => {
+            return Promise.resolve(project);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
 }
 
 module.exports = projectController;

@@ -14,6 +14,7 @@ import Story from '../views/Story';
 import RaiserveBasics from '../views/RaiserveBasics';
 import TeamProfile from '../views/TeamProfile';
 import TeamSignup from '../views/TeamSignup';
+import ProjectSignup from '../views/ProjectSignup';
 import VolunteerProfile from '../views/VolunteerProfile';
 import Legals from '../views/Legals';
 import Privacy from '../views/Privacy';
@@ -38,6 +39,10 @@ export default (
         <Route
             path={Urls.RAISERVE_BASICS}
             component={RaiserveBasics}
+        />
+        <Route
+            path={`${Urls.PROJECT_SIGNUP}`}
+            component={ProjectSignup}
         />
         <Route
             path={`${Urls.TEAM_PROFILE}`}
