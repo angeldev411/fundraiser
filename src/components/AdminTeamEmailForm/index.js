@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
+import * as Actions from '../../redux/email/actions';
 
-export default class AdminTeamEmailForm extends Component {
+class AdminTeamEmailForm extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -10,10 +12,10 @@ export default class AdminTeamEmailForm extends Component {
 
     submit = () => {
         console.log(this.state.subject, this.state.body);
-        // Actions.sendEmail(
-        //     this.state.subject,
-        //     this.state.body,
-        // )(this.props.dispatch);
+        Actions.sendEmail({
+            subject: this.state.subject,
+            body: this.state.body,
+        })(this.props.dispatch);
     };
 
     handleChange = (event, name) => {
@@ -59,3 +61,8 @@ export default class AdminTeamEmailForm extends Component {
         );
     }
 }
+
+export default connect((reduxState) => ({
+    error: reduxState.main.email.error,
+    email: reduxState.main.email.email,
+}))(AdminTeamEmailForm);

@@ -5,6 +5,7 @@ import userReducers from './user/reducers';
 import volunteerReducers from './volunteer/reducers';
 import sponsorReducers from './sponsor/reducers';
 import pledgeReducers from './pledge/reducers';
+import emailReducers from './email/reducers';
 import { combineReducers } from 'redux';
 
 // App Wide reducer
@@ -32,4 +33,5 @@ export default combineReducers({
     volunteer: volunteerReducers,
     sponsor: sponsorReducers,
     pledge: pledgeReducers,
+    email: emailReducers,
 });
