@@ -5,9 +5,10 @@ import Volunteer from './volunteer/model';
 import TeamLeader from './team-leader/model';
 import ProjectLeader from './project-leader/model';
 import messages from '../messages';
-import mailer from '../helpers/mailer';
+import Mailer from '../helpers/mailer';
 import * as roles from './roles';
 import Promise from 'bluebird';
+import * as Constants from '../../src/common/constants';
 
 class userController {
     static checkCredentials(credentials) {
@@ -143,8 +144,48 @@ class userController {
             slugIfNeedBe
         )
         .then((user) => {
-            // TODO : generate token + send email
-            return Promise.resolve(user);
+            let link;
+
+            if (role === roles.TEAM_LEADER) {
+                TeamLeader.getTeamAndProject(user)
+                .then((data) => {
+                    const project = data.project;
+                    const team = data.team;
+
+                    link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
+
+                    const content = {
+                        subject: 'Welcome to Raiserve',
+                        body: link,
+                    };
+
+                    Mailer.sendEmail(content, [user], (response) => {
+                        return Promise.resolve(user);
+                    }, (err) => {
+                        console.log(err);
+                        return Promise.reject('Invite email could not be sent');
+                    });
+                });
+            } else if (role === roles.PROJECT_LEADER) {
+                ProjectLeader.getProject(user)
+                .then((project) => {
+                    link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
+
+                    const content = {
+                        subject: 'Welcome to Raiserve',
+                        body: link,
+                    };
+
+                    Mailer.sendEmail(content, [user], (response) => {
+                        return Promise.resolve(user);
+                    }, (err) => {
+                        console.log(err);
+                        return Promise.reject('Invite email could not be sent');
+                    });
+                });
+            }
+
+
         })
         .catch((err) => {
             return Promise.reject('User already in DB');

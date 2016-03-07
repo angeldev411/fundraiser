@@ -21,7 +21,7 @@ class util {
     }
 
     static isEmailValid(email) {
-        const emailRegexp = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/gi;
+        const emailRegexp = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
         return emailRegexp.test(email);
     }
