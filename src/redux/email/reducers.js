@@ -8,12 +8,12 @@ export default function reducers(state = initialState, action) {
             return {
                 ...state,
                 email: action.email,
-                emailError: null,
+                error: null,
             };
         case actionTypes.SEND_EMAIL_FAIL:
             return {
                 ...state,
-                emailError: action.error,
+                error: action.error,
             };
         default:
             return state;

@@ -11,8 +11,9 @@ class AdminTeamEmailForm extends Component {
     }
 
     submit = () => {
-        console.log(this.state.subject, this.state.message);
         Actions.sendEmail(
+            this.props.user.project.slug,
+            this.props.user.team.slug,
             this.state.subject,
             this.state.message,
         )(this.props.dispatch);
@@ -24,6 +25,28 @@ class AdminTeamEmailForm extends Component {
         newState[name] = event.nativeEvent.target.value;
         this.setState(newState);
     };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.hasOwnProperty('error')) {
+            this.setState({ error: nextProps.error });
+        }
+        if (nextProps.user) {
+            this.setState(
+                {
+                    user: nextProps.user,
+                }
+            );
+        }
+        if (nextProps.email) {
+            console.log('emaillllllll');
+            this.setState(
+                {
+                    email: nextProps.email,
+                    error: null,
+                }
+            );
+        }
+    }
 
     render() {
         return (
@@ -51,18 +74,24 @@ class AdminTeamEmailForm extends Component {
                     />
                     <label htmlFor="message">{'Message'}</label>
                 </div>
-                <Button
-                    customClass="btn-green-white"
-                    type={'submit'}
-                >
-                    {'Send'}
-                </Button>
+
+                {this.state.error ? <p>{this.state.error}</p> : null}
+                {this.state.email
+                    ? <p>{'Your message has been sent.'}</p>
+                    : <Button
+                        customClass="btn-green-white"
+                        type={'submit'}
+                      >
+                        {'Send'}
+                    </Button>
+                }
             </Form>
         );
     }
 }
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
     error: reduxState.main.email.error,
     email: reduxState.main.email.email,
 }))(AdminTeamEmailForm);

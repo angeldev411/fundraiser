@@ -2,9 +2,9 @@ import * as actionTypes from './action-types';
 import axios from 'axios';
 import { API_URL } from '../../common/constants';
 
-export const email = (user) => ({
+export const email = (email) => ({
     type: actionTypes.SEND_EMAIL,
-    user,
+    email,
 });
 
 export const emailFailed = (error) => ({
@@ -12,10 +12,10 @@ export const emailFailed = (error) => ({
     error,
 });
 
-export function sendEmail(subject, message) {
+export function sendEmail(projectSlug, teamSlug, subject, message) {
     return (dispatch) => {
         return axios.post(
-            `${API_URL}/email`,
+            `${API_URL}/email/${projectSlug}/${teamSlug}`,
             {
                 subject,
                 message,

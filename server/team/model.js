@@ -141,6 +141,19 @@ class Team {
         ).getResult('result');
     }
 
+    static isTeamLeaderTeamOwnerBySlug(teamSlug, teamLeaderId) {
+        return db.query(`
+                MATCH (t:TEAM {slug: {teamSlug}})<-[:LEAD]-(u:TEAM_LEADER {id: {teamLeaderId}})
+                RETURN { team: t, user: u } AS result
+            `,
+            {},
+            {
+                teamSlug,
+                teamLeaderId,
+            }
+        ).getResult('result');
+    }
+
     static isProjectLeaderIndirectTeamOwner(teamId, projectLeaderId) {
         return db.query(`
                 MATCH (t:TEAM {id: {teamId}})-->(:PROJECT)<--(u:PROJECT_LEADER {id: {projectLeaderId}})
