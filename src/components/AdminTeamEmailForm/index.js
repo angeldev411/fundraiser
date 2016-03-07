@@ -11,11 +11,11 @@ class AdminTeamEmailForm extends Component {
     }
 
     submit = () => {
-        console.log(this.state.subject, this.state.body);
-        Actions.sendEmail({
-            subject: this.state.subject,
-            body: this.state.body,
-        })(this.props.dispatch);
+        console.log(this.state.subject, this.state.message);
+        Actions.sendEmail(
+            this.state.subject,
+            this.state.message,
+        )(this.props.dispatch);
     };
 
     handleChange = (event, name) => {
@@ -43,13 +43,13 @@ class AdminTeamEmailForm extends Component {
                 </div>
                 <div className="form-group">
                     <textarea
-                        name="body"
-                        id="body"
+                        name="message"
+                        id="message"
                         rows="5"
                         placeholder={'Type your email message here'}
-                        onChange={(e) => { this.handleChange(e, 'body') }}
+                        onChange={(e) => { this.handleChange(e, 'message') }}
                     />
-                    <label htmlFor="body">{'Message'}</label>
+                    <label htmlFor="message">{'Message'}</label>
                 </div>
                 <Button
                     customClass="btn-green-white"

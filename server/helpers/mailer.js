@@ -5,32 +5,30 @@ import config from '../config';
 const mandrillClient = new mandrill.Mandrill(config.MANDRILL_API_KEY);
 
 export default class mailer {
-    static sendEmail(content = {}, consts = []) {
+    static sendEmail(content = {}, callback, callbackError) {
         const message = {
             text: (content.body || ''),
             subject: (content.subject || 'no subject'),
             from_email: (content.from || 'support@raiserve.org'),
-            from_name: (content.fromname || 'raiserve'),
-            merge_consts: [{
-                rcpt: content.to,
-                consts,
-            }],
+            from_name: (content.fromname || 'Raiserve'),
             to: [{
-                email: content.to,
+                email: content.to || 'adrien.kuhn@osedea.com',
                 name: content.toname,
                 type: 'to',
             }],
         };
 
-        mandrillClient.messages.send({
+        console.log('message', message);
+
+        return mandrillClient.messages.send({
             message,
             async: true,
         }, (result) => {
             console.log(result);
-            return Promise.resolve(result);
+            callback(result)
         }, (e) => {
             console.log(`A mandrill error occurred: ${e.name} - ${e.message}`);
-            return Promise.reject(e);
+            callbackError(e);
         });
     }
 

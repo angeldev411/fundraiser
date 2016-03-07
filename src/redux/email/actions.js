@@ -12,12 +12,13 @@ export const emailFailed = (error) => ({
     error,
 });
 
-export function sendEmail(content) {
+export function sendEmail(subject, message) {
     return (dispatch) => {
         return axios.post(
             `${API_URL}/email`,
             {
-                content,
+                subject,
+                message,
             }
         )
         .then(

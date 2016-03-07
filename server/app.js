@@ -31,6 +31,7 @@ import teamLeadersRoutes from './user/team-leader/routes';
 import projectLeadersRoutes from './user/project-leader/routes';
 import sponsorRoutes from './user/sponsor/routes';
 import hoursRoutes from './hours/routes';
+import emailRoutes from './email/routes';
 
 app.use(authRoutes);
 app.use(projectRoutes);
@@ -42,6 +43,7 @@ app.use(teamLeadersRoutes);
 app.use(projectLeadersRoutes);
 app.use(hoursRoutes);
 app.use(sponsorRoutes);
+app.use(emailRoutes);
 
 app.use('/api/v1/*', (req, res) => {
     res.status(404).send();
