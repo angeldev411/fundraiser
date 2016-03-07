@@ -184,8 +184,6 @@ class userController {
                     });
                 });
             }
-
-
         })
         .catch((err) => {
             return Promise.reject('User already in DB');
