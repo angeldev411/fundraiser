@@ -9,6 +9,7 @@ import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import * as Urls from '../../../urls.js';
@@ -74,9 +75,13 @@ class AdminTeamSponsors extends Component {
 
         const pageNav = [
             {
-                type: 'link',
+                type: 'button',
                 title: 'Email Your Team',
-                href: '#',
+                content:
+                    <AdminTeamEmailForm
+                        project={this.props.user.project}
+                        team={this.props.user.team}
+                    />,
             },
             {
                 type: 'button',

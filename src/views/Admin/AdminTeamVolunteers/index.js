@@ -10,6 +10,7 @@ import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
@@ -68,9 +69,13 @@ class AdminTeamVolunteers extends Component {
 
         const pageNav = [
             {
-                type: 'link',
+                type: 'button',
                 title: 'Email Your Team',
-                href: '#',
+                content:
+                    <AdminTeamEmailForm
+                        project={this.props.user.project}
+                        team={this.props.user.team}
+                    />,
             },
             {
                 type: 'button',
