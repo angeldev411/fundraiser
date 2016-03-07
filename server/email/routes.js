@@ -5,7 +5,7 @@ import * as AUTH_CHECKER from '../auth/auth-checker';
 import Mailer from '../helpers/mailer';
 import Team from '../team/model';
 import Volunteer from '../user/volunteer/model';
-import messages from '../messages'
+import messages from '../messages';
 
 router.post('/api/v1/email/:projectSlug/:teamSlug', (req, res) => {
     if (
@@ -52,17 +52,26 @@ router.post('/api/v1/email/:projectSlug/:teamSlug', (req, res) => {
                 res.status(500).send('You should not be here');
             });
         } else {
-            const volunteersIds = req.body.recipients;
+            // TODO dynamic recipients retrieve, needs batch edit done
+            // const volunteersIds = req.body.recipients;
 
-            // TODO Get recipients email from IDS and teamSlug
+            const volunteersIds = [
+                '28c53f84-8de2-4ee5-8740-f456a736c850',
+                '0ef320d1-143a-4681-8c3f-ce77a50de733',
+            ];
 
-            // Send email
-            // Mailer.sendEmail(content, (response) => {
-            //     res.status(200).send(response);
-            // }, (err) => {
-            //     console.log(err);
-            //     res.status(400).send(err);
-            // });
+            Volunteer.getVolunteersByIds(req.params.projectSlug, req.params.teamSlug, volunteersIds)
+            .then((volunteers) => {
+                Mailer.sendEmail(content, volunteers, (response) => {
+                    res.status(200).send(response);
+                }, (err) => {
+                    console.log(err);
+                    res.status(400).send();
+                });
+            }).catch((errorVolunteers) => {
+                console.log(errorVolunteers);
+                res.status(500).send('You should not be here');
+            });
         }
     })
     .catch((err) => {

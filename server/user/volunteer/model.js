@@ -126,6 +126,47 @@ export default class Volunteer {
         ).getResults('users');
     }
 
+    static getVolunteersByIds(projectSlug = null, teamSlug = null, volunteersIds = null) {
+        if (!teamSlug && projectSlug) {
+            return db.query(
+                `
+                MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM)-[:CONTRIBUTE]->(:PROJECT {slug: {projectSlug}})
+                WHERE users.id IN {volunteersIds}
+                RETURN users
+                `,
+                {},
+                {
+                    projectSlug,
+                    volunteersIds,
+                }
+            ).getResults('users');
+        } else if (teamSlug) {
+            return db.query(
+                `
+                MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {slug: {teamSlug}})
+                WHERE users.id IN {volunteersIds}
+                RETURN users
+                `,
+                {},
+                {
+                    teamSlug,
+                    volunteersIds,
+                }
+            ).getResults('users');
+        }
+        return db.query(
+            `
+            MATCH (users:VOLUNTEER)
+            WHERE users.id IN {volunteersIds}
+            RETURN users
+            `,
+            {},
+            {
+                volunteersIds,
+            }
+        ).getResults('users');
+    }
+
     static getTopVolunteers(projectSlug = null, teamSlug = null) {
         return db.query(
             `
