@@ -9,7 +9,8 @@ export default class EditTaglineForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tagline: '',
+            tagline: this.props.value ? this.props.value : '',
+            team: this.props.team,
         };
     }
 
@@ -20,8 +21,12 @@ export default class EditTaglineForm extends Component {
     }
 
     updateTagline = () => {
+        const team = Object.assign({}, this.state.team);
+
+        team.tagline = this.state.tagline;
         Actions.updateTagline(
-            this.state.tagline
+            this.state.id,
+            team
         )(this.props.dispatch);
     };
 
