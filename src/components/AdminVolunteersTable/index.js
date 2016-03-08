@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ModalButton from '../ModalButton';
 import AdminTeamEmailForm from '../AdminTeamEmailForm';
 import * as constants from '../../common/constants';
+import classNames from 'classnames';
 
 export default class AdminVolunteersTable extends Component {
 
@@ -10,6 +11,7 @@ export default class AdminVolunteersTable extends Component {
         this.state = {
             linesChecked: [],
             checked: false,
+            showDropdown: false,
         };
     }
 
@@ -54,6 +56,12 @@ export default class AdminVolunteersTable extends Component {
         });
     }
 
+    lockDropdown = () => {
+        this.setState({
+            showDropdown: !this.state.showDropdown,
+        });
+    };
+
     render() {
         const selectedVolunteers = [];
 
@@ -71,7 +79,12 @@ export default class AdminVolunteersTable extends Component {
                             <span>
                                 {'Actions'} <i className="fa fa-chevron-down"></i>
                             </span>
-                            <ul className="dropdown-content">
+                            <ul className={
+                                    classNames({
+                                        'dropdown-content__active': this.state.showDropdown,
+                                    }, 'dropdown-content')
+                                }
+                            >
                                 <li>
                                     <ModalButton
                                         customClass="btn-link"
@@ -82,6 +95,7 @@ export default class AdminVolunteersTable extends Component {
                                                 recipients={selectedVolunteers}
                                             />
                                         }
+                                        onModalToggle={this.lockDropdown}
                                     >
                                         {'Email'}
                                     </ModalButton>
