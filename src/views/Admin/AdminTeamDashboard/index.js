@@ -10,6 +10,7 @@ import UserList from '../../../components/UserList';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import * as Urls from '../../../urls.js';
 
@@ -91,9 +92,13 @@ class AdminTeamDashboard extends Component {
 
         const pageNav = [
             {
-                type: 'link',
+                type: 'button',
                 title: 'Email Your Team',
-                href: '#',
+                content:
+                    <AdminTeamEmailForm
+                        project={this.props.user.project}
+                        team={this.props.user.team}
+                    />,
             },
             {
                 type: 'button',

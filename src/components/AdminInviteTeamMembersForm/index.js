@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Constants from '../../common/constants.js';
 import * as Urls from '../../urls.js';
@@ -21,6 +20,7 @@ export default class AdminInviteTeamMembersForm extends Component {
                         name="url"
                         id="url"
                         defaultValue={SHARE_URL}
+                        disabled
                     />
                     <label htmlFor="name">{'You can simply copy and paste this url to your email or social channels'}</label>
                 </div>

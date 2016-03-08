@@ -33,4 +33,7 @@ export default {
     sponsor: {
         missingData: 'A field is missing, please check your form',
     },
+    email: {
+        required: 'A field is missing, please check your form',
+    },
 };
