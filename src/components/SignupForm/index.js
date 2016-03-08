@@ -6,7 +6,17 @@ export default class SignupForm extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        const inviteCode = this.getParam('c');
+        const email = this.getParam('m');
+
+        if (inviteCode && email) {
+            this.state = {
+                inviteCode,
+                email,
+            };
+        } else {
+            this.state = {};
+        }
     }
 
     handleChange = (event, name) => {
@@ -28,7 +38,21 @@ export default class SignupForm extends Component {
             this.props.onSubmit({
                 email: this.state.email,
                 password: this.state.password1,
+                inviteCode: this.state.inviteCode,
             });
+        }
+    };
+
+    getParam = (variable) => {
+        const query = window.location.search.substring(1);
+        const vars = query.split('&');
+
+        for (let i = 0; i < vars.length; i++) {
+            const pair = vars[i].split('=');
+
+            if (pair[0] === variable) {
+                return pair[1];
+            }
         }
     };
 
@@ -41,11 +65,20 @@ export default class SignupForm extends Component {
                 onSubmit={this.submit}
             >
                 <div className="form-group">
-                    <input type="email"
-                        name="email"
-                        id="email"
-                        onChange={(e) => { this.handleChange(e, 'email') }}
-                    />
+                    {
+                        (this.state.inviteCode && this.state.email)
+                        ? <input type="email"
+                            name="email"
+                            id="email"
+                            value={this.state.email}
+                            disabled
+                          />
+                        : <input type="email"
+                            name="email"
+                            id="email"
+                            onChange={(e) => { this.handleChange(e, 'email') }}
+                          />
+                    }
                     <label htmlFor="email">{'Email address'}</label>
                 </div>
 

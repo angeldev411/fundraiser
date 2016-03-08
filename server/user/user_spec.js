@@ -14,9 +14,9 @@ describe('User', () => {
     describe('Invite', () => {
         after(deleteUserInviteesByEmail);
         it('should create an empty user (email + inviteeCode)', (done) => {
-            userController.invite(fixtures.invite, null, fixtures.teams[1].slug)
+            userController.invite(fixtures.invite.email, fixtures.invite.role, fixtures.teams[1].slug)
             .then((user) => {
-                expect(user.email).to.equal(fixtures.invite);
+                expect(user.email).to.equal(fixtures.invite.email);
                 inviteCode = user.inviteCode;
                 expect(user).to.contain.keys('id');
                 expect(user).to.contain.keys('inviteCode');

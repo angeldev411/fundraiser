@@ -53,6 +53,22 @@ export function newProject(name, slug, shortDescription, projectLeaderEmail) {
     };
 }
 
+export function getProject(projectSlug) {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/project/${projectSlug}`)
+        .then(
+            (response) => {
+                dispatch(receivedProject(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(newProjectFailed('Project not found'));
+            }
+        );
+    };
+}
+
 export function updateProject(id, name, slug, shortDescription, projectLeaderEmail) {
     return (dispatch) => {
         return axios.put(`${API_URL}/project/${id}`, {

@@ -8,7 +8,7 @@ import * as Actions from '../../redux/team/actions';
 class AdminTeamForm extends Component {
     constructor(props) {
         super(props);
-        if (this.props.defaultData) {
+        if (this.props.defaultData.team) {
             this.state = this.props.defaultData.team;
         } else {
             this.state = {};
@@ -61,8 +61,6 @@ class AdminTeamForm extends Component {
         if (this.props.defaultData.project.slug.length > 10) {
             domain = '...';
         }
-
-        console.log(this.state);
 
         return (
             <Form id="team-form"

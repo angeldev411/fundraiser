@@ -30,7 +30,6 @@ router.post('/api/v1/email/:projectSlug/:teamSlug', (req, res) => {
     const content = {
         subject: req.body.subject,
         body: req.body.message,
-        to: [],
     };
 
     // Verify team leader is team owner

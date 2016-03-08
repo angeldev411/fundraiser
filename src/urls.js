@@ -10,6 +10,7 @@ export const PRIVACY = '/privacy-policy';
 // TEAMS
 // /!\ If you change :teamSlug to something else,
 // be sure to change it also in /server/team/model.js:250
+export const PROJECT_SIGNUP = `/:projectSlug/join`;
 export const TEAM_PROFILE = `/:projectSlug/:teamSlug`;
 export const TEAM_SIGNUP = `${TEAM_PROFILE}/join`;
 export const VOLUNTEER_PROFILE = `${TEAM_PROFILE}/:volunteerSlug`;

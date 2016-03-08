@@ -11,7 +11,7 @@ router.post('/api/v1/signup', (req, res) => {
     }
 
     const data = {
-        inviteCode: req.body.invitecode,
+        inviteCode: req.body.inviteCode,
         email: req.body.email,
         password: util.hash(req.body.password),
     };

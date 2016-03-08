@@ -38,7 +38,6 @@ class AdminTeamEmailForm extends Component {
             );
         }
         if (nextProps.email) {
-            console.log('emaillllllll');
             this.setState(
                 {
                     email: nextProps.email,

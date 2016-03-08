@@ -3,36 +3,34 @@ import React, { Component } from 'react';
 import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
-import * as TeamActions from '../../redux/team/actions';
+import * as ProjectActions from '../../redux/project/actions';
 import * as Actions from '../../redux/user/actions';
 import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
 import Page from '../../components/Page';
-import Cover from '../../components/Cover';
 import SignupForm from '../../components/SignupForm';
 
-class TeamSignup extends Component {
+class ProjectSignup extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            team: {
-                name: 'Some team',
+            project: {
+                name: 'Some project',
             },
         };
     }
 
     componentWillMount() {
-        document.title = `Signup for ${this.state.team.name} | Raiserve`;
+        document.title = `Signup for ${this.state.project.name} | Raiserve`;
         if (this.props.user) {
             this.props.dispatch(
-                pushPath(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
+                pushPath(`/${this.props.params.projectSlug}/${this.props.params.projectSlug}`)
             );
         }
-        TeamActions.getTeam(
+        ProjectActions.getProject(
             this.props.params.projectSlug,
-            this.props.params.teamSlug,
         )(this.props.dispatch);
     }
 
@@ -46,13 +44,15 @@ class TeamSignup extends Component {
                 error: nextProps.error,
             });
         }
-        if (nextProps.team) {
+        if (nextProps.project) {
             this.setState({
-                team: nextProps.team,
+                project: nextProps.project,
             });
-        } else if (nextProps.teamError) {
+
+            document.title = `Signup for ${nextProps.project.name} | Raiserve`;
+        } else if (nextProps.projectError) {
             this.setState({
-                teamError: true,
+                projectError: true,
             });
         }
     }
@@ -72,20 +72,6 @@ class TeamSignup extends Component {
             <Page noHeader={true}
                 bodyBackground={{ backgroundColor: 'black' }}
             >
-                <Cover
-                    image={
-                        this.state.team.coverImage ?
-                        `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}` :
-                        null
-                    }
-                    customclass={"cover-signup"}
-                    tagline={this.state.team.tagline}
-                    logo={
-                        this.state.team.logo ?
-                        `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.logo}` :
-                        null
-                    }
-                />
                 <div className={"main-content"}>
                     <div className={"container"}>
                         <SignupForm onSubmit={this.submit} />
@@ -99,6 +85,6 @@ class TeamSignup extends Component {
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     error: reduxState.main.auth.user,
-    team: reduxState.main.team.team,
-    teamError: reduxState.main.team.error,
-}))(TeamSignup);
+    project: reduxState.main.project.project,
+    projectError: reduxState.main.project.error,
+}))(ProjectSignup);

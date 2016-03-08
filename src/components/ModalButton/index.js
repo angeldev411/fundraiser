@@ -13,11 +13,12 @@ class ModalButton extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (
-            nextProps.user && this.state.clicked
-            || nextProps.team && this.state.clicked
-            || nextProps.project && this.state.clicked
-            || nextProps.hourLogSuccess && this.state.clicked
+        if (this.state.clicked && (
+                nextProps.user !== this.props.user
+                || nextProps.team !== this.props.team
+                || nextProps.project !== this.props.project
+                || nextProps.hourLogSuccess !== this.props.hourLogSuccess
+            )
 
         ) {
             this.handleClick();

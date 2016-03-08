@@ -5,7 +5,7 @@ import config from '../config';
 const mandrillClient = new mandrill.Mandrill(config.MANDRILL_API_KEY);
 
 export default class mailer {
-    static sendEmail(content = {}, recipients, callback, callbackError) {
+    static sendEmail(content = {}, recipients = [], callback, callbackError) {
         const message = {
             text: (content.body || ''),
             subject: (content.subject || 'no subject'),
