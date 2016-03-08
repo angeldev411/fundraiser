@@ -20,6 +20,8 @@ class SigninForm extends Component {
                     error: null
                 }
             );
+
+            // TODO REDIRECT TO DASHBOARD
         }
     }
 
