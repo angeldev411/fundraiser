@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Actions from '../../redux/team/actions';
+import { connect } from 'react-redux';
 
 export default class EditDescriptionForm extends Component {
     constructor(props) {
@@ -12,18 +13,12 @@ export default class EditDescriptionForm extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.error) {
-            this.setState({ error: nextProps.error });
-        }
-    }
-
     updateDescription = () => {
         const team = Object.assign({}, this.state.team);
 
         team.description = this.state.description;
-        Actions.updateDescription(
-            this.state.id,
+        Actions.updateTeam(
+            team.id,
             team
         )(this.props.dispatch);
     };
@@ -40,7 +35,7 @@ export default class EditDescriptionForm extends Component {
             <Form title={'Edit Description'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 id={"edit-description-form"}
-                onSubmit={() => {}}
+                onSubmit={(e) => { this.updateDescription() }}
             >
                 <div className="form-group">
                     <textarea
@@ -55,7 +50,6 @@ export default class EditDescriptionForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
-                    onClick={(e) => { this.updateDescription() }}
                 >
                     {'save'}
                 </Button>
@@ -67,3 +61,8 @@ export default class EditDescriptionForm extends Component {
 EditDescriptionForm.propTypes = {
     value: React.PropTypes.string,
 };
+
+export default connect((reduxState) => ({
+    team: reduxState.main.team.team,
+    error: reduxState.main.team.error,
+}))(EditDescriptionForm);

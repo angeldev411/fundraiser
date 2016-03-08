@@ -132,6 +132,7 @@ export default class Cover extends Component {
                                 content={
                                     <EditCoverForm
                                         value={this.props.image}
+                                        team={this.props.team}
                                     />
                                 }
                             >

@@ -11,62 +11,90 @@ import utils from '../helpers/util';
 
 const db = neo4jDB(config.DB_URL);
 
+const Node = db.defineNode({
+    label: ['TEAM'],
+    schema: {
+        id: db.Joi.string().required(),
+        name: db.Joi.string().required(),
+        slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
+        logo: db.Joi.string(),
+        coverImage : db.Joi.string(),
+        tagline: db.Joi.string(),
+        slogan: db.Joi.string(),
+        description: db.Joi.string(),
+        raised : db.Joi.number(),
+        pledge: db.Joi.number(),
+        pledgePerHour : db.Joi.number(),
+        totalHours: db.Joi.number(),
+        totalVolunteers: db.Joi.number(),
+    },
+});
+
 class Team {
     constructor(data, projectSlug, id) {
-        const Node = db.defineNode({
-            label: ['TEAM'],
-            schema: {
-                id: db.Joi.string().required(),
-                name: db.Joi.string().required(),
-                slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
-                logo: db.Joi.string(),
-                coverImage : db.Joi.string(),
-                tagline: db.Joi.string(),
-                slogan: db.Joi.string(),
-                description: db.Joi.string(),
-                raised : db.Joi.number(),
-                pledge: db.Joi.number(),
-                pledgePerHour : db.Joi.number(),
-                totalHours: db.Joi.number(),
-                totalVolunteers: db.Joi.number(),
-            },
-        });
-
         if (data.team.teamLeaderEmail && !utils.isEmailValid(data.team.teamLeaderEmail)) {
             return Promise.reject(messages.notEmail);
         }
 
+        if (data.team.logoImageData) {
+            return Team.uploadLogoImage(data.team)
+                .then((response) => {
+                    console.log('Cover Image Data', !!data.team.coverImageData);
+                    return Team.uploadCoverImageIfUpdated(data.team);
+                })
+                .catch((error) => {
+                    return Promise.reject(error);
+                });
+        } else {
+            return Team.uploadCoverImageIfUpdated(data.team);
+        }
+    }
+    static uploadCoverImageIfUpdated(teamData) {
+        if (teamData.coverImageData) {
+            return Team.uploadCoverImage(teamData)
+                .then((response) => {
+                    return Team.saveTeam(teamData);
+                })
+                .catch((error) => {
+                    return Promise.reject(error);
+                });
+        } else {
+            return Team.saveTeam(teamData);
+        }
+    }
+
+    static saveTeam(teamData) {
         const team = new Node({
-            id: data.team.id || uuid.v4(),
-            name: data.team.name,
-            slug: data.team.slug,
-            ...(data.team.logo ? { logo: data.team.logo } : {}),
-            ...(data.team.coverImage ? { coverImage : data.team.coverImage } : {}),
-            ...(data.team.tagline ? { tagline: data.team.tagline } : {}),
-            ...(data.team.slogan ? { slogan: data.team.slogan } : {}),
-            ...(data.team.description ? { description: data.team.description } : {}),
-            ...(data.team.raised ? { raised : data.team.raised } : {}),
-            ...(data.team.pledge ? { pledge: data.team.pledge } : {}),
-            ...(data.team.pledgePerHour ? { pledgePerHour : data.team.pledgePerHour } : {}),
-            ...(data.team.totalHours ? { totalHours: data.team.totalHours } : {}),
-            ...(data.team.totalVolunteers ? { totalVolunteers: data.team.totalVolunteers } : {}),
-        }, id);
+            id: teamData.id || uuid.v4(),
+            name: teamData.name,
+            slug: teamData.slug,
+            ...(teamData.logo ? { logo: teamData.logo } : {}),
+            ...(teamData.coverImage ? { coverImage : teamData.coverImage } : {}),
+            ...(teamData.tagline ? { tagline: teamData.tagline } : {}),
+            ...(teamData.slogan ? { slogan: teamData.slogan } : {}),
+            ...(teamData.description ? { description: teamData.description } : {}),
+            ...(teamData.raised ? { raised : teamData.raised } : {}),
+            ...(teamData.pledge ? { pledge: teamData.pledge } : {}),
+            ...(teamData.pledgePerHour ? { pledgePerHour : teamData.pledgePerHour } : {}),
+            ...(teamData.totalHours ? { totalHours: teamData.totalHours } : {}),
+            ...(teamData.totalVolunteers ? { totalVolunteers: teamData.totalVolunteers } : {}),
+        }, teamData.id);
 
         return team.save()
         .then((response) => {
-            if (id && !data.team.teamLeaderEmail) {
+            if (teamData.id && !teamData.teamLeaderEmail) {
                 // If it's an update, don't relink team creator and return team immediately
-                return Promise.resolve(team.data);
-            } else if (id && data.team.teamLeaderEmail) {
+                return Promise.resolve(teamData);
+            } else if (teamData.id && teamData.teamLeaderEmail) {
                 // If it's an update, but new team leader email is defined
-                return UserController.invite(data.team.teamLeaderEmail, 'TEAM_LEADER', data.team.slug)
+                return UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
                 .then(() => {
                     return Promise.resolve(team.data);
                 })
                 .catch((err) => {
                     return Promise.reject(messages.invite.error);
                 });
-            } else if (!id && response.id === team.id) {
+            } else if (!teamData.id && response.id === team.id) {
                 // Link teamCreator and project
                 return db.query(`
                         MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
@@ -75,14 +103,14 @@ class Team {
                     `,
                     {},
                     {
-                        teamId: team.data.id,
+                        teamId: teamData.id,
                         userId: data.currentUser.id,
                         projectSlug,
                     }
                 ).then(() => {
                     // Link teamLeader
-                    if (data.team.teamLeaderEmail) {
-                        UserController.invite(data.team.teamLeaderEmail, 'TEAM_LEADER', data.team.slug)
+                    if (teamData.teamLeaderEmail) {
+                        UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
                         .then(() => {
                             return Promise.resolve(team.data);
                         })
@@ -155,24 +183,37 @@ class Team {
     }
 
     static uploadLogoImage(obj) {
-        console.log('upload logo image ' + obj.uuid);
-
         if (typeof obj.logoImageData === 'undefined') {
             return Promise.reject('No Logo Image provided');
         }
 
         return util.uploadRsImage({
-            key_prefix: config.TEAM_IMAGES_FOLDER,
-            uuid: obj.uuid,
+            key_prefix: `teams/`,
+            uuid: obj.uuid || obj.id,
             image_data: obj.logoImageData,
-        })
+        }, 'logo')
         .then((result) => {
-            console.log('returning team logo image...');
-
-            obj.logo_image_key = result.key;
+            console.log('result', result);
             obj.logoImageData = null;
-            console.log(obj);
+            obj.logo = `${config.S3.BASE_URL}/${result.key}`;
+            return Promise.resolve(obj);
+        });
+    }
 
+    static uploadCoverImage(obj) {
+        if (typeof obj.coverImageData === 'undefined') {
+            return Promise.reject('No Logo Image provided');
+        }
+
+        return util.uploadRsImage({
+            key_prefix: `teams/`,
+            uuid: obj.uuid || obj.id,
+            image_data: obj.coverImageData,
+        }, 'cover')
+        .then((result) => {
+            console.log('result', result);
+            obj.coverImageData = null;
+            obj.coverImage = `${config.S3.BASE_URL}/${result.key}`;
             return Promise.resolve(obj);
         });
     }

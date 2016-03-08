@@ -54,51 +54,10 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
     };
 }
 
-export function updateTagline(id, team) {
-    return (dispatch) => {
-        return axios.put(`${API_URL}/team/${id}/tagline`, {
-            id,
-            team,
-        })
-        .then(
-            (response) => {
-                // dispatch(updatedTeam(response.data));
-            }
-        )
-        .catch(
-            (errorResponse) => {
-                // dispatch(updateTeamFailed(errorResponse.data));
-            }
-        );
-    };
-}
-
-export function updateDescription(id, team) {
-    return (dispatch) => {
-        return axios.put(`${API_URL}/team/${id}/description`, {
-            id,
-            team,
-        })
-        .then(
-            (response) => {
-                // dispatch(updatedTeam(response.data));
-            }
-        )
-        .catch(
-            (errorResponse) => {
-                // dispatch(updateTeamFailed(errorResponse.data));
-            }
-        );
-    };
-}
-
-export function updateTeam(id, name, projectSlug, slug, teamLeaderEmail) {
+export function updateTeam(id, team) {
     return (dispatch) => {
         return axios.put(`${API_URL}/team/${id}`, {
-            name,
-            projectSlug,
-            slug,
-            teamLeaderEmail,
+            team,
         })
         .then(
             (response) => {
