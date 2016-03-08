@@ -10,7 +10,6 @@ export default class AdminVolunteersTable extends Component {
         this.state = {
             linesChecked: [],
             checked: false,
-            recipients: [],
         };
     }
 
@@ -56,6 +55,14 @@ export default class AdminVolunteersTable extends Component {
     }
 
     render() {
+        const selectedVolunteers = [];
+
+        for (let i = 0; i < this.state.linesChecked.length; i++) {
+            if (this.state.linesChecked[i]) {
+                selectedVolunteers.push(this.props.volunteers[i]);
+            }
+        }
+
         return (
             <div className="table-responsive">
                 {this.props.actionable ?
@@ -72,7 +79,7 @@ export default class AdminVolunteersTable extends Component {
                                             <AdminTeamEmailForm
                                                 project={this.props.user.project}
                                                 team={this.props.user.team}
-                                                recipients={null}
+                                                recipients={selectedVolunteers}
                                             />
                                         }
                                     >

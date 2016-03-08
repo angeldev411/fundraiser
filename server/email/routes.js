@@ -35,8 +35,7 @@ router.post('/api/v1/email/:projectSlug/:teamSlug', (req, res) => {
     // Verify team leader is team owner
     Team.isTeamLeaderTeamOwnerBySlug(req.params.teamSlug, req.session.user.id)
     .then(() => {
-        // Get recipients ID
-        if (!req.body.recipients) {
+        if (!req.body.recipients > 0) { // If no recipients defined
             // Send to entire team
             Volunteer.getVolunteers(req.params.projectSlug, req.params.teamSlug)
             .then((volunteers) => {
@@ -51,13 +50,11 @@ router.post('/api/v1/email/:projectSlug/:teamSlug', (req, res) => {
                 res.status(500).send('You should not be here');
             });
         } else {
-            // TODO dynamic recipients retrieve, needs batch edit done
-            // const volunteersIds = req.body.recipients;
+            const volunteersIds = [];
 
-            const volunteersIds = [
-                '28c53f84-8de2-4ee5-8740-f456a736c850',
-                '0ef320d1-143a-4681-8c3f-ce77a50de733',
-            ];
+            for (let i = 0; i < req.body.recipients.length; i++) {
+                volunteersIds.push(req.body.recipients[i].id);
+            }
 
             Volunteer.getVolunteersByIds(req.params.projectSlug, req.params.teamSlug, volunteersIds)
             .then((volunteers) => {
