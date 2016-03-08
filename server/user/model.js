@@ -82,7 +82,7 @@ export default class User {
         data.inviteCode = null;
 
         if (userNode.roles && userNode.roles[1]) {
-            role = userNode.roles[1]
+            role = userNode.roles[1];
         }
         return new User(data, role, userNode.id);
     }

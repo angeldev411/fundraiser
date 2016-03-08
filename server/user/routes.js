@@ -11,7 +11,7 @@ router.post('/api/v1/signup', (req, res) => {
     }
 
     const data = {
-        inviteCode: req.body.invitecode,
+        inviteCode: req.body.inviteCode,
         email: req.body.email,
         password: util.hash(req.body.password),
     };
@@ -23,7 +23,6 @@ router.post('/api/v1/signup', (req, res) => {
         res.status(200).send(userController.safe(user));
     })
     .catch((err) => {
-        console.log(err);
         res.status(500).send(err);
     });
 });
