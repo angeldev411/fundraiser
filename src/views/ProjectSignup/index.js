@@ -34,7 +34,6 @@ class ProjectSignup extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.user) {
             this.props.dispatch(
                 pushPath(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
@@ -67,8 +66,6 @@ class ProjectSignup extends Component {
         if (this.state.projectError) {
             return (<RouteNotFound />);
         }
-
-        console.log(this.state);
 
         return (
             <Page noHeader={true}

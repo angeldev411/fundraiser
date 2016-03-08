@@ -194,7 +194,10 @@ const fixtures = {
         },
     ],
 
-    invite : 'ad@ad.com',
+    invite: {
+        email: 'ad@ad.com',
+        role: 'TEAM_LEADER',
+    },
 
     invitee : {
         email: 'ad@ad.com',

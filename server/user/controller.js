@@ -147,7 +147,7 @@ class userController {
             let link;
 
             if (role === roles.TEAM_LEADER) {
-                TeamLeader.getTeamAndProject(user)
+                return TeamLeader.getTeamAndProject(user)
                 .then((data) => {
                     const project = data.project;
                     const team = data.team;
@@ -159,15 +159,20 @@ class userController {
                         body: link,
                     };
 
-                    Mailer.sendEmail(content, [user], (response) => {
-                        return Promise.resolve(user);
-                    }, (err) => {
-                        console.log(err);
-                        return Promise.reject('Invite email could not be sent');
+                    return new Promise((resolve, reject) => {
+                        Mailer.sendEmail(content, [user], (response) => {
+                            return resolve(user);
+                        }, (err) => {
+                            console.log(err);
+                            return reject('Invite email could not be sent');
+                        });
                     });
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
             } else if (role === roles.PROJECT_LEADER) {
-                ProjectLeader.getProject(user)
+                return ProjectLeader.getProject(user)
                 .then((project) => {
                     link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
@@ -176,12 +181,17 @@ class userController {
                         body: link,
                     };
 
-                    Mailer.sendEmail(content, [user], (response) => {
-                        return Promise.resolve(user);
-                    }, (err) => {
-                        console.log(err);
-                        return Promise.reject('Invite email could not be sent');
+                    return new Promise((resolve, reject) => {
+                        Mailer.sendEmail(content, [user], (response) => {
+                            return resolve(user);
+                        }, (err) => {
+                            console.log(err);
+                            return reject('Invite email could not be sent');
+                        });
                     });
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
             }
         })

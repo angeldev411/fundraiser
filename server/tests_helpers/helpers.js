@@ -83,7 +83,7 @@ export const deleteUserInviteesByEmail = (done) => {
             `,
             {},
             {
-                email: fixtures.invite,
+                email: fixtures.invite.email,
                 teamSlug: fixtures.teams[1].slug,
             }
         )
