@@ -62,12 +62,31 @@ export function updateTagline(id, team) {
         })
         .then(
             (response) => {
-                dispatch(updatedTeam(response.data));
+                // dispatch(updatedTeam(response.data));
             }
         )
         .catch(
             (errorResponse) => {
-                dispatch(updateTeamFailed(errorResponse.data));
+                // dispatch(updateTeamFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
+export function updateDescription(id, team) {
+    return (dispatch) => {
+        return axios.put(`${API_URL}/team/${id}/description`, {
+            id,
+            team,
+        })
+        .then(
+            (response) => {
+                // dispatch(updatedTeam(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                // dispatch(updateTeamFailed(errorResponse.data));
             }
         );
     };

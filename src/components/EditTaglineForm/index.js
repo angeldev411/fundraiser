@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Actions from '../../redux/team/actions';
-import { connect } from 'react-redux';
-
 
 export default class EditTaglineForm extends Component {
     constructor(props) {
@@ -42,6 +40,7 @@ export default class EditTaglineForm extends Component {
             <Form title={'Edit Tagline'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 id={"edit-tagline-form"}
+                onSubmit={() => {}}
             >
                 <div className="form-group">
                     <textarea

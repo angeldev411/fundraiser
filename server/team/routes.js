@@ -133,6 +133,29 @@ router.put('/api/v1/team/:teamId/tagline', (req, res) => {
     });
 });
 
+router.put('/api/v1/team/:teamId/description', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isSuperAdmin(req.session.user)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    const team = req.body.team;
+
+    teamController.store({ team }, team.slug, team.id)
+    .then((response) => {
+        res.status(200).send(response);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
 
 router.get('/api/v1/team/:projectSlug', (req, res) => {
     if (
