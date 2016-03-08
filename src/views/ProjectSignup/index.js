@@ -36,7 +36,7 @@ class ProjectSignup extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
-            window.location = '/';
+            window.location = '/dashboard';
             // TODO redirect to dashboard
         } else if (nextProps.error) {
             this.setState({
