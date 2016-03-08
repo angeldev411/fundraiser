@@ -54,10 +54,11 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
     };
 }
 
-export function updateTagline(tagline) {
+export function updateTagline(id, team) {
     return (dispatch) => {
-        return axios.put(`${API_URL}/team/${id}`, {
-            tagline,
+        return axios.put(`${API_URL}/team/${id}/tagline`, {
+            id,
+            team,
         })
         .then(
             (response) => {

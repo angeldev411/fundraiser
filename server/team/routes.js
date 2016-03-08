@@ -109,6 +109,31 @@ router.put('/api/v1/team/:teamId', (req, res) => {
     }
 });
 
+router.put('/api/v1/team/:teamId/tagline', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isSuperAdmin(req.session.user)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    const team = req.body.team;
+
+    teamController.store({ team }, team.slug, team.id)
+    .then((response) => {
+        res.status(200).send(response);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
+
 router.get('/api/v1/team/:projectSlug', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)
@@ -155,8 +180,6 @@ router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
     });
 });
 
-export default router;
-
 
 // router.get("/api/v1/teams", function(req, res){
 //     team.findPopular(req.params.short_name)
@@ -191,3 +214,6 @@ export default router;
 //         res.send("error " + JSON.stringify(err));
 //     });
 // });
+
+
+export default router;

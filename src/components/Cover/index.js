@@ -111,6 +111,7 @@ export default class Cover extends Component {
                                 content={
                                     <EditTaglineForm
                                         value={this.props.tagline}
+                                        team={this.props.team}
                                     />
                                 }
                             >
