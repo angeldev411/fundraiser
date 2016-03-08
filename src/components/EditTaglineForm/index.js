@@ -68,7 +68,3 @@ export default class EditTaglineForm extends Component {
 EditTaglineForm.propTypes = {
     value: React.PropTypes.string,
 };
-
-export default connect((reduxState) => ({
-    error: reduxState.main.team.error,
-}))(EditTaglineForm);
