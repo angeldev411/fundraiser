@@ -14,7 +14,7 @@ export default class TeamProfileBlock extends Component {
                     <img id="team-logo"
                         src={
                             this.props.team.logo ?
-                            `${constants.TEAM_IMAGES_FOLDER}/${this.props.team.id}/${this.props.team.logo}` :
+                            this.props.team.logo :
                             `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
                         }
                         title=""
@@ -25,7 +25,8 @@ export default class TeamProfileBlock extends Component {
                             name="logo"
                             content={
                                 <EditLogoForm
-                                    value={`${constants.TEAM_IMAGES_FOLDER}/${this.props.team.id}/${this.props.team.logo}`}
+                                    value={`${this.props.team.logo}`}
+                                    team={this.props.team}
                                 />
                             }
                         >
@@ -46,6 +47,7 @@ export default class TeamProfileBlock extends Component {
                                     content={
                                         <EditSloganForm
                                             value={this.props.team.slogan}
+                                            team={this.props.team}
                                         />
                                     }
                                  >

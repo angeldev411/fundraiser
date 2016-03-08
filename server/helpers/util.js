@@ -89,6 +89,7 @@ class util {
         };
 
         s3Bucket.putObject(data, (err, resp) => {
+            console.log('S3 upload', resp);
             if (err) {
                 console.log('Error uploading to s3:  ', resp);
                 cb(err, resp);
@@ -106,7 +107,7 @@ class util {
         }
     }
 
-    static uploadRsImage(obj) {
+    static uploadRsImage(obj, imageUsage) {
         // console.log("uploadRsImage: " + obj.image_data);
         console.log(`GOT UUID ${obj.uuid}`);
 
@@ -121,14 +122,19 @@ class util {
 
             try {
                 const sha = sha256(obj.image_data);
+                let imageNamePrefix = '';
 
-                obj.key = `${obj.key_prefix}${obj.uuid}/${sha}.${contentTypeExtension}`;
+                if (imageUsage) {
+                    imageNamePrefix = `${imageUsage}_`;
+                }
+
+
+                obj.key = `${obj.key_prefix}${obj.uuid}/${imageNamePrefix}${sha}.${contentTypeExtension}`;
 
                 console.log(`Uploading with key ${obj.key}`);
 
                 util.uploadToS3(
                     obj.image_data,
-                    'raiserve',
                     obj.key,
                     { contentType },
                     (err, data) => {
@@ -136,7 +142,6 @@ class util {
                             reject(`error uploading image data ${err}`);
                         } else {
                             delete obj.image_data;
-                            console.log(`Upload resolving with ${JSON.stringify(obj)}`);
                             resolve(obj);
                         }
                     }
