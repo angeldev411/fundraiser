@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import * as TeamActions from '../../redux/team/actions';
 import * as Actions from '../../redux/user/actions';
+import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -50,7 +51,9 @@ class TeamSignup extends Component {
                 team: nextProps.team,
             });
         } else if (nextProps.teamError) {
-            this.props.dispatch(pushPath('teamNotFound'));
+            this.setState({
+                teamError: true,
+            });
         }
     }
 
@@ -61,6 +64,10 @@ class TeamSignup extends Component {
     };
 
     render() {
+        if (this.state.projectError) {
+            return (<RouteNotFound />);
+        }
+
         return (
             <Page noHeader={true}
                 bodyBackground={{ backgroundColor: 'black' }}

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import * as ProjectActions from '../../redux/project/actions';
 import * as Actions from '../../redux/user/actions';
+import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
 import Page from '../../components/Page';

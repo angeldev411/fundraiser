@@ -11,6 +11,7 @@ export default {
     },
     project: {
         required: 'Please fill all required fields and verify that the Project slug is valid and not taken already',
+        notfound: 'Project not found',
     },
     team: {
         required: 'Please fill all required fields and verify that the Team slug is unique and valid',

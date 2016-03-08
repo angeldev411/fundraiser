@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 import * as AUTH_CHECKER from '../auth/auth-checker';
+import messages from '../messages';
 
 import projectController from './controller';
 
@@ -95,7 +96,7 @@ router.get('/api/v1/project/:projectSlug', (req, res) => {
         res.status(200).send(response);
     })
     .catch((err) => {
-        res.status(404).send('Project not found');
+        res.status(404).send(messages.project.notfound);
     });
 });
 
