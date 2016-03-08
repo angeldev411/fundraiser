@@ -66,6 +66,7 @@ export default class TeamProfileBlock extends Component {
                             content={
                                 <EditDescriptionForm
                                     value={this.props.team.description}
+                                    team={this.props.team}
                                 />
                             }
                         >
