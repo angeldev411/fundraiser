@@ -55,6 +55,16 @@ class AdminTeamEmailForm extends Component {
                 description={'Have a message to send to your entire team? Use the filed below to make it easy and fluid to ensure all of your team sees the same outreach from you.'}
                 onSubmit={this.submit}
             >
+                {this.props.recipients ? (
+                    <div className="form-group">
+                        <input type="text"
+                            name="recipients"
+                            id="recipients"
+                            disabled
+                        />
+                        <label htmlFor="recipients">{'Recipients'}</label>
+                    </div>
+                ) : null}
                 <div className="form-group">
                     <input type="text"
                         name="subject"

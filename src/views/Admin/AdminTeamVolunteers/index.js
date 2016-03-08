@@ -120,7 +120,9 @@ class AdminTeamVolunteers extends Component {
                         }
                     />
                     <div className={'table-limit-height'}>
-                        <AdminVolunteersTable volunteers={this.state.volunteers}
+                        <AdminVolunteersTable
+                            volunteers={this.state.volunteers}
+                            user={this.props.user}
                             actionable
                         />
                     </div>

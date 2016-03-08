@@ -1,8 +1,60 @@
 import React, { Component } from 'react';
-import Button from '../Button';
+import ModalButton from '../ModalButton';
+import AdminTeamEmailForm from '../AdminTeamEmailForm';
 import * as constants from '../../common/constants';
 
 export default class AdminVolunteersTable extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            linesChecked: [],
+            checked: false,
+            recipients: [],
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.volunteers) {
+            const lines = [];
+
+            for (let i = 0; i < nextProps.volunteers.length; i++) {
+                lines[i] = false;
+                if (i === nextProps.volunteers.length - 1) {
+                    this.setState({
+                        linesChecked: lines,
+                    });
+                }
+            }
+        }
+    }
+
+    handleCheck(i) {
+        const lines = this.state.linesChecked;
+
+        lines[i] = !lines[i];
+        this.setState({
+            linesChecked: lines,
+        });
+    }
+
+    handleCheckAll() {
+        const lines = this.state.linesChecked;
+
+        for (let i = 0; i < lines.length; i++) {
+            lines[i] = !this.state.checked;
+
+            if (i === lines.length - 1) {
+                this.setState({
+                    linesChecked: lines,
+                });
+            }
+        }
+        this.setState({
+            checked: !this.state.checked,
+        });
+    }
+
     render() {
         return (
             <div className="table-responsive">
@@ -14,7 +66,18 @@ export default class AdminVolunteersTable extends Component {
                             </span>
                             <ul className="dropdown-content">
                                 <li>
-                                    <Button customClass="btn-link">{'Email'}</Button>
+                                    <ModalButton
+                                        customClass="btn-link"
+                                        content={
+                                            <AdminTeamEmailForm
+                                                project={this.props.user.project}
+                                                team={this.props.user.team}
+                                                recipients={null}
+                                            />
+                                        }
+                                    >
+                                        {'Email'}
+                                    </ModalButton>
                                 </li>
                             </ul>
                         </div>
@@ -35,13 +98,16 @@ export default class AdminVolunteersTable extends Component {
                                         type="checkbox"
                                         name={'check-all'}
                                         id={'check-all'}
+                                        onChange={() => {
+                                            this.handleCheckAll();
+                                        }}
                                     />
                                 </th> : null}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.volunteers.map((volunteer, i) => (
-                            <tr key={i}>
+                        {this.props.volunteers.map((volunteer, i) => {
+                            return (<tr key={i}>
                                 <td className="volunteer-name">
                                     {volunteer.image ?
                                         <img src={`${constants.USER_IMAGES_FOLDER}/${volunteer.id}/${volunteer.image}`}/>
@@ -56,15 +122,19 @@ export default class AdminVolunteersTable extends Component {
                                 <td>{volunteer.raised ? volunteer.raised : 0}</td>
                                 <td>{volunteer.hourPledge ? volunteer.hourPledge : 0}</td>
                                 {this.props.actionable ?
-                                    <td>
+                                    (<td>
                                         <input
                                             type="checkbox"
                                             name={volunteer.uniqid}
                                             id={i}
+                                            onChange={() => {
+                                                this.handleCheck(i);
+                                            }}
+                                            checked={this.state.linesChecked[i]}
                                         />
-                                    </td> : null}
-                            </tr>
-                        ))}
+                                    </td>) : null}
+                            </tr>);
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -74,5 +144,6 @@ export default class AdminVolunteersTable extends Component {
 
 AdminVolunteersTable.propTypes = {
     volunteers: React.PropTypes.array,
+    user: React.PropTypes.object,
     actionable: React.PropTypes.bool,
 };
