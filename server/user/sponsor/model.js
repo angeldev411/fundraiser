@@ -16,54 +16,62 @@ export default class Sponsor {
 
         return this.getSponsorByEmail(data.email)
         .then((existingSponsor) => { // Sponsor already exist
-            Sponsor.updateStripeCustomer(data.stripeToken, existingSponsor.stripeCustomerId)
-            .then((customer) => {
-                // If stripe customer updated succesfully
-                // Link sponsor
-                return this.linkSponsorToSupportedNode(existingSponsor, pledge, teamSlug, volunteerSlug)
-                .then((link) => {
-                    return Promise.resolve(existingSponsor);
+            return new Promise((resolve, reject) => {
+                Sponsor.updateStripeCustomer(data.stripeToken, existingSponsor.stripeCustomerId)
+                .then((customer) => {
+                    // If stripe customer updated succesfully
+                    // Link sponsor
+                    return this.linkSponsorToSupportedNode(existingSponsor, pledge, teamSlug, volunteerSlug)
+                    .then((link) => {
+                        return resolve(existingSponsor);
+                    })
+                    .catch((linkError) => {
+                        reject('Sorry, an internal server error occured');
+                    });
                 })
-                .catch((err) => {
-                    return Promise.reject(err);
+                .catch((stripeError) => {
+                    console.log('Stripe error', stripeError);
+                    return reject(stripeError.message);
                 });
-            })
-            .catch((stripeError) => {
-                console.log('stripe err', stripeError);
-                reject(stripeError);
             });
         })
         .catch((err) => { // New Sponsor
-            Sponsor.createStripeCustomer(data.email, data.stripeToken)
-            .then((customer) => {
-                // If customer created succesfully
+            return new Promise((resolve, reject) => {
+                if (err.message === 'not-already-there') {
+                    Sponsor.createStripeCustomer(data.email, data.stripeToken)
+                    .then((customer) => {
+                        // If customer created succesfully
 
-                // Add customer ID to data
-                data = {
-                    ...(data),
-                    stripeCustomerId: customer.id,
-                };
+                        // Add customer ID to data
+                        data = {
+                            ...(data),
+                            stripeCustomerId: customer.id,
+                        };
 
-                // Create user
-                return new User(data, SPONSOR)
-                .then((sponsorCreated) => {
-                    sponsor = sponsorCreated;
-                    // Link sponsor
-                    return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
-                    .then((link) => {
-                        return Promise.resolve(sponsor);
+                        // Create user
+                        return new User(data, SPONSOR)
+                        .then((sponsorCreated) => {
+                            sponsor = sponsorCreated;
+                            // Link sponsor
+                            return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
+                            .then((link) => {
+                                resolve(sponsor);
+                            })
+                            .catch((linkError) => {
+                                reject('Sorry, an internal server error occured');
+                            });
+                        })
+                        .catch((sponsorError) => {
+                            reject(sponsorError);
+                        });
                     })
-                    .catch((linkError) => {
-                        return Promise.reject(linkError);
+                    .catch((stripeError) => {
+                        console.log('Stripe error', stripeError);
+                        reject(stripeError.message);
                     });
-                })
-                .catch((sponsorError) => {
-                    return Promise.reject(sponsorError);
-                });
-            })
-            .catch((stripeError) => {
-                console.log('stripe err', stripeError);
-                reject(stripeError);
+                } else {
+                    reject(err);
+                }
             });
         });
     }
@@ -106,7 +114,10 @@ export default class Sponsor {
             {
                 userEmail,
             }
-        ).getResult('user');
+        ).getResult('user')
+        .catch((err) => {
+            throw new Error('not-already-there');
+        });
     }
 
     static getSponsors(projectSlug = null, teamSlug = null, volunteerSlug = null) {

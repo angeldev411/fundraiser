@@ -21,6 +21,7 @@ export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, 
                 email,
                 firstName,
                 lastName,
+                stripeToken,
             })
             .then(
                 (response) => {

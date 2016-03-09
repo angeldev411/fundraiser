@@ -115,18 +115,7 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
         return;
     }
 
-    const data = {
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-    };
-
-    const pledge = {
-        ...(req.body.hourly ? { hourly: req.body.hourly } : {}),
-        ...(req.body.amount ? { amount: req.body.amount } : {}),
-    };
-
-    new Sponsor(data, pledge, req.params.teamSlug)
+    sponsorController.sponsorTeam(req.body, req.params.teamSlug)
     .then((sponsor) => {
         res.status(200).send(sponsor);
     })

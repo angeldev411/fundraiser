@@ -12,6 +12,30 @@ class sponsorController {
         });
     }
 
+    static sponsorTeam(data, teamSlug) {
+        return new Promise((resolve, reject) => {
+            const sponsor = {
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                ...(data.stripeToken ? { stripeToken: data.stripeToken } : {}),
+            };
+
+            const pledge = {
+                ...(data.hourly ? { hourly: data.hourly } : {}),
+                ...(data.amount ? { amount: data.amount } : {}),
+            };
+
+            return new Sponsor(sponsor, pledge, teamSlug)
+            .then((sponsorCreated) => {
+                resolve(sponsorCreated);
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     static sponsorVolunteer(data, volunteerSlug) {
         return new Promise((resolve, reject) => {
             const sponsor = {
@@ -31,7 +55,6 @@ class sponsorController {
                 resolve(sponsorCreated);
             })
             .catch((err) => {
-                console.log('sponsor err', err);
                 reject(err);
             });
         });
