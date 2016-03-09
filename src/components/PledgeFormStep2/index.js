@@ -45,14 +45,49 @@ class PledgeFormStep2 extends Component {
     };
 
     submit = () => {
-        console.log('Received data', this.state);
+        // Client side verifications
+        const validator = this.verifyCardInfo(this.state.cc, this.state.cvv, this.state.expiration);
 
-        // Send to Stripe and verify Credit Card infos
-        Stripe.card.createToken({
-            number: this.state.cc,
-            cvc: this.state.cvv,
-            exp: this.state.expiration,
-        }, this.stripeResponseHandler);
+        if (validator.error) {
+            this.setState({
+                error: validator.message,
+            });
+        } else {
+            this.setState({
+                error: null,
+            });
+            // Send to Stripe and verify Credit Card infos
+            Stripe.card.createToken({
+                number: this.state.cc,
+                cvc: this.state.cvv,
+                exp: this.state.expiration,
+            }, this.stripeResponseHandler);
+        }
+    };
+
+    verifyCardInfo = (cc, cvv, exp) => {
+        if (!Stripe.card.validateCardNumber(cc)) {
+            return {
+                error: true,
+                message: 'Invalid card number',
+            };
+        }
+        if (!Stripe.card.validateCVC(cvv)) {
+            return {
+                error: true,
+                message: 'Invalid CVV',
+            };
+        }
+
+        if (!Stripe.card.validateExpiry(exp)) {
+            return {
+                error: true,
+                message: 'Invalid expiration date',
+            };
+        }
+        return {
+            error: false,
+        };
     };
 
     handleChange = (event, name) => {
