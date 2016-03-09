@@ -18,7 +18,6 @@ class sponsorController {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                ...(data.stripeToken ? { stripeToken: data.stripeToken } : {}),
             };
 
             const pledge = {
@@ -26,7 +25,7 @@ class sponsorController {
                 ...(data.amount ? { amount: data.amount } : {}),
             };
 
-            return new Sponsor(sponsor, pledge, teamSlug)
+            return new Sponsor(sponsor, pledge, teamSlug, data.stripeToken)
             .then((sponsorCreated) => {
                 resolve(sponsorCreated);
             })
@@ -42,7 +41,6 @@ class sponsorController {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                ...(data.stripeToken ? { stripeToken: data.stripeToken } : {}),
             };
 
             const pledge = {
@@ -50,7 +48,7 @@ class sponsorController {
                 ...(data.amount ? { amount: data.amount } : {}),
             };
 
-            new Sponsor(sponsor, pledge, null, volunteerSlug)
+            new Sponsor(sponsor, pledge, null, volunteerSlug, data.stripeToken)
             .then((sponsorCreated) => {
                 resolve(sponsorCreated);
             })

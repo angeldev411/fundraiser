@@ -11,13 +11,13 @@ const db = neo4jDB(config.DB_URL);
 import User from '../model';
 
 export default class Sponsor {
-    constructor(data, pledge, teamSlug = null, volunteerSlug = null) {
+    constructor(data, pledge, teamSlug = null, volunteerSlug = null, stripeToken) {
         let sponsor;
 
         return this.getSponsorByEmail(data.email)
         .then((existingSponsor) => { // Sponsor already exist
             return new Promise((resolve, reject) => {
-                Sponsor.updateStripeCustomer(data.stripeToken, existingSponsor.stripeCustomerId)
+                Sponsor.updateStripeCustomer(stripeToken, existingSponsor.stripeCustomerId)
                 .then((customer) => {
                     // If stripe customer updated succesfully
                     // Link sponsor
@@ -38,7 +38,7 @@ export default class Sponsor {
         .catch((err) => { // New Sponsor
             return new Promise((resolve, reject) => {
                 if (err.message === 'not-already-there') {
-                    Sponsor.createStripeCustomer(data.email, data.stripeToken)
+                    Sponsor.createStripeCustomer(data.email, stripeToken)
                     .then((customer) => {
                         // If customer created succesfully
 
