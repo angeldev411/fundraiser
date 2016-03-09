@@ -147,22 +147,12 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
         return;
     }
 
-    const data = {
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-    };
-
-    const pledge = {
-        ...(req.body.hourly ? { hourly: req.body.hourly } : {}),
-        ...(req.body.amount ? { amount: req.body.amount } : {}),
-    };
-
-    new Sponsor(data, pledge, null, req.params.volunteerSlug)
+    sponsorController.sponsorVolunteer(req.body, req.params.volunteerSlug)
     .then((sponsor) => {
         res.status(200).send(sponsor);
     })
     .catch((err) => {
+        console.log(err);
         res.status(500).send(err);
     });
 });

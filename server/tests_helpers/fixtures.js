@@ -369,6 +369,7 @@ const fixtures = {
         email: 'test-sponsor@test.com',
         hourly: 10,
         cap: 100,
+        stripeToken: 'thisIsAStripeToken',
     },
 
 };

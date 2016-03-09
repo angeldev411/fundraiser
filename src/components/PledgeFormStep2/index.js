@@ -20,21 +20,39 @@ class PledgeFormStep2 extends Component {
         }
     }
 
+    stripeResponseHandler = (status, response) => {
+        if (response.error) {
+            // Show the errors on the form
+            this.setState({
+                error: response.error.message,
+            });
+        } else {
+            // response contains id and card, which contains additional card details
+            const token = response.id;
+
+            // If ok, add sponsor to db
+            Actions.newPledge(
+                this.state.firstName,
+                this.state.lastName,
+                this.state.email,
+                this.state.hourly,
+                this.state.amount,
+                this.state.teamSlug,
+                this.state.volunteerSlug,
+                token,
+            )(this.props.dispatch);
+        }
+    };
+
     submit = () => {
         console.log('Received data', this.state);
 
         // Send to Stripe and verify Credit Card infos
-
-        // If ok, add sponsor to db
-        Actions.newPledge(
-            this.state.firstName,
-            this.state.lastName,
-            this.state.email,
-            this.state.hourly,
-            this.state.amount,
-            this.state.teamSlug,
-            this.state.volunteerSlug
-        )(this.props.dispatch);
+        Stripe.card.createToken({
+            number: this.state.cc,
+            cvc: this.state.cvv,
+            exp: this.state.expiration,
+        }, this.stripeResponseHandler);
     };
 
     handleChange = (event, name) => {
