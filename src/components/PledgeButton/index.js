@@ -31,6 +31,7 @@ export default class PledgeButton extends Component {
                     teamSlug={this.props.teamSlug}
                     volunteerSlug={this.props.volunteerSlug}
                     oneTimeOnly={this.props.oneTimeOnly}
+                    goal={this.props.goal}
                 />
             </div>
         );
@@ -42,4 +43,5 @@ PledgeButton.propTypes = {
     teamSlug: React.PropTypes.string,
     volunteerSlug: React.PropTypes.string,
     oneTimeOnly: React.PropTypes.bool,
+    goal: React.PropTypes.number,
 };

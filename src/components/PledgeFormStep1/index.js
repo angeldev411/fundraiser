@@ -63,6 +63,8 @@ export default class PledgeFormStep1 extends Component {
                                     )}
                                 </select>
                                 <label htmlFor="hourly">{'Pledge per Hour'}</label>
+
+                                <p id="pledge-goal">{`for ${this.props.goal} goal hours`}</p>
                             </div>
                             )
                         }
@@ -101,5 +103,6 @@ export default class PledgeFormStep1 extends Component {
 PledgeFormStep1.propTypes = {
     teamSlug: React.PropTypes.string,
     volunteerSlug: React.PropTypes.string,
+    goal: React.PropTypes.number,
     oneTimeOnly: React.PropTypes.bool,
 };

@@ -82,6 +82,7 @@ export default class Cover extends Component {
                         <PledgeButton
                             customClass="btn-default"
                             volunteerSlug={this.props.volunteer.slug}
+                            goal={this.props.volunteer.goal}
                         >
                             {this.props.button}
                         </PledgeButton>
