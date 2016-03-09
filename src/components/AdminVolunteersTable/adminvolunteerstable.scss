@@ -53,6 +53,10 @@ table.volunteers {
         z-index: 1;
         padding: 10px 0;
 
+        &.dropdown-content__active {
+            display: block;
+        }
+
         li {
             list-style: none;
 
@@ -66,4 +70,6 @@ table.volunteers {
     .dropdown:hover .dropdown-content {
         display: block;
     }
+
+
 }

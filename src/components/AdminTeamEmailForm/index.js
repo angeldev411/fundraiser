@@ -16,6 +16,7 @@ class AdminTeamEmailForm extends Component {
             this.props.user.team.slug,
             this.state.subject,
             this.state.message,
+            this.props.recipients.length > 0 ? this.props.recipients : null,
         )(this.props.dispatch);
     };
 
@@ -48,18 +49,33 @@ class AdminTeamEmailForm extends Component {
     }
 
     render() {
+        let recipientsNames = '';
+
+        let description = null;
+
+        if (this.props.recipients.length > 0) {
+            for (let i = 0; i < this.props.recipients.length; i++) {
+                recipientsNames = `${recipientsNames} ${this.props.recipients[i].firstName} ${this.props.recipients[i].lastName},`;
+            }
+
+            description = 'Have a message to send to some volunteers? Use the filed below to make it easy and fluid to ensure all of concerned volunteers sees the same outreach from you.';
+        } else {
+            description = 'Have a message to send to your entire team? Use the filed below to make it easy and fluid to ensure all of your team sees the same outreach from you.';
+        }
+
         return (
             <Form title={'Email Your Team Members'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 id={"email-team-form"}
-                description={'Have a message to send to your entire team? Use the filed below to make it easy and fluid to ensure all of your team sees the same outreach from you.'}
+                description={description}
                 onSubmit={this.submit}
             >
-                {this.props.recipients ? (
+                {this.props.recipients.length > 0 ? (
                     <div className="form-group">
                         <input type="text"
                             name="recipients"
                             id="recipients"
+                            value={recipientsNames}
                             disabled
                         />
                         <label htmlFor="recipients">{'Recipients'}</label>
