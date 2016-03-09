@@ -31,43 +31,66 @@ const Node = db.defineNode({
 });
 
 class Team {
-    constructor(data, projectSlug, id) {
-        if (data.team.teamLeaderEmail && !utils.isEmailValid(data.team.teamLeaderEmail)) {
+    static insert(rawTeamData) {
+        const teamData = Team.filter({
+            ...(rawTeamData),
+            id: uuid.v4(),
+        });
+
+        return Team.validate(teamData)
+            .then(() => {
+                return Team.uploadImages(teamData)
+                    .then(() => {
+                        return Team.saveInsert(teamData).catch((error) => {
+                            return Promise.reject(error);
+                        });
+                    })
+                    .then((result) => {
+                        return Promise.resolve(teamData);
+                    })
+                    .catch((error) => {
+                        return Promise.reject(error);
+                    });
+            })
+            .catch((error) => {
+                return Promise.reject(typeof error === 'string' ? error : messages.team.required);
+            });
+    }
+
+    // static update(teamData) {
+    //     // TODO
+    // }
+
+    static validate(teamData) {
+        return Promise.all([
+            Team.validateEmail(teamData),
+        ]);
+    }
+
+    static validateEmail(teamData) {
+        if (teamData.teamLeaderEmail && !utils.isEmailValid(teamData.teamLeaderEmail)) {
             return Promise.reject(messages.notEmail);
         }
-
-        if (data.team.logoImageData) {
-            return Team.uploadLogoImage(data.team)
-                .then((response) => {
-                    console.log('Cover Image Data', !!data.team.coverImageData);
-                    return Team.uploadCoverImageIfUpdated(data.team);
-                })
-                .catch((error) => {
-                    return Promise.reject(error);
-                });
-        } else {
-            return Team.uploadCoverImageIfUpdated(data.team);
-        }
     }
-    static uploadCoverImageIfUpdated(teamData) {
+
+    static uploadImages(teamData) {
+        const imageUploads = [];
+
+        if (teamData.logoImageData) {
+            imageUploads.push(Team.uploadLogoImage(teamData));
+        }
         if (teamData.coverImageData) {
-            return Team.uploadCoverImage(teamData)
-                .then((response) => {
-                    return Team.saveTeam(teamData);
-                })
-                .catch((error) => {
-                    return Promise.reject(error);
-                });
-        } else {
-            return Team.saveTeam(teamData);
+            imageUploads.push(Team.uploadCoverImage(teamData));
         }
+        return Promise.all(imageUploads);
     }
 
-    static saveTeam(teamData) {
-        const team = new Node({
-            id: teamData.id || uuid.v4(),
+    static filter(teamData) {
+        return {
+            id: teamData.id,
             name: teamData.name,
             slug: teamData.slug,
+            ...(teamData.teamLeaderEmail ? { teamLeaderEmail: teamData.teamLeaderEmail } : {}),
             ...(teamData.logo ? { logo: teamData.logo } : {}),
             ...(teamData.coverImage ? { coverImage : teamData.coverImage } : {}),
             ...(teamData.tagline ? { tagline: teamData.tagline } : {}),
@@ -78,23 +101,74 @@ class Team {
             ...(teamData.pledgePerHour ? { pledgePerHour : teamData.pledgePerHour } : {}),
             ...(teamData.totalHours ? { totalHours: teamData.totalHours } : {}),
             ...(teamData.totalVolunteers ? { totalVolunteers: teamData.totalVolunteers } : {}),
-        }, teamData.id);
+        };
+    }
 
+    static saveInsert(teamData) {
+        const teamNode = new Node(teamData);
+
+        return teamNode.save();
+    }
+
+    static linkTeamCreatorAndProject(teamId, currentUserId, projectSlug) {
+        return db.query(`
+                MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
+                CREATE (u)-[:CREATOR]->(t)
+                CREATE (t)-[:CONTRIBUTE]->(p)
+            `,
+            {},
+            {
+                teamId,
+                userId: currentUserId,
+                projectSlug,
+            }
+        );
+    }
+
+    static inviteTeamLeader(teamData) {
+        if (teamData.teamLeaderEmail) {
+            UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
+            .then(() => {
+                return Promise.resolve(teamData);
+            })
+            .catch((err) => {
+                return Promise.reject(messages.invite.error);
+            });
+        } else {
+            return Promise.resolve(teamData);
+        }
+    }
+
+    static saveTeam(teamData) {
+        const team = new Node(Team.filter(teamData), !newNode ? teamData.id : null);
+
+        if (teamData.id === 'samples') {
+            console.log('Samples team:', team);
+        }
+
+        console.log(2);
         return team.save()
         .then((response) => {
+            console.log(3);
             if (teamData.id && !teamData.teamLeaderEmail) {
+                console.log(4);
+                console.log('Response:', response);
                 // If it's an update, don't relink team creator and return team immediately
                 return Promise.resolve(teamData);
             } else if (teamData.id && teamData.teamLeaderEmail) {
+                console.log(5);
                 // If it's an update, but new team leader email is defined
                 return UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
                 .then(() => {
+                    console.log(7);
                     return Promise.resolve(team.data);
                 })
                 .catch((err) => {
+                    console.log(8);
                     return Promise.reject(messages.invite.error);
                 });
             } else if (!teamData.id && response.id === team.id) {
+                console.log(6);
                 // Link teamCreator and project
                 return db.query(`
                         MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
@@ -108,22 +182,28 @@ class Team {
                         projectSlug,
                     }
                 ).then(() => {
+                    console.log(9);
                     // Link teamLeader
                     if (teamData.teamLeaderEmail) {
                         UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
                         .then(() => {
+                            console.log(10);
                             return Promise.resolve(team.data);
                         })
                         .catch((err) => {
+                            console.log(11);
                             return Promise.reject(messages.invite.error);
                         });
                     }
+                    console.log(12);
                     return Promise.resolve(team.data);
                 });
             }
+            console.log(13);
             return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
+            console.log('Error :::::', err, 'ID', teamData.id);
             return Promise.reject(messages.team.required);
         });
     }
@@ -183,6 +263,7 @@ class Team {
     }
 
     static uploadLogoImage(obj) {
+
         if (typeof obj.logoImageData === 'undefined') {
             return Promise.reject('No Logo Image provided');
         }
@@ -193,7 +274,6 @@ class Team {
             image_data: obj.logoImageData,
         }, 'logo')
         .then((result) => {
-            console.log('result', result);
             obj.logoImageData = null;
             obj.logo = `${config.S3.BASE_URL}/${result.key}`;
             return Promise.resolve(obj);
@@ -211,7 +291,6 @@ class Team {
             image_data: obj.coverImageData,
         }, 'cover')
         .then((result) => {
-            console.log('result', result);
             obj.coverImageData = null;
             obj.coverImage = `${config.S3.BASE_URL}/${result.key}`;
             return Promise.resolve(obj);
@@ -233,8 +312,6 @@ class Team {
     }
 
     static update(obj) {
-        console.log('update team');
-        console.log(obj);
         return db.query(
             `
             MERGE (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })
