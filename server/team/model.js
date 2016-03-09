@@ -133,6 +133,7 @@ class Team {
     }
 
     static saveUpdate(teamData) {
+        console.log('Team Data Id', teamData.id);
         const teamNode = new Node(teamData, teamData.id);
 
         return teamNode.save();
@@ -222,7 +223,6 @@ class Team {
     }
 
     static uploadLogoImage(obj) {
-
         if (typeof obj.logoImageData === 'undefined') {
             return Promise.reject('No Logo Image provided');
         }

@@ -14,6 +14,7 @@ export default {
     },
     team: {
         required: 'Please fill all required fields and verify that the Team slug is unique and valid',
+        id: 'Team id is required',
     },
     signup: {
         error: 'There was an error signing you up, sorry. Are you sure you are not already part of a Team or Project?',
