@@ -46,11 +46,9 @@ router.put('/api/v1/volunteer', (req, res) => {
 
     volunteerController.update(user)
     .then((data) => {
-        console.log('Volunteer', data);
         res.status(200).send(data);
     })
     .catch((err) => {
-        console.log('Volunteer Failure', err, user);
         res.status(400).send(err);
     });
 });
