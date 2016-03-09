@@ -256,7 +256,6 @@ class Team {
         if (typeof obj.coverImageData === 'undefined') {
             return Promise.reject('No Logo Image provided');
         }
-
         return util.uploadRsImage({
             key_prefix: `teams/`,
             uuid: obj.uuid || obj.id,
