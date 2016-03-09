@@ -235,16 +235,10 @@ class Menu extends Component {
                 <span className={'login-container pull-right'}>
                     {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
                     {this.state.user ?
-                        <span>
-                            <Button
-                                to={dashboardUrl}
-                                customClass={'btn-default'}
-                            >{'Dashboard'}</Button>
-                            <Button
-                                onClick={this.logout}
-                                customClass={'btn-default'}
-                            >{'Logout'}</Button>
-                        </span> :
+                        <Button
+                            onClick={this.logout}
+                            customClass={'btn-default'}
+                        >{'Logout'}</Button> :
                         <ModalButton
                             customClass="btn-default"
                             content={<SigninForm/>}
@@ -252,7 +246,7 @@ class Menu extends Component {
                             {'Sign In'}
                         </ModalButton>
                     }
-                    </span>
+                </span>
             </div>
         );
 
