@@ -57,9 +57,29 @@ class Team {
             });
     }
 
-    // static update(teamData) {
-    //     // TODO
-    // }
+    static update(rawTeamData) {
+        const teamData = Team.filter(rawTeamData);
+
+        return Team.validate(teamData)
+            .then(() => {
+                return Team.uploadImages(teamData)
+                    .then(() => {
+                        return Team.saveUpdate(teamData)
+                            .then((result) => {
+                                return Promise.resolve(teamData);
+                            })
+                            .catch((error) => {
+                                return Promise.reject(error);
+                            });
+                    })
+                    .catch((error) => {
+                        return Promise.reject(error);
+                    });
+            })
+            .catch((error) => {
+                return Promise.reject(typeof error === 'string' ? error : messages.team.required);
+            });
+    }
 
     static validate(teamData) {
         return Promise.all([
@@ -91,6 +111,8 @@ class Team {
             name: teamData.name,
             slug: teamData.slug,
             ...(teamData.teamLeaderEmail ? { teamLeaderEmail: teamData.teamLeaderEmail } : {}),
+            ...(teamData.logoImageData ? { logoImageData: teamData.logoImageData } : {}),
+            ...(teamData.coverImageData ? { coverImageData: teamData.coverImageData } : {}),
             ...(teamData.logo ? { logo: teamData.logo } : {}),
             ...(teamData.coverImage ? { coverImage : teamData.coverImage } : {}),
             ...(teamData.tagline ? { tagline: teamData.tagline } : {}),
@@ -106,6 +128,12 @@ class Team {
 
     static saveInsert(teamData) {
         const teamNode = new Node(teamData);
+
+        return teamNode.save();
+    }
+
+    static saveUpdate(teamData) {
+        const teamNode = new Node(teamData, teamData.id);
 
         return teamNode.save();
     }
@@ -137,75 +165,6 @@ class Team {
         } else {
             return Promise.resolve(teamData);
         }
-    }
-
-    static saveTeam(teamData) {
-        const team = new Node(Team.filter(teamData), !newNode ? teamData.id : null);
-
-        if (teamData.id === 'samples') {
-            console.log('Samples team:', team);
-        }
-
-        console.log(2);
-        return team.save()
-        .then((response) => {
-            console.log(3);
-            if (teamData.id && !teamData.teamLeaderEmail) {
-                console.log(4);
-                console.log('Response:', response);
-                // If it's an update, don't relink team creator and return team immediately
-                return Promise.resolve(teamData);
-            } else if (teamData.id && teamData.teamLeaderEmail) {
-                console.log(5);
-                // If it's an update, but new team leader email is defined
-                return UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
-                .then(() => {
-                    console.log(7);
-                    return Promise.resolve(team.data);
-                })
-                .catch((err) => {
-                    console.log(8);
-                    return Promise.reject(messages.invite.error);
-                });
-            } else if (!teamData.id && response.id === team.id) {
-                console.log(6);
-                // Link teamCreator and project
-                return db.query(`
-                        MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
-                        CREATE (u)-[:CREATOR]->(t)
-                        CREATE (t)-[:CONTRIBUTE]->(p)
-                    `,
-                    {},
-                    {
-                        teamId: teamData.id,
-                        userId: data.currentUser.id,
-                        projectSlug,
-                    }
-                ).then(() => {
-                    console.log(9);
-                    // Link teamLeader
-                    if (teamData.teamLeaderEmail) {
-                        UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
-                        .then(() => {
-                            console.log(10);
-                            return Promise.resolve(team.data);
-                        })
-                        .catch((err) => {
-                            console.log(11);
-                            return Promise.reject(messages.invite.error);
-                        });
-                    }
-                    console.log(12);
-                    return Promise.resolve(team.data);
-                });
-            }
-            console.log(13);
-            return Promise.reject('Unexpected error occurred.');
-        })
-        .catch((err) => {
-            console.log('Error :::::', err, 'ID', teamData.id);
-            return Promise.reject(messages.team.required);
-        });
     }
 
     static getByProject(userId, projectSlug) {
@@ -294,6 +253,9 @@ class Team {
             obj.coverImageData = null;
             obj.coverImage = `${config.S3.BASE_URL}/${result.key}`;
             return Promise.resolve(obj);
+        })
+        .catch((error) => {
+            return Promise.reject(error);
         });
     }
 
@@ -311,7 +273,7 @@ class Team {
         .getResults('img');
     }
 
-    static update(obj) {
+    static updateTeam(obj) {
         return db.query(
             `
             MERGE (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })
