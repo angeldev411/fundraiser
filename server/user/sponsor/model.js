@@ -23,6 +23,10 @@ export default class Sponsor {
                     // Link sponsor
                     return this.linkSponsorToSupportedNode(existingSponsor, pledge, teamSlug, volunteerSlug)
                     .then((link) => {
+                        // If it's a one time pledge, charge customer right now
+                        if (pledge.amount) {
+                            this.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount);
+                        }
                         return resolve(existingSponsor);
                     })
                     .catch((linkError) => {
@@ -55,6 +59,10 @@ export default class Sponsor {
                             // Link sponsor
                             return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
                             .then((link) => {
+                                // If it's a one time pledge, charge customer right now
+                                if (pledge.amount) {
+                                    this.chargeSponsor(existingSponsor.stripeCustomerId, data.stripeCustomerId);
+                                }
                                 resolve(sponsor);
                             })
                             .catch((linkError) => {
@@ -102,6 +110,22 @@ export default class Sponsor {
                     reject(err);
                 }
             });
+        });
+    }
+
+    chargeSponsor(stripeCustomerId, amount) {
+        amount = amount * 100;
+        stripe.charges.create({
+            amount,
+            currency: 'usd',
+            customer: stripeCustomerId,
+            // description: "Charge for test@example.com"
+        }, (err, charge) => {
+            // TODO if charge, send an email to customer
+            console.log('charge', charge);
+
+            // TODO if error, send an email to Raiserve and customer
+            console.log('err', err);
         });
     }
 
