@@ -11,16 +11,9 @@ class Header extends Component {
         this.state = {
             user: this.props.user,
         };
-
-        window.addEventListener('resize', () => {
-            this.setState({
-                isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
-            });
-        });
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
@@ -34,7 +27,6 @@ class Header extends Component {
         let dashboardUrl = Urls.BASE_URL;
 
         if (this.state.user) {
-            console.log('state user');
             if (this.state.user.roles.indexOf('SUPER_ADMIN') >= 0) {
                 dashboardUrl = Urls.ADMIN_PROJECTS_URL;
             } else if (this.state.user.roles.indexOf('PROJECT_LEADER') >= 0) {
