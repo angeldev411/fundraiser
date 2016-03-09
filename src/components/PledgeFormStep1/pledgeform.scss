@@ -5,14 +5,14 @@
 
 #pledge {
     text-align: left;
+}
 
-    .form-buttons {
-        text-align: center;
-    }
-
-    .btn-pledge {
-        font-size: .8em;
-    }
+#pledge-goal {
+    text-align: center;
+    opacity: .7;
+    font-size: 1.4em;
+    padding: 20px 0;
+    font-family: $conduit-light;
 }
 
 .pledge-amount {

@@ -4,7 +4,7 @@ import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-import PledgeForm from '../PledgeForm/';
+import PledgeFormStep1 from '../PledgeFormStep1/';
 
 export default class Pledge extends Component {
     render() {
@@ -21,10 +21,11 @@ export default class Pledge extends Component {
                 >
                     <i className="fa fa-times"></i>
                 </button>
-                <PledgeForm
+                <PledgeFormStep1
                     teamSlug={this.props.teamSlug}
                     volunteerSlug={this.props.volunteerSlug}
                     oneTimeOnly={this.props.oneTimeOnly}
+                    goal={this.props.goal}
                 />
             </div>
         );
@@ -37,4 +38,5 @@ Pledge.propTypes = {
     teamSlug: React.PropTypes.string,
     volunteerSlug: React.PropTypes.string,
     oneTimeOnly: React.PropTypes.bool,
+    goal: React.PropTypes.number,
 };
