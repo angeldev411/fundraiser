@@ -150,11 +150,12 @@ describe('Team', () => {
 
         it('lets a super admin update team', (done) => {
             getTestTeamId(fixtures.testTeam.name)
-            .then((team) => {
+            .then((testTeam) => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
                         team: {
+                            id: testTeam.id,
                             name: fixtures.testTeam.name,
                             slug: uuid.v4()
                         },
@@ -162,17 +163,6 @@ describe('Team', () => {
                 },
                 (error, response, body) => {
                     expect(error).to.be.a('null');
-                    console.log('$$$$$$$$$$$$');
-                    console.log('$$$$$$$$$$$$');
-                    console.log('lets a super admin update team /// Error', error);
-                    console.log('lets a super admin update team /// Body', body);
-                    console.log('Team:', {
-                        name: fixtures.testTeam.name,
-                        slug: uuid.v4(),
-                        projectSlug: project.slug+'dddddd',
-                    });
-                    console.log('$$$$$$$$$$$$');
-                    console.log('$$$$$$$$$$$$');
                     expect(response.statusCode).to.equal(200);
                     expect(JSON.parse(body)).to.contain.keys('name');
                     expect(JSON.parse(body)).to.contain.keys('slug');
@@ -206,11 +196,12 @@ describe('Team', () => {
 
         it('lets a Project Leader update team', (done) => {
             getTestTeamId(fixtures.testTeam.name)
-            .then((team) => {
+            .then((testTeam) => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
                         team: {
+                            id: testTeam.id,
                             name: fixtures.testTeam.name,
                             slug: uuid.v4(),
                             projectSlug: project.slug,
@@ -229,11 +220,12 @@ describe('Team', () => {
 
         it('gives a 403 if the Project Leader is not indirect owner of Team', (done) => {
             getTestTeamId(otherProjectTeam.name)
-            .then((team) => {
+            .then((testTeam) => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
                         team: {
+                            id: testTeam.id,
                             name: otherProjectTeam.name,
                             slug: uuid.v4(),
                             projectSlug: otherProject.slug,
@@ -245,7 +237,7 @@ describe('Team', () => {
                     expect(response.statusCode).to.equal(403);
                     done();
                 });
-            });
+            })
         });
 
         it('lets a Project Leader list his project teams', (done) => {
@@ -311,13 +303,14 @@ describe('Team', () => {
 
         it('lets a Team Leader update team', (done) => {
             getTestTeamId(team.name)
-            .then((result) => {
+            .then((testTeam) => {
                 requestCookie.put({
-                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${result.id}`,
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${testTeam.id}`,
                     form: {
                         team: {
-                            name: team.name,
-                            slug: team.slug,
+                            id: testTeam.id,
+                            name: testTeam.name,
+                            slug: testTeam.slug,
                             projectSlug: project.slug,
                         },
                     },
@@ -329,7 +322,7 @@ describe('Team', () => {
                     expect(JSON.parse(body)).to.contain.keys('slug');
                     done();
                 });
-            })
+            });
         });
 
         it('gives a 403 if the Team Leader is not owner of the Team', (done) => {
@@ -339,6 +332,7 @@ describe('Team', () => {
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${currentTeam.id}`,
                     form: {
                         team: {
+                            id: currentTeam.id,
                             name: otherProjectTeam.name,
                             slug: uuid.v4(),
                             projectSlug: otherProject.slug,

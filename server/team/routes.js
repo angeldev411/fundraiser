@@ -5,6 +5,7 @@ import * as AUTH_CHECKER from '../auth/auth-checker';
 import uuid from 'uuid';
 import teamController from '../team/controller';
 import Team from '../team/model';
+import messages from '../messages';
 
 router.post('/api/v1/team', (req, res) => {
     if (
@@ -58,6 +59,11 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         currentUser: req.session.user,
     };
 
+    if (!team.id) {
+        res.status(400).send(messages.team.id);
+        return;
+    }
+
     if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
         teamController.update(data)
         .then((response) => {
@@ -68,9 +74,9 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         });
     } else if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
         // TODO verify if team leader is owner of team
-        return Team.isTeamLeaderTeamOwner(team.id, req.session.user.id)
-        .then((response1) => {
-            return teamController.update(data)
+        Team.isTeamLeaderTeamOwner(team.id, req.session.user.id)
+        .then((result) => {
+            teamController.update(data)
             .then((response) => {
                 res.status(200).send(response);
             })
@@ -83,9 +89,9 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             return;
         });
     } else if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
-        // TODO verify if project leader is indirect owner of team
         Team.isProjectLeaderIndirectTeamOwner(team.id, req.session.user.id)
-        .then(() => {
+        .then((result) => {
+            console.log('Result', result);
             teamController.update(data)
             .then((response) => {
                 res.status(200).send(response);
@@ -94,7 +100,8 @@ router.put('/api/v1/team/:teamId', (req, res) => {
                 res.status(400).send(err);
             });
         })
-        .catch(() => {
+        .catch((error) => {
+            console.log('Error', error, 'Team.Id', team.id, 'User.Id', req.session.user.id);
             res.status(403).send();
             return;
         });
