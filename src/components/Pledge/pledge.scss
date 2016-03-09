@@ -13,7 +13,7 @@
     -o-transition: .2s ease-in-out;
     transition: .2s ease-in-out;
 
-    .close{
+    > .close{
         padding: 5px;
         opacity: 1;
         position: relative;
@@ -35,6 +35,15 @@
                 color: $green;
             }
         }
+    }
+
+    button {
+        text-align: center;
+    }
+
+    .btn-pledge {
+        font-size: .8em;
+        margin-bottom: 20px;
     }
 }
 
