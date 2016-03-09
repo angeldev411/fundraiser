@@ -207,7 +207,13 @@ class userController {
             if (user.inviteCode === userData.inviteCode) {
                 return User.update(user, userData)
                 .then((userUpdated) => {
-                    return Promise.resolve(userUpdated);
+                    return this.checkCredentials({
+                        email: userData.email,
+                        password: userData.password,
+                    });
+                })
+                .then((dbUser) => {
+                    return Promise.resolve(dbUser);
                 })
                 .catch((err) => {
                     return Promise.reject(messages.signup.error);
@@ -220,7 +226,13 @@ class userController {
             if (err === messages.user.notInDB) {
                 return new Volunteer(userData, teamSlug)
                 .then((user) => {
-                    return Promise.resolve(user);
+                    return this.checkCredentials({
+                        email: userData.email,
+                        password: userData.password,
+                    });
+                })
+                .then((dbUser) => {
+                    return Promise.resolve(dbUser);
                 })
                 .catch((err) => {
                     return Promise.reject(messages.signup.error);

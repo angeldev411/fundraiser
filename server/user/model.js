@@ -68,6 +68,7 @@ export default class User {
             return User.getByID(idObject.id);
         })
         .then((userBrandNew) => {
+            userBrandNew.roles = labels;
             return Promise.resolve(userBrandNew);
         })
         .catch((err) => {

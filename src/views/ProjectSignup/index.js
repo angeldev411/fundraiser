@@ -36,9 +36,7 @@ class ProjectSignup extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
-            this.props.dispatch(
-                pushPath(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
-            );
+            window.location = '/dashboard';
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,

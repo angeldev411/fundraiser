@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import * as TeamActions from '../../redux/team/actions';
 import * as Actions from '../../redux/user/actions';
+import * as AuthActions from '../../redux/auth/actions';
 import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
@@ -38,9 +39,7 @@ class TeamSignup extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
-            this.props.dispatch(
-                pushPath(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
-            );
+            window.location = '/dashboard';
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,

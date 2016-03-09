@@ -20,6 +20,7 @@ router.post('/api/v1/signup', (req, res) => {
 
     userController.signup(data, req.body.teamSlug)
     .then((user) => {
+        req.session.user = user;
         res.status(200).send(userController.safe(user));
     })
     .catch((err) => {

@@ -21,6 +21,7 @@ import securityMiddleware from './auth/middleware';
 app.use(securityMiddleware);
 
 // Routes
+import * as Urls from '../src/urls.js';
 import authRoutes from './auth/routes';
 import projectRoutes from './project/routes';
 import teamRoutes from './team/routes';
@@ -44,6 +45,20 @@ app.use(projectLeadersRoutes);
 app.use(hoursRoutes);
 app.use(sponsorRoutes);
 app.use(emailRoutes);
+
+app.use('/dashboard', (req, res) => {
+    if (req.session.user) {
+        if (req.session.user.roles.indexOf('SUPER_ADMIN') >= 0) {
+            res.redirect(Urls.ADMIN_PROJECTS_URL);
+        } else if (req.session.user.roles.indexOf('PROJECT_LEADER') >= 0) {
+            res.redirect(Urls.ADMIN_TEAMS_URL);
+        } else if (req.session.user.roles.indexOf('TEAM_LEADER') >= 0) {
+            res.redirect(Urls.ADMIN_TEAM_DASHBOARD_URL);
+        } else if (req.session.user.roles.indexOf('VOLUNTEER') >= 0) {
+            res.redirect(Urls.ADMIN_VOLUNTEER_DASHBOARD_URL);
+        }
+    }
+});
 
 app.use('/api/v1/*', (req, res) => {
     res.status(404).send();
