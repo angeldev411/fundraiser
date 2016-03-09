@@ -154,13 +154,25 @@ describe('Team', () => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
-                        name: fixtures.testTeam.name,
-                        slug: uuid.v4(),
-                        projectSlug: project.slug,
+                        team: {
+                            name: fixtures.testTeam.name,
+                            slug: uuid.v4()
+                        },
                     },
                 },
                 (error, response, body) => {
                     expect(error).to.be.a('null');
+                    console.log('$$$$$$$$$$$$');
+                    console.log('$$$$$$$$$$$$');
+                    console.log('lets a super admin update team /// Error', error);
+                    console.log('lets a super admin update team /// Body', body);
+                    console.log('Team:', {
+                        name: fixtures.testTeam.name,
+                        slug: uuid.v4(),
+                        projectSlug: project.slug+'dddddd',
+                    });
+                    console.log('$$$$$$$$$$$$');
+                    console.log('$$$$$$$$$$$$');
                     expect(response.statusCode).to.equal(200);
                     expect(JSON.parse(body)).to.contain.keys('name');
                     expect(JSON.parse(body)).to.contain.keys('slug');
@@ -198,9 +210,11 @@ describe('Team', () => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
-                        name: fixtures.testTeam.name,
-                        slug: uuid.v4(),
-                        projectSlug: project.slug,
+                        team: {
+                            name: fixtures.testTeam.name,
+                            slug: uuid.v4(),
+                            projectSlug: project.slug,
+                        },
                     },
                 },
                 (error, response, body) => {
@@ -219,9 +233,11 @@ describe('Team', () => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
                     form: {
-                        name: otherProjectTeam.name,
-                        slug: uuid.v4(),
-                        projectSlug: otherProject.slug,
+                        team: {
+                            name: otherProjectTeam.name,
+                            slug: uuid.v4(),
+                            projectSlug: otherProject.slug,
+                        },
                     },
                 },
                 (error, response, body) => {
@@ -299,9 +315,11 @@ describe('Team', () => {
                 requestCookie.put({
                     url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${result.id}`,
                     form: {
-                        name: team.name,
-                        slug: team.slug,
-                        projectSlug: project.slug,
+                        team: {
+                            name: team.name,
+                            slug: team.slug,
+                            projectSlug: project.slug,
+                        },
                     },
                 },
                 (error, response, body) => {
@@ -316,13 +334,15 @@ describe('Team', () => {
 
         it('gives a 403 if the Team Leader is not owner of the Team', (done) => {
             getTestTeamId(otherProjectTeam.name)
-            .then((team) => {
+            .then((currentTeam) => {
                 requestCookie.put({
-                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${team.id}`,
+                    url: `http://localhost:${config.EXPRESS_PORT}/api/v1/team/${currentTeam.id}`,
                     form: {
-                        name: otherProjectTeam.name,
-                        slug: uuid.v4(),
-                        projectSlug: otherProject.slug,
+                        team: {
+                            name: otherProjectTeam.name,
+                            slug: uuid.v4(),
+                            projectSlug: otherProject.slug,
+                        },
                     },
                 },
                 (error, response, body) => {

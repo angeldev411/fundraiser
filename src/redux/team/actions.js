@@ -54,10 +54,11 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
     };
 }
 
-export function updateTeam(id, team) {
+export function updateTeam(id, team, projectSlug) {
     return (dispatch) => {
         return axios.put(`${API_URL}/team/${id}`, {
             team,
+            projectSlug,
         })
         .then(
             (response) => {

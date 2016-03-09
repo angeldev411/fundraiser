@@ -23,7 +23,16 @@ class teamController {
     }
 
     static update(data) {
-        //
+        return Team.update(data.team)
+            .then(() => {
+                return Team.inviteTeamLeader(data.team);
+            })
+            .then((result) => {
+                return Promise.resolve(result);
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
     }
 }
 

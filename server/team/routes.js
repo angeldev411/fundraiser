@@ -57,10 +57,9 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         team,
         currentUser: req.session.user,
     };
-    const projectSlug = req.body.projectSlug;
 
     if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
-        teamController.store(data, projectSlug)
+        teamController.update(data)
         .then((response) => {
             res.status(200).send(response);
         })
@@ -71,7 +70,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         // TODO verify if team leader is owner of team
         return Team.isTeamLeaderTeamOwner(team.id, req.session.user.id)
         .then((response1) => {
-            return teamController.store(data, projectSlug)
+            return teamController.update(data)
             .then((response) => {
                 res.status(200).send(response);
             })
@@ -80,7 +79,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             });
         })
         .catch((error) => {
-            console.log('Is team leader Not owner', error);
             res.status(403).send();
             return;
         });
@@ -88,7 +86,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         // TODO verify if project leader is indirect owner of team
         Team.isProjectLeaderIndirectTeamOwner(team.id, req.session.user.id)
         .then(() => {
-            teamController.store(data, projectSlug)
+            teamController.update(data)
             .then((response) => {
                 res.status(200).send(response);
             })
@@ -97,7 +95,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             });
         })
         .catch(() => {
-            console.log('Is project leader not indirect team owner');
             res.status(403).send();
             return;
         });
