@@ -369,7 +369,10 @@ const fixtures = {
         email: 'test-sponsor@test.com',
         hourly: 10,
         cap: 100,
-        stripeToken: 'thisIsAStripeToken',
+        // stripeToken: 'thisIsAStripeToken',
+        cc: '4242424242424242',
+        cvv: '123',
+        expiration: '12/18',
     },
 
 };

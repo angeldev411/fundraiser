@@ -61,7 +61,7 @@ export default class Sponsor {
                             .then((link) => {
                                 // If it's a one time pledge, charge customer right now
                                 if (pledge.amount) {
-                                    this.chargeSponsor(existingSponsor.stripeCustomerId, data.stripeCustomerId);
+                                    this.chargeSponsor(sponsor.stripeCustomerId, data.stripeCustomerId);
                                 }
                                 resolve(sponsor);
                             })
