@@ -27,6 +27,7 @@ const Node = db.defineNode({
         pledgePerHour : db.Joi.number(),
         totalHours: db.Joi.number(),
         totalVolunteers: db.Joi.number(),
+        signatureRequired: db.Joi.boolean(),
     },
 });
 
@@ -123,6 +124,7 @@ class Team {
             ...(teamData.pledgePerHour ? { pledgePerHour : teamData.pledgePerHour } : {}),
             ...(teamData.totalHours ? { totalHours: teamData.totalHours } : {}),
             ...(teamData.totalVolunteers ? { totalVolunteers: teamData.totalVolunteers } : {}),
+            ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
         };
     }
 
@@ -133,7 +135,6 @@ class Team {
     }
 
     static saveUpdate(teamData) {
-        console.log('Team Data Id', teamData.id);
         const teamNode = new Node(teamData, teamData.id);
 
         return teamNode.save();
