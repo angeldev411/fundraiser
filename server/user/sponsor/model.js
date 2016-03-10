@@ -61,7 +61,7 @@ export default class Sponsor {
                             .then((link) => {
                                 // If it's a one time pledge, charge customer right now
                                 if (pledge.amount) {
-                                    this.chargeSponsor(sponsor.stripeCustomerId, data.stripeCustomerId);
+                                    Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount);
                                 }
                                 resolve(sponsor);
                             })
@@ -81,51 +81,6 @@ export default class Sponsor {
                     reject(err);
                 }
             });
-        });
-    }
-
-    static createStripeCustomer(email, stripeToken) {
-        return new Promise((resolve, reject) => {
-            stripe.customers.create({
-                email,
-                source: stripeToken,
-            }, (err, customer) => {
-                if (customer) {
-                    resolve(customer);
-                } else if (err) {
-                    reject(err);
-                }
-            });
-        });
-    }
-
-    static updateStripeCustomer(stripeToken, customerId) {
-        return new Promise((resolve, reject) => {
-            stripe.customers.update(customerId, {
-                source: stripeToken,
-            }, (err, customer) => {
-                if (customer) {
-                    resolve(customer);
-                } else if (err) {
-                    reject(err);
-                }
-            });
-        });
-    }
-
-    chargeSponsor(stripeCustomerId, amount) {
-        amount = amount * 100;
-        stripe.charges.create({
-            amount,
-            currency: 'usd',
-            customer: stripeCustomerId,
-            // description: "Charge for test@example.com"
-        }, (err, charge) => {
-            // TODO if charge, send an email to customer
-            console.log('charge', charge);
-
-            // TODO if error, send an email to Raiserve and customer
-            console.log('err', err);
         });
     }
 
@@ -393,4 +348,247 @@ export default class Sponsor {
             }
         }
     }
+
+    // ---- BILLING FUNCTIONS ----
+
+    /*
+     * createStripeCustomer()
+     * Create a customer on stripe
+     *
+     * email: sponsor email
+     * stripeToken: stripe token retrieved with stripe.js
+    */
+    static createStripeCustomer(email, stripeToken) {
+        return new Promise((resolve, reject) => {
+            stripe.customers.create({
+                email,
+                source: stripeToken,
+            }, (err, customer) => {
+                if (customer) {
+                    resolve(customer);
+                } else if (err) {
+                    reject(err);
+                }
+            });
+        });
+    }
+
+    /*
+     * updateStripeCustomer()
+     * Update a customer on stripe
+     *
+     * stripeToken: stripe token retrieved with stripe.js
+     * customerId: stripe customerId to update
+    */
+    static updateStripeCustomer(stripeToken, customerId) {
+        return new Promise((resolve, reject) => {
+            stripe.customers.update(customerId, {
+                source: stripeToken,
+            }, (err, customer) => {
+                if (customer) {
+                    resolve(customer);
+                } else if (err) {
+                    reject(err);
+                }
+            });
+        });
+    }
+
+    /*
+     * chargeSponsor()
+     * Charge amount to stripe customer
+     *
+     * stripeCustomerId: stripe customer id to charge
+     * amount: amount to charge in USD
+    */
+    static chargeSponsor = (stripeCustomerId, amount) => {
+        return new Promise((resolve, reject) => {
+            amount = amount * 100;
+            stripe.charges.create({
+                amount,
+                currency: 'usd',
+                customer: stripeCustomerId,
+                // description: "Charge for test@example.com"
+            }, (err, charge) => {
+                if (charge) {
+                    // TODO if charge, send an email to customer
+                    console.log('charge', charge);
+
+                    resolve(charge);
+                } else if (err) {
+                    // TODO if error, send an email to Raiserve and customer
+                    console.log('err', err);
+
+                    reject(err);
+                }
+            });
+        })
+    };
+
+    /*
+     * billSponsors()
+     * Get not billed hours and charge sponsors
+    */
+    static billSponsors() {
+        // Get all sponsors who hourly support volunteers
+        return this.getSponsorsToBill()
+        .then((sponsors) => {
+            // For each sponsors who support hourly, get sponsoring contracts
+            return new Promise((resolve, reject) => {
+                for (let i = 0; i < sponsors.length; i++) {
+                    this.getSponsoringContracts(sponsors[i])
+                    .then((sponsorings) => {
+                        for (let j = 0; j < sponsorings.length; j++) {
+                            // For each sponsoring contracts, get supported volunteer hours created after the last billing timestamp
+                            this.getNotBilledHours(sponsorings[j].sponsor)
+                            .then((hoursNodes) => {
+                                if (hoursNodes.length > 0) {
+                                    let amountToBill = 0;
+
+                                    for (let k = 0; k < hoursNodes.length; k++) {
+                                        // Calculate amount to bill in USD
+                                        amountToBill += sponsorings[j].support.hourly * hoursNodes[k].hours;
+                                    }
+
+                                    if (amountToBill > config.BILLING.minimumAmount) {
+                                        console.log(`${amountToBill} USD to bill to ${sponsorings[j].sponsor.firstName} ${sponsorings[j].sponsor.lastName}`);
+
+                                        const transactionTimestamp = new Date().getTime();
+
+                                        this.chargeSponsor(sponsorings[j].sponsor.stripeCustomerId, amountToBill)
+                                        .then((charge) => {
+                                            // Create a paid relation with status 1
+                                            this.createPaidRelation(sponsorings[j].sponsor, amountToBill, sponsorings[j].volunteer, 1, transactionTimestamp, charge.id);
+                                            // Update last billing attribute
+                                            this.updateSponsorLastBilling(sponsorings[j].sponsor, transactionTimestamp);
+                                        })
+                                        .catch((chargeErr) => {
+                                            console.log(chargeErr);
+                                            // Create a paid relation with status 0
+                                            this.createPaidRelation(sponsorings[j].sponsor, amountToBill, sponsorings[j].volunteer, 0, transactionTimestamp);
+                                            // Update last billing attribute
+                                            this.updateSponsorLastBilling(sponsorings[j].sponsor, transactionTimestamp);
+                                        });
+                                    }
+                                } else {
+                                    console.log(`No hours to bill to ${sponsorings[j].sponsor.firstName} ${sponsorings[j].sponsor.lastName}`);
+                                }
+                            })
+                            .catch((getNotBilledHoursError) => {
+                                console.error('get not billed hours err', getNotBilledHoursError);
+                                return reject(getNotBilledHoursError);
+                            });
+                        }
+                    })
+                    .catch((getSponsoringContractsError) => {
+                        console.error('get sponsoring contracts err', getSponsoringContractsError);
+                        return reject(getSponsoringContractsError);
+                    });
+                }
+            })
+        })
+        .catch((getSponsorError) => {
+            console.error('get sponsors err', getSponsorError);
+        });
+    }
+
+    /*
+     * getSponsorsToBill()
+     * Retrieve sponsors who hourly supports volunteers
+    */
+    static getSponsorsToBill = () => {
+        return db.query(`
+            MATCH (sponsors:SPONSOR)-[support:SUPPORTING]->(volunteer:VOLUNTEER)
+            RETURN DISTINCT sponsors
+        `).getResults('sponsors');
+    };
+
+    /*
+     * getSponsoringContracts()
+     * Retrieve sponsoring contracts, with hourly amount
+     *
+     * sponsor: sponsor object
+    */
+    static getSponsoringContracts = (sponsor) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(volunteer:VOLUNTEER)
+            RETURN {sponsor: sponsor, support: support, volunteer: volunteer} AS sponsoring
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+            }
+        ).getResults('sponsoring');
+    };
+
+    /*
+     * getNotBilledHours()
+     * Retrieve hours that has not already been charged to sponsor
+     *
+     * sponsor: sponsor object
+    */
+    static getNotBilledHours = (sponsor) => {
+        // TODO CHANGE TO ONLY GET APPROVED HOURS
+        return db.query(`
+            MATCH (hours:HOUR)<-[:VOLUNTEERED]->(volunteer:VOLUNTEER)<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
+            WHERE hours.created > {lastBilling}
+            RETURN hours
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+                lastBilling: sponsor.lastBilling,
+            }
+        ).getResults('hours');
+    };
+
+    /*
+     * createPaidRelation()
+     * Create a paid relation between sponsor and volunteer, which contains date, amount, status and transaction id
+     *
+     * sponsor: sponsor object
+     * amount: amount billed in USD
+     * volunteer: volunteer object
+     * status: 1 if successfull transaction
+     *         0 if unsuccessfull transaction
+     * date: transaction timestamp
+     * stripeTransactionId: id of the stripe transaction
+    */
+    static createPaidRelation = (sponsor, amount, volunteer, status, date, stripeTransactionId = null) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR {id: {sponsorId} }), (volunteer:VOLUNTEER {id: {volunteerId} })
+            CREATE (sponsor)-[:PAID {amount: {amount}, stripeTransactionId: {stripeTransactionId}, date: {date}, status: {status}}]->(volunteer)
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+                amount,
+                volunteerId: volunteer.id,
+                stripeTransactionId,
+                date,
+                status,
+            }
+        );
+    };
+
+    /*
+     * updateSponsorLastBilling()
+     * Update last billing timestamp on sponsor
+     *
+     * sponsor: sponsor object
+     * lastBilling: transaction timestamp
+    */
+    static updateSponsorLastBilling = (sponsor, lastBilling) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR {id: {sponsorId} })
+            SET sponsor.lastBilling = {lastBilling}
+            RETURN sponsor
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+                lastBilling,
+            }
+        );
+    };
 }

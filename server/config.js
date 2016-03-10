@@ -34,4 +34,7 @@ export default {
     MANDRILL_API_KEY: 'fvFbEdZSRHYqCj06utSvSg',
     DOMAIN: process.env.HOSTNAME || constantsFront.DOMAIN || 'https://raiserve.org',
     URL: `${process.env.PROTOCOL}${process.env.HOSTNAME}` || 'http://raiserve.org',
+    BILLING: {
+        minimumAmount: 5,
+    },
 };

@@ -261,19 +261,19 @@ const fixtures = {
 
     pledges : [
         {
-            hourly: 10,
+            hourly: 2,
+        },
+        {
+            hourly: 4,
+        },
+        {
+            amount: 5,
         },
         {
             hourly: 1,
         },
         {
-            amount: 50,
-        },
-        {
-            hourly: 1.10,
-        },
-        {
-            hourly: 3,
+            hourly: 8,
         },
     ],
 
