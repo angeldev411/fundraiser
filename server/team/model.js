@@ -31,6 +31,11 @@ const Node = db.defineNode({
 });
 
 class Team {
+
+    constructor(rawTeamData) {
+        return Team.insert(rawTeamData);
+    }
+
     static insert(rawTeamData) {
         const teamData = Team.filter({
             ...(rawTeamData),
