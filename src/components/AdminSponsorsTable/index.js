@@ -16,9 +16,15 @@ export default class AdminSponsorsTable extends Component {
                                 <ul className="children-content clearfix">
                                     {sponsor.pledges.map((pledge, x) => (
                                         <ChildrenLine key={x}>
-                                            <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}/hr`}
-                                            <span className="label uppercase">{'$ CAP: '}</span> {pledge.support.cap ? `$${pledge.support.cap}` : 'None'}
-                                            <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
+                                            {pledge.support.hourly ?
+                                                (<span>
+                                                    <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}/hr`}
+                                                    <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
+                                                </span>) :
+                                                (<span>
+                                                    <span className="label uppercase">{'Donated: '}</span> {`$${pledge.support.amount}`}
+                                                </span>)
+                                            }
                                             <span>
                                             {!this.props.isVolunteer ? (
                                                 <span>

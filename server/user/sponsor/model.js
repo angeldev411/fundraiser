@@ -149,9 +149,8 @@ export default class Sponsor {
 
         if (projectSlug && !teamSlug) {
             query1 = () => {
-                // MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                 return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
+                        MATCH (users:SPONSOR)-[rel]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
@@ -163,7 +162,7 @@ export default class Sponsor {
         } else if (teamSlug && !volunteerSlug) {
             query1 = () => {
                 return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(:TEAM { slug: {teamSlug}})
+                        MATCH (users:SPONSOR)-[rel]->(:TEAM { slug: {teamSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
@@ -179,7 +178,7 @@ export default class Sponsor {
                     }
 
                     return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(:VOLUNTEER)-->(:TEAM { slug: {teamSlug}})
+                        MATCH (users:SPONSOR)-[rel]->(:VOLUNTEER)-->(:TEAM { slug: {teamSlug}})
                         WHERE NOT(users.id IN {exclude})
                         RETURN DISTINCT users
                         `,
@@ -200,7 +199,7 @@ export default class Sponsor {
         } else if (volunteerSlug) {
             query1 = () => {
                 return db.query(`
-                        MATCH (users:SPONSOR)-[:SUPPORT]->(:VOLUNTEER { slug: {volunteerSlug}})
+                        MATCH (users:SPONSOR)-[rel]->(:VOLUNTEER { slug: {volunteerSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
@@ -234,7 +233,7 @@ export default class Sponsor {
                     if (projectSlug && !teamSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                                 RETURN {support: support, sponsored: sponsored} AS pledges
                                 `,
                                 {},
@@ -247,7 +246,7 @@ export default class Sponsor {
                     } else if (teamSlug && !volunteerSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(team:TEAM { slug: {teamSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(team:TEAM { slug: {teamSlug}})
                                 RETURN {support: support, sponsored: team} AS pledges
                                 `,
                                 {},
@@ -258,7 +257,7 @@ export default class Sponsor {
                             ).getResults('pledges')
                             .then((results1) => {
                                 return db.query(`
-                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
+                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
                                     RETURN {support: support, sponsored: volunteer} AS pledges
                                     `,
                                     {},
@@ -278,7 +277,7 @@ export default class Sponsor {
                     } else if (volunteerSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
                                 RETURN {support: support, sponsored: volunteer} AS pledges
                                 `,
                                 {},
@@ -291,7 +290,7 @@ export default class Sponsor {
                     } else {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORT]->(sponsored)
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(sponsored)
                                 RETURN {support: support, sponsored:sponsored} AS pledges
                                 `,
                                 {},
@@ -333,35 +332,65 @@ export default class Sponsor {
 
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {
         if (teamSlug) {
-            return db.query(`
-                MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
-                CREATE (user)-[:SUPPORT {hourly: {hourly}, amount: {amount}, total: {total}, date: {date}}]->(team)
-                `,
-                {},
-                {
-                    userId: sponsor.id,
-                    teamSlug,
-                    hourly: pledge.hourly || null,
-                    amount: pledge.amount || null,
-                    total: 0,
-                    date: new Date(),
-                }
-            );
+            if (pledge.hourly) {
+                return db.query(`
+                    MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(team)
+                    `,
+                    {},
+                    {
+                        userId: sponsor.id,
+                        teamSlug,
+                        hourly: pledge.hourly,
+                        total: 0,
+                        date: new Date(),
+                    }
+                );
+            } else if (pledge.amount) {
+                return db.query(`
+                    MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                    CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(team)
+                    `,
+                    {},
+                    {
+                        userId: sponsor.id,
+                        teamSlug,
+                        amount: pledge.amount,
+                        total: 0,
+                        date: new Date(),
+                    }
+                );
+            }
         } else if (volunteerSlug) {
-            return db.query(`
-                MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
-                CREATE (user)-[:SUPPORT {hourly: {hourly}, amount: {amount}, total: {total}, date: {date}}]->(volunteer)
-                `,
-                {},
-                {
-                    userId: sponsor.id,
-                    volunteerSlug,
-                    hourly: pledge.hourly || null,
-                    amount: pledge.amount || null,
-                    total: 0,
-                    date: new Date(),
-                }
-            );
+            if (pledge.hourly) {
+                return db.query(`
+                    MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
+                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(volunteer)
+                    `,
+                    {},
+                    {
+                        userId: sponsor.id,
+                        volunteerSlug,
+                        hourly: pledge.hourly,
+                        total: 0,
+                        date: new Date(),
+                    }
+                );
+            } else if (pledge.amount) {
+                return db.query(`
+                    MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
+                    CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(volunteer)
+                    `,
+                    {},
+                    {
+                        userId: sponsor.id,
+                        volunteerSlug,
+                        amount: pledge.amount,
+                        total: 0,
+                        date: new Date(),
+                    }
+                );
+            }
         }
     }
 }
