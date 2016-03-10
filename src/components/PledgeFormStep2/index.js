@@ -20,21 +20,74 @@ class PledgeFormStep2 extends Component {
         }
     }
 
+    stripeResponseHandler = (status, response) => {
+        if (response.error) {
+            // Show the errors on the form
+            this.setState({
+                error: response.error.message,
+            });
+        } else {
+            // response contains id and card, which contains additional card details
+            const token = response.id;
+
+            // If ok, add sponsor to db
+            Actions.newPledge(
+                this.state.firstName,
+                this.state.lastName,
+                this.state.email,
+                this.state.hourly,
+                this.state.amount,
+                this.state.teamSlug,
+                this.state.volunteerSlug,
+                token,
+            )(this.props.dispatch);
+        }
+    };
+
     submit = () => {
-        console.log('Received data', this.state);
+        // Client side verifications
+        const validator = this.verifyCardInfo(this.state.cc, this.state.cvv, this.state.expiration);
 
-        // Send to Stripe and verify Credit Card infos
+        if (validator.error) {
+            this.setState({
+                error: validator.message,
+            });
+        } else {
+            this.setState({
+                error: null,
+            });
+            // Send to Stripe and verify Credit Card infos
+            Stripe.card.createToken({
+                number: this.state.cc,
+                cvc: this.state.cvv,
+                exp: this.state.expiration,
+            }, this.stripeResponseHandler);
+        }
+    };
 
-        // If ok, add sponsor to db
-        Actions.newPledge(
-            this.state.firstName,
-            this.state.lastName,
-            this.state.email,
-            this.state.hourly,
-            this.state.amount,
-            this.state.teamSlug,
-            this.state.volunteerSlug
-        )(this.props.dispatch);
+    verifyCardInfo = (cc, cvv, exp) => {
+        if (!Stripe.card.validateCardNumber(cc)) {
+            return {
+                error: true,
+                message: 'Invalid card number',
+            };
+        }
+        if (!Stripe.card.validateCVC(cvv)) {
+            return {
+                error: true,
+                message: 'Invalid CVV',
+            };
+        }
+
+        if (!Stripe.card.validateExpiry(exp)) {
+            return {
+                error: true,
+                message: 'Invalid expiration date',
+            };
+        }
+        return {
+            error: false,
+        };
     };
 
     handleChange = (event, name) => {

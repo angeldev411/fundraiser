@@ -28,7 +28,7 @@ export default {
         secretAccessKey: 'V3mh4l4ZUedRXbDYWo61msHof6WAHrEqI/shJfSH',
         region: 'us-east-1',
     },
-    STRIPE_TOKEN: 'sk_test_WNYEwSIelo8oPutqjz22lzqQ',
+    STRIPE_TOKEN: 'sk_test_VxrSBOOWOiUa2FVSDSCgZ0RX',
     USER_IMAGES_FOLDER: constantsFront.USER_IMAGES_FOLDER,
     TEAM_IMAGES_FOLDER: constantsFront.TEAM_IMAGES_FOLDER,
     MANDRILL_API_KEY: 'fvFbEdZSRHYqCj06utSvSg',

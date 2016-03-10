@@ -3,38 +3,129 @@ import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { SPONSOR } from '../roles';
 import userController from '../controller';
+import stripelib from 'stripe';
 
+const stripe = stripelib(config.STRIPE_TOKEN);
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
 
 export default class Sponsor {
-    constructor(data, pledge, teamSlug = null, volunteerSlug = null) {
+    constructor(data, pledge, teamSlug = null, volunteerSlug = null, stripeToken) {
         let sponsor;
 
         return this.getSponsorByEmail(data.email)
         .then((existingSponsor) => { // Sponsor already exist
-            sponsor = existingSponsor;
-            return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
-            .then((link) => {
-                return Promise.resolve(sponsor);
-            })
-            .catch((err) => {
-                return Promise.reject(err);
+            return new Promise((resolve, reject) => {
+                Sponsor.updateStripeCustomer(stripeToken, existingSponsor.stripeCustomerId)
+                .then((customer) => {
+                    // If stripe customer updated succesfully
+                    // Link sponsor
+                    return this.linkSponsorToSupportedNode(existingSponsor, pledge, teamSlug, volunteerSlug)
+                    .then((link) => {
+                        // If it's a one time pledge, charge customer right now
+                        if (pledge.amount) {
+                            this.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount);
+                        }
+                        return resolve(existingSponsor);
+                    })
+                    .catch((linkError) => {
+                        reject('Sorry, an internal server error occured');
+                    });
+                })
+                .catch((stripeError) => {
+                    console.log('Stripe error', stripeError);
+                    return reject(stripeError.message);
+                });
             });
         })
         .catch((err) => { // New Sponsor
-            return new User(data, SPONSOR)
-            .then((sponsorCreated) => {
-                sponsor = sponsorCreated;
-                return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
-                .then((link) => {
-                    return Promise.resolve(sponsor);
-                })
-                .catch((error) => {
-                    return Promise.reject(err);
-                });
-            })
+            return new Promise((resolve, reject) => {
+                if (err.message === 'not-already-there') {
+                    Sponsor.createStripeCustomer(data.email, stripeToken)
+                    .then((customer) => {
+                        // If customer created succesfully
+
+                        // Add customer ID to data
+                        data = {
+                            ...(data),
+                            stripeCustomerId: customer.id,
+                        };
+
+                        // Create user
+                        return new User(data, SPONSOR)
+                        .then((sponsorCreated) => {
+                            sponsor = sponsorCreated;
+                            // Link sponsor
+                            return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
+                            .then((link) => {
+                                // If it's a one time pledge, charge customer right now
+                                if (pledge.amount) {
+                                    this.chargeSponsor(sponsor.stripeCustomerId, data.stripeCustomerId);
+                                }
+                                resolve(sponsor);
+                            })
+                            .catch((linkError) => {
+                                reject('Sorry, an internal server error occured');
+                            });
+                        })
+                        .catch((sponsorError) => {
+                            reject(sponsorError);
+                        });
+                    })
+                    .catch((stripeError) => {
+                        console.log('Stripe error', stripeError);
+                        reject(stripeError.message);
+                    });
+                } else {
+                    reject(err);
+                }
+            });
+        });
+    }
+
+    static createStripeCustomer(email, stripeToken) {
+        return new Promise((resolve, reject) => {
+            stripe.customers.create({
+                email,
+                source: stripeToken,
+            }, (err, customer) => {
+                if (customer) {
+                    resolve(customer);
+                } else if (err) {
+                    reject(err);
+                }
+            });
+        });
+    }
+
+    static updateStripeCustomer(stripeToken, customerId) {
+        return new Promise((resolve, reject) => {
+            stripe.customers.update(customerId, {
+                source: stripeToken,
+            }, (err, customer) => {
+                if (customer) {
+                    resolve(customer);
+                } else if (err) {
+                    reject(err);
+                }
+            });
+        });
+    }
+
+    chargeSponsor(stripeCustomerId, amount) {
+        amount = amount * 100;
+        stripe.charges.create({
+            amount,
+            currency: 'usd',
+            customer: stripeCustomerId,
+            // description: "Charge for test@example.com"
+        }, (err, charge) => {
+            // TODO if charge, send an email to customer
+            console.log('charge', charge);
+
+            // TODO if error, send an email to Raiserve and customer
+            console.log('err', err);
         });
     }
 
@@ -47,7 +138,10 @@ export default class Sponsor {
             {
                 userEmail,
             }
-        ).getResult('user');
+        ).getResult('user')
+        .catch((err) => {
+            throw new Error('not-already-there');
+        });
     }
 
     static getSponsors(projectSlug = null, teamSlug = null, volunteerSlug = null) {
@@ -92,7 +186,7 @@ export default class Sponsor {
                         {},
                         {
                             teamSlug,
-                            exclude
+                            exclude,
                         }
                     ).getResults('users')
                     .then((results2) => {
@@ -177,8 +271,8 @@ export default class Sponsor {
                                     return Promise.resolve([
                                         ...results1,
                                         ...results2,
-                                    ])
-                                })
+                                    ]);
+                                });
                             });
                         };
                     } else if (volunteerSlug) {
@@ -229,7 +323,6 @@ export default class Sponsor {
                     .catch((err) => {
                         return reject(err);
                     });
-
                 }
             });
         })

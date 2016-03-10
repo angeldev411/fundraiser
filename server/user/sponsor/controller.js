@@ -8,8 +8,53 @@ class sponsorController {
             return Promise.resolve(sponsors);
         })
         .catch((err) => {
-            console.log(err);
             return Promise.reject(err);
+        });
+    }
+
+    static sponsorTeam(data, teamSlug) {
+        return new Promise((resolve, reject) => {
+            const sponsor = {
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+            };
+
+            const pledge = {
+                ...(data.hourly ? { hourly: data.hourly } : {}),
+                ...(data.amount ? { amount: data.amount } : {}),
+            };
+
+            return new Sponsor(sponsor, pledge, teamSlug, data.stripeToken)
+            .then((sponsorCreated) => {
+                resolve(sponsorCreated);
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static sponsorVolunteer(data, volunteerSlug) {
+        return new Promise((resolve, reject) => {
+            const sponsor = {
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+            };
+
+            const pledge = {
+                ...(data.hourly ? { hourly: data.hourly } : {}),
+                ...(data.amount ? { amount: data.amount } : {}),
+            };
+
+            new Sponsor(sponsor, pledge, null, volunteerSlug, data.stripeToken)
+            .then((sponsorCreated) => {
+                resolve(sponsorCreated);
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
     }
 }
