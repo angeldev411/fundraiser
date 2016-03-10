@@ -3,6 +3,8 @@ import express from 'express';
 const router = express.Router();
 import volunteerController from './controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
+import util from '../../helpers/util';
+
 
 router.get('/api/v1/volunteer', (req, res) => {
     if (
@@ -30,9 +32,17 @@ router.put('/api/v1/volunteer', (req, res) => {
         return;
     }
 
-    const user = req.body;
+    const user = Object.assign({}, req.session.user);
 
-    user.id = req.session.user.id;
+    for (const prop in req.body) {
+        if (req.body[prop]) {
+            if (prop === 'password') {
+                user[prop] = util.hash(req.body[prop]);
+            } else {
+                user[prop] = req.body[prop];
+            }
+        }
+    }
 
     volunteerController.update(user)
     .then((data) => {

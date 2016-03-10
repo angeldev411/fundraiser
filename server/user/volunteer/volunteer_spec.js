@@ -133,7 +133,7 @@ describe('Volunteers', () => {
             });
         });
 
-        it('works if I update my profile with empty data', (done) => {
+        it('gives an error if I update my profile with empty data', (done) => {
             const url = `http://localhost:${config.EXPRESS_PORT}/api/v1/volunteer`;
 
             new Promise((resolve, reject) => {
@@ -160,7 +160,7 @@ describe('Volunteers', () => {
                 requestCookie.put({
                     url,
                     form: {
-                        email: '',
+                        email: '11111',
                         firstName: project1Volunteer.firstName,
                         lastName: project1Volunteer.lastName,
                     },
