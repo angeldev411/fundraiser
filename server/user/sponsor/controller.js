@@ -18,6 +18,7 @@ class sponsorController {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
+                lastBilling: 0,
             };
 
             const pledge = {
@@ -41,6 +42,7 @@ class sponsorController {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
+                lastBilling: 0,
             };
 
             const pledge = {

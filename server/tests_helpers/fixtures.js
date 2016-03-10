@@ -231,26 +231,31 @@ const fixtures = {
             firstName: 'Renee',
             lastName: 'Raeburn',
             email: 'rr@aol.com',
+            lastBilling: 0,
         },
         {
             firstName: 'Dennis',
             lastName: 'Lord',
             email: 'dlord@aol.com',
+            lastBilling: 0,
         },
         {
             firstName: 'Jacob',
             lastName: 'Lawler',
             email: 'jl@aol.com',
+            lastBilling: 0,
         },
         {
             firstName: 'Dani',
             lastName: 'Boehle',
             email: 'db@aol.com',
+            lastBilling: 0,
         },
         {
             firstName: 'Frank',
             lastName: 'Sinatra',
             email: 'fs@aol.com',
+            lastBilling: 0,
         },
     ],
 
