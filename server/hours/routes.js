@@ -20,6 +20,7 @@ router.post('/api/v1/hours', (req, res) => {
         place: req.body.place,
         date: req.body.date,
         supervisorName: req.body.supervisor,
+        approved: req.body.approved,
     };
 
     hoursController.log(req.session.user.id, hour).then((result) => {

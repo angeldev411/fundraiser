@@ -17,12 +17,14 @@ const Hour = db.defineNode({
             place : db.Joi.string().required(),
             date: db.Joi.date().required(),
             supervisorName: db.Joi.string().required(),
+            approved: db.Joi.boolean().required(),
         },
     },
 });
 
 class HourRepository {
     static insert(userId, hourValues) {
+        console.log('Hour Values', hourValues);
         return new Promise((resolve, reject) => {
             return (new Hour(hourValues)).save()
             .then((hourCreateResult) => {

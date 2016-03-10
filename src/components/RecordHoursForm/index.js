@@ -18,6 +18,7 @@ export default class RecordHoursForm extends Component {
             supervisor: '',
             signature: '',
             signatureRequired: props.team.signatureRequired,
+            approved: props.team.hoursApprovalRequired ? false : true,
         };
     }
 
@@ -47,6 +48,7 @@ export default class RecordHoursForm extends Component {
             this.state.date,
             this.state.supervisor,
             signature,
+            this.state.approved,
         )(this.props.dispatch);
     };
 
