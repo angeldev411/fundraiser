@@ -79,7 +79,7 @@ class TeamProfile extends Component {
                 <Cover
                     image={
                         this.state.team.coverImage ?
-                        `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}` :
+                        `${this.state.team.coverImage}` :
                         null
                     }
                     customclass={"cover-team-profile"}

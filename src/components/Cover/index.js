@@ -112,6 +112,7 @@ export default class Cover extends Component {
                                 content={
                                     <EditTaglineForm
                                         value={this.props.tagline}
+                                        team={this.props.team}
                                     />
                                 }
                             >
@@ -132,6 +133,7 @@ export default class Cover extends Component {
                                 content={
                                     <EditCoverForm
                                         value={this.props.image}
+                                        team={this.props.team}
                                     />
                                 }
                             >

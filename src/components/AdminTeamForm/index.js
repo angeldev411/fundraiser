@@ -33,10 +33,12 @@ class AdminTeamForm extends Component {
         if (this.state.id) {
             Actions.updateTeam(
                 this.state.id,
-                this.state.name,
-                this.props.defaultData.project.slug,
-                this.state.slug,
-                this.state.teamLeaderEmail,
+                {
+                    name: this.state.name,
+                    projectSlug: this.props.defaultData.project.slug,
+                    slug: this.state.slug,
+                    teamLeaderEmail: this.state.teamLeaderEmail,
+                }
             )(this.props.dispatch);
         } else {
             Actions.newTeam(
