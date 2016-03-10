@@ -509,13 +509,14 @@ export default class Sponsor {
             const transactionTimestamp = new Date().getTime();
 
             return Sponsor.chargeSponsor(sponsoring.sponsor.stripeCustomerId, amountToBill)
-            .then((charge) => {
+            .then((charged) => {
                 return Promise.all([
                     // Create a paid relation with status 1
-                    Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, sponsoring.volunteer, 1, transactionTimestamp, charge.id),
+                    Sponsor.createPaidRelation(sponsoring.sponsor, charged.amount, sponsoring.volunteer, 1, transactionTimestamp, charged.id),
                     // Update last billing attribute
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
-                    // TODO Update raised attributes on Volunteer and Team.
+                    // Update raised attributes on Volunteer and Team.
+                    Sponsor.updateRaisedAttributes(sponsoring.volunteer, charged.amount),
                 ]);
             })
             .then(() => {
@@ -627,6 +628,27 @@ export default class Sponsor {
             {
                 sponsorId: sponsor.id,
                 lastBilling,
+            }
+        );
+    };
+
+    /*
+     * updateRaisedAttributes()
+     * Update raised attributes on a volunteer and related team
+     *
+     * volunteer: volunteer object
+     * raised: raised money, so just charged amount
+    */
+    static updateRaisedAttributes = (volunteer, raised) => {
+        return db.query(`
+            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)
+            SET volunteer.raised = volunteer.raised + {raised}, team.raised = team.raised + {raised}
+            RETURN volunteer
+            `,
+            {},
+            {
+                volunteerId: volunteer.id,
+                raised,
             }
         );
     };
