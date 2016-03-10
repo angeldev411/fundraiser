@@ -45,6 +45,19 @@ class AdminTeamProfile extends Component {
         )(this.props.dispatch);
     };
 
+    changeHoursApprovalRequired = (event) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.user.team.hoursApprovalRequired = event.nativeEvent.target.checked;
+
+        this.setState(newState);
+
+        Actions.updateTeam(
+            newState.user.team.id,
+            newState.user.team
+        )(this.props.dispatch);
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -127,6 +140,8 @@ class AdminTeamProfile extends Component {
                                 name="leader-signature"
                                 id="leader-signature"
                                 value=""
+                                checked={this.state.user.team.hoursApprovalRequired}
+                                onChange={(e) => {this.changeHoursApprovalRequired(e)}}
                             />
                             <label
                                 className="select-label"
