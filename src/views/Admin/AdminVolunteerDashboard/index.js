@@ -105,7 +105,7 @@ export default class AdminVolunteerDashboard extends Component {
             {
                 type: 'button',
                 title: 'Record my hours',
-                content: <RecordHoursForm/>,
+                content: <RecordHoursForm team={this.props.user.team}/>,
             },
             {
                 type: 'link',

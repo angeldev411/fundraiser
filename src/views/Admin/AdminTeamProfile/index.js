@@ -12,6 +12,7 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
+import * as Actions from '../../../redux/team/actions';
 
 class AdminTeamProfile extends Component {
     componentWillMount() {
@@ -19,14 +20,30 @@ class AdminTeamProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.team) {
+            this.setState({
+                team: nextProps.team,
+            });
+        }
         if (nextProps.user) {
-            this.setState(
-                {
-                    user: nextProps.user,
-                }
-            );
+            this.setState({
+                user: nextProps.user,
+            });
         }
     }
+
+    changeSupervisorSignatureRequired = (event) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.user.team.signatureRequired = event.nativeEvent.target.checked;
+
+        this.setState(newState);
+
+        Actions.updateTeam(
+            newState.user.team.id,
+            newState.user.team
+        )(this.props.dispatch);
+    };
 
     render() {
         if (!this.props.user) {
@@ -65,6 +82,7 @@ class AdminTeamProfile extends Component {
             },
         ];
 
+        console.log('Signature required', this.state.user.team.signatureRequired);
 
         return (
             <AuthenticatedView accessLevel={'TEAM_LEADER'}>
@@ -92,6 +110,8 @@ class AdminTeamProfile extends Component {
                                 name="supervisor-signature"
                                 id="supervisor-signature"
                                 value=""
+                                checked={this.state.user.team.signatureRequired}
+                                onChange={(e) => {this.changeSupervisorSignatureRequired(e)}}
                             />
                             <label
                                 className="select-label"
@@ -133,4 +153,5 @@ class AdminTeamProfile extends Component {
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
+    team: reduxState.main.team.team,
 }))(AdminTeamProfile);

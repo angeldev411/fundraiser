@@ -16,7 +16,8 @@ export default class RecordHoursForm extends Component {
             hours: 0,
             date: moment().format('YYYY-MM-DD').toString(),
             supervisor: '',
-            signature: ''
+            signature: '',
+            signatureRequired: props.team.signatureRequired,
         };
     }
 
@@ -26,11 +27,19 @@ export default class RecordHoursForm extends Component {
         } else if (nextProps.hourLogSuccess) {
             this.setState({ hasSuccessfulRecord: nextProps.hourLogSuccess });
         }
+
+        if (nextProps.team) {
+            this.setState({ team: nextProps.team });
+        }
     }
 
     recordHours = () => {
-        // Get the Signature as a base64 encode string
-        const signature = this.refs.signature.toDataURL();
+        let signature = '';
+
+        if (this.state.signatureRequired) {
+            // Get the Signature as a base64 encode string
+            signature = this.refs.signature.toDataURL();
+        }
 
         Actions.createHourLog(
             this.state.place,
@@ -103,7 +112,10 @@ export default class RecordHoursForm extends Component {
                     />
                     <label htmlFor="supervisor">{'Supervisor'}</label>
                 </div>
-                <SignaturePad ref="signature"/>
+                {this.props.team.signatureRequired ?
+                    <SignaturePad ref='signature'/> :
+                    null}
+
 
                 <Button onClick={this.recordHours} customClass="btn-green-white">{'Submit'}</Button>
             </Form>
@@ -112,6 +124,7 @@ export default class RecordHoursForm extends Component {
 }
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
     hourLogSuccess: reduxState.main.volunteer.hourLogSuccess,
     hourLogFailure: reduxState.main.volunteer.hourLogFailure,
 }))(RecordHoursForm);
