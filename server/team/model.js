@@ -290,19 +290,6 @@ class Team {
         .getResults('img');
     }
 
-    static updateTeam(obj) {
-        return db.query(
-            `
-            MERGE (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })
-            ON MATCH SET pt.shortDescription = {shortDescription}, pt.longDescription = {longDescription}
-
-            RETURN team;
-            `,
-            {},
-            obj
-        )
-        .getResult('team');
-    }
     static fetchAdminStats(teamShortName) {
         // console.log('fas');
         // return db.query(
