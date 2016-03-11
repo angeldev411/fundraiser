@@ -16,6 +16,8 @@ import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
+import AdminApproveHours from '../../../components/AdminApproveHours';
+
 
 class AdminTeamVolunteers extends Component {
     constructor(props) {
@@ -86,6 +88,13 @@ class AdminTeamVolunteers extends Component {
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
+            },
+            {
+                title: 'Approve Hours',
+                type: 'button',
+                content: <AdminApproveHours
+                    team={this.props.user.team}
+                         />,
             },
             {
                 type: 'link',

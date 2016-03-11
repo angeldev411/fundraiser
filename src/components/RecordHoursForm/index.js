@@ -5,7 +5,7 @@ import DateTimeInput from 'react-bootstrap-datetimepicker';
 import SignaturePad from 'react-signature-pad';
 import * as Actions from '../../redux/volunteer/actions';
 import { connect } from 'react-redux';
-import moment from 'moment'
+import moment from 'moment';
 
 
 export default class RecordHoursForm extends Component {
@@ -18,6 +18,7 @@ export default class RecordHoursForm extends Component {
             supervisor: '',
             signature: '',
             signatureRequired: props.team.signatureRequired,
+            approved: props.team.hoursApprovalRequired ? false : true,
         };
     }
 
@@ -47,6 +48,7 @@ export default class RecordHoursForm extends Component {
             this.state.date,
             this.state.supervisor,
             signature,
+            this.state.approved,
         )(this.props.dispatch);
     };
 

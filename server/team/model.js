@@ -28,6 +28,7 @@ const Node = db.defineNode({
         totalHours: db.Joi.number(),
         totalVolunteers: db.Joi.number(),
         signatureRequired: db.Joi.boolean(),
+        hoursApprovalRequired: db.Joi.boolean(),
     },
 });
 
@@ -130,6 +131,7 @@ class Team {
             ...(teamData.totalHours ? { totalHours: teamData.totalHours } : {}),
             ...(teamData.totalVolunteers ? { totalVolunteers: teamData.totalVolunteers } : {}),
             ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
+            ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
         };
     }
 

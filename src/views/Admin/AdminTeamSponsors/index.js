@@ -13,6 +13,8 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import * as Urls from '../../../urls.js';
+import AdminApproveHours from '../../../components/AdminApproveHours';
+
 
 class AdminTeamSponsors extends Component {
     constructor(props) {
@@ -92,6 +94,13 @@ class AdminTeamSponsors extends Component {
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
+            },
+            {
+                title: 'Approve Hours',
+                type: 'button',
+                content: <AdminApproveHours
+                    team={this.props.user.team}
+                         />,
             },
             {
                 type: 'link',

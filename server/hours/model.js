@@ -17,6 +17,7 @@ const Hour = db.defineNode({
             place : db.Joi.string().required(),
             date: db.Joi.date().required(),
             supervisorName: db.Joi.string().required(),
+            approved: db.Joi.boolean().required(),
         },
     },
 });
@@ -65,6 +66,45 @@ class HourRepository {
                 }
             );
         });
+    }
+
+    static getHoursNotApproved(teamId) {
+        return db.query(
+            `MATCH (n:TEAM {id: {teamId}})<--(v:VOLUNTEER)-->(h:HOUR)
+            WHERE NOT exists(h.approved) OR (h.approved = false)
+            RETURN v, h`,
+            {},
+            { teamId }
+        )
+        .getResults('v', 'h')
+        .then((result) => {
+            const hours = [];
+
+            for (const index in result) {
+                hours.push({
+                    ...(result[index].h),
+                    user: {
+                        ...(result[index].v),
+                    },
+                });
+            }
+
+            return Promise.resolve(hours);
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        });
+    }
+
+    static approve(hourId) {
+        return db.query(
+            `MATCH (h:HOUR {id: {hourId}})
+            SET h.approved=true
+            RETURN h`,
+            {},
+            { hourId }
+        )
+        .getResults('h');
     }
 }
 

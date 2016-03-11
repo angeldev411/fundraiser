@@ -21,6 +21,14 @@ class hoursController {
             });
         });
     }
+
+    static getHoursNotApproved(teamId) {
+        return Hours.getHoursNotApproved(teamId);
+    }
+
+    static approve(hourId) {
+        return Hours.approve(hourId);
+    }
 }
 
 module.exports = hoursController;

@@ -52,6 +52,52 @@ class TeamLeader {
         });
     }
 
+    static ownsTeam(userId, teamId) {
+        return TeamLeader.getTeamAndProject({
+            id: userId,
+        }).then((result) => {
+            if (result.team.id === teamId) {
+                return true;
+            }
+            return false;
+        }).catch((error) => {
+            return false;
+        });
+    }
+
+    static indirectlyOwnsHour(userId, hourId) {
+        return TeamLeader.getHour(
+            userId,
+            hourId
+        ).then((result) => {
+            return true;
+        }).catch((error) => {
+            return false;
+        });
+    }
+
+    static getHour(id, hourId) {
+        return db.query(`
+            MATCH (h:HOUR { id: {hourId} })<-[:VOLUNTEERED]-(v:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)<-[:LEAD]-(:TEAM_LEADER { id: {userId} })
+            RETURN h
+            `,
+            {},
+            {
+                userId: id,
+                hourId,
+            }
+        ).getResult('h')
+        .then((result) => {
+            if (result.id === hourId) {
+                return Promise.resolve(result);
+            }
+            return Promise.reject(err);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static approveHours(hoursID) {
         return leader
         .approveHours(hoursID);
