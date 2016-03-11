@@ -57,12 +57,23 @@ router.post('/api/v1/hours/:id', (req, res) => {
         return;
     }
 
-    hoursController.approve(req.params.id)
-        .then(() => {
-            res.status(200).send();
+    const hourId = req.params.id;
+
+    UserController.userCanApproveHour(req.session.user.id, hourId)
+        .then((isUserAllowed) => {
+            if (!isUserAllowed) {
+                res.status(403).send();
+            }
+            hoursController.approve(hourId)
+                .then(() => {
+                    res.status(200).send();
+                })
+                .catch((err) => {
+                    res.status(400).send(err);
+                });
         })
-        .catch(() => {
-            res.status(400).send(err);
+        .catch((err) => {
+            res.status(403).send(err);
         });
 });
 router.get('/api/v1/hours-team/:teamid', (req, res) => {
