@@ -231,44 +231,49 @@ const fixtures = {
             firstName: 'Renee',
             lastName: 'Raeburn',
             email: 'rr@aol.com',
+            lastBilling: new Date().getTime(),
         },
         {
             firstName: 'Dennis',
             lastName: 'Lord',
             email: 'dlord@aol.com',
+            lastBilling: new Date().getTime(),
         },
         {
             firstName: 'Jacob',
             lastName: 'Lawler',
             email: 'jl@aol.com',
+            lastBilling: new Date().getTime(),
         },
         {
             firstName: 'Dani',
             lastName: 'Boehle',
             email: 'db@aol.com',
+            lastBilling: new Date().getTime(),
         },
         {
             firstName: 'Frank',
             lastName: 'Sinatra',
             email: 'fs@aol.com',
+            lastBilling: new Date().getTime(),
         },
     ],
 
     pledges : [
         {
-            hourly: 10,
+            hourly: 2,
+        },
+        {
+            hourly: 4,
+        },
+        {
+            amount: 5,
         },
         {
             hourly: 1,
         },
         {
-            amount: 50,
-        },
-        {
-            hourly: 1.10,
-        },
-        {
-            hourly: 3,
+            hourly: 8,
         },
     ],
 
