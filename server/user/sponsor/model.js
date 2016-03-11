@@ -452,6 +452,8 @@ export default class Sponsor {
     /*
      * processSponsoringContracts()
      * Bill sponsoring contracts
+     *
+     * sponsors: array of sponsors
     */
     static processSponsoringContracts = (sponsors) => {
         const promises = sponsors.map((sponsor) => {
@@ -469,6 +471,8 @@ export default class Sponsor {
     /*
      * processNotBilledHours()
      * Get and bill hours that should be billed
+     *
+     * sponsorings: array of sposnorings
     */
     static processNotBilledHours = (sponsorings) => {
         const promises = sponsorings.map((sponsoring) => {
@@ -494,6 +498,9 @@ export default class Sponsor {
     /*
      * billHours()
      * Bill hours
+     *
+     * sponsoring: sponsoring object
+     * hours: array of hours
     */
     static billHours = (sponsoring, hours) => {
         let amountToBill = 0;
