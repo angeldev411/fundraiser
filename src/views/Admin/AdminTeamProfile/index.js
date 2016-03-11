@@ -13,6 +13,8 @@ import * as Urls from '../../../urls.js';
 // TODO dynamic data
 import * as data from '../../../common/test-data';
 import * as Actions from '../../../redux/team/actions';
+import AdminApproveHours from '../../../components/AdminApproveHours';
+
 
 class AdminTeamProfile extends Component {
     componentWillMount() {
@@ -82,6 +84,13 @@ class AdminTeamProfile extends Component {
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
+            },
+            {
+                title: 'Approve Hours',
+                type: 'button',
+                content: <AdminApproveHours
+                    team={this.props.user.team}
+                         />,
             },
             {
                 type: 'link',

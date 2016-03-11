@@ -27,7 +27,6 @@ export default class AdminApproveHours extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('NextProps', nextProps);
         if (nextProps.hoursData) {
             const lines = [];
 
