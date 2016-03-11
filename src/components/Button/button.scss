@@ -70,6 +70,25 @@
     }
 }
 
+.btn-switch-form {
+    background: none;
+    padding: 0;
+    text-transform: none;
+    border: 0;
+    margin-top: -2px;
+    text-decoration: underline;
+    color: $lighter-grey;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        color: $green;
+        text-decoration: underline;
+        outline: none;
+    }
+}
+
 .btn-transparent-green {
     background-color: transparent;
     border: solid 1px $green;
