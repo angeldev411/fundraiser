@@ -114,7 +114,7 @@ export default class AdminApproveHours extends Component {
                                 <th>{'Supervisor'}</th>
                                 <th>{'Location'}</th>
                                 <th>{'Hours'}</th>
-                                <th onClick={(e) => {
+                                <th className={`action-table-header`} onClick={(e) => {
                                     this.setState({
                                         showDropdown: !this.state.showDropdown,
                                     });

@@ -22,10 +22,10 @@
                     height: 50px;
                     border-bottom: 0 !important;
 
-                    .action-table-header {
+                    &.action-table-header {
                         cursor: pointer;
                     }
-                    
+
                     ul.dropdown {
                         width: 95px;
                         display: none;
