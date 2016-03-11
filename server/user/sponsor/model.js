@@ -403,7 +403,7 @@ export default class Sponsor {
     */
     static chargeSponsor = (stripeCustomerId, amount) => {
         return new Promise((resolve, reject) => {
-            amount = amount * 100;
+            amount = amount * 100; // Convert to cents
             stripe.charges.create({
                 amount,
                 currency: 'usd',
