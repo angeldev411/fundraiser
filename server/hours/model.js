@@ -24,7 +24,6 @@ const Hour = db.defineNode({
 
 class HourRepository {
     static insert(userId, hourValues) {
-        console.log('Hour Values', hourValues);
         return new Promise((resolve, reject) => {
             return (new Hour(hourValues)).save()
             .then((hourCreateResult) => {
@@ -67,6 +66,45 @@ class HourRepository {
                 }
             );
         });
+    }
+
+    static getHoursNotApproved(teamId) {
+        return db.query(
+            `MATCH (n:TEAM {id: {teamId}})<--(v:VOLUNTEER)-->(h:HOUR)
+            WHERE NOT exists(h.approved) OR (h.approved = false)
+            RETURN v, h`,
+            {},
+            { teamId }
+        )
+        .getResults('v', 'h')
+        .then((result) => {
+            const hours = [];
+
+            for (const index in result) {
+                hours.push({
+                    ...(result[index].h),
+                    user: {
+                        ...(result[index].v),
+                    },
+                });
+            }
+
+            return Promise.resolve(hours);
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        });
+    }
+
+    static approve(hourId) {
+        return db.query(
+            `MATCH (h:HOUR {id: {hourId}})
+            SET h.approved=true
+            RETURN h`,
+            {},
+            { hourId }
+        )
+        .getResults('h');
     }
 }
 

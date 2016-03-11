@@ -2,6 +2,11 @@ import * as actionTypes from './action-types';
 import axios from 'axios';
 import { API_URL } from '../../common/constants';
 
+export const hoursNotApproved = (hoursData) => ({
+    type: actionTypes.HOURS_NOT_APPROVED,
+    hoursData,
+});
+
 export const hourLogSuccess = (success) => ({
     type: actionTypes.HOUR_LOG_ON_SUCCESS,
     success,
@@ -69,6 +74,37 @@ export const createHourLog = (place, hours, date, supervisor, signature, approve
         .catch(
             (errorResponse) => {
                 dispatch(hourLogFailure(errorResponse.data));
+            }
+        );
+    };
+};
+
+export const approveHour = (id) => {
+    return (dispatch) => {
+        return axios.post(`${API_URL}/hours/${id}`, {})
+        .then(
+            (response) => {
+                dispatch(hourLogSuccess());
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(hourLogFailure());
+            }
+        );
+    };
+};
+
+export const getHoursNotApproved = (teamId) => {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/hours-team/${teamId}`, {
+            teamId,
+        })
+        .then(
+            (response) => {
+                dispatch(hoursNotApproved(
+                    response.data
+                ));
             }
         );
     };

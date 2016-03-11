@@ -12,6 +12,8 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
 import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
+import AdminApproveHours from '../../../components/AdminApproveHours';
+
 import * as Urls from '../../../urls.js';
 
 class AdminTeamDashboard extends Component {
@@ -109,6 +111,13 @@ class AdminTeamDashboard extends Component {
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
+            },
+            {
+                title: 'Approve Hours',
+                type: 'button',
+                content: <AdminApproveHours
+                    team={this.props.user.team}
+                         />,
             },
             {
                 type: 'link',

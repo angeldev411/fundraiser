@@ -1,0 +1,109 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+.hours-table-container {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.hours-table-wrapper {
+
+    table {
+        max-width: 900px;
+        margin: 0 auto;
+        thead {
+            display: block;
+            width: 100%;
+            tr {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                th {
+                    height: 50px;
+                    border-bottom: 0 !important;
+                }
+            }
+
+        }
+
+        tr {
+            display: block;
+            width: 100%;
+            border: 0;
+        }
+
+        tbody {
+            display: block;
+            overflow-y: scroll;
+            width: 100%;
+            height: 200px;
+            tr {
+                &:after {
+                    content: '';
+                    display: block;
+                    margin: 0 auto;
+                    background-color: rgba(255, 255, 255, 0.3);
+                    height: 1px;
+                    width: 88%;
+                }
+                td {
+                    border: 0 !important;
+                }
+            }
+        }
+
+        th, td {
+            display: inline-block;
+            vertical-align: middle;
+            height: 66px;
+            line-height: 50px !important;
+            &:nth-child(1) {
+                width: 180px;
+                padding: 8px 0;
+            }
+            &:nth-child(2) {
+                width: 115px;
+            }
+            &:nth-child(3) {
+                width: 215px;
+            }
+            &:nth-child(4) {
+                width: 155px;
+            }
+            &:nth-child(5) {
+                width: 85px;
+            }
+            &:nth-child(6) {
+                width: 95px;
+            }
+            &:nth-child(7) {
+                width: 25px;
+            }
+        }
+
+        td {
+            color: white;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            padding: 26px 0;
+            &:nth-child(6) {
+                font-weight: bold;
+                color: #bdd442;
+                cursor: pointer;
+            }
+        }
+    }
+    .signature {
+        height: 40px;
+        filter: invert(100%);
+        -webkit-filter: invert(100%);
+    }
+
+    .picture {
+        height: 50px;
+    }
+
+    .username {
+        margin-left: 10px;
+    }
+}

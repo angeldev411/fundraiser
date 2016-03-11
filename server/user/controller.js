@@ -95,6 +95,10 @@ class userController {
         return User.hoursForUser(userId);
     }
 
+    static userOwnsTeam(userId, teamId) {
+        return TeamLeader.ownsTeam(userId, teamId);
+    }
+
     static safe(user) {
         return {
             ...(user.email ? { email: user.email } : {}),

@@ -1,3 +1,4 @@
+export const HOURS_NOT_APPROVED = 'HOURS_NOT_APPROVED';
 export const HOUR_LOG_ON_SUCCESS = 'HOUR_LOG_ON_SUCCESS';
 export const HOUR_LOG_ON_FAIL = 'HOUR_LOG_ON_FAIL';
 export const GET_HOURS = 'GET_HOURS';

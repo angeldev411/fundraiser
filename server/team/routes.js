@@ -91,7 +91,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
     } else if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
         Team.isProjectLeaderIndirectTeamOwner(team.id, req.session.user.id)
         .then((result) => {
-            console.log('Result', result);
             teamController.update(data)
             .then((response) => {
                 res.status(200).send(response);
@@ -101,7 +100,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             });
         })
         .catch((error) => {
-            console.log('Error', error, 'Team.Id', team.id, 'User.Id', req.session.user.id);
             res.status(403).send();
             return;
         });

@@ -4,6 +4,11 @@ const initialState = {};
 
 export default function reducers(state = initialState, action) {
     switch (action.type) {
+        case actionTypes.HOURS_NOT_APPROVED:
+            return {
+                ...state,
+                hoursData: action.hoursData,
+            };
         case actionTypes.HOUR_LOG_ON_SUCCESS:
             return {
                 ...state,

@@ -51,10 +51,6 @@ class AdminLayout extends Component {
                     title: 'Team Sponsors',
                     href: Urls.ADMIN_TEAM_SPONSORS_URL,
                 },
-                {
-                    title: 'Approve Hours',
-                    href: Urls.ADMIN_VOLUNTEERS_URL,
-                },
             ];
         }
         return [

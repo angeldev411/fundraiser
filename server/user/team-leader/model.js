@@ -52,6 +52,19 @@ class TeamLeader {
         });
     }
 
+    static ownsTeam(userId, teamId) {
+        return TeamLeader.getTeamAndProject({
+            id: userId,
+        }).then((result) => {
+            if (result.team.id === teamId) {
+                return true;
+            }
+            return false;
+        }).catch((error) => {
+            return false;
+        });
+    }
+
     static approveHours(hoursID) {
         return leader
         .approveHours(hoursID);
