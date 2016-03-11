@@ -92,6 +92,14 @@ export default class AdminApproveHours extends Component {
         this.setState(newState);
     }
 
+    approveAllChecked() {
+        for (const i in this.state.linesChecked) {
+            if (this.state.linesChecked[i]) {
+                this.approveHour(i);
+            }
+        }
+    }
+
     render() {
         return (
             <div className={`form-container hours-table-container`}>
@@ -106,7 +114,22 @@ export default class AdminApproveHours extends Component {
                                 <th>{'Supervisor'}</th>
                                 <th>{'Location'}</th>
                                 <th>{'Hours'}</th>
-                                <th>{'Action'}</th>
+                                <th onClick={(e) => {
+                                    this.setState({
+                                        showDropdown: !this.state.showDropdown,
+                                    });
+                                }}>{'Action'} <i className="fa fa-chevron-down"></i>
+                                    <ul className={`dropdown${this.state.showDropdown ? ' show' : ''}`}>
+                                        <li>
+                                            <button onClick={(e) => {
+                                                this.setState({
+                                                    showDropdown: false,
+                                                });
+                                                this.approveAllChecked();
+                                            }}>Approve Checked</button>
+                                        </li>
+                                    </ul>
+                                </th>
                                 <th>
                                     <input
                                         type="checkbox"

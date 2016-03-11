@@ -21,6 +21,37 @@
                 th {
                     height: 50px;
                     border-bottom: 0 !important;
+
+                    .action-table-header {
+                        cursor: pointer;
+                    }
+                    
+                    ul.dropdown {
+                        width: 95px;
+                        display: none;
+                        background-color: #fff;
+                        padding: 0;
+                        position: relative;
+                        top: -7px;
+                        li {
+                            height: 35px;
+                        }
+                        button {
+                            width: 95px;
+                            color: #bdd442;
+                            color: #bdd442;
+                            font-size: 11px;
+                            line-height: 35px;
+                            background-color: #fff;
+                            height: 35px;
+                            margin-top: 0;
+                            display: block;
+                            border: 0;
+                        }
+                        &.show {
+                            display: block;
+                        }
+                    }
                 }
             }
 
