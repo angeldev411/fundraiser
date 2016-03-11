@@ -25,9 +25,23 @@ export default class Sponsor {
                     .then((link) => {
                         // If it's a one time pledge, charge customer right now
                         if (pledge.amount) {
-                            this.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount);
+                            return Sponsor.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount)
+                            .then((charged) => {
+                                // Update raised attributes on Volunteer and Team.
+                                Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, charged.amount)
+                                .then(() => {
+                                    return resolve(existingSponsor);
+                                })
+                                .catch((dbError) => {
+                                    return reject(dbError);
+                                });
+                            })
+                            .catch(() => {
+                                return resolve(existingSponsor);
+                            });
+                        } else {
+                            return resolve(existingSponsor);
                         }
-                        return resolve(existingSponsor);
                     })
                     .catch((linkError) => {
                         reject('Sorry, an internal server error occured');
@@ -61,9 +75,23 @@ export default class Sponsor {
                             .then((link) => {
                                 // If it's a one time pledge, charge customer right now
                                 if (pledge.amount) {
-                                    Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount);
+                                    return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount)
+                                    .then((charged) => {
+                                        // Update raised attributes on Volunteer and Team.
+                                        Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, charged.amount)
+                                        .then(() => {
+                                            return resolve(sponsor);
+                                        })
+                                        .catch((dbError) => {
+                                            return reject(dbError);
+                                        });
+                                    })
+                                    .catch(() => {
+                                        return resolve(sponsor);
+                                    });
+                                } else {
+                                    return resolve(sponsor);
                                 }
-                                resolve(sponsor);
                             })
                             .catch((linkError) => {
                                 reject('Sorry, an internal server error occured');
@@ -367,7 +395,8 @@ export default class Sponsor {
                 if (customer) {
                     resolve(customer);
                 } else if (err) {
-                    reject(err);
+                    console.log('Stripe error:', err.message);
+                    reject(err.message);
                 }
             });
         });
@@ -388,7 +417,8 @@ export default class Sponsor {
                 if (customer) {
                     resolve(customer);
                 } else if (err) {
-                    reject(err);
+                    console.log('Stripe error:', err.message);
+                    reject(err.message);
                 }
             });
         });
@@ -417,7 +447,7 @@ export default class Sponsor {
                     resolve(charge);
                 } else if (err) {
                     // TODO if error, send an email to Raiserve and customer
-                    // console.log('Stripe error', err.message);
+                    console.log('Stripe error:', err.message);
                     reject(err.message);
                 }
             });
@@ -433,7 +463,6 @@ export default class Sponsor {
         return Sponsor.getSponsorsToBill()
             .then(Sponsor.processSponsoringContracts)
             .catch((getSponsorError) => {
-                console.error('get sponsors err', getSponsorError);
                 Promise.reject(getSponsorError);
             });
     }
@@ -460,7 +489,6 @@ export default class Sponsor {
             return Sponsor.getSponsoringContracts(sponsor)
             .then(Sponsor.processNotBilledHours)
             .catch((getSponsoringContractsError) => {
-                console.error('get sponsoring contracts err', getSponsoringContractsError);
                 return Promise.reject(getSponsoringContractsError);
             });
         });
@@ -487,7 +515,6 @@ export default class Sponsor {
                 }
             })
             .catch((getNotBilledHoursError) => {
-                console.error('get not billed hours err', getNotBilledHoursError);
                 return Promise.reject(getNotBilledHoursError);
             });
         });
@@ -516,20 +543,20 @@ export default class Sponsor {
             const transactionTimestamp = new Date().getTime();
 
             return Sponsor.chargeSponsor(sponsoring.sponsor.stripeCustomerId, amountToBill)
-            .then((charge) => {
+            .then((charged) => {
                 return Promise.all([
                     // Create a paid relation with status 1
-                    Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, sponsoring.volunteer, 1, transactionTimestamp, charge.id),
+                    Sponsor.createPaidRelation(sponsoring.sponsor, charged.amount, sponsoring.volunteer, 1, transactionTimestamp, charged.id),
                     // Update last billing attribute
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
-                    // TODO Update raised attributes on Volunteer and Team.
+                    // Update raised attributes on Volunteer and Team.
+                    Sponsor.updateRaisedAttributes(sponsoring.volunteer, charged.amount),
                 ]);
             })
             .then(() => {
                 return Promise.resolve();
             })
             .catch((chargeErr) => {
-                console.log('Stripe error:', chargeErr);
                 return Promise.all([
                     // Create a paid relation with status 0
                     Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, sponsoring.volunteer, 0, transactionTimestamp),
@@ -540,7 +567,6 @@ export default class Sponsor {
                     return Promise.resolve();
                 })
                 .catch((dbErr) => {
-                    console.log(dbErr);
                     return Promise.reject(dbErr);
                 });
             });
@@ -636,5 +662,61 @@ export default class Sponsor {
                 lastBilling,
             }
         );
+    };
+
+    /*
+     * updateRaisedAttributes()
+     * Update raised attributes on a volunteer and related team
+     *
+     * volunteer: volunteer object
+     * raised: raised money, so just charged amount
+    */
+    static updateRaisedAttributes = (volunteer, raised) => {
+        return db.query(`
+            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)
+            SET volunteer.raised = volunteer.raised + {raised}, team.raised = team.raised + {raised}
+            RETURN volunteer
+            `,
+            {},
+            {
+                volunteerId: volunteer.id,
+                raised,
+            }
+        );
+    };
+
+    /*
+     * updateRaisedAttributesBySlug()
+     * Update raised attributes on a volunteer and related team
+     *
+     * volunteer: volunteer object
+     * raised: raised money, so just charged amount
+    */
+    static updateRaisedAttributesBySlug = (volunteerSlug = null, teamSlug = null, raised) => {
+        if (volunteerSlug) {
+            return db.query(`
+                MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)
+                SET volunteer.raised = volunteer.raised + {raised}, team.raised = team.raised + {raised}
+                RETURN volunteer
+                `,
+                {},
+                {
+                    volunteerSlug,
+                    raised,
+                }
+            );
+        } else if (teamSlug) {
+            return db.query(`
+                MATCH (team:TEAM {slug: {teamSlug} })
+                SET team.raised = team.raised + {raised}
+                RETURN team
+                `,
+                {},
+                {
+                    teamSlug,
+                    raised,
+                }
+            );
+        }
     };
 }
