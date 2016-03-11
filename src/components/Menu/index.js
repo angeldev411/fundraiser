@@ -5,7 +5,6 @@ import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import * as Actions from '../../redux/auth/actions';
-import { pushPath } from 'redux-simple-router';
 
 import ModalButton from '../ModalButton/';
 import Button from '../Button/';
@@ -37,11 +36,6 @@ class Menu extends Component {
                 user: nextProps.user,
             });
         } else if (nextProps.hasOwnProperty('user')) {
-            if (this.props.user && window.location.pathname !== '/') {
-                this.props.dispatch(
-                    pushPath(`/`)
-                );
-            }
             this.setState({
                 user: null,
             });
@@ -58,6 +52,9 @@ class Menu extends Component {
 
     logout = () => {
         Actions.logout()(this.props.dispatch);
+        if (window.location.pathname !== '/') {
+            window.location.href = '/';
+        }
     };
 
     handleChange = (evt) => {
