@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import Button from '../../../components/Button';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
@@ -107,7 +107,7 @@ class AdminTeamProfile extends Component {
         console.log('Signature required', this.state.user.team.signatureRequired);
 
         return (
-            <AuthenticatedView accessLevel={'TEAM_LEADER'}>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'Edit Team Profile'}
@@ -170,7 +170,7 @@ class AdminTeamProfile extends Component {
                         </section>
                     </div>
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

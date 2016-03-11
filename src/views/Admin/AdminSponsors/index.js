@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import * as Actions from '../../../redux/sponsor/actions';
 import { connect } from 'react-redux';
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -72,14 +72,14 @@ class AdminSponsors extends Component {
         }
 
         return (
-            <AuthenticatedView accessLevel={'PROJECT_LEADER'}>
+            <Page>
                 <AdminLayout>
                     <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <AdminSponsorsTable sponsors={this.state.sponsors} />
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

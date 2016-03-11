@@ -4,7 +4,7 @@ import * as Actions from '../../../redux/team/actions';
 import { connect } from 'react-redux';
 
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminTeamsTable from '../../../components/AdminTeamsTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -68,7 +68,7 @@ class AdminTeams extends Component {
 
 
         return (
-            <AuthenticatedView accessLevel={'PROJECT_LEADER'}>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={`${this.props.user.project.name} Teams`}
@@ -80,7 +80,7 @@ class AdminTeams extends Component {
                         actionable={true}
                     />
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

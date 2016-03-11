@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
@@ -121,7 +121,7 @@ export default class AdminVolunteerDashboard extends Component {
         const volunteerChart = this.state.monthHours ? this.getVolunteerChart() : null;
 
         return (
-            <AuthenticatedView accessLevel={'VOLUNTEER'}>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Dashboard'}
@@ -152,7 +152,7 @@ export default class AdminVolunteerDashboard extends Component {
                         <AdminShareEfforts/>
                     </AdminStatsBlock>
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

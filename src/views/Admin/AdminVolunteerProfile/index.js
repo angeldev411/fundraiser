@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import Button from '../../../components/Button';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -169,7 +169,7 @@ export default class AdminVolunteerProfile extends Component {
         ];
 
         return (
-            <AuthenticatedView accessLevel={'VOLUNTEER'}>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}
@@ -269,7 +269,7 @@ export default class AdminVolunteerProfile extends Component {
                         </section>
                     </div>
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

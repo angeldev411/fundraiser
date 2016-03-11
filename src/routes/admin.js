@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
+import requireAuthentication from '../views/Admin/AuthenticatedView';
 
 /* Urls */
 import * as Urls from '../urls.js';
@@ -29,49 +30,49 @@ export default (
         /* Add new routes here */
         <Route
             path={Urls.ADMIN_PROJECTS}
-            component={AdminProjects}
+            component={requireAuthentication(AdminProjects)}
         />
         <Route
             path={Urls.ADMIN_VOLUNTEERS}
-            component={AdminVolunteers}
+            component={requireAuthentication(AdminVolunteers, 'PROJECT_LEADER')}
         />
         <Route
             path={Urls.ADMIN_SPONSORS}
-            component={AdminSponsors}
+            component={requireAuthentication(AdminSponsors, 'PROJECT_LEADER')}
         />
         <Route
             path={Urls.ADMIN_TEAMS}
-            component={AdminTeams}
+            component={requireAuthentication(AdminTeams, 'PROJECT_LEADER')}
         />
 
         <Route
             path={Urls.ADMIN_TEAM_DASHBOARD}
-            component={AdminTeamDashboard}
+            component={requireAuthentication(AdminTeamDashboard, 'TEAM_LEADER')}
         />
         <Route
             path={Urls.ADMIN_TEAM_PROFILE}
-            component={AdminTeamProfile}
+            component={requireAuthentication(AdminTeamProfile, 'TEAM_LEADER')}
         />
         <Route
             path={Urls.ADMIN_TEAM_SPONSORS}
-            component={AdminTeamSponsors}
+            component={requireAuthentication(AdminTeamSponsors, 'TEAM_LEADER')}
         />
         <Route
             path={Urls.ADMIN_TEAM_VOLUNTEERS}
-            component={AdminTeamVolunteers}
+            component={requireAuthentication(AdminTeamVolunteers, 'TEAM_LEADER')}
         />
 
         <Route
             path={Urls.ADMIN_VOLUNTEER_DASHBOARD}
-            component={AdminVolunteerDashboard}
+            component={requireAuthentication(AdminVolunteerDashboard, 'VOLUNTEER')}
         />
         <Route
             path={Urls.ADMIN_VOLUNTEER_PROFILE}
-            component={AdminVolunteerProfile}
+            component={requireAuthentication(AdminVolunteerProfile, 'VOLUNTEER')}
         />
         <Route
             path={Urls.ADMIN_VOLUNTEER_SPONSORS}
-            component={AdminVolunteerSponsors}
+            component={requireAuthentication(AdminVolunteerSponsors, 'VOLUNTEER')}
         />
     </Route>
 );
