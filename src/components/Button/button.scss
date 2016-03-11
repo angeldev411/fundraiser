@@ -81,9 +81,13 @@
 
     &:hover,
     &:active,
-    &:focus,
     &:active:focus {
         color: $green;
+        text-decoration: underline;
+        outline: none;
+    }
+    &:focus {
+        color: $lighter-grey;
         text-decoration: underline;
         outline: none;
     }
