@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ModalButton from '../../components/ModalButton';
+import Button from '../../components/Button';
 import Form from '../../components/Form';
 import { connect } from 'react-redux';
 import PledgeFormStep2 from '../../components/PledgeFormStep2';
@@ -13,6 +14,7 @@ export default class PledgeFormStep1 extends Component {
         super(props);
         this.state = {
             ...(this.props.oneTimeOnly ? { amount: pledgeValues[0] } : { hourly: pledgeValues[0] }),
+            // ...(this.props.oneTimeOnly ? { type: 0 } : { type: 1 }),
         };
     }
 
@@ -23,8 +25,113 @@ export default class PledgeFormStep1 extends Component {
         this.setState(newState);
     };
 
+    handleSwitchForm = () => {
+        if (this.state.amount) {
+            this.setState({
+                amount: null,
+                hourly: this.state.amount,
+            });
+        } else {
+            this.setState({
+                hourly: null,
+                amount: this.state.hourly,
+            });
+        }
+    };
+
+    getForm = () => {
+        if (this.props.oneTimeOnly) {
+            return (
+                <div>
+                    <select name="amount"
+                        className="pledge-amount"
+                        onChange={(e) => { this.handleChange(e, 'amount') }}
+                    >
+                        {pledgeValues.map((value, i) =>
+                            (<option key={i}
+                                value={value}
+                             >
+                                {`${value} $`}
+                            </option>)
+                        )}
+                    </select>
+                    <label htmlFor="amount">{'Pledge'}</label>
+                </div>
+            )
+        } else if (!this.props.oneTimeOnly && this.state.hourly) {
+            const estimation = this.props.goal * this.state.hourly;
+
+            return (
+                <div>
+                    <select name="hourly"
+                        className="pledge-amount"
+                        onChange={(e) => { this.handleChange(e, 'hourly') }}
+                    >
+                        {pledgeValues.map((value, i) =>
+                            (<option key={i}
+                                value={value}
+                             >
+                                {`${value} $`}
+                            </option>)
+                        )}
+                    </select>
+                    <label htmlFor="hourly">{'Pledge per Hour'}</label>
+                    <p id="pledge-goal">{`for ${this.props.goal} goal hours`}</p>
+                    <p id="hourly-pledge-info">
+                        {`Your Card will be charged monthly as your volunteer completes their hours. The amount is estimated to be $${estimation} per month. You can change your rate at any point.`}
+                    </p>
+                </div>
+            )
+        } else if (!this.props.oneTimeOnly && this.state.amount) {
+            return (
+                <div>
+                    <select name="amount"
+                        className="pledge-amount"
+                        onChange={(e) => { this.handleChange(e, 'amount') }}
+                    >
+                        {pledgeValues.map((value, i) =>
+                            (<option key={i}
+                                value={value}
+                             >
+                                {`${value} $`}
+                            </option>)
+                        )}
+                    </select>
+                    <label htmlFor="amount">{'Pledge'}</label>
+                </div>
+            )
+        }
+    };
+
     render() {
-        const estimation = this.props.goal * this.state.hourly;
+        console.log(this.state);
+        let switcher = null;
+
+        if (!this.props.oneTimeOnly && this.state.amount) {
+            switcher = (
+                <span id={'switch-form'}>
+                    {'Or make an '}
+                    <Button
+                        customClass="btn-switch-form"
+                        onClick={this.handleSwitchForm}
+                    >
+                        {'hourly pledge'}
+                    </Button>
+                </span>
+            );
+        } else if (!this.props.oneTimeOnly && this.state.hourly) {
+            switcher = (
+                <span>
+                    {'Or make a '}
+                    <Button
+                        customClass="btn-switch-form"
+                        onClick={this.handleSwitchForm}
+                    >
+                        {'one time pledge'}
+                    </Button>
+                </span>
+            );
+        }
 
         return (
             <div id={"pledge-container"}>
@@ -33,45 +140,7 @@ export default class PledgeFormStep1 extends Component {
                     cols={"col-xs-12"}
                 >
                     <div className="form-group">
-
-                        {this.props.oneTimeOnly
-                            ? (<div>
-                                <select name="amount"
-                                    className="pledge-amount"
-                                    onChange={(e) => { this.handleChange(e, 'amount') }}
-                                >
-                                    {pledgeValues.map((value, i) =>
-                                        (<option key={i}
-                                            value={value}
-                                         >
-                                            {`${value} $`}
-                                        </option>)
-                                    )}
-                                </select>
-                                <label htmlFor="amount">{'Pledge'}</label>
-                            </div>
-                            )
-                            : (<div>
-                                <select name="hourly"
-                                    className="pledge-amount"
-                                    onChange={(e) => { this.handleChange(e, 'hourly') }}
-                                >
-                                    {pledgeValues.map((value, i) =>
-                                        (<option key={i}
-                                            value={value}
-                                         >
-                                            {`${value} $`}
-                                        </option>)
-                                    )}
-                                </select>
-                                <label htmlFor="hourly">{'Pledge per Hour'}</label>
-                                <p id="pledge-goal">{`for ${this.props.goal} goal hours`}</p>
-                                <p id="hourly-pledge-info">
-                                    {`Your Card will be charged monthly as your volunteer completes their hours. The amount is estimated to be $${estimation} per month. You can change your rate at any point.`}
-                                </p>
-                            </div>
-                            )
-                        }
+                        {this.getForm()}
                     </div>
 
                     {cap ? (
@@ -99,6 +168,11 @@ export default class PledgeFormStep1 extends Component {
                         />
                     }
                 >{'Continue'}</ModalButton>
+                {switcher ? (
+                    <div id={'switch-form'}>
+                        {switcher}
+                    </div>
+                ) : (null)}
             </div>
         );
     }
