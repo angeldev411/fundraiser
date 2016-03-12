@@ -1,0 +1,11 @@
+@import '../../common/styles/variables.scss';
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+#sucess-pledge {
+    color: $green;
+    font-size: 2em;
+    text-align: center;
+    font-family: $conduit-light;
+}

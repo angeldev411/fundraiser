@@ -9,6 +9,7 @@ class PledgeFormStep2 extends Component {
         super(props);
         this.state = {
             ...(this.props.pledgeData),
+            success: false,
         };
     }
 
@@ -16,7 +17,7 @@ class PledgeFormStep2 extends Component {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
         } else if (nextProps.pledge) {
-            //
+            this.setState({ success: true });
         }
     }
 
@@ -98,6 +99,14 @@ class PledgeFormStep2 extends Component {
     };
 
     render() {
+        if (this.state.success) {
+            return (
+                <p id={'sucess-pledge'}>
+                    {'Thanks for your donation!'}
+                </p>
+            )
+        }
+
         return (
             <Form id="pledgestep2"
                 cols={"col-xs-12 col-md-6 col-md-offset-3"}
