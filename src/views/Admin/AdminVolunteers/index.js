@@ -4,7 +4,7 @@ import * as Actions from '../../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -69,7 +69,7 @@ class AdminVolunteers extends Component {
         }
 
         return (
-            <AuthenticatedView accessLevel={'PROJECT_LEADER'}>
+            <Page>
                 <AdminLayout>
                     <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
@@ -78,7 +78,7 @@ class AdminVolunteers extends Component {
                         actionable={false}
                     />
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

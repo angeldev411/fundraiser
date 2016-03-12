@@ -4,7 +4,7 @@ import * as SponsorActions from '../../../redux/sponsor/actions';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import CircleStat from '../../../components/CircleStat';
 import UserList from '../../../components/UserList';
 import AdminLayout from '../../../components/AdminLayout';
@@ -133,7 +133,7 @@ class AdminTeamDashboard extends Component {
 
 
         return (
-            <AuthenticatedView accessLevel={'TEAM_LEADER'}>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Team Dashboard'}
@@ -184,7 +184,7 @@ class AdminTeamDashboard extends Component {
                         </section>
                     </section>
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

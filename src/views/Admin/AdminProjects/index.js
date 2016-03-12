@@ -4,7 +4,7 @@ import * as Actions from '../../../redux/project/actions';
 import { connect } from 'react-redux';
 
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import AdminProjectsTable from '../../../components/AdminProjectsTable';
 import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
@@ -48,7 +48,7 @@ class AdminProjects extends Component {
         ];
 
         return (
-            <AuthenticatedView>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader title={'Projects'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
@@ -62,7 +62,7 @@ class AdminProjects extends Component {
                     />
                     <AdminProjectsTable projects={this.state.projects} />
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

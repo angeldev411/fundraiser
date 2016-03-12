@@ -4,7 +4,7 @@ import * as SponsorActions from '../../../redux/sponsor/actions';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 /* Then React components */
-import AuthenticatedView from '../AuthenticatedView';
+import Page from '../../../components/Page';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
@@ -116,7 +116,7 @@ class AdminTeamSponsors extends Component {
 
 
         return (
-            <AuthenticatedView accessLevel={'TEAM_LEADER'}>
+            <Page>
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'Team sponsors'}
@@ -146,7 +146,7 @@ class AdminTeamSponsors extends Component {
                         <AdminDownloadCsv/>
                     </AdminStatsBlock>
                 </AdminLayout>
-            </AuthenticatedView>
+            </Page>
         );
     }
 }

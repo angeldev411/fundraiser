@@ -52,9 +52,6 @@ class Menu extends Component {
 
     logout = () => {
         Actions.logout()(this.props.dispatch);
-        if (window.location.pathname !== '/') {
-            window.location.href = '/';
-        }
     };
 
     handleChange = (evt) => {
