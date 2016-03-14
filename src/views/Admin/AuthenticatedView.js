@@ -42,7 +42,6 @@ export default function requireAuthentication(Component, accessLevel) {
         }
 
         render() {
-            console.log(this.state.authenticated);
             if (this.state.authenticated) {
                 return <Component {...this.props}/>;
             } else {
