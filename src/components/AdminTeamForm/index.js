@@ -30,16 +30,27 @@ class AdminTeamForm extends Component {
     }
 
     submit = () => {
+        const team = Object.assign({}, this.props.defaultData.team);
+
+        team.name = this.state.name;
+        team.projectSlug = this.state.projectSlug;
+        team.slug = this.state.slug;
+        team.teamLeaderEmail = this.state.teamLeaderEmail;
+
         if (this.state.id) {
             Actions.updateTeam(
                 this.state.id,
                 {
+                    id: this.state.id,
                     name: this.state.name,
                     projectSlug: this.props.defaultData.project.slug,
                     slug: this.state.slug,
                     teamLeaderEmail: this.state.teamLeaderEmail,
                 }
             )(this.props.dispatch);
+            if (this.props.updateTeam) {
+                this.props.updateTeam(team, this.props.teamIndex);
+            }
         } else {
             Actions.newTeam(
                 this.state.name,
@@ -47,6 +58,9 @@ class AdminTeamForm extends Component {
                 this.state.slug,
                 this.state.teamLeaderEmail,
             )(this.props.dispatch);
+            if (this.props.newTeam) {
+                this.props.newTeam(team);
+            }
         }
     };
 

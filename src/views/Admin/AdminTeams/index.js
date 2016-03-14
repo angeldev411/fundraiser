@@ -49,6 +49,13 @@ class AdminTeams extends Component {
         }
     }
 
+    newTeam = (team) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.teams.unshift(team);
+        this.setState(newState);
+    }
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -62,6 +69,7 @@ class AdminTeams extends Component {
                     <AdminTeamForm
                         title={"Add New Team"}
                         defaultData={{ project: this.props.user.project }}
+                        newTeam={this.newTeam}
                     />,
             },
         ];
