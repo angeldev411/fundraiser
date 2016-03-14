@@ -20,14 +20,13 @@ import * as TeamActions from '../../../redux/team/actions';
 class AdminTeamProfile extends Component {
     componentWillMount(props) {
         document.title = 'Team profile | Raiserve';
+
+        this.setState({
+            team: this.props.user.team,
+        })
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.team) {
-            this.setState({
-                team: nextProps.team,
-            });
-        }
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
@@ -39,26 +38,28 @@ class AdminTeamProfile extends Component {
     changeSupervisorSignatureRequired = (event) => {
         const newState = Object.assign({}, this.state);
 
-        newState.user.team.signatureRequired = event.nativeEvent.target.checked;
+        newState.team.signatureRequired = event.nativeEvent.target.checked;
 
         this.setState(newState);
 
+        console.log('Team', newState.team);
+
         Actions.updateTeam(
-            newState.user.team.id,
-            newState.user.team
+            newState.team.id,
+            newState.team
         )(this.props.dispatch);
     };
 
     changeHoursApprovalRequired = (event) => {
         const newState = Object.assign({}, this.state);
 
-        newState.user.team.hoursApprovalRequired = event.nativeEvent.target.checked;
+        newState.team.hoursApprovalRequired = event.nativeEvent.target.checked;
 
         this.setState(newState);
 
         Actions.updateTeam(
-            newState.user.team.id,
-            newState.user.team
+            newState.team.id,
+            newState.team
         )(this.props.dispatch);
     };
 
@@ -67,6 +68,9 @@ class AdminTeamProfile extends Component {
             return (null);
         }
 
+        console.log('Render User', this.props.user);
+        console.log(`${this.props.user.project.slug}/${this.props.user.team.slug}`);
+
         const pageNav = [
             {
                 type: 'button',
@@ -74,7 +78,7 @@ class AdminTeamProfile extends Component {
                 content:
                     <AdminTeamEmailForm
                         project={this.props.user.project}
-                        team={this.props.user.team}
+                        team={this.props.team}
                     />,
             },
             {
@@ -84,14 +88,14 @@ class AdminTeamProfile extends Component {
                     <AdminInviteTeamMembersForm
                         title={"Invite New Team Members"}
                         project={this.props.user.project}
-                        team={this.props.user.team}
+                        team={this.props.team}
                     />,
             },
             {
                 title: 'Approve Hours',
                 type: 'button',
                 content: <AdminApproveHours
-                    team={this.props.user.team}
+                    team={this.props.team}
                          />,
             },
             {
@@ -133,7 +137,7 @@ class AdminTeamProfile extends Component {
                                 name="supervisor-signature"
                                 id="supervisor-signature"
                                 value=""
-                                checked={this.state.team.signatureRequired}
+                                checked={this.props.user.team.signatureRequired}
                                 onChange={(e) => {this.changeSupervisorSignatureRequired(e)}}
                             />
                             <label
@@ -150,7 +154,7 @@ class AdminTeamProfile extends Component {
                                 name="leader-signature"
                                 id="leader-signature"
                                 value=""
-                                checked={this.state.team.hoursApprovalRequired}
+                                checked={this.props.user.team.hoursApprovalRequired}
                                 onChange={(e) => {this.changeHoursApprovalRequired(e)}}
                             />
                             <label
