@@ -57,8 +57,9 @@ export default class AdminTeamsTable extends Component {
                                                                 team,
                                                             }
                                                         }
-                                                        teamIndex={i}
-                                                        updateTeam={this.updateTeam}
+                                                        updateTeam={(team) => {
+                                                            this.updateTeam(team, i);
+                                                        }}
                                                     />
                                                 }
                                             >

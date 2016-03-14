@@ -6,11 +6,40 @@ import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
 
 export default class AdminProjectsTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            projects: this.props.projects,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.projects) {
+            this.setState({
+                projects: nextProps.projects,
+            });
+        }
+    }
+
+    newTeam = (team, projectIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects[projectIndex].teams.unshift(team);
+        this.setState(newState);
+    }
+
+    updateTeam = (team, teamIndex, projectIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects[projectIndex].teams[teamIndex] = team;
+        this.setState(newState);
+    };
+
     render() {
         return (
             <div className="projects-table">
                 <ul className="projects">
-                    {this.props.projects.map((project, i) => (
+                    {this.state.projects.map((project, i) => (
                         <CollapsableLine key={i}
                             childrenContent={
                                 <ul className="children-content clearfix">
@@ -28,6 +57,9 @@ export default class AdminProjectsTable extends Component {
                                                             defaultData={{
                                                                 project,
                                                                 team,
+                                                            }}
+                                                            updateTeam={(team, teamIndex) => {
+                                                                this.updateTeam(team, x, i);
                                                             }}
                                                         />
                                                     }
@@ -63,6 +95,9 @@ export default class AdminProjectsTable extends Component {
                                             title={"Add New Team"}
                                             defaultData={{
                                                 project,
+                                            }}
+                                            newTeam={(team) => {
+                                                this.newTeam(team, i);
                                             }}
                                         />
                                     }

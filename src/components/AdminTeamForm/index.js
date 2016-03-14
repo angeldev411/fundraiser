@@ -49,7 +49,7 @@ class AdminTeamForm extends Component {
                 }
             )(this.props.dispatch);
             if (this.props.updateTeam) {
-                this.props.updateTeam(team, this.props.teamIndex);
+                this.props.updateTeam(team);
             }
         } else {
             Actions.newTeam(
