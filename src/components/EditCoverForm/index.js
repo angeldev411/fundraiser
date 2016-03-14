@@ -30,6 +30,10 @@ export default class EditCoverForm extends Component {
             team.id,
             team
         )(this.props.dispatch);
+
+        team.cover = team.coverImageData;
+
+        this.props.updateTeam(team);
     };
 
     handleChange = (event, name) => {
@@ -92,6 +96,7 @@ export default class EditCoverForm extends Component {
 
 EditCoverForm.propTypes = {
     value: React.PropTypes.string,
+    updateTeam: React.PropTypes.func,
 };
 
 export default connect((reduxState) => ({

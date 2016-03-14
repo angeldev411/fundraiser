@@ -7,14 +7,35 @@ import EditSloganForm from '../EditSloganForm';
 import EditDescriptionForm from '../EditDescriptionForm';
 
 export default class TeamProfileBlock extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            team: this.props.team,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.team && !this.state.team.logo) {
+            this.setState({
+                team: nextProps.team,
+            });
+        }
+    }
+
+    updateTeam = (team) => {
+        this.setState({
+            team,
+        });
+    }
+
     render() {
         return (
             <div className={"container"}>
                 <Layout34 page={'team-profile'}>
                     <img id="team-logo"
                         src={
-                            this.props.team.logo ?
-                            this.props.team.logo :
+                            this.state.team.logo ?
+                            this.state.team.logo :
                             `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
                         }
                         title=""
@@ -25,8 +46,9 @@ export default class TeamProfileBlock extends Component {
                             name="logo"
                             content={
                                 <EditLogoForm
-                                    value={`${this.props.team.logo}`}
-                                    team={this.props.team}
+                                    value={`${this.state.team.logo}`}
+                                    team={this.state.team}
+                                    updateTeam={this.updateTeam}
                                 />
                             }
                         >
