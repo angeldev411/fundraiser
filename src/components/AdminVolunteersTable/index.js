@@ -140,8 +140,8 @@ export default class AdminVolunteersTable extends Component {
                                 <td className="volunteer-email">{volunteer.email}</td>
                                 <td>{volunteer.hours ? volunteer.hours : 0}</td>
                                 <td>{volunteer.sponsors ? volunteer.sponsors : 0}</td>
-                                <td>{volunteer.raised ? volunteer.raised : 0}</td>
-                                <td>{volunteer.hourPledge ? volunteer.hourPledge : 0}</td>
+                                <td>{'$'}{volunteer.raised ? volunteer.raised : 0}</td>
+                                <td>{'$'}{volunteer.hourPledge ? volunteer.hourPledge : 0}</td>
                                 {this.props.actionable ?
                                     (<td>
                                         <input
