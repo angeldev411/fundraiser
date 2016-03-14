@@ -54,7 +54,7 @@ class Header extends Component {
 
         let greenHeader = null;
 
-        if (this.props.greenHeader && this.props.greenHeader === 'volunteer') {
+        if (this.props.user && this.props.greenHeader && this.props.greenHeader === 'volunteer') {
             greenHeader = (
                 <div id={'green-header'}>
                     <div className="container">
@@ -103,7 +103,7 @@ class Header extends Component {
                     </div>
                 </div>
             );
-        } else if (this.props.greenHeader && this.props.greenHeader === 'team') {
+        } else if (this.props.user && this.props.greenHeader && this.props.greenHeader === 'team') {
             greenHeader = (
                 <div id={'green-header'}>
                     <div className="container">
