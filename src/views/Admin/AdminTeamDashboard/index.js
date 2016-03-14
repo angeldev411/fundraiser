@@ -13,7 +13,6 @@ import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembe
 import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import AdminApproveHours from '../../../components/AdminApproveHours';
-
 import * as Urls from '../../../urls.js';
 
 class AdminTeamDashboard extends Component {
