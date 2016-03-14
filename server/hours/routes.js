@@ -48,7 +48,7 @@ router.get('/api/v1/hours', (req, res) => {
     });
 });
 
-router.post('/api/v1/hours/:id', (req, res) => {
+router.put('/api/v1/hours/:id', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session) ||
         !AUTH_CHECKER.isTeamLeader(req.session.user)
@@ -76,6 +76,7 @@ router.post('/api/v1/hours/:id', (req, res) => {
             res.status(403).send(err);
         });
 });
+
 router.get('/api/v1/hours-team/:teamid', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session) ||
