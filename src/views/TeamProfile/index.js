@@ -90,7 +90,11 @@ class TeamProfile extends Component {
         const editable = window.location.search.substring(1) === 'edit';
 
         return (
-            <Page greenHeader={header}>
+            <Page
+                greenHeader={header}
+                project={this.state.user ? this.state.user.project : null}
+                team={this.state.team}
+            >
                 <Cover
                     image={
                         this.state.team.coverImage ?

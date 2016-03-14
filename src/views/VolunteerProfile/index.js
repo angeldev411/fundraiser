@@ -61,7 +61,11 @@ class VolunteerProfile extends Component {
     render() {
         document.title = `${this.state.volunteer.firstName} ${this.state.volunteer.lastName} | Raiserve`;
         return (
-            <Page greenHeader={(this.state.volunteer && this.state.user && this.state.volunteer.id === this.state.user.id) ? 'volunteer' : null}>
+            <Page
+                greenHeader={(this.state.volunteer && this.state.user && this.state.volunteer.id === this.state.user.id) ? 'volunteer' : null}
+                project={this.state.user ? this.state.user.project : null}
+                team={this.state.team}
+            >
                 <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}`}
                     customclass={"cover-volunteer-profile"}
                     tagline={this.state.team.tagline}

@@ -5,7 +5,10 @@ import * as Urls from '../../urls.js';
 
 export default class AdminInviteTeamMembersForm extends Component {
     render() {
+        console.log(this.props);
+
         const SHARE_URL = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}/join`;
+        const SHARE_SPONSORS_URL = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}`;
         const SHARE_TEXT = `${this.props.team.name} on Raiserve`;
         const SHARE_MESSAGE = `${this.props.team.description}`;
 
@@ -19,7 +22,7 @@ export default class AdminInviteTeamMembersForm extends Component {
                     <input type="text"
                         name="url"
                         id="url"
-                        defaultValue={SHARE_URL}
+                        defaultValue={this.props.sponsors ? SHARE_SPONSORS_URL : SHARE_SPONSORS}
                         disabled
                     />
                     <label htmlFor="name">{'You can simply copy and paste this url to your email or social channels'}</label>
@@ -56,4 +59,5 @@ AdminInviteTeamMembersForm.propTypes = {
     title: React.PropTypes.string,
     project: React.PropTypes.object,
     team: React.PropTypes.object,
+    sponsors: React.PropTypes.bool,
 };

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import Menu from '../Menu/';
 import * as Urls from '../../urls.js';
 import { Link } from 'react-router';
-import * as constants from '../../common/constants';
+import AdminInviteTeamMembersForm from '../AdminInviteTeamMembersForm/';
+import ModalButton from '../ModalButton/';
 
 class Header extends Component {
     constructor(props) {
@@ -17,7 +18,6 @@ class Header extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
@@ -58,37 +58,47 @@ class Header extends Component {
             greenHeader = (
                 <div id={'green-header'}>
                     <div className="container">
-                        <div className={'col-xs-2 green-header-left'}>
-                            <Link to={dashboardUrl}>
-                                {'My Dashboard'}
-                            </Link>
-                        </div>
-                        <div className={'col-xs-8 green-header-center'}>
-                            <span className={'call-to-action-text'}>
-                                {'Congrats here is your personnalized fundraising page.'} <b>{'Get started by sharing it on Facebook, Twitter and emailing your colleagues, friends and family'}</b>
-                            </span>
-                        </div>
-                        <div className={'col-xs-2 green-header-right'}>
-                            <a href={`mailto:?body=${window.location}`}
-                                className="share"
-                            >
-                                <i className="fa fa-envelope"/>
-                            </a>
-                            <a href={`https://twitter.com/share?url=${window.location}`}
-                                target="_blank"
-                                className="share"
-                            >
-                                <i className="fa fa-twitter"/>
-                            </a>
-                            <a href={`https://www.facebook.com/sharer.php?u=${window.location}`}
-                                target="_blank"
-                                className="share"
-                            >
-                                <i className="fa fa-facebook"/>
-                            </a>
-                            <Link to={dashboardUrl}>
-                                {'INVITE SPONSORS'}
-                            </Link>
+                        <div className={'col-xs-12'}>
+                            <div className={'col-xs-2 green-header-left'}>
+                                <Link to={dashboardUrl}>
+                                    {'My Dashboard'}
+                                </Link>
+                            </div>
+                            <div className={'col-xs-8 green-header-center'}>
+                                <span className={'call-to-action-text'}>
+                                    {'Congrats here is your personnalized fundraising page.'} <b>{'Get started by sharing it on Facebook, Twitter and emailing your colleagues, friends and family'}</b>
+                                </span>
+                            </div>
+                            <div className={'col-xs-2 green-header-right'}>
+                                <a href={`mailto:?body=${window.location}`}
+                                    className="share"
+                                >
+                                    <i className="fa fa-envelope"/>
+                                </a>
+                                <a href={`https://twitter.com/share?url=${window.location}`}
+                                    target="_blank"
+                                    className="share"
+                                >
+                                    <i className="fa fa-twitter"/>
+                                </a>
+                                <a href={`https://www.facebook.com/sharer.php?u=${window.location}`}
+                                    target="_blank"
+                                    className="share"
+                                >
+                                    <i className="fa fa-facebook"/>
+                                </a>
+                                <ModalButton content={
+                                    <AdminInviteTeamMembersForm
+                                        project={this.props.project}
+                                        team={this.props.team}
+                                        title={'Invite new sponsors'}
+                                        sponsors
+                                    />}
+                                    customClass={'btn-green-bar-link'}
+                                >
+                                    {'INVITE SPONSORS'}
+                                </ModalButton>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,9 +135,18 @@ class Header extends Component {
                             >
                                 <i className="fa fa-facebook"/>
                             </a>
-                            <Link to={dashboardUrl}>
+                            <ModalButton
+                                content={
+                                    <AdminInviteTeamMembersForm
+                                        project={this.props.project}
+                                        team={this.props.team}
+                                        title={'Invite new team members'}
+                                    />
+                                }
+                                customClass={'btn-green-bar-link'}
+                            >
                                 {'INVITE'}
-                            </Link>
+                            </ModalButton>
                         </div>
                     </div>
                 </div>
@@ -137,7 +156,7 @@ class Header extends Component {
         return (
             <div>
                 {greenHeader}
-                <header>
+                <header className="clearfix">
                     <div className="container">
                         <Link to={dashboardUrl}>
                             <img src="/assets/images/raiserve_logo.png"
