@@ -22,7 +22,7 @@ export default class Page extends Component {
 
         return (
             <div id="page">
-                <Header/>
+                <Header greenHeader={this.props.greenHeader}/>
                 <div className="page-content"
                     style={this.props.style}
                 >
@@ -38,4 +38,5 @@ Page.propTypes = {
     style: React.PropTypes.object,
     noHeader: React.PropTypes.bool,
     bodyBackground: React.PropTypes.object,
+    greenHeader: React.PropTypes.string,
 };
