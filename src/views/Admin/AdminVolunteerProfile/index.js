@@ -13,8 +13,6 @@ import * as Actions from '../../../redux/volunteer/actions';
 
 import * as constants from '../../../common/constants';
 import * as Urls from '../../../urls.js';
-// TODO dynamic data
-import * as data from '../../../common/test-data';
 
 export default class AdminVolunteerProfile extends Component {
     constructor(props) {
@@ -159,7 +157,7 @@ export default class AdminVolunteerProfile extends Component {
             {
                 type: 'link',
                 title: 'My Public Page',
-                href: `${Urls.getVolunteerProfileUrl(data.project.slug, data.team.slug, data.volunteer.slug)}`,
+                href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
             },
             {
                 type: 'link',
