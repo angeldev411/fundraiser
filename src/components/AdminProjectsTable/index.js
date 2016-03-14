@@ -35,6 +35,13 @@ export default class AdminProjectsTable extends Component {
         this.setState(newState);
     };
 
+    updateProject = (project, projectIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects[projectIndex] = project;
+        this.setState(newState);
+    };
+
     render() {
         return (
             <div className="projects-table">
@@ -84,6 +91,9 @@ export default class AdminProjectsTable extends Component {
                                     content={
                                         <AdminProjectForm title={"Edit Project"}
                                             defaultData={project}
+                                            updateProject={(project) => {
+                                                this.updateProject(project, i);
+                                            }}
                                         />
                                     }
                                 >

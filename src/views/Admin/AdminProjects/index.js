@@ -54,7 +54,8 @@ class AdminProjects extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                         buttons={
                             <ModalButton customClass="btn-link pull-right uppercase"
-                                content={<AdminProjectForm title={"Add New Project"}/>}
+                                content={<AdminProjectForm
+                                    title={"Add New Project"}                                    />}
                             >
                                 {'New project'}
                             </ModalButton>

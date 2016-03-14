@@ -38,6 +38,15 @@ class AdminProjectForm extends Component {
                 this.state.shortDescription,
                 this.state.projectLeaderEmail,
             )(this.props.dispatch);
+
+            const project = Object.assign({}, this.props.defaultData);
+
+            project.name = this.state.name;
+            project.slug = this.state.slug;
+            project.shortDescription = this.state.shortDescription;
+            project.projectLeaderEmail = this.state.projectLeaderEmail;
+
+            this.props.updateProject(project);
         } else {
             Actions.newProject(
                 this.state.name,
