@@ -72,7 +72,10 @@ class ProjectSignup extends Component {
             >
                 <div className={"main-content"}>
                     <div className={"container"}>
-                        <SignupForm onSubmit={this.submit} />
+                        <SignupForm
+                            onSubmit={this.submit}
+                            error={this.state.error ? this.state.error : ''}
+                        />
                     </div>
                 </div>
             </Page>
@@ -82,7 +85,7 @@ class ProjectSignup extends Component {
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
-    error: reduxState.main.auth.user,
+    error: reduxState.main.user.error,
     project: reduxState.main.project.project,
     projectError: reduxState.main.project.error,
 }))(ProjectSignup);

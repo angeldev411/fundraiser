@@ -37,6 +37,8 @@ export default class SignupForm extends Component {
             this.setState({ error: null });
             this.props.onSubmit({
                 email: this.state.email,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
                 password: this.state.password1,
                 inviteCode: this.state.inviteCode,
             });
@@ -83,6 +85,24 @@ export default class SignupForm extends Component {
                 </div>
 
                 <div className="form-group">
+                    <input type="text"
+                        name="firstName"
+                        id="firstName"
+                        onChange={(e) => { this.handleChange(e, 'firstName') }}
+                    />
+                    <label htmlFor="firstName">{'Firstname'}</label>
+                </div>
+
+                <div className="form-group">
+                    <input type="text"
+                        name="lastName"
+                        id="lastName"
+                        onChange={(e) => { this.handleChange(e, 'lastName') }}
+                    />
+                    <label htmlFor="lastName">{'Lastname'}</label>
+                </div>
+
+                <div className="form-group">
                     <input type="password"
                         name="password"
                         id="password"
@@ -99,6 +119,7 @@ export default class SignupForm extends Component {
                     />
                     <label htmlFor="password-confirmation">{'Password Confirmation'}</label>
                 </div>
+                {this.props.error ? (<p>{this.props.error}</p>) : null}
                 {this.state.error ? (<p>{this.state.error}</p>) : null}
                 <Button type={'submit'} customClass="btn-green-white">{'Submit'}</Button>
             </Form>
@@ -108,4 +129,5 @@ export default class SignupForm extends Component {
 
 SignupForm.propTypes = {
     onSubmit: React.PropTypes.func,
+    error: React.PropTypes.string,
 };

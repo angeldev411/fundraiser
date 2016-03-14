@@ -13,6 +13,11 @@ export const inviteFailed = (error) => ({
     error,
 });
 
+export const signupFailed = (error) => ({
+    type: actionTypes.SIGNUP_FAILED,
+    error,
+});
+
 export function invite() {
     return (dispatch) => {
         return axios.post(
@@ -44,7 +49,7 @@ export function signup(data) {
         )
         .catch(
             (errorResponse) => {
-                dispatch(AuthActions.loggedout());
+                dispatch(signupFailed(errorResponse.data));
             }
         );
     };

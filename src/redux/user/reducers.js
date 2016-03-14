@@ -14,6 +14,11 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 inviteError: action.error,
             };
+        case actionTypes.SIGNUP_FAILED:
+            return {
+                ...state,
+                error: action.error,
+            };
         default:
             return state;
     }

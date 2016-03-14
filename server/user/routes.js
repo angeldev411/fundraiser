@@ -3,9 +3,10 @@ import userController from './controller';
 import express from 'express';
 const router = express.Router();
 import util from '../helpers/util';
+import messages from '../messages';
 
 router.post('/api/v1/signup', (req, res) => {
-    if (!req.body.email || !req.body.password || (!req.body.inviteCode && !req.body.teamSlug)) {
+    if (!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password || (!req.body.inviteCode && !req.body.teamSlug)) {
         res.status(400).send(messages.signup.missingData);
         return;
     }
@@ -13,6 +14,8 @@ router.post('/api/v1/signup', (req, res) => {
     const data = {
         inviteCode: req.body.inviteCode,
         email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         password: util.hash(req.body.password),
     };
 
