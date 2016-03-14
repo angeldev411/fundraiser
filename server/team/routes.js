@@ -67,6 +67,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
     if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
         teamController.update(data)
         .then((response) => {
+            req.session.user.team = team;
             res.status(200).send(response);
         })
         .catch((err) => {
@@ -78,6 +79,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         .then((result) => {
             teamController.update(data)
             .then((response) => {
+                req.session.user.team = team;
                 res.status(200).send(response);
             })
             .catch((err) => {
@@ -93,6 +95,7 @@ router.put('/api/v1/team/:teamId', (req, res) => {
         .then((result) => {
             teamController.update(data)
             .then((response) => {
+                req.session.user.team = team;
                 res.status(200).send(response);
             })
             .catch((err) => {

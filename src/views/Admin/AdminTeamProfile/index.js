@@ -14,10 +14,11 @@ import * as Urls from '../../../urls.js';
 import * as data from '../../../common/test-data';
 import * as Actions from '../../../redux/team/actions';
 import AdminApproveHours from '../../../components/AdminApproveHours';
+import * as TeamActions from '../../../redux/team/actions';
 
 
 class AdminTeamProfile extends Component {
-    componentWillMount() {
+    componentWillMount(props) {
         document.title = 'Team profile | Raiserve';
     }
 
@@ -30,6 +31,7 @@ class AdminTeamProfile extends Component {
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
+                team: nextProps.user.team,
             });
         }
     }
@@ -104,7 +106,6 @@ class AdminTeamProfile extends Component {
             },
         ];
 
-        console.log('Signature required', this.state.user.team.signatureRequired);
 
         return (
             <Page>
@@ -132,7 +133,7 @@ class AdminTeamProfile extends Component {
                                 name="supervisor-signature"
                                 id="supervisor-signature"
                                 value=""
-                                checked={this.state.user.team.signatureRequired}
+                                checked={this.state.team.signatureRequired}
                                 onChange={(e) => {this.changeSupervisorSignatureRequired(e)}}
                             />
                             <label
@@ -149,7 +150,7 @@ class AdminTeamProfile extends Component {
                                 name="leader-signature"
                                 id="leader-signature"
                                 value=""
-                                checked={this.state.user.team.hoursApprovalRequired}
+                                checked={this.state.team.hoursApprovalRequired}
                                 onChange={(e) => {this.changeHoursApprovalRequired(e)}}
                             />
                             <label
