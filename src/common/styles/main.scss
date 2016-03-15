@@ -1,5 +1,10 @@
 @import './variables.scss';
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     font-size: 16px;
     font-family: $arial;
