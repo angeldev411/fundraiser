@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import * as Actions from '../../redux/volunteer/actions';
 import * as TeamActions from '../../redux/team/actions';
 import RouteNotFound from '../RouteNotFound';
+import { pushPath } from 'redux-simple-router';
+import { Link } from 'react-router';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -42,6 +44,11 @@ class VolunteerProfile extends Component {
         } else if (nextProps.error) {
             return (<RouteNotFound />);
         }
+        if (nextProps.user) {
+            this.setState({
+                user: nextProps.user,
+            });
+        }
         if (nextProps.team) {
             this.setState({
                 team: nextProps.team,
@@ -54,7 +61,11 @@ class VolunteerProfile extends Component {
     render() {
         document.title = `${this.state.volunteer.firstName} ${this.state.volunteer.lastName} | Raiserve`;
         return (
-            <Page>
+            <Page
+                greenHeader={(this.state.volunteer && this.state.user && this.state.volunteer.id === this.state.user.id) ? 'volunteer' : null}
+                project={this.state.user ? this.state.user.project : null}
+                team={this.state.team}
+            >
                 <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}`}
                     customclass={"cover-volunteer-profile"}
                     tagline={this.state.team.tagline}
@@ -83,6 +94,7 @@ VolunteerProfile.propTypes = {
 export default connect((reduxState) => ({
     volunteer: reduxState.main.volunteer.volunteer,
     team: reduxState.main.team.team,
+    user: reduxState.main.auth.user,
     error: reduxState.main.volunteer.error,
     teamError: reduxState.main.team.error,
 }))(VolunteerProfile);

@@ -57,6 +57,11 @@ class TeamProfile extends Component {
                 volunteers: nextProps.volunteers,
             });
         }
+        if (nextProps.user) {
+            this.setState({
+                user: nextProps.user,
+            });
+        }
         if (nextProps.error) {
             this.setState({ team: null });
         }
@@ -72,10 +77,22 @@ class TeamProfile extends Component {
         const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
         const SHARE_MESSAGE = `${this.state.team.slogan}`;
 
+        let header = null;
+
+        if (this.state.team && this.state.user && this.state.user.team) {
+            if (this.state.team.id === this.state.user.team.id) {
+                header = 'team';
+            }
+        }
+
         const editable = window.location.search.substring(1) === 'edit';
 
         return (
-            <Page>
+            <Page
+                greenHeader={header}
+                project={this.state.user ? this.state.user.project : null}
+                team={this.state.team}
+            >
                 <Cover
                     image={
                         this.state.team.coverImage ?
@@ -141,5 +158,6 @@ TeamProfile.propTypes = {
 export default connect((reduxState) => ({
     team: reduxState.main.team.team,
     volunteers: reduxState.main.volunteer.volunteers,
+    user: reduxState.main.auth.user,
     error: reduxState.main.team.error,
 }))(TeamProfile);

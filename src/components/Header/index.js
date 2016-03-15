@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Menu from '../Menu/';
 import * as Urls from '../../urls.js';
 import { Link } from 'react-router';
+import AdminInviteTeamMembersForm from '../AdminInviteTeamMembersForm/';
+import ModalButton from '../ModalButton/';
 
 class Header extends Component {
     constructor(props) {
@@ -10,6 +12,8 @@ class Header extends Component {
 
         this.state = {
             user: this.props.user,
+            volunteer: this.props.volunteer,
+            team: this.props.team,
         };
     }
 
@@ -17,6 +21,16 @@ class Header extends Component {
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
+            });
+        }
+        if (nextProps.volunteer) {
+            this.setState({
+                volunteer: nextProps.volunteer,
+            });
+        }
+        if (nextProps.team) {
+            this.setState({
+                team: nextProps.team,
             });
         }
     }
@@ -38,22 +52,130 @@ class Header extends Component {
             }
         }
 
-        return (
-            <header>
-                <div className="container">
-                    <Link to={dashboardUrl}>
-                        <img src="/assets/images/raiserve_logo.png"
-                            id="logo"
-                            title=""
-                            alt=""
-                        />
-                    </Link>
-                    <Menu/>
+        let greenHeader = null;
+
+        if (this.props.user && this.props.greenHeader && this.props.greenHeader === 'volunteer') {
+            greenHeader = (
+                <div id={'green-header'}>
+                    <div className="container">
+                        <div className={'col-xs-12'}>
+                            <div className={'col-xs-2 green-header-left'}>
+                                <Link to={dashboardUrl}>
+                                    {'My Dashboard'}
+                                </Link>
+                            </div>
+                            <div className={'col-xs-8 green-header-center'}>
+                                <span className={'call-to-action-text'}>
+                                    {'Congrats here is your personnalized fundraising page.'} <b>{'Get started by sharing it on Facebook, Twitter and emailing your colleagues, friends and family'}</b>
+                                </span>
+                            </div>
+                            <div className={'col-xs-2 green-header-right'}>
+                                <a href={`mailto:?body=${window.location}`}
+                                    className="share"
+                                >
+                                    <i className="fa fa-envelope"/>
+                                </a>
+                                <a href={`https://twitter.com/share?url=${window.location}`}
+                                    target="_blank"
+                                    className="share"
+                                >
+                                    <i className="fa fa-twitter"/>
+                                </a>
+                                <a href={`https://www.facebook.com/sharer.php?u=${window.location}`}
+                                    target="_blank"
+                                    className="share"
+                                >
+                                    <i className="fa fa-facebook"/>
+                                </a>
+                                <ModalButton content={
+                                    <AdminInviteTeamMembersForm
+                                        project={this.props.project}
+                                        team={this.props.team}
+                                        title={'Invite new sponsors'}
+                                        sponsors
+                                    />}
+                                    customClass={'btn-green-bar-link'}
+                                >
+                                    {'INVITE SPONSORS'}
+                                </ModalButton>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </header>
+            );
+        } else if (this.props.user && this.props.greenHeader && this.props.greenHeader === 'team') {
+            greenHeader = (
+                <div id={'green-header'}>
+                    <div className="container">
+                        <div className={'col-xs-2 green-header-left'}>
+                            <Link to={dashboardUrl}>
+                                {'My Dashboard'}
+                            </Link>
+                        </div>
+                        <div className={'col-xs-8 green-header-center'}>
+                            <span className={'call-to-action-text'}>
+                                {'Congrats here is your personnalized fundraising page.'} <b>{'Get started by inviting team members to your team.'}</b>
+                            </span>
+                        </div>
+                        <div className={'col-xs-2 green-header-right'}>
+                            <a href={`mailto:?body=${window.location}`}
+                                className="share"
+                            >
+                                <i className="fa fa-envelope"/>
+                            </a>
+                            <a href={`https://twitter.com/share?url=${window.location}`}
+                                target="_blank"
+                                className="share"
+                            >
+                                <i className="fa fa-twitter"/>
+                            </a>
+                            <a href={`https://www.facebook.com/sharer.php?u=${window.location}`}
+                                target="_blank"
+                                className="share"
+                            >
+                                <i className="fa fa-facebook"/>
+                            </a>
+                            <ModalButton
+                                content={
+                                    <AdminInviteTeamMembersForm
+                                        project={this.props.project}
+                                        team={this.props.team}
+                                        title={'Invite new team members'}
+                                    />
+                                }
+                                customClass={'btn-green-bar-link'}
+                            >
+                                {'INVITE'}
+                            </ModalButton>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div>
+                {greenHeader}
+                <header className="clearfix">
+                    <div className="container">
+                        <Link to={dashboardUrl}>
+                            <img src="/assets/images/raiserve_logo.png"
+                                id="logo"
+                                title=""
+                                alt=""
+                            />
+                        </Link>
+                        <Menu/>
+                    </div>
+                </header>
+            </div>
         );
     }
 }
+
+Header.propTypes = {
+    greenHeader: React.PropTypes.string,
+};
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,

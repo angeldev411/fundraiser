@@ -3,6 +3,44 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
+#green-header {
+    background: $green;
+    height: 30px;
+
+    a {
+        color: $white;
+        text-transform: uppercase;
+        font-family: $conduit-bold;
+        line-height: 30px;
+
+        &:hover, &:active, &:focus {
+            text-decoration: none;
+        }
+    }
+
+    span.call-to-action-text {
+        font-family: $conduit-light;
+        line-height: 30px;
+        font-size: 13px;
+        text-align: center;
+        display: block;
+    }
+
+    .green-header-left,
+    .green-header-center,
+    .green-header-right {
+        padding: 0;
+    }
+
+    .green-header-right {
+        a,
+        button {
+            float: right;
+            padding: 0 5px;
+        }
+    }
+}
+
 header {
     background: $black-medium-opacity;
     padding: 10px;

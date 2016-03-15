@@ -10,7 +10,7 @@ export default class Page extends Component {
                 <div id="page"
                     style={this.props.bodyBackground}
                 >
-                    <div className="page-content"
+                    <div className="page-content clearfix"
                         style={this.props.style}
                     >
                         {this.props.children}
@@ -22,8 +22,12 @@ export default class Page extends Component {
 
         return (
             <div id="page">
-                <Header/>
-                <div className="page-content"
+                <Header
+                    greenHeader={this.props.greenHeader}
+                    project={this.props.project}
+                    team={this.props.team}
+                />
+                <div className="page-content clearfix"
                     style={this.props.style}
                 >
                     {this.props.children}
@@ -38,4 +42,7 @@ Page.propTypes = {
     style: React.PropTypes.object,
     noHeader: React.PropTypes.bool,
     bodyBackground: React.PropTypes.object,
+    greenHeader: React.PropTypes.string,
+    project: React.PropTypes.object,
+    team: React.PropTypes.object,
 };
