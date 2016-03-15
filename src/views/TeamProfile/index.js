@@ -85,8 +85,6 @@ class TeamProfile extends Component {
             }
         }
 
-        console.log(this.state);
-
         const editable = window.location.search.substring(1) === 'edit';
 
         return (

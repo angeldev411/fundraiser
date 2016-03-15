@@ -5,8 +5,6 @@ import * as Urls from '../../urls.js';
 
 export default class AdminInviteTeamMembersForm extends Component {
     render() {
-        console.log(this.props);
-
         const SHARE_URL = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}/join`;
         const SHARE_SPONSORS_URL = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}`;
         const SHARE_TEXT = `${this.props.team.name} on Raiserve`;
