@@ -20,6 +20,7 @@ export default class AdminVolunteerProfile extends Component {
 
         this.state = {
             user: this.props.user,
+            loading: false,
         };
     }
 
@@ -39,6 +40,9 @@ export default class AdminVolunteerProfile extends Component {
                 volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
             });
         }
+        this.setState({
+            loading: false,
+        });
     }
 
     onDrop = (files) => {
@@ -56,6 +60,9 @@ export default class AdminVolunteerProfile extends Component {
     };
 
     submitProfile = () => {
+        this.setState({
+            loading: true,
+        });
         const user = this.state.user;
 
         if (!user.password || user.password !== user.password2) {
@@ -261,8 +268,17 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
-                                <Button customClass="btn-green-white" onClick={this.submitProfile}>{'Save'}</Button> {this.state.volunteerUpdateStatus === false && this.getErrorMessage()}
+
+                                {this.state.volunteerUpdateStatus === false && this.getErrorMessage()}
                                 {this.state.volunteerUpdateStatus === true && this.getSuccessMessage()}
+
+                                <Button
+                                    customClass="btn-green-white"
+                                    onClick={this.submitProfile}
+                                    disabled={this.state.loading}
+                                >
+                                    {'Save'}
+                                </Button>
                             </form>
                         </section>
                     </div>

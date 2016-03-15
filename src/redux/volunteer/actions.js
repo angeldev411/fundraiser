@@ -82,7 +82,6 @@ export const createHourLog = (place, hours, date, supervisor, signature, approve
 
 export const approveHour = (id) => {
     return (dispatch) => {
-        dispatch(hourLogFailure(''));
         return axios.put(`${API_URL}/hours/${id}`, {})
         .then(
             (response) => {

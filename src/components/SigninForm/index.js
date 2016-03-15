@@ -23,7 +23,6 @@ class SigninForm extends Component {
                 }
             );
         }
-        console.log('setstate');
         this.setState({
             loading: false,
         });
