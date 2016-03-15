@@ -43,7 +43,7 @@ class AdminProjects extends Component {
 
         newState.projects.unshift(project);
         this.setState(newState);
-    }
+    };
 
     render() {
         const pageNav = [

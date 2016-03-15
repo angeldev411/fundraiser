@@ -26,7 +26,7 @@ export default class TeamProfileBlock extends Component {
         this.setState({
             team,
         });
-    }
+    };
 
     render() {
         return (

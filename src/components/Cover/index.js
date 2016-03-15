@@ -28,21 +28,21 @@ export default class Cover extends Component {
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.SET_IS_DESKTOP);
+    }
+
     SET_IS_DESKTOP = () => {
         this.setState({
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         });
     };
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.SET_IS_DESKTOP);
-    }
-
     updateTeam = (team) => {
         this.setState({
             team,
         });
-    }
+    };
 
     render() {
         const style = {

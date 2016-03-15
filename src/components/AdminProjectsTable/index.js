@@ -26,7 +26,7 @@ export default class AdminProjectsTable extends Component {
 
         newState.projects[projectIndex].teams.unshift(team);
         this.setState(newState);
-    }
+    };
 
     updateTeam = (team, teamIndex, projectIndex) => {
         const newState = Object.assign({}, this.state);

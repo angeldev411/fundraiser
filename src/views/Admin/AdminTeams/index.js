@@ -54,7 +54,7 @@ class AdminTeams extends Component {
 
         newState.teams.unshift(team);
         this.setState(newState);
-    }
+    };
 
     render() {
         if (!this.props.user) {
