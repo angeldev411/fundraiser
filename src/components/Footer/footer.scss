@@ -86,6 +86,9 @@ footer {
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
     footer{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
         .tagline {
             margin: 0;
         }
