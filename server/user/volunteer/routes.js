@@ -5,7 +5,6 @@ import volunteerController from './controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
 import util from '../../helpers/util';
 
-
 router.get('/api/v1/volunteer', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

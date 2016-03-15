@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import * as TeamActions from '../../redux/team/actions';
 import * as Actions from '../../redux/user/actions';
-import * as AuthActions from '../../redux/auth/actions';
 import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
@@ -87,7 +86,10 @@ class TeamSignup extends Component {
                 />
                 <div className={"main-content"}>
                     <div className={"container"}>
-                        <SignupForm onSubmit={this.submit} />
+                        <SignupForm
+                            onSubmit={this.submit}
+                            error={this.state.error ? this.state.error : ''}
+                        />
                     </div>
                 </div>
             </Page>
@@ -97,7 +99,7 @@ class TeamSignup extends Component {
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
-    error: reduxState.main.auth.user,
+    error: reduxState.main.user.error,
     team: reduxState.main.team.team,
     teamError: reduxState.main.team.error,
 }))(TeamSignup);

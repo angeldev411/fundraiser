@@ -74,7 +74,7 @@ class AdminVolunteerSponsors extends Component {
             {
                 type: 'link',
                 title: 'My Public Page',
-                href: `${Urls.getVolunteerProfileUrl(data.project.slug, data.team.slug, data.volunteer.slug)}`,
+                href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
             },
             {
                 type: 'link',

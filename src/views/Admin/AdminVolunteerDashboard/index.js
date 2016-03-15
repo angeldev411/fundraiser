@@ -19,7 +19,9 @@ export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
         document.title = 'Dashboard | Raiserve';
 
-        this.state = {};
+        this.state = {
+            sponsors: [],
+        };
 
         if (this.props.user) {
             const projectSlug = this.props.user.project.slug;
@@ -97,7 +99,9 @@ export default class AdminVolunteerDashboard extends Component {
     }
 
     render() {
+        console.log(this.props);
         if (!this.props.user || !this.state.sponsors) {
+            console.log('return null');
             return (null);
         }
 

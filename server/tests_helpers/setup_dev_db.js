@@ -38,6 +38,9 @@ class setup {
             `CREATE CONSTRAINT ON (user:USER) ASSERT user.email IS UNIQUE`
         )
         .then(() => (db.query(
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.slug IS UNIQUE`
+        )))
+        .then(() => (db.query(
             `CREATE CONSTRAINT ON (project:PROJECT) ASSERT project.slug IS UNIQUE`
         )))
         .then(() => (db.query(
