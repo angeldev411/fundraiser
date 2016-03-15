@@ -13,6 +13,7 @@ class AdminProjectForm extends Component {
         } else {
             this.state = {};
         }
+        console.log('AdminProjectForm Initial props', props);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,6 +31,13 @@ class AdminProjectForm extends Component {
     }
 
     submit = () => {
+        const project = Object.assign({}, this.props.defaultData);
+
+        project.name = this.state.name;
+        project.slug = this.state.slug;
+        project.shortDescription = this.state.shortDescription;
+        project.projectLeaderEmail = this.state.projectLeaderEmail;
+
         if (this.state.id) {
             Actions.updateProject(
                 this.state.id,
@@ -39,14 +47,9 @@ class AdminProjectForm extends Component {
                 this.state.projectLeaderEmail,
             )(this.props.dispatch);
 
-            const project = Object.assign({}, this.props.defaultData);
-
-            project.name = this.state.name;
-            project.slug = this.state.slug;
-            project.shortDescription = this.state.shortDescription;
-            project.projectLeaderEmail = this.state.projectLeaderEmail;
-
-            this.props.updateProject(project);
+            if (this.props.updateProject) {
+                this.props.updateProject(project);
+            }
         } else {
             Actions.newProject(
                 this.state.name,
@@ -54,6 +57,11 @@ class AdminProjectForm extends Component {
                 this.state.shortDescription,
                 this.state.projectLeaderEmail,
             )(this.props.dispatch);
+
+            console.log('New Project props:', this.props.newProject);
+            if (this.props.newProject) {
+                this.props.newProject(project);
+            }
         }
     };
 
@@ -122,6 +130,7 @@ class AdminProjectForm extends Component {
 AdminProjectForm.propTypes = {
     title: React.PropTypes.string,
     defaultData: React.PropTypes.object,
+    newProject: React.PropTypes.func,
 };
 
 export default connect((reduxState) => ({

@@ -50,7 +50,7 @@ export default class AdminProjectsTable extends Component {
                         <CollapsableLine key={i}
                             childrenContent={
                                 <ul className="children-content clearfix">
-                                    {project.teams.map((team, x) => (
+                                    {project.teams ? project.teams.map((team, x) => (
                                         <ChildrenLine key={x}>
                                             <span className="label uppercase">{'Team Name: '}</span> {team.name}
                                             <span className="label uppercase">{'Raised: '}</span> {team.raised ? team.raised : 0}
@@ -81,7 +81,7 @@ export default class AdminProjectsTable extends Component {
                                                 >{'Invite Leader'}</a>
                                             </div>
                                         </ChildrenLine>
-                                    ))}
+                                    )) : null}
                                 </ul>
                             }
                         >
