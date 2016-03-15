@@ -7,10 +7,15 @@ import * as Actions from '../../redux/email/actions';
 class AdminTeamEmailForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            loading: false,
+        };
     }
 
     submit = () => {
+        this.setState({
+            loading: true,
+        });
         Actions.sendEmail(
             this.props.user.project.slug,
             this.props.user.team.slug,
@@ -46,6 +51,9 @@ class AdminTeamEmailForm extends Component {
                 }
             );
         }
+        this.setState({
+            loading: false,
+        });
     }
 
     render() {
@@ -106,6 +114,7 @@ class AdminTeamEmailForm extends Component {
                     : <Button
                         customClass="btn-green-white"
                         type={'submit'}
+                        disabled={this.state.loading}
                       >
                         {'Send'}
                     </Button>

@@ -10,10 +10,14 @@ export default class EditSloganForm extends Component {
         this.state = {
             slogan: this.props.value ? this.props.value : '',
             team: this.props.team,
+            loading: false,
         };
     }
 
     updateSlogan = () => {
+        this.setState({
+            loading: true,
+        });
         const team = Object.assign({}, this.state.team);
 
         team.slogan = this.state.slogan;
@@ -49,6 +53,7 @@ export default class EditSloganForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {'save'}
                 </Button>

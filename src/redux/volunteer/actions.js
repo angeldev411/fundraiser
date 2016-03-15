@@ -50,6 +50,7 @@ export const getHourLogs = () => {
 
 export const createHourLog = (place, hours, date, supervisor, signature, approved) => {
     return (dispatch) => {
+        dispatch(hourLogFailure(''));
         return axios.post(`${API_URL}/hours`, {
             place,
             hours,
@@ -114,6 +115,7 @@ export const updateProfile = (user) => {
     return (dispatch) => {
         const volunteerProfile = user;
 
+        dispatch(volunteerUpdateFailure(''));
         return axios.put(`${API_URL}/volunteer`, volunteerProfile)
         .then(
             (response) => {

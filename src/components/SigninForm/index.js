@@ -7,7 +7,9 @@ import * as Actions from '../../redux/auth/actions';
 class SigninForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            loading: false,
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -17,15 +19,19 @@ class SigninForm extends Component {
             this.setState(
                 {
                     user: nextProps.user,
-                    error: null
+                    error: null,
                 }
             );
-
-            // TODO REDIRECT TO DASHBOARD
         }
+        this.setState({
+            loading: false,
+        });
     }
 
     signIn = () => {
+        this.setState({
+            loading: true,
+        });
         Actions.signIn(
             this.state.email,
             this.state.password
@@ -67,6 +73,7 @@ class SigninForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {'Sign In'}
                 </Button>

@@ -37,16 +37,16 @@
         .status-message {
             font-size: 1.2em;
             font-weight: bold;
-            display: inline;
-            margin-left: 80px;
+            display: block;
+            margin: 50px 0 20px;
         }
         .error-message {
             @extend .status-message;
-            color: red;
+            color: $grey;
         }
         .success-message {
             @extend .status-message;
-            color: green;
+            color: $green;
         }
     }
 

@@ -19,6 +19,7 @@ class ProjectSignup extends Component {
             project: {
                 name: 'Some project',
             },
+            loading: false,
         };
     }
 
@@ -53,9 +54,15 @@ class ProjectSignup extends Component {
                 projectError: true,
             });
         }
+        this.setState({
+            loading: false,
+        });
     }
 
     submit = (data) => {
+        this.setState({
+            loading: true,
+        });
         data.teamSlug = this.props.params.teamSlug;
 
         Actions.signup(data)(this.props.dispatch);
@@ -75,6 +82,7 @@ class ProjectSignup extends Component {
                         <SignupForm
                             onSubmit={this.submit}
                             error={this.state.error ? this.state.error : ''}
+                            loading={this.state.loading}
                         />
                     </div>
                 </div>

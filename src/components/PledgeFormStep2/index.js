@@ -10,6 +10,7 @@ class PledgeFormStep2 extends Component {
         this.state = {
             ...(this.props.pledgeData),
             success: false,
+            loading: false,
         };
     }
 
@@ -17,7 +18,10 @@ class PledgeFormStep2 extends Component {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
         } else if (nextProps.pledge) {
-            this.setState({ success: true });
+            this.setState({
+                success: true,
+                loading: false,
+            });
         }
     }
 
@@ -26,6 +30,7 @@ class PledgeFormStep2 extends Component {
             // Show the errors on the form
             this.setState({
                 error: response.error.message,
+                loading: false,
             });
         } else {
             // response contains id and card, which contains additional card details
@@ -46,12 +51,16 @@ class PledgeFormStep2 extends Component {
     };
 
     submit = () => {
+        this.setState({
+            loading: true,
+        });
         // Client side verifications
         const validator = this.verifyCardInfo(this.state.cc, this.state.cvv, this.state.expiration);
 
         if (validator.error) {
             this.setState({
                 error: validator.message,
+                loading: false,
             });
         } else {
             this.setState({
@@ -174,6 +183,7 @@ class PledgeFormStep2 extends Component {
                     <Button
                         customClass="btn-transparent-green"
                         type={'submit'}
+                        disabled={this.state.loading}
                     >{'Pledge'}</Button>
                 </div>
             </Form>

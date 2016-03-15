@@ -13,9 +13,12 @@ export default class SignupForm extends Component {
             this.state = {
                 inviteCode,
                 email,
+                loading: false,
             };
         } else {
-            this.state = {};
+            this.state = {
+                loading: false,
+            };
         }
     }
 
@@ -27,9 +30,13 @@ export default class SignupForm extends Component {
     };
 
     submit = () => {
+        this.setState({
+            loading: true,
+        });
         if (this.state.password1 !== this.state.password2) {
             this.setState({
                 error: `Passwords don't match`,
+                loading: false,
             });
             return;
         }
@@ -121,7 +128,11 @@ export default class SignupForm extends Component {
                 </div>
                 {this.props.error ? (<p>{this.props.error}</p>) : null}
                 {this.state.error ? (<p>{this.state.error}</p>) : null}
-                <Button type={'submit'} customClass="btn-green-white">{'Submit'}</Button>
+                <Button
+                    type={'submit'}
+                    customClass="btn-green-white"
+                    disabled={this.props.loading ? this.props.loading : this.state.loading}
+                >{'Submit'}</Button>
             </Form>
         );
     }
@@ -130,4 +141,5 @@ export default class SignupForm extends Component {
 SignupForm.propTypes = {
     onSubmit: React.PropTypes.func,
     error: React.PropTypes.string,
+    loading: React.PropTypes.boolean,
 };
