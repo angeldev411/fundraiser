@@ -10,10 +10,14 @@ export default class EditTaglineForm extends Component {
         this.state = {
             tagline: this.props.value ? this.props.value : '',
             team: this.props.team,
+            loading: false,
         };
     }
 
     updateTagline = () => {
+        this.setState({
+            loading: true,
+        });
         const team = Object.assign({}, this.state.team);
 
         team.tagline = this.state.tagline;
@@ -50,6 +54,7 @@ export default class EditTaglineForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {'save'}
                 </Button>

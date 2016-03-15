@@ -10,10 +10,14 @@ export default class EditDescriptionForm extends Component {
         this.state = {
             description: this.props.value ? this.props.value : '',
             team: this.props.team,
+            loading: false,
         };
     }
 
     updateDescription = () => {
+        this.setState({
+            loading: true,
+        });
         const team = Object.assign({}, this.state.team);
 
         team.description = this.state.description;
@@ -50,6 +54,7 @@ export default class EditDescriptionForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {'save'}
                 </Button>

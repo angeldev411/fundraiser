@@ -17,6 +17,7 @@ export default class EditLogoForm extends Component {
             logo: this.props.value ? this.props.value : '',
             team: this.props.team,
             logoImageData: '',
+            loading: false,
         };
     }
 
@@ -29,6 +30,9 @@ export default class EditLogoForm extends Component {
     }
 
     updateLogo = () => {
+        this.setState({
+            loading: true,
+        });
         const team = Object.assign({}, this.state.team);
 
         if (this.state.logoImageData !== '') {
@@ -95,6 +99,7 @@ export default class EditLogoForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {'save'}
                 </Button>

@@ -20,6 +20,7 @@ class TeamSignup extends Component {
             team: {
                 name: 'Some team',
             },
+            loading: false,
         };
     }
 
@@ -53,9 +54,15 @@ class TeamSignup extends Component {
                 teamError: true,
             });
         }
+        this.setState({
+            loading: false,
+        });
     }
 
     submit = (data) => {
+        this.setState({
+            loading: true,
+        });
         data.teamSlug = this.props.params.teamSlug;
 
         Actions.signup(data)(this.props.dispatch);
@@ -89,6 +96,7 @@ class TeamSignup extends Component {
                         <SignupForm
                             onSubmit={this.submit}
                             error={this.state.error ? this.state.error : ''}
+                            loading={this.state.loading}
                         />
                     </div>
                 </div>
