@@ -124,7 +124,7 @@ class AdminTeamVolunteers extends Component {
                                     />
                                 }
                             >
-                                {'Invite members'}
+                                {'Invite new members'}
                             </ModalButton>
                         }
                     />
