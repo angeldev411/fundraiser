@@ -16,10 +16,14 @@ export default class EditCoverForm extends Component {
             cover: this.props.value ? this.props.value : '',
             team: this.props.team,
             coverImageData: '',
+            loading: false,
         };
     }
 
     updateCover = () => {
+        this.setState({
+            loading: true,
+        });
         const team = Object.assign({}, this.state.team);
 
         if (this.state.coverImageData !== '') {
@@ -86,6 +90,7 @@ export default class EditCoverForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {'save'}
                 </Button>
