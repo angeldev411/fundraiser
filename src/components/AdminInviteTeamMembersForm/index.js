@@ -20,7 +20,7 @@ export default class AdminInviteTeamMembersForm extends Component {
                     <input type="text"
                         name="url"
                         id="url"
-                        defaultValue={this.props.sponsors ? SHARE_SPONSORS_URL : SHARE_SPONSORS}
+                        defaultValue={this.props.sponsors ? SHARE_SPONSORS_URL : SHARE_URL}
                         disabled
                     />
                     <label htmlFor="name">{'You can simply copy and paste this url to your email or social channels'}</label>
