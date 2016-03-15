@@ -14,9 +14,18 @@ export default class Cover extends Component {
 
         this.state = {
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+            team: this.props.team,
         };
 
         window.addEventListener('resize', this.SET_IS_DESKTOP);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.team && !this.state.team.cover) {
+            this.setState({
+                team: nextProps.team,
+            });
+        }
     }
 
     SET_IS_DESKTOP = () => {
@@ -24,13 +33,20 @@ export default class Cover extends Component {
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         });
     };
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.SET_IS_DESKTOP);
     }
 
+    updateTeam = (team) => {
+        this.setState({
+            team,
+        });
+    }
+
     render() {
         const style = {
-            backgroundImage : `url(${this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
+            backgroundImage : `url(${this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
         };
 
         let COVERCONTENT = null;
@@ -134,6 +150,7 @@ export default class Cover extends Component {
                                     <EditCoverForm
                                         value={this.props.image}
                                         team={this.props.team}
+                                        updateTeam={this.updateTeam}
                                     />
                                 }
                             >

@@ -40,8 +40,6 @@ class AdminTeamProfile extends Component {
 
         this.setState(newState);
 
-        console.log('Team', newState.team);
-
         Actions.updateTeam(
             newState.team.id,
             newState.team

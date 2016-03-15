@@ -38,12 +38,19 @@ class AdminProjects extends Component {
         }
     }
 
+    newProject = (project) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects.unshift(project);
+        this.setState(newState);
+    }
+
     render() {
         const pageNav = [
             {
                 type: 'button',
                 title: 'Add New Project',
-                content: <AdminProjectForm title={"Add New Project"}/>,
+                content: <AdminProjectForm title={"Add New Project"} newProject={this.newProject}/>,
             },
         ];
 
@@ -54,13 +61,17 @@ class AdminProjects extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                         buttons={
                             <ModalButton customClass="btn-link pull-right uppercase"
-                                content={<AdminProjectForm title={"Add New Project"}/>}
+                                content={<AdminProjectForm
+                                    title={"Add New Project"}
+                                    newProject={this.newProject}
+                                                                        />}
                             >
                                 {'New project'}
                             </ModalButton>
                         }
                     />
-                    <AdminProjectsTable projects={this.state.projects} />
+                    <AdminProjectsTable
+                        projects={this.state.projects} />
                 </AdminLayout>
             </Page>
         );

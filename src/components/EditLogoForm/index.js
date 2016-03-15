@@ -10,8 +10,6 @@ export default class EditLogoForm extends Component {
     constructor(props) {
         super(props);
 
-        console.log('Constants: ', constants);
-
         this.state = {
             file: {
                 preview: this.props.value ? `${this.props.value}` : '/assets/images/team/default-logo.png',
@@ -20,6 +18,14 @@ export default class EditLogoForm extends Component {
             team: this.props.team,
             logoImageData: '',
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.team) {
+            this.setState({
+                team: nextProps.team,
+            });
+        }
     }
 
     updateLogo = () => {
@@ -33,6 +39,10 @@ export default class EditLogoForm extends Component {
             team.id,
             team
         )(this.props.dispatch);
+
+        team.logo = team.logoImageData;
+
+        this.props.updateTeam(team);
     };
 
     handleChange = (event, name) => {
@@ -95,6 +105,7 @@ export default class EditLogoForm extends Component {
 
 EditLogoForm.propTypes = {
     value: React.PropTypes.string,
+    updateTeam: React.PropTypes.func,
 };
 
 export default connect((reduxState) => ({

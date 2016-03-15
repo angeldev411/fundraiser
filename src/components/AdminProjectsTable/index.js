@@ -6,15 +6,51 @@ import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
 
 export default class AdminProjectsTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            projects: this.props.projects,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.projects) {
+            this.setState({
+                projects: nextProps.projects,
+            });
+        }
+    }
+
+    newTeam = (team, projectIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects[projectIndex].teams.unshift(team);
+        this.setState(newState);
+    }
+
+    updateTeam = (team, teamIndex, projectIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects[projectIndex].teams[teamIndex] = team;
+        this.setState(newState);
+    };
+
+    updateProject = (project, projectIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.projects[projectIndex] = project;
+        this.setState(newState);
+    };
+
     render() {
         return (
             <div className="projects-table">
                 <ul className="projects">
-                    {this.props.projects.map((project, i) => (
+                    {this.state.projects.map((project, i) => (
                         <CollapsableLine key={i}
                             childrenContent={
                                 <ul className="children-content clearfix">
-                                    {project.teams.map((team, x) => (
+                                    {project.teams ? project.teams.map((team, x) => (
                                         <ChildrenLine key={x}>
                                             <span className="label uppercase">{'Team Name: '}</span> {team.name}
                                             <span className="label uppercase">{'Raised: '}</span> {team.raised ? team.raised : 0}
@@ -29,6 +65,9 @@ export default class AdminProjectsTable extends Component {
                                                                 project,
                                                                 team,
                                                             }}
+                                                            updateTeam={(team, teamIndex) => {
+                                                                this.updateTeam(team, x, i);
+                                                            }}
                                                         />
                                                     }
                                                 >
@@ -42,7 +81,7 @@ export default class AdminProjectsTable extends Component {
                                                 >{'Invite Leader'}</a>
                                             </div>
                                         </ChildrenLine>
-                                    ))}
+                                    )) : null}
                                 </ul>
                             }
                         >
@@ -52,6 +91,9 @@ export default class AdminProjectsTable extends Component {
                                     content={
                                         <AdminProjectForm title={"Edit Project"}
                                             defaultData={project}
+                                            updateProject={(project) => {
+                                                this.updateProject(project, i);
+                                            }}
                                         />
                                     }
                                 >
@@ -63,6 +105,9 @@ export default class AdminProjectsTable extends Component {
                                             title={"Add New Team"}
                                             defaultData={{
                                                 project,
+                                            }}
+                                            newTeam={(team) => {
+                                                this.newTeam(team, i);
                                             }}
                                         />
                                     }

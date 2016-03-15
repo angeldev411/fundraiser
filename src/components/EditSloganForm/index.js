@@ -18,7 +18,7 @@ export default class EditSloganForm extends Component {
 
         team.slogan = this.state.slogan;
         Actions.updateTeam(
-            this.state.id,
+            this.state.team.id,
             team
         )(this.props.dispatch);
     };

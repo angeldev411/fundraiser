@@ -3,6 +3,28 @@ import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
 
 export default class AdminTeamsTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            teams: this.props.teams,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.teams) {
+            this.setState({
+                teams: nextProps.teams,
+            });
+        }
+    }
+
+    updateTeam = (team, teamIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.teams[teamIndex] = team;
+        this.setState(newState);
+    };
+
     render() {
         return (
             <div className="table-responsive">
@@ -17,7 +39,7 @@ export default class AdminTeamsTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.teams.map((team, i) => (
+                        {this.state.teams.map((team, i) => (
                             <tr key={i}>
                                 <td className={'team-name'}>{team.name}</td>
                                 <td>{team.raised}</td>
@@ -35,6 +57,9 @@ export default class AdminTeamsTable extends Component {
                                                                 team,
                                                             }
                                                         }
+                                                        updateTeam={(team) => {
+                                                            this.updateTeam(team, i);
+                                                        }}
                                                     />
                                                 }
                                             >
