@@ -3,18 +3,12 @@
 .admin-layout {
     padding-top: 70px;
     background: $grey;
+    min-height: 85vh;
 
     .admin-content {
         background: $white;
         padding: 20px;
         min-height: 500px;
-    }
-}
-
-@media (min-width: $screen-md-min) {
-    .admin-layout {
-        min-height: 100vh;
-        padding-bottom: 207px;
     }
 }
 

@@ -6,6 +6,11 @@
 footer {
     background: $green;
     padding-top: 25px;
+    position: absolute;
+	left: 0;
+	bottom: 0;
+    width: 100%;
+    height: $footer-height;
 
     .bloc-title {
         font-size: 1.3em;
@@ -86,9 +91,6 @@ footer {
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min) {
     footer{
-        position: fixed;
-        bottom: 0;
-        width: 100%;
         .tagline {
             margin: 0;
         }
