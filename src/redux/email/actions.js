@@ -14,6 +14,7 @@ export const emailFailed = (error) => ({
 
 export function sendEmail(projectSlug, teamSlug, subject, message, recipients = null) {
     return (dispatch) => {
+        dispatch(emailFailed(''));
         return axios.post(
             `${API_URL}/email/${projectSlug}/${teamSlug}`,
             {

@@ -34,6 +34,7 @@ export const indexProjectsFailed = (error) => ({
 
 export function newProject(name, slug, shortDescription, projectLeaderEmail) {
     return (dispatch) => {
+        dispatch(newProjectFailed(''));
         return axios.post(`${API_URL}/project`, {
             name,
             slug,
@@ -71,6 +72,7 @@ export function getProject(projectSlug) {
 
 export function updateProject(id, name, slug, shortDescription, projectLeaderEmail) {
     return (dispatch) => {
+        dispatch(updateProjectFailed(''));
         return axios.put(`${API_URL}/project/${id}`, {
             name,
             slug,

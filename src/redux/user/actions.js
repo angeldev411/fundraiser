@@ -20,6 +20,7 @@ export const signupFailed = (error) => ({
 
 export function invite() {
     return (dispatch) => {
+        dispatch(inviteFailed(''));
         return axios.post(
             `${API_URL}/user`
         )
@@ -38,6 +39,7 @@ export function invite() {
 
 export function signup(data) {
     return (dispatch) => {
+        dispatch(signupFailed(''));
         return axios.post(
             `${API_URL}/signup`,
             data

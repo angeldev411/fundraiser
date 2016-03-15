@@ -14,6 +14,7 @@ export const signinFailed = (error) => ({
 
 export function signIn(email, password) {
     return (dispatch) => {
+        dispatch(signinFailed(''));
         return axios.post(
             `${API_URL}/auth/login`,
             {
