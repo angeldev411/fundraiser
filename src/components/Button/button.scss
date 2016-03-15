@@ -127,3 +127,41 @@
         outline: none;
     }
 }
+
+/* spinner */
+.spinner {
+  display: inline-block;
+  opacity: 0;
+  width: 0;
+
+  -webkit-transition: opacity 0.15s, width 0.15s;
+  -moz-transition: opacity 0.15s, width 0.15s;
+  -o-transition: opacity 0.15s, width 0.15s;
+  transition: opacity 0.15s, width 0.15s;
+}
+
+.has-spinner:disabled {
+  cursor:progress;
+}
+
+.has-spinner:disabled .spinner {
+  opacity: 1;
+  width: auto;
+  margin-right: 12px;
+}
+
+.has-spinner.btn-mini:disabled .spinner {
+    width: 10px;
+}
+
+.has-spinner.btn-small:disabled .spinner {
+    width: 13px;
+}
+
+.has-spinner.btn:disabled .spinner {
+    width: 25px;
+}
+
+.has-spinner.btn-large:disabled .spinner {
+    width: 19px;
+}

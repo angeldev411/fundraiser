@@ -23,6 +23,7 @@ class SigninForm extends Component {
                 }
             );
         }
+        console.log('setstate');
         this.setState({
             loading: false,
         });
@@ -32,10 +33,14 @@ class SigninForm extends Component {
         this.setState({
             loading: true,
         });
-        Actions.signIn(
-            this.state.email,
-            this.state.password
-        )(this.props.dispatch);
+        setTimeout(
+            () => {
+                Actions.signIn(
+                    this.state.email,
+                    this.state.password
+                )(this.props.dispatch);
+            }, 3000
+        );
     };
 
     handleChange = (event, name) => {

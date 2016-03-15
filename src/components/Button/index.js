@@ -6,10 +6,11 @@ export default class Button extends Component {
         const BUTTON = (
             <button
                 type="button"
-                className={`btn ${this.props.customClass}`}
+                className={`btn has-spinner ${this.props.customClass}`}
                 onClick={this.props.onClick}
                 {...this.props}
             >
+                <span className={"spinner"}><i className={"fa fa-circle-o-notch fa-spin"}></i></span>
                 {this.props.children}
             </button>
         );
