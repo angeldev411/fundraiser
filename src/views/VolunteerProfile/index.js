@@ -4,7 +4,7 @@ import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
 import * as Actions from '../../redux/volunteer/actions';
 import * as TeamActions from '../../redux/team/actions';
-import { pushPath } from 'redux-simple-router';
+import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -40,14 +40,14 @@ class VolunteerProfile extends Component {
                 volunteer: nextProps.volunteer,
             });
         } else if (nextProps.error) {
-            this.props.dispatch(pushPath('volunteerNotFound'));
+            return (<RouteNotFound />);
         }
         if (nextProps.team) {
             this.setState({
                 team: nextProps.team,
             });
         } else if (nextProps.teamError) {
-            this.props.dispatch(pushPath('teamNotFound'));
+            return (<RouteNotFound />);
         }
     }
 

@@ -106,6 +106,24 @@ class HourRepository {
         )
         .getResults('h');
     }
+
+    static isApprovalRequired(volunteerId) {
+        return db.query(
+            `MATCH (u:VOLUNTEER {id: {volunteerId}})-[:VOLUNTEER]->(t:TEAM)
+            RETURN t`,
+            {},
+            { volunteerId }
+        )
+        .getResult('t')
+        .then((result) => {
+            if (result.hoursApprovalRequired || result.signatureRequired) {
+                return Promise.resolve(true);
+            } else return Promise.resolve(false);
+        })
+        .catch((err) => {
+            return Promise.reject(false);
+        });
+    }
 }
 
 export default HourRepository;

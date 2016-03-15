@@ -600,10 +600,9 @@ export default class Sponsor {
      * sponsor: sponsor object
     */
     static getNotBilledHours = (sponsor) => {
-        // TODO CHANGE TO ONLY GET APPROVED HOURS
         return db.query(`
             MATCH (hours:HOUR)<-[:VOLUNTEERED]->(volunteer:VOLUNTEER)<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
-            WHERE hours.created > {lastBilling}
+            WHERE hours.created > {lastBilling} AND hours.approved = true
             RETURN hours
             `,
             {},

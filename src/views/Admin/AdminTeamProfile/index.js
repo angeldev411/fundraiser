@@ -10,8 +10,6 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
 import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import * as Urls from '../../../urls.js';
-// TODO dynamic data
-import * as data from '../../../common/test-data';
 import * as Actions from '../../../redux/team/actions';
 import AdminApproveHours from '../../../components/AdminApproveHours';
 import * as TeamActions from '../../../redux/team/actions';
@@ -110,7 +108,6 @@ class AdminTeamProfile extends Component {
             },
         ];
 
-
         return (
             <Page>
                 <AdminLayout pageNav={pageNav}>
@@ -168,7 +165,7 @@ class AdminTeamProfile extends Component {
                         <section>
                             <Button
                                 customClass="btn-lg btn-green-white"
-                                to={Urls.getTeamProfileUrl(data.project.slug, data.team.slug)}
+                                to={`${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`}
                             >
                                 {'View Team Page'}
                             </Button>
