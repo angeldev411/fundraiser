@@ -19,6 +19,7 @@ export default class RecordHoursForm extends Component {
             signature: '',
             signatureRequired: props.team.signatureRequired,
             approved: props.team.hoursApprovalRequired ? false : true,
+            loading: false,
         };
     }
 
@@ -32,9 +33,17 @@ export default class RecordHoursForm extends Component {
         if (nextProps.team) {
             this.setState({ team: nextProps.team });
         }
+
+        this.setState({
+            loading: false,
+        });
     }
 
     recordHours = () => {
+        this.setState({
+            loading: true,
+        });
+
         let signature = '';
 
         if (this.state.signatureRequired) {
@@ -119,7 +128,13 @@ export default class RecordHoursForm extends Component {
                     null}
 
 
-                <Button onClick={this.recordHours} customClass="btn-green-white">{'Submit'}</Button>
+                <Button
+                    onClick={this.recordHours}
+                    customClass="btn-green-white"
+                    disabled={this.state.loading}
+                >
+                        {'Submit'}
+                </Button>
             </Form>
         );
     }
