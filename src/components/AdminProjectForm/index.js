@@ -13,7 +13,6 @@ class AdminProjectForm extends Component {
         } else {
             this.state = {};
         }
-        console.log('AdminProjectForm Initial props', props);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -58,7 +57,6 @@ class AdminProjectForm extends Component {
                 this.state.projectLeaderEmail,
             )(this.props.dispatch);
 
-            console.log('New Project props:', this.props.newProject);
             if (this.props.newProject) {
                 this.props.newProject(project);
             }
