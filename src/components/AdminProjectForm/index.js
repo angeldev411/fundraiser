@@ -11,7 +11,9 @@ class AdminProjectForm extends Component {
         if (this.props.defaultData) {
             this.state = this.props.defaultData;
         } else {
-            this.state = {};
+            this.state = {
+                loading: false,
+            };
         }
     }
 
@@ -27,9 +29,16 @@ class AdminProjectForm extends Component {
             //     }
             // );
         }
+        this.setState({
+            loading: false,
+        });
     }
 
     submit = () => {
+        this.setState({
+            loading: true,
+        });
+
         const project = Object.assign({}, this.props.defaultData);
 
         project.name = this.state.name;
@@ -117,6 +126,7 @@ class AdminProjectForm extends Component {
                 <Button
                     customClass="btn-green-white"
                     type={'submit'}
+                    disabled={this.state.loading}
                 >
                     {this.props.defaultData ? 'Edit Project' : 'Create Project'}
                 </Button>
