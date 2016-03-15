@@ -35,7 +35,7 @@ router.post('/api/v1/email/:projectSlug/:teamSlug', (req, res) => {
     // Verify team leader is team owner
     Team.isTeamLeaderTeamOwnerBySlug(req.params.teamSlug, req.session.user.id)
     .then(() => {
-        if (!(req.body.recipients.length > 0)) { // If no recipients defined
+        if (!(req.body.recipients)) { // If no recipients defined
             // Send to entire team
             Volunteer.getVolunteers(req.params.projectSlug, req.params.teamSlug)
             .then((volunteers) => {

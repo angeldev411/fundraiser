@@ -25,18 +25,30 @@
             color: $white;
         }
 
-        input,
-        textarea {
+        input{
             display: block;
             width: 100%;
             background: transparent;
             outline: none;
             border: none;
-            border-bottom: 1px solid $white;
+            border-bottom: 1px solid $light-grey;
 
             &:focus,
             &:active {
                 border-bottom: 1px solid $green;
+            }
+        }
+
+        textarea {
+            display: block;
+            width: 100%;
+            background: transparent;
+            outline: none;
+            border: 1px solid $light-grey;
+
+            &:focus,
+            &:active {
+                border: 1px solid $green;
             }
         }
 
