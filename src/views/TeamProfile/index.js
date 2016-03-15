@@ -4,6 +4,7 @@ import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
 import * as ActionsTeam from '../../redux/team/actions';
 import * as ActionsVolunteer from '../../redux/volunteer/actions';
+import * as ActionsProject from '../../redux/project/actions';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -25,6 +26,9 @@ class TeamProfile extends Component {
         this.state = {
             team: this.defaultTeam,
             volunteers: [],
+            project: {
+                name: '',
+            },
         };
     }
 
@@ -32,6 +36,9 @@ class TeamProfile extends Component {
         ActionsTeam.getTeam(
             this.props.params.projectSlug,
             this.props.params.teamSlug,
+        )(this.props.dispatch);
+        ActionsProject.getProject(
+            this.props.params.projectSlug,
         )(this.props.dispatch);
         ActionsVolunteer.getVolunteers(
             this.props.params.projectSlug,
@@ -55,6 +62,11 @@ class TeamProfile extends Component {
         if (nextProps.volunteers) {
             this.setState({
                 volunteers: nextProps.volunteers,
+            });
+        }
+        if (nextProps.project) {
+            this.setState({
+                project: nextProps.project,
             });
         }
         if (nextProps.user) {
@@ -108,6 +120,7 @@ class TeamProfile extends Component {
                 <div className={"main-content"}>
                     <TeamProfileBlock
                         team={this.state.team}
+                        project={this.state.project}
                         editable={editable}
                     />
                     <div className="team-profile-footer">
@@ -157,6 +170,7 @@ TeamProfile.propTypes = {
 
 export default connect((reduxState) => ({
     team: reduxState.main.team.team,
+    project: reduxState.main.project.project,
     volunteers: reduxState.main.volunteer.volunteers,
     user: reduxState.main.auth.user,
     error: reduxState.main.team.error,

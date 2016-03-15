@@ -11,7 +11,10 @@ export default class Layout34 extends Component {
                         {this.props.children}
                     </section>
                 </div>
-                <Aside/>
+                <Aside
+                    team={this.props.team}
+                    project={this.props.project}
+                />
                 <div className="clearfix"></div>
             </div>
         );
@@ -20,4 +23,6 @@ export default class Layout34 extends Component {
 
 Layout34.propTypes = {
     page: React.PropTypes.string,
+    project: React.PropTypes.object,
+    team: React.PropTypes.object,
 };
