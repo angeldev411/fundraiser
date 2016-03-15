@@ -1,0 +1,8 @@
+@import '../../common/styles/variables.scss';
+
+
+@media (min-width: $screen-md-min) {
+    .page-content {
+        min-height: 100vh;
+    }
+}

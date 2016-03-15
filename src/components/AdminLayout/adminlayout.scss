@@ -11,6 +11,13 @@
     }
 }
 
+@media (min-width: $screen-md-min) {
+    .admin-layout {
+        min-height: 100vh;
+        padding-bottom: 207px;
+    }
+}
+
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min) {
     .admin-layout {
