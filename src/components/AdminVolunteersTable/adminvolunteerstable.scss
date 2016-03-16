@@ -25,6 +25,18 @@ table.volunteers {
                     }
                 }
 
+                a {
+                    color: $light-grey;
+                    text-decoration: none;
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        text-decoration: none;
+                        color: $green;
+                    }
+                }
+
                 input {
                     text-align: center;
                 }
