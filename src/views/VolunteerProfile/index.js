@@ -4,6 +4,7 @@ import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
 import * as Actions from '../../redux/volunteer/actions';
 import * as TeamActions from '../../redux/team/actions';
+import * as ProjectActions from '../../redux/project/actions';
 import RouteNotFound from '../RouteNotFound';
 import { pushPath } from 'redux-simple-router';
 import { Link } from 'react-router';
@@ -26,12 +27,18 @@ class VolunteerProfile extends Component {
                 name: 'Unknown name',
                 tagline: 'Default Tagline',
             },
+            project: {
+                name: '',
+            },
         };
     }
     componentWillMount() {
         TeamActions.getTeam(
             this.props.params.projectSlug,
             this.props.params.teamSlug,
+        )(this.props.dispatch);
+        ProjectActions.getProject(
+            this.props.params.projectSlug,
         )(this.props.dispatch);
         Actions.getVolunteer(this.props.params.volunteerSlug)(this.props.dispatch);
     }
@@ -47,6 +54,11 @@ class VolunteerProfile extends Component {
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
+            });
+        }
+        if (nextProps.project) {
+            this.setState({
+                project: nextProps.project,
             });
         }
         if (nextProps.team) {
@@ -77,6 +89,7 @@ class VolunteerProfile extends Component {
                 <div className={"main-content"}>
                     <TeamProfileBlock
                         team={this.state.team}
+                        project={this.state.project}
                         volunteerprofile={true}
                     />
                 </div>
@@ -93,6 +106,7 @@ VolunteerProfile.propTypes = {
 
 export default connect((reduxState) => ({
     volunteer: reduxState.main.volunteer.volunteer,
+    project: reduxState.main.project.project,
     team: reduxState.main.team.team,
     user: reduxState.main.auth.user,
     error: reduxState.main.volunteer.error,

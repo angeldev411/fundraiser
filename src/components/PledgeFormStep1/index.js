@@ -104,7 +104,6 @@ export default class PledgeFormStep1 extends Component {
     };
 
     render() {
-        console.log(this.state);
         let switcher = null;
 
         if (!this.props.oneTimeOnly && this.state.amount) {
