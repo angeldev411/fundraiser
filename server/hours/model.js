@@ -25,7 +25,8 @@ const Hour = db.defineNode({
 class HourRepository {
     static insert(userId, hourValues) {
         return new Promise((resolve, reject) => {
-            return (new Hour(hourValues)).save()
+            return (new Hour(hourValues))
+            .save()
             .then((hourCreateResult) => {
                 db.query(`
                     MATCH (u:VOLUNTEER {id: {userId} }), (h:HOUR {id: {id} })
@@ -36,11 +37,29 @@ class HourRepository {
                 })
                 .getResults()
                 .then(() => {
-                    resolve(hourValues);
-                }).catch((error) => {
+                    return this.isApprovalRequired(userId)
+                    .then((required) => {
+                        if (!required) {
+                            return this.approve(hourCreateResult.id)
+                            .then(() => {
+                                resolve(hourValues);
+                            })
+                            .catch((err) => {
+                                reject(err);
+                            });
+                        } else {
+                            resolve(hourValues);
+                        }
+                    })
+                    .catch((approvalError) => {
+                        reject(null);
+                    });
+                })
+                .catch((error) => {
                     reject(null);
                 });
-            }).catch((hourCreateError) => {
+            })
+            .catch((hourCreateError) => {
                 reject(null);
             });
         });
@@ -97,14 +116,20 @@ class HourRepository {
     }
 
     static approve(hourId) {
-        return db.query(
-            `MATCH (h:HOUR {id: {hourId}})
-            SET h.approved=true
-            RETURN h`,
-            {},
-            { hourId }
-        )
-        .getResults('h');
+        return this.updateHoursAttributes(hourId)
+        .then(() => {
+            return db.query(
+                `MATCH (h:HOUR {id: {hourId}})
+                SET h.approved=true
+                RETURN h`,
+                {},
+                { hourId }
+            )
+            .getResults('h');
+        })
+        .catch((err) => {
+            Promise.reject(err);
+        });
     }
 
     static isApprovalRequired(volunteerId) {
@@ -122,6 +147,28 @@ class HourRepository {
         })
         .catch((err) => {
             return Promise.reject(false);
+        });
+    }
+
+    static updateHoursAttributes(hourId) {
+        return db.query(`
+            MATCH (h:HOUR {id: {hourId}})<-[:VOLUNTEERED]-(u:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)
+            SET     u.currentHours = u.currentHours + h.hours,
+                    u.totalHours = u.totalHours + h.hours,
+                    t.totalHours = t.totalHours + h.hours
+            RETURN {volunteer: u, team: t} AS result
+            `,
+            {},
+            {
+                hourId,
+            }
+        )
+        .getResult('result')
+        .then((result) => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
     }
 }
