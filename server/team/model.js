@@ -1,4 +1,4 @@
-'use strict';
+typeof 'use strict';
 import uuid from 'uuid';
 import mailer from '../helpers/mailer.js';
 import util from '../helpers/util.js';
@@ -117,19 +117,19 @@ class Team {
             id: teamData.id,
             name: teamData.name,
             slug: teamData.slug,
-            ...(teamData.teamLeaderEmail ? { teamLeaderEmail: teamData.teamLeaderEmail } : {}),
-            ...(teamData.logoImageData ? { logoImageData: teamData.logoImageData } : {}),
-            ...(teamData.coverImageData ? { coverImageData: teamData.coverImageData } : {}),
-            ...(teamData.logo ? { logo: teamData.logo } : {}),
-            ...(teamData.coverImage ? { coverImage : teamData.coverImage } : {}),
-            ...(teamData.tagline ? { tagline: teamData.tagline } : {}),
-            ...(teamData.slogan ? { slogan: teamData.slogan } : {}),
-            ...(teamData.description ? { description: teamData.description } : {}),
-            ...(teamData.raised ? { raised : teamData.raised } : {}),
-            ...(teamData.pledge ? { pledge: teamData.pledge } : {}),
-            ...(teamData.pledgePerHour ? { pledgePerHour : teamData.pledgePerHour } : {}),
-            ...(teamData.totalHours ? { totalHours: teamData.totalHours } : {}),
-            ...(teamData.totalVolunteers ? { totalVolunteers: teamData.totalVolunteers } : {}),
+            ...(typeof teamData.teamLeaderEmail !== 'undefined' ? { teamLeaderEmail: teamData.teamLeaderEmail } : {}),
+            ...(typeof teamData.logoImageData !== 'undefined' ? { logoImageData: teamData.logoImageData } : {}),
+            ...(typeof teamData.coverImageData !== 'undefined' ? { coverImageData: teamData.coverImageData } : {}),
+            ...(typeof teamData.logo !== 'undefined' ? { logo: teamData.logo } : {}),
+            ...(typeof teamData.coverImage !== 'undefined' ? { coverImage : teamData.coverImage } : {}),
+            ...(typeof teamData.tagline !== 'undefined' ? { tagline: teamData.tagline } : {}),
+            ...(typeof teamData.slogan !== 'undefined' ? { slogan: teamData.slogan } : {}),
+            ...(typeof teamData.description !== 'undefined' ? { description: teamData.description } : {}),
+            ...(typeof teamData.raised !== 'undefined' ? { raised : teamData.raised } : {}),
+            ...(typeof teamData.pledge !== 'undefined' ? { pledge: teamData.pledge } : {}),
+            ...(typeof teamData.pledgePerHour !== 'undefined' ? { pledgePerHour : teamData.pledgePerHour } : {}),
+            ...(typeof teamData.totalHours !== 'undefined' ? { totalHours: teamData.totalHours } : {}),
+            ...(typeof teamData.totalVolunteers !== 'undefined' ? { totalVolunteers: teamData.totalVolunteers } : {}),
             ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
             ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
         };

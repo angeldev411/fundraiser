@@ -116,16 +116,16 @@ class HourRepository {
     }
 
     static approve(hourId) {
-        return this.updateHoursAttributes(hourId)
-        .then(() => {
-            return db.query(
-                `MATCH (h:HOUR {id: {hourId}})
-                SET h.approved=true
-                RETURN h`,
-                {},
-                { hourId }
-            )
-            .getResults('h');
+        return db.query(
+            `MATCH (h:HOUR {id: {hourId}})
+            SET h.approved=true
+            RETURN h`,
+            {},
+            { hourId }
+        )
+        .getResult('h')
+        .then((h) => {
+            return this.updateHoursAttributes(hourId, h.hours);
         })
         .catch((err) => {
             Promise.reject(err);
@@ -150,17 +150,18 @@ class HourRepository {
         });
     }
 
-    static updateHoursAttributes(hourId) {
+    static updateHoursAttributes(hourId, hours) {
         return db.query(`
             MATCH (h:HOUR {id: {hourId}})<-[:VOLUNTEERED]-(u:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)
-            SET     u.currentHours = u.currentHours + h.hours,
-                    u.totalHours = u.totalHours + h.hours,
-                    t.totalHours = t.totalHours + h.hours
+            SET     u.currentHours = u.currentHours + {hours},
+                    u.totalHours = u.totalHours + {hours},
+                    t.totalHours = t.totalHours + {hours}
             RETURN {volunteer: u, team: t} AS result
             `,
             {},
             {
                 hourId,
+                hours: parseInt(hours, 10),
             }
         )
         .getResult('result')
