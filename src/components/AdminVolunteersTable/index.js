@@ -147,7 +147,7 @@ export default class AdminVolunteersTable extends Component {
                                 <td className="volunteer-email">
                                     <a href={`mailto:${volunteer.email}`}>{volunteer.email}</a>
                                 </td>
-                                <td>{volunteer.hours ? volunteer.hours : 0}</td>
+                                <td>{volunteer.totalHours ? volunteer.totalHours : 0}</td>
                                 <td>{volunteer.sponsors ? volunteer.sponsors : 0}</td>
                                 <td>{'$'}{volunteer.raised ? volunteer.raised : 0}</td>
                                 <td>{'$'}{volunteer.hourPledge ? volunteer.hourPledge : 0}</td>
