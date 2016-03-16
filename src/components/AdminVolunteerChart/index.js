@@ -46,13 +46,17 @@ export default class AdminVolunteerChart extends Component {
         return new Date(year, month + 1, 0).getDate();
     };
 
+    getDaysWithHours = () => {
+        return this.props.data.length;
+    };
+
     prepareGraphData = (rawData) => {
         const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
 
         rawData.map((dataPoint) => {
             if (dataPoint.date.getMonth() === this.props.currentMonth) {
                 // If date(s) missing, manually create date
-                if (dataPoint.date.getDate() !== this.state.currentDay) {
+                if (Constants.GRAPH_ACTIVATE_EMPTY_BARS && dataPoint.date.getDate() !== this.state.currentDay) {
                     const diff = dataPoint.date.getDate() - this.state.currentDay;
 
                     // Add missing item(s)
@@ -76,7 +80,7 @@ export default class AdminVolunteerChart extends Component {
             }
         });
 
-        if (!(this.state.currentDay > daysInMonth)) { // If month is incomplete
+        if (Constants.GRAPH_ACTIVATE_EMPTY_BARS && !(this.state.currentDay > daysInMonth)) { // If month is incomplete
             const diff = daysInMonth - this.state.currentDay + 1;
 
             // Add missing item(s)
@@ -137,7 +141,12 @@ export default class AdminVolunteerChart extends Component {
         const barPadding = 5;
         const barWidth = 20;
 
-        const w = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear) * (barWidth + barPadding);
+        const w = Constants.GRAPH_ACTIVATE_EMPTY_BARS
+                    ? (this.getDaysInMonth(this.props.currentMonth, this.props.currentYear) * (barWidth + barPadding))
+                    : (this.getDaysWithHours() * (barWidth + barPadding));
+
+        console.log(w);
+
         const h = 320;
         const innerH = h - 65;
         let maxOfGoalAndTotalHours;

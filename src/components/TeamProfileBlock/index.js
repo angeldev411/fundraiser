@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Layout34 from '../Layout34';
 import EditButton from '../EditButton';
 import * as constants from '../../common/constants';
+import * as Urls from '../../urls';
+import { Link } from 'react-router';
 import EditLogoForm from '../EditLogoForm';
 import EditSloganForm from '../EditSloganForm';
 import EditDescriptionForm from '../EditDescriptionForm';
@@ -83,7 +85,17 @@ export default class TeamProfileBlock extends Component {
                         </div>
                         )
                     }
-                    <h1>{this.props.team.name}</h1>
+                    <h1>
+                        {this.props.team.name}
+                        {this.props.volunteerprofile
+                            ? (<span id={'team-link'}>
+                                <Link to={Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}>
+                                    {'View team profile'}
+                                </Link>
+                            </span>)
+                            : null
+                        }
+                    </h1>
                     <p>
                         {this.props.team.description}
                     </p>

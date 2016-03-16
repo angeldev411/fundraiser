@@ -3,6 +3,8 @@ import ModalButton from '../ModalButton';
 import AdminTeamEmailForm from '../AdminTeamEmailForm';
 import * as constants from '../../common/constants';
 import classNames from 'classnames';
+import { Link } from 'react-router';
+import * as Urls from '../../urls.js';
 
 export default class AdminVolunteersTable extends Component {
 
@@ -27,6 +29,11 @@ export default class AdminVolunteersTable extends Component {
                     });
                 }
             }
+        }
+        if (nextProps.user) {
+            this.setState({
+                user: nextProps.user,
+            });
         }
     }
 
@@ -135,9 +142,11 @@ export default class AdminVolunteersTable extends Component {
                                     :
                                         <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
                                     }
-                                    {`${volunteer.firstName} ${volunteer.lastName}`}
+                                    <Link to={Urls.getVolunteerProfileUrl(this.state.user.project.slug, this.state.user.team.slug, volunteer.slug)}>{`${volunteer.firstName} ${volunteer.lastName}`}</Link>
                                 </td>
-                                <td className="volunteer-email">{volunteer.email}</td>
+                                <td className="volunteer-email">
+                                    <a href={`mailto:${volunteer.email}`}>{volunteer.email}</a>
+                                </td>
                                 <td>{volunteer.hours ? volunteer.hours : 0}</td>
                                 <td>{volunteer.sponsors ? volunteer.sponsors : 0}</td>
                                 <td>{'$'}{volunteer.raised ? volunteer.raised : 0}</td>

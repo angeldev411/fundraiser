@@ -115,17 +115,20 @@ export default class RecordHoursForm extends Component {
                     />
                     <label htmlFor="date">{'Date'}</label>
                 </div>
-                <div className="form-group">
-                    <input type="text"
-                        name="supervisor"
-                        id="supervisor"
-                        onChange={(e) => { this.handleChange(e, 'supervisor') }}
-                    />
-                    <label htmlFor="supervisor">{'Supervisor'}</label>
-                </div>
                 {this.props.team.signatureRequired ?
-                    <SignaturePad ref='signature'/> :
-                    null}
+                    <div>
+                        <div className="form-group">
+                            <input type="text"
+                                name="supervisor"
+                                id="supervisor"
+                                onChange={(e) => { this.handleChange(e, 'supervisor') }}
+                            />
+                            <label htmlFor="supervisor">{'Supervisor'}</label>
+                        </div>
+
+                        <SignaturePad ref='signature'/>
+                    </div>
+                    : null}
 
 
                 <Button
