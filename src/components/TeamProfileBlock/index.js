@@ -31,7 +31,11 @@ export default class TeamProfileBlock extends Component {
     render() {
         return (
             <div className={"container"}>
-                <Layout34 page={'team-profile'}>
+                <Layout34
+                    team={this.props.team}
+                    project={this.props.project}
+                    page={'team-profile'}
+                >
                     <img id="team-logo"
                         src={
                             this.state.team.logo ?
@@ -105,6 +109,7 @@ export default class TeamProfileBlock extends Component {
 
 TeamProfileBlock.propTypes = {
     team: React.PropTypes.object,
+    project: React.PropTypes.object,
     volunteerprofile: React.PropTypes.bool,
     editable: React.PropTypes.bool,
 };

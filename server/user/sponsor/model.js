@@ -291,7 +291,7 @@ export default class Sponsor {
                         for (let j = 0; j < pledges.length; j++) {
                             const currentPledge = {
                                 support: pledges[j].support,
-                                sponsored: pledges[j].name ? pledges[j].sponsored : userController.safe(pledges[j].sponsored),
+                                sponsored: pledges[j].sponsored.name ? pledges[j].sponsored : userController.safe(pledges[j].sponsored),
                             };
 
                             users[i].pledges.push(currentPledge);

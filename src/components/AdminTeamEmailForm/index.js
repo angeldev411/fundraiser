@@ -21,7 +21,7 @@ class AdminTeamEmailForm extends Component {
             this.props.user.team.slug,
             this.state.subject,
             this.state.message,
-            this.props.recipients.length > 0 ? this.props.recipients : null,
+            this.props.recipients ? this.props.recipients : null,
         )(this.props.dispatch);
     };
 
@@ -61,7 +61,7 @@ class AdminTeamEmailForm extends Component {
 
         let description = null;
 
-        if (this.props.recipients.length > 0) {
+        if (this.props.recipients) {
             for (let i = 0; i < this.props.recipients.length; i++) {
                 recipientsNames = `${recipientsNames} ${this.props.recipients[i].firstName} ${this.props.recipients[i].lastName},`;
             }
@@ -78,7 +78,7 @@ class AdminTeamEmailForm extends Component {
                 description={description}
                 onSubmit={this.submit}
             >
-                {this.props.recipients.length > 0 ? (
+                {this.props.recipients ? (
                     <div className="form-group">
                         <input type="text"
                             name="recipients"

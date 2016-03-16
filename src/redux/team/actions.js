@@ -56,8 +56,8 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
 }
 
 export function updateTeam(id, team, projectSlug) {
-    dispatch(updateTeamFailed(''));
     return (dispatch) => {
+        dispatch(updateTeamFailed(''));
         return axios.put(`${API_URL}/team/${id}`, {
             team,
             projectSlug,
