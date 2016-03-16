@@ -44,7 +44,6 @@ class TeamSignup extends Component {
             } else {
                 window.location = `${Urls.REDIRECT_TO_DASHBOARD}`;
             }
-
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,
