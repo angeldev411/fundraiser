@@ -114,7 +114,7 @@ class AdminTeamSponsors extends Component {
             },
         ];
 
-
+        // TODO REMOVE API CALLS AND GET DATA FROM SESSION
         return (
             <Page>
                 <AdminLayout pageNav={pageNav}>
