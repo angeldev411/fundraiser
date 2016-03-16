@@ -46,7 +46,7 @@ export default class Cover extends Component {
 
     render() {
         const style = {
-            backgroundImage : `url(${this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
+            backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
         };
 
         let COVERCONTENT = null;

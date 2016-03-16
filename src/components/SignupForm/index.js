@@ -141,5 +141,5 @@ export default class SignupForm extends Component {
 SignupForm.propTypes = {
     onSubmit: React.PropTypes.func,
     error: React.PropTypes.string,
-    loading: React.PropTypes.boolean,
+    loading: React.PropTypes.bool,
 };

@@ -4,6 +4,7 @@ import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import * as Urls from '../src/urls.js';
 // import multer from 'multer';
 
 import config from './config';
@@ -21,7 +22,6 @@ import securityMiddleware from './auth/middleware';
 app.use(securityMiddleware);
 
 // Routes
-import * as Urls from '../src/urls.js';
 import authRoutes from './auth/routes';
 import projectRoutes from './project/routes';
 import teamRoutes from './team/routes';
@@ -46,7 +46,7 @@ app.use(hoursRoutes);
 app.use(sponsorRoutes);
 app.use(emailRoutes);
 
-app.use('/dashboard', (req, res) => {
+app.use(`${Urls.REDIRECT_TO_DASHBOARD}`, (req, res) => {
     if (req.session.user) {
         if (req.session.user.roles.indexOf('SUPER_ADMIN') >= 0) {
             res.redirect(Urls.ADMIN_PROJECTS_URL);

@@ -1,10 +1,10 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import * as TeamActions from '../../redux/team/actions';
 import * as Actions from '../../redux/user/actions';
+import * as Urls from '../../urls';
 import RouteNotFound from '../RouteNotFound';
 
 /* Then React components */
@@ -39,7 +39,12 @@ class TeamSignup extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
-            window.location = '/dashboard';
+            if (nextProps.user.roles.indexOf('VOLUNTEER') >= 0) {
+                window.location = `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`;
+            } else {
+                window.location = `${Urls.REDIRECT_TO_DASHBOARD}`;
+            }
+
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,
@@ -80,14 +85,14 @@ class TeamSignup extends Component {
                 <Cover
                     image={
                         this.state.team.coverImage ?
-                        `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}` :
+                        `${this.state.team.coverImage}` :
                         null
                     }
                     customclass={"cover-signup"}
                     tagline={this.state.team.tagline}
                     logo={
                         this.state.team.logo ?
-                        `${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.logo}` :
+                        `${this.state.team.logo}` :
                         null
                     }
                 />
