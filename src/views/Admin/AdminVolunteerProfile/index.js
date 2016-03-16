@@ -273,11 +273,18 @@ export default class AdminVolunteerProfile extends Component {
                                 {this.state.volunteerUpdateStatus === true && this.getSuccessMessage()}
 
                                 <Button
-                                    customClass="btn-green-white"
+                                    customClass="profile-actions btn-green-white"
                                     onClick={this.submitProfile}
                                     disabled={this.state.loading}
                                 >
                                     {'Save'}
+                                </Button>
+
+                                <Button
+                                    to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
+                                    customClass="profile-actions btn-transparent-green"
+                                >
+                                    {'Cancel'}
                                 </Button>
                             </form>
                         </section>
