@@ -16,14 +16,15 @@ export default class CollapsableLine extends Component {
     render() {
         return (
             <li className="collapsable clearfix">
-                <button
-                    className={'expand btn-link pull-right'}
-                    onClick={this.toggle}
-                >
-                    {this.state.collapsed ? '+' : '-'}
-                </button>
-                {this.props.children}
-
+                <div className={'col-xs-12'}>
+                    <button
+                        className={'expand btn-link pull-right'}
+                        onClick={this.toggle}
+                    >
+                        {this.state.collapsed ? '+' : '-'}
+                    </button>
+                    {this.props.children}
+                </div>
                 {
                     this.state.collapsed ?
                     (null) :
