@@ -1,6 +1,6 @@
 'use strict';
 import readline from 'readline';
-
+import Promise from 'bluebird';
 import config from '../config';
 const db = require('neo4j-simple')(config.DB_URL);
 
@@ -194,18 +194,16 @@ class setup {
     }
 
     static addVolunteers() {
-        return Promise.all(
-            fixtures.volunteers.map(
-                (volunteerMapped, i) => {
-                    volunteerMapped.password = volunteerMapped.hashedPassword;
-                    delete volunteerMapped.hashedPassword;
-                    if (!(i % 2)) {
-                        return new Volunteer(volunteerMapped, fixtures.teams[0].slug);
-                    }
-                    return new Volunteer(volunteerMapped, fixtures.teams[1].slug);
-                }
-            )
-        ).then((user) => {
+        return Promise.resolve(fixtures.volunteers)
+        .each((volunteer, i) => {
+            volunteer.password = volunteer.hashedPassword;
+            delete volunteer.hashedPassword;
+            if (!(i % 2)) {
+                return new Volunteer(volunteer, fixtures.teams[0].slug);
+            } else {
+                return new Volunteer(volunteer, fixtures.teams[1].slug);
+            }
+        }).then((user) => {
             if (user) {
                 console.log('Volunteers : ok');
                 return;
@@ -218,16 +216,15 @@ class setup {
     }
 
     static addHours() {
-        return Promise.all(
-            fixtures.hours.map(
-                (hour, i) => {
-                    if (!(i % 2)) {
-                        return HourRepository.insert(fixtures.volunteers[0].id, fixtures.hours[i])
-                    }
-                    return HourRepository.insert(fixtures.volunteers[1].id, fixtures.hours[i]);
-                }
-            )
-        ).then((user) => {
+        return Promise.resolve(fixtures.hours)
+        .each((hour, i) => {
+            if (!(i % 2)) {
+                return HourRepository.insert(fixtures.volunteers[0].id, fixtures.hours[i]);
+            } else {
+                return HourRepository.insert(fixtures.volunteers[1].id, fixtures.hours[i]);
+            }
+        })
+        .then((user) => {
             if (user) {
                 console.log('Hours : ok');
                 return;
@@ -240,16 +237,15 @@ class setup {
     }
 
     static addSponsors() {
-        return Promise.all(
-            fixtures.sponsors.map(
-                (sponsor, i) => {
-                    if (!(i % 2)) {
-                        return new Sponsor(sponsor, fixtures.pledges[i], fixtures.teams[0].slug);
-                    }
-                    return new Sponsor(sponsor, fixtures.pledges[i], null, fixtures.volunteers[0].slug);
-                }
-            )
-        ).then((sponsor) => {
+        return Promise.resolve(fixtures.sponsors)
+        .each((sponsor, i) => {
+            if (!(i % 2)) {
+                return new Sponsor(sponsor, fixtures.pledges[i], fixtures.teams[0].slug);
+            } else {
+                return new Sponsor(sponsor, fixtures.pledges[i], null, fixtures.volunteers[0].slug);
+            }
+        })
+        .then((sponsor) => {
             if (sponsor) {
                 console.log('Sponsors : ok');
                 return;

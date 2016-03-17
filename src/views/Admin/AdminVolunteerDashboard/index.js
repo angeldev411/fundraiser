@@ -10,7 +10,6 @@ import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import AdminVolunteerChart from '../../../components/AdminVolunteerChart';
 import * as Actions from '../../../redux/volunteer/actions';
-import * as ActionsSponsor from '../../../redux/sponsor/actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import * as Urls from '../../../urls.js';
@@ -19,17 +18,7 @@ export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
         document.title = 'Dashboard | Raiserve';
 
-        this.state = {
-            sponsors: [],
-        };
-
-        if (this.props.user) {
-            const projectSlug = this.props.user.project.slug;
-            const teamSlug = this.props.user.team.slug;
-            const volunteerSlug = this.props.user.slug;
-
-            ActionsSponsor.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
-        }
+        this.state = {};
 
         Actions.getHourLogs()(this.props.dispatch);
     }
@@ -44,14 +33,6 @@ export default class AdminVolunteerDashboard extends Component {
             this.getMonthHoursList(nextProps.hourLogsGet);
         }
         if (nextProps.user) {
-            const projectSlug = nextProps.user.project.slug;
-            const teamSlug = nextProps.user.team.slug;
-            const volunteerSlug = nextProps.user.slug;
-
-            if (!nextProps.sponsors) {
-                ActionsSponsor.indexSponsors(projectSlug, teamSlug, volunteerSlug)(this.props.dispatch);
-            }
-
             this.setState(
                 {
                     user: nextProps.user,
@@ -99,9 +80,7 @@ export default class AdminVolunteerDashboard extends Component {
     }
 
     render() {
-        console.log(this.props);
-        if (!this.props.user || !this.state.sponsors) {
-            console.log('return null');
+        if (!this.props.user) {
             return (null);
         }
 
@@ -138,16 +117,16 @@ export default class AdminVolunteerDashboard extends Component {
                         stats={
                             [
                                 {
-                                    current: this.props.user.currentHours || 0,
+                                    current: this.props.user.currentHours,
                                     title: 'Volunteered hours',
                                     goal: this.props.user.goal,
                                 },
                                 {
-                                    current: this.state.sponsors.length,
+                                    current: this.props.user.totalSponsors,
                                     title: 'Sponsors',
                                 },
                                 {
-                                    current: this.props.user.raised || 0,
+                                    current: this.props.user.raised,
                                     title: '$ Raised',
                                 },
                             ]

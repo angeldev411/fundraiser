@@ -74,11 +74,6 @@ const fixtures = {
             tagline: 'I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
             slogan: 'LOVE + HELP = MONEY FOR THE HOMELESS',
             description: 'I’ve Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat',
-            raised : 0,
-            pledge: 0,
-            pledgePerHour : 0,
-            totalHours: 0,
-            totalVolunteers: 0,
         },
         {
             name: 'Toy for tots LA',
@@ -98,10 +93,7 @@ const fixtures = {
             slug: 'wilson-chen',
             email: 'adrien.kuhn+wilson@osedea.com',
             password: 'wilson',
-            currentHours: 0,
-            totalHours: 0,
             goal: 30,
-            raised: 0,
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: 'Born on the west coast. Going to school on the east coast',
         },
@@ -114,10 +106,7 @@ const fixtures = {
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             email: 'adrien.kuhn+heather@osedea.com',
             image: 'user.jpg',
-            currentHours: 0,
-            totalHours: 0,
             goal: 50,
-            raised: 0,
             location: 'York, Pa',
             message: 'Personal Message Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. tecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.',
         },
@@ -127,10 +116,7 @@ const fixtures = {
             slug: 'kathy-simmons',
             email: 'adrien.kuhn+ksim@osedea.com',
             password: 'wilson',
-            currentHours: 0,
-            totalHours: 0,
             goal: 15,
-            raised: 0,
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
@@ -140,10 +126,7 @@ const fixtures = {
             slug: 'henry-stevens',
             email: 'adrien.kuhn+hst@osedea.com',
             password: 'wilson',
-            currentHours: 0,
-            totalHours: 0,
             goal: 240,
-            raised: 0,
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
@@ -257,11 +240,26 @@ const fixtures = {
             email: 'fs@aol.com',
             lastBilling: new Date().getTime(),
         },
+        {
+            email: 'rr@aol.com',
+        },
+        {
+            email: 'dlord@aol.com',
+        },
+        {
+            email: 'jl@aol.com',
+        },
+        {
+            email: 'db@aol.com',
+        },
+        {
+            email: 'fs@aol.com',
+        },
     ],
 
     pledges : [
         {
-            hourly: 2,
+            amount: 2,
         },
         {
             amount: 4,
@@ -271,6 +269,21 @@ const fixtures = {
         },
         {
             amount: 1,
+        },
+        {
+            amount: 8,
+        },
+        {
+            hourly: 2,
+        },
+        {
+            hourly: 4,
+        },
+        {
+            hourly: 5,
+        },
+        {
+            hourly: 1,
         },
         {
             hourly: 8,
