@@ -1,6 +1,6 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-import * as SponsorActions from '../../../redux/sponsor/actions';
+import * as Actions from '../../../redux/sponsor/actions';
 import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
@@ -30,7 +30,7 @@ class AdminTeamSponsors extends Component {
             const projectSlug = this.props.user.project.slug;
             const teamSlug = this.props.user.team.slug;
 
-            SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+            Actions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
         }
     }
 
@@ -48,7 +48,7 @@ class AdminTeamSponsors extends Component {
             const projectSlug = nextProps.user.project.slug;
             const teamSlug = nextProps.user.team.slug;
 
-            SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+            Actions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
 
             this.setState(
                 {
