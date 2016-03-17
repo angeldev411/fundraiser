@@ -560,6 +560,8 @@ export default class Sponsor {
                 return Promise.all([
                     // Create a paid relation with status 1
                     Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, sponsoring.volunteer, 1, transactionTimestamp, charged.id),
+                    // Update total paid on sponsoring relation
+                    Sponsor.updateSupportingRelationTotal(sponsoring.sponsor, amountToBill, sponsoring.volunteer),
                     // Update last billing attribute
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
                     // Update raised attributes on Volunteer and Team.
@@ -628,7 +630,11 @@ export default class Sponsor {
 
     /*
      * createPaidRelation()
-     * Create a paid relation between sponsor and volunteer, which contains date, amount, status and transaction id
+     * Create a paid relation between sponsor and volunteer, which contains
+     *      date,
+     *      amount,
+     *      status,
+     *      transaction id
      *
      * sponsor: sponsor object
      * amount: amount billed in USD
@@ -651,6 +657,29 @@ export default class Sponsor {
                 stripeTransactionId,
                 date,
                 status,
+            }
+        );
+    };
+
+    /*
+     * updateSupportingRelationTotal()
+     * Update the total donated on the support contract
+     *
+     * sponsor: sponsor object
+     * amount: amount billed in USD
+     * volunteer: volunteer object
+    */
+    static updateSupportingRelationTotal = (sponsor, amount, volunteer) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR {id: {sponsorId} })-[support:SUPPORTING]->(volunteer:VOLUNTEER {id: {volunteerId} })
+            SET support.total = support.total + {amount}
+            RETURN support
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+                amount,
+                volunteerId: volunteer.id,
             }
         );
     };
