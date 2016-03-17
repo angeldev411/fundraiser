@@ -7,7 +7,6 @@ import fixtures from './fixtures';
 
 import Volunteer from '../user/volunteer/model';
 import Sponsor from '../user/sponsor/model';
-import company from '../user/corporate/company';
 import SuperAdmin from '../user/super-admin/model';
 import TeamLeader from '../user/team-leader/model';
 import teamController from '../team/controller';
@@ -72,10 +71,6 @@ class setup {
         .catch((err) => {
             console.error('superAdmins : ', err);
         });
-    }
-
-    static assignSuperAdmins() {
-        company.assignCorporate(fixtures.superAdmins[0]);
     }
 
     static addProjects() {
