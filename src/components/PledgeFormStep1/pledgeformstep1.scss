@@ -16,11 +16,46 @@
     font-family: $conduit-light;
 }
 
-#hourly-pledge-info {
-    color: $green;
+#tooltip-label {
+    position: relative;
+    top: 4px;
+}
+
+#tooltip-trigger {
     font-size: 1em;
-    font-family: $conduit-light;
-    padding: 0;
+    color: $light-grey;
+    position: relative;
+    top: 5px;
+    margin-left: 5px;
+
+    &:hover {
+        color: $green;
+
+        i {
+            border: solid 1px $green;
+        }
+    }
+
+    i {
+        padding-top: .25em;
+        width: 1.5em;
+        height: 1.5em;
+        border: solid 1px $light-grey;
+        border-radius: 1em;
+        text-align: center;
+    }
+}
+
+.tooltip {
+    background-color: $green!important;
+    font-family: $arial;
+    font-size: .88em!important;
+    opacity: 1!important;
+    max-width: 260px;
+
+    &:after {
+        border-left-color: $green!important;
+    }
 }
 
 .pledge-amount {
