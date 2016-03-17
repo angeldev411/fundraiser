@@ -78,7 +78,6 @@ const fixtures = {
             pledge: 0,
             pledgePerHour : 0,
             totalHours: 0,
-            totalVolunteers: 0,
         },
         {
             name: 'Toy for tots LA',
