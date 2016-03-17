@@ -43,6 +43,11 @@ class Team {
             ...(rawTeamData),
             id: uuid.v4(),
             totalVolunteers: 0,
+            totalHours: 0,
+            totalSponsors: 0,
+            hourlyPledge: 0,
+            raised: 0,
+            totalRaised: 0,
         });
 
         return Team.validate(teamData)
@@ -127,10 +132,11 @@ class Team {
             ...(typeof teamData.slogan !== 'undefined' ? { slogan: teamData.slogan } : {}),
             ...(typeof teamData.description !== 'undefined' ? { description: teamData.description } : {}),
             ...(typeof teamData.raised !== 'undefined' ? { raised : teamData.raised } : {}),
-            ...(typeof teamData.pledge !== 'undefined' ? { pledge: teamData.pledge } : {}),
-            ...(typeof teamData.pledgePerHour !== 'undefined' ? { pledgePerHour : teamData.pledgePerHour } : {}),
+            ...(typeof teamData.totalRaised !== 'undefined' ? { totalRaised : teamData.totalRaised } : {}),
+            ...(typeof teamData.hourlyPledge !== 'undefined' ? { hourlyPledge : teamData.hourlyPledge } : {}),
             ...(typeof teamData.totalHours !== 'undefined' ? { totalHours: teamData.totalHours } : {}),
             ...(typeof teamData.totalVolunteers !== 'undefined' ? { totalVolunteers: teamData.totalVolunteers } : {}),
+            ...(typeof teamData.totalSponsors !== 'undefined' ? { totalSponsors: teamData.totalSponsors } : {}),
             ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
             ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
         };

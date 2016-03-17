@@ -313,11 +313,21 @@ export default class Sponsor {
         });
     }
 
+    /*
+     * linkSponsorToSupportedNode()
+     * Link sponsor to the supported volunteer or team and update team/volunteer attributes
+     *
+     * sponsor: sponsor object
+     * pledge: pledge object
+     * teamSlug
+     * volunteerSlug
+    */
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {
         if (teamSlug) {
             if (pledge.hourly) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                    SET team.totalSponsors = team.totalSponsors + 1
                     CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(team)
                     `,
                     {},
@@ -332,6 +342,7 @@ export default class Sponsor {
             } else if (pledge.amount) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                    SET team.totalSponsors = team.totalSponsors + 1
                     CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(team)
                     `,
                     {},
@@ -348,6 +359,7 @@ export default class Sponsor {
             if (pledge.hourly) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
+                    SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
                     CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(volunteer)
                     `,
                     {},
@@ -362,6 +374,7 @@ export default class Sponsor {
             } else if (pledge.amount) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
+                    SET volunteer.totalSponsors = volunteer.totalSponsors + 1
                     CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(volunteer)
                     `,
                     {},
@@ -665,7 +678,7 @@ export default class Sponsor {
 
     /*
      * updateRaisedAttributes()
-     * Update raised attributes on a volunteer and related team
+     * Update raised attribute on a volunteer and totalRaised attribute on related team
      *
      * volunteer: volunteer object
      * raised: raised money, so just charged amount
@@ -673,7 +686,8 @@ export default class Sponsor {
     static updateRaisedAttributes = (volunteer, raised) => {
         return db.query(`
             MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)
-            SET volunteer.raised = volunteer.raised + {raised}, team.raised = team.raised + {raised}
+            SET     volunteer.raised = volunteer.raised + {raised},
+                    team.totalRaised = team.totalRaised + {raised}
             RETURN volunteer
             `,
             {},
@@ -686,7 +700,7 @@ export default class Sponsor {
 
     /*
      * updateRaisedAttributesBySlug()
-     * Update raised attributes on a volunteer and related team
+     * Update raised and totalRaised attributes on a volunteer and related team
      *
      * volunteer: volunteer object
      * raised: raised money, so just charged amount
@@ -695,7 +709,8 @@ export default class Sponsor {
         if (volunteerSlug) {
             return db.query(`
                 MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)
-                SET volunteer.raised = volunteer.raised + {raised}, team.raised = team.raised + {raised}
+                SET     volunteer.raised = volunteer.raised + {raised},
+                        team.totalRaised = team.totalRaised + {raised}
                 RETURN volunteer
                 `,
                 {},
@@ -707,7 +722,7 @@ export default class Sponsor {
         } else if (teamSlug) {
             return db.query(`
                 MATCH (team:TEAM {slug: {teamSlug} })
-                SET team.raised = team.raised + {raised}
+                SET     team.raised = team.raised + {raised}
                 RETURN team
                 `,
                 {},

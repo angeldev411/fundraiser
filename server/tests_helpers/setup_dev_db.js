@@ -216,16 +216,15 @@ class setup {
     }
 
     static addHours() {
-        return Promise.all(
-            fixtures.hours.map(
-                (hour, i) => {
-                    if (!(i % 2)) {
-                        return HourRepository.insert(fixtures.volunteers[0].id, fixtures.hours[i])
-                    }
-                    return HourRepository.insert(fixtures.volunteers[1].id, fixtures.hours[i]);
-                }
-            )
-        ).then((user) => {
+        return Promise.resolve(fixtures.hours)
+        .each((hour, i) => {
+            if (!(i % 2)) {
+                return HourRepository.insert(fixtures.volunteers[0].id, fixtures.hours[i]);
+            } else {
+                return HourRepository.insert(fixtures.volunteers[1].id, fixtures.hours[i]);
+            }
+        })
+        .then((user) => {
             if (user) {
                 console.log('Hours : ok');
                 return;

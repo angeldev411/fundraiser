@@ -25,9 +25,17 @@ export default class Volunteer {
             data.slug = slug(`${data.firstName.toLowerCase()}-${data.lastName.toLowerCase()}`);
         }
 
+        // Set default attributes to 0
+        data.hourlyPledge = 0;
+        data.totalSponsors = 0;
+        data.currentHours = 0;
+        data.totalHours = 0;
+        data.raised = 0;
+
         return new User(data, VOLUNTEER)
         .then((volunteerCreated) => {
             volunteer = volunteerCreated;
+            // Create relation and increment team volunteers number
             return db.query(`
                 MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                 SET team.totalVolunteers = team.totalVolunteers + 1
