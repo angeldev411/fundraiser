@@ -21,6 +21,7 @@ export default class AdminVolunteerProfile extends Component {
         this.state = {
             user: this.props.user,
             loading: false,
+            editPassword: false,
         };
     }
 
@@ -150,6 +151,12 @@ export default class AdminVolunteerProfile extends Component {
         });
     };
 
+    handlePasswordInputs = () => {
+        this.setState({
+            editPassword: !this.state.editPassword,
+        });
+    };
+
     render() {
         if (!this.state.user) {
             return null;
@@ -218,22 +225,37 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="email">{'Email address'}</label>
                                 </div>
-                                <div className="form-group">
-                                    <input type="password"
-                                        name="new-password"
-                                        id="new-password"
-                                        onChange={(e) => { this.handleChange(e, 'password') }}
-                                    />
-                                    <label htmlFor="new-password">{'New Password'}</label>
-                                </div>
-                                <div className="form-group">
-                                    <input type="password"
-                                        name="new-password-confirmation"
-                                        id="new-password-confirmation"
-                                        onChange={(e) => { this.handleChange(e, 'password2') }}
-                                    />
-                                    <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
-                                </div>
+                                {
+                                    this.state.editPassword ?
+                                        <div>
+                                            <div className="form-group">
+                                                <input type="password"
+                                                    name="new-password"
+                                                    id="new-password"
+                                                    onChange={(e) => { this.handleChange(e, 'password') }}
+                                                />
+                                                <label htmlFor="new-password">{'New Password'}</label>
+                                            </div>
+                                            <div className="form-group">
+                                                <input type="password"
+                                                    name="new-password-confirmation"
+                                                    id="new-password-confirmation"
+                                                    onChange={(e) => { this.handleChange(e, 'password2') }}
+                                                />
+                                                <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
+                                            </div>
+                                        </div>
+                                    :
+                                        <section>
+                                            <Button
+                                                customClass="btn-lg btn-transparent-green"
+                                                onClick={this.handlePasswordInputs}
+                                            >
+                                                {'Change Password'}
+                                            </Button>
+                                        </section>
+                                }
+
                                 <div className="dropzone form-group">
                                     <Dropzone
                                         onDrop={this.onDrop}
