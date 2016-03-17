@@ -10,10 +10,7 @@ import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import RecordHoursForm from '../../../components/RecordHoursForm';
-
 import * as Urls from '../../../urls.js';
-// TODO dynamic data
-import * as data from '../../../common/test-data';
 
 class AdminVolunteerSponsors extends Component {
     constructor(props) {
@@ -100,15 +97,15 @@ class AdminVolunteerSponsors extends Component {
                         stats={
                             [
                                 {
-                                    current: data.team.volunteers.length,
+                                    current: this.props.user.currentHours,
                                     title: 'Volunteered hours',
                                 },
                                 {
-                                    current: data.team.sponsors.length,
+                                    current: this.props.user.totalSponsors,
                                     title: 'Sponsors',
                                 },
                                 {
-                                    current: data.team.raised,
+                                    current: this.props.user.raised,
                                     title: '$ Raised',
                                 },
                             ]

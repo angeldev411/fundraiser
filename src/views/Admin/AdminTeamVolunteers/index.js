@@ -14,8 +14,6 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
-// TODO dynamic data
-import * as data from '../../../common/test-data';
 import AdminApproveHours from '../../../components/AdminApproveHours';
 
 
@@ -108,7 +106,6 @@ class AdminTeamVolunteers extends Component {
             },
         ];
 
-        // TODO REMOVE API CALLS AND GET DATA FROM SESSION
         return (
             <Page>
                 <AdminLayout pageNav={pageNav}>
@@ -140,15 +137,15 @@ class AdminTeamVolunteers extends Component {
                         stats={
                             [
                                 {
-                                    current: data.team.volunteers.length,
+                                    current: this.props.user.team.totalVolunteers,
                                     title: 'Volunteers',
                                 },
                                 {
-                                    current: data.team.sponsors.length,
+                                    current: this.props.user.team.totalSponsors,
                                     title: 'Sponsors',
                                 },
                                 {
-                                    current: data.team.raised,
+                                    current: this.props.user.team.totalRaised,
                                     title: '$ Raised',
                                 },
                             ]

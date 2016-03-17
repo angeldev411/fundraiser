@@ -1,6 +1,5 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
-import * as SponsorActions from '../../../redux/sponsor/actions';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 /* Then React components */
@@ -18,7 +17,9 @@ import * as Urls from '../../../urls.js';
 class AdminTeamDashboard extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            topVolunteers: [],
+        };
     }
 
     componentWillMount() {
@@ -28,31 +29,13 @@ class AdminTeamDashboard extends Component {
             const projectSlug = this.props.user.project.slug;
             const teamSlug = this.props.user.team.slug;
 
-            VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
             VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
-            SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
-        }
-        if (nextProps.sponsors) {
-            this.setState(
-                {
-                    sponsors: nextProps.sponsors,
-                    error: null,
-                }
-            );
-        }
-        if (nextProps.volunteers) {
-            this.setState(
-                {
-                    volunteers: nextProps.volunteers,
-                    error: null,
-                }
-            );
         }
         if (nextProps.topVolunteers) {
             this.setState(
@@ -65,13 +48,6 @@ class AdminTeamDashboard extends Component {
         if (nextProps.user) {
             const projectSlug = nextProps.user.project.slug;
             const teamSlug = nextProps.user.team.slug;
-
-            if (!this.state.sponsors) {
-                SponsorActions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
-            }
-            if (!this.state.volunteers) {
-                VolunteerActions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
-            }
 
             if (!this.state.topVolunteers) {
                 VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
@@ -87,7 +63,7 @@ class AdminTeamDashboard extends Component {
     }
 
     render() {
-        if (!this.props.user || !this.state.sponsors || !this.state.volunteers || !this.state.topVolunteers) {
+        if (!this.props.user) {
             return (null);
         }
 
@@ -130,7 +106,6 @@ class AdminTeamDashboard extends Component {
             },
         ];
 
-        // TODO REMOVE API CALLS AND GET DATA FROM SESSION
         return (
             <Page>
                 <AdminLayout pageNav={pageNav}>
@@ -142,7 +117,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.volunteers.length,
+                                    current: this.props.user.team.totalVolunteers,
                                     title: 'Volunteers',
                                 }
                             }
@@ -150,7 +125,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.sponsors.length,
+                                    current: this.props.user.team.totalSponsors,
                                     title: 'Sponsors',
                                 }
                             }
@@ -158,7 +133,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.props.user.team.raised,
+                                    current: this.props.user.team.totalRaised,
                                     title: '$ Raised',
                                 }
                             }
@@ -192,6 +167,4 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     error: reduxState.main.sponsor.error,
     topVolunteers: reduxState.main.volunteer.topVolunteers,
-    volunteers: reduxState.main.volunteer.volunteers,
-    sponsors: reduxState.main.sponsor.sponsors,
 }))(AdminTeamDashboard);
