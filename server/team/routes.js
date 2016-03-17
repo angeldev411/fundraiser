@@ -74,7 +74,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             res.status(400).send(err);
         });
     } else if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
-        // TODO verify if team leader is owner of team
         Team.isTeamLeaderTeamOwner(team.id, req.session.user.id)
         .then((result) => {
             teamController.update(data)
