@@ -26,6 +26,7 @@ class AdminVolunteers extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('nextprops', nextProps);
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
         } else if (nextProps.volunteers) {
@@ -74,8 +75,10 @@ class AdminVolunteers extends Component {
                     <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <AdminVolunteersTable volunteers={this.state.volunteers}
+                    <AdminVolunteersTable
+                        volunteers={this.state.volunteers}
                         actionable={false}
+                        user={this.props.user}
                     />
                 </AdminLayout>
             </Page>
