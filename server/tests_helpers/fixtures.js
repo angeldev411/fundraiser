@@ -11,9 +11,6 @@ const fixtures = {
             firstName: 'matt',
             lastName: 'murphy',
         },
-        {
-            email: 'test@test.com',
-        },
     ],
 
     teamLeaders: [
