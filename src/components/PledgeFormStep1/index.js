@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import ReactTooltip from 'react-tooltip';
 import ModalButton from '../../components/ModalButton';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
-import { connect } from 'react-redux';
 import PledgeFormStep2 from '../../components/PledgeFormStep2';
 
 // $ symbol and numbers are inversed in Options due to "direction: rtl" in the select CSS
@@ -75,11 +75,22 @@ export default class PledgeFormStep1 extends Component {
                             </option>)
                         )}
                     </select>
-                    <label htmlFor="hourly">{'Pledge per Hour'}</label>
+                    <label htmlFor="hourly"
+                        id={'tooltip-label'}
+                    >
+                        {'Pledge per Hour'}
+                    </label>
+                    <span id={'tooltip-trigger'}>
+                        <i
+                            className={'fa fa-question'}
+                            data-tip={`Your Card will be charged monthly as your volunteer completes their hours. You can change your rate at any point.`}
+                            data-type={'success'}
+                            data-class={'tooltip'}
+                            data-multiline
+                        ></i>
+                    </span>
                     <p id="pledge-goal">{`for ${this.props.goal} goal hours`}</p>
-                    <p id="hourly-pledge-info">
-                        {`Your Card will be charged monthly as your volunteer completes their hours. The amount is estimated to be $${estimation} per month. You can change your rate at any point.`}
-                    </p>
+                    <ReactTooltip />
                 </div>
             )
         } else if (!this.props.oneTimeOnly && this.state.amount) {
