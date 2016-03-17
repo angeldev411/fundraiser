@@ -1,13 +1,6 @@
 'use strict';
 import DataURI from 'datauri';
-
 const signature = (name = 'sig1') => new DataURI(`${__dirname}/files/images/signatures/${name}.png`);
-
-const headshot = (name = 'hs1') => new DataURI(`${__dirname}/files/images/headshots/${name}.jpg`);
-
-const splashImage = (name = 'buildon') => new DataURI(`${__dirname}/files/images/splash_images/${name}.jpg`);
-
-const logo = (name = 'buildon') => new DataURI(`${__dirname}/files/images/logos/${name}.jpg`);
 
 const fixtures = {
     superAdmins: [
@@ -42,12 +35,6 @@ const fixtures = {
             lastName: 'leader',
         },
     ],
-
-    company: {
-        name: 'Raiserve',
-        shortName: 'raiserve',
-        uuid: 'ghighi',
-    },
 
     projects: [
         {
@@ -196,19 +183,6 @@ const fixtures = {
         password: 'password',
     },
 
-    donors : [
-        {
-            email: 'jd@aol.com',
-            amount: 55.0,
-            stripeToken: 'abc',
-        },
-        {
-            email: 'hneye@aol.com',
-            amount: 10,
-            stripeToken: 'def',
-        },
-    ],
-
     sponsors : [
         {
             firstName: 'Renee',
@@ -356,19 +330,6 @@ const fixtures = {
         },
     ],
 
-    approvals : [
-        {
-            leaderUUID: 'abcd1234',
-            serviceUUID: 'svc10101',
-            signatureData: signature('sig1'),
-        },
-        {
-            leaderUUID: 'abcd1234',
-            serviceUUID: 'svc10102',
-            signatureData: signature('sig1'),
-        },
-    ],
-
     testProject : {
         name: 'TEST PROJECT',
         slug: 'test-project',
@@ -387,7 +348,6 @@ const fixtures = {
         email: 'test-sponsor@test.com',
         hourly: 10,
         cap: 100,
-        // stripeToken: 'thisIsAStripeToken',
         cc: '4242424242424242',
         cvv: '123',
         expiration: '12/18',
