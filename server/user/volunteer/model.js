@@ -30,6 +30,7 @@ export default class Volunteer {
             volunteer = volunteerCreated;
             return db.query(`
                 MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+                SET team.totalVolunteers = team.totalVolunteers + 1
                 CREATE (user)-[:VOLUNTEER]->(team)
                 `,
                 {},

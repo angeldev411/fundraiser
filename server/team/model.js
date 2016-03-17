@@ -42,6 +42,7 @@ class Team {
         const teamData = Team.filter({
             ...(rawTeamData),
             id: uuid.v4(),
+            totalVolunteers: 0,
         });
 
         return Team.validate(teamData)
