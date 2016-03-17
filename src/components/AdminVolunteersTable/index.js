@@ -78,8 +78,6 @@ export default class AdminVolunteersTable extends Component {
             }
         }
 
-        console.log('user', this.props.user);
-
         return (
             <div className="table-responsive">
                 {this.props.actionable ?
