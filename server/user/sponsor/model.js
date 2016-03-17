@@ -28,7 +28,7 @@ export default class Sponsor {
                             return Sponsor.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount)
                             .then((charged) => {
                                 // Update raised attributes on Volunteer and Team.
-                                Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, charged.amount)
+                                Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, pledge.amount)
                                 .then(() => {
                                     return resolve(existingSponsor);
                                 })
@@ -78,7 +78,7 @@ export default class Sponsor {
                                     return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount)
                                     .then((charged) => {
                                         // Update raised attributes on Volunteer and Team.
-                                        Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, charged.amount)
+                                        Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, pledge.amount)
                                         .then(() => {
                                             return resolve(sponsor);
                                         })
@@ -546,11 +546,11 @@ export default class Sponsor {
             .then((charged) => {
                 return Promise.all([
                     // Create a paid relation with status 1
-                    Sponsor.createPaidRelation(sponsoring.sponsor, charged.amount, sponsoring.volunteer, 1, transactionTimestamp, charged.id),
+                    Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, sponsoring.volunteer, 1, transactionTimestamp, charged.id),
                     // Update last billing attribute
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
                     // Update raised attributes on Volunteer and Team.
-                    Sponsor.updateRaisedAttributes(sponsoring.volunteer, charged.amount),
+                    Sponsor.updateRaisedAttributes(sponsoring.volunteer, amountToBill),
                 ]);
             })
             .then(() => {
@@ -679,7 +679,7 @@ export default class Sponsor {
             {},
             {
                 volunteerId: volunteer.id,
-                raised,
+                raised: parseInt(raised, 10),
             }
         );
     };
@@ -701,7 +701,7 @@ export default class Sponsor {
                 {},
                 {
                     volunteerSlug,
-                    raised,
+                    raised: parseInt(raised, 10),
                 }
             );
         } else if (teamSlug) {
@@ -713,7 +713,7 @@ export default class Sponsor {
                 {},
                 {
                     teamSlug,
-                    raised,
+                    raised: parseInt(raised, 10),
                 }
             );
         }
