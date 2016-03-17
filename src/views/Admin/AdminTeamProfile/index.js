@@ -64,9 +64,6 @@ class AdminTeamProfile extends Component {
             return (null);
         }
 
-        console.log('Render User', this.props.user);
-        console.log(`${this.props.user.project.slug}/${this.props.user.team.slug}`);
-
         const pageNav = [
             {
                 type: 'button',

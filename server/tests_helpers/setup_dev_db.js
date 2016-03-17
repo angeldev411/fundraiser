@@ -1,25 +1,18 @@
 'use strict';
-import readline from 'readline';
 import Promise from 'bluebird';
 import config from '../config';
 const db = require('neo4j-simple')(config.DB_URL);
 
 import fixtures from './fixtures';
 
-import User from '../user/model';
 import Volunteer from '../user/volunteer/model';
 import Sponsor from '../user/sponsor/model';
 import company from '../user/corporate/company';
 import SuperAdmin from '../user/super-admin/model';
-import Corporate from '../user/corporate/model';
-import Team from '../team/model';
 import TeamLeader from '../user/team-leader/model';
 import teamController from '../team/controller';
 import ProjectLeader from '../user/project-leader/model';
 import projectController from '../project/controller';
-import project from '../project/model';
-import donation from '../pledge/donation';
-import pledge from '../pledge/model';
 import HourRepository from '../hours/model';
 
 class setup {
@@ -78,20 +71,6 @@ class setup {
         })
         .catch((err) => {
             console.error('superAdmins : ', err);
-        });
-    }
-
-    static addCompany() {
-        return company.create(fixtures.company)
-        .then((resp) => {
-            if (resp) {
-                console.log('Company : ok');
-                return;
-            }
-            console.error('Company : empty');
-        })
-        .catch((err) => {
-            console.error('Company : ', err);
         });
     }
 
@@ -256,49 +235,6 @@ class setup {
             console.error('Sponsors :', err);
         });
     }
-
-    /*
-    these donor data may not be complete for the needed semanatics.
-    - donation is always the total amount either entered or derived from pledges
-    - a donation was either raised by an individual or by a team.
-    */
-    static addSimpleDonations() {
-        return Promise.all(
-            fixtures.donors.map(
-                (donor) => donation.validate(donor)
-                .then(donation.insertIntoDb)
-                // .then(donation.capturePayment)
-                // .then(donation.savePaymentDetails)
-            )
-        );
-    }
-
-    static addPledges() {
-        return Promise.all(
-            fixtures.pledges.map(
-                (p) => pledge.create(p)
-            )
-        );
-    }
-
-    static addLoggedService() {
-        // return Promise.all(
-        //     fixtures.hours.map(
-        //         (hour) => volunteer.logService(hour)
-        //     )
-        // );
-    }
-
-    static addServiceApprovals() {
-        // return Promise.all(
-        //     fixtures.approvals.map(
-        //         (approv) => teamLeader.approveService(approv)
-        //     )
-        // );
-    }
-
-    static addPaymentCaptures() {
-    }
 }
 
 console.log('Setting up Dev Db : You have 2 sec to abort!');
@@ -307,7 +243,6 @@ setTimeout(() => {
     Promise.resolve()
     .then(setup.wipeDb)
     .then(setup.createIndexes)
-    .then(setup.addCompany)
     .then(setup.addSuperAdmins)
     .then(setup.addProjects)
     .then(setup.addTeams)
@@ -316,10 +251,6 @@ setTimeout(() => {
     .then(setup.addVolunteers)
     .then(setup.addHours)
     .then(setup.addSponsors)
-    // .then(setup.addSimpleDonations)
-    // .then(setup.addPledges)
-    // .then(setup.addLoggedService)
-    // .then(setup.addServiceApprovals)
     .then(() => {
         process.exit();
     })

@@ -124,7 +124,6 @@ export default class AdminVolunteerProfile extends Component {
 
 
     getUserPreview = () => {
-        console.log('Get User Image', this.getUserImage());
         if (this.state.user) {
             if (this.getUserImage()) {
                 return this.getUserImage();
