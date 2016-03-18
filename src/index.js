@@ -54,7 +54,11 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}
             onUpdate={function () {
-                window.scrollTo(0, 0);
+                const hash = window.location.hash.substr(1);
+
+                if (!hash) {
+                    window.scrollTo(0, 0);
+                }
             }}
         >
             {adminRoutes}

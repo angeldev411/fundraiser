@@ -83,6 +83,7 @@ class VolunteerProfile extends Component {
                     tagline={this.state.team.tagline}
                     button={"Sponsor Now"}
                     team={this.state.team}
+                    project={this.state.project}
                     volunteer={this.state.volunteer}
                     pathname={this.props.location.pathname}
                 />

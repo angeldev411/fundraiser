@@ -27,6 +27,11 @@ export default class VolunteerProfileBlock extends Component {
                             >
                                 {'How It Works'}
                             </Link>
+                            <Link to={`${Urls.getVolunteerProfileUrl(this.props.project.slug, this.props.team.slug, this.props.volunteer.slug)}#my-cause`}
+                                className="link uppercase"
+                            >
+                                {'My Cause'}
+                            </Link>
                             <span className="uppercase">
                                 {'Share my goal'}
                             </span>
@@ -57,5 +62,7 @@ export default class VolunteerProfileBlock extends Component {
 
 VolunteerProfileBlock.propTypes = {
     volunteer: React.PropTypes.object,
+    project: React.PropTypes.object,
+    team: React.PropTypes.object,
     pathname: React.PropTypes.string,
 };
