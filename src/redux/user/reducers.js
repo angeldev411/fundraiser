@@ -19,6 +19,16 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 error: action.error,
             };
+        case actionTypes.RESET_PASSWORD:
+            return {
+                ...state,
+                user: action.user,
+            };
+        case actionTypes.RESET_PASSWORD_FAILED:
+            return {
+                ...state,
+                error: action.error,
+            };
         default:
             return state;
     }

@@ -274,8 +274,8 @@ class userController {
 
     static updatePassword(token, password) {
         return User.updatePassword(token, password)
-        .then(() => {
-            return Promise.resolve();
+        .then((user) => {
+            return Promise.resolve(user);
         })
         .catch((err) => {
             return Promise.reject(err);

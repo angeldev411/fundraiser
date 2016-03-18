@@ -19,7 +19,7 @@ const defaultSchema = {
     firstName: db.Joi.string().optional(),
     lastName: db.Joi.string().optional(),
     email: db.Joi.string().email().regex(/^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/).required(),
-    password: db.Joi.string().regex(/^.+$/).required(),
+    password: db.Joi.string().regex(/^.+$/).min(6).required(),
 };
 
 import { volunteerSchema } from './volunteer/model';
@@ -228,7 +228,7 @@ export default class User {
             });
         })
         .then((user) => {
-            Promise.resolve(user);
+            return Promise.resolve(user);
             // TODO send confirmation email
         })
         .catch((err) => {

@@ -5,6 +5,7 @@ export const RAISERVE_BASICS = '/raiserve-basics';
 export const LEGALS = '/terms-and-conditions';
 export const STORY = '/story';
 export const PRIVACY = '/privacy-policy';
+export const PASSWORD_RESET = '/reset-password';
 
 
 // TEAMS
