@@ -12,7 +12,7 @@ import Hours from '../../hours/model';
 
 export const volunteerSchema = {
     slug: db.Joi.string(),
-    headshotData: db.Joi.string(),
+    image: db.Joi.string(),
     description: db.Joi.string(),
     goal: db.Joi.number(),
 };
@@ -222,7 +222,7 @@ export default class Volunteer {
                     ...(user.password ? { password: user.password } : {}),
                     ...(user.roles ? { roles: user.roles } : {}),
                     ...(user.description ? { description: user.description } : {}),
-                    ...(uploadUrl ? { headshotData: uploadUrl } : {}),
+                    ...(uploadUrl ? { image: uploadUrl } : {}),
                     ...(user.slug ? { slug: user.slug } : {}),
                     ...(user.totalHours ? { totalHours: user.totalHours } : {}),
                     ...(user.currentHours ? { currentHours: user.currentHours } : {}),
@@ -233,10 +233,10 @@ export default class Volunteer {
                 });
             };
 
-            if (typeof user.headshotData !== 'undefined') {
+            if (typeof user.image !== 'undefined') {
                 return Volunteer.uploadHeadshot({
                     id: user.id,
-                    headshotData: user.headshotData,
+                    image: user.image,
                 }).then((uploadUrl) => {
                     return callUserUpdate(uploadUrl);
                 }).catch((error) => {
@@ -252,7 +252,7 @@ export default class Volunteer {
 
         return new Promise((resolve, reject) => {
             util.uploadToS3(
-                obj.headshotData,
+                obj.image,
                 key,
                 { contentType: 'base64' },
                 (err, res) => {

@@ -52,7 +52,7 @@ export default class AdminVolunteerProfile extends Component {
         const file = files[0];
 
         reader.onload = (upload) => {
-            user.headshotData = upload.target.result;
+            user.image = upload.target.result;
             this.setState({
                 user,
             });
@@ -118,8 +118,8 @@ export default class AdminVolunteerProfile extends Component {
     };
 
     getUserImage = () => {
-        if (this.state.user && this.state.user.headshotData) {
-            return this.state.user.headshotData;
+        if (this.state.user && this.state.user.image) {
+            return this.state.user.image;
         }
     };
 
