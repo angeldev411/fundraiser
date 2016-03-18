@@ -4,6 +4,23 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default class Page extends Component {
+    componentDidMount() {
+        const scrollToAnchor = () => {
+            const hash = window.location.hash.substr(1);
+
+            if (hash) {
+                const el = document.getElementById(`${hash}`);
+
+                if (el) {
+                    el.scrollIntoView();
+                }
+            }
+        };
+
+        scrollToAnchor();
+        window.onhashchange = scrollToAnchor;
+    }
+
     render() {
         if (this.props.noHeader) {
             return (
