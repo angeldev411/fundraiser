@@ -4,22 +4,37 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default class Page extends Component {
-    componentDidMount() {
-        const scrollToAnchor = () => {
-            const hash = window.location.hash.substr(1);
-
-            if (hash) {
-                const el = document.getElementById(`${hash}`);
-
-                if (el) {
-                    el.scrollIntoView();
-                }
-            }
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeAnchor: false,
         };
-
-        scrollToAnchor();
-        window.onhashchange = scrollToAnchor;
     }
+    componentDidMount() {
+        this.scrollToAnchor();
+        window.onhashchange = this.scrollToAnchor;
+    }
+
+    componentWillUpdate() {
+        if (!this.state.activeAnchor) {
+            this.scrollToAnchor();
+        }
+    }
+
+    scrollToAnchor = () => {
+        const hash = window.location.hash.substr(1);
+
+        if (hash) {
+            const el = document.getElementById(`${hash}`);
+
+            if (el) {
+                el.scrollIntoView();
+                this.setState({
+                    activeAnchor: true,
+                })
+            }
+        }
+    };
 
     render() {
         if (this.props.noHeader) {

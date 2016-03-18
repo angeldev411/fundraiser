@@ -96,7 +96,7 @@ export default class TeamProfileBlock extends Component {
                             : null
                         }
                     </h1>
-                    <p>
+                    <p id={'my-cause'}>
                         {this.props.team.description}
                     </p>
                     {this.props.editable ?
