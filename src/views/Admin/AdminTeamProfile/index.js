@@ -138,7 +138,7 @@ class AdminTeamProfile extends Component {
                             >
                                 {'Require Supervisor signature'}
                             </label>
-                            <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
+                            <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
                         </section>
                         <section>
                             <input
@@ -155,7 +155,7 @@ class AdminTeamProfile extends Component {
                             >
                                 {'Require Team Leader approval'}
                             </label>
-                            <p className={'action-description'}>{'for the hours your volunteers execute'}</p>
+                            <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
                         </section>
                         <section>
                             <Button
