@@ -56,11 +56,12 @@ export default class AdminVolunteerDashboard extends Component {
         }
 
         for (let i = 0; i < hours.length; i++) {
-            const date = new Date(hours[i].date);
+            const dbDate = hours[i].date.split('-');
+            const date = new Date(dbDate[0], dbDate[1] - 1, dbDate[2]);
 
             if (date.getMonth() === moment().month()) {
                 hourList.push({
-                    date: new Date(hours[i].date),
+                    date,
                     'new': parseInt(hours[i].hours, 10),
                 });
             }
