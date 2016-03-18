@@ -53,7 +53,7 @@ export default class AdminVolunteerChart extends Component {
     prepareGraphData = (rawData) => {
         const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
 
-        rawData.map((dataPoint) => {
+        rawData.map((dataPoint, i) => {
             if (dataPoint.date.getMonth() === this.props.currentMonth) {
                 // If date(s) missing, manually create date
                 if (Constants.GRAPH_ACTIVATE_EMPTY_BARS && dataPoint.date.getDate() !== this.state.currentDay) {
@@ -70,13 +70,27 @@ export default class AdminVolunteerChart extends Component {
                     }
                 }
 
-                // Increment this.state.totalHours
-                this.state.totalHours += dataPoint.new;
-                dataPoint.total = this.state.totalHours;
+                if (i >= 1 && dataPoint.date.getDate() === this.state.graphData[this.state.graphData.length - 1].date.getDate()) {
+                    // If this datePoint is for the same day of the last preccessed date
+                    // Increment this.state.totalHours
+                    this.state.totalHours += dataPoint.new;
 
-                // push data
-                this.state.graphData.push(dataPoint);
-                this.state.currentDay++;
+                    // Update the last precessed entry
+                    const lastItem = this.state.graphData.slice(-1)[0];
+
+                    lastItem.total = this.state.totalHours;
+                    lastItem.new += dataPoint.new;
+
+                    this.state.graphData[this.state.graphData.length - 1] = lastItem;
+                } else {
+                    // Increment this.state.totalHours
+                    this.state.totalHours += dataPoint.new;
+                    dataPoint.total = this.state.totalHours;
+
+                    // push data
+                    this.state.graphData.push(dataPoint);
+                    this.state.currentDay++;
+                }
             }
         });
 
@@ -144,8 +158,6 @@ export default class AdminVolunteerChart extends Component {
         const w = Constants.GRAPH_ACTIVATE_EMPTY_BARS
                     ? (this.getDaysInMonth(this.props.currentMonth, this.props.currentYear) * (barWidth + barPadding))
                     : (this.getDaysWithHours() * (barWidth + barPadding));
-
-        console.log(w);
 
         const h = 320;
         const innerH = h - 65;
