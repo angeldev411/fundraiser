@@ -56,4 +56,19 @@ router.post('/api/v1/user/reset-password', (req, res) => {
     });
 });
 
+router.put('/api/v1/user/reset-password', (req, res) => {
+    if (!req.body.token || !req.body.password) {
+        res.status(400).send(messages.signup.missingData);
+        return;
+    }
+
+    userController.updatePassword(req.body.token, util.hash(req.body.password))
+    .then(() => {
+        res.status(200).send();
+    })
+    .catch((err) => {
+        res.status(500).send(err);
+    });
+});
+
 export default router;

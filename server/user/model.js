@@ -158,6 +158,19 @@ export default class User {
         .getResult('user');
     }
 
+    static getByResetToken(token) {
+        return db.query(
+            `
+            MATCH (user:USER {resetToken: {token} }) RETURN user
+            `,
+            {},
+            {
+                token,
+            }
+        )
+        .getResult('user');
+    }
+
     /* Stripe related stuff */
     static createCardProfile(obj) {
         return new Promise((resolve, reject) => {
@@ -198,9 +211,25 @@ export default class User {
             return this.update(user, { resetToken: UUID.v4() });
         })
         .then((user) => {
-            console.log(user);
             Promise.resolve(user);
             // TODO send reset password email
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static updatePassword(token, password) {
+        return this.getByResetToken(token)
+        .then((user) => {
+            return this.update(user, {
+                password,
+                resetToken: null,
+            });
+        })
+        .then((user) => {
+            Promise.resolve(user);
+            // TODO send confirmation email
         })
         .catch((err) => {
             return Promise.reject(err);

@@ -271,6 +271,16 @@ class userController {
             return Promise.reject(err);
         });
     }
+
+    static updatePassword(token, password) {
+        return User.updatePassword(token, password)
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
 }
 
 export default userController;
