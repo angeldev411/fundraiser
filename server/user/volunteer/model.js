@@ -299,4 +299,20 @@ export default class Volunteer {
         )
         .getResults('pledges');
     }
+
+    static resetCurrentHours() {
+        return db.query(`
+            MATCH (volunteer:VOLUNTEER)
+            SET volunteer.currentHours = 0
+            RETURN volunteer as volunteers
+            `,
+        )
+        .getResults('volunteers')
+        .then(() => {
+            console.log('Volunteers current hours successfully reseted!');
+        })
+        .catch((err) => {
+            console.log('Reset current hours failed:', err);
+        })
+    }
 }
