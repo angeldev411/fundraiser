@@ -14,7 +14,10 @@ class SigninForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.signInError) {
-            this.setState({ error: nextProps.signInError });
+            this.setState({
+                error: nextProps.signInError,
+                loading: false,
+            });
         } else if (nextProps.user) {
             this.setState(
                 {
@@ -23,9 +26,6 @@ class SigninForm extends Component {
                 }
             );
         }
-        this.setState({
-            loading: false,
-        });
     }
 
     signIn = () => {

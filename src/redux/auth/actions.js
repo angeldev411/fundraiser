@@ -25,6 +25,9 @@ export function signIn(email, password) {
         .then(
             (response) => {
                 dispatch(receivedUser(response.data));
+
+                // Redirect to dashboard
+                window.location = '/dashboard';
             }
         )
         .catch(
