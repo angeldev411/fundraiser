@@ -41,4 +41,19 @@ router.get('/api/v1/user/:slug', (req, res) => {
     });
 });
 
+router.post('/api/v1/user/reset-password', (req, res) => {
+    if (!req.body.email) {
+        res.status(400).send(messages.signup.missingData);
+        return;
+    }
+
+    userController.resetPassword(req.body.email)
+    .then(() => {
+        res.status(200).send();
+    })
+    .catch((err) => {
+        res.status(500).send(err);
+    });
+});
+
 export default router;

@@ -191,4 +191,19 @@ export default class User {
             );
         });
     }
+
+    static resetPassword(email) {
+        return this.getByEmail(email)
+        .then((user) => {
+            return this.update(user, { resetToken: UUID.v4() });
+        })
+        .then((user) => {
+            console.log(user);
+            Promise.resolve(user);
+            // TODO send reset password email
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
 }
