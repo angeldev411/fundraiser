@@ -5,6 +5,7 @@ import * as Actions from '../../redux/user/actions';
 
 /* Then React components */
 import Page from '../../components/Page';
+import Button from '../../components/Button';
 import PasswordResetForm from '../../components/PasswordResetForm';
 
 class PasswordReset extends Component {
@@ -13,6 +14,7 @@ class PasswordReset extends Component {
 
         this.state = {
             loading: false,
+            reseted: false,
         };
     }
 
@@ -24,8 +26,8 @@ class PasswordReset extends Component {
         if (nextProps.user) {
             this.setState({
                 loading: false,
+                reseted: true,
             });
-            // TODO CONFIRMATION MESSAGE
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,
@@ -43,12 +45,30 @@ class PasswordReset extends Component {
     };
 
     render() {
+        if (this.state.reseted) {
+            return (
+                <Page noHeader={true}
+                    bodyBackground={{ backgroundColor: 'black' }}
+                >
+                    <div className={"main-content"}>
+                        <div className={"container passwordResetContainer"}>
+                            <h2>{'Your password has been reseted'}</h2>
+                            <Button to="/"
+                                customClass="btn-green-white btn-lg"
+                            >
+                                Back to Home
+                            </Button>
+                        </div>
+                    </div>
+                </Page>
+            );
+        }
         return (
             <Page noHeader={true}
                 bodyBackground={{ backgroundColor: 'black' }}
             >
                 <div className={"main-content"}>
-                    <div className={"container"}>
+                    <div className={"container passwordResetContainer"}>
                         <PasswordResetForm
                             onSubmit={this.submit}
                             error={this.state.error ? this.state.error : ''}

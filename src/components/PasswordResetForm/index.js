@@ -8,6 +8,10 @@ export default class PasswordResetForm extends Component {
 
         const resetToken = this.getParam('t');
 
+        if (!resetToken) {
+            window.location = '/';
+        }
+
         if (resetToken) {
             this.state = {
                 resetToken,
