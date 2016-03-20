@@ -264,8 +264,8 @@ class userController {
 
     static resetPassword(email) {
         return User.resetPassword(email)
-        .then(() => {
-            return Promise.resolve();
+        .then((user) => {
+            return Promise.resolve(user);
         })
         .catch((err) => {
             return Promise.reject(err);

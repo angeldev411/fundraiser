@@ -211,7 +211,7 @@ export default class User {
             return this.update(user, { resetToken: UUID.v4() });
         })
         .then((user) => {
-            Promise.resolve(user);
+            return Promise.resolve(user);
             // TODO send reset password email
         })
         .catch((err) => {

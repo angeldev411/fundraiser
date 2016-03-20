@@ -28,6 +28,16 @@ export const passwordResetFailed = (error) => ({
     error,
 });
 
+export const passwordResetRequest = (user) => ({
+    type: actionTypes.RESET_PASSWORD_REQUEST,
+    user,
+});
+
+export const passwordResetRequestFailed = (error) => ({
+    type: actionTypes.RESET_PASSWORD_REQUEST_FAILED,
+    error,
+});
+
 export function invite() {
     return (dispatch) => {
         dispatch(inviteFailed(''));
@@ -62,6 +72,26 @@ export function signup(data) {
         .catch(
             (errorResponse) => {
                 dispatch(signupFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
+export function requestPasswordReset(email) {
+    return (dispatch) => {
+        dispatch(passwordResetFailed(''));
+        return axios.post(
+            `${API_URL}/user/reset-password`,
+            email
+        )
+        .then(
+            (response) => {
+                dispatch(passwordResetRequest(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(passwordResetRequestFailed(errorResponse.data));
             }
         );
     };
