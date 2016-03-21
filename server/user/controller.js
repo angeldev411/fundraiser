@@ -1,6 +1,5 @@
 'use strict';
 import User from './model';
-import Hour from '../hours/model';
 import Volunteer from './volunteer/model';
 import TeamLeader from './team-leader/model';
 import ProjectLeader from './project-leader/model';
@@ -163,18 +162,33 @@ class userController {
 
                     link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
-                    const content = {
-                        subject: 'Welcome to Raiserve',
-                        body: link,
-                    };
-
                     return new Promise((resolve, reject) => {
-                        Mailer.sendEmail(content, [user], (response) => {
-                            return resolve(user);
-                        }, (err) => {
-                            console.log(err);
-                            return reject('Invite email could not be sent');
-                        });
+                        // TODO EMAIL
+                        const subject = 'Welcome to Raiserve';
+                        const text = `${link}`;
+                        const plainText = `${link}`;
+                        const message = {
+                            text: plainText,
+                            subject,
+                            to: [{
+                                email: user.email,
+                                name: `${user.firstName} ${user.lastName}`,
+                                type: 'to',
+                            }],
+                            global_merge_vars: [
+                                {
+                                    name: 'headline',
+                                    content: subject,
+                                },
+                                {
+                                    name: 'message',
+                                    content: text,
+                                },
+                            ],
+                        };
+
+                        Mailer.sendTemplate(message, 'mandrill-template');
+                        return resolve(user);
                     });
                 })
                 .catch((err) => {
@@ -185,18 +199,33 @@ class userController {
                 .then((project) => {
                     link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
-                    const content = {
-                        subject: 'Welcome to Raiserve',
-                        body: link,
-                    };
-
                     return new Promise((resolve, reject) => {
-                        Mailer.sendEmail(content, [user], (response) => {
-                            return resolve(user);
-                        }, (err) => {
-                            console.log(err);
-                            return reject('Invite email could not be sent');
-                        });
+                        // TODO EMAIL
+                        const subject = 'Welcome to Raiserve';
+                        const text = `${link}`;
+                        const plainText = `${link}`;
+                        const message = {
+                            text: plainText,
+                            subject,
+                            to: [{
+                                email: user.email,
+                                name: `${user.firstName} ${user.lastName}`,
+                                type: 'to',
+                            }],
+                            global_merge_vars: [
+                                {
+                                    name: 'headline',
+                                    content: subject,
+                                },
+                                {
+                                    name: 'message',
+                                    content: text,
+                                },
+                            ],
+                        };
+
+                        Mailer.sendTemplate(message, 'mandrill-template');
+                        return resolve(user);
                     });
                 })
                 .catch((err) => {

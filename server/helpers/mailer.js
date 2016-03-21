@@ -26,7 +26,7 @@ export default class mailer {
             message,
             async: true,
         }, (result) => {
-            console.log(result);
+            console.log('Mandrill', result);
             callback(result);
         }, (e) => {
             console.log(`A mandrill error occurred: ${e.name} - ${e.message}`);
@@ -55,7 +55,7 @@ export default class mailer {
                 async: true,
             },
             (result) => {
-                console.log(result);
+                console.log('Mandrill', result);
                 return Promise.resolve(result);
             },
             (e) => {
@@ -64,57 +64,4 @@ export default class mailer {
             }
         );
     }
-
-    static sendWelcomeEmail(user) {
-
-    }
-
-    // TODO: Fill body, subject, and stuff here.
-    static sendInvite(invite) {
-        console.log(`INVITING team volunteer ${JSON.stringify(invite)}`);
-        const templateName = 'volunteer-invite';
-        const templateContent = [];
-
-        const message = {
-            text: (invite.body || 'Welcome to the team!'),
-            subject: (invite.subject || 'Join the team - Raiserve'),
-            from_email: (invite.from || 'support@raiserve.org'),
-            from_name: (invite.fromName || 'Raiserve'),
-            merge_language: 'handlebars',
-            merge_consts: [{
-                rcpt: invite.to,
-                consts: [
-                    {
-                        name: 'first_name',
-                        content: invite.first_name,
-                    },
-                    {
-                        name: 'org_name',
-                        content: invite.org_name,
-                    },
-                    {
-                        name: 'onboard_url',
-                        content: invite.onboard_url,
-                    },
-                ],
-            }],
-            to: [{
-                email: invite.to,
-                name: invite.toName,
-                type: 'to',
-            }],
-        };
-
-        this.sendTemplate(message, templateName, templateContent);
-    }
-
-    // TODO
-    static sendPasswordReset(user) {
-        return mailer.sendEmail({});
-    }
-
-    // TODO
-    static sendPledgeConfirmation(pledge) {
-        return mailer.sendEmail({});
-    }
-};
+}
