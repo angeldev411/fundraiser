@@ -38,6 +38,10 @@ export const passwordResetRequestFailed = (error) => ({
     error,
 });
 
+export const resetUserRedux = () => ({
+    type: actionTypes.RESET_USER_REDUX,
+});
+
 export function invite() {
     return (dispatch) => {
         dispatch(inviteFailed(''));
@@ -54,6 +58,12 @@ export function invite() {
                 dispatch(inviteFailed(errorResponse));
             }
         );
+    };
+}
+
+export function resetRedux() {
+    return (dispatch) => {
+        dispatch(resetUserRedux());
     };
 }
 

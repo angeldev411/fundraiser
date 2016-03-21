@@ -15,8 +15,11 @@ class SigninForm extends Component {
         };
     }
 
+    componentDidMount() {
+        UserActions.resetRedux()(this.props.dispatch);
+    }
+
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.signInError) {
             this.setState({
                 error: nextProps.signInError,
@@ -157,6 +160,6 @@ class SigninForm extends Component {
 export default connect((reduxState) => ({
     signInError: reduxState.main.auth.signInError,
     user: reduxState.main.auth.user,
-    reset: reduxState.main.user.user,
-    resetError: reduxState.main.user.error,
+    reset: reduxState.main.user.reset,
+    resetError: reduxState.main.user.resetError,
 }))(SigninForm);
