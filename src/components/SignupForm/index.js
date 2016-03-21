@@ -34,6 +34,7 @@ export default class SignupForm extends Component {
             loading: true,
         });
         if (this.state.password1 !== this.state.password2) {
+            console.log('Passwords dont match');
             this.setState({
                 error: `Passwords don't match`,
                 loading: false,
@@ -41,6 +42,7 @@ export default class SignupForm extends Component {
             return;
         }
         if (this.state.email && this.state.password1) {
+            console.log('send request');
             this.setState({ error: null });
             this.props.onSubmit({
                 email: this.state.email,
@@ -48,6 +50,11 @@ export default class SignupForm extends Component {
                 lastName: this.state.lastName,
                 password: this.state.password1,
                 inviteCode: this.state.inviteCode,
+            });
+        } else {
+            this.setState({
+                error: `Fields are missing, please check the form.`,
+                loading: false,
             });
         }
     };

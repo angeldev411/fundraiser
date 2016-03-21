@@ -47,20 +47,20 @@ class TeamSignup extends Component {
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,
+                loading: false,
             });
         }
         if (nextProps.team) {
             this.setState({
                 team: nextProps.team,
+                loading: false,
             });
         } else if (nextProps.teamError) {
             this.setState({
                 teamError: true,
+                loading: false,
             });
         }
-        this.setState({
-            loading: false,
-        });
     }
 
     submit = (data) => {
