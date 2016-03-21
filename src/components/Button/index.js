@@ -6,7 +6,7 @@ export default class Button extends Component {
         const BUTTON = (
             <button
                 type="button"
-                className={`btn has-spinner ${this.props.customClass}`}
+                className={this.props.noSpinner ? `btn ${this.props.customClass}` : `btn has-spinner ${this.props.customClass}`}
                 onClick={this.props.onClick}
                 {...this.props}
             >
@@ -29,4 +29,5 @@ export default class Button extends Component {
 Button.propTypes = {
     onClick: React.PropTypes.func,
     customClass: React.PropTypes.string,
+    noSpinner: React.PropTypes.boolean,
 };

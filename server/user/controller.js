@@ -261,6 +261,26 @@ class userController {
             return Promise.reject(err);
         });
     }
+
+    static resetPassword(email) {
+        return User.resetPassword(email)
+        .then((user) => {
+            return Promise.resolve(user);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static updatePassword(token, password) {
+        return User.updatePassword(token, password)
+        .then((user) => {
+            return Promise.resolve(user);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
 }
 
 export default userController;
