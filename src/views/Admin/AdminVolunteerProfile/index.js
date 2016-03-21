@@ -33,17 +33,16 @@ export default class AdminVolunteerProfile extends Component {
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
+                loading: false,
             });
         }
 
         if (nextProps.volunteerUpdateStatus) {
             this.setState({
                 volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
+                loading: false,
             });
         }
-        this.setState({
-            loading: false,
-        });
     }
 
     onDrop = (files) => {

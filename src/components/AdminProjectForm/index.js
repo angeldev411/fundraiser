@@ -19,19 +19,11 @@ class AdminProjectForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
-            this.setState({ error: nextProps.error });
-        } else if (nextProps.project) {
-            // TODO Push new project]
-            // this.setState(
-            //     {
-            //         user: nextProps.project,
-            //         error: null
-            //     }
-            // );
+            this.setState({
+                error: nextProps.error,
+                loading: false,
+            });
         }
-        this.setState({
-            loading: false,
-        });
     }
 
     submit = () => {

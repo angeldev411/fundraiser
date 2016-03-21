@@ -25,18 +25,23 @@ export default class RecordHoursForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.hourLogFailure) {
-            this.setState({ error: nextProps.hourLogFailure });
+            this.setState({
+                error: nextProps.hourLogFailure,
+                loading: false,
+            });
         } else if (nextProps.hourLogSuccess) {
-            this.setState({ hasSuccessfulRecord: nextProps.hourLogSuccess });
+            this.setState({
+                hasSuccessfulRecord: nextProps.hourLogSuccess,
+                loading: false,
+            });
         }
 
         if (nextProps.team) {
-            this.setState({ team: nextProps.team });
+            this.setState({
+                team: nextProps.team,
+                loading: false,
+            });
         }
-
-        this.setState({
-            loading: false,
-        });
     }
 
     recordHours = () => {

@@ -41,22 +41,22 @@ class ProjectSignup extends Component {
         } else if (nextProps.error) {
             this.setState({
                 error: nextProps.error,
+                loading: false,
             });
         }
         if (nextProps.project) {
             this.setState({
                 project: nextProps.project,
+                loading: false,
             });
 
             document.title = `Signup for ${nextProps.project.name} | Raiserve`;
         } else if (nextProps.projectError) {
             this.setState({
                 projectError: true,
+                loading: false,
             });
         }
-        this.setState({
-            loading: false,
-        });
     }
 
     submit = (data) => {
