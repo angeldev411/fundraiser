@@ -4,6 +4,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import util from '../helpers/util.js';
 import Promise from 'bluebird';
+import Mailer from '../helpers/mailer';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -156,7 +157,7 @@ class HourRepository {
             SET     u.currentHours = u.currentHours + {hours},
                     u.totalHours = u.totalHours + {hours},
                     t.totalHours = t.totalHours + {hours}
-            RETURN {volunteer: u, team: t} AS result
+            RETURN {volunteer: u, team: t, hour: h} AS result
             `,
             {},
             {
@@ -166,6 +167,37 @@ class HourRepository {
         )
         .getResult('result')
         .then((result) => {
+            // Check if this is the first hour ever of the volunteer
+            if (result.volunteer.totalHours - parseInt(hours, 10) === 0) {
+                // TODO EMAIL
+                const subject = `Congrats for volunteering!`;
+                const text =
+                `Congrats ${result.volunteer.firstName} ${result.volunteer.lastName} for volunteering at ${result.hour.place}...
+                Bookmark the record to address and add to homescreen if haven’t already done so you can add more quickly in the future.
+                Sharing your volunteering is a great way to get more sponsors...`;
+                const plainText = text;
+                const message = {
+                    text: plainText,
+                    subject,
+                    to: [{
+                        email: result.volunteer.email,
+                        name: `${result.volunteer.firstName} ${result.volunteer.lastName}`,
+                        type: 'to',
+                    }],
+                    global_merge_vars: [
+                        {
+                            name: 'headline',
+                            content: subject,
+                        },
+                        {
+                            name: 'message',
+                            content: text,
+                        },
+                    ],
+                };
+
+                Mailer.sendTemplate(message, 'mandrill-template');
+            }
             return Promise.resolve();
         })
         .catch((err) => {
