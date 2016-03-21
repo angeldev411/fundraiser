@@ -16,7 +16,10 @@ class PledgeFormStep2 extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
-            this.setState({ error: nextProps.error });
+            this.setState({
+                error: nextProps.error,
+                loading: false,
+            });
         } else if (nextProps.pledge) {
             this.setState({
                 success: true,

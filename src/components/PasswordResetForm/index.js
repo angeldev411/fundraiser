@@ -37,6 +37,7 @@ export default class PasswordResetForm extends Component {
         if (this.state.password1) {
             this.setState({
                 error: null,
+                loading: false,
             });
             this.props.onSubmit({
                 password: this.state.password1,

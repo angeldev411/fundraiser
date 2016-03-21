@@ -34,12 +34,16 @@ class AdminTeamEmailForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.hasOwnProperty('error')) {
-            this.setState({ error: nextProps.error });
+            this.setState({
+                error: nextProps.error,
+                loading: false,
+            });
         }
         if (nextProps.user) {
             this.setState(
                 {
                     user: nextProps.user,
+                    loading: false,
                 }
             );
         }
@@ -48,12 +52,10 @@ class AdminTeamEmailForm extends Component {
                 {
                     email: nextProps.email,
                     error: null,
+                    loading: false,
                 }
             );
         }
-        this.setState({
-            loading: false,
-        });
     }
 
     render() {
