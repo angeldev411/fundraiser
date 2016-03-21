@@ -8,7 +8,7 @@ import stripelib from 'stripe';
 import * as Urls from '../../../src/urls';
 import * as Constants from '../../../src/common/constants';
 import Mailer from '../../helpers/mailer';
-
+import Mailchimp from '../../helpers/mailchimp';
 const stripe = stripelib(config.STRIPE_TOKEN);
 const db = neo4jDB(config.DB_URL);
 
@@ -75,6 +75,10 @@ export default class Sponsor {
                         return new User(data, SPONSOR)
                         .then((sponsorCreated) => {
                             sponsor = sponsorCreated;
+
+                            // Add user to mailchimp
+                            Mailchimp.subscribeSponsor(sponsor);
+
                             // Link sponsor
                             return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
                             .then(() => {

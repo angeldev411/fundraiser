@@ -5,6 +5,7 @@ import { VOLUNTEER } from '../roles';
 import slug from 'slug';
 import util from '../../helpers/util';
 import Mailer from '../../helpers/mailer';
+import Mailchimp from '../../helpers/mailchimp';
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
@@ -35,6 +36,8 @@ export default class Volunteer {
         return new User(data, VOLUNTEER)
         .then((volunteerCreated) => {
             volunteer = volunteerCreated;
+            // Add user to mailchimp
+            Mailchimp.subscribeVolunteer(volunteerCreated);
             // Create relation and increment team volunteers number
             return db.query(`
                 MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
