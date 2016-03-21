@@ -163,31 +163,7 @@ class userController {
                     link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
                     return new Promise((resolve, reject) => {
-                        // TODO EMAIL
-                        const subject = 'Welcome to Raiserve';
-                        const text = `${link}`;
-                        const plainText = `${link}`;
-                        const message = {
-                            text: plainText,
-                            subject,
-                            to: [{
-                                email: user.email,
-                                name: `${user.firstName} ${user.lastName}`,
-                                type: 'to',
-                            }],
-                            global_merge_vars: [
-                                {
-                                    name: 'headline',
-                                    content: subject,
-                                },
-                                {
-                                    name: 'message',
-                                    content: text,
-                                },
-                            ],
-                        };
-
-                        Mailer.sendTemplate(message, 'mandrill-template');
+                        Mailer.sendInviteEmail(user, link);
                         return resolve(user);
                     });
                 })
@@ -200,31 +176,7 @@ class userController {
                     link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
                     return new Promise((resolve, reject) => {
-                        // TODO EMAIL
-                        const subject = 'Welcome to Raiserve';
-                        const text = `${link}`;
-                        const plainText = `${link}`;
-                        const message = {
-                            text: plainText,
-                            subject,
-                            to: [{
-                                email: user.email,
-                                name: `${user.firstName} ${user.lastName}`,
-                                type: 'to',
-                            }],
-                            global_merge_vars: [
-                                {
-                                    name: 'headline',
-                                    content: subject,
-                                },
-                                {
-                                    name: 'message',
-                                    content: text,
-                                },
-                            ],
-                        };
-
-                        Mailer.sendTemplate(message, 'mandrill-template');
+                        Mailer.sendInviteEmail(user, link);
                         return resolve(user);
                     });
                 })

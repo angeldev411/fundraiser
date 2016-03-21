@@ -171,34 +171,7 @@ class HourRepository {
         .then((result) => {
             // Check if this is the first hour ever of the volunteer
             if (result.volunteer.totalHours - parseInt(hours, 10) === 0) {
-                // TODO EMAIL
-                const subject = `Congrats for volunteering!`;
-                const text =
-                `Congrats ${result.volunteer.firstName} ${result.volunteer.lastName} for volunteering at ${result.hour.place}...
-                Bookmark the record to address and add to homescreen if haven’t already done so you can add more quickly in the future.
-                Sharing your volunteering is a great way to get more sponsors...`;
-                const plainText = text;
-                const message = {
-                    text: plainText,
-                    subject,
-                    to: [{
-                        email: result.volunteer.email,
-                        name: `${result.volunteer.firstName} ${result.volunteer.lastName}`,
-                        type: 'to',
-                    }],
-                    global_merge_vars: [
-                        {
-                            name: 'headline',
-                            content: subject,
-                        },
-                        {
-                            name: 'message',
-                            content: text,
-                        },
-                    ],
-                };
-
-                Mailer.sendTemplate(message, 'mandrill-template');
+                Mailer.sendFirstHoursEmail(result.volunteer, result.hour);
             }
             return Promise.resolve();
         })
