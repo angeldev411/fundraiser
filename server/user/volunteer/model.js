@@ -4,7 +4,9 @@ import config from '../../config';
 import { VOLUNTEER } from '../roles';
 import slug from 'slug';
 import util from '../../helpers/util';
-
+import Mailer from '../../helpers/mailer';
+import * as Urls from '../../../src/urls';
+import * as Constants from '../../../src/common/constants';
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
@@ -48,7 +50,60 @@ export default class Volunteer {
                 }
             );
         })
-        .then((link) => {
+        .then(() => {
+            // Get welcome email data
+            return Volunteer.getTeamAndProject(volunteer);
+        })
+        .then((result) => {
+            // TODO EMAIL
+            // Create and send email
+
+            const subject = 'Welcome to Raiserve';
+
+            const text =
+            `${volunteer.firstName} ${volunteer.lastName},
+            congrats on joining team ${result.team.name}. Your hour will now make twice the difference as you raise money for ${result.project.name}.
+            Call to action is to Share Share Share.
+            you can email this <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(result.project.slug, result.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(result.project.slug, result.team.slug, volunteer.slug)}</a>
+            or post that link on facebook, twitter etc
+            remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
+            Don’t forget to record your hours
+            you can click here to get to your dashboard to record them
+            `;
+
+            const plainText =
+            `${volunteer.firstName} ${volunteer.lastName},
+            congrats on joining team ${result.team.name}. Your hour will now make twice the difference as you raise money for ${result.project.name}.
+            Call to action is to Share Share Share.
+            you can email this ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(result.project.slug, result.team.slug, volunteer.slug)}
+            or post that link on facebook, twitter etc
+            remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
+            Don’t forget to record your hours
+            you can click here to get to your dashboard to record them
+            `;
+
+            const message = {
+                text: plainText,
+                subject,
+                to: [{
+                    email: volunteer.email,
+                    name: `${volunteer.firstName} ${volunteer.lastName}`,
+                    type: 'to',
+                }],
+                global_merge_vars: [
+                    {
+                        name: 'headline',
+                        content: subject,
+                    },
+                    {
+                        name: 'message',
+                        content: text,
+                    },
+                ],
+            };
+
+            Mailer.sendTemplate(message, 'mandrill-template');
+
             return Promise.resolve(volunteer);
         })
         .catch((err) => {

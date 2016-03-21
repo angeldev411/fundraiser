@@ -236,8 +236,6 @@ class userController {
             if (err === messages.user.notInDB) {
                 return new Volunteer(userData, teamSlug)
                 .then((user) => {
-                    // TODO send welcome email
-                    Mailer.sendTemplate(message, 'mandrill-template', templateContent);
                     return this.checkCredentials({
                         email: userData.email,
                         password: userData.password,
@@ -247,6 +245,7 @@ class userController {
                     return Promise.resolve(dbUser);
                 })
                 .catch((err) => {
+                    console.log(err);
                     return Promise.reject(messages.signup.error);
                 });
             }
