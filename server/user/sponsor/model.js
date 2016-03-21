@@ -728,12 +728,15 @@ export default class Sponsor {
      * hours: array of hours
     */
     static billHours = (sponsoring, hours) => {
+        let hoursToBill = 0;
         let amountToBill = 0;
 
         for (let k = 0; k < hours.length; k++) {
-            // Calculate amount to bill in USD
-            amountToBill += sponsoring.support.hourly * hours[k].hours;
+            hoursToBill += hours[k].hours;
         }
+
+        // Calculate amount to bill in USD
+        amountToBill = sponsoring.support.hourly * hoursToBill;
 
         if (amountToBill > config.BILLING.minimumAmount) {
             console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}`);
@@ -751,6 +754,8 @@ export default class Sponsor {
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
                     // Update raised attributes on Volunteer and Team.
                     Sponsor.updateRaisedAttributes(sponsoring.volunteer, amountToBill),
+                    // Send email to sponsor.
+                    Sponsor.sendChargeEmail(sponsoring.volunteer, sponsoring.sponsor, hoursToBill, amountToBill),
                 ]);
             })
             .then(() => {
@@ -773,6 +778,49 @@ export default class Sponsor {
         } else {
             return Promise.resolve();
         }
+    };
+
+    /*
+     * sendChargeEmail()
+     * Send email to sponsor
+     *
+     * volunteer: volunteer object
+     * hours: total hours charged
+    */
+    static sendChargeEmail = (volunteer, sponsor, chargedHours, chargedAmount) => {
+        // TODO EMAIL
+        const subject = `Thanks for your continued support!`;
+
+        const text =
+        `${sponsor.firstName} ${sponsor.lastName}, thanks for continued support
+        this month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} hours.
+        your credit card has been charged $${chargedAmount}.
+        share the campaign to help raise more money.
+        The receipt part`;
+
+        const plainText = text;
+
+        const message = {
+            text: plainText,
+            subject,
+            to: [{
+                email: sponsor.email,
+                name: `${sponsor.firstName} ${sponsor.lastName}`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: subject,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template');
     };
 
     /*
