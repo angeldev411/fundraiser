@@ -26,7 +26,6 @@ class AdminVolunteers extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextprops', nextProps);
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
         } else if (nextProps.volunteers) {

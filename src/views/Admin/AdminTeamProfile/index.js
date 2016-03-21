@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
 import Button from '../../../components/Button';
-import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
@@ -12,7 +11,7 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import * as Urls from '../../../urls.js';
 import * as Actions from '../../../redux/team/actions';
 import AdminApproveHours from '../../../components/AdminApproveHours';
-import * as TeamActions from '../../../redux/team/actions';
+import * as UserActions from '../../../redux/user/actions';
 
 
 class AdminTeamProfile extends Component {
@@ -21,7 +20,8 @@ class AdminTeamProfile extends Component {
 
         this.setState({
             team: this.props.user.team,
-        })
+            passwordRequested: false,
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -29,6 +29,11 @@ class AdminTeamProfile extends Component {
             this.setState({
                 user: nextProps.user,
                 team: nextProps.user.team,
+            });
+        }
+        if (nextProps.reset) {
+            this.setState({
+                passwordRequested: true,
             });
         }
     }
@@ -56,6 +61,15 @@ class AdminTeamProfile extends Component {
         Actions.updateTeam(
             newState.team.id,
             newState.team
+        )(this.props.dispatch);
+    };
+
+    requestPassword = () => {
+        this.setState({
+            loading: true,
+        });
+        UserActions.requestPasswordReset(
+            { email: this.props.user.email },
         )(this.props.dispatch);
     };
 
@@ -121,7 +135,18 @@ class AdminTeamProfile extends Component {
                             <p className={'action-description'}>{'You can edit your public team page visuals and messaging by clicking the link above'}</p>
                         </section>
                         <section>
-                            <ModalButton customClass="btn-lg btn-transparent-green">{'Change Password'}</ModalButton>
+                            <Button
+                                onClick={this.requestPassword}
+                                customClass="btn-lg btn-transparent-green"
+                                disabled={this.state.passwordRequested}
+                                noSpinner
+                            >
+                                    {'Change Password'}
+                            </Button>
+                            {this.state.passwordRequested ?
+                                <p className={'action-description'}>
+                                    {'You should receive a reset password email shortly.'}
+                                </p> : null}
                         </section>
                         <section>
                             <input
@@ -175,4 +200,5 @@ class AdminTeamProfile extends Component {
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     team: reduxState.main.team.team,
+    reset: reduxState.main.user.reset,
 }))(AdminTeamProfile);

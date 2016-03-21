@@ -18,6 +18,30 @@ export const signupFailed = (error) => ({
     error,
 });
 
+export const passwordReseted = (user) => ({
+    type: actionTypes.RESET_PASSWORD,
+    user,
+});
+
+export const passwordResetFailed = (error) => ({
+    type: actionTypes.RESET_PASSWORD_FAILED,
+    error,
+});
+
+export const passwordResetRequest = (user) => ({
+    type: actionTypes.RESET_PASSWORD_REQUEST,
+    user,
+});
+
+export const passwordResetRequestFailed = (error) => ({
+    type: actionTypes.RESET_PASSWORD_REQUEST_FAILED,
+    error,
+});
+
+export const resetUserRedux = () => ({
+    type: actionTypes.RESET_USER_REDUX,
+});
+
 export function invite() {
     return (dispatch) => {
         dispatch(inviteFailed(''));
@@ -37,6 +61,12 @@ export function invite() {
     };
 }
 
+export function resetRedux() {
+    return (dispatch) => {
+        dispatch(resetUserRedux());
+    };
+}
+
 export function signup(data) {
     return (dispatch) => {
         dispatch(signupFailed(''));
@@ -52,6 +82,46 @@ export function signup(data) {
         .catch(
             (errorResponse) => {
                 dispatch(signupFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
+export function requestPasswordReset(email) {
+    return (dispatch) => {
+        dispatch(passwordResetFailed(''));
+        return axios.post(
+            `${API_URL}/user/reset-password`,
+            email
+        )
+        .then(
+            (response) => {
+                dispatch(passwordResetRequest(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(passwordResetRequestFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
+export function resetPassword(data) {
+    return (dispatch) => {
+        dispatch(passwordResetFailed(''));
+        return axios.put(
+            `${API_URL}/user/reset-password`,
+            data
+        )
+        .then(
+            (response) => {
+                dispatch(passwordReseted(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(passwordResetFailed(errorResponse.data));
             }
         );
     };

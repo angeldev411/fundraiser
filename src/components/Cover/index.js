@@ -104,6 +104,7 @@ export default class Cover extends Component {
                         </PledgeButton>
                         <VolunteerProfileBlock
                             volunteer={this.props.volunteer}
+                            project={this.props.project}
                             team={this.props.team}
                             pathname={this.props.pathname}
                         />
@@ -192,6 +193,7 @@ Cover.propTypes = {
     customclass: React.PropTypes.string,
     tagline: React.PropTypes.string,
     team: React.PropTypes.object,
+    project: React.PropTypes.object,
     button: React.PropTypes.string,
     logo: React.PropTypes.string,
     volunteer: React.PropTypes.object,

@@ -19,7 +19,7 @@ const defaultSchema = {
     firstName: db.Joi.string().optional(),
     lastName: db.Joi.string().optional(),
     email: db.Joi.string().email().regex(/^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/).required(),
-    password: db.Joi.string().regex(/^.+$/).required(),
+    password: db.Joi.string().regex(/^.+$/).min(6).required(),
 };
 
 import { volunteerSchema } from './volunteer/model';
@@ -158,6 +158,19 @@ export default class User {
         .getResult('user');
     }
 
+    static getByResetToken(token) {
+        return db.query(
+            `
+            MATCH (user:USER {resetToken: {token} }) RETURN user
+            `,
+            {},
+            {
+                token,
+            }
+        )
+        .getResult('user');
+    }
+
     /* Stripe related stuff */
     static createCardProfile(obj) {
         return new Promise((resolve, reject) => {
@@ -189,6 +202,37 @@ export default class User {
                     }
                 }
             );
+        });
+    }
+
+    static resetPassword(email) {
+        return this.getByEmail(email)
+        .then((user) => {
+            return this.update(user, { resetToken: UUID.v4() });
+        })
+        .then((user) => {
+            return Promise.resolve(user);
+            // TODO send reset password email
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static updatePassword(token, password) {
+        return this.getByResetToken(token)
+        .then((user) => {
+            return this.update(user, {
+                password,
+                resetToken: null,
+            });
+        })
+        .then((user) => {
+            return Promise.resolve(user);
+            // TODO send confirmation email
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
     }
 }

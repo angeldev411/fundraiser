@@ -280,7 +280,10 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="description">{'Description'}</label>
                                 </div>
-                                <div className="form-group">
+                                <div
+                                    className="form-group"
+                                    id={'edit-goal'}
+                                >
                                     <input type="text"
                                         name="goal"
                                         id="goal"

@@ -41,4 +41,34 @@ router.get('/api/v1/user/:slug', (req, res) => {
     });
 });
 
+router.post('/api/v1/user/reset-password', (req, res) => {
+    if (!req.body.email) {
+        res.status(400).send(messages.signup.missingData);
+        return;
+    }
+
+    userController.resetPassword(req.body.email)
+    .then((user) => {
+        res.status(200).send(userController.safe(user));
+    })
+    .catch((err) => {
+        res.status(500).send(err);
+    });
+});
+
+router.put('/api/v1/user/reset-password', (req, res) => {
+    if (!req.body.resetToken || !req.body.password) {
+        res.status(400).send(messages.signup.missingData);
+        return;
+    }
+
+    userController.updatePassword(req.body.resetToken, util.hash(req.body.password))
+    .then((user) => {
+        res.status(200).send(userController.safe(user));
+    })
+    .catch((err) => {
+        res.status(500).send(err);
+    });
+});
+
 export default router;
