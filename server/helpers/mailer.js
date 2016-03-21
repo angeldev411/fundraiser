@@ -37,8 +37,8 @@ export default class mailer {
     static sendTemplate(message, templateName, templateContent) {
         mandrillClient.messages.sendTemplate(
             {
-                templateName,
-                templateContent,
+                template_name: templateName,
+                template_content: templateContent,
                 message,
                 async: true,
             },
@@ -51,6 +51,10 @@ export default class mailer {
                 return Promise.reject(e);
             }
         );
+    }
+
+    static sendWelcomeEmail(user) {
+
     }
 
     // TODO: Fill body, subject, and stuff here.

@@ -216,6 +216,7 @@ class userController {
             if (user.inviteCode === userData.inviteCode) {
                 return User.update(user, userData)
                 .then((userUpdated) => {
+                    // TODO send welcome email
                     return this.checkCredentials({
                         email: userData.email,
                         password: userData.password,
@@ -235,6 +236,8 @@ class userController {
             if (err === messages.user.notInDB) {
                 return new Volunteer(userData, teamSlug)
                 .then((user) => {
+                    // TODO send welcome email
+                    Mailer.sendTemplate(message, 'mandrill-template', templateContent);
                     return this.checkCredentials({
                         email: userData.email,
                         password: userData.password,
