@@ -380,7 +380,7 @@ export default class Sponsor {
                 )
                 .getResult('volunteer')
                 .then((volunteer) => {
-                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor)
+                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, true)
                     .then(() => {
                         return Promise.resolve();
                     })
@@ -394,6 +394,7 @@ export default class Sponsor {
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.totalSponsors = volunteer.totalSponsors + 1
                     CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(volunteer)
+                    RETURN volunteer
                     `,
                     {},
                     {
@@ -403,12 +404,23 @@ export default class Sponsor {
                         total: 0,
                         date: new Date(),
                     }
-                );
+                )
+                .getResult('volunteer')
+                .then((volunteer) => {
+                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor)
+                    .then(() => {
+                        return Promise.resolve();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        return Promise.reject();
+                    });
+                });
             }
         }
     }
 
-    static sendSponsorshipEmails(volunteer, sponsor) {
+    static sendSponsorshipEmails(volunteer, sponsor, hourly = false) {
         return Volunteer.getTeamAndProject(volunteer)
         .then((result) => {
             volunteer = {
@@ -417,16 +429,28 @@ export default class Sponsor {
                 team: result.team,
             };
 
-            return Promise.all([
-                Sponsor.sendVolunteerSponsorshipEmail(volunteer, sponsor),
-                Sponsor.sendSponsorSponsorshipEmail(volunteer, sponsor),
-            ])
-            .then(() => {
-                Promise.resolve();
-            })
-            .catch((err) => {
-                Promise.reject(err);
-            });
+            if (hourly) {
+                return Promise.all([
+                    Sponsor.sendVolunteerSponsorshipEmail(volunteer, sponsor),
+                    Sponsor.sendSponsorSponsorshipEmail(volunteer, sponsor),
+                ])
+                .then(() => {
+                    Promise.resolve();
+                })
+                .catch((err) => {
+                    Promise.reject(err);
+                });
+            } else {
+                return Promise.all([
+                    Sponsor.sendSponsorDonationEmail(volunteer, sponsor),
+                ])
+                .then(() => {
+                    Promise.resolve();
+                })
+                .catch((err) => {
+                    Promise.reject(err);
+                });
+            }
         });
     }
 
@@ -494,6 +518,46 @@ export default class Sponsor {
             to: [{
                 email: volunteer.email,
                 name: `${volunteer.firstName} ${volunteer.lastName}`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: subject,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template');
+    }
+
+    static sendSponsorDonationEmail(volunteer, sponsor) {
+        // TODO EMAIL
+        const subject = `Thanks for your donation!`;
+
+        const text =
+        `Dear ${sponsor.firstName} ${sponsor.lastName},
+        thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
+        100% tax deductible at end of year money goes to ${volunteer.project.name}
+        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+
+        const plainText =
+        `Dear ${sponsor.firstName} ${sponsor.lastName} thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
+        100% tax deductible at end of year money goes to ${volunteer.project.name}
+        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
+        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+
+        const message = {
+            text: plainText,
+            subject,
+            to: [{
+                email: sponsor.email,
+                name: `${sponsor.firstName} ${sponsor.lastName}`,
                 type: 'to',
             }],
             global_merge_vars: [
