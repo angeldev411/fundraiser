@@ -3,6 +3,7 @@ export const API_URL = '/api/v1';
 
 export const TWITTER_USERNAME = 'raiserve';
 export const CONTACT_EMAIL = 'contact@raiserve.org';
+export const VOLUNTEER_CONTACT_EMAIL = 'volunteer@raiserve.org';
 
 export const USER_IMAGES_FOLDER = '/assets/images/users';
 export const DEFAULT_AVATAR = 'default-user.png';

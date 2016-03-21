@@ -55,7 +55,7 @@ export default class mailer {
                 async: true,
             },
             (result) => {
-                console.log('Mandrill', result);
+                console.log('Mandrill sent', message.subject);
                 return Promise.resolve(result);
             },
             (e) => {

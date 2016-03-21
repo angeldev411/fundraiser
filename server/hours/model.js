@@ -144,7 +144,9 @@ class HourRepository {
         .then((result) => {
             if (result.hoursApprovalRequired || result.signatureRequired) {
                 return Promise.resolve(true);
-            } else return Promise.resolve(false);
+            } else {
+                return Promise.resolve(false);
+            }
         })
         .catch((err) => {
             return Promise.reject(false);
