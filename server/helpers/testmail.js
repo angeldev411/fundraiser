@@ -1,35 +1,46 @@
 'use strict';
 // import s3 from 's3';
 import Mailer from './mailer';
-import config from '../config';
 
-const templateContent = [{
-    name: 'example name',
-    content: 'example content',
-}];
-
-const text = '';
 const subject = 'Welcome to Raiserve';
+
+const text = `
+Congrats on joining team #teamname. Your hour will now make twice the difference as you raise money for #orgname.
+Call to action is to Share Share Share.
+you can email this #yourlink
+or post that link on facebook, twitter etc
+remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
+Don’t forget to record your hours
+you can click here to get to your dashboard to record them
+`;
+const plainText = `
+Congrats on joining team #teamname. Your hour will now make twice the difference as you raise money for #orgname.
+Call to action is to Share Share Share.
+you can email this #yourlink
+or post that link on facebook, twitter etc
+remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
+Don’t forget to record your hours
+you can click here to get to your dashboard to record them
+`;
+
 const message = {
-    text,
+    text: plainText,
     subject,
-    from_email: 'message.from_email@example.com',
-    from_name: 'Example Name',
     to: [{
         email: 'adrien.kuhn@osedea.com',
-        name: 'Recipient Name',
+        name: 'Adrien Kühn',
         type: 'to',
     }],
-    headers: {
-        'Reply-To': 'message.reply@example.com',
-    },
-    merge: true,
-    merge_language: 'mailchimp',
-    global_merge_vars: [{
-        name: 'message',
-        content: 'merge1 content',
-    }],
+    global_merge_vars: [
+        {
+            name: 'headline',
+            content: subject,
+        },
+        {
+            name: 'message',
+            content: text,
+        },
+    ],
 };
 
-
-Mailer.sendTemplate(message, 'mandrill-template', templateContent);
+Mailer.sendTemplate(message, 'mandrill-template');
