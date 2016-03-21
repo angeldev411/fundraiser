@@ -3,7 +3,11 @@ import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { SPONSOR } from '../roles';
 import userController from '../controller';
+import Volunteer from '../volunteer/model';
 import stripelib from 'stripe';
+import * as Urls from '../../../src/urls';
+import * as Constants from '../../../src/common/constants';
+import Mailer from '../../helpers/mailer';
 
 const stripe = stripelib(config.STRIPE_TOKEN);
 const db = neo4jDB(config.DB_URL);
@@ -22,7 +26,7 @@ export default class Sponsor {
                     // If stripe customer updated succesfully
                     // Link sponsor
                     return this.linkSponsorToSupportedNode(existingSponsor, pledge, teamSlug, volunteerSlug)
-                    .then((link) => {
+                    .then(() => {
                         // If it's a one time pledge, charge customer right now
                         if (pledge.amount) {
                             return Sponsor.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount)
@@ -44,6 +48,7 @@ export default class Sponsor {
                         }
                     })
                     .catch((linkError) => {
+                        console.log('Sponsor error:', linkError);
                         reject('Sorry, an internal server error occured');
                     });
                 })
@@ -72,7 +77,7 @@ export default class Sponsor {
                             sponsor = sponsorCreated;
                             // Link sponsor
                             return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
-                            .then((link) => {
+                            .then(() => {
                                 // If it's a one time pledge, charge customer right now
                                 if (pledge.amount) {
                                     return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount)
@@ -94,6 +99,7 @@ export default class Sponsor {
                                 }
                             })
                             .catch((linkError) => {
+                                console.log('Sponsor error:', linkError);
                                 reject('Sorry, an internal server error occured');
                             });
                         })
@@ -361,6 +367,7 @@ export default class Sponsor {
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
                     CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(volunteer)
+                    RETURN volunteer
                     `,
                     {},
                     {
@@ -370,7 +377,12 @@ export default class Sponsor {
                         total: 0,
                         date: new Date(),
                     }
-                );
+                )
+                .getResult('volunteer')
+                .then((volunteer) => {
+                    Sponsor.sendSponsorshipEmail(volunteer, sponsor);
+                    return Promise.resolve();
+                });
             } else if (pledge.amount) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
@@ -388,6 +400,41 @@ export default class Sponsor {
                 );
             }
         }
+    }
+
+    static sendSponsorshipEmail(volunteer, sponsor) {
+        return Volunteer.getTeamAndProject(volunteer)
+        .then((result) => {
+            // TODO EMAIL
+            const subject = `You've been sponsored!`;
+            const text =
+            `Congrats ${volunteer.firstName} ${volunteer.lastName}, you’re on your way, each hour your volunteers is now making twice the difference for ${result.project.name}.
+            ${sponsor.firstName} ${sponsor.lastName} sponsored you… Here’s their email address, sending a personalized thank you is always nice : ${sponsor.email}.
+            Be sure to ask them to share your campaign to help get more sponsors and include your URL ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(result.project.slug, result.team.slug, volunteer.slug)} in your thank you.
+            `;
+            const plainText = text;
+            const message = {
+                text: plainText,
+                subject,
+                to: [{
+                    email: volunteer.email,
+                    name: `${volunteer.firstName} ${volunteer.lastName}`,
+                    type: 'to',
+                }],
+                global_merge_vars: [
+                    {
+                        name: 'headline',
+                        content: subject,
+                    },
+                    {
+                        name: 'message',
+                        content: text,
+                    },
+                ],
+            };
+
+            Mailer.sendTemplate(message, 'mandrill-template');
+        });
     }
 
     // ---- BILLING FUNCTIONS ----
