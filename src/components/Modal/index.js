@@ -15,7 +15,7 @@ export default class Modal extends Component {
                             className="close"
                             onClick={this.props.onClick}
                         >
-                            <i className="fa fa-times"></i>
+                            <img src="/assets/images/modal-close.png"/>
                         </button>
                         {this.props.content}
                     </div>
