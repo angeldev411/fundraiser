@@ -62,6 +62,16 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 volunteerUpdateStatus: action.error,
             };
+        case actionTypes.UNLINK_VOLUNTEERS_SUCCESS:
+            return {
+                ...state,
+                volunteers: action.volunteers,
+            };
+        case actionTypes.UNLINK_VOLUNTEERS_FAILURE:
+            return {
+                ...state,
+                error: action.error,
+            };
         default:
             return state;
     }

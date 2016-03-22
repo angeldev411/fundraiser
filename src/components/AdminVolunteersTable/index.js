@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ModalButton from '../ModalButton';
+import Button from '../Button';
 import AdminTeamEmailForm from '../AdminTeamEmailForm';
 import * as constants from '../../common/constants';
 import classNames from 'classnames';
@@ -63,6 +64,18 @@ export default class AdminVolunteersTable extends Component {
         });
     }
 
+    handleUnlink = () => {
+        const selectedVolunteers = [];
+
+        for (let i = 0; i < this.state.linesChecked.length; i++) {
+            if (this.state.linesChecked[i]) {
+                selectedVolunteers.push(this.props.volunteers[i]);
+            }
+        }
+
+        this.props.onUnlink(selectedVolunteers);
+    };
+
     lockDropdown = () => {
         this.setState({
             showDropdown: !this.state.showDropdown,
@@ -106,6 +119,12 @@ export default class AdminVolunteersTable extends Component {
                                     >
                                         {'Email'}
                                     </ModalButton>
+                                    <Button
+                                        customClass="btn-link"
+                                        onClick={this.handleUnlink}
+                                    >
+                                        {'Remove'}
+                                    </Button>
                                 </li>
                             </ul>
                         </div>
@@ -185,4 +204,5 @@ AdminVolunteersTable.propTypes = {
     volunteers: React.PropTypes.array,
     user: React.PropTypes.object,
     actionable: React.PropTypes.bool,
+    onUnlink: React.PropTypes.func,
 };

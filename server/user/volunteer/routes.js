@@ -52,6 +52,28 @@ router.put('/api/v1/volunteer', (req, res) => {
     });
 });
 
+router.post('/api/v1/volunteer', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isTeamLeader(req.session.user)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isSuperAdmin(req.session.user)
+        )
+    ) {
+        res.status(403).send();
+        return;
+    }
+
+    volunteerController.unlinkVolunteers(req.body, req.session.user.id)
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
 router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

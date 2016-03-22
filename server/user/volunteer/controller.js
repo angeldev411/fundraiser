@@ -27,6 +27,10 @@ class volunteerController {
     static update(currentUser, userData) {
         return Volunteer.updateVolunteer(currentUser, userData);
     }
+
+    static unlinkVolunteers(volunteers, adminID) {
+        return Volunteer.unlinkVolunteers(volunteers, adminID);
+    }
 }
 
 module.exports = volunteerController;

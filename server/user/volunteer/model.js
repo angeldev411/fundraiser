@@ -309,6 +309,36 @@ export default class Volunteer {
         });
     }
 
+    static unlinkVolunteers(volunteers, adminID) {
+        const promises = [];
+
+        for (let i = 0; i < volunteers.length; i++) {
+            promises.push(
+                db.query(
+                    `
+                    MATCH (user:VOLUNTEER {id: {volunteerId}})
+                    SET user:VOLUNTEER_DISABLED:USER_DISABLED
+                    REMOVE user:VOLUNTEER:USER
+                    RETURN user
+                    `,
+                    {},
+                    {
+                        volunteerId: volunteers[i].id,
+                        adminID,
+                    }
+                )
+            );
+        }
+
+        return Promise.all(promises)
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static onboard(obj) {
         return Volunteer.create(obj)
         .then((newVolunteer) => db.query(`
