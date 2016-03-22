@@ -127,7 +127,7 @@ class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: this.props.user.team.totalSponsors,
-                                    title: 'Sponsors',
+                                    title: 'Total Sponsors',
                                 }
                             }
                         />
@@ -135,7 +135,7 @@ class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: this.props.user.team.totalRaised,
-                                    title: '$ Raised',
+                                    title: 'Total Money Raised',
                                 }
                             }
                         />

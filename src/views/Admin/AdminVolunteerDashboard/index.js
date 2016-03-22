@@ -124,11 +124,11 @@ export default class AdminVolunteerDashboard extends Component {
                                 },
                                 {
                                     current: this.props.user.totalSponsors,
-                                    title: 'Sponsors',
+                                    title: 'Total Sponsors',
                                 },
                                 {
                                     current: this.props.user.raised,
-                                    title: '$ Raised',
+                                    title: 'Total Money Raised',
                                 },
                             ]
                         }

@@ -123,11 +123,11 @@ class AdminTeamSponsors extends Component {
                                 },
                                 {
                                     current: this.props.user.team.totalSponsors,
-                                    title: 'Sponsors',
+                                    title: 'Total Sponsors',
                                 },
                                 {
                                     current: this.props.user.team.totalRaised,
-                                    title: '$ Raised',
+                                    title: 'Total Money Raised',
                                 },
                             ]
                         }
