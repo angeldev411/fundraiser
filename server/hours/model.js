@@ -4,6 +4,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import util from '../helpers/util.js';
 import Promise from 'bluebird';
+import Mailer from '../helpers/mailer';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -143,7 +144,9 @@ class HourRepository {
         .then((result) => {
             if (result.hoursApprovalRequired || result.signatureRequired) {
                 return Promise.resolve(true);
-            } else return Promise.resolve(false);
+            } else {
+                return Promise.resolve(false);
+            }
         })
         .catch((err) => {
             return Promise.reject(false);
@@ -156,7 +159,7 @@ class HourRepository {
             SET     u.currentHours = u.currentHours + {hours},
                     u.totalHours = u.totalHours + {hours},
                     t.totalHours = t.totalHours + {hours}
-            RETURN {volunteer: u, team: t} AS result
+            RETURN {volunteer: u, team: t, hour: h} AS result
             `,
             {},
             {
@@ -166,6 +169,10 @@ class HourRepository {
         )
         .getResult('result')
         .then((result) => {
+            // Check if this is the first hour ever of the volunteer
+            if (result.volunteer.totalHours - parseInt(hours, 10) === 0) {
+                Mailer.sendFirstHoursEmail(result.volunteer, result.hour);
+            }
             return Promise.resolve();
         })
         .catch((err) => {

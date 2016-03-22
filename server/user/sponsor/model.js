@@ -3,7 +3,11 @@ import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { SPONSOR } from '../roles';
 import userController from '../controller';
+import Volunteer from '../volunteer/model';
 import stripelib from 'stripe';
+import * as Urls from '../../../src/urls';
+import * as Constants from '../../../src/common/constants';
+import Mailer from '../../helpers/mailer';
 
 const stripe = stripelib(config.STRIPE_TOKEN);
 const db = neo4jDB(config.DB_URL);
@@ -22,7 +26,7 @@ export default class Sponsor {
                     // If stripe customer updated succesfully
                     // Link sponsor
                     return this.linkSponsorToSupportedNode(existingSponsor, pledge, teamSlug, volunteerSlug)
-                    .then((link) => {
+                    .then(() => {
                         // If it's a one time pledge, charge customer right now
                         if (pledge.amount) {
                             return Sponsor.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount)
@@ -44,6 +48,7 @@ export default class Sponsor {
                         }
                     })
                     .catch((linkError) => {
+                        console.log('Sponsor error:', linkError);
                         reject('Sorry, an internal server error occured');
                     });
                 })
@@ -72,7 +77,7 @@ export default class Sponsor {
                             sponsor = sponsorCreated;
                             // Link sponsor
                             return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
-                            .then((link) => {
+                            .then(() => {
                                 // If it's a one time pledge, charge customer right now
                                 if (pledge.amount) {
                                     return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount)
@@ -94,6 +99,7 @@ export default class Sponsor {
                                 }
                             })
                             .catch((linkError) => {
+                                console.log('Sponsor error:', linkError);
                                 reject('Sorry, an internal server error occured');
                             });
                         })
@@ -361,6 +367,7 @@ export default class Sponsor {
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
                     CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(volunteer)
+                    RETURN volunteer
                     `,
                     {},
                     {
@@ -370,12 +377,24 @@ export default class Sponsor {
                         total: 0,
                         date: new Date(),
                     }
-                );
+                )
+                .getResult('volunteer')
+                .then((volunteer) => {
+                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, true)
+                    .then(() => {
+                        return Promise.resolve();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        return Promise.reject();
+                    });
+                });
             } else if (pledge.amount) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.totalSponsors = volunteer.totalSponsors + 1
                     CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(volunteer)
+                    RETURN volunteer
                     `,
                     {},
                     {
@@ -385,9 +404,54 @@ export default class Sponsor {
                         total: 0,
                         date: new Date(),
                     }
-                );
+                )
+                .getResult('volunteer')
+                .then((volunteer) => {
+                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor)
+                    .then(() => {
+                        return Promise.resolve();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        return Promise.reject();
+                    });
+                });
             }
         }
+    }
+
+    static sendSponsorshipEmails(volunteer, sponsor, hourly = false) {
+        return Volunteer.getTeamAndProject(volunteer)
+        .then((result) => {
+            volunteer = {
+                ...volunteer,
+                project: result.project,
+                team: result.team,
+            };
+
+            if (hourly) {
+                return Promise.all([
+                    Mailer.sendVolunteerSponsorshipEmail(volunteer, sponsor),
+                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor),
+                ])
+                .then(() => {
+                    Promise.resolve();
+                })
+                .catch((err) => {
+                    Promise.reject(err);
+                });
+            } else {
+                return Promise.all([
+                    Mailer.sendSponsorDonationThanksEmail(volunteer, sponsor),
+                ])
+                .then(() => {
+                    Promise.resolve();
+                })
+                .catch((err) => {
+                    Promise.reject(err);
+                });
+            }
+        });
     }
 
     // ---- BILLING FUNCTIONS ----
@@ -543,12 +607,15 @@ export default class Sponsor {
      * hours: array of hours
     */
     static billHours = (sponsoring, hours) => {
+        let hoursToBill = 0;
         let amountToBill = 0;
 
         for (let k = 0; k < hours.length; k++) {
-            // Calculate amount to bill in USD
-            amountToBill += sponsoring.support.hourly * hours[k].hours;
+            hoursToBill += hours[k].hours;
         }
+
+        // Calculate amount to bill in USD
+        amountToBill = sponsoring.support.hourly * hoursToBill;
 
         if (amountToBill > config.BILLING.minimumAmount) {
             console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}`);
@@ -566,6 +633,8 @@ export default class Sponsor {
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
                     // Update raised attributes on Volunteer and Team.
                     Sponsor.updateRaisedAttributes(sponsoring.volunteer, amountToBill),
+                    // Send email to sponsor.
+                    Mailer.sendChargeEmail(sponsoring.volunteer, sponsoring.sponsor, hoursToBill, amountToBill),
                 ]);
             })
             .then(() => {

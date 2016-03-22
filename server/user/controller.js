@@ -1,6 +1,5 @@
 'use strict';
 import User from './model';
-import Hour from '../hours/model';
 import Volunteer from './volunteer/model';
 import TeamLeader from './team-leader/model';
 import ProjectLeader from './project-leader/model';
@@ -163,18 +162,9 @@ class userController {
 
                     link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
-                    const content = {
-                        subject: 'Welcome to Raiserve',
-                        body: link,
-                    };
-
                     return new Promise((resolve, reject) => {
-                        Mailer.sendEmail(content, [user], (response) => {
-                            return resolve(user);
-                        }, (err) => {
-                            console.log(err);
-                            return reject('Invite email could not be sent');
-                        });
+                        Mailer.sendInviteEmail(user, link);
+                        return resolve(user);
                     });
                 })
                 .catch((err) => {
@@ -185,18 +175,9 @@ class userController {
                 .then((project) => {
                     link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
-                    const content = {
-                        subject: 'Welcome to Raiserve',
-                        body: link,
-                    };
-
                     return new Promise((resolve, reject) => {
-                        Mailer.sendEmail(content, [user], (response) => {
-                            return resolve(user);
-                        }, (err) => {
-                            console.log(err);
-                            return reject('Invite email could not be sent');
-                        });
+                        Mailer.sendInviteEmail(user, link);
+                        return resolve(user);
                     });
                 })
                 .catch((err) => {
@@ -216,6 +197,7 @@ class userController {
             if (user.inviteCode === userData.inviteCode) {
                 return User.update(user, userData)
                 .then((userUpdated) => {
+                    // TODO send welcome email
                     return this.checkCredentials({
                         email: userData.email,
                         password: userData.password,
@@ -244,6 +226,7 @@ class userController {
                     return Promise.resolve(dbUser);
                 })
                 .catch((err) => {
+                    console.log(err);
                     return Promise.reject(messages.signup.error);
                 });
             }

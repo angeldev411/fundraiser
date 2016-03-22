@@ -4,7 +4,7 @@ import config from '../../config';
 import { VOLUNTEER } from '../roles';
 import slug from 'slug';
 import util from '../../helpers/util';
-
+import Mailer from '../../helpers/mailer';
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
@@ -48,7 +48,12 @@ export default class Volunteer {
                 }
             );
         })
-        .then((link) => {
+        .then(() => {
+            // Get welcome email data
+            return Volunteer.getTeamAndProject(volunteer);
+        })
+        .then((result) => {
+            Mailer.sendVolunteerWelcomeEmail(result.project, result.team, volunteer);
             return Promise.resolve(volunteer);
         })
         .catch((err) => {
