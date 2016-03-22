@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Page from '../../../components/Page';
 import CircleStat from '../../../components/CircleStat';
 import UserList from '../../../components/UserList';
+import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
@@ -113,6 +114,19 @@ class AdminTeamDashboard extends Component {
                     <AdminContentHeader
                         title={'My Team Dashboard'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
+                        buttons={
+                            <ModalButton customClass="btn-link pull-right uppercase"
+                                content={
+                                    <AdminInviteTeamMembersForm
+                                        title={"Invite Members"}
+                                        project={this.props.user.project}
+                                        team={this.props.user.team}
+                                    />
+                                }
+                            >
+                                {'Invite new members'}
+                            </ModalButton>
+                        }
                     />
                     <section className={"stats col-xs-12"}>
                         <CircleStat
@@ -127,7 +141,7 @@ class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: this.props.user.team.totalSponsors,
-                                    title: 'Total Sponsors',
+                                    title: 'Sponsors',
                                 }
                             }
                         />
@@ -135,7 +149,7 @@ class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: this.props.user.team.totalRaised,
-                                    title: 'Total Money Raised',
+                                    title: 'Money Raised',
                                 }
                             }
                         />

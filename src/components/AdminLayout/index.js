@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AdminMenu from '../AdminMenu';
+import AdminApproveHours from '../AdminMenu';
 import * as Urls from '../../urls.js';
 import { connect } from 'react-redux';
 
@@ -48,7 +49,7 @@ class AdminLayout extends Component {
                     href: Urls.ADMIN_TEAM_VOLUNTEERS_URL,
                 },
                 {
-                    title: 'Team Sponsors',
+                    title: 'My Sponsors',
                     href: Urls.ADMIN_TEAM_SPONSORS_URL,
                 },
             ];
