@@ -43,7 +43,7 @@ router.put('/api/v1/volunteer', (req, res) => {
         }
     }
 
-    volunteerController.update(user)
+    volunteerController.update(req.session.user, user)
     .then((data) => {
         res.status(200).send(data);
     })

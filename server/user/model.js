@@ -1,9 +1,8 @@
 'use strict';
 
 import stripelib from 'stripe';
-import sha256 from 'js-sha256';
 import UUID from 'uuid';
-import util from '../helpers/util';
+import Mailchimp from '../helpers/mailchimp';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import Promise from 'bluebird';
@@ -77,10 +76,13 @@ export default class User {
         });
     }
 
+    // userNode is the previous user
     static update(userNode, data) {
         let role = null;
 
         data.inviteCode = null;
+
+        Mailchimp.updateVolunteer(data, userNode);
 
         if (userNode.roles && userNode.roles[1]) {
             role = userNode.roles[1];

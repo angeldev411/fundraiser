@@ -8,7 +8,7 @@ import stripelib from 'stripe';
 import * as Urls from '../../../src/urls';
 import * as Constants from '../../../src/common/constants';
 import Mailer from '../../helpers/mailer';
-
+import Mailchimp from '../../helpers/mailchimp';
 const stripe = stripelib(config.STRIPE_TOKEN);
 const db = neo4jDB(config.DB_URL);
 
@@ -75,6 +75,10 @@ export default class Sponsor {
                         return new User(data, SPONSOR)
                         .then((sponsorCreated) => {
                             sponsor = sponsorCreated;
+
+                            // Add user to mailchimp
+                            Mailchimp.subscribeSponsor(sponsor);
+
                             // Link sponsor
                             return this.linkSponsorToSupportedNode(sponsor, pledge, teamSlug, volunteerSlug)
                             .then(() => {
@@ -782,18 +786,33 @@ export default class Sponsor {
      * raised: raised money, so just charged amount
     */
     static updateRaisedAttributes = (volunteer, raised) => {
+        let data;
+
         return db.query(`
-            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)
+            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
             SET     volunteer.raised = volunteer.raised + {raised},
                     team.totalRaised = team.totalRaised + {raised}
-            RETURN volunteer
+            RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
             `,
             {},
             {
                 volunteerId: volunteer.id,
                 raised: parseInt(raised, 10),
             }
-        );
+        ).getResult('result')
+        .then((result) => {
+            data = result;
+            return Mailchimp.updateVolunteer(data.volunteer);
+        })
+        .then(() => {
+            return Mailchimp.updateTeamLeader(data.teamLeader);
+        })
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject();
+        });
     };
 
     /*
@@ -804,31 +823,56 @@ export default class Sponsor {
      * raised: raised money, so just charged amount
     */
     static updateRaisedAttributesBySlug = (volunteerSlug = null, teamSlug = null, raised) => {
+        let data;
+
         if (volunteerSlug) {
             return db.query(`
-                MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)
+                MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
                 SET     volunteer.raised = volunteer.raised + {raised},
                         team.totalRaised = team.totalRaised + {raised}
-                RETURN volunteer
+                RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
                 `,
                 {},
                 {
                     volunteerSlug,
                     raised: parseInt(raised, 10),
                 }
-            );
+            ).getResult('result')
+            .then((result) => {
+                data = result;
+                return Mailchimp.updateVolunteer(data.volunteer);
+            })
+            .then(() => {
+                return Mailchimp.updateTeamLeader(data.teamLeader);
+            })
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch(() => {
+                return Promise.reject();
+            });
         } else if (teamSlug) {
             return db.query(`
-                MATCH (team:TEAM {slug: {teamSlug} })
+                MATCH (team:TEAM {slug: {teamSlug} })<-[:LEAD]-(teamLeader:TEAM_LEADER)
                 SET     team.raised = team.raised + {raised}
-                RETURN team
+                RETURN {team: team, teamLeader: teamLeader} AS result
                 `,
                 {},
                 {
                     teamSlug,
                     raised: parseInt(raised, 10),
                 }
-            );
+            ).getResult('result')
+            .then((result) => {
+                data = result;
+                return Mailchimp.updateTeamLeader(data.teamLeader);
+            })
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch(() => {
+                return Promise.reject();
+            });
         }
     };
 }

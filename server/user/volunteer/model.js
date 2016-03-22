@@ -5,6 +5,8 @@ import { VOLUNTEER } from '../roles';
 import slug from 'slug';
 import util from '../../helpers/util';
 import Mailer from '../../helpers/mailer';
+import Mailchimp from '../../helpers/mailchimp';
+import TeamLeader from '../team-leader/model';
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
@@ -40,13 +42,22 @@ export default class Volunteer {
                 MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                 SET team.totalVolunteers = team.totalVolunteers + 1
                 CREATE (user)-[:VOLUNTEER]->(team)
+                RETURN {user: user, team: team} AS result
                 `,
                 {},
                 {
                     userId: volunteer.id,
                     teamSlug,
                 }
-            );
+            ).getResult('result');
+        })
+        .then((result) => {
+            // Get team teamLeader
+            return TeamLeader.getTeamLeader(result.team.id);
+        })
+        .then((teamLeader) => {
+            // Update teamLeader
+            return Mailchimp.updateTeamLeader(teamLeader);
         })
         .then(() => {
             // Get welcome email data
@@ -54,6 +65,10 @@ export default class Volunteer {
         })
         .then((result) => {
             Mailer.sendVolunteerWelcomeEmail(result.project, result.team, volunteer);
+            // Add user to mailchimp
+            return Mailchimp.subscribeVolunteer(volunteer);
+        })
+        .then(() => {
             return Promise.resolve(volunteer);
         })
         .catch((err) => {
@@ -81,6 +96,26 @@ export default class Volunteer {
                 userId: volunteer.id,
             }
         ).getResult('project', 'team')
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static getLastVolunteerDate(volunteer) {
+        return db.query(`
+            MATCH (hour:HOUR)<-[:VOLUNTEERED]-(:VOLUNTEER { id: {userId} })
+            RETURN hour
+            ORDER BY hour.date DESC
+            LIMIT 1
+            `,
+            {},
+            {
+                userId: volunteer.id,
+            }
+        ).getResult('hour')
         .then((result) => {
             return Promise.resolve(result);
         })
@@ -201,7 +236,7 @@ export default class Volunteer {
         ).getResults('users');
     }
 
-    static updateVolunteer(user) {
+    static updateVolunteer(currentUser, user) {
         if (typeof user.email !== 'undefined') {
             if (!util.isEmailValid(user.email)) {
                 return Promise.reject('Invalid email');
@@ -221,17 +256,17 @@ export default class Volunteer {
 
         return new Promise((resolve, reject) => {
             const callUserUpdate = (uploadUrl) => {
-                return User.update(user, {
-                    ...(user.id ? { id: user.id } : {}),
+                return User.update(currentUser, {
+                    ...(user.id ? { id: currentUser.id } : {}),
                     ...(user.firstName ? { firstName: user.firstName } : {}),
                     ...(user.lastName ? { lastName: user.lastName } : {}),
                     ...(user.email ? { email: user.email } : {}),
                     ...(user.goal ? { goal: user.goal } : {}),
                     ...(user.password ? { password: user.password } : {}),
-                    ...(user.roles ? { roles: user.roles } : {}),
+                    ...(user.roles ? { roles: currentUser.roles } : {}),
                     ...(user.description ? { description: user.description } : {}),
                     ...(uploadUrl ? { image: uploadUrl } : {}),
-                    ...(user.slug ? { slug: user.slug } : {}),
+                    ...(user.slug ? { slug: currentUser.slug } : {}),
                     ...(user.totalHours ? { totalHours: user.totalHours } : {}),
                     ...(user.currentHours ? { currentHours: user.currentHours } : {}),
                 }).then((data) => {

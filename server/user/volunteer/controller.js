@@ -24,8 +24,8 @@ class volunteerController {
         });
     }
 
-    static update(userData) {
-        return Volunteer.updateVolunteer(userData);
+    static update(currentUser, userData) {
+        return Volunteer.updateVolunteer(currentUser, userData);
     }
 }
 

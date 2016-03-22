@@ -3,6 +3,7 @@ import neo4jDB from 'neo4j-simple';
 import config from '../../config';
 import { TEAM_LEADER } from '../roles';
 import Promise from 'bluebird';
+import Mailchimp from '../../helpers/mailchimp';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -15,6 +16,7 @@ class TeamLeader {
         return new User(data, TEAM_LEADER)
         .then((teamLeaderCreated) => {
             teamLeader = teamLeaderCreated;
+
             return db.query(`
                 MATCH (user:TEAM_LEADER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                 CREATE (user)-[:LEAD]->(team)
@@ -26,7 +28,11 @@ class TeamLeader {
                 }
             );
         })
-        .then((link) => {
+        .then(() => {
+            // Add user to mailchimp
+            return Mailchimp.subscribeTeamLeader(teamLeader);
+        })
+        .then(() => {
             return Promise.resolve(teamLeader);
         })
         .catch((err) => {
@@ -44,6 +50,24 @@ class TeamLeader {
                 userId: teamLeader.id,
             }
         ).getResult('project', 'team')
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static getTeamLeader(teamId) {
+        return db.query(`
+            MATCH (:TEAM { id: {teamId} })<-[:LEAD]-(teamLeader:TEAM_LEADER)
+            RETURN teamLeader
+            `,
+            {},
+            {
+                teamId,
+            }
+        ).getResult('teamLeader')
         .then((result) => {
             return Promise.resolve(result);
         })

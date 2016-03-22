@@ -37,4 +37,10 @@ export default {
     BILLING: {
         minimumAmount: 5,
     },
+    MAILCHIMP: {
+        API_KEY: 'e01efe9b4d33711baa136f42047f7abb-us11',
+        VOLUNTEERS_LIST_ID: '7230036f0d',
+        SPONSOR_LIST_ID: 'a9215c0ba0',
+        TEAMLEADER_LIST_ID: '3e83d1fad5',
+    },
 };
