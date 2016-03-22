@@ -204,7 +204,7 @@ export default class Volunteer {
         ).getResults('users');
     }
 
-    static updateVolunteer(user) {
+    static updateVolunteer(currentUser, user) {
         if (typeof user.email !== 'undefined') {
             if (!util.isEmailValid(user.email)) {
                 return Promise.reject('Invalid email');
@@ -224,17 +224,17 @@ export default class Volunteer {
 
         return new Promise((resolve, reject) => {
             const callUserUpdate = (uploadUrl) => {
-                return User.update(user, {
-                    ...(user.id ? { id: user.id } : {}),
+                return User.update(currentUser, {
+                    ...(user.id ? { id: currentUser.id } : {}),
                     ...(user.firstName ? { firstName: user.firstName } : {}),
                     ...(user.lastName ? { lastName: user.lastName } : {}),
                     ...(user.email ? { email: user.email } : {}),
                     ...(user.goal ? { goal: user.goal } : {}),
                     ...(user.password ? { password: user.password } : {}),
-                    ...(user.roles ? { roles: user.roles } : {}),
+                    ...(user.roles ? { roles: currentUser.roles } : {}),
                     ...(user.description ? { description: user.description } : {}),
                     ...(uploadUrl ? { image: uploadUrl } : {}),
-                    ...(user.slug ? { slug: user.slug } : {}),
+                    ...(user.slug ? { slug: currentUser.slug } : {}),
                     ...(user.totalHours ? { totalHours: user.totalHours } : {}),
                     ...(user.currentHours ? { currentHours: user.currentHours } : {}),
                 }).then((data) => {
