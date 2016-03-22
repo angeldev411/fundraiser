@@ -5,7 +5,7 @@ export default class AdminStatsBlock extends Component {
     render() {
         return (
             <div className={"col-xs-12"}>
-                <section className={"stats-block col-xs-12 col-sm-9"}>
+                <section className={"stats-block col-xs-12 col-sm-8"}>
                     {this.props.stats.map((stat, i) => (
                         <CircleStat key={i}
                             data={
@@ -18,7 +18,7 @@ export default class AdminStatsBlock extends Component {
                         />
                     ))}
                 </section>
-                <section className={"col-xs-12 col-sm-3"}>
+                <section className={"col-xs-12 col-sm-4"}>
                     {this.props.children}
                 </section>
             </div>
