@@ -94,6 +94,7 @@ class AdminTeamEmailForm extends Component {
                         name="subject"
                         id="subject"
                         onChange={(e) => { this.handleChange(e, 'subject') }}
+                        disabled={this.props.email ? true : false}
                     />
                     <label htmlFor="subject">{'Subject'}</label>
                 </div>
@@ -104,6 +105,7 @@ class AdminTeamEmailForm extends Component {
                         rows="5"
                         placeholder={'Type your email message here'}
                         onChange={(e) => { this.handleChange(e, 'message') }}
+                        disabled={this.props.email ? true : false}
                     />
                     <label htmlFor="message">{'Message'}</label>
                 </div>
