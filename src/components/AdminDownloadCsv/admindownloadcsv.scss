@@ -10,7 +10,10 @@
     .title {
         color: $green;
         font-family: $conduit-bold;
-        font-size: 1.45em
+        font-size: 1.45em;
+        display: inline-block;
+        max-width: 60%;
+        line-height: 1em;
     }
 
     p {

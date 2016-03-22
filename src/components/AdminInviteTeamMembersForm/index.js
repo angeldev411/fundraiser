@@ -14,7 +14,8 @@ export default class AdminInviteTeamMembersForm extends Component {
             <Form id="invite-team-members-form"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={this.props.title}
-                description={'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}
+                titleLine2={this.props.titleLine2}
+                description={'There are many ways to invite people to your team. Whether it’s via email or your social channels, we have made it seamless and easy to spread the good word.'}
             >
                 <div className="form-group">
                     <input type="text"
@@ -26,26 +27,23 @@ export default class AdminInviteTeamMembersForm extends Component {
                     <label htmlFor="name">{'You can simply copy and paste this url to your email or social channels'}</label>
                 </div>
 
+                <p className={'or-divider'}>{'or'}</p>
+
                 <div className="form-group">
-                    <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}
-                        className="share"
-                    >
-                        <i className="fa fa-envelope"/>
-                    </a>
                     <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
                         target="_blank"
                         className="share"
                     >
-                        <i className="fa fa-facebook"/>
+                        <img src="/assets/images/facebook.png"/>
                     </a>
                     <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${Constants.TWITTER_USERNAME}`}
                         target="_blank"
                         className="share"
                     >
-                        <i className="fa fa-twitter"/>
+                        <img src="/assets/images/twitter.png"/>
                     </a>
                     <label className={'social'}>
-                        {'or simply click on the social channel above and your invite URL will be posted on your behalf.'}
+                        {'simply click on the social channel above and your invite URL will be posted on your behalf.'}
                     </label>
                 </div>
             </Form>
@@ -55,6 +53,7 @@ export default class AdminInviteTeamMembersForm extends Component {
 
 AdminInviteTeamMembersForm.propTypes = {
     title: React.PropTypes.string,
+    titleLine2: React.PropTypes.string,
     project: React.PropTypes.object,
     team: React.PropTypes.object,
     sponsors: React.PropTypes.bool,

@@ -140,7 +140,8 @@ class Header extends Component {
                                     <AdminInviteTeamMembersForm
                                         project={this.props.project}
                                         team={this.props.team}
-                                        title={'Invite new team members'}
+                                        title={"Invite New"}
+                                        titleLine2={"Team Members"}
                                     />
                                 }
                                 customClass={'btn-green-bar-link'}

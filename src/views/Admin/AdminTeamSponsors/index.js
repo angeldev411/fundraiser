@@ -79,7 +79,8 @@ class AdminTeamSponsors extends Component {
                 title: 'Invite members',
                 content:
                     <AdminInviteTeamMembersForm
-                        title={"Invite New Team Members"}
+                        title={"Invite New"}
+                        titleLine2={"Team Members"}
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
@@ -122,11 +123,11 @@ class AdminTeamSponsors extends Component {
                                 },
                                 {
                                     current: this.props.user.team.totalSponsors,
-                                    title: 'Sponsors',
+                                    title: 'Total Sponsors',
                                 },
                                 {
                                     current: this.props.user.team.totalRaised,
-                                    title: '$ Raised',
+                                    title: 'Total Money Raised',
                                 },
                             ]
                         }
