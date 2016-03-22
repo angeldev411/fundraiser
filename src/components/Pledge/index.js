@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import * as Urls from '../../urls.js';
-import * as constants from '../../common/constants';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import PledgeFormStep1 from '../PledgeFormStep1/';

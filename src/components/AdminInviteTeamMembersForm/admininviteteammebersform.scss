@@ -9,6 +9,12 @@
         font-size: 1em;
     }
 
+    p.or-divider {
+        color: $green;
+        font-family: $conduit-light;
+        font-size: 1.4em;
+    }
+
     a.share:first-child {
         padding-left: 0;
     }
@@ -18,12 +24,11 @@
     }
 
     a.share {
-        font-size: 1.6em;
         color: $white;
         padding: 0 10px;
 
-        &:hover {
-            color: $green;
+        img{
+            margin-bottom: 15px;
         }
     }
 
