@@ -113,6 +113,7 @@ export default class Volunteer {
                 `
                 MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM)-[:CONTRIBUTE]->(:PROJECT {slug: {projectSlug}})
                 RETURN users
+                ORDER BY users.totalHours DESC
                 `,
                 {},
                 { projectSlug }
@@ -122,6 +123,7 @@ export default class Volunteer {
                 `
                 MATCH (users:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {slug: {teamSlug}})
                 RETURN users
+                ORDER BY users.totalHours DESC
                 `,
                 {},
                 { teamSlug }
@@ -131,6 +133,7 @@ export default class Volunteer {
             `
             MATCH (users:VOLUNTEER)
             RETURN users
+            ORDER BY users.totalHours DESC
             `
         ).getResults('users');
     }
