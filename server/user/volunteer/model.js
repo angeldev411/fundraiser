@@ -6,6 +6,7 @@ import slug from 'slug';
 import util from '../../helpers/util';
 import Mailer from '../../helpers/mailer';
 import Mailchimp from '../../helpers/mailchimp';
+import TeamLeader from '../team-leader/model';
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
@@ -41,13 +42,22 @@ export default class Volunteer {
                 MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                 SET team.totalVolunteers = team.totalVolunteers + 1
                 CREATE (user)-[:VOLUNTEER]->(team)
+                RETURN {user: user, team: team} AS result
                 `,
                 {},
                 {
                     userId: volunteer.id,
                     teamSlug,
                 }
-            );
+            ).getResult('result');
+        })
+        .then((result) => {
+            // Get team teamLeader
+            return TeamLeader.getTeamLeader(result.team.id);
+        })
+        .then((teamLeader) => {
+            // Update teamLeader
+            return Mailchimp.updateTeamLeader(teamLeader);
         })
         .then(() => {
             // Get welcome email data

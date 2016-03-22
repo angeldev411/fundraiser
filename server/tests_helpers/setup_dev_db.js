@@ -149,12 +149,19 @@ class setup {
 
     static addTeamLeaders() {
         // TODO check this
-        const userToAdd = fixtures.teamLeaders[0];
 
-        userToAdd.password = userToAdd.hashedPassword;
-        delete userToAdd.hashedPassword;
+        const promises = [];
 
-        return new TeamLeader(userToAdd, fixtures.teams[0].slug)
+        for (var i = 0; i < fixtures.teamLeaders.length; i++) {
+            const userToAdd = fixtures.teamLeaders[i];
+
+            userToAdd.password = userToAdd.hashedPassword;
+            delete userToAdd.hashedPassword;
+
+            promises.push(new TeamLeader(userToAdd, fixtures.teams[i].slug))
+        }
+
+        return Promise.all(promises)
         .then((team) => {
             if (team) {
                 console.log('teamLeaders : ok');

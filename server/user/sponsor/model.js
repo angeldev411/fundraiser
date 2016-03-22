@@ -786,11 +786,13 @@ export default class Sponsor {
      * raised: raised money, so just charged amount
     */
     static updateRaisedAttributes = (volunteer, raised) => {
+        let data;
+
         return db.query(`
-            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)
+            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
             SET     volunteer.raised = volunteer.raised + {raised},
                     team.totalRaised = team.totalRaised + {raised}
-            RETURN {volunteer: volunteer, team: team} AS result
+            RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
             `,
             {},
             {
@@ -799,12 +801,16 @@ export default class Sponsor {
             }
         ).getResult('result')
         .then((result) => {
-            return Mailchimp.updateVolunteer(result.volunteer);
+            data = result;
+            return Mailchimp.updateVolunteer(data.volunteer);
+        })
+        .then(() => {
+            return Mailchimp.updateTeamLeader(data.teamLeader);
         })
         .then(() => {
             return Promise.resolve();
         })
-        .catch(() => {
+        .catch((err) => {
             return Promise.reject();
         });
     };
@@ -817,12 +823,14 @@ export default class Sponsor {
      * raised: raised money, so just charged amount
     */
     static updateRaisedAttributesBySlug = (volunteerSlug = null, teamSlug = null, raised) => {
+        let data;
+
         if (volunteerSlug) {
             return db.query(`
-                MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)
+                MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
                 SET     volunteer.raised = volunteer.raised + {raised},
                         team.totalRaised = team.totalRaised + {raised}
-                RETURN {volunteer: volunteer, team: team} AS result
+                RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
                 `,
                 {},
                 {
@@ -831,7 +839,11 @@ export default class Sponsor {
                 }
             ).getResult('result')
             .then((result) => {
-                return Mailchimp.updateVolunteer(result.volunteer);
+                data = result;
+                return Mailchimp.updateVolunteer(data.volunteer);
+            })
+            .then(() => {
+                return Mailchimp.updateTeamLeader(data.teamLeader);
             })
             .then(() => {
                 return Promise.resolve();
@@ -841,16 +853,26 @@ export default class Sponsor {
             });
         } else if (teamSlug) {
             return db.query(`
-                MATCH (team:TEAM {slug: {teamSlug} })
+                MATCH (team:TEAM {slug: {teamSlug} })<-[:LEAD]-(teamLeader:TEAM_LEADER)
                 SET     team.raised = team.raised + {raised}
-                RETURN team
+                RETURN {team: team, teamLeader: teamLeader} AS result
                 `,
                 {},
                 {
                     teamSlug,
                     raised: parseInt(raised, 10),
                 }
-            );
+            ).getResult('result')
+            .then((result) => {
+                data = result;
+                return Mailchimp.updateTeamLeader(data.teamLeader);
+            })
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch(() => {
+                return Promise.reject();
+            });
         }
     };
 }

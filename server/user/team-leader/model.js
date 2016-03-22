@@ -58,6 +58,24 @@ class TeamLeader {
         });
     }
 
+    static getTeamLeader(teamId) {
+        return db.query(`
+            MATCH (:TEAM { id: {teamId} })<-[:LEAD]-(teamLeader:TEAM_LEADER)
+            RETURN teamLeader
+            `,
+            {},
+            {
+                teamId,
+            }
+        ).getResult('teamLeader')
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static ownsTeam(userId, teamId) {
         return TeamLeader.getTeamAndProject({
             id: userId,

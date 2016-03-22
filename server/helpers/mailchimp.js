@@ -3,10 +3,11 @@ import config from '../config';
 import http from 'http';
 import crypto from 'crypto';
 import Volunteer from '../user/volunteer/model';
+import TeamLeader from '../user/team-leader/model';
 
 export default class Mailchimp {
 
-    /* VOLUNTEERS */
+    /* ---- VOLUNTEERS ---- */
     static subscribeVolunteer(volunteer) {
         return this.getVolunteerData(volunteer)
         .then((result) => {
@@ -29,11 +30,9 @@ export default class Mailchimp {
             return this.subscribeUser(config.MAILCHIMP.VOLUNTEERS_LIST_ID, subscriber);
         })
         .then((response) => {
-            console.log('response', response);
             Promise.resolve();
         })
         .catch((err) => {
-            console.log('error', err);
             Promise.reject(err);
         });
     }
@@ -83,7 +82,6 @@ export default class Mailchimp {
 
             return Volunteer.getLastVolunteerDate(volunteer)
             .then((lastVolunteerDate) => {
-                console.log(lastVolunteerDate.date);
                 data.lastVolunteerDate = lastVolunteerDate.date;
                 return Promise.resolve(data);
             })
@@ -96,6 +94,8 @@ export default class Mailchimp {
             return Promise.reject(err);
         });
     }
+
+    /* ---- SPONSORS ---- */
 
     static subscribeSponsor(sponsor) {
         const subscriber = JSON.stringify({
@@ -110,18 +110,66 @@ export default class Mailchimp {
         return this.subscribeUser(config.MAILCHIMP.SPONSOR_LIST_ID, subscriber);
     }
 
-    static subscribeTeamLeader(teamLeader) {
-        const subscriber = JSON.stringify({
-            email_address: teamLeader.email,
-            status: 'subscribed',
-            merge_fields: {
-                FNAME: teamLeader.firstName,
-                LNAME: teamLeader.lastName,
-            },
-        });
+    /* ---- TEAMLEADER ---- */
 
-        return this.subscribeUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber);
+    static subscribeTeamLeader(teamLeader) {
+        return TeamLeader.getTeamAndProject(teamLeader)
+        .then((result) => {
+            const subscriber = JSON.stringify({
+                email_address: teamLeader.email,
+                status: 'subscribed',
+                merge_fields: {
+                    FNAME: teamLeader.firstName,
+                    LNAME: teamLeader.lastName,
+                    TOTALVOL: result.team.totalVolunteers,
+                    TOTALHOURS: result.team.totalHours,
+                    RAISED: result.team.totalRaised,
+                },
+            });
+
+            return this.subscribeUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber);
+        })
+        .then((response) => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject();
+        });
     }
+
+    static updateTeamLeader(newTeamLeader, oldTeamLeader = null) {
+        return TeamLeader.getTeamAndProject(newTeamLeader)
+        .then((result) => {
+            const subscriber = JSON.stringify({
+                email_address: newTeamLeader.email,
+                status: 'subscribed',
+                merge_fields: {
+                    FNAME: newTeamLeader.firstName,
+                    LNAME: newTeamLeader.lastName,
+                    TOTALVOL: result.team.totalVolunteers,
+                    TOTALHOURS: result.team.totalHours,
+                    RAISED: result.team.totalRaised,
+                },
+            });
+
+            if (oldTeamLeader && newTeamLeader.email !== oldTeamLeader.email) { // Email has changed
+                return Promise.all([
+                    this.unsubscribeUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, oldTeamLeader.email),
+                    this.subscribeUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber),
+                ]);
+            } else {
+                return this.updateUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber, newTeamLeader.email);
+            }
+        })
+        .then((response) => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject();
+        });
+    }
+
+    /* ---- COMMONS ---- */
 
     static subscribeUser(list, subscriber) {
         const options = {
@@ -168,7 +216,6 @@ export default class Mailchimp {
     }
 
     static updateUser(list, subscriber, email) {
-        console.log(list, subscriber);
         const subscriberHash = crypto.createHash('md5').update(email).digest('hex');
 
         const options = {
