@@ -5,6 +5,7 @@ import config from '../config';
 import util from '../helpers/util.js';
 import Promise from 'bluebird';
 import Mailer from '../helpers/mailer';
+import Mailchimp from '../helpers/mailchimp';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -173,6 +174,10 @@ class HourRepository {
             if (result.volunteer.totalHours - parseInt(hours, 10) === 0) {
                 Mailer.sendFirstHoursEmail(result.volunteer, result.hour);
             }
+            // Update Mailchimp user
+            return Mailchimp.updateVolunteer(result.volunteer);
+        })
+        .then(() => {
             return Promise.resolve();
         })
         .catch((err) => {

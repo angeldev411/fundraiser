@@ -82,9 +82,7 @@ export default class User {
 
         data.inviteCode = null;
 
-        if (userNode.email !== data.email) { // Email has changed
-            Mailchimp.updateVolunteer(userNode, data);
-        }
+        Mailchimp.updateVolunteer(data, userNode);
 
         if (userNode.roles && userNode.roles[1]) {
             role = userNode.roles[1];

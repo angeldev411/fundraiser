@@ -36,8 +36,6 @@ export default class Volunteer {
         return new User(data, VOLUNTEER)
         .then((volunteerCreated) => {
             volunteer = volunteerCreated;
-            // Add user to mailchimp
-            Mailchimp.subscribeVolunteer(volunteerCreated);
             // Create relation and increment team volunteers number
             return db.query(`
                 MATCH (user:VOLUNTEER {id: {userId} }), (team:TEAM {slug: {teamSlug} })
@@ -57,6 +55,10 @@ export default class Volunteer {
         })
         .then((result) => {
             Mailer.sendVolunteerWelcomeEmail(result.project, result.team, volunteer);
+            // Add user to mailchimp
+            return Mailchimp.subscribeVolunteer(volunteer);
+        })
+        .then(() => {
             return Promise.resolve(volunteer);
         })
         .catch((err) => {
@@ -84,6 +86,26 @@ export default class Volunteer {
                 userId: volunteer.id,
             }
         ).getResult('project', 'team')
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static getLastVolunteerDate(volunteer) {
+        return db.query(`
+            MATCH (hour:HOUR)<-[:VOLUNTEERED]-(:VOLUNTEER { id: {userId} })
+            RETURN hour
+            ORDER BY hour.date DESC
+            LIMIT 1
+            `,
+            {},
+            {
+                userId: volunteer.id,
+            }
+        ).getResult('hour')
         .then((result) => {
             return Promise.resolve(result);
         })
