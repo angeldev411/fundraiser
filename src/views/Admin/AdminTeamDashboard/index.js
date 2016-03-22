@@ -82,7 +82,8 @@ class AdminTeamDashboard extends Component {
                 title: 'Invite members',
                 content:
                     <AdminInviteTeamMembersForm
-                        title={"Invite New Team Members"}
+                        title={"Invite New"}
+                        titleLine2={"Team Members"}
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,

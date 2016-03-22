@@ -14,7 +14,8 @@ export default class AdminInviteTeamMembersForm extends Component {
             <Form id="invite-team-members-form"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={this.props.title}
-                description={'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}
+                titleLine2={this.props.titleLine2}
+                description={'There are many ways to invite people to your team. Whether it’s via email or your social channels, we have made it seamless and easy to spread the good word.'}
             >
                 <div className="form-group">
                     <input type="text"
@@ -52,6 +53,7 @@ export default class AdminInviteTeamMembersForm extends Component {
 
 AdminInviteTeamMembersForm.propTypes = {
     title: React.PropTypes.string,
+    titleLine2: React.PropTypes.string,
     project: React.PropTypes.object,
     team: React.PropTypes.object,
     sponsors: React.PropTypes.bool,
