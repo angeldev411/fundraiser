@@ -16,13 +16,8 @@
 
     a {
         color: $grey;
-        font-size: 3em;
-        margin: 0 5px;
-
-        &:hover {
-            color: $green;
-            text-decoration: none;
-        }
+        margin: 5px 0;
+        display: inline-block;
     }
 }
 
