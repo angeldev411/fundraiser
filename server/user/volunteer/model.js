@@ -22,18 +22,38 @@ export const volunteerSchema = {
 
 export default class Volunteer {
     constructor(data, teamSlug) {
-        let volunteer;
-
-        if (data.firstName && data.lastName && !data.slug) {
-            data.slug = slug(`${data.firstName.toLowerCase()}-${data.lastName.toLowerCase()}`);
-        }
-
         // Set default attributes to 0
         data.hourlyPledge = 0;
         data.totalSponsors = 0;
         data.currentHours = 0;
         data.totalHours = 0;
         data.raised = 0;
+
+        if (data.firstName && data.lastName && !data.slug) {
+            return Volunteer.createSlug(data.firstName, data.lastName)
+            .then((userSlug) => {
+                data.slug = userSlug;
+                return Volunteer.saveVolunteer(data, teamSlug)
+                .then((volunteer) => {
+                    return Promise.resolve(volunteer);
+                })
+                .catch((err) => {
+                    return Promise.reject(err);
+                });
+            });
+        } else {
+            return Volunteer.saveVolunteer(data, teamSlug)
+            .then((volunteer) => {
+                return Promise.resolve(volunteer);
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            });
+        }
+    }
+
+    static saveVolunteer(data, teamSlug) {
+        let volunteer;
 
         return new User(data, VOLUNTEER)
         .then((volunteerCreated) => {
@@ -75,6 +95,38 @@ export default class Volunteer {
         .catch((err) => {
             return Promise.reject(err);
         });
+    }
+
+    static createSlug(firstName, lastName, suffix = null) {
+        let userSlug;
+
+        if (suffix) {
+            userSlug = slug(`${firstName.toLowerCase()}-${lastName.toLowerCase()}-${suffix}`);
+        } else {
+            suffix = 1;
+            userSlug = slug(`${firstName.toLowerCase()}-${lastName.toLowerCase()}`);
+        }
+
+        return this.verifySlug(userSlug)
+        .then((result) => { // Slug is already taken
+            return this.createSlug(firstName, lastName, suffix + 1);
+        })
+        .catch((err) => {
+            return Promise.resolve(userSlug);
+        });
+    }
+
+    static verifySlug(userSlug) {
+        return db.query(`
+            MATCH (user {slug: {userSlug} })
+            WHERE user:USER OR user:USER_DISABLED
+            RETURN user
+            `,
+            {},
+            {
+                userSlug,
+            }
+        ).getResult('user');
     }
 
     /* Logs hours to the db, uploads signature */
