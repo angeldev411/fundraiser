@@ -210,3 +210,30 @@ export const getTopVolunteers = (projectSlug = null, teamSlug = null) => {
         );
     };
 };
+
+export const unlinkVolunteerSuccess = (volunteers) => ({
+    type: actionTypes.UNLINK_VOLUNTEERS_SUCCESS,
+    volunteers,
+});
+
+export const unlinkVolunteerFailure = (error) => ({
+    type: actionTypes.UNLINK_VOLUNTEERS_FAILURE,
+    error,
+});
+
+export const unlinkVolunteers = (volunteers) => {
+    return (dispatch) => {
+        dispatch(unlinkVolunteerFailure(''));
+        return axios.post(`${API_URL}/volunteer`, volunteers)
+        .then(
+            (response) => {
+                location.reload();
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(unlinkVolunteerFailure(errorResponse));
+            }
+        );
+    };
+};

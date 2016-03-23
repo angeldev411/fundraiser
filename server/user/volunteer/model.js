@@ -1,6 +1,7 @@
 'use strict';
 import neo4jDB from 'neo4j-simple';
 import config from '../../config';
+import Promise from 'bluebird';
 import { VOLUNTEER } from '../roles';
 import slug from 'slug';
 import util from '../../helpers/util';
@@ -306,6 +307,31 @@ export default class Volunteer {
                     }
                 }
             );
+        });
+    }
+
+    static unlinkVolunteers(volunteers, adminID) {
+        return Promise.resolve(volunteers)
+        .each((volunteer, i) => {
+            return db.query(
+                `
+                MATCH (user:VOLUNTEER {id: {volunteerId}})-[:VOLUNTEER]->(team:TEAM)<-[*]-(admin:USER {id: {adminID}})
+                SET user:VOLUNTEER_DISABLED:USER_DISABLED, team.totalVolunteers = team.totalVolunteers - 1
+                REMOVE user:VOLUNTEER:USER
+                RETURN user
+                `,
+                {},
+                {
+                    volunteerId: volunteer.id,
+                    adminID,
+                }
+            );
+        })
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
     }
 

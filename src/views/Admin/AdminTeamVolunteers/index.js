@@ -55,6 +55,12 @@ class AdminTeamVolunteers extends Component {
         }
     }
 
+    handleUnlinkVolunteers = (volunteers) => {
+        if (window.confirm('Do you really want to remove selected volunteer(s)?')) {
+            Actions.unlinkVolunteers(volunteers)(this.props.dispatch);
+        }
+    };
+
     doAction = ((user) => {
         const projectSlug = user.project.slug;
         const teamSlug = user.team.slug;
@@ -132,6 +138,7 @@ class AdminTeamVolunteers extends Component {
                             volunteers={this.state.volunteers}
                             user={this.props.user}
                             actionable
+                            onUnlink={this.handleUnlinkVolunteers}
                         />
                     </div>
                     <AdminStatsBlock

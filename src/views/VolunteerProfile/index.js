@@ -6,8 +6,6 @@ import * as Actions from '../../redux/volunteer/actions';
 import * as TeamActions from '../../redux/team/actions';
 import * as ProjectActions from '../../redux/project/actions';
 import RouteNotFound from '../RouteNotFound';
-import { pushPath } from 'redux-simple-router';
-import { Link } from 'react-router';
 
 /* Then React components */
 import Page from '../../components/Page';
@@ -20,12 +18,12 @@ class VolunteerProfile extends Component {
 
         this.state = {
             volunteer: {
-                firstName: 'John',
-                lastName: 'Doe',
+                firstName: '',
+                lastName: '',
             },
             team: {
-                name: 'Unknown name',
-                tagline: 'Default Tagline',
+                name: '',
+                tagline: '',
             },
             project: {
                 name: '',
@@ -49,7 +47,9 @@ class VolunteerProfile extends Component {
                 volunteer: nextProps.volunteer,
             });
         } else if (nextProps.error) {
-            return (<RouteNotFound />);
+            this.setState({
+                volunteer: null,
+            });
         }
         if (nextProps.user) {
             this.setState({
@@ -71,6 +71,10 @@ class VolunteerProfile extends Component {
     }
 
     render() {
+        if (this.state.volunteer === null) {
+            return (<RouteNotFound />);
+        }
+
         document.title = `${this.state.volunteer.firstName} ${this.state.volunteer.lastName} | Raiserve`;
         return (
             <Page

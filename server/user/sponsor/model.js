@@ -155,7 +155,7 @@ export default class Sponsor {
         } else if (teamSlug && !volunteerSlug) {
             query1 = () => {
                 return db.query(`
-                        MATCH (users:SPONSOR)-[rel]->(:TEAM { slug: {teamSlug}})
+                        MATCH (users:SPONSOR)-[*]->(:TEAM { slug: {teamSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
@@ -554,7 +554,8 @@ export default class Sponsor {
     */
     static getSponsorsToBill = () => {
         return db.query(`
-            MATCH (sponsors:SPONSOR)-[support:SUPPORTING]->(volunteer:VOLUNTEER)
+            MATCH (sponsors:SPONSOR)-[support:SUPPORTING]->(volunteer)
+            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
             RETURN DISTINCT sponsors
         `).getResults('sponsors');
     };
@@ -671,7 +672,8 @@ export default class Sponsor {
     */
     static getSponsoringContracts = (sponsor) => {
         return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(volunteer:VOLUNTEER)
+            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(volunteer)
+            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
             RETURN {sponsor: sponsor, support: support, volunteer: volunteer} AS sponsoring
             `,
             {},
@@ -689,8 +691,8 @@ export default class Sponsor {
     */
     static getNotBilledHours = (sponsor) => {
         return db.query(`
-            MATCH (hours:HOUR)<-[:VOLUNTEERED]->(volunteer:VOLUNTEER)<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
-            WHERE hours.created > {lastBilling} AND hours.approved = true
+            MATCH (hours:HOUR)<-[:VOLUNTEERED]->(volunteer)<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
+            WHERE (volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED) AND hours.created > {lastBilling} AND hours.approved = true
             RETURN hours
             `,
             {},
@@ -719,7 +721,8 @@ export default class Sponsor {
     */
     static createPaidRelation = (sponsor, amount, volunteer, status, date, stripeTransactionId = null) => {
         return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId} }), (volunteer:VOLUNTEER {id: {volunteerId} })
+            MATCH (sponsor:SPONSOR {id: {sponsorId} }), (volunteer {id: {volunteerId} })
+            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
             CREATE (sponsor)-[:PAID {amount: {amount}, stripeTransactionId: {stripeTransactionId}, date: {date}, status: {status}}]->(volunteer)
             `,
             {},
@@ -744,7 +747,8 @@ export default class Sponsor {
     */
     static updateSupportingRelationTotal = (sponsor, amount, volunteer) => {
         return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId} })-[support:SUPPORTING]->(volunteer:VOLUNTEER {id: {volunteerId} })
+            MATCH (sponsor:SPONSOR {id: {sponsorId} })-[support:SUPPORTING]->(volunteer {id: {volunteerId} })
+            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
             SET support.total = support.total + {amount}
             RETURN support
             `,
@@ -789,7 +793,8 @@ export default class Sponsor {
         let data;
 
         return db.query(`
-            MATCH (volunteer:VOLUNTEER {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
+            MATCH (volunteer {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
+            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
             SET     volunteer.raised = volunteer.raised + {raised},
                     team.totalRaised = team.totalRaised + {raised}
             RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
@@ -827,7 +832,8 @@ export default class Sponsor {
 
         if (volunteerSlug) {
             return db.query(`
-                MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
+                MATCH (volunteer {slug: {volunteerSlug} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
+                WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
                 SET     volunteer.raised = volunteer.raised + {raised},
                         team.totalRaised = team.totalRaised + {raised}
                 RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
