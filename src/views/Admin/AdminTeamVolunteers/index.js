@@ -56,8 +56,9 @@ class AdminTeamVolunteers extends Component {
     }
 
     handleUnlinkVolunteers = (volunteers) => {
-        console.log('view', volunteers);
-        Actions.unlinkVolunteers(volunteers)(this.props.dispatch);
+        if (window.confirm('Do you really want to remove selected volunteer(s)?')) {
+            Actions.unlinkVolunteers(volunteers)(this.props.dispatch);
+        }
     };
 
     doAction = ((user) => {
