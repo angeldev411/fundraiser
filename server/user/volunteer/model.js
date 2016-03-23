@@ -1,6 +1,7 @@
 'use strict';
 import neo4jDB from 'neo4j-simple';
 import config from '../../config';
+import Promise from 'bluebird';
 import { VOLUNTEER } from '../roles';
 import slug from 'slug';
 import util from '../../helpers/util';
@@ -310,27 +311,22 @@ export default class Volunteer {
     }
 
     static unlinkVolunteers(volunteers, adminID) {
-        const promises = [];
-
-        for (let i = 0; i < volunteers.length; i++) {
-            promises.push(
-                db.query(
-                    `
-                    MATCH (user:VOLUNTEER {id: {volunteerId}})
-                    SET user:VOLUNTEER_DISABLED:USER_DISABLED
-                    REMOVE user:VOLUNTEER:USER
-                    RETURN user
-                    `,
-                    {},
-                    {
-                        volunteerId: volunteers[i].id,
-                        adminID,
-                    }
-                )
+        return Promise.resolve(volunteers)
+        .each((volunteer, i) => {
+            db.query(
+                `
+                MATCH (user:VOLUNTEER {id: {volunteerId}})-[:VOLUNTEER]->(team:TEAM)
+                SET user:VOLUNTEER_DISABLED:USER_DISABLED, team.totalVolunteers = team.totalVolunteers - 1
+                REMOVE user:VOLUNTEER:USER
+                RETURN user
+                `,
+                {},
+                {
+                    volunteerId: volunteer.id,
+                    adminID,
+                }
             );
-        }
-
-        return Promise.all(promises)
+        })
         .then(() => {
             return Promise.resolve();
         })
