@@ -197,7 +197,6 @@ class userController {
             if (user.inviteCode === userData.inviteCode) {
                 return User.update(user, userData)
                 .then((userUpdated) => {
-                    // TODO send welcome email
                     return this.checkCredentials({
                         email: userData.email,
                         password: userData.password,

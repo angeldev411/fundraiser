@@ -16,24 +16,37 @@ export default class AdminSponsorsTable extends Component {
                                 <ul className="children-content clearfix">
                                     {sponsor.pledges.map((pledge, x) => (
                                         <ChildrenLine key={x}>
-                                            {pledge.support.hourly ?
-                                                (<span>
-                                                    <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}/hr`}
-                                                    <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
-                                                </span>) :
-                                                (<span>
-                                                    <span className="label uppercase">{'Donated: '}</span> {`$${pledge.support.amount}`}
-                                                </span>)
-                                            }
-                                            <span>
-                                            {!this.props.isVolunteer ? (
-                                                <span>
-                                                    <span className="label uppercase">{pledge.sponsored.firstName ? 'Member: ' : 'Team: '}</span>
-                                                    {pledge.sponsored.firstName ? `${pledge.sponsored.firstName} ${pledge.sponsored.lastName}` : pledge.sponsored.name}
-                                                </span>
-                                            ) : null}
-                                            </span>
-                                            <span className="label uppercase">{'Date: '}</span> <span>{`${new Date(pledge.support.date).toLocaleDateString()}`}</span>
+                                            <div className={'col-xs-12'}>
+                                                <div className={'col-xs-5'}>
+                                                    {pledge.support.hourly ?
+                                                            (<div>
+                                                                <div className={'col-xs-6'}>
+                                                                    <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}/hr`}
+                                                                </div>
+                                                                <div className={'col-xs-6'}>
+                                                                    <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
+                                                                </div>
+                                                            </div>
+                                                            ) :
+                                                            (<div className={'col-xs-12'}>
+                                                                <span className="label uppercase">{'Donated: '}</span> {`$${pledge.support.amount}`}
+                                                            </div>)
+                                                    }
+                                                </div>
+                                                <div className={'col-xs-4'}>
+                                                    <span>
+                                                    {!this.props.isVolunteer ? (
+                                                        <span>
+                                                            <span className="label uppercase">{pledge.sponsored.firstName ? 'Member: ' : 'Team: '}</span>
+                                                            {pledge.sponsored.firstName ? `${pledge.sponsored.firstName} ${pledge.sponsored.lastName}` : pledge.sponsored.name}
+                                                        </span>
+                                                    ) : null}
+                                                    </span>
+                                                </div>
+                                                <div className={'col-xs-3'}>
+                                                    <span className="label uppercase">{'Date: '}</span> <span>{`${new Date(pledge.support.date).toLocaleDateString()}`}</span>
+                                                </div>
+                                            </div>
                                         </ChildrenLine>
                                     ))}
                                 </ul>

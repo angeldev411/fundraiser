@@ -41,6 +41,7 @@ class Team {
     static insert(rawTeamData) {
         const teamData = Team.filter({
             ...(rawTeamData),
+            slug: rawTeamData.slug.toLowerCase(),
             id: uuid.v4(),
             totalVolunteers: 0,
             totalHours: 0,
@@ -79,7 +80,7 @@ class Team {
                     .then(() => {
                         return Team.saveUpdate(teamData)
                             .then((result) => {
-                                return Promise.resolve(teamData);
+                                return Promise.resolve(result);
                             })
                             .catch((error) => {
                                 return Promise.reject(error);

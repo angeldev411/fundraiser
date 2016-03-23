@@ -24,6 +24,11 @@
         font-size: 13px;
         text-align: center;
         display: block;
+
+        b {
+            font-family: $conduit-bold;
+            font-weight: 400;
+        }
     }
 
     .green-header-left,

@@ -30,13 +30,9 @@ export default class SignupForm extends Component {
     };
 
     submit = () => {
-        this.setState({
-            loading: true,
-        });
         if (this.state.password1 !== this.state.password2) {
             this.setState({
                 error: `Passwords don't match`,
-                loading: false,
             });
             return;
         }
@@ -52,7 +48,6 @@ export default class SignupForm extends Component {
         } else {
             this.setState({
                 error: `Fields are missing, please check the form.`,
-                loading: false,
             });
         }
     };
@@ -136,7 +131,7 @@ export default class SignupForm extends Component {
                 <Button
                     type={'submit'}
                     customClass="btn-green-white"
-                    disabled={this.props.loading ? this.props.loading : this.state.loading}
+                    disabled={this.state.loading}
                 >{'Submit'}</Button>
             </Form>
         );

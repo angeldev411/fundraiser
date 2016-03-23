@@ -82,7 +82,11 @@ class VolunteerProfile extends Component {
                 project={this.state.user ? this.state.user.project : null}
                 team={this.state.team}
             >
-                <Cover image={`${constants.TEAM_IMAGES_FOLDER}/${this.state.team.id}/${this.state.team.coverImage}`}
+                <Cover image={
+                        this.state.team.coverImage ?
+                        `${this.state.team.coverImage}` :
+                        null
+                    }
                     customclass={"cover-volunteer-profile"}
                     tagline={this.state.team.tagline}
                     button={"Sponsor Now"}
