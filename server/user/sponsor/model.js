@@ -155,7 +155,7 @@ export default class Sponsor {
         } else if (teamSlug && !volunteerSlug) {
             query1 = () => {
                 return db.query(`
-                        MATCH (users:SPONSOR)-[rel]->(:TEAM { slug: {teamSlug}})
+                        MATCH (users:SPONSOR)-[*]->(:TEAM { slug: {teamSlug}})
                         RETURN DISTINCT users
                     `,
                     {},
