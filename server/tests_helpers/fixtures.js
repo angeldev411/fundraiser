@@ -121,7 +121,6 @@ const fixtures = {
         {
             firstName: 'Henry',
             lastName: 'Stevens',
-            slug: 'henry-stevens',
             email: 'adrien.kuhn+hst@osedea.com',
             password: 'wilson',
             goal: 240,
@@ -131,7 +130,6 @@ const fixtures = {
         {
             firstName: 'Owen',
             lastName: 'Stein',
-            slug: 'owen-stein',
             email: 'adrien.kuhn+oste@osedea.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -140,7 +138,6 @@ const fixtures = {
         {
             firstName: 'Jules',
             lastName: 'Shen',
-            slug: 'jules-shen',
             email: 'adrien.kuhn+jshe@osedea.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -149,7 +146,6 @@ const fixtures = {
         {
             firstName: 'Kendra',
             lastName: 'Li',
-            slug: 'kendra-li',
             email: 'adrien.kuhn+kli@osedea.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -158,7 +154,6 @@ const fixtures = {
         {
             firstName: 'Neha',
             lastName: 'Gartner',
-            slug: 'neha-gartner',
             email: 'adrien.kuhn+ng@osedea.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
@@ -167,7 +162,6 @@ const fixtures = {
         {
             firstName: 'Valerie',
             lastName: 'Brisby',
-            slug: 'valerie-brisby',
             email: 'adrien.kuhn+vbrisb@osedea.com',
             password: 'wilson',
             hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
