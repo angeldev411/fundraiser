@@ -53,11 +53,15 @@ export default class Volunteer {
         })
         .then((result) => {
             // Get team teamLeader
-            return TeamLeader.getTeamLeader(result.team.id);
-        })
-        .then((teamLeader) => {
-            // Update teamLeader
-            return Mailchimp.updateTeamLeader(teamLeader);
+            return TeamLeader.getTeamLeader(result.team.id)
+            .then((teamLeader) => {
+                // Update teamLeader
+                return Mailchimp.updateTeamLeader(teamLeader);
+            })
+            .catch((err) => {
+                // There is no team leader
+                Promise.resolve();
+            });
         })
         .then(() => {
             // Get welcome email data
