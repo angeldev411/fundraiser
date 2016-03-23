@@ -315,7 +315,7 @@ export default class Volunteer {
         .each((volunteer, i) => {
             return db.query(
                 `
-                MATCH (user:VOLUNTEER {id: {volunteerId}})-[:VOLUNTEER]->(team:TEAM)
+                MATCH (user:VOLUNTEER {id: {volunteerId}})-[:VOLUNTEER]->(team:TEAM)<-[*]-(admin:USER {id: {adminID}})
                 SET user:VOLUNTEER_DISABLED:USER_DISABLED, team.totalVolunteers = team.totalVolunteers - 1
                 REMOVE user:VOLUNTEER:USER
                 RETURN user
