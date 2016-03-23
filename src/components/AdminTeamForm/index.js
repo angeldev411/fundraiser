@@ -18,14 +18,6 @@ class AdminTeamForm extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
-        } else if (nextProps.team) {
-            // TODO Push new team]
-            // this.setState(
-            //     {
-            //         user: nextProps.user,
-            //         error: null
-            //     }
-            // );
         }
     }
 
@@ -48,9 +40,6 @@ class AdminTeamForm extends Component {
                     teamLeaderEmail: this.state.teamLeaderEmail,
                 }
             )(this.props.dispatch);
-            if (this.props.updateTeam) {
-                this.props.updateTeam(team);
-            }
         } else {
             Actions.newTeam(
                 this.state.name,
@@ -58,9 +47,6 @@ class AdminTeamForm extends Component {
                 this.state.slug,
                 this.state.teamLeaderEmail,
             )(this.props.dispatch);
-            if (this.props.newTeam) {
-                this.props.newTeam(team);
-            }
         }
     };
 

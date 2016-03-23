@@ -18,12 +18,7 @@ export default class AdminTeamsTable extends Component {
         }
     }
 
-    updateTeam = (team, teamIndex) => {
-        const newState = Object.assign({}, this.state);
 
-        newState.teams[teamIndex] = team;
-        this.setState(newState);
-    };
 
     render() {
         return (
@@ -42,9 +37,9 @@ export default class AdminTeamsTable extends Component {
                         {this.state.teams.map((team, i) => (
                             <tr key={i}>
                                 <td className={'team-name'}>{team.name}</td>
-                                <td>{team.raised}</td>
-                                <td>{team.totalHours}</td>
-                                <td>{team.totalVolunteers}</td>
+                                <td>{team.raised ? team.raised : 0}</td>
+                                <td>{team.totalHours ? team.totalHours : 0}</td>
+                                <td>{team.totalVolunteers ? team.totalVolunteers : 0}</td>
                                 {this.props.actionable ?
                                     <td>
                                         <div className={'edit-links'}>
@@ -57,9 +52,6 @@ export default class AdminTeamsTable extends Component {
                                                                 team,
                                                             }
                                                         }
-                                                        updateTeam={(team) => {
-                                                            this.updateTeam(team, i);
-                                                        }}
                                                     />
                                                 }
                                             >

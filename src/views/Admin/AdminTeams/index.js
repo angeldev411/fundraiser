@@ -30,14 +30,29 @@ class AdminTeams extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
-        } else if (nextProps.teams) {
+        }
+        if (nextProps.teams) {
             this.setState(
                 {
                     teams: nextProps.teams,
                     error: null,
                 }
             );
-        } else if (nextProps.user) {
+        }
+        if (nextProps.team && (!this.props.team || nextProps.team !== this.props.team)) {
+            const ids = [];
+            for (let i = 0; i < this.state.teams.length; i++) {
+                ids.push(this.state.teams[i].id);
+            }
+
+            if (ids.indexOf(nextProps.team.id) > -1) {
+                this.updateTeam(nextProps.team, ids.indexOf(nextProps.team.id));
+            } else {
+                this.newTeam(nextProps.team);
+            }
+
+        }
+        if (nextProps.user && nextProps.user !== this.props.user) {
             Actions.indexTeams(nextProps.user.project.slug)(this.props.dispatch);
 
             this.setState(
@@ -56,6 +71,13 @@ class AdminTeams extends Component {
         this.setState(newState);
     };
 
+    updateTeam = (team, teamIndex) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.teams[teamIndex] = team;
+        this.setState(newState);
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -69,11 +91,9 @@ class AdminTeams extends Component {
                     <AdminTeamForm
                         title={"Add New Team"}
                         defaultData={{ project: this.props.user.project }}
-                        newTeam={this.newTeam}
                     />,
             },
         ];
-
 
         return (
             <Page>
@@ -97,4 +117,5 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     error: reduxState.main.team.error,
     teams: reduxState.main.team.teams,
+    team: reduxState.main.team.team,
 }))(AdminTeams);
