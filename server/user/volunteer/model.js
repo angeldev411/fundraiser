@@ -313,7 +313,7 @@ export default class Volunteer {
     static unlinkVolunteers(volunteers, adminID) {
         return Promise.resolve(volunteers)
         .each((volunteer, i) => {
-            db.query(
+            return db.query(
                 `
                 MATCH (user:VOLUNTEER {id: {volunteerId}})-[:VOLUNTEER]->(team:TEAM)
                 SET user:VOLUNTEER_DISABLED:USER_DISABLED, team.totalVolunteers = team.totalVolunteers - 1
