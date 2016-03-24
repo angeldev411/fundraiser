@@ -2,6 +2,7 @@
 import express from 'express';
 const router = express.Router();
 import volunteerController from './controller';
+import userController from '../controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
 import util from '../../helpers/util';
 
@@ -44,8 +45,12 @@ router.put('/api/v1/volunteer', (req, res) => {
     }
 
     volunteerController.update(req.session.user, user)
-    .then((data) => {
-        res.status(200).send(data);
+    .then((newUser) => {
+        req.session.user = {
+            ...req.session.user,
+            ...(userController.safe(newUser)),
+        };
+        res.status(200).send(newUser);
     })
     .catch((err) => {
         res.status(400).send(err);
