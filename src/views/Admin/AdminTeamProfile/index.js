@@ -85,7 +85,7 @@ class AdminTeamProfile extends Component {
                 content:
                     <AdminTeamEmailForm
                         project={this.props.user.project}
-                        team={this.props.team}
+                        team={this.props.user.team}
                     />,
             },
             {
@@ -96,14 +96,14 @@ class AdminTeamProfile extends Component {
                         title={"Invite New"}
                         titleLine2={"Team Members"}
                         project={this.props.user.project}
-                        team={this.props.team}
+                        team={this.props.user.team}
                     />,
             },
             {
                 title: 'Approve Hours',
                 type: 'button',
                 content: <AdminApproveHours
-                    team={this.props.team}
+                    team={this.props.user.team}
                          />,
             },
             {

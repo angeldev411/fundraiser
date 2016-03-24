@@ -153,7 +153,7 @@ export default class AdminVolunteerChart extends Component {
 
         // Width and height
         const barPadding = 5;
-        const barWidth = 20;
+        const barWidth = 40;
 
         const w = Constants.GRAPH_ACTIVATE_EMPTY_BARS
                     ? (this.getDaysInMonth(this.props.currentMonth, this.props.currentYear) * (barWidth + barPadding))

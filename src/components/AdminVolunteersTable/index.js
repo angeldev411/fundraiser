@@ -176,9 +176,9 @@ export default class AdminVolunteersTable extends Component {
                                     <a href={`mailto:${volunteer.email}`}>{volunteer.email}</a>
                                 </td>
                                 <td>{volunteer.totalHours ? volunteer.totalHours : 0}</td>
-                                <td>{volunteer.sponsors ? volunteer.sponsors : 0}</td>
+                                <td>{volunteer.totalSponsors ? volunteer.totalSponsors : 0}</td>
                                 <td>{'$'}{volunteer.raised ? volunteer.raised : 0}</td>
-                                <td>{'$'}{volunteer.hourPledge ? volunteer.hourPledge : 0}</td>
+                                <td>{'$'}{volunteer.hourlyPledge ? volunteer.hourlyPledge : 0}</td>
                                 {this.props.actionable ?
                                     (<td>
                                         <input

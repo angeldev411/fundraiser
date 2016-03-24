@@ -22,6 +22,7 @@ export default class AdminVolunteerProfile extends Component {
             user: this.props.user,
             loading: false,
             editPassword: false,
+            success: false,
         };
     }
 
@@ -30,17 +31,28 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user) {
+        if (nextProps.user && !this.state.success) {
             this.setState({
                 user: nextProps.user,
                 loading: false,
             });
         }
 
-        if (nextProps.volunteerUpdateStatus) {
+        if (nextProps.volunteer) {
+            nextProps.volunteer.image = `${nextProps.volunteer.image}?${Math.random()}`;
             this.setState({
-                volunteerUpdateStatus: nextProps.volunteerUpdateStatus,
+                success: true,
+                user: nextProps.volunteer,
                 loading: false,
+                error: null,
+            });
+        }
+
+        if (nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                loading: false,
+                success: false,
             });
         }
     }
@@ -62,6 +74,7 @@ export default class AdminVolunteerProfile extends Component {
     submitProfile = () => {
         this.setState({
             loading: true,
+            success: false,
         });
         const user = this.state.user;
 
@@ -134,11 +147,11 @@ export default class AdminVolunteerProfile extends Component {
     };
 
     getSuccessMessage = () => {
-        return (<div className="success-message">Profile updated!</div>);
+        return (<div className="success-message">{'Profile updated!'}</div>);
     };
 
     getErrorMessage = () => {
-        return (<div className="error-message">Error in the form!</div>);
+        return (<div className="error-message">{this.state.error}</div>);
     };
 
     handleChange = (evt, name) => {
@@ -292,8 +305,8 @@ export default class AdminVolunteerProfile extends Component {
                                     <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
 
-                                {this.state.volunteerUpdateStatus === false && this.getErrorMessage()}
-                                {this.state.volunteerUpdateStatus === true && this.getSuccessMessage()}
+                                {this.state.success ? this.getSuccessMessage() : null}
+                                {this.state.error ? this.getErrorMessage() : null}
 
                                 <Button
                                     customClass="profile-actions btn-green-white"
@@ -305,7 +318,7 @@ export default class AdminVolunteerProfile extends Component {
 
                                 <Button
                                     to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
-                                    customClass="profile-actions btn-transparent-green"
+                                    customClass="profile-actions btn-green-white"
                                 >
                                     {'Cancel'}
                                 </Button>
@@ -320,5 +333,6 @@ export default class AdminVolunteerProfile extends Component {
 
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
-    volunteerUpdateStatus: reduxState.main.volunteer.volunteerUpdateStatus,
+    volunteer: reduxState.main.volunteer.user,
+    error: reduxState.main.volunteer.error,
 }))(AdminVolunteerProfile);
