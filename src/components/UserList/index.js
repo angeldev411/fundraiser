@@ -97,7 +97,7 @@ export default class UserList extends Component {
                                 <Link to={Urls.getVolunteerProfileUrl(this.props.projectSlug, this.props.teamSlug, user.slug)}>
                                     <div className="user-face"
                                         style={{ backgroundImage : user.image
-                                            ? `url(${constants.USER_IMAGES_FOLDER}/${user.id}/${user.image})`
+                                            ? `url(${user.image})`
                                             : `url(${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR})` }}
                                     >
                                         <div className="user-hours">
