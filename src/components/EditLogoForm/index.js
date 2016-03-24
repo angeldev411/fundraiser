@@ -12,7 +12,7 @@ export default class EditLogoForm extends Component {
 
         this.state = {
             file: {
-                preview: this.props.value ? `${this.props.value}` : '/assets/images/team/default-logo.png',
+                preview: this.props.value,
             },
             logo: this.props.value ? this.props.value : '',
             team: this.props.team,
@@ -77,6 +77,7 @@ export default class EditLogoForm extends Component {
     };
 
     render() {
+        console.log(this.props.value);
         return (
             <Form title={'Edit Logo'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
