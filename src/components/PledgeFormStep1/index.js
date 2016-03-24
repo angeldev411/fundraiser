@@ -87,6 +87,7 @@ export default class PledgeFormStep1 extends Component {
                             data-type={'success'}
                             data-class={'tooltip'}
                             data-multiline
+                            data-event={'click'}
                         ></i>
                     </span>
                     <p id="pledge-goal">{`for ${this.props.goal} goal hours`}</p>
