@@ -103,12 +103,13 @@ export default class Sponsor {
                                 }
                             })
                             .catch((linkError) => {
-                                console.log('Sponsor error:', linkError);
+                                console.log('Link sponsor error:', linkError);
                                 reject('Sorry, an internal server error occured');
                             });
                         })
                         .catch((sponsorError) => {
-                            reject(sponsorError);
+                            console.log('Sponsor error', sponsorError);
+                            reject('Sorry, an internal server error occured. Are you already registered with this email address?');
                         });
                     })
                     .catch((stripeError) => {
