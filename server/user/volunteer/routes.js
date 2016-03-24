@@ -2,6 +2,7 @@
 import express from 'express';
 const router = express.Router();
 import volunteerController from './controller';
+import userController from '../controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
 import util from '../../helpers/util';
 
@@ -44,8 +45,12 @@ router.put('/api/v1/volunteer', (req, res) => {
     }
 
     volunteerController.update(req.session.user, user)
-    .then((data) => {
-        res.status(200).send(data);
+    .then((newUser) => {
+        req.session.user = {
+            ...req.session.user,
+            ...(userController.safe(newUser)),
+        };
+        res.status(200).send(newUser);
     })
     .catch((err) => {
         res.status(400).send(err);
@@ -87,7 +92,7 @@ router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
         return;
     }
 
-    volunteerController.index(req.params.projectSlug)
+    volunteerController.index(req.params.projectSlug.toLowerCase())
     .then((data) => {
         res.status(200).send(data);
     })
@@ -97,7 +102,7 @@ router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
 });
 
 router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
-    volunteerController.index(req.params.projectSlug, req.params.teamSlug)
+    volunteerController.index(req.params.projectSlug.toLowerCase(), req.params.teamSlug.toLowerCase())
     .then((data) => {
         res.status(200).send(data);
     })
@@ -107,7 +112,7 @@ router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
 });
 
 router.get('/api/v1/volunteer/:projectSlug/:teamSlug/top', (req, res) => {
-    volunteerController.indexTopVolunteers(req.params.projectSlug, req.params.teamSlug)
+    volunteerController.indexTopVolunteers(req.params.projectSlug.toLowerCase(), req.params.teamSlug.toLowerCase())
     .then((data) => {
         res.status(200).send(data);
     })

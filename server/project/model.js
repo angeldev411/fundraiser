@@ -27,7 +27,7 @@ class Project {
         const baseInfo = {
             id: data.project.id || uuid.v4(),
             name: data.project.name,
-            slug: data.project.slug,
+            slug: data.project.slug.toLowerCase(),
         };
 
         const optionalInfo = {};

@@ -21,7 +21,7 @@ router.post('/api/v1/signup', (req, res) => {
 
     console.log('onboard action got ', data, req.body, req.params);
 
-    userController.signup(data, req.body.teamSlug)
+    userController.signup(data, req.body.teamSlug.toLowerCase())
     .then((user) => {
         req.session.user = user;
         res.status(200).send(userController.safe(user));
@@ -32,7 +32,7 @@ router.post('/api/v1/signup', (req, res) => {
 });
 
 router.get('/api/v1/user/:slug', (req, res) => {
-    userController.getVolunteer(req.params.slug)
+    userController.getVolunteer(req.params.slug.toLowerCase())
     .then((user) => {
         res.status(200).send(userController.safe(user));
     })

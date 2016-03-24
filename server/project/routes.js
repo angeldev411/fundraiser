@@ -91,7 +91,7 @@ router.get('/api/v1/project', (req, res) => {
 });
 
 router.get('/api/v1/project/:projectSlug', (req, res) => {
-    projectController.getProject(req.params.projectSlug)
+    projectController.getProject(req.params.projectSlug.toLowerCase())
     .then((response) => {
         res.status(200).send(response);
     })
