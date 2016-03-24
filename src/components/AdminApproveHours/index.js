@@ -20,9 +20,8 @@ export default class AdminApproveHours extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Dashboard | Raiserve';
         Actions.getHoursNotApproved(
-            this.state.team.id,
+            this.props.team.id,
         )(this.props.dispatch);
     }
 
@@ -110,7 +109,7 @@ export default class AdminApproveHours extends Component {
                             <tr>
                                 <th>{'Member'}</th>
                                 <th>{'Date'}</th>
-                                <th>{'Supervisor'}</th>
+                                {this.state.team.signatureRequired ? <th>{'Supervisor'}</th> : null}
                                 <th>{'Location'}</th>
                                 <th>{'Hours'}</th>
                                 <th className={`action-table-header`} onClick={(e) => {
@@ -156,7 +155,7 @@ export default class AdminApproveHours extends Component {
                                         <span className="username">{`${hour.user.firstName} ${hour.user.lastName}`}</span>
                                     </td>
                                     <td>{hour.date.split('T')[0]}</td>
-                                    <td><img className="signature" src={hour.signature_url} alt=""/></td>
+                                    {this.state.team.signatureRequired ? <td><img className="signature" src={hour.signature_url} alt=""/></td> : null}
                                     <td>{hour.place}</td>
                                     <td>{hour.hours} {hour.hours > 1 ? 'Hours' : 'Hour'}</td>
                                     <td onClick={(e) => {
@@ -185,7 +184,7 @@ export default class AdminApproveHours extends Component {
 
 
 AdminApproveHours.propTypes = {
-    user: React.PropTypes.object,
+    team: React.PropTypes.object,
 };
 
 export default connect((reduxState) => ({
