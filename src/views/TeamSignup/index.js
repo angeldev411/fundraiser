@@ -94,6 +94,7 @@ class TeamSignup extends Component {
                         `${this.state.team.logo}` :
                         null
                     }
+                    teamName={this.state.team.name}
                 />
                 <div className={"main-content"}>
                     <div className={"container"}>
