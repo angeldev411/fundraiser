@@ -17,9 +17,9 @@ export const hourLogFailure = (error) => ({
     error,
 });
 
-export const volunteerUpdateSuccess = (success) => ({
+export const volunteerUpdateSuccess = (user) => ({
     type: actionTypes.VOLUNTEER_UPDATE_ON_SUCCESS,
-    success,
+    user,
 });
 
 export const volunteerUpdateFailure = (error) => ({
@@ -117,16 +117,12 @@ export const updateProfile = (user) => {
 
         dispatch(volunteerUpdateFailure(''));
         return axios.put(`${API_URL}/volunteer`, volunteerProfile)
-        .then(
-            (response) => {
-                dispatch(volunteerUpdateSuccess(true));
-            }
-        )
-        .catch(
-            (errorResponse) => {
-                dispatch(volunteerUpdateFailure(false));
-            }
-        );
+        .then((response) => {
+            dispatch(volunteerUpdateSuccess(response.data));
+        })
+        .catch((errorResponse) => {
+            dispatch(volunteerUpdateFailure(errorResponse.data));
+        });
     };
 };
 

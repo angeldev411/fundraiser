@@ -25,7 +25,13 @@ class volunteerController {
     }
 
     static update(currentUser, userData) {
-        return Volunteer.updateVolunteer(currentUser, userData);
+        return Volunteer.updateVolunteer(currentUser, userData)
+        .then((volunteer) => {
+            return Promise.resolve(volunteer);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
     }
 
     static unlinkVolunteers(volunteers, adminID) {

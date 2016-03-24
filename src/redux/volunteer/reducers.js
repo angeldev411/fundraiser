@@ -55,12 +55,12 @@ export default function reducers(state = initialState, action) {
         case actionTypes.VOLUNTEER_UPDATE_ON_SUCCESS:
             return {
                 ...state,
-                volunteerUpdateStatus: action.success,
+                user: action.user,
             };
         case actionTypes.VOLUNTEER_UPDATE_ON_FAILURE:
             return {
                 ...state,
-                volunteerUpdateStatus: action.error,
+                error: action.error,
             };
         case actionTypes.UNLINK_VOLUNTEERS_SUCCESS:
             return {
