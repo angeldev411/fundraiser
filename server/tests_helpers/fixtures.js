@@ -75,11 +75,11 @@ const fixtures = {
         },
         {
             name: 'Toy for tots LA',
-            slug: 'totLA',
+            slug: 'totla',
         },
         {
             name: 'Toy for tots MTL',
-            slug: 'totMTL',
+            slug: 'totmtl',
         },
     ],
 
