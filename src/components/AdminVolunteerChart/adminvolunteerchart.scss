@@ -2,6 +2,9 @@
 
 .graph-container {
     position: relative;
+    border: solid 1px $light-grey;
+    padding: 10px 0 0;
+    margin-bottom: 20px;
 
     #previous,
     #next {
