@@ -123,7 +123,7 @@ router.get('/api/v1/team/:projectSlug', (req, res) => {
         res.status(404).send();
         return;
     }
-    Team.getByProject(req.session.user.id, req.params.projectSlug)
+    Team.getByProject(req.session.user.id, req.params.projectSlug.toLowerCase())
     .then((teams) => {
         if (!teams[0]) {
             res.status(404).send();
@@ -143,7 +143,7 @@ router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
         res.status(404).send();
         return;
     }
-    Team.getBySlugs(req.params.projectSlug, req.params.teamSlug)
+    Team.getBySlugs(req.params.projectSlug.toLowerCase(), req.params.teamSlug.toLowerCase())
     .then((team) => {
         res.status(200).send(team);
         return;

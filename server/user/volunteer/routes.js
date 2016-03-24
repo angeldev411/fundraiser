@@ -87,7 +87,7 @@ router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
         return;
     }
 
-    volunteerController.index(req.params.projectSlug)
+    volunteerController.index(req.params.projectSlug.toLowerCase())
     .then((data) => {
         res.status(200).send(data);
     })
@@ -97,7 +97,7 @@ router.get('/api/v1/volunteer/:projectSlug', (req, res) => {
 });
 
 router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
-    volunteerController.index(req.params.projectSlug, req.params.teamSlug)
+    volunteerController.index(req.params.projectSlug.toLowerCase(), req.params.teamSlug.toLowerCase())
     .then((data) => {
         res.status(200).send(data);
     })
@@ -107,7 +107,7 @@ router.get('/api/v1/volunteer/:projectSlug/:teamSlug', (req, res) => {
 });
 
 router.get('/api/v1/volunteer/:projectSlug/:teamSlug/top', (req, res) => {
-    volunteerController.indexTopVolunteers(req.params.projectSlug, req.params.teamSlug)
+    volunteerController.indexTopVolunteers(req.params.projectSlug.toLowerCase(), req.params.teamSlug.toLowerCase())
     .then((data) => {
         res.status(200).send(data);
     })
