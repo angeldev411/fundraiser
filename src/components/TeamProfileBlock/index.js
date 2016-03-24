@@ -52,7 +52,11 @@ export default class TeamProfileBlock extends Component {
                             name="logo"
                             content={
                                 <EditLogoForm
-                                    value={`${this.state.team.logo}`}
+                                    value={
+                                        this.state.team.logo ?
+                                        this.state.team.logo :
+                                        `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
+                                    }
                                     team={this.state.team}
                                     updateTeam={this.updateTeam}
                                 />

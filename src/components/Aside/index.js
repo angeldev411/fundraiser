@@ -7,7 +7,7 @@ export default class Aside extends Component {
                 <section>
                     <h2 className={'title'}>{'I Volunteer My Time'}</h2>
                     <p>
-                        {`I’ve made a pledge to perform service to help our community and raise money for ${this.props.project ? this.props.project.name : `the project`}.`}
+                        {`I’ve made a pledge to perform service to help our community and raise money for ${this.props.team ? this.props.team.name : `the team`}.`}
                     </p>
                 </section>
                 <span className={'green-symbol'}>
@@ -16,7 +16,7 @@ export default class Aside extends Component {
                 <section>
                     <h2 className={'title'}>{'You Sponsor My Time'}</h2>
                     <p>
-                        {`You sponsor me for every service hour I volunteer. Your 100% tax deductible contribution goes directly to ${this.props.project ? this.props.project.name : `the project`}.`}
+                        {`You sponsor me for every service hour I volunteer. Your 100% tax deductible contribution goes directly to ${this.props.team ? this.props.team.name : `the team`}.`}
                     </p>
                 </section>
                 <span className={'green-symbol'}>
@@ -25,7 +25,7 @@ export default class Aside extends Component {
                 <section>
                     <h2 className={'title'}>{'Together We Make Twice the Difference'}</h2>
                     <p>
-                        {`You sponsor me for every service hour I volunteer. Your 100% tax deductible contribution goes directly to ${this.props.project ? this.props.project.name : `the project`}.`}
+                        {`You sponsor me for every service hour I volunteer. Your 100% tax deductible contribution goes directly to ${this.props.team ? this.props.team.name : `the team`}.`}
                     </p>
                 </section>
             </aside>

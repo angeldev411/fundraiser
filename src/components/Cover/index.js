@@ -169,7 +169,7 @@ export default class Cover extends Component {
                         <img src={this.props.logo || `${constants.RAISERVE_LOGO}`}/>
                     </div>
                     <div className="team-tagline col-xs-12 col-md-9">
-                        <h1 className={'uppercase'}>{"Welcome to the Team"}</h1>
+                        <h1 className={'uppercase'}>{`Welcome to the Team ${this.props.teamName}`}</h1>
                         <p>{this.props.tagline}</p>
                     </div>
                 </div>

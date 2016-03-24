@@ -5,7 +5,7 @@
 
     h1 {
         color: $green;
-        font-size: 4em;
+        font-size: 3em;
         text-transform: uppercase;
         margin-bottom: 30px;
         text-align: center;
@@ -60,6 +60,10 @@
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min) {
     .home {
+        h1 {
+            font-size: 4em;
+        }
+
         p{
             padding: 0 150px;
         }
