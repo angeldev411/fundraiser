@@ -18,7 +18,7 @@ class TeamSignup extends Component {
 
         this.state = {
             team: {
-                name: 'Some team',
+                name: '',
             },
             loading: false,
         };
