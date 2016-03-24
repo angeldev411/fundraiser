@@ -31,7 +31,7 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user) {
+        if (nextProps.user && !this.state.success) {
             this.setState({
                 user: nextProps.user,
                 loading: false,
@@ -39,6 +39,7 @@ export default class AdminVolunteerProfile extends Component {
         }
 
         if (nextProps.volunteer) {
+            nextProps.volunteer.image = `${nextProps.volunteer.image}?${Math.random()}`;
             this.setState({
                 success: true,
                 user: nextProps.volunteer,

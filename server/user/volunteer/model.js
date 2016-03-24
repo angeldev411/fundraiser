@@ -333,7 +333,11 @@ export default class Volunteer {
                 });
             };
 
-            if (typeof user.image !== 'undefined') {
+            if (user.image.indexOf('?') >= 0) {
+                user.image = user.image.substring(0, user.image.indexOf('?'));
+            }
+
+            if (typeof user.image !== 'undefined' && currentUser.image !== user.image) {
                 return Volunteer.uploadHeadshot({
                     id: user.id,
                     image: user.image,
