@@ -317,7 +317,7 @@ export default class AdminVolunteerProfile extends Component {
 
                                 <Button
                                     to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
-                                    customClass="profile-actions btn-transparent-green"
+                                    customClass="profile-actions btn-green-white"
                                 >
                                     {'Cancel'}
                                 </Button>
