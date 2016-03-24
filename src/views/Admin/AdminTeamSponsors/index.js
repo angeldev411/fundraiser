@@ -1,6 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
 import * as Actions from '../../../redux/sponsor/actions';
+import * as TeamActions from '../../../redux/team/actions';
 import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
@@ -20,6 +21,11 @@ class AdminTeamSponsors extends Component {
         super(props);
         this.state = {
             sponsors: [],
+            stats: {
+                totalVolunteers: 0,
+                totalSponsors: 0,
+                totalRaised: 0,
+            },
         };
     }
 
@@ -31,6 +37,7 @@ class AdminTeamSponsors extends Component {
             const teamSlug = this.props.user.team.slug;
 
             Actions.indexSponsors(projectSlug, teamSlug)(this.props.dispatch);
+            TeamActions.getStats()(this.props.dispatch);
         }
     }
 
@@ -54,6 +61,14 @@ class AdminTeamSponsors extends Component {
                 {
                     user: nextProps.user,
                     error: null,
+                }
+            );
+        }
+        if (nextProps.stats) {
+            this.setState(
+                {
+                    stats: nextProps.stats,
+                    statsError: null,
                 }
             );
         }
@@ -118,15 +133,15 @@ class AdminTeamSponsors extends Component {
                         stats={
                             [
                                 {
-                                    current: this.props.user.team.totalVolunteers,
+                                    current: this.state.stats.totalVolunteers,
                                     title: 'Volunteers',
                                 },
                                 {
-                                    current: this.props.user.team.totalSponsors,
+                                    current: this.state.stats.totalSponsors,
                                     title: 'Total Sponsors',
                                 },
                                 {
-                                    current: this.props.user.team.totalRaised,
+                                    current: this.state.stats.totalRaised,
                                     title: 'Total Money Raised',
                                 },
                             ]
@@ -144,4 +159,6 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     error: reduxState.main.sponsor.error,
     sponsors: reduxState.main.sponsor.sponsors,
+    stats: reduxState.main.team.stats,
+    statsError: reduxState.main.team.statsError,
 }))(AdminTeamSponsors);
