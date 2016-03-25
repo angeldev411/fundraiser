@@ -2,9 +2,7 @@
 import express from 'express';
 const router = express.Router();
 import * as AUTH_CHECKER from '../auth/auth-checker';
-import Csv from './model';
-import Volunteer from '../user/volunteer/model';
-import Sponsor from '../user/sponsor/model';
+import csvController from './controller';
 
 router.get('/api/v1/csv/team/volunteers', (req, res) => {
     if (!AUTH_CHECKER.isLogged(req.session)) {
@@ -12,14 +10,11 @@ router.get('/api/v1/csv/team/volunteers', (req, res) => {
         return;
     }
 
-    Volunteer.getVolunteers(req.session.user.project.slug, req.session.user.team.slug)
-    .then((data) => {
-        return Csv.generate(data);
-    })
+    csvController.getTeamVolunteers(req.session.user)
     .then((response) => {
         res.set('Content-Length', response.size);
         res.set('Content-Type', 'text/csv');
-        res.set('Content-Disposition', 'attachment; filename=data.csv');
+        res.set('Content-Disposition', 'attachment; filename=team-volunteers.csv');
         res.status(200).send(response);
     })
     .catch((err) => {
@@ -33,14 +28,11 @@ router.get('/api/v1/csv/team/sponsors', (req, res) => {
         return;
     }
 
-    Sponsor.getSponsors(req.session.user.project.slug, req.session.user.team.slug)
-    .then((data) => {
-        return Csv.generate(data);
-    })
+    csvController.getTeamSponsors(req.session.user)
     .then((response) => {
         res.set('Content-Length', response.size);
         res.set('Content-Type', 'text/csv');
-        res.set('Content-Disposition', 'attachment; filename=data.csv');
+        res.set('Content-Disposition', 'attachment; filename=team-sponsors.csv');
         res.status(200).send(response);
     })
     .catch((err) => {
