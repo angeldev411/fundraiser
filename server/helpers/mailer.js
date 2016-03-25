@@ -420,22 +420,47 @@ export default class Mailer {
      * volunteer: volunteer object
      * sponsor: sponsor object
     */
-    static sendSponsorDonationThanksEmail(volunteer, sponsor) {
-        // TODO EMAIL
-        const subject = `Thanks for your donation!`;
+    static sendSponsorDonationThanksEmail(volunteer, sponsor, amount) {
+        const subject = `Thanks for your Sponsorship`;
 
         const text =
-        `Dear ${sponsor.firstName} ${sponsor.lastName},
-        thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        <p>Dear ${sponsor.firstName},</p>
+
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+
+        <p>You will be charged one time for the total amount of ${amount}</p>
+
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.</p>
+        `;
+
 
         const plainText =
-        `Dear ${sponsor.firstName} ${sponsor.lastName} thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        Dear ${sponsor.firstName},
+
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
+
+        You will be charged one time for the total amount of ${amount}
+
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
+
+        Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+
+        Thanks,
+
+        Raiserve
+
+        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+        `;
 
         const message = {
             text: plainText,
