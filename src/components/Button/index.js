@@ -29,5 +29,5 @@ export default class Button extends Component {
 Button.propTypes = {
     onClick: React.PropTypes.func,
     customClass: React.PropTypes.string,
-    noSpinner: React.PropTypes.boolean,
+    noSpinner: React.PropTypes.bool,
 };
