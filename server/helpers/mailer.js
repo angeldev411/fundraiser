@@ -133,7 +133,7 @@ export default class Mailer {
 
         <p>Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.</p>
 
-        <p>Don’t forget to record your hours. You can use your <a href="${Constant.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> to record them and check the total amount your volunteer efforts have earned for ${project.name}.</p>
+        <p>Don’t forget to record your hours. You can use your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> to record them and check the total amount your volunteer efforts have earned for ${project.name}.</p>
 
         <p>Thanks,</p>
 
@@ -153,7 +153,7 @@ export default class Mailer {
 
         Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.
 
-        Don’t forget to record your hours. You can use your dashboard (${Constant.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}) to record them and check the total amount your volunteer efforts have earned for ${project.name}.
+        Don’t forget to record your hours. You can use your dashboard (${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}) to record them and check the total amount your volunteer efforts have earned for ${project.name}.
 
         Thanks,
 
@@ -192,7 +192,7 @@ export default class Mailer {
      * volunteer: volunteer object
      * hour: hour object
     */
-    static sendFirstHoursEmail(volunteer, hour) {
+    static sendFirstHoursEmail(volunteer, team, project, hour) {
         const subject = `Congrats for volunteering!`;
         const headline = 'Your Hours are Recorded';
 
@@ -205,7 +205,7 @@ export default class Mailer {
         <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
 
         <p>
-            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
         </p>
         <p>
             2 - Share on Facebook and Twitter
@@ -225,7 +225,7 @@ export default class Mailer {
 
         Don’t forget to invite your friends to sponsor you. There are two ways:
 
-        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
+        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
         2 - Share on Facebook and Twitter
 
         Thanks,
@@ -291,7 +291,7 @@ export default class Mailer {
 
         <p>Raiserve</p>
 
-        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.</p>
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
 
 
@@ -308,7 +308,7 @@ export default class Mailer {
 
         Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
 
-        Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
 
         Thanks,
 
@@ -439,7 +439,7 @@ export default class Mailer {
 
         <p>Raiserve</p>
 
-        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.</p>
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
 
 
@@ -453,7 +453,7 @@ export default class Mailer {
 
         Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
 
-        Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
 
         Thanks,
 
@@ -495,7 +495,6 @@ export default class Mailer {
      * hours: total hours charged
     */
     static sendChargeEmail = (volunteer, sponsor, chargedHours, chargedAmount) => {
-        // TODO EMAIL
         const subject = `Thanks for your Continued Support`;
 
         const text =
@@ -514,7 +513,7 @@ export default class Mailer {
 
         <p>Raiserve</p>
 
-        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.</p>
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
 
 
@@ -528,7 +527,7 @@ export default class Mailer {
 
         Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
 
-        Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
 
         Thanks,
 
