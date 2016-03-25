@@ -639,9 +639,15 @@ export default class Sponsor {
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
                     // Update raised attributes on Volunteer and Team.
                     Sponsor.updateRaisedAttributes(sponsoring.volunteer, amountToBill),
-                    // Send email to sponsor.
-                    Mailer.sendChargeEmail(sponsoring.volunteer, sponsoring.sponsor, hoursToBill, amountToBill),
                 ]);
+            })
+            .then(() => {
+                // Get volunteer team and project
+                return Volunteer.getTeamAndProject(sponsoring.volunteer);
+            })
+            .then((result) => {
+                // Send email to sponsor.
+                return Mailer.sendChargeEmail(sponsoring.volunteer, result.project, result.team, sponsoring.sponsor, hoursToBill, amountToBill);
             })
             .then(() => {
                 return Promise.resolve();

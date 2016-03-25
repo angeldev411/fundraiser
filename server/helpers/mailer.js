@@ -49,7 +49,7 @@ export default class Mailer {
             merge_language: 'mailchimp',
         };
 
-        mandrillClient.messages.sendTemplate(
+        return mandrillClient.messages.sendTemplate(
             {
                 template_name: templateName,
                 template_content: templateContent,
@@ -494,20 +494,20 @@ export default class Mailer {
      * volunteer: volunteer object
      * hours: total hours charged
     */
-    static sendChargeEmail = (volunteer, sponsor, chargedHours, chargedAmount) => {
+    static sendChargeEmail = (volunteer, project, team, sponsor, chargedHours, chargedAmount) => {
         const subject = `Thanks for your Continued Support`;
 
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
 
         <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged ${chargedAmount}.</p>
 
-        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
 
-        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a></p>
 
         <p>Thanks,</p>
 
@@ -521,13 +521,13 @@ export default class Mailer {
         `
         Dear ${sponsor.firstName},
 
-        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
 
         This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged ${chargedAmount}.
 
-        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
 
-        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
 
         Thanks,
 
