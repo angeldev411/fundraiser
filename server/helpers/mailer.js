@@ -119,7 +119,7 @@ export default class Mailer {
 
         const text =
         `
-        <p>Hey ${volunteer.firstName} ${volunteer.lastName},</p>
+        <p>Hey ${volunteer.firstName},</p>
 
         <p>Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.</p>
 
@@ -143,7 +143,7 @@ export default class Mailer {
 
         const plainText =
         `
-        Hey ${volunteer.firstName} ${volunteer.lastName},
+        Hey ${volunteer.firstName},
 
         Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.
 
@@ -196,11 +196,45 @@ export default class Mailer {
     static sendFirstHoursEmail(volunteer, hour) {
         // TODO EMAIL
         const subject = `Congrats for volunteering!`;
+        const headline = 'Your Hours are Recorded';
+
         const text =
-        `Congrats ${volunteer.firstName} ${volunteer.lastName} for volunteering at ${hour.place}...
-        Bookmark the record to address and add to homescreen if haven’t already done so you can add more quickly in the future.
-        Sharing your volunteering is a great way to get more sponsors...`;
-        const plainText = text;
+        `
+        <p>Hey ${volunteer.firstName},</p>
+
+        <p>Congrats for volunteering at ${hour.place}, we’re sure they really appreciated your service.</p>
+
+        <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
+
+        <p>
+            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+        </p>
+        <p>
+            2 - Share on Facebook and Twitter
+        </p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+        `;
+
+
+        const plainText =
+        `
+        Hey ${volunteer.firstName},
+
+        Congrats for volunteering at ${hour.place}, we’re sure they really appreciated your service.
+
+        Don’t forget to invite your friends to sponsor you. There are two ways:
+
+        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        2 - Share on Facebook and Twitter
+
+        Thanks,
+
+        Raiserve
+        `;
+
         const message = {
             text: plainText,
             subject,
@@ -212,7 +246,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
