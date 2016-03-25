@@ -33,6 +33,7 @@ import projectLeadersRoutes from './user/project-leader/routes';
 import sponsorRoutes from './user/sponsor/routes';
 import hoursRoutes from './hours/routes';
 import emailRoutes from './email/routes';
+import csvRoutes from './csv/routes';
 
 app.use(authRoutes);
 app.use(projectRoutes);
@@ -45,6 +46,7 @@ app.use(projectLeadersRoutes);
 app.use(hoursRoutes);
 app.use(sponsorRoutes);
 app.use(emailRoutes);
+app.use(csvRoutes);
 
 app.use(`${Urls.REDIRECT_TO_DASHBOARD}`, (req, res) => {
     if (req.session.user) {
