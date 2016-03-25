@@ -233,3 +233,29 @@ export const unlinkVolunteers = (volunteers) => {
         );
     };
 };
+
+export const receivedStats = (stats) => ({
+    type: actionTypes.GOT_VOLUNTEER_STATS,
+    stats,
+});
+
+export const getStatsFailed = (statsError) => ({
+    type: actionTypes.GET_VOLUNTEER_STATS_FAILED,
+    statsError,
+});
+
+export function getStats() {
+    return (dispatch) => {
+        return axios.get(`${API_URL}/volunteer/stats`)
+        .then(
+            (response) => {
+                dispatch(receivedStats(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getStatsFailed(errorResponse.data));
+            }
+        );
+    };
+}

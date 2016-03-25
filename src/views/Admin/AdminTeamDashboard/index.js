@@ -1,6 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
+import * as TeamActions from '../../../redux/team/actions';
 import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
@@ -20,6 +21,11 @@ class AdminTeamDashboard extends Component {
         super(props);
         this.state = {
             topVolunteers: [],
+            stats: {
+                totalVolunteers: 0,
+                totalSponsors: 0,
+                totalRaised: 0,
+            },
         };
     }
 
@@ -31,12 +37,21 @@ class AdminTeamDashboard extends Component {
             const teamSlug = this.props.user.team.slug;
 
             VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            TeamActions.getStats()(this.props.dispatch);
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
+        }
+        if (nextProps.stats) {
+            this.setState(
+                {
+                    stats: nextProps.stats,
+                    statsError: null,
+                }
+            );
         }
         if (nextProps.topVolunteers) {
             this.setState(
@@ -132,7 +147,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.props.user.team.totalVolunteers,
+                                    current: this.state.stats.totalVolunteers,
                                     title: 'Volunteers',
                                 }
                             }
@@ -140,7 +155,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.props.user.team.totalSponsors,
+                                    current: this.state.stats.totalSponsors,
                                     title: 'Sponsors',
                                 }
                             }
@@ -148,7 +163,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.props.user.team.totalRaised,
+                                    current: this.state.stats.totalRaised,
                                     title: 'Money Raised',
                                 }
                             }
@@ -182,4 +197,6 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     error: reduxState.main.sponsor.error,
     topVolunteers: reduxState.main.volunteer.topVolunteers,
+    stats: reduxState.main.team.stats,
+    statsError: reduxState.main.team.statsError,
 }))(AdminTeamDashboard);

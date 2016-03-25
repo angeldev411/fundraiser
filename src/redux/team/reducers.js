@@ -42,6 +42,16 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 error: action.error,
             };
+        case actionTypes.GOT_TEAM_STATS:
+            return {
+                ...state,
+                stats: action.stats,
+            };
+        case actionTypes.GET_TEAM_STATS_FAILED:
+            return {
+                ...state,
+                statsError: action.statsError,
+            };
         default:
             return state;
     }

@@ -1,6 +1,7 @@
 'use strict';
 import express from 'express';
 const router = express.Router();
+import Volunteer from './model';
 import volunteerController from './controller';
 import userController from '../controller';
 import * as AUTH_CHECKER from '../../auth/auth-checker';
@@ -21,6 +22,29 @@ router.get('/api/v1/volunteer', (req, res) => {
     })
     .catch((err) => {
         res.status(400).send(err);
+    });
+});
+
+router.get('/api/v1/volunteer/stats', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isVolunteer(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    Volunteer.getStats(req.session.user.slug.toLowerCase())
+    .then((stats) => {
+        res.status(200).send(stats);
+        return;
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(404).send(err);
+        return;
     });
 });
 

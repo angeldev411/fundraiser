@@ -301,6 +301,20 @@ class Team {
         .getResults('img');
     }
 
+    static getStats(teamSlug) {
+        return db.query(
+            `
+            MATCH (team:TEAM {slug: {teamSlug}})
+            RETURN {totalVolunteers: team.totalVolunteers, totalSponsors: team.totalSponsors, totalRaised: team.totalRaised} AS stats
+            `,
+            {},
+            {
+                teamSlug,
+            }
+        )
+        .getResult('stats');
+    }
+
     static fetchAdminStats(teamShortName) {
         // console.log('fas');
         // return db.query(

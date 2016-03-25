@@ -41,6 +41,29 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
+router.get('/api/v1/team/stats', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    Team.getStats(req.session.user.team.slug.toLowerCase())
+    .then((stats) => {
+        res.status(200).send(stats);
+        return;
+    })
+    .catch((err) => {
+        res.status(404).send(err);
+        return;
+    });
+});
+
+
 router.put('/api/v1/team/:teamId', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)
@@ -153,6 +176,5 @@ router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
         return;
     });
 });
-
 
 export default router;
