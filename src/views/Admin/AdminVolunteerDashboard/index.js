@@ -18,9 +18,16 @@ export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
         document.title = 'Dashboard | Raiserve';
 
-        this.state = {};
+        this.state = {
+            stats: {
+                currentHours: 0,
+                totalSponsors: 0,
+                raised: 0,
+            },
+        };
 
         Actions.getHourLogs()(this.props.dispatch);
+        Actions.getStats()(this.props.dispatch);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -31,6 +38,14 @@ export default class AdminVolunteerDashboard extends Component {
                 }
             );
             this.getMonthHoursList(nextProps.hourLogsGet);
+        }
+        if (nextProps.stats) {
+            this.setState(
+                {
+                    stats: nextProps.stats,
+                    statsError: null,
+                }
+            );
         }
         if (nextProps.user) {
             this.setState(
@@ -118,16 +133,16 @@ export default class AdminVolunteerDashboard extends Component {
                         stats={
                             [
                                 {
-                                    current: this.props.user.currentHours,
+                                    current: this.state.stats.currentHours,
                                     title: 'Volunteered hours',
                                     goal: this.props.user.goal,
                                 },
                                 {
-                                    current: this.props.user.totalSponsors,
+                                    current: this.state.stats.totalSponsors,
                                     title: 'Total Sponsors',
                                 },
                                 {
-                                    current: this.props.user.raised,
+                                    current: this.state.stats.raised,
                                     title: 'Total Money Raised',
                                 },
                             ]
@@ -145,4 +160,6 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     sponsors: reduxState.main.sponsor.sponsors,
     hourLogsGet: reduxState.main.volunteer.hourLogsGet,
+    stats: reduxState.main.volunteer.stats,
+    statsError: reduxState.main.volunteer.statsError,
 }))(AdminVolunteerDashboard);

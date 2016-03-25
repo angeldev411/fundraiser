@@ -395,6 +395,20 @@ export default class Volunteer {
         });
     }
 
+    static getStats(volunteerSlug) {
+        return db.query(
+            `
+            MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug}})
+            RETURN {currentHours: volunteer.currentHours, totalSponsors: volunteer.totalSponsors, raised: volunteer.raised} AS stats
+            `,
+            {},
+            {
+                volunteerSlug,
+            }
+        )
+        .getResult('stats');
+    }
+
     static onboard(obj) {
         return Volunteer.create(obj)
         .then((newVolunteer) => db.query(`
