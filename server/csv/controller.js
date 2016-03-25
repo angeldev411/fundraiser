@@ -7,8 +7,34 @@ class csvController {
     static getTeamVolunteers(user) {
         return Volunteer.getVolunteers(user.project.slug, user.team.slug)
         .then((volunteers) => {
-            // process volunteers
-            return volunteers;
+            const data = [];
+
+            data.push({
+                firstName: 'firstName',
+                lastName: 'lastName',
+                email: 'email',
+                currentHours: 'currentHours',
+                goal: 'goal',
+                totalHours: 'totalHours',
+                totalSponsors: 'totalSponsors',
+                raised: 'raised',
+                signupDate: 'signupDate',
+            });
+
+            for (let i = 0; i < volunteers.length; i++) {
+                data.push({
+                    firstName: volunteers[i].firstName,
+                    lastName: volunteers[i].lastName,
+                    email: volunteers[i].email,
+                    currentHours: volunteers[i].currentHours,
+                    goal: volunteers[i].goal,
+                    totalHours: volunteers[i].totalHours,
+                    totalSponsors: volunteers[i].totalSponsors,
+                    raised: volunteers[i].raised,
+                    signupDate: new Date(volunteers[i].created).toDateString(),
+                });
+            }
+            return data;
         })
         .then((data) => {
             return Csv.generate(data);
