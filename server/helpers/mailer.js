@@ -113,7 +113,6 @@ export default class Mailer {
      * team: team object
     */
     static sendVolunteerWelcomeEmail(project, team, volunteer) {
-        // TODO EMAIL
         const subject = 'Welcome to Raiserve';
         const headline = 'Congratulations';
 
@@ -194,7 +193,6 @@ export default class Mailer {
      * hour: hour object
     */
     static sendFirstHoursEmail(volunteer, hour) {
-        // TODO EMAIL
         const subject = `Congrats for volunteering!`;
         const headline = 'Your Hours are Recorded';
 
@@ -207,7 +205,7 @@ export default class Mailer {
         <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
 
         <p>
-            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
         </p>
         <p>
             2 - Share on Facebook and Twitter
@@ -227,7 +225,7 @@ export default class Mailer {
 
         Don’t forget to invite your friends to sponsor you. There are two ways:
 
-        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
         2 - Share on Facebook and Twitter
 
         Thanks,
@@ -268,23 +266,56 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendSponsorSponsorshipThanksEmail(volunteer, sponsor) {
-        // TODO EMAIL
-        const subject = `Thanks for your support!`;
+        const subject = `Thanks for your Sponsorship`;
 
         const text =
-        `Dear ${sponsor.firstName} ${sponsor.lastName},
-        thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        then explain charged every month
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        <p>Dear ${sponsor.firstName},</p>
+
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+
+        <p>Just a quick recap of how it all works :</p>
+
+        <p>
+            1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
+        </p>
+        <p>
+            2 - Once their goal hours are reached, your donation is finished.
+        </p>
+
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.</p>
+        `;
+
 
         const plainText =
-        `Dear ${sponsor.firstName} ${sponsor.lastName} thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        then explain charged every month
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        Dear ${sponsor.firstName},
+
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
+
+        Just a quick recap of how it all works :
+
+        1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
+        2 - Once their goal hours are reached, your donation is finished.
+
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
+
+        Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+
+        Thanks,
+
+        Raiserve
+
+        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+        `;
 
         const message = {
             text: plainText,
