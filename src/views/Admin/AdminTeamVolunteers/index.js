@@ -17,7 +17,6 @@ import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
 import AdminApproveHours from '../../../components/AdminApproveHours';
 
-
 class AdminTeamVolunteers extends Component {
     constructor(props) {
         super(props);
@@ -176,7 +175,9 @@ class AdminTeamVolunteers extends Component {
                             ]
                         }
                     >
-                        <AdminDownloadCsv/>
+                        <AdminDownloadCsv
+                            to={'http://raiserve.local:3777/api/v1/csv/team/volunteers'}
+                        />
                     </AdminStatsBlock>
                 </AdminLayout>
             </Page>

@@ -20,7 +20,7 @@ export default class Button extends Component {
                 <Link to={this.props.to}>
                     {BUTTON}
                 </Link>
-            )
+            );
         }
         return BUTTON;
     }
