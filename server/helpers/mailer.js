@@ -36,7 +36,7 @@ export default class Mailer {
         });
     }
 
-    static sendTemplate(message, templateName, templateContent = []) {
+    static sendTemplate(message, templateName, templateContent = [], callback, callbackError) {
         // we don't use templateContent for now, just merge tags
         message = {
             ...message,
@@ -49,22 +49,26 @@ export default class Mailer {
             merge_language: 'mailchimp',
         };
 
-        return mandrillClient.messages.sendTemplate(
-            {
-                template_name: templateName,
-                template_content: templateContent,
-                message,
-                async: true,
-            },
-            (result) => {
-                console.log('Mandrill:', message.subject);
-                return Promise.resolve(result);
-            },
-            (e) => {
-                console.log(`A mandrill error occurred: ${e.name} - ${e.message}`);
-                return Promise.reject(e);
-            }
-        );
+        return new Promise((resolve, reject) => {
+            mandrillClient.messages.sendTemplate(
+                {
+                    template_name: templateName,
+                    template_content: message.global_merge_vars,
+                    message,
+                    async: true,
+                },
+                (result) => {
+                    console.log('Mandrill:', message.subject);
+                    callback(result);
+                    resolve(result);
+                },
+                (e) => {
+                    console.log(`A mandrill error occurred: ${e.name} - ${e.message}`);
+                    callbackError(e);
+                    reject(e);
+                }
+            );
+        });
     }
 
     // ---- SIGNUP AND INVITATION ----
@@ -77,10 +81,35 @@ export default class Mailer {
      * link: signup link
     */
     static sendInviteEmail(user, link) {
-        // TODO EMAIL
-        const subject = 'Welcome to Raiserve';
-        const text = `${link}`;
-        const plainText = `${link}`;
+        const subject = 'Join Raiserve';
+        const headline = 'Invitation';
+
+        const text =
+        `
+        <p>Hi ${user.firstName},</p>
+
+        <p>You have been invited to join Raiserve.</p>
+
+        <p>You can confirm your account by following this link: <a href="${link}">${link}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+        `;
+
+        const plainText =
+        `
+        Hi ${user.firstName},
+
+        You have been invited to join Raiserve.
+
+        You can confirm your account by following this link: ${link}
+
+        Thanks,
+
+        Raiserve
+        `;
+
         const message = {
             text: plainText,
             subject,
@@ -92,7 +121,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
@@ -101,7 +130,11 @@ export default class Mailer {
             ],
         };
 
-        Mailer.sendTemplate(message, 'mandrill-template');
+        Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     /*
@@ -180,7 +213,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- VOLUNTEERING ----
@@ -253,7 +290,11 @@ export default class Mailer {
             ],
         };
 
-        Mailer.sendTemplate(message, 'mandrill-template');
+        Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- SPONSORSHIPS ----
@@ -337,7 +378,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     /*
@@ -348,7 +393,6 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendVolunteerSponsorshipEmail(volunteer, sponsor) {
-        // TODO EMAIL
         const subject = `You've been sponsored!`;
         const headline = 'Your First Sponsor';
 
@@ -409,7 +453,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
 
@@ -482,7 +530,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- BILLING ----
@@ -503,7 +555,7 @@ export default class Mailer {
 
         <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
 
-        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged ${chargedAmount}.</p>
+        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged $${chargedAmount}.</p>
 
         <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
 
@@ -523,7 +575,7 @@ export default class Mailer {
 
         Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
 
-        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged ${chargedAmount}.
+        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged $${chargedAmount}.
 
         Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
 
@@ -556,6 +608,49 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     };
+
+    // static test = (volunteer, project, team, sponsor, chargedHours, chargedAmount) => {
+    //     const subject = `test`;
+    //
+    //     const text =
+    //     `test`;
+    //
+    //
+    //     const plainText =
+    //     `test`;
+    //
+    //     const message = {
+    //         text: plainText,
+    //         subject,
+    //         to: [{
+    //             email: sponsor.email,
+    //             name: `${sponsor.firstName} ${sponsor.lastName}`,
+    //             type: 'to',
+    //         }],
+    //         global_merge_vars: [
+    //             {
+    //                 name: 'headline',
+    //                 content: subject,
+    //             },
+    //             {
+    //                 name: 'message',
+    //                 content: text,
+    //             },
+    //         ],
+    //     };
+    //
+    //     return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+    //         console.log(result);
+    //         return Promise.resolve(response);
+    //     }, (err) => {
+    //         console.log(err);
+    //         return Promise.reject(err);
+    //     });
+    // };
 }
