@@ -5,7 +5,12 @@ import * as AUTH_CHECKER from '../auth/auth-checker';
 import csvController from './controller';
 
 router.get('/api/v1/csv/team/volunteers', (req, res) => {
-    if (!AUTH_CHECKER.isLogged(req.session)) {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
         res.status(404).send();
         return;
     }
@@ -23,7 +28,12 @@ router.get('/api/v1/csv/team/volunteers', (req, res) => {
 });
 
 router.get('/api/v1/csv/team/sponsors', (req, res) => {
-    if (!AUTH_CHECKER.isLogged(req.session)) {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isTeamLeader(req.session.user)
+        )
+    ) {
         res.status(404).send();
         return;
     }
