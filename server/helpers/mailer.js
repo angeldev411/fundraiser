@@ -496,16 +496,46 @@ export default class Mailer {
     */
     static sendChargeEmail = (volunteer, sponsor, chargedHours, chargedAmount) => {
         // TODO EMAIL
-        const subject = `Thanks for your continued support!`;
+        const subject = `Thanks for your Continued Support`;
 
         const text =
-        `${sponsor.firstName} ${sponsor.lastName}, thanks for continued support
-        this month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} hours.
-        your credit card has been charged $${chargedAmount}.
-        share the campaign to help raise more money.
-        The receipt part`;
+        `
+        <p>Dear ${sponsor.firstName},</p>
 
-        const plainText = text;
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+
+        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged ${chargedAmount}.</p>
+
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.</p>
+        `;
+
+
+        const plainText =
+        `
+        Dear ${sponsor.firstName},
+
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
+
+        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged ${chargedAmount}.
+
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
+
+        Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
+
+        Thanks,
+
+        Raiserve
+
+        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+        `;
 
         const message = {
             text: plainText,
