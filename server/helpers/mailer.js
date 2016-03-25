@@ -115,27 +115,50 @@ export default class Mailer {
     static sendVolunteerWelcomeEmail(project, team, volunteer) {
         // TODO EMAIL
         const subject = 'Welcome to Raiserve';
+        const headline = 'Congratulations';
 
         const text =
-        `${volunteer.firstName} ${volunteer.lastName},
-        congrats on joining team ${team.name}. Your hour will now make twice the difference as you raise money for ${project.name}.
-        Call to action is to Share Share Share.
-        you can email this <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
-        or post that link on facebook, twitter etc
-        remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
-        Don’t forget to record your hours
-        you can click here to get to your dashboard to record them
+        `
+        <p>Hey ${volunteer.firstName} ${volunteer.lastName},</p>
+
+        <p>Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.</p>
+
+        <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
+
+        <p>
+            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+        </p>
+        <p>
+            2 - Share on Facebook and Twitter
+        </p>
+
+        <p>Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.</p>
+
+        <p>Don’t forget to record your hours. You can use your <a href="${Constant.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> to record them and check the total amount your volunteer efforts have earned for ${project.name}.</p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
         `;
 
         const plainText =
-        `${volunteer.firstName} ${volunteer.lastName},
-        congrats on joining team ${team.name}. Your hour will now make twice the difference as you raise money for ${project.name}.
-        Call to action is to Share Share Share.
-        you can email this ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
-        or post that link on facebook, twitter etc
-        remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
-        Don’t forget to record your hours
-        you can click here to get to your dashboard to record them
+        `
+        Hey ${volunteer.firstName} ${volunteer.lastName},
+
+        Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.
+
+        Don’t forget to invite your friends to sponsor you. There are two ways:
+
+        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        2 - Share on Facebook and Twitter
+
+        Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.
+
+        Don’t forget to record your hours. You can use your dashboard (${Constant.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}) to record them and check the total amount your volunteer efforts have earned for ${project.name}.
+
+        Thanks,
+
+        Raiserve
         `;
 
         const message = {
@@ -149,7 +172,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
