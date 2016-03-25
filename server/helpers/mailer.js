@@ -319,17 +319,43 @@ export default class Mailer {
     static sendVolunteerSponsorshipEmail(volunteer, sponsor) {
         // TODO EMAIL
         const subject = `You've been sponsored!`;
+        const headline = 'Your First Sponsor';
 
         const text =
-        `Congrats ${volunteer.firstName} ${volunteer.lastName}, you’re on your way, each hour your volunteers is now making twice the difference for ${volunteer.project.name}.
-        ${sponsor.firstName} ${sponsor.lastName} sponsored you… Here’s their email address, sending a personalized thank you is always nice : ${sponsor.email}.
-        Be sure to ask them to share your campaign to help get more sponsors and include your URL <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you.
+        `
+        <p>Hey ${volunteer.firstName},</p>
+
+        <p>Congrats, you’re on your way.</p>
+
+        <p>Each hour your volunteers is now making twice the difference for ${volunteer.project.name}</p>
+
+        <p>${sponsor.firstName} ${sponsor.lastName} just sponsored you. Here’s their email address:</p>
+
+        <p><a href="mailto:${sponsor.email}">${sponsor.email}</a></p>
+
+        <p>Sending a personalized thank you is always nice. Be sure to ask them to share your campaign to help get more sponsors and include your unique url (<a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>) in your thank you note.</p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
         `;
 
+
         const plainText =
-        `Congrats ${volunteer.firstName} ${volunteer.lastName}, you’re on your way, each hour your volunteers is now making twice the difference for ${volunteer.project.name}.
-        ${sponsor.firstName} ${sponsor.lastName} sponsored you… Here’s their email address, sending a personalized thank you is always nice : ${sponsor.email}.
-        Be sure to ask them to share your campaign to help get more sponsors and include your URL ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)} in your thank you.
+        `
+        Hey ${volunteer.firstName},
+
+        Congrats, you’re on your way.
+
+        Each hour your volunteers is now making twice the difference for ${volunteer.project.name}
+
+        ${sponsor.firstName} ${sponsor.lastName} just sponsored you. Here’s their email address: ${sponsor.email}
+
+        Sending a personalized thank you is always nice. Be sure to ask them to share your campaign to help get more sponsors and include your unique url (${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}) in your thank you note.
+
+        Thanks,
+
+        Raiserve
         `;
 
         const message = {
@@ -343,7 +369,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
