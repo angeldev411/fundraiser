@@ -21,19 +21,20 @@ class csvController {
                 signupDate: 'signupDate',
             });
 
-            for (let i = 0; i < volunteers.length; i++) {
+            volunteers.map((volunteer, i) => {
                 data.push({
-                    firstName: volunteers[i].firstName,
-                    lastName: volunteers[i].lastName,
-                    email: volunteers[i].email,
-                    currentHours: volunteers[i].currentHours,
-                    goal: volunteers[i].goal,
-                    totalHours: volunteers[i].totalHours,
-                    totalSponsors: volunteers[i].totalSponsors,
-                    raised: volunteers[i].raised,
-                    signupDate: new Date(volunteers[i].created).toDateString(),
+                    firstName: volunteer.firstName,
+                    lastName: volunteer.lastName,
+                    email: volunteer.email,
+                    currentHours: volunteer.currentHours,
+                    goal: volunteer.goal,
+                    totalHours: volunteer.totalHours,
+                    totalSponsors: volunteer.totalSponsors,
+                    raised: volunteer.raised,
+                    signupDate: new Date(volunteer.created).toDateString(),
                 });
-            }
+            });
+
             return data;
         })
         .then((data) => {
@@ -50,8 +51,47 @@ class csvController {
     static getTeamSponsors(user) {
         return Sponsor.getSponsors(user.project.slug, user.team.slug)
         .then((sponsors) => {
-            // process sponsors
-            return sponsors;
+            const data = [];
+
+            data.push({
+                firstName: 'firstName',
+                lastName: 'lastName',
+                email: 'email',
+
+                hourly: 'hourly',
+                total: 'total',
+                date: 'date',
+
+                slug: 'slug',
+
+                teamName: 'teamName',
+
+                volunteerFirstName: 'volunteerFirstName',
+                volunteerLastName: 'volunteerLastName',
+            });
+
+            sponsors.map((sponsor, i) => {
+                sponsor.pledges.map((pledge, j) => {
+                    data.push({
+                        firstName: sponsor.firstName,
+                        lastName: sponsor.lastName,
+                        email: sponsor.email,
+
+                        hourly: pledge.support.hourly,
+                        total: pledge.support.total,
+                        date: pledge.support.date,
+
+                        slug: pledge.sponsored.slug,
+
+                        teamName: pledge.sponsored.name ? pledge.sponsored.name : null,
+
+                        volunteerFirstName: pledge.sponsored.firstName ? pledge.sponsored.firstName : null,
+                        volunteerLastName: pledge.sponsored.lastName ? pledge.sponsored.lastName : null,
+                    });
+                });
+            });
+
+            return data;
         })
         .then((data) => {
             return Csv.generate(data);
