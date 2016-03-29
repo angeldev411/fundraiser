@@ -4,6 +4,10 @@
 /* No media query since this is the default in Bootstrap */
 
 table.teams {
+    th {
+        cursor: pointer;
+    }
+
     & > tbody {
         & > tr {
             & > td {

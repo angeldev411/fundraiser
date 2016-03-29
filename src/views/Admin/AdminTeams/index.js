@@ -9,13 +9,16 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminTeamsTable from '../../../components/AdminTeamsTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminTeamForm from '../../../components/AdminTeamForm';
+import lodash from 'lodash';
 
 class AdminTeams extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            teams: []
+            teams: [],
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -78,6 +81,22 @@ class AdminTeams extends Component {
         this.setState(newState);
     };
 
+    onSort = (column) => {
+        let teams = lodash.sortBy(this.state.teams, (team) => {
+            return team[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            teams = lodash.reverse(teams);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            teams,
+        });
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -106,6 +125,7 @@ class AdminTeams extends Component {
                         teams={this.state.teams}
                         project={this.props.user.project}
                         actionable={true}
+                        onSort={this.onSort}
                     />
                 </AdminLayout>
             </Page>
