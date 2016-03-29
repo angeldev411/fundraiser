@@ -53,8 +53,12 @@ export default class AdminSponsorsTable extends Component {
                             }
                         >
                             <div className="sponsor-details">
-                                <span className="label uppercase">{'Sponsor: '}</span> {sponsor.firstName} {sponsor.lastName}
-                                <span className="label uppercase">{'Email: '}</span> {sponsor.email}
+                                <span className={'col-xs-4'}>
+                                    <span className="label uppercase">{'Sponsor: '}</span> {sponsor.firstName} {sponsor.lastName}
+                                </span>
+                                <span className={'col-xs-6'}>
+                                    <span className="label uppercase">{'Email: '}</span> {sponsor.email}
+                                </span>
                             </div>
                         </CollapsableLine>
                     ))}
