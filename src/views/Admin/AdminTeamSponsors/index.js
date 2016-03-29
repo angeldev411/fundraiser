@@ -13,6 +13,8 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import * as Urls from '../../../urls.js';
+import AdminApproveHours from '../../../components/AdminApproveHours';
+import lodash from 'lodash';
 
 class AdminTeamSponsors extends Component {
     constructor(props) {
@@ -24,6 +26,8 @@ class AdminTeamSponsors extends Component {
                 totalSponsors: 0,
                 totalRaised: 0,
             },
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -72,6 +76,22 @@ class AdminTeamSponsors extends Component {
         }
     }
 
+    onSort = (column) => {
+        let sponsors = lodash.sortBy(this.state.sponsors, (sponsor) => {
+            return sponsor[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            sponsors = lodash.reverse(sponsors);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            sponsors,
+        });
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -118,7 +138,9 @@ class AdminTeamSponsors extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <div className={'table-limit-height'}>
-                        <AdminSponsorsTable sponsors={this.state.sponsors} />
+                        <AdminSponsorsTable
+                            sponsors={this.state.sponsors}
+                            onSort={this.onSort}/>
                     </div>
                     <AdminStatsBlock
                         stats={

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import CollapsableLine from '../CollapsableLine';
 import ChildrenLine from '../ChildrenLine';
-import AdminProjectForm from '../AdminProjectForm';
-import AdminTeamForm from '../AdminTeamForm';
-import ModalButton from '../ModalButton';
 
 export default class AdminSponsorsTable extends Component {
+
+    handleSort = (column) => {
+        this.props.onSort(column);
+    };
+
+
     render() {
         return (
             <div className="sponsors-table">
@@ -53,8 +56,13 @@ export default class AdminSponsorsTable extends Component {
                             }
                         >
                             <div className="sponsor-details">
-                                <span className={'col-xs-4'}>
-                                    <span className="label uppercase">{'Sponsor: '}</span> {sponsor.firstName} {sponsor.lastName}
+                                <span
+                                    className={'col-xs-4'}
+                                    onClick={() => {
+                                        this.handleSort('firstName');
+                                    }}
+                                >
+                                    <span className="label uppercase sortable">{'Sponsor: '}</span> {sponsor.firstName} {sponsor.lastName}
                                 </span>
                                 <span className={'col-xs-6'}>
                                     <span className="label uppercase">{'Email: '}</span> {sponsor.email}
@@ -71,4 +79,5 @@ export default class AdminSponsorsTable extends Component {
 AdminSponsorsTable.propTypes = {
     sponsors: React.PropTypes.array,
     isVolunteer: React.PropTypes.bool,
+    onSort: React.PropTypes.func,
 };

@@ -7,12 +7,16 @@ import Page from '../../../components/Page';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
+import lodash from 'lodash';
+
 
 class AdminSponsors extends Component {
     constructor(props) {
         super(props);
         this.state = {
             sponsors: [],
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -58,6 +62,22 @@ class AdminSponsors extends Component {
         }
     });
 
+    onSort = (column) => {
+        let sponsors = lodash.sortBy(this.state.sponsors, (sponsor) => {
+            return sponsor[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            sponsors = lodash.reverse(sponsors);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            sponsors,
+        });
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -77,7 +97,10 @@ class AdminSponsors extends Component {
                     <AdminContentHeader title={header}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <AdminSponsorsTable sponsors={this.state.sponsors} />
+                    <AdminSponsorsTable
+                        sponsors={this.state.sponsors}
+                        onSort={this.onSort}
+                    />
                 </AdminLayout>
             </Page>
         );

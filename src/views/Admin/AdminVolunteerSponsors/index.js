@@ -12,6 +12,7 @@ import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import * as Urls from '../../../urls.js';
+import lodash from 'lodash';
 
 class AdminVolunteerSponsors extends Component {
     constructor(props) {
@@ -23,6 +24,8 @@ class AdminVolunteerSponsors extends Component {
                 totalSponsors: 0,
                 raised: 0,
             },
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -73,6 +76,22 @@ class AdminVolunteerSponsors extends Component {
         }
     }
 
+    onSort = (column) => {
+        let sponsors = lodash.sortBy(this.state.sponsors, (sponsor) => {
+            return sponsor[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            sponsors = lodash.reverse(sponsors);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            sponsors,
+        });
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -106,6 +125,7 @@ class AdminVolunteerSponsors extends Component {
                         <AdminSponsorsTable
                             sponsors={this.state.sponsors}
                             isVolunteer
+                            onSort={this.onSort}
                         />
                     </div>
                     <AdminStatsBlock
