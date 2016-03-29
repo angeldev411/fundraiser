@@ -15,6 +15,8 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
+import AdminApproveHours from '../../../components/AdminApproveHours';
+import lodash from 'lodash';
 
 class AdminTeamVolunteers extends Component {
     constructor(props) {
@@ -26,6 +28,8 @@ class AdminTeamVolunteers extends Component {
                 totalSponsors: 0,
                 totalRaised: 0,
             },
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -82,6 +86,22 @@ class AdminTeamVolunteers extends Component {
 
         Actions.getVolunteers(projectSlug, teamSlug)(this.props.dispatch);
     });
+
+    onSort = (column) => {
+        let volunteers = lodash.sortBy(this.state.volunteers, (volunteer) => {
+            return volunteer[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            volunteers = lodash.reverse(volunteers);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            volunteers,
+        });
+    };
 
     render() {
         if (!this.props.user) {
@@ -147,6 +167,7 @@ class AdminTeamVolunteers extends Component {
                             user={this.props.user}
                             actionable
                             onUnlink={this.handleUnlinkVolunteers}
+                            onSort={this.onSort}
                         />
                     </div>
                     <AdminStatsBlock

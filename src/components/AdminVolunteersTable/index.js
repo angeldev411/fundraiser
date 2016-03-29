@@ -82,6 +82,10 @@ export default class AdminVolunteersTable extends Component {
         });
     };
 
+    handleSort = (column) => {
+        this.props.onSort(column)
+    };
+
     render() {
         const selectedVolunteers = [];
 
@@ -133,12 +137,48 @@ export default class AdminVolunteersTable extends Component {
                 <table className="volunteers table">
                     <thead>
                         <tr>
-                            <th>{'Member'}</th>
-                            <th>{'Email'}</th>
-                            <th>{'Hours'}</th>
-                            <th>{'Sponsors'}</th>
-                            <th>{'$ Raised'}</th>
-                            <th>{'$/Hr'}</th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('firstName')
+                                }}
+                            >
+                                {'Member'}
+                            </th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('email')
+                                }}
+                            >
+                                {'Email'}
+                            </th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('totalHours')
+                                }}
+                            >
+                                {'Hours'}
+                            </th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('totalSponsors')
+                                }}
+                            >
+                                {'Sponsors'}
+                            </th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('raised')
+                                }}
+                            >
+                                {'$ Raised'}
+                            </th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('hourlyPledge')
+                                }}
+                            >
+                                {'$/Hr'}
+                            </th>
                             {this.props.actionable ?
                                 <th>
                                     <input
@@ -205,4 +245,5 @@ AdminVolunteersTable.propTypes = {
     user: React.PropTypes.object,
     actionable: React.PropTypes.bool,
     onUnlink: React.PropTypes.func,
+    onSort: React.PropTypes.func,
 };

@@ -8,12 +8,15 @@ import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import AdminContentHeader from '../../../components/AdminContentHeader';
+import lodash from 'lodash';
 
 class AdminVolunteers extends Component {
     constructor(props) {
         super(props);
         this.state = {
             volunteers: [],
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -59,6 +62,22 @@ class AdminVolunteers extends Component {
         }
     });
 
+    onSort = (column) => {
+        let volunteers = lodash.sortBy(this.state.volunteers, (volunteer) => {
+            return volunteer[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            volunteers = lodash.reverse(volunteers);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            volunteers,
+        });
+    };
+
     render() {
         let header = null;
 
@@ -78,6 +97,7 @@ class AdminVolunteers extends Component {
                         volunteers={this.state.volunteers}
                         actionable={false}
                         user={this.props.user}
+                        onSort={this.onSort}
                     />
                 </AdminLayout>
             </Page>

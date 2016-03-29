@@ -8,8 +8,12 @@ table.volunteers {
         margin-right: 10px;
     }
 
+    th {
+        cursor: pointer;
+    }
+
     & > tbody {
-        & > tr {
+        & > tr {    
             & > td {
                 line-height: 45px;
                 font-size: .9em;
