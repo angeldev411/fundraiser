@@ -586,6 +586,7 @@ export default class Sponsor {
      * sponsorings: array of sposnorings
     */
     static processNotBilledHours = (sponsorings) => {
+        // console.log(sponsorings);
         const promises = sponsorings.map((sponsoring) => {
             // For each sponsoring contracts, get supported volunteer hours created after the last billing timestamp
             return Sponsor.getNotBilledHours(sponsoring.sponsor)
@@ -661,6 +662,7 @@ export default class Sponsor {
                 });
             });
         } else {
+            console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}, but minimum charge amount is set to ${config.BILLING.minimumAmount}. Waiting next billing cycle.`);
             return Promise.resolve();
         }
     };
