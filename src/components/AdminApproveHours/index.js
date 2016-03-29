@@ -158,9 +158,12 @@ export default class AdminApproveHours extends Component {
                                     {this.state.team.signatureRequired ? <td><img className="signature" src={hour.signature_url} alt=""/></td> : null}
                                     <td>{hour.place}</td>
                                     <td>{hour.hours} {hour.hours > 1 ? 'Hours' : 'Hour'}</td>
-                                    <td onClick={(e) => {
-                                        this.approveHour(i)
-                                    }}>{'APPROVE'}</td>
+                                    <td
+                                        className={'approve-link'}
+                                        onClick={(e) => {
+                                            this.approveHour(i)
+                                        }}
+                                    >{'APPROVE'}</td>
                                     <td>
                                         <input
                                             type="checkbox"
