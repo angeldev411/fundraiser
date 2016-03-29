@@ -36,7 +36,7 @@ export default class Mailer {
         });
     }
 
-    static sendTemplate(message, templateName, templateContent = []) {
+    static sendTemplate(message, templateName, templateContent = [], callback, callbackError) {
         // we don't use templateContent for now, just merge tags
         message = {
             ...message,
@@ -49,22 +49,26 @@ export default class Mailer {
             merge_language: 'mailchimp',
         };
 
-        mandrillClient.messages.sendTemplate(
-            {
-                template_name: templateName,
-                template_content: templateContent,
-                message,
-                async: true,
-            },
-            (result) => {
-                console.log('Mandrill:', message.subject);
-                return Promise.resolve(result);
-            },
-            (e) => {
-                console.log(`A mandrill error occurred: ${e.name} - ${e.message}`);
-                return Promise.reject(e);
-            }
-        );
+        return new Promise((resolve, reject) => {
+            mandrillClient.messages.sendTemplate(
+                {
+                    template_name: templateName,
+                    template_content: message.global_merge_vars,
+                    message,
+                    async: true,
+                },
+                (result) => {
+                    console.log('Mandrill:', message.subject);
+                    callback(result);
+                    resolve(result);
+                },
+                (e) => {
+                    console.log(`A mandrill error occurred: ${e.name} - ${e.message}`);
+                    callbackError(e);
+                    reject(e);
+                }
+            );
+        });
     }
 
     // ---- SIGNUP AND INVITATION ----
@@ -77,10 +81,35 @@ export default class Mailer {
      * link: signup link
     */
     static sendInviteEmail(user, link) {
-        // TODO EMAIL
-        const subject = 'Welcome to Raiserve';
-        const text = `${link}`;
-        const plainText = `${link}`;
+        const subject = 'Join Raiserve';
+        const headline = 'Invitation';
+
+        const text =
+        `
+        <p>Hi ${user.firstName},</p>
+
+        <p>You have been invited to join Raiserve.</p>
+
+        <p>You can confirm your account by following this link: <a href="${link}">${link}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+        `;
+
+        const plainText =
+        `
+        Hi ${user.firstName},
+
+        You have been invited to join Raiserve.
+
+        You can confirm your account by following this link: ${link}
+
+        Thanks,
+
+        Raiserve
+        `;
+
         const message = {
             text: plainText,
             subject,
@@ -92,7 +121,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
@@ -101,7 +130,11 @@ export default class Mailer {
             ],
         };
 
-        Mailer.sendTemplate(message, 'mandrill-template');
+        Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     /*
@@ -113,29 +146,51 @@ export default class Mailer {
      * team: team object
     */
     static sendVolunteerWelcomeEmail(project, team, volunteer) {
-        // TODO EMAIL
         const subject = 'Welcome to Raiserve';
+        const headline = 'Congratulations';
 
         const text =
-        `${volunteer.firstName} ${volunteer.lastName},
-        congrats on joining team ${team.name}. Your hour will now make twice the difference as you raise money for ${project.name}.
-        Call to action is to Share Share Share.
-        you can email this <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
-        or post that link on facebook, twitter etc
-        remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
-        Don’t forget to record your hours
-        you can click here to get to your dashboard to record them
+        `
+        <p>Hey ${volunteer.firstName},</p>
+
+        <p>Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.</p>
+
+        <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
+
+        <p>
+            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+        </p>
+        <p>
+            2 - Share on Facebook and Twitter
+        </p>
+
+        <p>Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.</p>
+
+        <p>Don’t forget to record your hours. You can use your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> to record them and check the total amount your volunteer efforts have earned for ${project.name}.</p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
         `;
 
         const plainText =
-        `${volunteer.firstName} ${volunteer.lastName},
-        congrats on joining team ${team.name}. Your hour will now make twice the difference as you raise money for ${project.name}.
-        Call to action is to Share Share Share.
-        you can email this ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
-        or post that link on facebook, twitter etc
-        remember it takes a few tries to get people.. our best fundraise share and email potential sponsors every month with an update them after they volunteer
-        Don’t forget to record your hours
-        you can click here to get to your dashboard to record them
+        `
+        Hey ${volunteer.firstName},
+
+        Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.
+
+        Don’t forget to invite your friends to sponsor you. There are two ways:
+
+        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        2 - Share on Facebook and Twitter
+
+        Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.
+
+        Don’t forget to record your hours. You can use your dashboard (${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}) to record them and check the total amount your volunteer efforts have earned for ${project.name}.
+
+        Thanks,
+
+        Raiserve
         `;
 
         const message = {
@@ -149,7 +204,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
@@ -158,7 +213,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- VOLUNTEERING ----
@@ -170,14 +229,47 @@ export default class Mailer {
      * volunteer: volunteer object
      * hour: hour object
     */
-    static sendFirstHoursEmail(volunteer, hour) {
-        // TODO EMAIL
+    static sendFirstHoursEmail(volunteer, team, project, hour) {
         const subject = `Congrats for volunteering!`;
+        const headline = 'Your Hours are Recorded';
+
         const text =
-        `Congrats ${volunteer.firstName} ${volunteer.lastName} for volunteering at ${hour.place}...
-        Bookmark the record to address and add to homescreen if haven’t already done so you can add more quickly in the future.
-        Sharing your volunteering is a great way to get more sponsors...`;
-        const plainText = text;
+        `
+        <p>Hey ${volunteer.firstName},</p>
+
+        <p>Congrats for volunteering at ${hour.place}, we’re sure they really appreciated your service.</p>
+
+        <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
+
+        <p>
+            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+        </p>
+        <p>
+            2 - Share on Facebook and Twitter
+        </p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+        `;
+
+
+        const plainText =
+        `
+        Hey ${volunteer.firstName},
+
+        Congrats for volunteering at ${hour.place}, we’re sure they really appreciated your service.
+
+        Don’t forget to invite your friends to sponsor you. There are two ways:
+
+        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        2 - Share on Facebook and Twitter
+
+        Thanks,
+
+        Raiserve
+        `;
+
         const message = {
             text: plainText,
             subject,
@@ -189,7 +281,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
@@ -198,7 +290,11 @@ export default class Mailer {
             ],
         };
 
-        Mailer.sendTemplate(message, 'mandrill-template');
+        Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- SPONSORSHIPS ----
@@ -211,23 +307,56 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendSponsorSponsorshipThanksEmail(volunteer, sponsor) {
-        // TODO EMAIL
-        const subject = `Thanks for your support!`;
+        const subject = `Thanks for your Sponsorship`;
 
         const text =
-        `Dear ${sponsor.firstName} ${sponsor.lastName},
-        thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        then explain charged every month
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        <p>Dear ${sponsor.firstName},</p>
+
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+
+        <p>Just a quick recap of how it all works :</p>
+
+        <p>
+            1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
+        </p>
+        <p>
+            2 - Once their goal hours are reached, your donation is finished.
+        </p>
+
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+        `;
+
 
         const plainText =
-        `Dear ${sponsor.firstName} ${sponsor.lastName} thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        then explain charged every month
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        Dear ${sponsor.firstName},
+
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
+
+        Just a quick recap of how it all works :
+
+        1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
+        2 - Once their goal hours are reached, your donation is finished.
+
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
+
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
+
+        Thanks,
+
+        Raiserve
+
+        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+        `;
 
         const message = {
             text: plainText,
@@ -249,7 +378,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     /*
@@ -260,19 +393,44 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendVolunteerSponsorshipEmail(volunteer, sponsor) {
-        // TODO EMAIL
         const subject = `You've been sponsored!`;
+        const headline = 'Your First Sponsor';
 
         const text =
-        `Congrats ${volunteer.firstName} ${volunteer.lastName}, you’re on your way, each hour your volunteers is now making twice the difference for ${volunteer.project.name}.
-        ${sponsor.firstName} ${sponsor.lastName} sponsored you… Here’s their email address, sending a personalized thank you is always nice : ${sponsor.email}.
-        Be sure to ask them to share your campaign to help get more sponsors and include your URL <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you.
+        `
+        <p>Hey ${volunteer.firstName},</p>
+
+        <p>Congrats, you’re on your way.</p>
+
+        <p>Each hour your volunteers is now making twice the difference for ${volunteer.project.name}</p>
+
+        <p>${sponsor.firstName} ${sponsor.lastName} just sponsored you. Here’s their email address:</p>
+
+        <p><a href="mailto:${sponsor.email}">${sponsor.email}</a></p>
+
+        <p>Sending a personalized thank you is always nice. Be sure to ask them to share your campaign to help get more sponsors and include your unique url (<a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>) in your thank you note.</p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
         `;
 
+
         const plainText =
-        `Congrats ${volunteer.firstName} ${volunteer.lastName}, you’re on your way, each hour your volunteers is now making twice the difference for ${volunteer.project.name}.
-        ${sponsor.firstName} ${sponsor.lastName} sponsored you… Here’s their email address, sending a personalized thank you is always nice : ${sponsor.email}.
-        Be sure to ask them to share your campaign to help get more sponsors and include your URL ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)} in your thank you.
+        `
+        Hey ${volunteer.firstName},
+
+        Congrats, you’re on your way.
+
+        Each hour your volunteers is now making twice the difference for ${volunteer.project.name}
+
+        ${sponsor.firstName} ${sponsor.lastName} just sponsored you. Here’s their email address: ${sponsor.email}
+
+        Sending a personalized thank you is always nice. Be sure to ask them to share your campaign to help get more sponsors and include your unique url (${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}) in your thank you note.
+
+        Thanks,
+
+        Raiserve
         `;
 
         const message = {
@@ -286,7 +444,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: headline,
                 },
                 {
                     name: 'message',
@@ -295,7 +453,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
 
@@ -306,22 +468,47 @@ export default class Mailer {
      * volunteer: volunteer object
      * sponsor: sponsor object
     */
-    static sendSponsorDonationThanksEmail(volunteer, sponsor) {
-        // TODO EMAIL
-        const subject = `Thanks for your donation!`;
+    static sendSponsorDonationThanksEmail(volunteer, sponsor, amount) {
+        const subject = `Thanks for your Sponsorship`;
 
         const text =
-        `Dear ${sponsor.firstName} ${sponsor.lastName},
-        thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        <p>Dear ${sponsor.firstName},</p>
+
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+
+        <p>You will be charged one time for the total amount of ${amount}</p>
+
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+        `;
+
 
         const plainText =
-        `Dear ${sponsor.firstName} ${sponsor.lastName} thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName} your sponsors mean twice the difference ….for ${volunteer.project.name}
-        100% tax deductible at end of year money goes to ${volunteer.project.name}
-        Help spread the word share share share ${volunteer.firstName} ${volunteer.lastName}’s fundraising page there the ${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-        Are you a volunteer in your community and want to start your own campaign? Contact us at raiserve with email link ${Constants.VOLUNTEER_CONTACT_EMAIL}`;
+        `
+        Dear ${sponsor.firstName},
+
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
+
+        You will be charged one time for the total amount of ${amount}
+
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
+
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
+
+        Thanks,
+
+        Raiserve
+
+        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+        `;
 
         const message = {
             text: plainText,
@@ -343,7 +530,11 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- BILLING ----
@@ -355,18 +546,47 @@ export default class Mailer {
      * volunteer: volunteer object
      * hours: total hours charged
     */
-    static sendChargeEmail = (volunteer, sponsor, chargedHours, chargedAmount) => {
-        // TODO EMAIL
-        const subject = `Thanks for your continued support!`;
+    static sendChargeEmail = (volunteer, project, team, sponsor, chargedHours, chargedAmount) => {
+        const subject = `Thanks for your Continued Support`;
 
         const text =
-        `${sponsor.firstName} ${sponsor.lastName}, thanks for continued support
-        this month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} hours.
-        your credit card has been charged $${chargedAmount}.
-        share the campaign to help raise more money.
-        The receipt part`;
+        `
+        <p>Dear ${sponsor.firstName},</p>
 
-        const plainText = text;
+        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
+
+        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged $${chargedAmount}.</p>
+
+        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
+
+        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a></p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+        `;
+
+
+        const plainText =
+        `
+        Dear ${sponsor.firstName},
+
+        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
+
+        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged $${chargedAmount}.
+
+        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
+
+        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+
+        Thanks,
+
+        Raiserve
+
+        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+        `;
 
         const message = {
             text: plainText,
@@ -388,6 +608,10 @@ export default class Mailer {
             ],
         };
 
-        return Mailer.sendTemplate(message, 'mandrill-template');
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     };
 }

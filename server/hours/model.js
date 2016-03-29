@@ -156,11 +156,11 @@ class HourRepository {
 
     static updateHoursAttributes(hourId, hours) {
         return db.query(`
-            MATCH (h:HOUR {id: {hourId}})<-[:VOLUNTEERED]-(u:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)
+            MATCH (h:HOUR {id: {hourId}})<-[:VOLUNTEERED]-(u:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)-[:CONTRIBUTE]->(p:PROJECT)
             SET     u.currentHours = u.currentHours + {hours},
                     u.totalHours = u.totalHours + {hours},
                     t.totalHours = t.totalHours + {hours}
-            RETURN {volunteer: u, team: t, hour: h} AS result
+            RETURN {volunteer: u, team: t, project: p, hour: h} AS result
             `,
             {},
             {
@@ -172,7 +172,7 @@ class HourRepository {
         .then((result) => {
             // Check if this is the first hour ever of the volunteer
             if (result.volunteer.totalHours - parseInt(hours, 10) === 0) {
-                Mailer.sendFirstHoursEmail(result.volunteer, result.hour);
+                Mailer.sendFirstHoursEmail(result.volunteer, result.team, result.project, result.hour);
             }
             // Update Mailchimp user
             return Mailchimp.updateVolunteer(result.volunteer);

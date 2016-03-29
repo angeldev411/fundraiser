@@ -87,7 +87,7 @@ export default class Sponsor {
                                     return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount)
                                     .then((charged) => {
                                         // Update raised attributes on Volunteer and Team.
-                                        Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, pledge.amount)
+                                        return Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, pledge.amount)
                                         .then(() => {
                                             return resolve(sponsor);
                                         })
@@ -385,7 +385,7 @@ export default class Sponsor {
                 )
                 .getResult('volunteer')
                 .then((volunteer) => {
-                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, true)
+                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, pledge.hourly, true)
                     .then(() => {
                         return Promise.resolve();
                     })
@@ -412,7 +412,7 @@ export default class Sponsor {
                 )
                 .getResult('volunteer')
                 .then((volunteer) => {
-                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor)
+                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, pledge.amount)
                     .then(() => {
                         return Promise.resolve();
                     })
@@ -420,12 +420,12 @@ export default class Sponsor {
                         console.log(err);
                         return Promise.reject();
                     });
-                });
+                })
             }
         }
     }
 
-    static sendSponsorshipEmails(volunteer, sponsor, hourly = false) {
+    static sendSponsorshipEmails(volunteer, sponsor, amountHourly, hourly = false) {
         return Volunteer.getTeamAndProject(volunteer)
         .then((result) => {
             volunteer = {
@@ -440,20 +440,20 @@ export default class Sponsor {
                     Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor),
                 ])
                 .then(() => {
-                    Promise.resolve();
+                    return Promise.resolve();
                 })
                 .catch((err) => {
-                    Promise.reject(err);
+                    return Promise.reject(err);
                 });
             } else {
                 return Promise.all([
-                    Mailer.sendSponsorDonationThanksEmail(volunteer, sponsor),
+                    Mailer.sendSponsorDonationThanksEmail(volunteer, sponsor, amountHourly),
                 ])
                 .then(() => {
-                    Promise.resolve();
+                    return Promise.resolve();
                 })
                 .catch((err) => {
-                    Promise.reject(err);
+                    return Promise.reject(err);
                 });
             }
         });
@@ -523,12 +523,8 @@ export default class Sponsor {
                 // description: "Charge for test@example.com"
             }, (err, charge) => {
                 if (charge) {
-                    // TODO if charge, send an email to customer
-                    // console.log('charge', charge);
-
                     resolve(charge);
                 } else if (err) {
-                    // TODO if error, send an email to Raiserve and customer
                     console.log('Stripe error:', err.message);
                     reject(err.message);
                 }
@@ -639,9 +635,15 @@ export default class Sponsor {
                     Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
                     // Update raised attributes on Volunteer and Team.
                     Sponsor.updateRaisedAttributes(sponsoring.volunteer, amountToBill),
-                    // Send email to sponsor.
-                    Mailer.sendChargeEmail(sponsoring.volunteer, sponsoring.sponsor, hoursToBill, amountToBill),
                 ]);
+            })
+            .then(() => {
+                // Get volunteer team and project
+                return Volunteer.getTeamAndProject(sponsoring.volunteer)
+                .then((result) => {
+                    // Send email to sponsor.
+                    return Mailer.sendChargeEmail(sponsoring.volunteer, result.project, result.team, sponsoring.sponsor, hoursToBill, amountToBill);
+                });
             })
             .then(() => {
                 return Promise.resolve();
