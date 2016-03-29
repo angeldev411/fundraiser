@@ -378,7 +378,7 @@ export default class Sponsor {
                     {
                         userId: sponsor.id,
                         volunteerSlug,
-                        hourly: pledge.hourly,
+                        hourly: parseInt(pledge.hourly, 10),
                         total: 0,
                         date: new Date(),
                     }
