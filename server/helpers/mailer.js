@@ -614,43 +614,4 @@ export default class Mailer {
             return Promise.reject(err);
         });
     };
-
-    // static test = (volunteer, project, team, sponsor, chargedHours, chargedAmount) => {
-    //     const subject = `test`;
-    //
-    //     const text =
-    //     `test`;
-    //
-    //
-    //     const plainText =
-    //     `test`;
-    //
-    //     const message = {
-    //         text: plainText,
-    //         subject,
-    //         to: [{
-    //             email: sponsor.email,
-    //             name: `${sponsor.firstName} ${sponsor.lastName}`,
-    //             type: 'to',
-    //         }],
-    //         global_merge_vars: [
-    //             {
-    //                 name: 'headline',
-    //                 content: subject,
-    //             },
-    //             {
-    //                 name: 'message',
-    //                 content: text,
-    //             },
-    //         ],
-    //     };
-    //
-    //     return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
-    //         console.log(result);
-    //         return Promise.resolve(response);
-    //     }, (err) => {
-    //         console.log(err);
-    //         return Promise.reject(err);
-    //     });
-    // };
 }
