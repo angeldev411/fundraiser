@@ -42,6 +42,10 @@ export default class AdminProjectsTable extends Component {
         this.setState(newState);
     };
 
+    handleSort = (column) => {
+        this.props.onSort(column);
+    };
+
     render() {
         return (
             <div className="projects-table">
@@ -97,7 +101,12 @@ export default class AdminProjectsTable extends Component {
                         >
                             <div className="project-details">
                                 <div className={'col-xs-8'}>
-                                    <span className="label uppercase">{'Project Name: '}</span> {project.name}
+                                    <span
+                                        className="label uppercase"
+                                        onClick={() => {
+                                            this.handleSort('name')
+                                        }}
+                                    >{'Project Name: '}</span> {project.name}
                                 </div>
                                 <div className={'col-xs-3'}>
                                     <ModalButton customClass="btn-link uppercase"
@@ -139,4 +148,5 @@ export default class AdminProjectsTable extends Component {
 
 AdminProjectsTable.propTypes = {
     projects: React.PropTypes.array,
+    onSort: React.PropTypes.func,
 };

@@ -83,7 +83,7 @@ export default class AdminVolunteersTable extends Component {
     };
 
     handleSort = (column) => {
-        this.props.onSort(column)
+        this.props.onSort(column);
     };
 
     render() {
