@@ -123,6 +123,14 @@
                 cursor: pointer;
             }
         }
+
+        .approve-link {
+            color: $green;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
     .signature {
         height: 40px;
