@@ -31,11 +31,19 @@ class AdminProjects extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.error) {
             this.setState({ error: nextProps.error });
-        } else if (nextProps.projects) {
+        }
+        if (nextProps.projects) {
             this.setState(
                 {
                     projects: nextProps.projects,
                     error: null,
+                }
+            );
+        }
+        if (nextProps.user) {
+            this.setState(
+                {
+                    user: nextProps.user,
                 }
             );
         }
@@ -65,6 +73,8 @@ class AdminProjects extends Component {
     };
 
     render() {
+        console.log(this.state, this.props);
+
         const pageNav = [
             {
                 type: 'button',
@@ -97,6 +107,7 @@ class AdminProjects extends Component {
                     <AdminProjectsTable
                         projects={this.state.projects}
                         onSort={this.onSort}
+                        user={this.state.user}
                     />
                 </AdminLayout>
             </Page>
@@ -109,6 +120,7 @@ AdminProjects.propTypes = {
 };
 
 export default connect((reduxState) => ({
+    user: reduxState.main.auth.user,
     error: reduxState.main.project.error,
     projects: reduxState.main.project.projects,
 }))(AdminProjects);

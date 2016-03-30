@@ -161,7 +161,7 @@ class AdminTeamSponsors extends Component {
                         }
                     >
                         <AdminDownloadCsv
-                            to={'http://raiserve.local:3777/api/v1/csv/team/sponsors'}
+                            to={'/api/v1/csv/team/sponsors'}
                         />
                     </AdminStatsBlock>
                 </AdminLayout>

@@ -189,7 +189,7 @@ class AdminTeamVolunteers extends Component {
                         }
                     >
                         <AdminDownloadCsv
-                            to={'http://raiserve.local:3777/api/v1/csv/team/volunteers'}
+                            to={'/api/v1/csv/team/volunteers'}
                         />
                     </AdminStatsBlock>
                 </AdminLayout>

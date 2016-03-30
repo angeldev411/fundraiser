@@ -47,6 +47,9 @@ export default class AdminProjectsTable extends Component {
     };
 
     render() {
+        console.log(this.props.user);
+
+
         return (
             <div className="projects-table">
                 <ul className="projects">
@@ -58,7 +61,17 @@ export default class AdminProjectsTable extends Component {
                                         <ChildrenLine key={x}>
                                             <div className={'col-xs-12'}>
                                                 <div className={'col-xs-3'}>
-                                                    <span className="label uppercase">{'Team Name: '}</span> {team.name}
+                                                    <span>
+                                                        <span className="label uppercase">{'Team Name: '}</span>
+                                                        {(
+                                                            this.props.user
+                                                            && this.props.user.roles.indexOf('SUPER_ADMIN') >= 0
+                                                            && team.teamLeaderEmail
+                                                        ) ?
+                                                            <a href={`/api/v1/auth/switch/${team.teamLeaderEmail}`}>team.name</a> :
+                                                            team.name
+                                                        }
+                                                    </span>
                                                 </div>
                                                 <div className={'col-xs-2'}>
                                                     <span className="label uppercase">{'Raised: '}</span> {team.raised ? team.raised : 0}
@@ -101,12 +114,22 @@ export default class AdminProjectsTable extends Component {
                         >
                             <div className="project-details">
                                 <div className={'col-xs-8'}>
-                                    <span
-                                        className="label uppercase"
-                                        onClick={() => {
-                                            this.handleSort('name')
-                                        }}
-                                    >{'Project Name: '}</span> {project.name}
+                                    <span>
+                                        <span
+                                            className="label uppercase"
+                                            onClick={() => {
+                                                this.handleSort('name')
+                                            }}
+                                        >{'Project Name: '}</span>
+                                        {(
+                                            this.props.user
+                                            && this.props.user.roles.indexOf('SUPER_ADMIN') >= 0
+                                            && project.projectLeaderEmail
+                                        ) ?
+                                            <a href={`/api/v1/auth/switch/${project.projectLeaderEmail}`}>project.name</a> :
+                                            project.name
+                                        }
+                                    </span>
                                 </div>
                                 <div className={'col-xs-3'}>
                                     <ModalButton customClass="btn-link uppercase"
@@ -149,4 +172,5 @@ export default class AdminProjectsTable extends Component {
 AdminProjectsTable.propTypes = {
     projects: React.PropTypes.array,
     onSort: React.PropTypes.func,
+    user: React.PropTypes.object,
 };

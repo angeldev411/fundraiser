@@ -3,7 +3,8 @@ import express from 'express';
 import util from '../helpers/util';
 import messages from '../messages';
 const router = express.Router();
-
+import * as AUTH_CHECKER from '../auth/auth-checker';
+import * as roles from '../user/roles';
 import userController from '../user/controller';
 
 router.post('/api/v1/auth/login', (req, res) => {
@@ -51,6 +52,75 @@ router.get('/api/v1/auth/whoami', (req, res) => {
 router.get('/api/v1/auth/logout', (req, res) => {
     req.session.destroy();
     res.status(200).send(messages.logout);
+});
+
+router.get('/api/v1/auth/switch', (req, res) => {
+    // TODO SECURITY
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !req.session.user.lastUser
+            || !AUTH_CHECKER.isSuperAdmin(req.session.user.lastUser)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    if (req.session.user.lastUser) {
+        req.session.user = req.session.user.lastUser;
+        res.redirect('/dashboard');
+    } else {
+        res.status(401).send(messages.login.failed);
+    }
+});
+
+router.get('/api/v1/auth/switch/:id', (req, res) => {
+    // TODO SECURITY
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isSuperAdmin(req.session.user)
+        )
+    ) {
+        res.status(404).send();
+        return;
+    }
+
+    if (AUTH_CHECKER.isSuperAdmin(req.session.user)) {
+        userController.getUserWithRoles(req.params.id)
+        .then((user) => {
+            return userController.getRequiredSession(user);
+        })
+        .then((user) => {
+            const lastUser = req.session.user;
+
+            req.session.user = user;
+            req.session.user.lastUser = lastUser;
+            res.redirect('/dashboard');
+        })
+        .catch((err) => {
+            res.send(err);
+        });
+    } else if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
+        userController.getProjectRelatedUser(req.params.id, req.session.user.project.slug)
+        .then((user) => {
+            return userController.getRequiredSession(user);
+        })
+        .then((user) => {
+            const lastUser = req.session.user;
+
+            req.session.user = user;
+            req.session.user.lastUser = lastUser;
+            res.redirect('/dashboard');
+        })
+        .catch((err) => {
+            res.send(err);
+        });
+    } else {
+        res.status(404).send();
+        return;
+    }
 });
 
 router.post('/api/v1/auth/reset_password', (req, res) => {
