@@ -66,10 +66,10 @@ export default class AdminProjectsTable extends Component {
                                                         {(
                                                             this.props.user
                                                             && this.props.user.roles.indexOf('SUPER_ADMIN') >= 0
-                                                            && team.teamLeaderEmail
+                                                            && team.fakeLeaderId
                                                         ) ?
-                                                            <a href={`/api/v1/auth/switch/${team.teamLeaderEmail}`}>team.name</a> :
-                                                            team.name
+                                                            <a className={'nostyle'} href={`/api/v1/auth/switch/${team.fakeLeaderId}`}>{team.name}</a> :
+                                                            <span>{team.name}</span>
                                                         }
                                                     </span>
                                                 </div>
@@ -124,10 +124,10 @@ export default class AdminProjectsTable extends Component {
                                         {(
                                             this.props.user
                                             && this.props.user.roles.indexOf('SUPER_ADMIN') >= 0
-                                            && project.projectLeaderEmail
+                                            && project.fakeLeaderId
                                         ) ?
-                                            <a href={`/api/v1/auth/switch/${project.projectLeaderEmail}`}>project.name</a> :
-                                            project.name
+                                            <a className={'nostyle'} href={`/api/v1/auth/switch/${project.fakeLeaderId}`}>{project.name}</a> :
+                                            <span>{project.name}</span>
                                         }
                                     </span>
                                 </div>

@@ -39,7 +39,7 @@ ul.projects {
         }
     }
 
-    a,
+    a:not(.nostyle),
     .btn-link {
         color: $green;
         font-family: $conduit-bold;
@@ -49,6 +49,16 @@ ul.projects {
         &:hover {
             text-decoration: none;
             color: $grey;
+        }
+    }
+
+    a.nostyle {
+        color: $grey;
+        font-size: initial;
+
+        &:hover {
+            text-decoration: none;
+            color: $lighter-grey;
         }
     }
 

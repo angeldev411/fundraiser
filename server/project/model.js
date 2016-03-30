@@ -24,10 +24,13 @@ class Project {
             return Promise.reject(messages.notEmail);
         }
 
+        const fakeLeaderId = uuid.v4();
+
         const baseInfo = {
             id: data.project.id || uuid.v4(),
             name: data.project.name,
             slug: data.project.slug.toLowerCase(),
+            fakeLeaderId,
         };
 
         const optionalInfo = {};
@@ -66,7 +69,12 @@ class Project {
                         projectId: project.data.id,
                         userId: data.currentUser.id,
                     }
-                ).then(() => {
+                )
+                .then(() => {
+                    // create fake project Leader
+                    return Project.createFakeLeader(project.data.id, fakeLeaderId);
+                })
+                .then(() => {
                     // Link projectLeader
                     if (data.project.projectLeaderEmail) {
                         return UserController.invite(data.project.projectLeaderEmail, 'PROJECT_LEADER', data.project.slug)
@@ -83,7 +91,40 @@ class Project {
             return Promise.reject('Unexpected error occurred.');
         })
         .catch((err) => {
+            console.log(err);
             return Promise.reject(messages.project.required);
+        });
+    }
+
+    static createFakeLeader(projectId, projectLeaderId) {
+        return db.query(`
+                CREATE (u:USER:PROJECT_LEADER {id: {projectLeaderId}, firstName: 'Project Leader'})
+                RETURN u
+            `,
+            {},
+            {
+                projectLeaderId,
+            }
+        ).getResult('u')
+        .then((projectLeader) => {
+            // console.log(projectLeader);
+            return db.query(`
+                    MATCH (p:PROJECT {id: {projectId} }), (u:PROJECT_LEADER {id: {projectLeaderId} })
+                    CREATE (u)-[:LEAD]->(p)
+                `,
+                {},
+                {
+                    projectId,
+                    projectLeaderId: projectLeader.id,
+                }
+            );
+        })
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            console.log(err);
+            return Promise.reject(err);
         });
     }
 
