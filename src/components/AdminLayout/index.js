@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AdminMenu from '../AdminMenu';
-import AdminApproveHours from '../AdminMenu';
+import AdminApproveHours from '../AdminApproveHours';
 import * as Urls from '../../urls.js';
 import { connect } from 'react-redux';
 
@@ -12,14 +12,17 @@ class AdminLayout extends Component {
             return [
                 {
                     title: 'Projects',
+                    type: 'link',
                     href: Urls.ADMIN_PROJECTS_URL,
                 },
                 {
                     title: 'All Sponsors',
+                    type: 'link',
                     href: Urls.ADMIN_SPONSORS_URL,
                 },
                 {
                     title: 'All Volunteers',
+                    type: 'link',
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
@@ -27,14 +30,17 @@ class AdminLayout extends Component {
             return [
                 {
                     title: 'Teams',
+                    type: 'link',
                     href: Urls.ADMIN_TEAMS_URL,
                 },
                 {
                     title: 'All Sponsors',
+                    type: 'link',
                     href: Urls.ADMIN_SPONSORS_URL,
                 },
                 {
                     title: 'All Volunteers',
+                    type: 'link',
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
             ];
@@ -42,25 +48,38 @@ class AdminLayout extends Component {
             return [
                 {
                     title: 'My Team Dashboard',
+                    type: 'link',
                     href: Urls.ADMIN_TEAM_DASHBOARD_URL,
                 },
                 {
                     title: 'My Team',
+                    type: 'link',
                     href: Urls.ADMIN_TEAM_VOLUNTEERS_URL,
                 },
                 {
                     title: 'My Sponsors',
+                    type: 'link',
                     href: Urls.ADMIN_TEAM_SPONSORS_URL,
+                },
+                {
+                    title: 'Approve Hours',
+                    type: 'button',
+                    content:
+                        <AdminApproveHours
+                            team={this.props.user.team}
+                         />,
                 },
             ];
         }
         return [
             {
                 title: 'My Dashboard',
+                type: 'link',
                 href: Urls.ADMIN_VOLUNTEER_DASHBOARD_URL,
             },
             {
                 title: 'My Sponsors',
+                type: 'link',
                 href: Urls.ADMIN_VOLUNTEER_SPONSORS_URL,
             },
         ];

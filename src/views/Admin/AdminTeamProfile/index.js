@@ -10,9 +10,7 @@ import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembe
 import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import * as Urls from '../../../urls.js';
 import * as Actions from '../../../redux/team/actions';
-import AdminApproveHours from '../../../components/AdminApproveHours';
 import * as UserActions from '../../../redux/user/actions';
-
 
 class AdminTeamProfile extends Component {
     componentWillMount(props) {
@@ -98,13 +96,6 @@ class AdminTeamProfile extends Component {
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
-            },
-            {
-                title: 'Approve Hours',
-                type: 'button',
-                content: <AdminApproveHours
-                    team={this.props.user.team}
-                         />,
             },
             {
                 type: 'link',

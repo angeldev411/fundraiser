@@ -5,20 +5,31 @@ import ModalButton from '../ModalButton';
 import classNames from 'classnames';
 
 class AdminMenu extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <nav className={'admin-navigation col-xs-12 col-lg-3'}>
                 <ul className="admin-nav">
                     {this.props.adminNav.map((link, i) => (
                         <li key={i}>
-                            <Link
-                                to={link.href}
-                                className={classNames({
-                                    active: this.props.path === link.href,
-                                })}
-                            >
-                                {link.title}
-                            </Link>
+                            {link.type === 'button' ?
+                                <ModalButton customClass="btn-link"
+                                    content={link.content}
+                                >
+                                    {link.title}
+                                </ModalButton> :
+                                <Link
+                                    to={link.href}
+                                    className={classNames({
+                                        active: this.props.path === link.href,
+                                    })}
+                                >
+                                    {link.title}
+                                </Link>
+                            }
                         </li>
                     ))}
                 </ul>
