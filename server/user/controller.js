@@ -285,6 +285,16 @@ class userController {
             return Promise.reject(err);
         });
     }
+
+    static getTeamRelatedUser(userEmail, teamSlug) {
+        return TeamLeader.getTeamRelatedUser(userEmail, teamSlug)
+        .then((user) => {
+            return Promise.resolve(user);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
 }
 
 export default userController;

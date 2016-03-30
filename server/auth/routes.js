@@ -61,6 +61,7 @@ router.get('/api/v1/auth/switch', (req, res) => {
             !req.session.user.lastUser
             && !AUTH_CHECKER.isSuperAdmin(req.session.user.lastUser)
             && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isTeamLeader(req.session.user)
         )
     ) {
         res.status(404).send();
@@ -69,7 +70,11 @@ router.get('/api/v1/auth/switch', (req, res) => {
 
     if (req.session.user.lastUser) {
         req.session.user = req.session.user.lastUser;
-        res.redirect('/dashboard');
+        if (req.session.user.switchReferer) {
+            res.redirect(req.session.user.switchReferer);
+        } else {
+            res.redirect('/dashboard');
+        }
     } else {
         res.status(401).send(messages.login.failed);
     }
@@ -81,6 +86,7 @@ router.get('/api/v1/auth/switch/:id', (req, res) => {
         || (
             !AUTH_CHECKER.isSuperAdmin(req.session.user)
             && !AUTH_CHECKER.isProjectLeader(req.session.user)
+            && !AUTH_CHECKER.isTeamLeader(req.session.user)
         )
     ) {
         res.status(404).send();
@@ -93,6 +99,12 @@ router.get('/api/v1/auth/switch/:id', (req, res) => {
             return userController.getRequiredSession(user);
         })
         .then((user) => {
+            if (req.headers.referer) {
+                req.session.user.switchReferer = req.headers.referer;
+            } else {
+                req.headers.referer = null;
+            }
+
             const lastUser = req.session.user;
 
             req.session.user = user;
@@ -111,6 +123,38 @@ router.get('/api/v1/auth/switch/:id', (req, res) => {
             return userController.getRequiredSession(user);
         })
         .then((user) => {
+            if (req.headers.referer) {
+                req.session.user.switchReferer = req.headers.referer;
+            } else {
+                req.headers.referer = null;
+            }
+
+            const lastUser = req.session.user;
+
+            req.session.user = user;
+            req.session.user.lastUser = lastUser;
+
+            res.redirect('/dashboard');
+        })
+        .catch((err) => {
+            res.send(err);
+        });
+    } else if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
+        userController.getTeamRelatedUser(req.params.id, req.session.user.team.slug)
+        .then((user) => {
+            console.log(user);
+            return userController.getUserWithRoles(user.id);
+        })
+        .then((user) => {
+            return userController.getRequiredSession(user);
+        })
+        .then((user) => {
+            if (req.headers.referer) {
+                req.session.user.switchReferer = req.headers.referer;
+            } else {
+                req.headers.referer = null;
+            }
+
             const lastUser = req.session.user;
 
             req.session.user = user;
