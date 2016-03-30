@@ -97,7 +97,7 @@ class Team {
 
     static createFakeLeader(teamId, teamLeaderId) {
         return db.query(`
-                CREATE (u:USER:TEAM_LEADER {id: {teamLeaderId}, firstName: 'Team Leader'})
+                CREATE (u:USER:TEAM_LEADER:FAKE_LEADER {id: {teamLeaderId}, firstName: 'Team Leader'})
                 RETURN u
             `,
             {},
