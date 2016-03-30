@@ -22,6 +22,8 @@ class sponsorController {
                 sponsorLastBilling: new Date().getTime(),
             };
 
+            console.log(sponsor);
+
             const pledge = {
                 ...(data.hourly ? { hourly: data.hourly } : {}),
                 ...(data.amount ? { amount: data.amount } : {}),
@@ -46,6 +48,8 @@ class sponsorController {
                 volunteerLastBilling: new Date().getTime(),
                 sponsorLastBilling: new Date().getTime(),
             };
+
+            console.log(sponsor);
 
             const pledge = {
                 ...(data.hourly ? { hourly: data.hourly } : {}),

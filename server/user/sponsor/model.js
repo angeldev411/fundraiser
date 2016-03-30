@@ -4,6 +4,7 @@ import config from '../../config';
 import { SPONSOR } from '../roles';
 import userController from '../controller';
 import Volunteer from '../volunteer/model';
+import Team from '../../team/model';
 import stripelib from 'stripe';
 import * as Urls from '../../../src/urls';
 import * as Constants from '../../../src/common/constants';
@@ -624,19 +625,21 @@ export default class Sponsor {
     */
     static processNotBilledHours = (sponsorings, forVolunteer = true) => {
         const promises = sponsorings.map((sponsoring) => {
-            // For each sponsoring contracts, get supported node hours created after the last billing timestamp
-            return Sponsor.getNotBilledHours(sponsoring.sponsor, sponsoring.supported, forVolunteer)
-            .then((hoursNodes) => {
-                if (hoursNodes.length > 0) {
-                    return Sponsor.billHours(sponsoring, hoursNodes, forVolunteer);
-                } else {
-                    console.log(`No hours to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}`);
-                    return Promise.resolve();
-                }
-            })
-            .catch((getNotBilledHoursError) => {
-                return Promise.reject(getNotBilledHoursError);
-            });
+            if (sponsoring) {
+                // For each sponsoring contracts, get supported node hours created after the last billing timestamp
+                return Sponsor.getNotBilledHours(sponsoring.sponsor, sponsoring.supported, forVolunteer)
+                .then((hoursNodes) => {
+                    if (hoursNodes.length > 0) {
+                        return Sponsor.billHours(sponsoring, hoursNodes, forVolunteer);
+                    } else {
+                        console.log(`No hours to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}`);
+                        return Promise.resolve();
+                    }
+                })
+                .catch((getNotBilledHoursError) => {
+                    return Promise.reject(getNotBilledHoursError);
+                });
+            }
         });
 
         return Promise.all(promises);
@@ -716,8 +719,13 @@ export default class Sponsor {
                         return Promise.reject(error);
                     });
                 } else {
-                    console.log('Jackpot !!');
-                    // TODO
+                    return Sponsor.successfullChargeForTeam(sponsoring.supported, sponsoring, amountToBill, transactionTimestamp, charged, hoursToBill)
+                    .then(() => {
+                        return Promise.resolve();
+                    })
+                    .catch((error) => {
+                        return Promise.reject(error);
+                    });
                 }
             })
             .catch((chargeErr) => {
@@ -730,8 +738,13 @@ export default class Sponsor {
                         return Promise.reject(error);
                     });
                 } else {
-                    console.log('Jackpot !!');
-                    // TODO
+                    return Sponsor.unsuccessfullChargeForTeam(sponsoring.supported, sponsoring, amountToBill, transactionTimestamp)
+                    .then(() => {
+                        return Promise.resolve();
+                    })
+                    .catch((error) => {
+                        return Promise.reject(error);
+                    });
                 }
             });
         } else {
@@ -784,7 +797,7 @@ export default class Sponsor {
             // Update total paid on sponsoring relation
             Sponsor.updateSupportingRelationTotal(sponsoring.sponsor, amountToBill, volunteer),
             // Update last billing attribute
-            // TODO Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
+            Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
             // Update raised attributes on Volunteer and Team.
             Sponsor.updateRaisedAttributes(volunteer, amountToBill),
         ])
@@ -818,7 +831,69 @@ export default class Sponsor {
             // Create a paid relation with status 0
             Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, volunteer, 0, transactionTimestamp),
             // Update last billing attribute
-            // TODO Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
+            Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
+        ])
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((dbErr) => {
+            return Promise.reject(dbErr);
+        });
+    };
+
+    /*
+     * successfullChargeForTeam()
+     * Do remaining actions after a successfull charge
+     *
+     * team: team of charged sponsoring contract
+     * sponsoring: sponsoring contract
+     * amountToBill
+     * transactionTimestamp
+     * charged: charge object returned by stripe
+     * hoursToBill: number of hours billed
+    */
+    static successfullChargeForTeam = (team, sponsoring, amountToBill, transactionTimestamp, charged, hoursToBill) => {
+        return Promise.all([
+            // Create a paid relation with status 1
+            Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, team, 1, transactionTimestamp, charged.id),
+            // Update total paid on sponsoring relation
+            Sponsor.updateSupportingRelationTotal(sponsoring.sponsor, amountToBill, team),
+            // Update last billing attribute
+            Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
+            // Update raised attributes on Team.
+            Sponsor.updateRaisedAttributes(team, amountToBill, false),
+        ])
+        .then(() => {
+            // Get team team and project
+            return Team.getProject(team)
+            .then((project) => {
+                // Send email to sponsor.
+                return Mailer.sendChargeEmail(null, project, team, sponsoring.sponsor, hoursToBill, amountToBill, true);
+            });
+        })
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    };
+
+    /*
+     * unsuccessfullChargeForTeam()
+     * Do remaining actions after an unsuccessfull charge
+     *
+     * team: team of charged sponsoring contract
+     * sponsoring: sponsoring contract
+     * amountToBill
+     * transactionTimestamp
+    */
+    static unsuccessfullChargeForTeam = (team, sponsoring, amountToBill, transactionTimestamp) => {
+        return Promise.all([
+            // Create a paid relation with status 0
+            Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, team, 0, transactionTimestamp),
+            // Update last billing attribute
+            Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp, false),
         ])
         .then(() => {
             return Promise.resolve();
@@ -838,23 +913,22 @@ export default class Sponsor {
      *
      * sponsor: sponsor object
      * amount: amount billed in USD
-     * volunteer: volunteer object
+     * supported: supported object
      * status: 1 if successfull transaction
      *         0 if unsuccessfull transaction
      * date: transaction timestamp
      * stripeTransactionId: id of the stripe transaction
     */
-    static createPaidRelation = (sponsor, amount, volunteer, status, date, stripeTransactionId = null) => {
+    static createPaidRelation = (sponsor, amount, supported, status, date, stripeTransactionId = null) => {
         return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId} }), (volunteer {id: {volunteerId} })
-            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
-            CREATE (sponsor)-[:PAID {amount: {amount}, stripeTransactionId: {stripeTransactionId}, date: {date}, status: {status}}]->(volunteer)
+            MATCH (sponsor:SPONSOR {id: {sponsorId} }), (supported {id: {supportedId} })
+            CREATE (sponsor)-[:PAID {amount: {amount}, stripeTransactionId: {stripeTransactionId}, date: {date}, status: {status}}]->(supported)
             `,
             {},
             {
                 sponsorId: sponsor.id,
                 amount,
-                volunteerId: volunteer.id,
+                supportedId: supported.id,
                 stripeTransactionId,
                 date,
                 status,
@@ -868,12 +942,11 @@ export default class Sponsor {
      *
      * sponsor: sponsor object
      * amount: amount billed in USD
-     * volunteer: volunteer object
+     * supported: supported object
     */
-    static updateSupportingRelationTotal = (sponsor, amount, volunteer) => {
+    static updateSupportingRelationTotal = (sponsor, amount, supported) => {
         return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId} })-[support:SUPPORTING]->(volunteer {id: {volunteerId} })
-            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
+            MATCH (sponsor:SPONSOR {id: {sponsorId} })-[support:SUPPORTING]->(supported {id: {supportedId} })
             SET support.total = support.total + {amount}
             RETURN support
             `,
@@ -881,7 +954,7 @@ export default class Sponsor {
             {
                 sponsorId: sponsor.id,
                 amount,
-                volunteerId: volunteer.id,
+                supportedId: supported.id,
             }
         );
     };
@@ -893,7 +966,7 @@ export default class Sponsor {
      * sponsor: sponsor object
      * lastBilling: transaction timestamp
     */
-    static updateSponsorLastBilling = (sponsor, lastBilling, forVolunteer) => {
+    static updateSponsorLastBilling = (sponsor, lastBilling, forVolunteer = true) => {
         if (forVolunteer) {
             return db.query(`
                 MATCH (sponsor:SPONSOR {id: {sponsorId} })
@@ -925,38 +998,64 @@ export default class Sponsor {
      * updateRaisedAttributes()
      * Update raised attribute on a volunteer and totalRaised attribute on related team
      *
-     * volunteer: volunteer object
+     * supported: supported object
      * raised: raised money, so just charged amount
+     * forVolunteer: true to process volunteer sponsors, false to process team sponsors
     */
-    static updateRaisedAttributes = (volunteer, raised) => {
+    static updateRaisedAttributes = (supported, raised, forVolunteer = true) => {
         let data;
 
-        return db.query(`
-            MATCH (volunteer {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
-            WHERE NOT (teamLeader:FAKE_LEADER) AND (volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED)
-            SET     volunteer.raised = volunteer.raised + {raised},
-                    team.totalRaised = team.totalRaised + {raised}
-            RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
-            `,
-            {},
-            {
-                volunteerId: volunteer.id,
-                raised: parseInt(raised, 10),
-            }
-        ).getResult('result')
-        .then((result) => {
-            data = result;
-            return Mailchimp.updateVolunteer(data.volunteer);
-        })
-        .then(() => {
-            return Mailchimp.updateTeamLeader(data.teamLeader);
-        })
-        .then(() => {
-            return Promise.resolve();
-        })
-        .catch((err) => {
-            return Promise.reject(err);
-        });
+        if (forVolunteer) {
+            return db.query(`
+                MATCH (volunteer {id: {volunteerId} })-[:VOLUNTEER]->(team:TEAM)<-[:LEAD]-(teamLeader:TEAM_LEADER)
+                WHERE NOT (teamLeader:FAKE_LEADER) AND (volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED)
+                SET     volunteer.raised = volunteer.raised + {raised},
+                        team.totalRaised = team.totalRaised + {raised}
+                RETURN {volunteer: volunteer, teamLeader: teamLeader} AS result
+                `,
+                {},
+                {
+                    volunteerId: supported.id,
+                    raised: parseInt(raised, 10),
+                }
+            ).getResult('result')
+            .then((result) => {
+                data = result;
+                return Mailchimp.updateVolunteer(data.volunteer);
+            })
+            .then(() => {
+                return Mailchimp.updateTeamLeader(data.teamLeader);
+            })
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            });
+        } else {
+            return db.query(`
+                MATCH (team:TEAM {id: {teamId} })<-[:LEAD]-(teamLeader:TEAM_LEADER)
+                WHERE NOT (teamLeader:FAKE_LEADER)
+                SET     team.totalRaised = team.totalRaised + {raised}
+                RETURN {team: team, teamLeader: teamLeader} AS result
+                `,
+                {},
+                {
+                    teamId: supported.id,
+                    raised: parseInt(raised, 10),
+                }
+            ).getResult('result')
+            .then((result) => {
+                data = result;
+                return Mailchimp.updateTeamLeader(data.teamLeader);
+            })
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            });
+        }
     };
 
     /*
