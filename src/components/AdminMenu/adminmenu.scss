@@ -28,7 +28,8 @@
         }
 
         &.admin-nav {
-            li > a {
+            li > a,
+            li > button {
                 color: $green;
 
                 &.active {

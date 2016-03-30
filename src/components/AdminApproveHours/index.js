@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import ModalButton from '../ModalButton';
-import AdminTeamEmailForm from '../AdminTeamEmailForm';
 import * as constants from '../../common/constants';
-import classNames from 'classnames';
 import * as Actions from '../../redux/volunteer/actions';
 import { connect } from 'react-redux';
-
 
 export default class AdminApproveHours extends Component {
 

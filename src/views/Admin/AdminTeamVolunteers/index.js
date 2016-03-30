@@ -15,7 +15,6 @@ import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminDownloadCsv from '../../../components/AdminDownloadCsv';
 import AdminVolunteersTable from '../../../components/AdminVolunteersTable';
 import * as Urls from '../../../urls.js';
-import AdminApproveHours from '../../../components/AdminApproveHours';
 
 class AdminTeamVolunteers extends Component {
     constructor(props) {
@@ -109,13 +108,6 @@ class AdminTeamVolunteers extends Component {
                         project={this.props.user.project}
                         team={this.props.user.team}
                     />,
-            },
-            {
-                title: 'Approve Hours',
-                type: 'button',
-                content: <AdminApproveHours
-                    team={this.props.user.team}
-                         />,
             },
             {
                 type: 'link',
