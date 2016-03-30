@@ -53,7 +53,7 @@ class ProjectLeader {
     static getProjectRelatedUser(userID, projectSlug) {
         return db.query(
             `
-            MATCH (user:USER {id: {userID} })--(:PROJECT {slug: {projectSlug}})
+            MATCH (user:USER {id: {userID} })-[*]->(:PROJECT {slug: {projectSlug}})
             RETURN user
             `,
             {},

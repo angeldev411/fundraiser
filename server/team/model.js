@@ -95,6 +95,37 @@ class Team {
             });
     }
 
+    static createFakeLeader(teamId, teamLeaderId) {
+        return db.query(`
+                CREATE (u:USER:TEAM_LEADER {id: {teamLeaderId}, firstName: 'Team Leader'})
+                RETURN u
+            `,
+            {},
+            {
+                teamLeaderId,
+            }
+        ).getResult('u')
+        .then((teamLeader) => {
+            // console.log(projectLeader);
+            return db.query(`
+                    MATCH (t:TEAM {id: {teamId} }), (u:TEAM_LEADER {id: {teamLeaderId} })
+                    CREATE (u)-[:LEAD]->(t)
+                `,
+                {},
+                {
+                    teamId,
+                    teamLeaderId: teamLeader.id,
+                }
+            );
+        })
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
     static validate(teamData) {
         return Promise.all([
             Team.validateEmail(teamData),
@@ -140,6 +171,7 @@ class Team {
             ...(typeof teamData.totalSponsors !== 'undefined' ? { totalSponsors: teamData.totalSponsors } : {}),
             ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
             ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
+            ...(typeof teamData.fakeLeaderId !== 'undefined' ? { fakeLeaderId: teamData.fakeLeaderId } : {}),
         };
     }
 

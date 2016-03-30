@@ -73,8 +73,6 @@ class AdminProjects extends Component {
     };
 
     render() {
-        console.log(this.state, this.props);
-
         const pageNav = [
             {
                 type: 'button',

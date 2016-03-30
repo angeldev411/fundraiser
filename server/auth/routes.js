@@ -55,12 +55,12 @@ router.get('/api/v1/auth/logout', (req, res) => {
 });
 
 router.get('/api/v1/auth/switch', (req, res) => {
-    // TODO SECURITY
     if (
         !AUTH_CHECKER.isLogged(req.session)
         || (
             !req.session.user.lastUser
-            || !AUTH_CHECKER.isSuperAdmin(req.session.user.lastUser)
+            && !AUTH_CHECKER.isSuperAdmin(req.session.user.lastUser)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
         )
     ) {
         res.status(404).send();
@@ -76,11 +76,11 @@ router.get('/api/v1/auth/switch', (req, res) => {
 });
 
 router.get('/api/v1/auth/switch/:id', (req, res) => {
-    // TODO SECURITY
     if (
         !AUTH_CHECKER.isLogged(req.session)
         || (
             !AUTH_CHECKER.isSuperAdmin(req.session.user)
+            && !AUTH_CHECKER.isProjectLeader(req.session.user)
         )
     ) {
         res.status(404).send();
@@ -104,6 +104,9 @@ router.get('/api/v1/auth/switch/:id', (req, res) => {
         });
     } else if (AUTH_CHECKER.isProjectLeader(req.session.user)) {
         userController.getProjectRelatedUser(req.params.id, req.session.user.project.slug)
+        .then((user) => {
+            return userController.getUserWithRoles(user.id);
+        })
         .then((user) => {
             return userController.getRequiredSession(user);
         })

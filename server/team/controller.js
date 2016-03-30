@@ -1,15 +1,21 @@
 'use strict';
 import Team from './model';
-import messages from '../messages';
+import uuid from 'uuid';
 
 class teamController {
     static store(data, projectSlug) {
         let teamObject = null;
+        const fakeLeaderId = uuid.v4();
+
+        data.team.fakeLeaderId = fakeLeaderId;
 
         return Team.insert(data.team)
             .then((team) => {
                 teamObject = team;
                 return Team.linkTeamCreatorAndProject(team.id, data.currentUser.id, projectSlug);
+            })
+            .then(() => {
+                return Team.createFakeLeader(teamObject.id, fakeLeaderId);
             })
             .then(() => {
                 return Team.inviteTeamLeader(teamObject);
