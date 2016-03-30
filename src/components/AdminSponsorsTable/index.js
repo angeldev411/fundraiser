@@ -17,11 +17,11 @@ export default class AdminSponsorsTable extends Component {
                                     {sponsor.pledges.map((pledge, x) => (
                                         <ChildrenLine key={x}>
                                             <div className={'col-xs-12'}>
-                                                <div className={'col-xs-5'}>
+                                                <div className={'col-xs-4'}>
                                                     {pledge.support.hourly ?
                                                             (<div>
                                                                 <div className={'col-xs-6'}>
-                                                                    <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}/hr`}
+                                                                    <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}`}
                                                                 </div>
                                                                 <div className={'col-xs-6'}>
                                                                     <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
@@ -33,18 +33,18 @@ export default class AdminSponsorsTable extends Component {
                                                             </div>)
                                                     }
                                                 </div>
-                                                <div className={'col-xs-4'}>
+                                                <div className={'col-xs-5'}>
                                                     <span>
                                                     {!this.props.isVolunteer ? (
                                                         <span>
-                                                            <span className="label uppercase">{pledge.sponsored.firstName ? 'Member: ' : 'Team: '}</span>
+                                                            <span className="label uppercase">{pledge.sponsored.firstName ? 'Member: ' : 'Entire Team: '}</span>
                                                             {pledge.sponsored.firstName ? `${pledge.sponsored.firstName} ${pledge.sponsored.lastName}` : pledge.sponsored.name}
                                                         </span>
                                                     ) : null}
                                                     </span>
                                                 </div>
                                                 <div className={'col-xs-3'}>
-                                                    <span className="label uppercase">{'Date: '}</span> <span>{`${new Date(pledge.support.date).toLocaleDateString()}`}</span>
+                                                    <span className="label uppercase">{'Date: '}</span> <span>{`${new Date(pledge.support.date).toDateString()}`}</span>
                                                 </div>
                                             </div>
                                         </ChildrenLine>
