@@ -507,32 +507,6 @@ export default class Sponsor {
     }
 
     /*
-     * chargeSponsor()
-     * Charge amount to stripe customer
-     *
-     * stripeCustomerId: stripe customer id to charge
-     * amount: amount to charge in USD
-    */
-    static chargeSponsor = (stripeCustomerId, amount) => {
-        return new Promise((resolve, reject) => {
-            amount = amount * 100; // Convert to cents
-            stripe.charges.create({
-                amount,
-                currency: 'usd',
-                customer: stripeCustomerId,
-                // description: "Charge for test@example.com"
-            }, (err, charge) => {
-                if (charge) {
-                    resolve(charge);
-                } else if (err) {
-                    console.log('Stripe error:', err.message);
-                    reject(err.message);
-                }
-            });
-        });
-    };
-
-    /*
      * billSponsors()
      * Get not billed hours and charge sponsors
     */
@@ -576,6 +550,25 @@ export default class Sponsor {
     };
 
     /*
+     * getSponsoringContracts()
+     * Retrieve sponsoring contracts, with hourly amount
+     *
+     * sponsor: sponsor object
+    */
+    static getSponsoringContracts = (sponsor) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(volunteer)
+            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
+            RETURN {sponsor: sponsor, support: support, volunteer: volunteer} AS sponsoring
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+            }
+        ).getResults('sponsoring');
+    };
+
+    /*
      * processNotBilledHours()
      * Get and bill hours that should be billed
      *
@@ -600,6 +593,26 @@ export default class Sponsor {
         });
 
         return Promise.all(promises);
+    };
+
+    /*
+     * getNotBilledHours()
+     * Retrieve hours that has not already been charged to sponsor
+     *
+     * sponsor: sponsor object
+    */
+    static getNotBilledHours = (sponsor) => {
+        return db.query(`
+            MATCH (hours:HOUR)<-[:VOLUNTEERED]->(volunteer)<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
+            WHERE (volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED) AND hours.created > {lastBilling} AND hours.approved = true
+            RETURN hours
+            `,
+            {},
+            {
+                sponsorId: sponsor.id,
+                lastBilling: sponsor.lastBilling,
+            }
+        ).getResults('hours');
     };
 
     /*
@@ -670,42 +683,29 @@ export default class Sponsor {
     };
 
     /*
-     * getSponsoringContracts()
-     * Retrieve sponsoring contracts, with hourly amount
+     * chargeSponsor()
+     * Charge amount to stripe customer
      *
-     * sponsor: sponsor object
+     * stripeCustomerId: stripe customer id to charge
+     * amount: amount to charge in USD
     */
-    static getSponsoringContracts = (sponsor) => {
-        return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(volunteer)
-            WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
-            RETURN {sponsor: sponsor, support: support, volunteer: volunteer} AS sponsoring
-            `,
-            {},
-            {
-                sponsorId: sponsor.id,
-            }
-        ).getResults('sponsoring');
-    };
-
-    /*
-     * getNotBilledHours()
-     * Retrieve hours that has not already been charged to sponsor
-     *
-     * sponsor: sponsor object
-    */
-    static getNotBilledHours = (sponsor) => {
-        return db.query(`
-            MATCH (hours:HOUR)<-[:VOLUNTEERED]->(volunteer)<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
-            WHERE (volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED) AND hours.created > {lastBilling} AND hours.approved = true
-            RETURN hours
-            `,
-            {},
-            {
-                sponsorId: sponsor.id,
-                lastBilling: sponsor.lastBilling,
-            }
-        ).getResults('hours');
+    static chargeSponsor = (stripeCustomerId, amount) => {
+        return new Promise((resolve, reject) => {
+            amount = amount * 100; // Convert to cents
+            stripe.charges.create({
+                amount,
+                currency: 'usd',
+                customer: stripeCustomerId,
+                // description: "Charge for test@example.com"
+            }, (err, charge) => {
+                if (charge) {
+                    resolve(charge);
+                } else if (err) {
+                    console.log('Stripe error:', err.message);
+                    reject(err.message);
+                }
+            });
+        });
     };
 
     /*
