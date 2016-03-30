@@ -21,7 +21,7 @@ export default class CollapsableLine extends Component {
                         className={'expand btn-link pull-right'}
                         onClick={this.toggle}
                     >
-                        {this.state.collapsed ? '+' : '-'}
+                        {this.state.collapsed ? '+' : '–'}
                     </button>
                     {this.props.children}
                 </div>

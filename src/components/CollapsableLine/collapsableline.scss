@@ -8,14 +8,12 @@ li.collapsable {
     line-height: 2.6em;
     list-style: none;
 
+    div {
+        padding: 0;
+    }
+
     ul.children-content {
         background: #f7f7f7;
         padding: 0;
-
-        li {
-            &:last-child {
-                border-bottom: 0;
-            }
-        }
     }
 }
