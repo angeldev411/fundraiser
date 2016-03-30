@@ -18,7 +18,8 @@ class sponsorController {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                lastBilling: new Date().getTime(),
+                volunteerLastBilling: new Date().getTime(),
+                sponsorLastBilling: new Date().getTime(),
             };
 
             const pledge = {
@@ -42,7 +43,8 @@ class sponsorController {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                lastBilling: new Date().getTime(),
+                volunteerLastBilling: new Date().getTime(),
+                sponsorLastBilling: new Date().getTime(),
             };
 
             const pledge = {

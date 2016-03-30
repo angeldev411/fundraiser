@@ -508,16 +508,24 @@ export default class Sponsor {
 
     /*
      * billSponsors()
+     * MAIN BILLING SCRIPT
      * Get not billed hours and charge sponsors
     */
     static billSponsors() {
+        let sponsorsToBill = [];
+
         // Get all sponsors who hourly support volunteers
         return Sponsor.getSponsorsToBill()
-            .then(Sponsor.processVolunteerSponsoringContracts)
-            // .then(Sponsor.processTeamSponsoringContracts)
-            .catch((getSponsorError) => {
-                Promise.reject(getSponsorError);
-            });
+        .then((sponsors) => {
+            sponsorsToBill = sponsors;
+            return Sponsor.processVolunteerSponsoringContracts(sponsorsToBill);
+        })
+        .then(() => {
+            return Sponsor.processTeamSponsoringContracts(sponsorsToBill);
+        })
+        .catch((getSponsorError) => {
+            Promise.reject(getSponsorError);
+        });
     }
 
     /*
@@ -575,6 +583,7 @@ export default class Sponsor {
      * sponsors: array of sponsors
     */
     static processTeamSponsoringContracts = (sponsors) => {
+        // console.log('processTeamSponsoringContracts');
         const promises = sponsors.map((sponsor) => {
             return Sponsor.getTeamSponsoringContracts(sponsor)
             .then((sponsorings) => {
@@ -596,7 +605,7 @@ export default class Sponsor {
     */
     static getTeamSponsoringContracts = (sponsor) => {
         return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(team)
+            MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(team:TEAM)
             RETURN {sponsor: sponsor, support: support, supported: team} AS sponsoring
             `,
             {},
@@ -614,7 +623,6 @@ export default class Sponsor {
      * forVolunteer: true to process volunteer sponsors, false to process team sponsors
     */
     static processNotBilledHours = (sponsorings, forVolunteer = true) => {
-        // console.log(sponsorings);
         const promises = sponsorings.map((sponsoring) => {
             // For each sponsoring contracts, get supported node hours created after the last billing timestamp
             return Sponsor.getNotBilledHours(sponsoring.sponsor, sponsoring.supported, forVolunteer)
@@ -627,7 +635,6 @@ export default class Sponsor {
                 }
             })
             .catch((getNotBilledHoursError) => {
-                console.log(getNotBilledHoursError);
                 return Promise.reject(getNotBilledHoursError);
             });
         });
@@ -644,8 +651,9 @@ export default class Sponsor {
     */
     static getNotBilledHours = (sponsor, supported, forVolunteer) => {
         if (forVolunteer) {
+            // Get volunteer contract not billed hours
             return db.query(`
-                MATCH (hours:HOUR)<-[:VOLUNTEERED]-(supported {id: {supportedId}})<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
+                MATCH (hours:HOUR)<-[:VOLUNTEERED]-(:VOLUNTEER {id: {supportedId}})<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
                 WHERE hours.created > {lastBilling} AND hours.approved = true
                 RETURN hours
                 `,
@@ -653,11 +661,23 @@ export default class Sponsor {
                 {
                     sponsorId: sponsor.id,
                     supportedId: supported.id,
-                    lastBilling: sponsor.lastBilling,
+                    lastBilling: sponsor.volunteerLastBilling,
                 }
             ).getResults('hours');
         } else {
-            // TODO
+            // Get team contract not billed hours
+            return db.query(`
+                MATCH (hours:HOUR)<-[:VOLUNTEERED]-(:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {id: {supportedId}})<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
+                WHERE hours.created > {lastBilling} AND hours.approved = true
+                RETURN hours
+                `,
+                {},
+                {
+                    sponsorId: sponsor.id,
+                    supportedId: supported.id,
+                    lastBilling: sponsor.sponsorLastBilling,
+                }
+            ).getResults('hours');
         }
     };
 
@@ -696,6 +716,7 @@ export default class Sponsor {
                         return Promise.reject(error);
                     });
                 } else {
+                    console.log('Jackpot !!');
                     // TODO
                 }
             })
@@ -709,6 +730,7 @@ export default class Sponsor {
                         return Promise.reject(error);
                     });
                 } else {
+                    console.log('Jackpot !!');
                     // TODO
                 }
             });
@@ -871,18 +893,32 @@ export default class Sponsor {
      * sponsor: sponsor object
      * lastBilling: transaction timestamp
     */
-    static updateSponsorLastBilling = (sponsor, lastBilling) => {
-        return db.query(`
-            MATCH (sponsor:SPONSOR {id: {sponsorId} })
-            SET sponsor.lastBilling = {lastBilling}
-            RETURN sponsor
-            `,
-            {},
-            {
-                sponsorId: sponsor.id,
-                lastBilling,
-            }
-        );
+    static updateSponsorLastBilling = (sponsor, lastBilling, forVolunteer) => {
+        if (forVolunteer) {
+            return db.query(`
+                MATCH (sponsor:SPONSOR {id: {sponsorId} })
+                SET sponsor.volunteerLastBilling = {lastBilling}
+                RETURN sponsor
+                `,
+                {},
+                {
+                    sponsorId: sponsor.id,
+                    lastBilling,
+                }
+            );
+        } else {
+            return db.query(`
+                MATCH (sponsor:SPONSOR {id: {sponsorId} })
+                SET sponsor.sponsorLastBilling = {lastBilling}
+                RETURN sponsor
+                `,
+                {},
+                {
+                    sponsorId: sponsor.id,
+                    lastBilling,
+                }
+            );
+        }
     };
 
     /*
