@@ -170,7 +170,7 @@ class AdminTeamDashboard extends Component {
                         />
                     </section>
                     <section className={"col-xs-12"}>
-                        <section className={"col-xs-12 col-sm-10"}>
+                        <section className={"col-xs-12 col-sm-9"}>
                             <div className="content-header">
                                 <h2 className="uppercase">{'Top earners'}</h2>
                                 <hr/>
@@ -183,7 +183,7 @@ class AdminTeamDashboard extends Component {
                                 noSponsor
                             />
                         </section>
-                        <section className={"col-xs-12 col-sm-2"}>
+                        <section className={"col-xs-12 col-sm-3"}>
                             <AdminShareEfforts/>
                         </section>
                     </section>
