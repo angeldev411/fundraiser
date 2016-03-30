@@ -579,7 +579,7 @@ export default class Sponsor {
 
     /*
      * processTeamSponsoringContracts()
-     * Bill sponsoring contracts on volunteers
+     * Bill sponsoring contracts on team
      *
      * sponsors: array of sponsors
     */
@@ -859,7 +859,7 @@ export default class Sponsor {
             // Update total paid on sponsoring relation
             Sponsor.updateSupportingRelationTotal(sponsoring.sponsor, amountToBill, team),
             // Update last billing attribute
-            Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp),
+            Sponsor.updateSponsorLastBilling(sponsoring.sponsor, transactionTimestamp, false),
             // Update raised attributes on Team.
             Sponsor.updateRaisedAttributes(team, amountToBill, false),
         ])
@@ -868,7 +868,7 @@ export default class Sponsor {
             return Team.getProject(team)
             .then((project) => {
                 // Send email to sponsor.
-                return Mailer.sendChargeEmail(null, project, team, sponsoring.sponsor, hoursToBill, amountToBill, true);
+                return Mailer.sendChargeEmail(null, project, team, sponsoring.sponsor, hoursToBill, amountToBill, false);
             });
         })
         .then(() => {
