@@ -287,6 +287,18 @@ class Team {
         });
     }
 
+    static getProject(team) {
+        return db.query(`
+            MATCH (project:PROJECT)<-[:CONTRIBUTE]-(team:TEAM { id: {teamId} })
+            RETURN project
+            `,
+            {},
+            {
+                teamId: team.id,
+            }
+        ).getResult('project');
+    }
+
     static getStats(teamSlug) {
         return db.query(
             `

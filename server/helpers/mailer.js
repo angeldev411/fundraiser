@@ -545,48 +545,92 @@ export default class Mailer {
      *
      * volunteer: volunteer object
      * hours: total hours charged
+     * forVolunteer: true for a volunteer contract charge, false otherwise
     */
-    static sendChargeEmail = (volunteer, project, team, sponsor, chargedHours, chargedAmount) => {
+    static sendChargeEmail = (volunteer, project, team, sponsor, chargedHours, chargedAmount, forVolunteer = true) => {
         const subject = `Thanks for your Continued Support`;
+        let text = null;
+        let plainText = null;
 
-        const text =
-        `
-        <p>Dear ${sponsor.firstName},</p>
+        if (forVolunteer) {
+            text =
+            `
+            <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
+            <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
 
-        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.</p>
+            <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.</p>
 
-        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
+            <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
 
-        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a></p>
+            <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a></p>
 
-        <p>Thanks,</p>
+            <p>Thanks,</p>
 
-        <p>Raiserve</p>
+            <p>Raiserve</p>
 
-        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
-        `;
+            <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+            `;
 
 
-        const plainText =
-        `
-        Dear ${sponsor.firstName},
+            plainText =
+            `
+            Dear ${sponsor.firstName},
 
-        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
+            Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
 
-        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.
+            This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.
 
-        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
+            Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
 
-        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+            Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
 
-        Thanks,
+            Thanks,
 
-        Raiserve
+            Raiserve
 
-        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
-        `;
+            Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+            `;
+        } else {
+            text =
+            `
+            <p>Dear ${sponsor.firstName},</p>
+
+            <p>Thanks for sponsoring ${team.name}. Your sponsorship mean twice the difference for ${project.name}</p>
+
+            <p>This month ${team.name} volunteers volunteered ${chargedHours}. Your credit card has been charged $${chargedAmount}.</p>
+
+            <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
+
+            <p>Help spread the word about ${team.name}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(project.slug, team.slug)}">${Constants.DOMAIN}${Urls.getTeamProfileUrl(project.slug, team.slug)}</a></p>
+
+            <p>Thanks,</p>
+
+            <p>Raiserve</p>
+
+            <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+            `;
+
+
+            plainText =
+            `
+            Dear ${sponsor.firstName},
+
+            Thanks for sponsoring ${team.name}. Your sponsorship mean twice the difference for ${project.name}
+
+            This month ${team.name} volunteers volunteered ${chargedHours}. Your credit card has been charged $${chargedAmount}.
+
+            Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
+
+            Help spread the word about ${team.name}’s fundraising page: ${Constants.DOMAIN}${Urls.getTeamProfileUrl(project.slug, team.slug)}
+
+            Thanks,
+
+            Raiserve
+
+            Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
+            `;
+        }
 
         const message = {
             text: plainText,

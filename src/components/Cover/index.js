@@ -139,7 +139,6 @@ export default class Cover extends Component {
                         <PledgeButton
                             customClass="btn-default"
                             teamSlug={this.props.team.slug}
-                            oneTimeOnly
                         >
                             {this.props.button}
                         </PledgeButton>

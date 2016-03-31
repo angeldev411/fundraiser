@@ -83,17 +83,17 @@ export default class PledgeFormStep1 extends Component {
                     <span id={'tooltip-trigger'}>
                         <i
                             className={'fa fa-question'}
-                            data-tip={`Your Card will be charged monthly as your volunteer completes their hours. You can change your rate at any point.`}
+                            data-tip={`Your Card will be charged monthly as your volunteer(s) completes their hours. You can change your rate at any point.`}
                             data-type={'success'}
                             data-class={'tooltip'}
                             data-multiline
                             data-event={'click'}
                         ></i>
                     </span>
-                    <p id="pledge-goal">{`for ${this.props.goal} goal hours`}</p>
+                    <p id="pledge-goal">{this.props.goal ? `for ${this.props.goal} goal hours` : null}</p>
                     <ReactTooltip />
                 </div>
-            )
+            );
         } else if (!this.props.oneTimeOnly && this.state.amount) {
             return (
                 <div>
@@ -111,7 +111,7 @@ export default class PledgeFormStep1 extends Component {
                     </select>
                     <label htmlFor="amount">{'Pledge'}</label>
                 </div>
-            )
+            );
         }
     };
 
