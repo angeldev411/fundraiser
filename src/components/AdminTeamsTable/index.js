@@ -18,7 +18,9 @@ export default class AdminTeamsTable extends Component {
         }
     }
 
-
+    handleSort = (column) => {
+        this.props.onSort(column);
+    };
 
     render() {
         return (
@@ -26,10 +28,26 @@ export default class AdminTeamsTable extends Component {
                 <table className="teams table">
                     <thead>
                         <tr>
-                            <th>{'Team Name'}</th>
-                            <th>{'Total $'}</th>
-                            <th>{'Total hours'}</th>
-                            <th>{'# Volunteers'}</th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('name')
+                                }}
+                            >{'Team Name'}</th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('raised')
+                                }}
+                            >{'Total $'}</th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('totalHours')
+                                }}
+                            >{'Total hours'}</th>
+                            <th
+                                onClick={() => {
+                                    this.handleSort('totalVolunteers')
+                                }}
+                            >{'# Volunteers'}</th>
                             {this.props.actionable ? <th>{'Actions'}</th> : null}
                         </tr>
                     </thead>
@@ -78,4 +96,5 @@ AdminTeamsTable.propTypes = {
     teams: React.PropTypes.array,
     project: React.PropTypes.object,
     actionable: React.PropTypes.bool,
+    onSort: React.PropTypes.func,
 };

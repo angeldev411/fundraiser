@@ -10,12 +10,15 @@ import ModalButton from '../../../components/ModalButton';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminProjectForm from '../../../components/AdminProjectForm';
 import AdminContentHeader from '../../../components/AdminContentHeader';
+import lodash from 'lodash';
 
 class AdminProjects extends Component {
     constructor(props) {
         super(props);
         this.state = {
             projects: [],
+            sortBy: null,
+            ASC: true,
         };
     }
 
@@ -43,6 +46,22 @@ class AdminProjects extends Component {
 
         newState.projects.unshift(project);
         this.setState(newState);
+    };
+
+    onSort = (column) => {
+        let projects = lodash.sortBy(this.state.projects, (project) => {
+            return project[column].toString().toLowerCase();
+        });
+
+        if (!this.state.ASC) {
+            projects = lodash.reverse(projects);
+        }
+
+        this.setState({
+            sortBy: column,
+            ASC: !this.state.ASC,
+            projects,
+        });
     };
 
     render() {
@@ -77,6 +96,7 @@ class AdminProjects extends Component {
                     />
                     <AdminProjectsTable
                         projects={this.state.projects}
+                        onSort={this.onSort}
                     />
                 </AdminLayout>
             </Page>
