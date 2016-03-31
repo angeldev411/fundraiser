@@ -210,8 +210,6 @@ export default class AdminVolunteerProfile extends Component {
             },
         ];
 
-        console.log(this.state.user.image);
-
         return (
             <Page>
                 <AdminLayout pageNav={pageNav}>

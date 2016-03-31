@@ -49,9 +49,14 @@
     border: none;
 
     .AvatarCropper-canvas {
+        canvas {
+            width: 100%!important;
+        }
+
         input {
             background: transparent;
             border: none!important;
+            width: 100%!important;
         }
 
         .modal-footer {
