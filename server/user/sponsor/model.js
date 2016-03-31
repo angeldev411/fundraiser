@@ -697,7 +697,7 @@ export default class Sponsor {
         let amountToBill = 0;
 
         for (let k = 0; k < hours.length; k++) {
-            hoursToBill += hours[k].hours;
+            hoursToBill += parseInt(hours[k].hours, 10);
         }
 
         // Calculate amount to bill in USD
