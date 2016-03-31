@@ -409,40 +409,6 @@ export default class Volunteer {
         .getResult('stats');
     }
 
-    static onboard(obj) {
-        return Volunteer.create(obj)
-        .then((newVolunteer) => db.query(`
-                MATCH (team:Team {short_name: {teamShortName} })
-                MATCH (user:User {email: {email} })
-
-                MERGE (user)-[volunteerism:VOLUNTEER]->(team)
-                ON CREATE SET volunteerism.goal = {goal}
-
-                RETURN user
-                `,
-                {},
-                newVolunteer
-            )
-            .getResult('user'));
-    }
-
-    static fetchSponsors(uuid) {
-        return db.query(`
-            MATCH (u:User)-[:PLEDGED]->(p:Pledge)<-[:RAISED]->(volunteer:User {uuid: {uuid} })
-            RETURN {
-                firstName: u.firstName,
-                lastName: u.lastName,
-                email: u.email,
-                amount: p.amountPerHour,
-                maxPerMonth: p.maxPerMonth
-            } as pledges
-            `,
-            {},
-            { uuid }
-        )
-        .getResults('pledges');
-    }
-
     static resetCurrentHours() {
         return db.query(`
             MATCH (volunteer:VOLUNTEER)
@@ -456,6 +422,6 @@ export default class Volunteer {
         })
         .catch((err) => {
             console.log('Reset current hours failed:', err);
-        })
+        });
     }
 }

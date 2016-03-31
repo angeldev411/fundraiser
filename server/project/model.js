@@ -107,45 +107,6 @@ class Project {
             }
         ).getResult('p');
     }
-
-    // SECURITY: explicitly define return attributes
-    static findByShortName(shortName) {
-        return db.query(
-            `MATCH (project:Project {shortName: {shortName} }) RETURN project`,
-            {},
-            { shortName }
-        )
-        .getResults('project');
-    }
-
-    static fetchAdminStats(projectUUID) {
-        return db.query(
-            `MATCH (project:Project {uuid: {projectUUID} }) RETURN project`,
-            {},
-            { projectUUID }
-        )
-        .getResult('project');
-    }
-
-    // SECURITY: explicitly define return attributes
-    static findAll() {
-        return db.query(
-            `MATCH (project:Project) RETURN project`,
-            {},
-            {}
-        )
-        .getResults('project');
-    }
-
-    // SECURITY: explicitly define return attributes
-    static findAllTeams(projectUUID) {
-        return db.query(
-            `MATCH (project:Project {uuid: {projectUUID} })<-[:FUNDRAISING_FOR]-(team:Team) RETURN team`,
-            {},
-            { projectUUID }
-        )
-        .getResults('team');
-    }
 }
 
 

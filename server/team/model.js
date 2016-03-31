@@ -287,20 +287,6 @@ class Team {
         });
     }
 
-    /* expects obj.uuid and obj.key */
-    static insertLogoImageIntoDb(obj) {
-        return db.query(`
-            MATCH (team:Team {uuid: {uuid} })
-            CREATE (img:Image {key: {key} })
-
-            CREATE (team)-[:LOGO]->(img)
-
-            RETURN img
-            `, {}, obj
-        )
-        .getResults('img');
-    }
-
     static getStats(teamSlug) {
         return db.query(
             `
@@ -313,77 +299,6 @@ class Team {
             }
         )
         .getResult('stats');
-    }
-
-    static fetchAdminStats(teamShortName) {
-        // console.log('fas');
-        // return db.query(
-        //     `
-        //     MATCH (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team {shortName: {shortName} })-[:LOGO]->(img:Image), (project)-[:SPLASH_IMAGE]-(pimg:Image)
-        //     RETURN {name: team.name,
-        //         uuid: team.uuid, shortName: team.shortName, shortDescription: COALESCE(pt.shortDescription, project.shortDescription),
-        //         longDescription: COALESCE(pt.longDescription, project.longDescription), splashImageURL: {baseURL} + pimg.key, logoURL: {baseURL} + img.key} as team
-        //         `
-        //         ,
-        //         {},
-        //         { teamShortName }
-        //     )
-        //     .getResult('team');
-    }
-
-    static findPopular() {
-        return db.query(
-            `
-            MATCH (project:Project)<-[pt:FUNDRAISING_FOR]-(team:Team)-[:LOGO]->(img:Image), (project)-[:SPLASH_IMAGE]->(pimg:Image)
-            RETURN {
-                name: team.name,
-                shortName: team.shortName,
-                uuid: team.uuid,
-                shortDescription: COALESCE(pt.shortDescription, project.shortDescription),
-                longDescription: COALESCE(pt.longDescription, project.longDescription),
-                splashImageURL: {baseURL} + pimg.key, logoURL: {baseURL} + img.key
-            } as teams
-            `,
-            {},
-            { baseURL: config.S3_BASE_URL }
-        )
-        .getResults('teams');
-    }
-
-    static fetchVolunteers(teamShortName) {
-        return db.query(
-            `
-            MATCH
-            // grab team and volunteer
-            (team:Team {shortName: {teamShortName}} )<-[:VOLUNTEER]-(v:User),
-
-            // and headshot image
-            (img:Image)-[:HEADSHOT]->(v)
-
-            // and pledges
-            OPTIONAL MATCH (v)-[:RAISED]-(pledge:Pledge)
-
-            // and amount raised
-            OPTIONAL MATCH (v)-[:RAISED]-(donation:Donation)
-
-            RETURN {
-                firstName: v.firstName,
-                lastName: v.lastName,
-                uuid: v.uuid,
-                imageURL: {baseURL} + img.key,
-                pledgeCount: count(pledge),
-                averagePledge: avg(coalesce(pledge.amountPerHour, 0)),
-                hourlyRate: sum(coalesce(pledge.amountPerHour, 0)),
-                amountRaised: sum(coalesce(donation.amount, 0))
-            } as volunteer
-            `,
-            {},
-            {
-                teamShortName,
-                baseURL: config.S3_BASE_URL,
-            }
-        )
-        .getResults('volunteer');
     }
 }
 
