@@ -48,13 +48,14 @@ export const getHourLogs = () => {
     };
 };
 
-export const createHourLog = (place, hours, date, supervisor, signature, approved) => {
+export const createHourLog = (place, hours, date, supervisorEmail, supervisor, signature, approved) => {
     return (dispatch) => {
         dispatch(hourLogFailure(''));
         return axios.post(`${API_URL}/hours`, {
             place,
             hours,
             date,
+            supervisorEmail,
             supervisor,
             signature,
             approved,
@@ -65,6 +66,7 @@ export const createHourLog = (place, hours, date, supervisor, signature, approve
                     place,
                     hours,
                     date,
+                    supervisorEmail,
                     supervisor,
                     signature,
                     approved,

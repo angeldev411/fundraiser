@@ -20,6 +20,7 @@ router.post('/api/v1/hours', (req, res) => {
         signatureData: req.body.signature,
         place: req.body.place,
         date: req.body.date,
+        supervisorEmail: req.body.supervisorEmail,
         supervisorName: req.body.supervisor,
         approved: false,
     };
@@ -31,10 +32,12 @@ router.post('/api/v1/hours', (req, res) => {
             hour.approved = true;
         }
 
-        hoursController.log(req.session.user.id, hour).then((result) => {
+        hoursController.log(req.session.user.id, hour)
+        .then((result) => {
             res.status(200).send(result);
             return;
         }).catch((err) => {
+            console.log(err);
             res.status(400).send(err);
             return;
         });

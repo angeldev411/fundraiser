@@ -18,6 +18,7 @@ const Hour = db.defineNode({
             signatureData: db.Joi.string().required(),
             place : db.Joi.string().required(),
             date: db.Joi.date().required(),
+            supervisorEmail: db.Joi.string().required(),
             supervisorName: db.Joi.string().required(),
             approved: db.Joi.boolean().required(),
         },
@@ -54,15 +55,15 @@ class HourRepository {
                         }
                     })
                     .catch((approvalError) => {
-                        reject(null);
+                        reject(approvalError);
                     });
                 })
                 .catch((error) => {
-                    reject(null);
+                    reject(error);
                 });
             })
             .catch((hourCreateError) => {
-                reject(null);
+                reject(hourCreateError);
             });
         });
     }

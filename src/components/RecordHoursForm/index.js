@@ -16,6 +16,7 @@ export default class RecordHoursForm extends Component {
             hours: 0,
             date: moment().format('YYYY-MM-DD').toString(),
             supervisor: '',
+            supervisorEmail: '',
             signature: '',
             signatureRequired: props.team.signatureRequired,
             approved: props.team.hoursApprovalRequired ? false : true,
@@ -60,6 +61,7 @@ export default class RecordHoursForm extends Component {
             this.state.place,
             this.state.hours,
             this.state.date,
+            this.state.supervisorEmail,
             this.state.supervisor,
             signature,
             this.state.approved,
@@ -95,8 +97,9 @@ export default class RecordHoursForm extends Component {
                         name="place"
                         id="place"
                         onChange={(e) => { this.handleChange(e, 'place') }}
+                        placeholder={'Example: Habitat For Humanity - NY, NY'}
                     />
-                    <label htmlFor="place">{'Place volunteered'}</label>
+                    <label htmlFor="place">{'Place volunteered - Be Specific'}</label>
                 </div>
                 <div className="form-group">
                     <input type="text"
@@ -124,17 +127,28 @@ export default class RecordHoursForm extends Component {
                     <div>
                         <div className="form-group">
                             <input type="text"
+                                name="supervisorEmail"
+                                id="supervisorEmail"
+                                onChange={(e) => { this.handleChange(e, 'supervisorEmail') }}
+                            />
+                            <label htmlFor="supervisorEmail">{'Supervisor Email'}</label>
+                        </div>
+                        <div className="form-group">
+                            <input type="text"
                                 name="supervisor"
                                 id="supervisor"
                                 onChange={(e) => { this.handleChange(e, 'supervisor') }}
                             />
-                            <label htmlFor="supervisor">{'Supervisor'}</label>
+                            <label htmlFor="supervisor">{'Supervisor Name'}</label>
                         </div>
 
-                        <SignaturePad ref='signature'/>
+                        <div className="form-group">
+                            <SignaturePad ref='signature'/>
+                            <label htmlFor="signature">{'Signature'}</label>
+                        </div>
                     </div>
-                    : null}
-
+                    : null
+                }
 
                 <Button
                     onClick={this.recordHours}
