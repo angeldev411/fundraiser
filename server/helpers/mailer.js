@@ -555,7 +555,7 @@ export default class Mailer {
 
         <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
 
-        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged $${chargedAmount}.</p>
+        <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.</p>
 
         <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
 
@@ -575,7 +575,7 @@ export default class Mailer {
 
         Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
 
-        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal}. Your credit card has been charged $${chargedAmount}.
+        This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.
 
         Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
 
