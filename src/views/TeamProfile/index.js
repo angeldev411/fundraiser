@@ -18,9 +18,9 @@ class TeamProfile extends Component {
         super(props);
 
         this.defaultTeam = {
-            tagline: 'Put your Team tagline here',
-            slogan: 'PUT YOUR TEAM SLOGAN HERE',
-            description: 'Put your description here',
+            tagline: 'Put your team tagline here',
+            slogan: 'YOUR OBJECTIVE',
+            description: 'Put your team description here',
         };
 
         this.state = {
