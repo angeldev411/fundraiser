@@ -3,7 +3,8 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-.fullscreen-modal {
+.fullscreen-modal,
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -41,15 +42,38 @@
     }
 }
 
+/* AvatarCropper modal */
+.modal-content {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+
+    .AvatarCropper-canvas {
+        input {
+            background: transparent;
+            border: none!important;
+        }
+
+        .modal-footer {
+            border: none;
+        }
+    }
+}
+
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
-    .fullscreen-modal {
+    .fullscreen-modal,
+    .modal {
         display: flex;
         justify-content: center;
 
         .container {
             align-self: center;
+        }
+
+        .modal-dialog{
+            margin-top: 20%;
         }
 
         .close {
