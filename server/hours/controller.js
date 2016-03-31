@@ -10,8 +10,10 @@ class hoursController {
             newHours.id = UUID.v4();
         }
         return new Promise((resolve, reject) => {
-            Hours.uploadSignature(newHours).then((obj) => {
-                Hours.insert(userId, obj).then((result) => {
+            Hours.uploadSignature(newHours)
+            .then((obj) => {
+                Hours.insert(userId, obj)
+                .then((result) => {
                     resolve(result);
                 }).catch((result) => {
                     reject(result);
