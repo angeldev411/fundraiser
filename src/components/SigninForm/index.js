@@ -12,6 +12,7 @@ class SigninForm extends Component {
             loading: false,
             resetPassword: false,
             passwordResetRequested: false,
+            remember: false,
         };
     }
 
@@ -57,7 +58,8 @@ class SigninForm extends Component {
         });
         Actions.signIn(
             this.state.email,
-            this.state.password
+            this.state.password,
+            this.state.remember,
         )(this.props.dispatch);
     };
 
@@ -81,6 +83,14 @@ class SigninForm extends Component {
         this.setState({
             resetPassword: true,
         });
+    };
+
+    handleRememberMe = (event) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.remember = event.nativeEvent.target.checked;
+
+        this.setState(newState);
     };
 
     render() {
@@ -137,6 +147,16 @@ class SigninForm extends Component {
                         onChange={(e) => { this.handleChange(e, 'password') }}
                     />
                     <label htmlFor="password">{'Password'}</label>
+                </div>
+                <div className="checkbox">
+                    <label>
+                        <input
+                            type="checkbox"
+                            id="remember"
+                            name="remember"
+                            onChange={(e) => { this.handleRememberMe(e) }}
+                        /> <span id={'remember-label'}>{'Remember me'}</span>
+                    </label>
                 </div>
                 {this.state.error ? <p>{this.state.error}</p> : null}
                 <Button

@@ -24,6 +24,12 @@ router.post('/api/v1/auth/login', (req, res) => {
             res.status(500).send();
             return;
         }
+
+        if (!req.body.remember) {
+            // If remember me is not checked, set cookie for browsing session only
+            req.session.cookie.expires = false;
+        }
+
         req.session.user = user;
 
         res.status(200).send(userController.safe(user));

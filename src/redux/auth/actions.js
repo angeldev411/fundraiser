@@ -12,7 +12,7 @@ export const signinFailed = (error) => ({
     error,
 });
 
-export function signIn(email, password) {
+export function signIn(email, password, remember) {
     return (dispatch) => {
         dispatch(signinFailed(''));
         return axios.post(
@@ -20,6 +20,7 @@ export function signIn(email, password) {
             {
                 email,
                 password,
+                remember,
             }
         )
         .then(
