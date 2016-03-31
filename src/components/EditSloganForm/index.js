@@ -42,13 +42,21 @@ export default class EditSloganForm extends Component {
                 onSubmit={(e) => { this.updateSlogan() }}
             >
                 <div className="form-group">
-                    <input type="text"
-                        name="slogan"
-                        id="slogan"
-                        defaultValue={this.props.value ? this.props.value : null}
-                        onChange={(e) => { this.handleChange(e, 'slogan') }}
-                    />
-                    <label htmlFor="slogan">{'Slogan'}</label>
+                    <div className="input-group">
+                        <span
+                            className="input-group-addon"
+                            id="default-slogan"
+                        >
+                            {'YOU + US ='}
+                        </span>
+                        <input type="text"
+                            name="slogan"
+                            id="slogan"
+                            defaultValue={this.props.value ? this.props.value : null}
+                            onChange={(e) => { this.handleChange(e, 'slogan') }}
+                        />
+                        <label htmlFor="slogan">{'Slogan'}</label>
+                    </div>
                 </div>
                 <Button
                     customClass="btn-green-white"

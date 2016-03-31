@@ -70,7 +70,7 @@ export default class TeamProfileBlock extends Component {
                         : (
                         <div>
                             <div className={'team-slogan'}>
-                                {this.props.team.slogan}
+                                {`YOU + US = ${this.props.team.slogan}`}
                             </div>
                             {this.props.editable ?
                                 (<EditButton
