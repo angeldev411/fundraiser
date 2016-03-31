@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import Dropzone from 'react-dropzone';
+import AvatarCropper from 'react-avatar-cropper';
 import * as Actions from '../../redux/team/actions';
-import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
 
 export default class EditLogoForm extends Component {
@@ -18,6 +18,7 @@ export default class EditLogoForm extends Component {
             team: this.props.team,
             logoImageData: '',
             loading: false,
+            cropperOpen: false,
         };
     }
 
@@ -57,7 +58,7 @@ export default class EditLogoForm extends Component {
     };
 
 
-    onDrop = (files) => {
+    handleOnDrop = (files) => {
         const user = this.state.user;
         const reader = new FileReader();
         const file = files[0];
@@ -71,9 +72,26 @@ export default class EditLogoForm extends Component {
 
             this.setState({
                 logoImageData,
+                cropperOpen: true,
             });
         };
         reader.readAsDataURL(file);
+    };
+
+    handleOnCrop = (dataURI) => {
+        this.setState({
+            cropperOpen: false,
+            logoImageData: dataURI,
+            file: {
+                preview: dataURI,
+            },
+        });
+    };
+
+    handleRequestHide = () => {
+        this.setState({
+            cropperOpen: false,
+        });
     };
 
     render() {
@@ -86,7 +104,7 @@ export default class EditLogoForm extends Component {
             >
                 <div className="dropzone form-group">
                     <Dropzone
-                        onDrop={this.onDrop}
+                        onDrop={this.handleOnDrop}
                         multiple={false}
                         style={{ }}
                     >
@@ -96,6 +114,14 @@ export default class EditLogoForm extends Component {
                         />
                         <p className={"dropzone-text"}>{'Upload logo'}</p>
                     </Dropzone>
+                    <AvatarCropper
+                        onRequestHide={this.handleRequestHide}
+                        onCrop={this.handleOnCrop}
+                        cropperOpen={this.state.cropperOpen}
+                        image={this.state.file.preview}
+                        width={200}
+                        height={70}
+                    />
                 </div>
                 <Button
                     customClass="btn-green-white"
