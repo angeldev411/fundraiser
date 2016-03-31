@@ -9,6 +9,8 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import Dropzone from 'react-dropzone';
+import AvatarCropper from 'react-avatar-cropper';
+
 import * as Actions from '../../../redux/volunteer/actions';
 
 import * as constants from '../../../common/constants';
@@ -23,6 +25,7 @@ export default class AdminVolunteerProfile extends Component {
             loading: false,
             editPassword: false,
             success: false,
+            cropperOpen: false,
         };
     }
 
@@ -57,7 +60,7 @@ export default class AdminVolunteerProfile extends Component {
         }
     }
 
-    onDrop = (files) => {
+    handleOnDrop = (files) => {
         const user = this.state.user;
         const reader = new FileReader();
         const file = files[0];
@@ -66,9 +69,25 @@ export default class AdminVolunteerProfile extends Component {
             user.image = upload.target.result;
             this.setState({
                 user,
+                cropperOpen: true,
             });
         };
         reader.readAsDataURL(file);
+    };
+
+    handleOnCrop = (dataURI) => {
+        this.setState({
+            cropperOpen: false,
+            user: {
+                image: dataURI,
+            },
+        });
+    };
+
+    handleRequestHide = () => {
+        this.setState({
+            cropperOpen: false,
+        });
     };
 
     submitProfile = () => {
@@ -270,7 +289,7 @@ export default class AdminVolunteerProfile extends Component {
 
                                 <div className="dropzone form-group">
                                     <Dropzone
-                                        onDrop={this.onDrop}
+                                        onDrop={this.handleOnDrop}
                                         multiple={false}
                                         style={{ }}
                                     >
@@ -280,6 +299,14 @@ export default class AdminVolunteerProfile extends Component {
                                         />
                                         <p className={"dropzone-text"}>{'Upload profile photo'}</p>
                                     </Dropzone>
+                                    <AvatarCropper
+                                        onRequestHide={this.handleRequestHide}
+                                        onCrop={this.handleOnCrop}
+                                        cropperOpen={this.state.cropperOpen}
+                                        image={this.state.user.image}
+                                        width={114}
+                                        height={114}
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <textarea

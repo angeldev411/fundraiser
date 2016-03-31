@@ -4,6 +4,7 @@ import Form from '../../components/Form';
 import Dropzone from 'react-dropzone';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
+import AvatarCropper from 'react-avatar-cropper';
 
 export default class EditCoverForm extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ export default class EditCoverForm extends Component {
             team: this.props.team,
             coverImageData: '',
             loading: false,
+            cropperOpen: false,
         };
     }
 
@@ -48,7 +50,7 @@ export default class EditCoverForm extends Component {
     };
 
 
-    onDrop = (files) => {
+    handleOnDrop = (files) => {
         const user = this.state.user;
         const reader = new FileReader();
         const file = files[0];
@@ -62,9 +64,26 @@ export default class EditCoverForm extends Component {
 
             this.setState({
                 coverImageData,
+                cropperOpen: true,
             });
         };
         reader.readAsDataURL(file);
+    };
+
+    handleOnCrop = (dataURI) => {
+        this.setState({
+            cropperOpen: false,
+            coverImageData: dataURI,
+            file: {
+                preview: dataURI,
+            },
+        });
+    };
+
+    handleRequestHide = () => {
+        this.setState({
+            cropperOpen: false,
+        });
     };
 
     render() {
@@ -76,7 +95,7 @@ export default class EditCoverForm extends Component {
             >
                 <div className="dropzone form-group">
                     <Dropzone
-                        onDrop={this.onDrop}
+                        onDrop={this.handleOnDrop}
                         multiple={false}
                         style={{ }}
                     >
@@ -86,6 +105,14 @@ export default class EditCoverForm extends Component {
                         />
                         <p className={"dropzone-text"}>{'Upload cover photo'}</p>
                     </Dropzone>
+                    <AvatarCropper
+                        onRequestHide={this.handleRequestHide}
+                        onCrop={this.handleOnCrop}
+                        cropperOpen={this.state.cropperOpen}
+                        image={this.state.file.preview}
+                        width={1200}
+                        height={500}
+                    />
                 </div>
                 <Button
                     customClass="btn-green-white"
