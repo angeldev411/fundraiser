@@ -116,7 +116,7 @@ class PledgeFormStep2 extends Component {
                 <p id={'sucess-pledge'}>
                     {'Thanks for your donation!'}
                 </p>
-            )
+            );
         }
 
         return (
