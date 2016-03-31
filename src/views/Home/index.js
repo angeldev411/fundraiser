@@ -32,7 +32,12 @@ export default class Home extends Component {
                             {'Contact US'}
                         </Button>
                         <div className={'links'}>
-                            <Link to={Urls.RAISERVE_BASICS}>{'See How it Works'}</Link>
+                            <Link
+                                to={Urls.RAISERVE_BASICS}
+                                target="_blank"
+                            >
+                                {'See How it Works'}
+                            </Link>
                         </div>
                     </div>
                 </div>

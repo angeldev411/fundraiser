@@ -115,7 +115,10 @@ class Menu extends Component {
                             </li>
                             <li className="clearfix"></li>
                             <li>
-                                <Link to={Urls.RAISERVE_BASICS}>
+                                <Link
+                                    to={Urls.RAISERVE_BASICS}
+                                    target="_blank"
+                                >
                                     {'Raiserve Basics'}
                                 </Link>
                             </li>
@@ -212,7 +215,10 @@ class Menu extends Component {
                 <nav>
                     <ul className={"nav navbar-nav"}>
                         <li>
-                            <Link to={Urls.RAISERVE_BASICS}>
+                            <Link
+                                to={Urls.RAISERVE_BASICS}
+                                target="_blank"
+                            >
                                 {'Raiserve Basics'}
                             </Link>
                         </li>

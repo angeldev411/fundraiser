@@ -18,7 +18,10 @@ export default class Footer extends Component {
                             </span>
                             <ul>
                                 <li>
-                                    <Link to={Urls.RAISERVE_BASICS}>
+                                    <Link
+                                        to={Urls.RAISERVE_BASICS}
+                                        target="_blank"
+                                    >
                                         {'Raiserve Basics'}
                                     </Link>
                                 </li>
