@@ -144,8 +144,6 @@ export default class PledgeFormStep1 extends Component {
 
         const estimation = this.props.goal * this.state.hourly;
 
-        console.log(estimation);
-
         return (
             <div id={"pledge-container"}>
                 <Form
