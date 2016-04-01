@@ -6,8 +6,7 @@ import userController from '../controller';
 import Volunteer from '../volunteer/model';
 import Team from '../../team/model';
 import stripelib from 'stripe';
-import * as Urls from '../../../src/urls';
-import * as Constants from '../../../src/common/constants';
+import uuid from 'uuid';
 import Mailer from '../../helpers/mailer';
 import Mailchimp from '../../helpers/mailchimp';
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -228,7 +227,7 @@ export default class Sponsor {
                     if (projectSlug && !teamSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                                 RETURN {support: support, sponsored: sponsored} AS pledges
                                 `,
                                 {},
@@ -241,7 +240,7 @@ export default class Sponsor {
                     } else if (teamSlug && !volunteerSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(team:TEAM { slug: {teamSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(team:TEAM { slug: {teamSlug}})
                                 RETURN {support: support, sponsored: team} AS pledges
                                 `,
                                 {},
@@ -252,7 +251,7 @@ export default class Sponsor {
                             ).getResults('pledges')
                             .then((results1) => {
                                 return db.query(`
-                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
+                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
                                     RETURN {support: support, sponsored: volunteer} AS pledges
                                     `,
                                     {},
@@ -272,7 +271,7 @@ export default class Sponsor {
                     } else if (volunteerSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
                                 RETURN {support: support, sponsored: volunteer} AS pledges
                                 `,
                                 {},
@@ -285,7 +284,7 @@ export default class Sponsor {
                     } else {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(sponsored)
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(sponsored)
                                 RETURN {support: support, sponsored:sponsored} AS pledges
                                 `,
                                 {},
@@ -335,12 +334,14 @@ export default class Sponsor {
      * volunteerSlug
     */
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {
+        const token = uuid.v4();
+
         if (teamSlug) {
             if (pledge.hourly) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                     SET team.totalSponsors = team.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(team)
+                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(team)
                     `,
                     {},
                     {
@@ -349,6 +350,7 @@ export default class Sponsor {
                         hourly: pledge.hourly,
                         total: 0,
                         date: new Date(),
+                        token,
                     }
                 );
             } else if (pledge.amount) {
@@ -372,8 +374,8 @@ export default class Sponsor {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(volunteer)
-                    RETURN volunteer
+                    CREATE (user)-[supporting:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(volunteer)
+                    RETURN {volunteer: volunteer, supporting: supporting} AS result
                     `,
                     {},
                     {
@@ -382,11 +384,12 @@ export default class Sponsor {
                         hourly: parseInt(pledge.hourly, 10),
                         total: 0,
                         date: new Date(),
+                        token,
                     }
                 )
-                .getResult('volunteer')
-                .then((volunteer) => {
-                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, pledge.hourly, true)
+                .getResult('result')
+                .then((result) => {
+                    return Sponsor.sendSponsorshipEmails(result.volunteer, sponsor, pledge.hourly, true, result.supporting)
                     .then(() => {
                         return Promise.resolve();
                     })
@@ -426,7 +429,7 @@ export default class Sponsor {
         }
     }
 
-    static sendSponsorshipEmails(volunteer, sponsor, amountHourly, hourly = false) {
+    static sendSponsorshipEmails(volunteer, sponsor, amountHourly, hourly = false, supporting = null) {
         return Volunteer.getTeamAndProject(volunteer)
         .then((result) => {
             volunteer = {
@@ -438,7 +441,7 @@ export default class Sponsor {
             if (hourly) {
                 return Promise.all([
                     Mailer.sendVolunteerSponsorshipEmail(volunteer, sponsor),
-                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor),
+                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting),
                 ])
                 .then(() => {
                     return Promise.resolve();
@@ -1118,5 +1121,58 @@ export default class Sponsor {
                 return Promise.reject();
             });
         }
+    };
+
+    /*
+     * getPledge()
+     * Get an hourly pledge
+     *
+     * cancelToken: pledge token
+    */
+    static getPledge = (token) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR)-[pledge:SUPPORTING {token: {token}}]->(supported)
+            RETURN {sponsor: sponsor, pledge: pledge} AS result
+            `,
+            {},
+            {
+                token,
+            }
+        ).getResult('result')
+        .then((pledge) => {
+            return Promise.resolve(pledge);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    };
+
+    /*
+     * cancelPledge()
+     * Cancel an hourly pledge
+     *
+     * cancelToken: pledge token
+    */
+    static cancelPledge = (cancelToken) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR)-[pledge:SUPPORTING {token: {cancelToken}}]->(supported)
+            CREATE (sponsor)-[canceledPledge:CANCELED_PLEDGE]->(supported)
+            SET canceledPledge = pledge, canceledPledge.cancelDate = {cancelDate}
+            WITH pledge, canceledPledge
+            DELETE pledge
+            RETURN canceledPledge
+            `,
+            {},
+            {
+                cancelToken,
+                cancelDate: new Date(),
+            }
+        ).getResult('canceledPledge')
+        .then((pledge) => {
+            return Promise.resolve(pledge);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
     };
 }

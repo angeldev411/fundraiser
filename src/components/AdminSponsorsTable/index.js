@@ -23,14 +23,30 @@ export default class AdminSponsorsTable extends Component {
                                                 <div className={'col-xs-4'}>
                                                     {pledge.support.hourly ?
                                                             (<div>
-                                                                <div className={'col-xs-6'}>
-                                                                    <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}`}
-                                                                </div>
-                                                                <div className={'col-xs-6'}>
-                                                                    <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
-                                                                </div>
-                                                            </div>
-                                                            ) :
+                                                                {pledge.support.cancelDate ?
+                                                                    <div>
+                                                                        <div className={'col-xs-4'}>
+                                                                            <span className="green">{'CANCELED'}</span>
+                                                                        </div>
+                                                                        <div className={'col-xs-4'}>
+                                                                            <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}`}
+                                                                        </div>
+                                                                        <div className={'col-xs-4'}>
+                                                                            <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    :
+                                                                    <div>
+                                                                        <div className={'col-xs-6'}>
+                                                                            <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}`}
+                                                                        </div>
+                                                                        <div className={'col-xs-6'}>
+                                                                            <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>)
+                                                        :
                                                             (<div className={'col-xs-12'}>
                                                                 <span className="label uppercase">{'Donated: '}</span> {`$${pledge.support.amount}`}
                                                             </div>)
