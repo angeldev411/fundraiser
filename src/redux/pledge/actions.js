@@ -12,7 +12,7 @@ export const newPledgeFailed = (error) => ({
     error,
 });
 
-export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, volunteerSlug, stripeToken = null) {
+export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, volunteerSlug, stripeToken = null, maxCap) {
     return (dispatch) => {
         if (teamSlug) {
             dispatch(newPledgeFailed(''));
@@ -23,6 +23,7 @@ export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, 
                 firstName,
                 lastName,
                 stripeToken,
+                maxCap,
             })
             .then(
                 (response) => {
@@ -43,6 +44,7 @@ export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, 
                 firstName,
                 lastName,
                 stripeToken,
+                maxCap,
             })
             .then(
                 (response) => {

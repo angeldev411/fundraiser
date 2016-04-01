@@ -256,18 +256,23 @@ const fixtures = {
         },
         {
             hourly: 2,
+            maxCap: 20,
         },
         {
             hourly: 4,
+            maxCap: 20,
         },
         {
             hourly: 5,
+            maxCap: 20,
         },
         {
             hourly: 1,
+            maxCap: 20,
         },
         {
             hourly: 8,
+            maxCap: 20,
         },
     ],
 

@@ -49,6 +49,7 @@ class PledgeFormStep2 extends Component {
                 this.state.teamSlug,
                 this.state.volunteerSlug,
                 token,
+                this.state.maxCap,
             )(this.props.dispatch);
         }
     };
