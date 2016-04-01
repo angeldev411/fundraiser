@@ -657,7 +657,7 @@ export default class Sponsor {
             // Get volunteer contract not billed hours
             return db.query(`
                 MATCH (hours:HOUR)<-[:VOLUNTEERED]-(:VOLUNTEER {id: {supportedId}})<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
-                WHERE hours.created > {lastBilling} AND hours.approved = true
+                WHERE hours.dateTimestamp > {lastBilling} AND hours.approved = true
                 RETURN hours
                 `,
                 {},
@@ -671,7 +671,7 @@ export default class Sponsor {
             // Get team contract not billed hours
             return db.query(`
                 MATCH (hours:HOUR)<-[:VOLUNTEERED]-(:VOLUNTEER)-[:VOLUNTEER]->(:TEAM {id: {supportedId}})<-[:SUPPORTING]-(:SPONSOR {id: {sponsorId}})
-                WHERE hours.created > {lastBilling} AND hours.approved = true
+                WHERE hours.dateTimestamp > {lastBilling} AND hours.approved = true
                 RETURN hours
                 `,
                 {},

@@ -15,11 +15,12 @@ router.post('/api/v1/hours', (req, res) => {
         return;
     }
 
-    let hour = {
+    const hour = {
         hours: req.body.hours,
         signatureData: req.body.signature,
         place: req.body.place,
         date: req.body.date,
+        dateTimestamp: new Date(req.body.date).getTime(),
         supervisorEmail: req.body.supervisorEmail,
         supervisorName: req.body.supervisor,
         approved: false,
