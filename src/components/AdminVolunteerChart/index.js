@@ -256,31 +256,44 @@ export default class AdminVolunteerChart extends Component {
 
         return (
             <div className={'graph-container'}>
-                <div
-                    className={classNames({
-                        'scroll-button__visible': this.state.previousVisible,
-                        'scroll-button__hidden' : !this.state.previousVisible,
-                    })}
-                    id="previous"
-                    onClick={this.scrollLeft}
-                >
-                    <i className="fa fa-chevron-left"/>
-                </div>
 
-                <div id="graph">
-                    {container.toReact()}
-                </div>
+                {
+                    this.state.graphData.length > 0 ?
+                    (
+                        <div>
+                            <div
+                                className={classNames({
+                                    'scroll-button__visible': this.state.previousVisible,
+                                    'scroll-button__hidden' : !this.state.previousVisible,
+                                })}
+                                id="previous"
+                                onClick={this.scrollLeft}
+                            >
+                                <i className="fa fa-chevron-left"/>
+                            </div>
 
-                <div
-                    className={classNames({
-                        'scroll-button__visible': this.state.nextVisible,
-                        'scroll-button__hidden' : !this.state.nextVisible,
-                    })}
-                    id="next"
-                    onClick={this.scrollRight}
-                >
-                    <i className="fa fa-chevron-right"/>
-                </div>
+                            <div id="graph">
+                                {container.toReact()}
+                            </div>
+
+                            <div
+                                className={classNames({
+                                    'scroll-button__visible': this.state.nextVisible,
+                                    'scroll-button__hidden' : !this.state.nextVisible,
+                                })}
+                                id="next"
+                                onClick={this.scrollRight}
+                            >
+                                <i className="fa fa-chevron-right"/>
+                            </div>
+                        </div>
+                    )
+                    :
+                        <div id={'empty-graph'}>
+                            <img src={'/assets/images/empty-graph.png'}/>
+                        </div>
+                }
+
 
                 <div className={'legends'}>
                     <div className="legend legend-new"><span className={'circle'}></span>{'New hours'}</div>
