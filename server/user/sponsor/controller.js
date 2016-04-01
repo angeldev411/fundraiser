@@ -23,7 +23,10 @@ class sponsorController {
             };
 
             const pledge = {
-                ...(data.hourly ? { hourly: data.hourly } : {}),
+                ...(data.hourly ? {
+                    hourly: data.hourly,
+                    maxCap: data.maxCap,
+                } : {}),
                 ...(data.amount ? { amount: data.amount } : {}),
             };
 
@@ -48,7 +51,10 @@ class sponsorController {
             };
 
             const pledge = {
-                ...(data.hourly ? { hourly: data.hourly } : {}),
+                ...(data.hourly ? {
+                    hourly: data.hourly,
+                    maxCap: data.maxCap,
+                } : {}),
                 ...(data.amount ? { amount: data.amount } : {}),
             };
 

@@ -341,7 +341,7 @@ export default class Sponsor {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                     SET team.totalSponsors = team.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(team)
+                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}, maxCap: {maxCap}}]->(team)
                     `,
                     {},
                     {
@@ -351,6 +351,7 @@ export default class Sponsor {
                         total: 0,
                         date: new Date(),
                         token,
+                        maxCap: pledge.maxCap,
                     }
                 );
             } else if (pledge.amount) {
@@ -374,7 +375,7 @@ export default class Sponsor {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
-                    CREATE (user)-[supporting:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(volunteer)
+                    CREATE (user)-[supporting:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}, maxCap: {maxCap}}]->(volunteer)
                     RETURN {volunteer: volunteer, supporting: supporting} AS result
                     `,
                     {},
@@ -385,6 +386,7 @@ export default class Sponsor {
                         total: 0,
                         date: new Date(),
                         token,
+                        maxCap: pledge.maxCap,
                     }
                 )
                 .getResult('result')
@@ -704,7 +706,7 @@ export default class Sponsor {
         }
 
         // Calculate amount to bill in USD
-        amountToBill = sponsoring.support.hourly * hoursToBill;
+        amountToBill = Sponsor.calculateAmountToBill(sponsoring, hoursToBill);
 
         if (amountToBill > config.BILLING.minimumAmount) {
             console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}`);
@@ -753,6 +755,24 @@ export default class Sponsor {
         } else {
             console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}, but minimum charge amount is set to ${config.BILLING.minimumAmount}. Waiting next billing cycle.`);
             return Promise.resolve();
+        }
+    };
+
+    /*
+     * calculateAmountToBill()
+     * Calculate the amount to bill
+     *
+     * sponsoring: sponsoring contract
+     * hoursToBill: number of hours to bill
+    */
+    static calculateAmountToBill = (sponsoring, hoursToBill) => {
+        const amount = sponsoring.support.hourly * hoursToBill;
+
+        if (amount > sponsoring.support.maxCap) {
+            // If the amount to bill is higher than the max cap defined on pledge, bill the max cap
+            return sponsoring.support.maxCap;
+        } else {
+            return amount;
         }
     };
 

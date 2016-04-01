@@ -14,7 +14,7 @@ export default class PledgeFormStep1 extends Component {
         super(props);
         this.state = {
             ...(this.props.oneTimeOnly ? { amount: pledgeValues[0] } : { hourly: pledgeValues[0] }),
-            // ...(this.props.oneTimeOnly ? { type: 0 } : { type: 1 }),
+            maxCap: null,
         };
     }
 
@@ -57,10 +57,8 @@ export default class PledgeFormStep1 extends Component {
                     </select>
                     <label htmlFor="amount">{'Pledge'}</label>
                 </div>
-            )
+            );
         } else if (!this.props.oneTimeOnly && this.state.hourly) {
-            const estimation = this.props.goal * this.state.hourly;
-
             return (
                 <div>
                     <select name="hourly"
@@ -144,6 +142,8 @@ export default class PledgeFormStep1 extends Component {
             );
         }
 
+        const estimation = this.props.goal * this.state.hourly;
+
         return (
             <div id={"pledge-container"}>
                 <Form
@@ -175,6 +175,7 @@ export default class PledgeFormStep1 extends Component {
                                 ...(this.state),
                                 teamSlug: this.props.teamSlug,
                                 volunteerSlug: this.props.volunteerSlug,
+                                maxCap: estimation,
                             }}
                         />
                     }
