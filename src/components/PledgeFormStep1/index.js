@@ -177,6 +177,7 @@ export default class PledgeFormStep1 extends Component {
                                 volunteerSlug: this.props.volunteerSlug,
                                 maxCap: estimation,
                             }}
+                            goal={this.props.goal}
                         />
                     }
                 >{'Continue'}</ModalButton>

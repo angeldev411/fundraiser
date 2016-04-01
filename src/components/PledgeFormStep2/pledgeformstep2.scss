@@ -3,9 +3,88 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
+#pledgestep2 {
+    div {
+        padding: 0;
+    }
+
+    .cvv {
+        padding-right: 10px;
+    }
+
+    .exp {
+        padding-left: 10px;
+    }
+
+    .form-buttons {
+        text-align: center;
+
+        #powered{
+            width: 213px;
+            display: block;
+            margin: 10px auto;
+        }
+    }
+}
+
 #sucess-pledge {
     color: $green;
     font-size: 2em;
     text-align: center;
     font-family: $conduit-light;
+}
+
+#credit-card-details {
+    margin-top: 20px;
+}
+
+#credit-cards {
+    img {
+        margin-top: 10px;
+        width: 40px;
+    }
+}
+
+#payment-header {
+    div {
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    #secure-payment {
+        border-right: solid 1px $grey;
+        padding: 10px 0;
+
+        img {
+            padding-right: 20px;
+            width: 100%;
+        }
+    }
+
+    #pledge-info {
+        padding-top: 10px;
+        padding-left: 20px;
+        color: $grey;
+        font-family: $conduit-light;
+
+        b {
+            font-family: $conduit-bold;
+        }
+
+        #hourly-amount,
+        #goal {
+            display: block;
+        }
+
+        #hourly-amount {
+            font-size: 1.5em;
+        }
+
+        #goal {
+            font-size: 1.2em;
+            position: relative;
+            top: -5px;
+        }
+    }
+
 }
