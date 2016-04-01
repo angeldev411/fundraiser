@@ -19,6 +19,7 @@ import VolunteerProfile from '../views/VolunteerProfile';
 import Legals from '../views/Legals';
 import Privacy from '../views/Privacy';
 import PasswordReset from '../views/PasswordReset';
+import PledgeCancel from '../views/PledgeCancel';
 
 export default (
     <Route
@@ -68,6 +69,10 @@ export default (
         <Route
             path={`${Urls.PASSWORD_RESET}`}
             component={PasswordReset}
+        />
+        <Route
+            path={`${Urls.PLEDGE_CANCEL}`}
+            component={PledgeCancel}
         />
     </Route>
 

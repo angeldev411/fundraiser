@@ -2,7 +2,7 @@ import * as actionTypes from './action-types';
 import axios from 'axios';
 import { API_URL } from '../../common/constants';
 
-export const receivedPledge = (project) => ({
+export const receivedPledge = (pledge) => ({
     type: actionTypes.NEW_PLEDGE,
     pledge,
 });
@@ -55,5 +55,35 @@ export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, 
                 }
             );
         }
+    };
+}
+
+export const canceledPledge = (pledge) => ({
+    type: actionTypes.CANCEL_PLEDGE,
+    pledge,
+});
+
+export const cancelPledgeFailed = (error) => ({
+    type: actionTypes.CANCEL_PLEDGE_FAIL,
+    error,
+});
+
+export function cancelPledge(cancelToken) {
+    return (dispatch) => {
+        dispatch(cancelPledgeFailed(''));
+        return axios.post(`${API_URL}/sponsor/cancel/${cancelToken}`, {
+            cancelToken,
+        })
+        .then(
+            (response) => {
+                dispatch(canceledPledge(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                console.log(errorResponse);
+                dispatch(cancelPledgeFailed(errorResponse.data));
+            }
+        );
     };
 }

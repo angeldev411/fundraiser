@@ -1,2 +1,4 @@
 export const NEW_PLEDGE = 'NEW_PLEDGE';
 export const NEW_PLEDGE_FAIL = 'NEW_PLEDGE_FAIL';
+export const CANCEL_PLEDGE = 'CANCEL_PLEDGE';
+export const CANCEL_PLEDGE_FAIL = 'CANCEL_PLEDGE_FAIL';

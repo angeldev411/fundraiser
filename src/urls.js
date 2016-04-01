@@ -6,7 +6,7 @@ export const LEGALS = '/terms-and-conditions';
 export const STORY = '/story';
 export const PRIVACY = '/privacy-policy';
 export const PASSWORD_RESET = '/reset-password';
-
+export const PLEDGE_CANCEL = '/cancel-pledge';
 
 // TEAMS
 // /!\ If you change :teamSlug to something else,

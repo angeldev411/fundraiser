@@ -1,0 +1,9 @@
+@import '../../common/styles/variables.scss';
+
+.cancelPledgeContainer {
+    min-height: 90vh;
+
+    form {
+        background: $black;
+    }
+}
