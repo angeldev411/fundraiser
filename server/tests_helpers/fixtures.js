@@ -190,36 +190,36 @@ const fixtures = {
             firstName: 'Renee',
             lastName: 'Raeburn',
             email: 'rr@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Dennis',
             lastName: 'Lord',
             email: 'dlord@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Jacob',
             lastName: 'Lawler',
             email: 'jl@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Dani',
             lastName: 'Boehle',
             email: 'db@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Frank',
             lastName: 'Sinatra',
             email: 'fs@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             email: 'rr@aol.com',
@@ -282,6 +282,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: 'Day Camp',
             date: '2016-03-05',
+            dateTimestamp: new Date('2016-03-05').getTime(),
             supervisor_name: 'Robin Brenner',
         },
         {
@@ -289,6 +290,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: 'Wycroft School After School',
             date: '2016-03-10',
+            dateTimestamp: new Date('2016-03-10').getTime(),
             supervisor_name: 'Dawn V',
         },
         {
@@ -296,6 +298,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: '49th Street Soup Kitchen',
             date: '2016-03-12',
+            dateTimestamp: new Date('2016-03-12').getTime(),
             supervisor_name: 'Tiger Hsu',
         },
         {
@@ -303,6 +306,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: 'Day Camp',
             date: '2016-03-18',
+            dateTimestamp: new Date('2016-03-18').getTime(),
             supervisor_name: 'Robin Brenner',
         },
         {
@@ -310,6 +314,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: 'Wycroft School After School',
             date: '2016-03-20',
+            dateTimestamp: new Date('2016-03-20').getTime(),
             supervisor_name: 'Dawn V',
         },
         {
@@ -317,6 +322,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: '49th Street Soup Kitchen',
             date: '2016-03-24',
+            dateTimestamp: new Date('2016-03-24').getTime(),
             supervisor_name: 'Tiger Hsu',
         },
         {
@@ -324,6 +330,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: 'Day Camp',
             date: '2016-03-25',
+            dateTimestamp: new Date('2016-03-25').getTime(),
             supervisor_name: 'Robin Brenner',
         },
         {
@@ -331,6 +338,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: 'Wycroft School After School',
             date: '2016-03-27',
+            dateTimestamp: new Date('2016-03-27').getTime(),
             supervisor_name: 'Dawn V',
         },
         {
@@ -338,6 +346,7 @@ const fixtures = {
             signature: signature('sig1').content,
             place: '49th Street Soup Kitchen',
             date: '2016-03-28',
+            dateTimestamp: new Date('2016-03-28').getTime(),
             supervisor_name: 'Tiger Hsu',
         },
     ],
