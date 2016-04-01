@@ -163,13 +163,19 @@ export default class AdminVolunteerChart extends Component {
             .data(this.state.graphData)
             .enter()
             .append('rect')
-                .attr('x', (d, i) => {
-                    return i * (barWidth + barPadding);
-                })
-                .attr('y', 0)
-                .attr('width', barWidth)
-                .attr('height', h)
-                .attr('fill', 'rgb(110, 107, 108)');
+            .attr('x', (d, i) => {
+                return i * (barWidth + barPadding);
+            })
+            .attr('y', 0)
+            .attr('width', barWidth)
+            .attr('height', h)
+            .attr('fill', (d, i) => {
+                if (d.date) {
+                    return 'rgb(110, 107, 108)';
+                } else {
+                    return 'rgb(218, 218, 218)';
+                }
+            });
 
         svg.selectAll('total')
             .data(this.state.graphData)
@@ -187,7 +193,13 @@ export default class AdminVolunteerChart extends Component {
                 })
                 .attr('rx', borderRadius)
                 .attr('ry', borderRadius)
-                .attr('fill', 'rgb(53, 51, 52)');
+                .attr('fill', (d, i) => {
+                    if (d.date) {
+                        return 'rgb(53, 51, 52)';
+                    } else {
+                        return 'rgb(204, 204, 204)';
+                    }
+                });
 
         svg.selectAll('new')
             .data(this.state.graphData)
