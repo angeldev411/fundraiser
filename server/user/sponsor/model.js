@@ -706,7 +706,7 @@ export default class Sponsor {
         }
 
         // Calculate amount to bill in USD
-        amountToBill = sponsoring.support.hourly * hoursToBill;
+        amountToBill = Sponsor.calculateAmountToBill(sponsoring, hoursToBill);
 
         if (amountToBill > config.BILLING.minimumAmount) {
             console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}`);
@@ -755,6 +755,24 @@ export default class Sponsor {
         } else {
             console.log(`${amountToBill} USD to bill to ${sponsoring.sponsor.firstName} ${sponsoring.sponsor.lastName}, but minimum charge amount is set to ${config.BILLING.minimumAmount}. Waiting next billing cycle.`);
             return Promise.resolve();
+        }
+    };
+
+    /*
+     * calculateAmountToBill()
+     * Calculate the amount to bill
+     *
+     * sponsoring: sponsoring contract
+     * hoursToBill: number of hours to bill
+    */
+    static calculateAmountToBill = (sponsoring, hoursToBill) => {
+        const amount = sponsoring.support.hourly * hoursToBill;
+
+        if (amount > sponsoring.support.maxCap) {
+            // If the amount to bill is higher than the max cap defined on pledge, bill the max cap
+            return sponsoring.support.maxCap;
+        } else {
+            return amount;
         }
     };
 
