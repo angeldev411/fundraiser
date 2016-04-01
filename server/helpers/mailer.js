@@ -306,7 +306,7 @@ export default class Mailer {
      * volunteer: volunteer object
      * sponsor: sponsor object
     */
-    static sendSponsorSponsorshipThanksEmail(volunteer, sponsor) {
+    static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting) {
         const subject = `Thanks for your Sponsorship`;
 
         const text =
@@ -332,6 +332,8 @@ export default class Mailer {
 
         <p>Raiserve</p>
 
+        <p>You can cancel your sponsorship anytime by visiting this page : <a href="${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}">${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}</a></p>
+
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
 
@@ -354,6 +356,8 @@ export default class Mailer {
         Thanks,
 
         Raiserve
+
+        You can cancel your sponsorship anytime by visiting this page : ${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}
 
         Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
         `;

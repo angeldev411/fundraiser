@@ -227,7 +227,7 @@ export default class Sponsor {
                     if (projectSlug && !teamSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(sponsored)-[*]->(:PROJECT { slug: {projectSlug}})
                                 RETURN {support: support, sponsored: sponsored} AS pledges
                                 `,
                                 {},
@@ -240,7 +240,7 @@ export default class Sponsor {
                     } else if (teamSlug && !volunteerSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(team:TEAM { slug: {teamSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(team:TEAM { slug: {teamSlug}})
                                 RETURN {support: support, sponsored: team} AS pledges
                                 `,
                                 {},
@@ -251,7 +251,7 @@ export default class Sponsor {
                             ).getResults('pledges')
                             .then((results1) => {
                                 return db.query(`
-                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
+                                    MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(volunteer)-->(team:TEAM { slug: {teamSlug}})
                                     RETURN {support: support, sponsored: volunteer} AS pledges
                                     `,
                                     {},
@@ -271,7 +271,7 @@ export default class Sponsor {
                     } else if (volunteerSlug) {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(volunteer:VOLUNTEER { slug: {volunteerSlug}})
                                 RETURN {support: support, sponsored: volunteer} AS pledges
                                 `,
                                 {},
@@ -284,7 +284,7 @@ export default class Sponsor {
                     } else {
                         query2 = () => {
                             return db.query(`
-                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|DONATED]->(sponsored)
+                                MATCH (user:SPONSOR {id: {userId}})-[support:SUPPORTING|CANCELED_PLEDGE|DONATED]->(sponsored)
                                 RETURN {support: support, sponsored:sponsored} AS pledges
                                 `,
                                 {},
@@ -374,8 +374,8 @@ export default class Sponsor {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(volunteer)
-                    RETURN volunteer
+                    CREATE (user)-[supporting:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(volunteer)
+                    RETURN {volunteer: volunteer, supporting: supporting} AS result
                     `,
                     {},
                     {
@@ -387,9 +387,9 @@ export default class Sponsor {
                         token,
                     }
                 )
-                .getResult('volunteer')
-                .then((volunteer) => {
-                    return Sponsor.sendSponsorshipEmails(volunteer, sponsor, pledge.hourly, true)
+                .getResult('result')
+                .then((result) => {
+                    return Sponsor.sendSponsorshipEmails(result.volunteer, sponsor, pledge.hourly, true, result.supporting)
                     .then(() => {
                         return Promise.resolve();
                     })
@@ -429,7 +429,7 @@ export default class Sponsor {
         }
     }
 
-    static sendSponsorshipEmails(volunteer, sponsor, amountHourly, hourly = false) {
+    static sendSponsorshipEmails(volunteer, sponsor, amountHourly, hourly = false, supporting = null) {
         return Volunteer.getTeamAndProject(volunteer)
         .then((result) => {
             volunteer = {
@@ -441,7 +441,7 @@ export default class Sponsor {
             if (hourly) {
                 return Promise.all([
                     Mailer.sendVolunteerSponsorshipEmail(volunteer, sponsor),
-                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor),
+                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting),
                 ])
                 .then(() => {
                     return Promise.resolve();
