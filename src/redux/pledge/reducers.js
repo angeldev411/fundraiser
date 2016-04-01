@@ -13,6 +13,7 @@ export default function reducers(state = initialState, action) {
         case actionTypes.NEW_PLEDGE_FAIL:
             return {
                 ...state,
+                pledge: null,
                 error: action.error,
             };
 
