@@ -334,6 +334,7 @@ export default class Sponsor {
      * volunteerSlug
     */
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {
+        console.log(pledge);
         const token = uuid.v4();
 
         if (teamSlug) {

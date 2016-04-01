@@ -369,6 +369,7 @@ const fixtures = {
         email: 'test-sponsor@test.com',
         hourly: 10,
         cap: 100,
+        maxCap: 100,
         cc: '4242424242424242',
         cvv: '123',
         expiration: '12/18',

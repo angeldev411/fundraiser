@@ -151,6 +151,7 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
         res.status(200).send(sponsor);
     })
     .catch((err) => {
+        console.log(err);
         res.status(500).send(err);
     });
 });
