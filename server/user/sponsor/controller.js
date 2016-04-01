@@ -14,12 +14,14 @@ class sponsorController {
 
     static sponsorTeam(data, teamSlug) {
         return new Promise((resolve, reject) => {
+            const date = new Date();
+
             const sponsor = {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
                 volunteerLastBilling: new Date().getTime(),
-                sponsorLastBilling: new Date().getTime(),
+                teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // Get first day of month timestamp
             };
 
             const pledge = {
@@ -39,12 +41,14 @@ class sponsorController {
 
     static sponsorVolunteer(data, volunteerSlug) {
         return new Promise((resolve, reject) => {
+            const date = new Date();
+
             const sponsor = {
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
                 volunteerLastBilling: new Date().getTime(),
-                sponsorLastBilling: new Date().getTime(),
+                teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // Get first day of month timestamp
             };
 
             const pledge = {

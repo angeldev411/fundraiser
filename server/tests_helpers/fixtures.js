@@ -190,36 +190,36 @@ const fixtures = {
             firstName: 'Renee',
             lastName: 'Raeburn',
             email: 'rr@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Dennis',
             lastName: 'Lord',
             email: 'dlord@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Jacob',
             lastName: 'Lawler',
             email: 'jl@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Dani',
             lastName: 'Boehle',
             email: 'db@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             firstName: 'Frank',
             lastName: 'Sinatra',
             email: 'fs@aol.com',
-            volunteerLastBilling: new Date().getTime(),
-            sponsorLastBilling: new Date().getTime(),
+            volunteerLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
+            teamLastBilling: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(), // First day of month timestamp
         },
         {
             email: 'rr@aol.com',

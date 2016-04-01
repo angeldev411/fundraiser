@@ -678,7 +678,7 @@ export default class Sponsor {
                 {
                     sponsorId: sponsor.id,
                     supportedId: supported.id,
-                    lastBilling: sponsor.sponsorLastBilling,
+                    lastBilling: sponsor.teamLastBilling,
                 }
             ).getResults('hours');
         }
@@ -982,7 +982,7 @@ export default class Sponsor {
         } else {
             return db.query(`
                 MATCH (sponsor:SPONSOR {id: {sponsorId} })
-                SET sponsor.sponsorLastBilling = {lastBilling}
+                SET sponsor.teamLastBilling = {lastBilling}
                 RETURN sponsor
                 `,
                 {},
