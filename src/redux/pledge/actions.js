@@ -58,6 +58,35 @@ export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, 
     };
 }
 
+export const gotPledge = (pledge) => ({
+    type: actionTypes.GOT_PLEDGE,
+    pledge,
+});
+
+export const getPledgeFailed = (error) => ({
+    type: actionTypes.GET_PLEDGE_FAIL,
+    error,
+});
+
+export function getPledge(cancelToken) {
+    return (dispatch) => {
+        dispatch(getPledgeFailed(''));
+        return axios.get(`${API_URL}/sponsor/cancel/${cancelToken}`, {
+            cancelToken,
+        })
+        .then(
+            (response) => {
+                dispatch(gotPledge(response.data));
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getPledgeFailed(errorResponse.data));
+            }
+        );
+    };
+}
+
 export const canceledPledge = (pledge) => ({
     type: actionTypes.CANCEL_PLEDGE,
     pledge,

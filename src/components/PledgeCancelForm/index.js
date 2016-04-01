@@ -11,9 +11,21 @@ export default class PledgeCancelForm extends Component {
         return (
             <Form id="passwordReset"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
-                title={'Cancel your pledge'}
+                title={'Cancel a pledge'}
                 onSubmit={this.submit}
             >
+                {
+                    this.props.pledge ?
+                        (
+                        <ul>
+                            <li>{`Firstname : ${this.props.pledge.sponsor.firstName}`}</li>
+                            <li>{`Lastname : ${this.props.pledge.sponsor.lastName}`}</li>
+                            <li>{`Hourly pledge : $${this.props.pledge.pledge.hourly} / hour`}</li>
+                            <li>{`Total billed : $${this.props.pledge.pledge.total}`}</li>
+                        </ul>
+                        )
+                    : null
+                }
                 {this.props.error ? (<p>{this.props.error}</p>) : null}
                 <Button
                     type={'submit'}

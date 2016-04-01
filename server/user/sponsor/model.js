@@ -1124,6 +1124,30 @@ export default class Sponsor {
     };
 
     /*
+     * getPledge()
+     * Get an hourly pledge
+     *
+     * cancelToken: pledge token
+    */
+    static getPledge = (token) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR)-[pledge:SUPPORTING {token: {token}}]->(supported)
+            RETURN {sponsor: sponsor, pledge: pledge} AS result
+            `,
+            {},
+            {
+                token,
+            }
+        ).getResult('result')
+        .then((pledge) => {
+            return Promise.resolve(pledge);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    };
+
+    /*
      * cancelPledge()
      * Cancel an hourly pledge
      *

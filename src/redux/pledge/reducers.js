@@ -19,10 +19,22 @@ export default function reducers(state = initialState, action) {
         case actionTypes.CANCEL_PLEDGE:
             return {
                 ...state,
+                canceledPledge: action.pledge,
+                canceledPledgeError: null,
+            };
+        case actionTypes.CANCEL_PLEDGE_FAIL:
+            return {
+                ...state,
+                canceledPledge: null,
+                canceledPledgeError: action.error,
+            };
+        case actionTypes.GOT_PLEDGE:
+            return {
+                ...state,
                 pledge: action.pledge,
                 error: null,
             };
-        case actionTypes.CANCEL_PLEDGE_FAIL:
+        case actionTypes.GET_PLEDGE_FAIL:
             return {
                 ...state,
                 pledge: null,

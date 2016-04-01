@@ -3,8 +3,8 @@ import express from 'express';
 const router = express.Router();
 import * as AUTH_CHECKER from '../../auth/auth-checker';
 import sponsorController from './controller';
+import userController from '../controller';
 import messages from '../../messages';
-import Sponsor from './model';
 
 router.get('/api/v1/sponsor', (req, res) => {
     if (
@@ -46,6 +46,37 @@ router.get('/api/v1/sponsor', (req, res) => {
     })
     .catch((err) => {
         res.status(400).send(err);
+    });
+});
+
+router.get('/api/v1/sponsor/cancel/:token', (req, res) => {
+    if (!req.params.token) {
+        res.status(404).send();
+        return;
+    }
+
+    sponsorController.getPledge(req.params.token)
+    .then((pledge) => {
+        pledge.sponsor = userController.safe(pledge.sponsor);
+        res.status(200).send(pledge);
+    })
+    .catch((err) => {
+        res.status(404).send('The pledge could not be found');
+    });
+});
+
+router.put('/api/v1/sponsor/cancel/:cancelToken', (req, res) => {
+    if (!req.body.cancelToken) {
+        res.status(404).send();
+        return;
+    }
+
+    sponsorController.cancelPledge(req.body.cancelToken)
+    .then((pledge) => {
+        res.status(200).send(pledge);
+    })
+    .catch((err) => {
+        res.status(500).send('An error occured.');
     });
 });
 
@@ -143,21 +174,6 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
     .catch((err) => {
         console.log(err);
         res.status(500).send(err);
-    });
-});
-
-router.put('/api/v1/sponsor/cancel/:cancelToken', (req, res) => {
-    if (!req.body.cancelToken) {
-        res.status(404).send();
-        return;
-    }
-
-    sponsorController.cancelPledge(req.body.cancelToken)
-    .then((pledge) => {
-        res.status(200).send(pledge);
-    })
-    .catch((err) => {
-        res.status(500).send('An error occured.');
     });
 });
 

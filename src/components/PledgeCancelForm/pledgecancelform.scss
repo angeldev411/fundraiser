@@ -3,7 +3,17 @@
 .cancelPledgeContainer {
     min-height: 90vh;
 
+    p {
+        color: $green;
+    }
+
     form {
         background: $black;
+    }
+
+    ul {
+        li {
+            color: $light-grey;
+        }
     }
 }

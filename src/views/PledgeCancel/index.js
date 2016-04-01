@@ -23,29 +23,44 @@ class PledgeCancel extends Component {
                 cancelToken,
                 loading: false,
                 canceled: false,
+                pledge: null,
             };
         }
     }
 
     componentWillMount() {
         document.title = `Cancel a pledge | Raiserve`;
+
+        Actions.getPledge(this.state.cancelToken)(this.props.dispatch);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.pledge) {
             this.setState({
-                loading: false,
-                canceled: true,
+                pledge: nextProps.pledge,
             });
-        } else if (nextProps.error) {
+        }
+        if (nextProps.error) {
             this.setState({
                 error: nextProps.error,
                 loading: false,
             });
         }
+        if (nextProps.canceledPledge) {
+            this.setState({
+                loading: false,
+                canceled: true,
+            });
+        }
+        if (nextProps.canceledPledgeError) {
+            this.setState({
+                error: nextProps.canceledPledgeError,
+                loading: false,
+            });
+        }
     }
 
-    handleSubmit = (data) => {
+    handleSubmit = () => {
         this.setState({
             loading: true,
         });
@@ -91,11 +106,26 @@ class PledgeCancel extends Component {
             >
                 <div className={"main-content"}>
                     <div className={"container cancelPledgeContainer"}>
-                        <PledgeCancelForm
-                            onSubmit={this.handleSubmit}
-                            error={this.state.error ? this.state.error : ''}
-                            loading={this.state.loading}
-                        />
+                        {
+                            this.state.error ?
+                                (
+                                <div>
+                                    <h2>{this.state.error}</h2>
+                                    <Button to="/"
+                                        customClass="btn-green-white btn-lg"
+                                    >
+                                        Back to Home
+                                    </Button>
+                                </div>
+                                )
+                            :
+                                <PledgeCancelForm
+                                    onSubmit={this.handleSubmit}
+                                    error={this.state.canceledPledgeError ? this.state.canceledPledgeError : ''}
+                                    loading={this.state.loading}
+                                    pledge={this.state.pledge}
+                                />
+                        }
                     </div>
                 </div>
             </Page>
@@ -106,4 +136,6 @@ class PledgeCancel extends Component {
 export default connect((reduxState) => ({
     pledge: reduxState.main.pledge.pledge,
     error: reduxState.main.pledge.error,
+    canceledPledge: reduxState.main.pledge.canceledPledge,
+    canceledPledgeError: reduxState.main.pledge.canceledPledgeError,
 }))(PledgeCancel);
