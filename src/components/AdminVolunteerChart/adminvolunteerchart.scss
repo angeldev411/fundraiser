@@ -2,7 +2,7 @@
 
 .graph-container {
     position: relative;
-    border: solid 1px $light-grey;
+    //border: solid 1px $light-grey;
     padding: 10px 0 0;
     margin-bottom: 20px;
 
@@ -41,6 +41,14 @@
             left: 0;
             display: block;
             // margin: auto;
+        }
+    }
+
+    #empty-graph {
+        text-align: center;
+
+        img {
+            width: 100%;
         }
     }
 
