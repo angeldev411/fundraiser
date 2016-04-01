@@ -123,10 +123,26 @@ class PledgeFormStep2 extends Component {
         return (
             <Form id="pledgestep2"
                 cols={"col-xs-12 col-md-6 col-md-offset-3"}
-                description="Need text here to inform sponsor"
-                title={'Make a Pledge'}
                 onSubmit={this.submit}
             >
+                <div
+                    id={'payment-header'}
+                    className={'col-xs-12'}
+                >
+                    <div
+                        className={'col-xs-8'}
+                        id={'secure-payment'}
+                    >
+                        <img src="/assets/images/secure-payment.png"/>
+                    </div>
+                    <div
+                        className={'col-xs-4'}
+                        id={'pledge-info'}
+                    >
+                        <span id={'hourly-amount'}><b>{`$${this.state.hourly}`}</b>{'/hr'}</span>
+                        <span id={'goal'}>{`x ${this.props.goal} goal hrs`}</span>
+                    </div>
+                </div>
                 <div className="form-group">
                     <input type="text"
                         name="firstName"
@@ -154,41 +170,62 @@ class PledgeFormStep2 extends Component {
                     <label htmlFor="email">{'Email'}</label>
                 </div>
 
-                <div className="form-group">
-                    <input type="text"
-                        name="cc"
-                        id="cc"
-                        onChange={(e) => { this.handleChange(e, 'cc') }}
-                    />
-                    <label htmlFor="cc">{'Credit Card Number'}</label>
-                </div>
-
-                <div className="form-group">
-                    <input type="text"
-                        name="cvv"
-                        id="cvv"
-                        onChange={(e) => { this.handleChange(e, 'cvv') }}
-                    />
-                    <label htmlFor="cvv">{'Card Verification Value (CVV)'}</label>
-                </div>
-
-                <div className="form-group">
-                    <input type="text"
-                        name="expiration"
-                        id="expiration"
-                        onChange={(e) => { this.handleChange(e, 'expiration') }}
-                    />
-                    <label htmlFor="expiration">{'Expiration date (MM/AA)'}</label>
+                <div
+                    className={'col-xs-12'}
+                    id={'credit-card-details'}
+                >
+                    <div
+                        className={'col-xs-2'}
+                        id={'credit-cards'}
+                    >
+                        <img src="/assets/images/credit-cards.png"/>
+                    </div>
+                    <div className={'col-xs-10'}>
+                        <div className={'col-xs-12'}>
+                            <div className="form-group">
+                                <input type="text"
+                                    name="cc"
+                                    id="cc"
+                                    onChange={(e) => { this.handleChange(e, 'cc') }}
+                                />
+                                <label htmlFor="cc">{'Credit Card Number'}</label>
+                            </div>
+                        </div>
+                        <div className={'col-xs-6 cvv'}>
+                            <div className="form-group">
+                                <input type="text"
+                                    name="cvv"
+                                    id="cvv"
+                                    onChange={(e) => { this.handleChange(e, 'cvv') }}
+                                />
+                                <label htmlFor="cvv">{'Card Verification Value (CVV)'}</label>
+                            </div>
+                        </div>
+                        <div className={'col-xs-6 exp'}>
+                            <div className="form-group">
+                                <input type="text"
+                                    name="expiration"
+                                    id="expiration"
+                                    onChange={(e) => { this.handleChange(e, 'expiration') }}
+                                />
+                                <label htmlFor="expiration">{'Expiration date (MM/YY)'}</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {this.state.error ? <p>{this.state.error}</p> : null}
 
                 <div className="form-group form-buttons">
                     <Button
-                        customClass="btn-transparent-green"
+                        customClass="btn-primary btn-lg"
                         type={'submit'}
                         disabled={this.state.loading}
-                    >{'Pledge'}</Button>
+                    >{'Pledge now'}</Button>
+                    <img
+                        id={'powered'}
+                        src="/assets/images/payment-powered-stripe.png"
+                    />
                 </div>
             </Form>
         );
@@ -198,6 +235,7 @@ class PledgeFormStep2 extends Component {
 PledgeFormStep2.propTypes = {
     title: React.PropTypes.string,
     pledgeData: React.PropTypes.object,
+    goal: React.PropTypes.number,
 };
 
 export default connect((reduxState) => ({
