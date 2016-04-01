@@ -146,4 +146,19 @@ router.post('/api/v1/sponsor/volunteer/:volunteerSlug', (req, res) => {
     });
 });
 
+router.put('/api/v1/sponsor/cancel/:cancelToken', (req, res) => {
+    if (!req.body.cancelToken) {
+        res.status(404).send();
+        return;
+    }
+
+    sponsorController.cancelPledge(req.body.cancelToken)
+    .then((pledge) => {
+        res.status(200).send(pledge);
+    })
+    .catch((err) => {
+        res.status(500).send('An error occured.');
+    });
+});
+
 module.exports = router;

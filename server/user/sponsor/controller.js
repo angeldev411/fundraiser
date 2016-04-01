@@ -61,6 +61,16 @@ class sponsorController {
             });
         });
     }
+
+    static cancelPledge(cancelToken) {
+        return Sponsor.cancelPledge(cancelToken)
+        .then((pledge) => {
+            return Promise.resolve(pledge);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
 }
 
 module.exports = sponsorController;

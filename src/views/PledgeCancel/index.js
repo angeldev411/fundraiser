@@ -104,6 +104,6 @@ class PledgeCancel extends Component {
 }
 
 export default connect((reduxState) => ({
-    user: reduxState.main.user.user,
-    error: reduxState.main.user.error,
+    pledge: reduxState.main.pledge.pledge,
+    error: reduxState.main.pledge.error,
 }))(PledgeCancel);

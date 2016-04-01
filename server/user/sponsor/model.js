@@ -6,8 +6,7 @@ import userController from '../controller';
 import Volunteer from '../volunteer/model';
 import Team from '../../team/model';
 import stripelib from 'stripe';
-import * as Urls from '../../../src/urls';
-import * as Constants from '../../../src/common/constants';
+import uuid from 'uuid';
 import Mailer from '../../helpers/mailer';
 import Mailchimp from '../../helpers/mailchimp';
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -335,12 +334,14 @@ export default class Sponsor {
      * volunteerSlug
     */
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {
+        const token = uuid.v4();
+
         if (teamSlug) {
             if (pledge.hourly) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
                     SET team.totalSponsors = team.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(team)
+                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(team)
                     `,
                     {},
                     {
@@ -349,6 +350,7 @@ export default class Sponsor {
                         hourly: pledge.hourly,
                         total: 0,
                         date: new Date(),
+                        token,
                     }
                 );
             } else if (pledge.amount) {
@@ -372,7 +374,7 @@ export default class Sponsor {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
                     SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}}]->(volunteer)
+                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}}]->(volunteer)
                     RETURN volunteer
                     `,
                     {},
@@ -382,6 +384,7 @@ export default class Sponsor {
                         hourly: parseInt(pledge.hourly, 10),
                         total: 0,
                         date: new Date(),
+                        token,
                     }
                 )
                 .getResult('volunteer')
@@ -1118,5 +1121,34 @@ export default class Sponsor {
                 return Promise.reject();
             });
         }
+    };
+
+    /*
+     * cancelPledge()
+     * Cancel an hourly pledge
+     *
+     * cancelToken: pledge token
+    */
+    static cancelPledge = (cancelToken) => {
+        return db.query(`
+            MATCH (sponsor:SPONSOR)-[pledge:SUPPORTING {token: {cancelToken}}]->(supported)
+            CREATE (sponsor)-[canceledPledge:CANCELED_PLEDGE]->(supported)
+            SET canceledPledge = pledge, canceledPledge.cancelDate = {cancelDate}
+            WITH pledge, canceledPledge
+            DELETE pledge
+            RETURN canceledPledge
+            `,
+            {},
+            {
+                cancelToken,
+                cancelDate: new Date(),
+            }
+        ).getResult('canceledPledge')
+        .then((pledge) => {
+            return Promise.resolve(pledge);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
     };
 }

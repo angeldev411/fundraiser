@@ -71,7 +71,7 @@ export const cancelPledgeFailed = (error) => ({
 export function cancelPledge(cancelToken) {
     return (dispatch) => {
         dispatch(cancelPledgeFailed(''));
-        return axios.post(`${API_URL}/sponsor/cancel/${cancelToken}`, {
+        return axios.put(`${API_URL}/sponsor/cancel/${cancelToken}`, {
             cancelToken,
         })
         .then(
@@ -81,7 +81,6 @@ export function cancelPledge(cancelToken) {
         )
         .catch(
             (errorResponse) => {
-                console.log(errorResponse);
                 dispatch(cancelPledgeFailed(errorResponse.data));
             }
         );
