@@ -25,7 +25,7 @@ table.teams {
                 }
             }
 
-            a,
+            a:not(.nostyle),
             .btn-link {
                 color: $green;
                 font-family: $conduit-bold;
@@ -35,6 +35,16 @@ table.teams {
                 &:hover {
                     text-decoration: none;
                     color: $grey;
+                }
+            }
+
+            a.nostyle {
+                color: $light-grey;
+                font-size: initial;
+
+                &:hover {
+                    text-decoration: none;
+                    color: $lighter-grey;
                 }
             }
         }

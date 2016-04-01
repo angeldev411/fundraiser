@@ -126,6 +126,21 @@ class TeamLeader {
         return leader
         .approveHours(hoursID);
     }
+
+    static getTeamRelatedUser(userEmail, teamSlug) {
+        return db.query(
+            `
+            MATCH (user:USER {email: {userEmail} })
+            RETURN user
+            `,
+            {},
+            {
+                userEmail,
+                teamSlug,
+            }
+        )
+        .getResult('user');
+    }
 }
 
 export default TeamLeader;

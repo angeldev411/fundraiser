@@ -333,7 +333,7 @@ export default class Volunteer {
                 });
             };
 
-            if (user.image.indexOf('?') >= 0) {
+            if (user.image && user.image.indexOf('?') >= 0) {
                 user.image = user.image.substring(0, user.image.indexOf('?'));
             }
 

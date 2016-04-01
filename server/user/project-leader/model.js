@@ -49,6 +49,21 @@ class ProjectLeader {
             return Promise.reject(err);
         });
     }
+
+    static getProjectRelatedUser(userID, projectSlug) {
+        return db.query(
+            `
+            MATCH (user:USER {id: {userID} })-[*]-(:PROJECT {slug: {projectSlug}})
+            RETURN user
+            `,
+            {},
+            {
+                userID,
+                projectSlug,
+            }
+        )
+        .getResult('user');
+    }
 }
 
 export default ProjectLeader;

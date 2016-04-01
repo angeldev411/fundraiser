@@ -201,14 +201,16 @@ export default class AdminVolunteersTable extends Component {
                                     :
                                         <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
                                     }
-                                    {
-                                        (this.props.user.project && this.props.user.team) ?
-                                            <Link to={
-                                                Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, volunteer.slug)}
-                                            >
-                                                {`${volunteer.firstName} ${volunteer.lastName}`}
-                                            </Link>
-                                        : `${volunteer.firstName} ${volunteer.lastName}`
+
+                                    {(
+                                        this.props.user
+                                        && (
+                                            this.props.user.roles.indexOf('SUPER_ADMIN') >= 0
+                                            || this.props.user.roles.indexOf('TEAM_LEADER') >= 0
+                                        )
+                                    ) ?
+                                        <a href={`/api/v1/auth/switch/${volunteer.email}`}>{`${volunteer.firstName} ${volunteer.lastName}`}</a> :
+                                        <span>{`${volunteer.firstName} ${volunteer.lastName}`}</span>
                                     }
 
                                 </td>

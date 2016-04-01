@@ -17,38 +17,13 @@ class userController {
                 return Promise.reject(messages.login.failed);
             }
             if (user.password === credentials.password) {
-                if (user.roles.indexOf(roles.PROJECT_LEADER) >= 0) {
-                    return ProjectLeader.getProject(user)
-                    .then((project) => {
-                        user.project = project;
-                        return Promise.resolve(user);
-                    })
-                    .catch((err) => {
-                        return Promise.reject(err);
-                    });
-                } else if (user.roles.indexOf(roles.TEAM_LEADER) >= 0) {
-                    return TeamLeader.getTeamAndProject(user)
-                    .then((data) => {
-                        user.project = data.project;
-                        user.team = data.team;
-                        return Promise.resolve(user);
-                    })
-                    .catch((err) => {
-                        return Promise.reject(err);
-                    });
-                } else if (user.roles.indexOf(roles.VOLUNTEER) >= 0) {
-                    return Volunteer.getTeamAndProject(user)
-                    .then((data) => {
-                        user.project = data.project;
-                        user.team = data.team;
-                        return Promise.resolve(user);
-                    })
-                    .catch((err) => {
-                        return Promise.reject(err);
-                    });
-                } else {
+                return this.getRequiredSession(user)
+                .then((user) => {
                     return Promise.resolve(user);
-                }
+                })
+                .catch((err) => {
+                    return Promise.reject(err);
+                });
             } else {
                 return Promise.reject(messages.login.failed);
             }
@@ -56,6 +31,41 @@ class userController {
         .catch((err) => {
             return Promise.reject(messages.login.failed);
         });
+    }
+
+    static getRequiredSession(user) {
+        if (user.roles.indexOf(roles.PROJECT_LEADER) >= 0) {
+            return ProjectLeader.getProject(user)
+            .then((project) => {
+                user.project = project;
+                return Promise.resolve(user);
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            });
+        } else if (user.roles.indexOf(roles.TEAM_LEADER) >= 0) {
+            return TeamLeader.getTeamAndProject(user)
+            .then((data) => {
+                user.project = data.project;
+                user.team = data.team;
+                return Promise.resolve(user);
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            });
+        } else if (user.roles.indexOf(roles.VOLUNTEER) >= 0) {
+            return Volunteer.getTeamAndProject(user)
+            .then((data) => {
+                user.project = data.project;
+                user.team = data.team;
+                return Promise.resolve(user);
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            });
+        } else {
+            return Promise.resolve(user);
+        }
     }
 
     static getUserWithRoles(emailOrID) {
@@ -121,6 +131,8 @@ class userController {
             ...(typeof user.description !== 'undefined' ? { message: user.description } : {}),
             ...(typeof user.project !== 'undefined' ? { project: user.project } : {}),
             ...(typeof user.team !== 'undefined' ? { team: user.team } : {}),
+            ...(typeof user.team !== 'undefined' ? { team: user.team } : {}),
+            ...(typeof user.lastUser !== 'undefined' ? { lastUser: this.safe(user.lastUser) } : {}),
         };
     }
 
@@ -256,6 +268,26 @@ class userController {
 
     static updatePassword(token, password) {
         return User.updatePassword(token, password)
+        .then((user) => {
+            return Promise.resolve(user);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static getProjectRelatedUser(userID, projectSlug) {
+        return ProjectLeader.getProjectRelatedUser(userID, projectSlug)
+        .then((user) => {
+            return Promise.resolve(user);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    static getTeamRelatedUser(userEmail, teamSlug) {
+        return TeamLeader.getTeamRelatedUser(userEmail, teamSlug)
         .then((user) => {
             return Promise.resolve(user);
         })

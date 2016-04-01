@@ -126,6 +126,7 @@ class AdminTeams extends Component {
                         project={this.props.user.project}
                         actionable={true}
                         onSort={this.onSort}
+                        user={this.props.user}
                     />
                 </AdminLayout>
             </Page>
