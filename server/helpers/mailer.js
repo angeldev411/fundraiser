@@ -158,7 +158,7 @@ export default class Mailer {
         <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
 
         <p>
-            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+            1 - You can email this link: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
         </p>
         <p>
             2 - Share on Facebook and Twitter
@@ -181,7 +181,7 @@ export default class Mailer {
 
         Don’t forget to invite your friends to sponsor you. There are two ways:
 
-        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        1 - You can email this link: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
         2 - Share on Facebook and Twitter
 
         Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.
@@ -242,7 +242,7 @@ export default class Mailer {
         <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
 
         <p>
-            1 - You can email this link : <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
+            1 - You can email this link: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
         </p>
         <p>
             2 - Share on Facebook and Twitter
@@ -262,7 +262,7 @@ export default class Mailer {
 
         Don’t forget to invite your friends to sponsor you. There are two ways:
 
-        1 - You can email this link : ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
+        1 - You can email this link: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
         2 - Share on Facebook and Twitter
 
         Thanks,
@@ -315,7 +315,7 @@ export default class Mailer {
 
         <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
 
-        <p>Just a quick recap of how it all works :</p>
+        <p>Just a quick recap of how it all works:</p>
 
         <p>
             1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
@@ -332,7 +332,7 @@ export default class Mailer {
 
         <p>Raiserve</p>
 
-        <p>You can cancel your sponsorship anytime by visiting this page : <a href="${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}">${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}</a></p>
+        <p>You can cancel your sponsorship anytime by visiting this page: <a href="${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}">${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}</a></p>
 
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
@@ -344,7 +344,7 @@ export default class Mailer {
 
         Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
 
-        Just a quick recap of how it all works :
+        Just a quick recap of how it all works:
 
         1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
         2 - Once their goal hours are reached, your donation is finished.
@@ -357,7 +357,7 @@ export default class Mailer {
 
         Raiserve
 
-        You can cancel your sponsorship anytime by visiting this page : ${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}
+        You can cancel your sponsorship anytime by visiting this page: ${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}
 
         Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
         `;
