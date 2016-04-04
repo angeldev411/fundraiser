@@ -78,6 +78,7 @@ export default class AdminVolunteerDashboard extends Component {
                 hourList.push({
                     date,
                     'new': parseInt(hours[i].hours, 10),
+                    place: hours[i].place,
                 });
             }
         }

@@ -201,6 +201,11 @@ export default class AdminVolunteerChart extends Component {
                     }
                 });
 
+        const div = d3.select('#graph')
+                    .append('div')
+                    .attr('class', 'graph-tooltip')
+                    .style('opacity', 0);
+
         svg.selectAll('new')
             .data(this.state.graphData)
             .enter()
@@ -218,10 +223,32 @@ export default class AdminVolunteerChart extends Component {
                 .attr('rx', borderRadius)
                 .attr('ry', borderRadius)
                 .attr('fill', 'rgb(189, 212, 66)')
-                .append('title')
-                        .text((d) => { return d.new + ' hrs'; });
+                .on('mouseover', (d, i) => {
+                    div.transition()
+                        .duration(200)
+                        .style('opacity', .9);
+                    div.html(`
+                        <div class="container">
+                            <div>
+                                <section class="hours">
+                                    <span class="value">${d.new}</span>hrs
+                                </section>
+                                <section class="place">
+                                    ${d.place}
+                                </section>
+                            </div>
+                        </div>
+                    `)
+                        .style('left', (i * (barWidth + barPadding) + 60 ) + 'px')
+                        .style('top', (h - (d.total / maxOfGoalAndTotalHours * innerH) - 45) + 'px');
+                })
+                .on('mouseout', (d, i) => {
+                    div.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+                });
 
-        svg.selectAll('text')
+        svg.selectAll('.date')
             .data(this.state.graphData)
             .enter()
             .append('text')
