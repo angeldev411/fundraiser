@@ -42,6 +42,46 @@
             display: block;
             // margin: auto;
         }
+
+        .graph-tooltip {
+            position: absolute;
+            width: 135px;
+            height: 135px;
+            padding: 15px;
+            background: url('/assets/images/graph-tooltip-arrow.png');
+            background-repeat: no-repeat;
+            background-position: 5px center;
+            pointer-events: none;
+
+            .container {
+                font-family: $conduit-light;
+                font-size: .9em;
+                border: none;
+                border-radius: 50%;
+                background: #e9e9e9;
+                width: 100%;
+                height: 100%;
+
+                div {
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -25%;
+                }
+
+                .hours {
+                    font-size: 1em;
+                    .value {
+                        font-family: $conduit-bold;
+                    }
+                }
+
+                .place {
+                    font-family: $conduit-bold;
+                }
+            }
+
+
+        }
     }
 
     #empty-graph {
