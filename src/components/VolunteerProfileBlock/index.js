@@ -29,11 +29,15 @@ export default class VolunteerProfileBlock extends Component {
                             >
                                 {'How It Works'}
                             </Link>
-                            <Link to={`${Urls.getVolunteerProfileUrl(this.props.project.slug, this.props.team.slug, this.props.volunteer.slug)}#my-cause`}
-                                className="link uppercase"
-                            >
-                                {'My Cause'}
-                            </Link>
+                            {
+                                (this.props.project && this.props.team && this.props.volunteer) ?
+                                    <Link to={`${Urls.getVolunteerProfileUrl(this.props.project.slug, this.props.team.slug, this.props.volunteer.slug)}#my-cause`}
+                                        className="link uppercase"
+                                    >
+                                        {'My Cause'}
+                                    </Link>
+                                : null
+                            }
                             <span className="uppercase">
                                 {'Share my goal'}
                             </span>
