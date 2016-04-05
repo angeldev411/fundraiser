@@ -160,8 +160,8 @@ class Menu extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to={Urls.FOUNDERS}>
-                                            {'The founders'}
+                                        <Link to={Urls.FAQ}>
+                                            {'Faq'}
                                         </Link>
                                     </li>
                                 </ul>

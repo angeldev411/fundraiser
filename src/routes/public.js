@@ -10,6 +10,7 @@ import * as Urls from '../urls.js';
 /* Add new views here */
 import Home from '../views/Home';
 import Founders from '../views/Founders';
+import Faq from '../views/Faq';
 import Story from '../views/Story';
 import RaiserveBasics from '../views/RaiserveBasics';
 import TeamProfile from '../views/TeamProfile';
@@ -30,9 +31,13 @@ export default (
             component={Home}
         />
         /* Add new routes here */
-        <Route
+        /* <Route
             path={Urls.FOUNDERS}
             component={Founders}
+        /> */
+        <Route
+            path={Urls.FAQ}
+            component={Faq}
         />
         <Route
             path={Urls.STORY}

@@ -26,13 +26,19 @@ export default class Footer extends Component {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={Urls.STORY}>
+                                    <Link
+                                        to={Urls.STORY}
+                                        target="_blank"
+                                    >
                                         {'Our Story'}
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={Urls.FOUNDERS}>
-                                        {'The founders'}
+                                    <Link
+                                        to={Urls.FAQ}
+                                        target="_blank"
+                                    >
+                                        {'Faq'}
                                     </Link>
                                 </li>
                             </ul>
