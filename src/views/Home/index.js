@@ -9,7 +9,7 @@ import * as Urls from '../../urls.js';
 
 export default class Home extends Component {
     componentWillMount() {
-        document.title = 'You + Us = A World of Change | Raiserve';
+        document.title = 'Volunteers + Sponsors = Twice the Difference | Raiserve';
     }
 
     render() {
@@ -17,7 +17,7 @@ export default class Home extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <div className={'home col-xs-12'}>
-                        <h1>{'You + Us = A World of Change'}</h1>
+                        <h1>{'Volunteers + Sponsors = Twice the Difference'}</h1>
                         <p>
                             {'It’s simple really, people volunteer all the time to make an impact on the world around them.'}<br/>
                             {'Those same people raise money for their favorite charities. But what if they could do both?'}<br/>

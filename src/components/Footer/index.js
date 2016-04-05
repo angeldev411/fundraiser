@@ -101,8 +101,8 @@ export default class Footer extends Component {
                                     alt=""
                                 />
                                 <p>
-                                    {'You + Us'}<br/>
-                                    {'= A World Of Change'}
+                                    {'Volunteers + Sponsors'}<br/>
+                                    {'= Twice the Difference'}
                                 </p>
                             </Link>
                         </section>

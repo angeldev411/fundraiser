@@ -15,7 +15,7 @@ export default class RaiserveBasics extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <Layout34 page={'raiserve-basics'}>
-                        <h1>{'YOU + US'}<br/>{'= A WORLD OF CHANGE'}</h1>
+                        <h1>{'VOLUNTEERS + SPONSORS'}<br/>{'= TWICE THE DIFFERENCE'}</h1>
                         <section>
                             <h2>{'Raiserve Basics'}</h2>
                             <p>
