@@ -31,14 +31,6 @@ export default class Home extends Component {
                         <Button customClass="btn-contact btn-transparent-green">
                             {'Contact US'}
                         </Button>
-                        <div className={'links'}>
-                            <Link
-                                to={Urls.RAISERVE_BASICS}
-                                target="_blank"
-                            >
-                                {'See How it Works'}
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </Page>
