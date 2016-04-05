@@ -19,7 +19,7 @@ export default class VolunteerProfileBlock extends Component {
                     <div className={'col-xs-12 col-md-8 volunteer-description'}>
                         <div className={'team-slogan'}>{`YOU + US = ${this.props.team.slogan}`}</div>
                         <p>
-                            {this.props.volunteer.message}
+                            {this.props.volunteer.description}
                         </p>
                         <div className="share-row">
                             <Link

@@ -128,7 +128,7 @@ class userController {
             ...(typeof user.goal !== 'undefined' ? { goal: user.goal } : {}),
             ...(typeof user.raised !== 'undefined' ? { raised: user.raised } : {}),
             ...(typeof user.location !== 'undefined' ? { location: user.location } : {}),
-            ...(typeof user.description !== 'undefined' ? { message: user.description } : {}),
+            ...(typeof user.description !== 'undefined' ? { description: user.description } : {}),
             ...(typeof user.project !== 'undefined' ? { project: user.project } : {}),
             ...(typeof user.team !== 'undefined' ? { team: user.team } : {}),
             ...(typeof user.team !== 'undefined' ? { team: user.team } : {}),
