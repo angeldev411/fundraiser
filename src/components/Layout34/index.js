@@ -14,6 +14,7 @@ export default class Layout34 extends Component {
                 <Aside
                     team={this.props.team}
                     project={this.props.project}
+                    volunteerprofile={this.props.volunteerprofile}
                 />
                 <div className="clearfix"></div>
             </div>
@@ -25,4 +26,5 @@ Layout34.propTypes = {
     page: React.PropTypes.string,
     project: React.PropTypes.object,
     team: React.PropTypes.object,
+    volunteerprofile: React.PropTypes.bool,
 };

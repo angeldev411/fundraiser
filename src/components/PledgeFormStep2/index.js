@@ -139,8 +139,20 @@ class PledgeFormStep2 extends Component {
                         className={'col-xs-4'}
                         id={'pledge-info'}
                     >
-                        <span id={'hourly-amount'}><b>{`$${this.state.hourly}`}</b>{'/hr'}</span>
-                        <span id={'goal'}>{`x ${this.props.goal} goal hrs`}</span>
+                        {
+                            this.state.hourly ?
+                            (
+                                <span>
+                                    <span id={'hourly-amount'}><b>{`$${this.state.hourly}`}</b>{'/hr'}</span>
+                                    <span id={'goal'}>{`x ${this.props.goal} goal hrs`}</span>
+                                </span>
+                            ) :
+                            (
+                                <span>
+                                    <span id={'hourly-amount'}><b>{`$${this.state.amount}`}</b></span>
+                                </span>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="form-group">

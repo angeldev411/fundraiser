@@ -134,7 +134,8 @@ class Menu extends Component {
                                             <p>
                                                 {'230 7th Ave'}<br/>
                                                 {'4th Floor'}<br/>
-                                                {'New York, NY 10011'}
+                                                {'New York, NY 10011'}<br/>
+                                                {'804 537-2473'}
                                             </p>
                                         </a>
                                     </li>
@@ -159,8 +160,8 @@ class Menu extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to={Urls.FOUNDERS}>
-                                            {'The founders'}
+                                        <Link to={Urls.FAQ}>
+                                            {'Faq'}
                                         </Link>
                                     </li>
                                 </ul>

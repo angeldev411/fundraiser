@@ -1,6 +1,7 @@
 // MARKETING
 export const BASE_URL = '/';
 export const FOUNDERS = '/founders';
+export const FAQ = '/faq';
 export const RAISERVE_BASICS = '/raiserve-basics';
 export const LEGALS = '/terms-and-conditions';
 export const STORY = '/story';

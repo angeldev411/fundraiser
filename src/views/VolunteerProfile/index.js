@@ -75,6 +75,10 @@ class VolunteerProfile extends Component {
             return (<RouteNotFound />);
         }
 
+        if (!this.props.project || !this.props.team || !this.props.volunteer) {
+            return null;
+        }
+
         document.title = `${this.state.volunteer.firstName} ${this.state.volunteer.lastName} | Raiserve`;
         return (
             <Page

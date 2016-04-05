@@ -32,11 +32,15 @@ export default class TeamProfileBlock extends Component {
 
     render() {
         return (
-            <div className={"container"}>
+            <div
+                className={"container"}
+                id={'my-cause'}
+            >
                 <Layout34
                     team={this.props.team}
                     project={this.props.project}
                     page={'team-profile'}
+                    volunteerprofile={this.props.volunteerprofile}
                 >
                     <img id="team-logo"
                         src={
@@ -100,7 +104,7 @@ export default class TeamProfileBlock extends Component {
                             : null
                         }
                     </h1>
-                    <p id={'my-cause'}>
+                    <p>
                         {this.props.team.description}
                     </p>
                     {this.props.editable ?

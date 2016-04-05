@@ -19,7 +19,7 @@ export default class VolunteerProfileBlock extends Component {
                     <div className={'col-xs-12 col-md-8 volunteer-description'}>
                         <div className={'team-slogan'}>{`YOU + US = ${this.props.team.slogan}`}</div>
                         <p>
-                            {this.props.volunteer.message}
+                            {this.props.volunteer.description}
                         </p>
                         <div className="share-row">
                             <Link
@@ -29,11 +29,15 @@ export default class VolunteerProfileBlock extends Component {
                             >
                                 {'How It Works'}
                             </Link>
-                            <Link to={`${Urls.getVolunteerProfileUrl(this.props.project.slug, this.props.team.slug, this.props.volunteer.slug)}#my-cause`}
-                                className="link uppercase"
-                            >
-                                {'My Cause'}
-                            </Link>
+                            {
+                                (this.props.project && this.props.team && this.props.volunteer) ?
+                                    <Link to={`${Urls.getVolunteerProfileUrl(this.props.project.slug, this.props.team.slug, this.props.volunteer.slug)}#my-cause`}
+                                        className="link uppercase"
+                                    >
+                                        {'My Cause'}
+                                    </Link>
+                                : null
+                            }
                             <span className="uppercase">
                                 {'Share my goal'}
                             </span>

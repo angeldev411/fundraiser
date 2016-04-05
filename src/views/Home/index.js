@@ -9,7 +9,7 @@ import * as Urls from '../../urls.js';
 
 export default class Home extends Component {
     componentWillMount() {
-        document.title = 'You + Us = A World of Change | Raiserve';
+        document.title = 'Volunteers + Sponsors = Twice the Difference | Raiserve';
     }
 
     render() {
@@ -17,7 +17,7 @@ export default class Home extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <div className={'home col-xs-12'}>
-                        <h1>{'You + Us = A World of Change'}</h1>
+                        <h1>{'Volunteers + Sponsors = Twice the Difference'}</h1>
                         <p>
                             {'It’s simple really, people volunteer all the time to make an impact on the world around them.'}<br/>
                             {'Those same people raise money for their favorite charities. But what if they could do both?'}<br/>
@@ -28,17 +28,12 @@ export default class Home extends Component {
                             {'Other giving individuals and companies sponsor those hours.'}<br/>
                             <span className={'bold'}>{'Together we help your organization make twice the difference.'}</span>
                         </p>
-                        <Button customClass="btn-contact btn-transparent-green">
+                        <a
+                            className="btn btn-contact btn-transparent-green"
+                            href={'mailto:contact@raiserve.org'}
+                        >
                             {'Contact US'}
-                        </Button>
-                        <div className={'links'}>
-                            <Link
-                                to={Urls.RAISERVE_BASICS}
-                                target="_blank"
-                            >
-                                {'See How it Works'}
-                            </Link>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </Page>

@@ -15,6 +15,7 @@ export default class UserList extends Component {
         this.state = {
             previousVisible: false,
             nextVisible: false,
+            mounted: false,
         };
     }
 
@@ -22,9 +23,15 @@ export default class UserList extends Component {
         node = document.getElementById('scrollable-user-list');
         previous = document.getElementById('previous');
         next = document.getElementById('next');
+    }
 
-        if (node && node.scrollWidth - node.offsetWidth !== 0) {
-            this.setState({ nextVisible: true });
+    componentDidUpdate() {
+        // Hide / show scroll buttons
+        if (!this.state.mounted && (node.scrollWidth - node.offsetWidth) !== 0) {
+            this.setState({
+                mounted: true,
+                nextVisible: true
+            });
         }
     }
 

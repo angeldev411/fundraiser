@@ -26,13 +26,19 @@ export default class Footer extends Component {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={Urls.STORY}>
+                                    <Link
+                                        to={Urls.STORY}
+                                        target="_blank"
+                                    >
                                         {'Our Story'}
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={Urls.FOUNDERS}>
-                                        {'The founders'}
+                                    <Link
+                                        to={Urls.FAQ}
+                                        target="_blank"
+                                    >
+                                        {'Faq'}
                                     </Link>
                                 </li>
                             </ul>
@@ -49,7 +55,8 @@ export default class Footer extends Component {
                                         <p>
                                             {'230 7th Ave'}<br/>
                                             {'4th Floor'}<br/>
-                                            {'New York, NY 10011'}
+                                            {'New York, NY 10011'}<br/>
+                                            {'804 537-2473'}
                                         </p>
                                     </a>
                                 </li>
@@ -100,8 +107,8 @@ export default class Footer extends Component {
                                     alt=""
                                 />
                                 <p>
-                                    {'You + Us'}<br/>
-                                    {'= A World Of Change'}
+                                    {'Volunteers + Sponsors'}<br/>
+                                    {'= Twice the Difference'}
                                 </p>
                             </Link>
                         </section>
