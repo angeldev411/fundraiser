@@ -40,6 +40,7 @@ export default class TeamProfileBlock extends Component {
                     team={this.props.team}
                     project={this.props.project}
                     page={'team-profile'}
+                    volunteerprofile={this.props.volunteerprofile}
                 >
                     <img id="team-logo"
                         src={
