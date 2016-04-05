@@ -6,14 +6,14 @@ import Form from '../../components/Form';
 import PledgeFormStep2 from '../../components/PledgeFormStep2';
 
 // $ symbol and numbers are inversed in Options due to "direction: rtl" in the select CSS
-const pledgeValues = [1, 5, 10, 50];
-const cap = false;
+const pledgeValues = [25, 50, 100, 200];
+const sponsorshipValues = [1, 2, 5, 10];
 
 export default class PledgeFormStep1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...(this.props.oneTimeOnly ? { amount: pledgeValues[0] } : { hourly: pledgeValues[0] }),
+            ...(this.props.oneTimeOnly ? { amount: pledgeValues[0] } : { hourly: sponsorshipValues[0] }),
             maxCap: null,
         };
     }
@@ -29,12 +29,12 @@ export default class PledgeFormStep1 extends Component {
         if (this.state.amount) {
             this.setState({
                 amount: null,
-                hourly: this.state.amount,
+                hourly: sponsorshipValues[0],
             });
         } else {
             this.setState({
                 hourly: null,
-                amount: this.state.hourly,
+                amount: pledgeValues[0],
             });
         }
     };
@@ -64,8 +64,9 @@ export default class PledgeFormStep1 extends Component {
                     <select name="hourly"
                         className="pledge-amount"
                         onChange={(e) => { this.handleChange(e, 'hourly') }}
+                        value={this.state.hourly}
                     >
-                        {pledgeValues.map((value, i) =>
+                        {sponsorshipValues.map((value, i) =>
                             (<option key={i}
                                 value={value}
                              >
@@ -98,6 +99,7 @@ export default class PledgeFormStep1 extends Component {
                     <select name="amount"
                         className="pledge-amount"
                         onChange={(e) => { this.handleChange(e, 'amount') }}
+                        value={this.state.amount}
                     >
                         {pledgeValues.map((value, i) =>
                             (<option key={i}
@@ -114,6 +116,8 @@ export default class PledgeFormStep1 extends Component {
     };
 
     render() {
+        console.log('hourly', this.state.hourly, 'amount', this.state.amount);
+
         let switcher = null;
 
         if (!this.props.oneTimeOnly && this.state.amount) {
@@ -153,17 +157,6 @@ export default class PledgeFormStep1 extends Component {
                     <div className="form-group">
                         {this.getForm()}
                     </div>
-
-                    {cap ? (
-                        <div className="form-group">
-                            <input type="text"
-                                name="max-amount"
-                                id="max-amount"
-                                onChange={(e) => { this.handleChange(e, 'max-amount') }}
-                            />
-                            <label htmlFor="max-amount">{'Maximum total amount (Optional)'}</label>
-                        </div>
-                    ) : null}
 
                     {this.state.error ? <p>{this.state.error}</p> : null}
                 </Form>
