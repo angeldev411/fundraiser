@@ -82,7 +82,7 @@ export default class PledgeFormStep1 extends Component {
                     <span id={'tooltip-trigger'}>
                         <i
                             className={'fa fa-question'}
-                            data-tip={`Your Card will be charged monthly as your volunteer(s) completes their hours. You can change your rate at any point.`}
+                            data-tip={`Your credit card will be charged monthly for all hours completed that month up to the number of goal hours. If service hours have already been completed, those hours will be included in your first month of sponsorship`}
                             data-type={'success'}
                             data-class={'tooltip'}
                             data-multiline
