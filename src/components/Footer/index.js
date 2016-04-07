@@ -38,7 +38,7 @@ export default class Footer extends Component {
                                         to={Urls.FAQ}
                                         target="_blank"
                                     >
-                                        {'Faq'}
+                                        {'FAQ'}
                                     </Link>
                                 </li>
                             </ul>
