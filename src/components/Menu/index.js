@@ -161,7 +161,7 @@ class Menu extends Component {
                                     </li>
                                     <li>
                                         <Link to={Urls.FAQ}>
-                                            {'Faq'}
+                                            {'FAQ'}
                                         </Link>
                                     </li>
                                 </ul>
