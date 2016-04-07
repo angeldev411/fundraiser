@@ -51,7 +51,7 @@ export default class RaiserveBasics extends Component {
                                 {'Sponsors feel better about themselves and the organization they are donating to with the knowledge that they are supporting a great organization and inspiring volunteers.'}
                             </p>
                             <p>
-                                {'If you work for or with a Non-profit that would like to use our platform please contact us '} <a href="mailto:info@raiserve.org">{'info@raiserve.org'}</a>
+                                {'If you work for or with a Non-profit that would like to use our platform please contact us at'} <a href="mailto:info@raiserve.org">{'info@raiserve.org'}</a>
                             </p>
                         </section>
                     </Layout34>
