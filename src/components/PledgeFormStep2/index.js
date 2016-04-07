@@ -218,6 +218,7 @@ class PledgeFormStep2 extends Component {
                                     name="cc"
                                     id="cc"
                                     onChange={(e) => { this.handleChange(e, 'cc') }}
+                                    autoComplete={'off'}
                                 />
                                 <label htmlFor="cc">{'Credit Card Number'}</label>
                             </div>
@@ -228,6 +229,7 @@ class PledgeFormStep2 extends Component {
                                     name="cvv"
                                     id="cvv"
                                     onChange={(e) => { this.handleChange(e, 'cvv') }}
+                                    autoComplete={'off'}
                                 />
                                 <label htmlFor="cvv">{'Card Verification Value (CVV)'}</label>
                             </div>
@@ -238,6 +240,7 @@ class PledgeFormStep2 extends Component {
                                     name="expiration"
                                     id="expiration"
                                     onChange={(e) => { this.handleChange(e, 'expiration') }}
+                                    autoComplete={'off'}
                                 />
                                 <label htmlFor="expiration">{'Expiration date (MM/YY)'}</label>
                             </div>
