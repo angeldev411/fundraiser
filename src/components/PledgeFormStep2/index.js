@@ -113,10 +113,29 @@ class PledgeFormStep2 extends Component {
 
     render() {
         if (this.state.success) {
+            if (this.state.hourly && this.state.volunteerSlug) {
+                return (
+                    <div id={'sucess-pledge'}>
+                        <p>{`${this.state.firstName},`}</p>
+                        <p>{`Thank you for your sponsorship. Sponsorships really inspire me to volunteer and together we are making twice the difference for the project.`}</p>
+                        <p>{`Please let your friends and family know about your sponsorship using the links on my profile page. Getting the word out will go along way making an even bigger impact.`}</p>
+                        <p>{`Thanks again.`}</p>
+                    </div>
+                );
+            } else if (this.state.hourly) {
+                return (
+                    <div id={'sucess-pledge'}>
+                        <p>{`${this.state.firstName},`}</p>
+                        <p>{`Thank you for your sponsorship. Sponsorships really inspire us to volunteer and together we are making twice the difference for the project.`}</p>
+                        <p>{`Please let your friends and family know about your sponsorship using the links on our profile page. Getting the word out will go along way making an even bigger impact.`}</p>
+                        <p>{`Thanks again.`}</p>
+                    </div>
+                );
+            }
             return (
-                <p id={'sucess-pledge'}>
-                    {'Thanks for your donation!'}
-                </p>
+                <div id={'sucess-pledge'}>
+                    <p>{'Thanks for your donation!'}</p>
+                </div>
             );
         }
 

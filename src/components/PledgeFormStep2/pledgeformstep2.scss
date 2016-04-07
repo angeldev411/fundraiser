@@ -32,10 +32,12 @@
 }
 
 #sucess-pledge {
-    color: $green;
-    font-size: 2em;
-    text-align: center;
-    font-family: $conduit-light;
+    p {
+        color: $green;
+        font-size: 2em;
+        text-align: left;
+        font-family: $conduit-light;
+    }
 }
 
 #credit-card-details {
