@@ -17,7 +17,7 @@ export default class Home extends Component {
             <Page>
                 <div className={"container main-content no-cover"}>
                     <div className={'home col-xs-12'}>
-                        <h1>{'Volunteers + Sponsors = Twice the Difference'}</h1>
+                        <h1>{'Volunteers'} <br className={'visible-xs'} /> {'+'} <br className={'visible-xs'} /> {'Sponsors'} <br className={'visible-xs'} /> {'='} <br className={'visible-xs'} /> {'Twice the'} <br className={'visible-xs'} /> {'Difference'}</h1>
                         <p>
                             {'It’s simple really, people volunteer all the time to make an impact on the world around them.'}<br/>
                             {'Those same people raise money for their favorite charities. But what if they could do both?'}<br/>
