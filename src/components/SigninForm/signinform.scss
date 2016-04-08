@@ -1,5 +1,16 @@
-#remember-label {
-    margin-left: 5px;
-    display: inline-block;
-    vertical-align: middle;
+@import '../../common/styles/variables.scss';
+
+.remember-checkbox input {
+  height: auto;
+  position: initial;
+}
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+    .remember-checkbox label {
+        position: relative;
+        top: -43px;
+        left: 30px;
+    }
 }
