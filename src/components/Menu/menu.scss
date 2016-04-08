@@ -93,7 +93,7 @@ header {
                 padding-left: 0;
 
                 &:first-child {
-                    padding-left: 20px;
+                    padding-left: 10px;
                 }
 
                 a {
@@ -141,6 +141,31 @@ header {
         -moz-transition: .2s ease-in-out;
         -o-transition: .2s ease-in-out;
         transition: .2s ease-in-out;
+
+        li:not(.social) {
+          padding-left: 0;
+          margin-top: 15px;
+          padding: 0;
+
+          p {
+            margin: 0;
+          }
+        }
+
+        .sub-element {
+          margin-left: 15px;
+        }
+
+        .sub-element li {
+            margin: 0;
+            padding: 0 0 10px;
+        }
+
+        .mobile-menu-margin {
+            margin-top: 100px!important;
+            padding: 0;
+        }
+
     }
 
     #mobile-menu-overlay {
