@@ -94,6 +94,7 @@
     "gulp-babel": "^6.1.1",
     "gulp-concat": "^2.6.0",
     "gulp-debug": "^2.1.2",
+    "gulp-minify": "0.0.5",
     "gulp-minify-css": "^0.3.10",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^2.1.1",

@@ -12,6 +12,7 @@ var babel = require('babelify');
 var debug = require('gulp-debug');
 var concat = require('gulp-concat');
 var buffer = require('vinyl-buffer');
+var minify = require('gulp-minify');
 
 var assetList = [
   './src/assets/fonts/**/*.*',
@@ -62,6 +63,13 @@ gulp.task('js', ['cleanJS'], function() {
     .pipe(buffer())
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
+    .pipe(minify())
+    .pipe(gulp.dest('./www/'));
+});
+
+gulp.task('minify', function() {
+    source('bundle.js')
+    .pipe(minify())
     .pipe(gulp.dest('./www/'));
 });
 
@@ -81,5 +89,5 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons']);
+gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons', 'minify']);
 gulp.task('develop', ['default', 'watch']);
