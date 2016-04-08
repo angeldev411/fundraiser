@@ -2,9 +2,9 @@ import * as actionTypes from './action-types';
 import axios from 'axios';
 import { API_URL } from '../../common/constants';
 
-export const email = (email) => ({
+export const email = (mail) => ({
     type: actionTypes.SEND_EMAIL,
-    email,
+    email: mail,
 });
 
 export const emailFailed = (error) => ({
