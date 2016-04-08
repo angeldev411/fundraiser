@@ -12,7 +12,7 @@ var babel = require('babelify');
 var debug = require('gulp-debug');
 var concat = require('gulp-concat');
 var buffer = require('vinyl-buffer');
-var minify = require('gulp-minify');
+var uglify = require('gulp-uglify');
 
 var assetList = [
   './src/assets/fonts/**/*.*',
@@ -63,13 +63,17 @@ gulp.task('js', ['cleanJS'], function() {
     .pipe(buffer())
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
-    .pipe(minify())
     .pipe(gulp.dest('./www/'));
 });
 
-gulp.task('minify', function() {
-    source('bundle.js')
-    .pipe(minify())
+gulp.task('minjs', ['cleanJS'], function() {
+    browserify('./src/index.js', {debug: true})
+    .transform(babel)
+    .bundle()
+    .on('error', function(error) { console.log(error); })
+    .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('./www/'));
 });
 
@@ -89,5 +93,5 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons', 'minify']);
-gulp.task('develop', ['default', 'watch']);
+gulp.task('default', ['moveAssets', 'minjs', 'sass', 'fa', 'glyphicons']);
+gulp.task('develop', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons', 'watch']);
