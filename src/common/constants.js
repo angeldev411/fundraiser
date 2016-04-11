@@ -5,6 +5,9 @@ export const TWITTER_USERNAME = 'raiserve';
 export const CONTACT_EMAIL = 'contact@raiserve.org';
 export const VOLUNTEER_CONTACT_EMAIL = 'volunteer@raiserve.org';
 
+export const FACEBOOK_PAGE = 'https://www.facebook.com/raiserve';
+export const TWITTER_PAGE = 'https://twitter.com/raiserve';
+
 export const TEAM_IMAGES_FOLDER = '/assets/images/team';
 export const USER_IMAGES_FOLDER = '/assets/images/users';
 export const DEFAULT_AVATAR = 'default-user.png';

@@ -149,13 +149,15 @@ class SigninForm extends Component {
                     <label htmlFor="password">{'Password'}</label>
                 </div>
                 <div className="form-group remember-checkbox">
-                    <input
-                        type="checkbox"
-                        id="remember"
-                        name="remember"
-                        onChange={(e) => { this.handleRememberMe(e) }}
-                    />
-                    <label>{'Remember me'}</label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            id="remember"
+                            name="remember"
+                            onChange={(e) => { this.handleRememberMe(e) }}
+                        />
+                        <span className="remember-label">{'Remember me'}</span>
+                    </label>
                 </div>
                 {this.state.error ? <p>{this.state.error}</p> : null}
                 <Button

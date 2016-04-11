@@ -104,12 +104,18 @@ class Menu extends Component {
                     <nav>
                         <ul className={"nav navbar-nav"}>
                             <li className={'social'}>
-                                <a href="#">
+                                <a
+                                    href={`${constants.FACEBOOK_PAGE}`}
+                                    target="_ blank"
+                                >
                                     <i className="fa fa-facebook"></i>
                                 </a>
                             </li>
                             <li className={'social'}>
-                                <a href="#">
+                                <a
+                                    href={`${constants.TWITTER_PAGE}`}
+                                    target="_ blank"
+                                >
                                     <i className="fa fa-twitter"></i>
                                 </a>
                             </li>
@@ -224,12 +230,18 @@ class Menu extends Component {
                             </Link>
                         </li>
                         <li className={'social'}>
-                            <a href="#">
+                            <a
+                                href={`${constants.FACEBOOK_PAGE}`}
+                                target="_ blank"
+                            >
                                 <i className="fa fa-facebook"></i>
                             </a>
                         </li>
                         <li className={'social'}>
-                            <a href="#">
+                            <a
+                                href={`${constants.TWITTER_PAGE}`}
+                                target="_ blank"
+                            >
                                 <i className="fa fa-twitter"></i>
                             </a>
                         </li>

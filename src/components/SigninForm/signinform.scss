@@ -2,22 +2,23 @@
 
 .remember-checkbox {
     input {
-        position: initial;
-        display: inline-block;
-    }
-
-    label {
-      display: block;
+        width: 20px!important;
     }
 }
 
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
-    .remember-checkbox label {
-        display: block;
-        position: relative;
-        top: -43px;
-        left: 30px;
+    .remember-checkbox input {
+        display: inline-block!important;
+        margin: 0;
+    }
+
+    .remember-label {
+        line-height: 40px;
+        height: 40px;
+        vertical-align: top;
+        display: inline-block;
+        margin-left: 10px;
     }
 }
