@@ -344,6 +344,24 @@ class Team {
         )
         .getResult('stats');
     }
+
+    static removeTeam(teamId, userId) {
+        console.log(teamId, userId);
+        return db.query(
+            `
+            MATCH (team:TEAM {id: {teamId}})-[:CONTRIBUTE]->(:PROJECT)<-[:LEAD]-(:PROJECT_LEADER { id: {userId}})
+            SET team:TEAM_DISABLED
+            REMOVE team:TEAM
+            RETURN team
+            `,
+            {},
+            {
+                teamId,
+                userId,
+            }
+        )
+        .getResult('team');
+    }
 }
 
 export default Team;

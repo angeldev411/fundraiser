@@ -220,6 +220,71 @@ export default class Mailer {
         });
     }
 
+    /*
+     * sendResetPasswordEmail()
+     * Send reset password to user
+     *
+     * user: user object
+    */
+    static sendResetPasswordEmail(user) {
+        const subject = 'Reset Raiserve Password';
+        const headline = 'Password Reset';
+
+        const text =
+        `
+        <p>Hey ${user.firstName},</p>
+
+        <p>Click the following link to reset your password.</p>
+
+        <p>
+            <a href="${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}">${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}</a>
+        </p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+        `;
+
+        const plainText =
+        `
+        Hey ${user.firstName},
+
+        Click the following link to reset your password.
+
+        ${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}
+
+        Thanks,
+
+        Raiserve
+        `;
+
+        const message = {
+            text: plainText,
+            subject,
+            to: [{
+                email: user.email,
+                name: `${user.firstName} ${user.lastName}`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: headline,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
+    }
+
     // ---- VOLUNTEERING ----
 
     /*

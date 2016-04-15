@@ -43,6 +43,16 @@ class teamController {
             return Promise.reject(error);
         });
     }
+
+    static removeTeam(teamId, userId) {
+        return Team.removeTeam(teamId, userId)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        });
+    }
 }
 
 module.exports = teamController;

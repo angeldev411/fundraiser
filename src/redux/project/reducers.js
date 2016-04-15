@@ -39,7 +39,6 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 error: action.error,
             };
-
         default:
             return state;
     }

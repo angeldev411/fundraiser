@@ -15,11 +15,13 @@ router.post('/api/v1/hours', (req, res) => {
         return;
     }
 
+    const date = new Date(req.body.date).toISOString().split('T')[0];
+
     const hour = {
         hours: req.body.hours,
         signatureData: req.body.signature,
         place: req.body.place,
-        date: req.body.date,
+        date,
         dateTimestamp: new Date(req.body.date).getTime(),
         supervisorEmail: req.body.supervisorEmail,
         supervisorName: req.body.supervisor,
@@ -46,7 +48,7 @@ router.post('/api/v1/hours', (req, res) => {
     .catch((err) => {
         res.status(400).send(err);
         return;
-    })
+    });
 });
 
 router.get('/api/v1/hours', (req, res) => {

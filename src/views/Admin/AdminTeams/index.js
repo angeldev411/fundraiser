@@ -97,6 +97,12 @@ class AdminTeams extends Component {
         });
     };
 
+    onRemove = (team) => {
+        if (window.confirm('Do you really want to remove this team?')) {
+            Actions.removeTeam(team)(this.props.dispatch);
+        }
+    };
+
     render() {
         if (!this.props.user) {
             return (null);
@@ -127,6 +133,7 @@ class AdminTeams extends Component {
                         actionable={true}
                         onSort={this.onSort}
                         user={this.props.user}
+                        onRemove={this.onRemove}
                     />
                 </AdminLayout>
             </Page>

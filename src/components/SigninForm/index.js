@@ -126,9 +126,8 @@ class SigninForm extends Component {
         }
 
         return (
-            <Form title={'Sign In'}
+            <Form title={'Welcome Back'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
-                description="Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
                 onSubmit={this.signIn}
             >
                 <div className="form-group">
@@ -171,7 +170,7 @@ class SigninForm extends Component {
                     customClass="btn-link password-forgotten"
                     onClick={this.handleResetPassword}
                 >
-                    {'Reset password'}
+                    {'Forgot Password?'}
                 </Button>
             </Form>
         );

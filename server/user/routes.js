@@ -48,8 +48,8 @@ router.post('/api/v1/user/reset-password', (req, res) => {
     }
 
     userController.resetPassword(req.body.email)
-    .then((user) => {
-        res.status(200).send(userController.safe(user));
+    .then(() => {
+        res.status(200).send(true);
     })
     .catch((err) => {
         res.status(500).send(err);

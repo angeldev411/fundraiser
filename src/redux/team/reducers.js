@@ -52,6 +52,16 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 statsError: action.statsError,
             };
+        case actionTypes.REMOVE_TEAM:
+            return {
+                ...state,
+                teams: action.teams,
+            };
+        case actionTypes.REMOVE_TEAM_FAIL:
+            return {
+                ...state,
+                error: action.error,
+            };
         default:
             return state;
     }

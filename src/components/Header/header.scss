@@ -5,7 +5,7 @@
 
 #green-header {
     background: $green;
-    height: 30px;
+    display: none;
 
     a {
         color: $white;
@@ -61,6 +61,10 @@ header {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
+    #green-header {
+        display: block;
+    }
+    
     #logo {
         margin: 5px;
     }

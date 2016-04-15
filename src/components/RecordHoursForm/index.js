@@ -50,6 +50,23 @@ export default class RecordHoursForm extends Component {
             loading: true,
         });
 
+        if (this.state.place === '' || this.state.hours === '' || this.state.date === '') {
+            this.setState({
+                error: 'Please verify form',
+                loading: false,
+            });
+            return;
+        }
+
+
+        if (isNaN(this.state.hours)) {
+            this.setState({
+                error: 'Hours must be numeric',
+                loading: false,
+            });
+            return;
+        }
+
         let signature = '';
 
         if (this.state.signatureRequired) {
@@ -149,6 +166,8 @@ export default class RecordHoursForm extends Component {
                     </div>
                     : null
                 }
+
+                {this.state.error ? <p>{this.state.error}</p> : null}
 
                 <Button
                     onClick={this.recordHours}

@@ -132,3 +132,30 @@ export function getStats() {
         );
     };
 }
+
+export const removedTeam = (teams) => ({
+    type: actionTypes.REMOVED_TEAM,
+    teams,
+});
+
+export const removeTeamFailed = (error) => ({
+    type: actionTypes.REMOVE_TEAM_FAIL,
+    error,
+});
+
+export function removeTeam(team) {
+    return (dispatch) => {
+        dispatch(removeTeamFailed(''));
+        return axios.post(`${API_URL}/team/${team.id}`)
+        .then(
+            (response) => {
+                location.reload();
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                dispatch(getFailed(errorResponse.data));
+            }
+        );
+    };
+}
