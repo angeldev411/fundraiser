@@ -110,6 +110,13 @@
             &:nth-child(7) {
                 width: 25px;
             }
+
+            &.volunteer-name {
+                img {
+                    width: 40px;
+                    border-radius: 50%;
+                }
+            }
         }
 
         td {
