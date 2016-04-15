@@ -213,8 +213,8 @@ export default class User {
             return this.update(user, { resetToken: UUID.v4() });
         })
         .then((user) => {
+            Mailer.sendResetPasswordEmail(user);
             return Promise.resolve(user);
-            // TODO send reset password email
         })
         .catch((err) => {
             return Promise.reject(err);
