@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AdminTeamForm from '../AdminTeamForm';
 import ModalButton from '../ModalButton';
+import Button from '../Button';
 
 export default class AdminTeamsTable extends Component {
     constructor(props) {
@@ -20,6 +21,10 @@ export default class AdminTeamsTable extends Component {
 
     handleSort = (column) => {
         this.props.onSort(column);
+    };
+
+    handleRemove = (team) => {
+        this.props.onRemove(team);
     };
 
     render() {
@@ -85,12 +90,28 @@ export default class AdminTeamsTable extends Component {
                                             >
                                                 {'Edit'}
                                             </ModalButton>
-                                            <a href="#"
-                                                className={'uppercase'}
-                                            >{'Remove'}</a>
-                                            <a href="#"
-                                                className={'uppercase'}
-                                            >{'Invite Leader'}</a>
+                                            <Button
+                                                customClass="btn-link"
+                                                onClick={() => {
+                                                    this.handleRemove(team)
+                                                }}
+                                            >
+                                                {'Remove'}
+                                            </Button>
+                                            <ModalButton customClass="btn-link uppercase"
+                                                content={
+                                                    <AdminTeamForm title={"Edit team"}
+                                                        defaultData={
+                                                            {
+                                                                project: this.props.project,
+                                                                team,
+                                                            }
+                                                        }
+                                                    />
+                                                }
+                                            >
+                                                {'Invite Leader'}
+                                            </ModalButton>
                                         </div>
                                     </td> : null}
                             </tr>
@@ -108,4 +129,5 @@ AdminTeamsTable.propTypes = {
     actionable: React.PropTypes.bool,
     onSort: React.PropTypes.func,
     user: React.PropTypes.object,
+    onRemove: React.PropTypes.func,
 };

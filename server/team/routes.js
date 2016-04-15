@@ -177,4 +177,25 @@ router.get('/api/v1/team/:projectSlug/:teamSlug', (req, res) => {
     });
 });
 
+router.post('/api/v1/team/:id', (req, res) => {
+    if (
+        !AUTH_CHECKER.isLogged(req.session)
+        || (
+            !AUTH_CHECKER.isProjectLeader(req.session.user)
+        )
+    ) {
+        res.status(403).send();
+        return;
+    }
+
+    teamController.removeTeam(req.params.id, req.session.user.id)
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send(err);
+    });
+});
+
 export default router;

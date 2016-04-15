@@ -99,12 +99,22 @@ export default class AdminProjectsTable extends Component {
                                                     >
                                                         {'Edit'}
                                                     </ModalButton>
-                                                    <a href="#"
-                                                        className={'uppercase'}
-                                                    >{'Remove'}</a>
-                                                    <a href="#"
-                                                        className={'uppercase'}
-                                                    >{'Invite Leader'}</a>
+                                                    <ModalButton customClass="btn-link uppercase"
+                                                        content={
+                                                            <AdminTeamForm
+                                                                title={"Edit team"}
+                                                                defaultData={{
+                                                                    project,
+                                                                    team,
+                                                                }}
+                                                                updateTeam={(team, teamIndex) => {
+                                                                    this.updateTeam(team, x, i);
+                                                                }}
+                                                            />
+                                                        }
+                                                    >
+                                                        {'Invite Leader'}
+                                                    </ModalButton>
                                                 </div>
                                             </div>
                                         </ChildrenLine>

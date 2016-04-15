@@ -6,3 +6,5 @@ export const GOT_TEAMS = 'GOT_TEAMS';
 export const GET_TEAMS_FAIL = 'GET_TEAMS_FAIL';
 export const GOT_TEAM_STATS = 'GOT_TEAM_STATS';
 export const GET_TEAM_STATS_FAILED = 'GET_TEAM_STATS_FAILED';
+export const REMOVE_TEAM = 'REMOVE_TEAM';
+export const REMOVE_TEAM_FAIL = 'REMOVE_TEAM_FAIL';
