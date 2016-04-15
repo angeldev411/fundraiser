@@ -3,6 +3,7 @@
 import stripelib from 'stripe';
 import UUID from 'uuid';
 import Mailchimp from '../helpers/mailchimp';
+import Mailer from '../helpers/mailer';
 import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import Promise from 'bluebird';
@@ -213,8 +214,10 @@ export default class User {
             return this.update(user, { resetToken: UUID.v4() });
         })
         .then((user) => {
-            Mailer.sendResetPasswordEmail(user);
-            return Promise.resolve(user);
+            return Mailer.sendResetPasswordEmail(user);
+        })
+        .then(() => {
+            return Promise.resolve();
         })
         .catch((err) => {
             return Promise.reject(err);

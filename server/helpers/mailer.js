@@ -227,78 +227,62 @@ export default class Mailer {
      * user: user object
     */
     static sendResetPasswordEmail(user) {
-        // const subject = 'Reset Raiserve Password';
-        // const headline = 'Congratulations';
-        //
-        // const text =
-        // `
-        // <p>Hey ${volunteer.firstName},</p>
-        //
-        // <p>Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.</p>
-        //
-        // <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
-        //
-        // <p>
-        //     1 - You can email this link: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
-        // </p>
-        // <p>
-        //     2 - Share on Facebook and Twitter
-        // </p>
-        //
-        // <p>Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.</p>
-        //
-        // <p>Don’t forget to record your hours. You can use your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> to record them and check the total amount your volunteer efforts have earned for ${project.name}.</p>
-        //
-        // <p>Thanks,</p>
-        //
-        // <p>Raiserve</p>
-        // `;
-        //
-        // const plainText =
-        // `
-        // Hey ${volunteer.firstName},
-        //
-        // Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.
-        //
-        // Don’t forget to invite your friends to sponsor you. There are two ways:
-        //
-        // 1 - You can email this link: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
-        // 2 - Share on Facebook and Twitter
-        //
-        // Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.
-        //
-        // Don’t forget to record your hours. You can use your dashboard (${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}) to record them and check the total amount your volunteer efforts have earned for ${project.name}.
-        //
-        // Thanks,
-        //
-        // Raiserve
-        // `;
-        //
-        // const message = {
-        //     text: plainText,
-        //     subject,
-        //     to: [{
-        //         email: volunteer.email,
-        //         name: `${volunteer.firstName} ${volunteer.lastName}`,
-        //         type: 'to',
-        //     }],
-        //     global_merge_vars: [
-        //         {
-        //             name: 'headline',
-        //             content: headline,
-        //         },
-        //         {
-        //             name: 'message',
-        //             content: text,
-        //         },
-        //     ],
-        // };
-        //
-        // return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
-        //     return Promise.resolve(response);
-        // }, (err) => {
-        //     return Promise.reject(err);
-        // });
+        const subject = 'Reset Raiserve Password';
+        const headline = 'Password Reset';
+
+        const text =
+        `
+        <p>Hey ${user.firstName},</p>
+
+        <p>Click the following link to reset your password.</p>
+
+        <p>
+            <a href="${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}">${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}</a>
+        </p>
+
+        <p>Thanks,</p>
+
+        <p>Raiserve</p>
+        `;
+
+        const plainText =
+        `
+        Hey ${user.firstName},
+
+        Click the following link to reset your password.
+
+        ${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}
+
+        Thanks,
+
+        Raiserve
+        `;
+
+        const message = {
+            text: plainText,
+            subject,
+            to: [{
+                email: user.email,
+                name: `${user.firstName} ${user.lastName}`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: headline,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
     }
 
     // ---- VOLUNTEERING ----
