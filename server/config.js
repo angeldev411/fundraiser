@@ -31,7 +31,7 @@ export default {
     STRIPE_TOKEN: 'sk_test_VxrSBOOWOiUa2FVSDSCgZ0RX',
     USER_IMAGES_FOLDER: constantsFront.USER_IMAGES_FOLDER,
     TEAM_IMAGES_FOLDER: constantsFront.TEAM_IMAGES_FOLDER,
-    MANDRILL_API_KEY: 'fvFbEdZSRHYqCj06utSvSg',
+    MANDRILL_API_KEY: (process.env.MANDRILL_API_KEY || 'fvFbEdZSRHYqCj06utSvSg'),
     DOMAIN: process.env.HOSTNAME || constantsFront.DOMAIN || 'https://raiserve.org',
     URL: `${process.env.PROTOCOL}${process.env.HOSTNAME}` || 'http://raiserve.org',
     BILLING: {
