@@ -159,6 +159,11 @@ header {
         .sub-element li {
             margin: 0;
             padding: 0 0 10px;
+
+            p {
+                font-size: .75em;
+                text-transform: none;
+            }
         }
 
         .mobile-menu-margin {

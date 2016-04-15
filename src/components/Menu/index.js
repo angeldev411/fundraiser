@@ -134,16 +134,12 @@ class Menu extends Component {
                                 </span>
                                 <ul className={'sub-element'}>
                                     <li>
-                                        <a href="#"
-                                            title=""
-                                        >
-                                            <p>
-                                                {'230 7th Ave'}<br/>
-                                                {'4th Floor'}<br/>
-                                                {'New York, NY 10011'}<br/>
-                                                {'804 537-2473'}
-                                            </p>
-                                        </a>
+                                        <p>
+                                            {'230 7th Ave'}<br/>
+                                            {'4th Floor'}<br/>
+                                            {'New York, NY 10011'}<br/>
+                                            {'804 537-2473'}
+                                        </p>
                                     </li>
                                     <li>
                                         <hr/>
