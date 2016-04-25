@@ -67,7 +67,7 @@ gulp.task('js', ['cleanJS'], function() {
 });
 
 gulp.task('minjs', ['cleanJS'], function() {
-    browserify('./src/index.js', {debug: true})
+    browserify('./src/index.js', {debug: false})
     .transform(babel)
     .bundle()
     .on('error', function(error) { console.log(error); })
