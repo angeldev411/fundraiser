@@ -28,6 +28,23 @@
             padding-left: 15px;
         }
     }
+
+    input#goal {
+        color: $grey;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid $light-grey;
+        height: 40px;
+        font-family: $conduit-medium;
+        font-size: 1.9em;
+        line-height: 1em;
+        width: 200px;
+
+        &:focus,
+        &:active {
+            border-bottom: 1px solid $green;
+        }
+    }
 }
 
 /* Medium devices (desktops, 768px and up) */

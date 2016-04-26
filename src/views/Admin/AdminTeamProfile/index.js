@@ -23,10 +23,12 @@ class AdminTeamProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
                 team: nextProps.user.team,
+                error: null,
             });
         }
         if (nextProps.reset) {
@@ -53,6 +55,21 @@ class AdminTeamProfile extends Component {
         const newState = Object.assign({}, this.state);
 
         newState.team.hoursApprovalRequired = event.nativeEvent.target.checked;
+
+        this.setState(newState);
+
+        Actions.updateTeam(
+            newState.team.id,
+            newState.team
+        )(this.props.dispatch);
+    };
+
+    changeGoal = (event) => {
+        const newState = Object.assign({}, this.state);
+
+        newState.team.goal = event.nativeEvent.target.value;
+
+        console.log(newState);
 
         this.setState(newState);
 
@@ -173,6 +190,16 @@ class AdminTeamProfile extends Component {
                                 {'Require Team Leader approval'}
                             </label>
                             <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
+                        </section>
+                        <section>
+                            <input
+                                type="text"
+                                name="goal"
+                                id="goal"
+                                value={this.props.user.team.goal}
+                                onChange={(e) => {this.changeGoal(e)}}
+                            />
+                            <p className={'action-description action-margin'}>{'Goal hours (minimum 1)'}</p>
                         </section>
                         <section>
                             <Button
