@@ -35,6 +35,14 @@ import hoursRoutes from './hours/routes';
 import emailRoutes from './email/routes';
 import csvRoutes from './csv/routes';
 
+app.use(function(req, res, next) {
+    if ((process.env.DOMAIN === 'raiserve.org') && (!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+        res.redirect('https://' + req.get('Host') + req.url);
+    } else {
+        next();
+    }
+});
+
 app.use(authRoutes);
 app.use(projectRoutes);
 app.use(teamRoutes);

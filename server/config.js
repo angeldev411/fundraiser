@@ -16,7 +16,7 @@ export default {
         unset: 'destroy',
         cookie: {
             maxAge: 720 * 60 * 60 * 1000,
-            secure: false // TODO: set to true with HTTPS
+            secure: true // TODO: set to true with HTTPS
         },
     },
     S3: {
