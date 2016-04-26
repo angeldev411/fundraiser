@@ -25,6 +25,7 @@ const Node = db.defineNode({
         raised : db.Joi.number(),
         pledge: db.Joi.number(),
         pledgePerHour : db.Joi.number(),
+        currentHours: db.Joi.number(),
         totalHours: db.Joi.number(),
         goal: db.Joi.number().min(1),
         totalVolunteers: db.Joi.number(),
@@ -46,6 +47,7 @@ class Team {
             id: uuid.v4(),
             goal: 20, // default goal
             totalVolunteers: 0,
+            currentHours: 0,
             totalHours: 0,
             totalSponsors: 0,
             hourlyPledge: 0,
@@ -169,6 +171,7 @@ class Team {
             ...(typeof teamData.goal !== 'undefined' ? { goal : teamData.goal } : {}),
             ...(typeof teamData.totalRaised !== 'undefined' ? { totalRaised : teamData.totalRaised } : {}),
             ...(typeof teamData.hourlyPledge !== 'undefined' ? { hourlyPledge : teamData.hourlyPledge } : {}),
+            ...(typeof teamData.currentHours !== 'undefined' ? { currentHours: teamData.currentHours } : {}),
             ...(typeof teamData.totalHours !== 'undefined' ? { totalHours: teamData.totalHours } : {}),
             ...(typeof teamData.totalVolunteers !== 'undefined' ? { totalVolunteers: teamData.totalVolunteers } : {}),
             ...(typeof teamData.totalSponsors !== 'undefined' ? { totalSponsors: teamData.totalSponsors } : {}),

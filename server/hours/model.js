@@ -160,7 +160,8 @@ class HourRepository {
             MATCH (h:HOUR {id: {hourId}})<-[:VOLUNTEERED]-(u:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)-[:CONTRIBUTE]->(p:PROJECT)
             SET     u.currentHours = u.currentHours + {hours},
                     u.totalHours = u.totalHours + {hours},
-                    t.totalHours = t.totalHours + {hours}
+                    t.totalHours = t.totalHours + {hours},
+                    t.currentHours = t.currentHours + {hours},
             RETURN {volunteer: u, team: t, project: p, hour: h} AS result
             `,
             {},
