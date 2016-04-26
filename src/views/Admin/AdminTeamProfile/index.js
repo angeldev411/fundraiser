@@ -155,7 +155,9 @@ class AdminTeamProfile extends Component {
                             {this.state.passwordRequested ?
                                 <p className={'action-description'}>
                                     {'You should receive a reset password email shortly.'}
-                                </p> : null}
+                                </p> :
+                                <p className={'action-description'}>{'Optional'}</p>
+                            }
                         </section>
                         <section>
                             <input

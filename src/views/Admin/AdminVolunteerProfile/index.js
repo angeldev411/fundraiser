@@ -277,14 +277,17 @@ export default class AdminVolunteerProfile extends Component {
                                             </div>
                                         </div>
                                     :
-                                        <section>
-                                            <Button
-                                                customClass="btn-lg btn-transparent-green"
-                                                onClick={this.handlePasswordInputs}
-                                            >
-                                                {'Change Password'}
-                                            </Button>
-                                        </section>
+                                        <div>
+                                            <section>
+                                                <Button
+                                                    customClass="btn-lg btn-transparent-green"
+                                                    onClick={this.handlePasswordInputs}
+                                                >
+                                                    {'Change Password'}
+                                                </Button>
+                                            </section>
+                                            <p className={'action-description'}>{'Optional'}</p>
+                                        </div>
                                 }
 
                                 <div className="dropzone form-group">
