@@ -21,6 +21,13 @@
     top: 4px;
 }
 
+.input-group-addon {
+    position: relative;
+    top: 2px!important;
+    left: 16px;
+    color: $green;
+}
+
 #tooltip-trigger {
     font-size: 1em;
     color: $light-grey;

@@ -6,14 +6,13 @@ import Form from '../../components/Form';
 import PledgeFormStep2 from '../../components/PledgeFormStep2';
 
 // $ symbol and numbers are inversed in Options due to "direction: rtl" in the select CSS
-const pledgeValues = [25, 50, 100, 200];
-const sponsorshipValues = [1, 2, 5, 10];
+const defaultAmount = 10;
 
 export default class PledgeFormStep1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...(this.props.oneTimeOnly ? { amount: pledgeValues[0] } : { hourly: sponsorshipValues[0] }),
+            ...(this.props.oneTimeOnly ? { amount: defaultAmount } : { hourly: defaultAmount }),
             maxCap: null,
         };
     }
@@ -29,12 +28,12 @@ export default class PledgeFormStep1 extends Component {
         if (this.state.amount) {
             this.setState({
                 amount: null,
-                hourly: sponsorshipValues[0],
+                hourly: defaultAmount,
             });
         } else {
             this.setState({
                 hourly: null,
-                amount: pledgeValues[0],
+                amount: defaultAmount,
             });
         }
     };
@@ -43,37 +42,27 @@ export default class PledgeFormStep1 extends Component {
         if (this.props.oneTimeOnly) {
             return (
                 <div>
-                    <select name="amount"
-                        className="pledge-amount"
-                        onChange={(e) => { this.handleChange(e, 'amount') }}
-                    >
-                        {pledgeValues.map((value, i) =>
-                            (<option key={i}
-                                value={value}
-                             >
-                                {`${value} $`}
-                            </option>)
-                        )}
-                    </select>
+                    <div className="input-group">
+                        <span className="input-group-addon">$</span>
+                        <input name="amount"
+                            className="pledge-amount"
+                            onChange={(e) => { this.handleChange(e, 'amount') }}
+                        />
+                    </div>
                     <label htmlFor="amount">{'Pledge'}</label>
                 </div>
             );
         } else if (!this.props.oneTimeOnly && this.state.hourly) {
             return (
                 <div>
-                    <select name="hourly"
-                        className="pledge-amount"
-                        onChange={(e) => { this.handleChange(e, 'hourly') }}
-                        value={this.state.hourly}
-                    >
-                        {sponsorshipValues.map((value, i) =>
-                            (<option key={i}
-                                value={value}
-                             >
-                                {`${value} $`}
-                            </option>)
-                        )}
-                    </select>
+                    <div className="input-group">
+                        <span className="input-group-addon">$</span>
+                        <input name="hourly"
+                            className="pledge-amount"
+                            onChange={(e) => { this.handleChange(e, 'hourly') }}
+                            value={this.state.hourly}
+                        />
+                    </div>
                     <label htmlFor="hourly"
                         id={'tooltip-label'}
                     >
@@ -96,19 +85,14 @@ export default class PledgeFormStep1 extends Component {
         } else if (!this.props.oneTimeOnly && this.state.amount) {
             return (
                 <div>
-                    <select name="amount"
-                        className="pledge-amount"
-                        onChange={(e) => { this.handleChange(e, 'amount') }}
-                        value={this.state.amount}
-                    >
-                        {pledgeValues.map((value, i) =>
-                            (<option key={i}
-                                value={value}
-                             >
-                                {`${value} $`}
-                            </option>)
-                        )}
-                    </select>
+                    <div className="input-group">
+                        <span className="input-group-addon">$</span>
+                        <input name="amount"
+                            className="pledge-amount"
+                            onChange={(e) => { this.handleChange(e, 'amount') }}
+                            value={this.state.amount}
+                        />
+                    </div>
                     <label htmlFor="amount">{'Pledge'}</label>
                 </div>
             );
