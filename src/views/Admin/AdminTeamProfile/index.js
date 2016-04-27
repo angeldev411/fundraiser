@@ -201,7 +201,7 @@ class AdminTeamProfile extends Component {
                                 value={this.props.user.team.goal}
                                 onChange={(e) => {this.changeGoal(e)}}
                             />
-                            <p className={'action-description action-margin'}>{'Goal hours (minimum 1)'}</p>
+                            <p className={'action-description action-margin goal-description'}>{'TEAM GOAL HOURS (min 1). This is different from your volunteers goals, however their time will contribute to their goal'}</p>
                         </section>
                         <section>
                             <Button
