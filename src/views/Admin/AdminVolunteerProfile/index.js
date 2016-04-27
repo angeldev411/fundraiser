@@ -65,6 +65,7 @@ export default class AdminVolunteerProfile extends Component {
     handleOnDrop = (files) => {
         this.setState({
             imageLoading: true,
+            success: false,
         });
         const user = this.state.user;
         const reader = new FileReader();
@@ -192,6 +193,7 @@ export default class AdminVolunteerProfile extends Component {
         user[name] = evt.target.value;
         this.setState({
             user,
+            success: false,
         });
     };
 
@@ -355,20 +357,30 @@ export default class AdminVolunteerProfile extends Component {
                                 {this.state.success ? this.getSuccessMessage() : null}
                                 {this.state.error ? this.getErrorMessage() : null}
 
-                                <Button
-                                    customClass="profile-actions btn-green-white"
-                                    onClick={this.submitProfile}
-                                    disabled={this.state.loading}
-                                >
-                                    {'Save'}
-                                </Button>
-
-                                <Button
-                                    to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
-                                    customClass="profile-actions btn-green-white"
-                                >
-                                    {'Cancel'}
-                                </Button>
+                                {
+                                    this.state.success ?
+                                        <Button
+                                            to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
+                                            customClass="profile-actions btn-green-white"
+                                        >
+                                            {'Preview'}
+                                        </Button> :
+                                        <div>
+                                            <Button
+                                                customClass="profile-actions btn-green-white"
+                                                onClick={this.submitProfile}
+                                                disabled={this.state.loading}
+                                            >
+                                                {'Save'}
+                                            </Button>
+                                            <Button
+                                                to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
+                                                customClass="profile-actions btn-green-white"
+                                            >
+                                                {'Cancel'}
+                                            </Button>
+                                        </div>
+                                }
                             </form>
                         </section>
                     </div>
