@@ -10,7 +10,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import Dropzone from 'react-dropzone';
 import AvatarCropper from 'react-avatar-cropper';
-
+import fixOrientation from 'fix-orientation';
 import * as Actions from '../../../redux/volunteer/actions';
 
 import * as constants from '../../../common/constants';
@@ -22,10 +22,12 @@ export default class AdminVolunteerProfile extends Component {
 
         this.state = {
             user: this.props.user,
+            originalImage: this.props.user.image,
             loading: false,
             editPassword: false,
             success: false,
             cropperOpen: false,
+            imageLoading: false,
         };
     }
 
@@ -61,15 +63,21 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     handleOnDrop = (files) => {
+        this.setState({
+            imageLoading: true,
+        });
         const user = this.state.user;
         const reader = new FileReader();
         const file = files[0];
 
         reader.onload = (upload) => {
             user.image = upload.target.result;
-            this.setState({
-                user,
-                cropperOpen: true,
+            fixOrientation(user.image, { image: true }, (fixed, image) => {
+                user.image = fixed;
+                this.setState({
+                    user,
+                    cropperOpen: true,
+                });
             });
         };
         reader.readAsDataURL(file);
@@ -81,12 +89,17 @@ export default class AdminVolunteerProfile extends Component {
             user: {
                 image: dataURI,
             },
+            imageLoading: false,
         });
     };
 
     handleRequestHide = () => {
         this.setState({
             cropperOpen: false,
+            user: {
+                image: this.state.originalImage,
+            },
+            imageLoading: false,
         });
     };
 
@@ -296,6 +309,10 @@ export default class AdminVolunteerProfile extends Component {
                                         multiple={false}
                                         style={{ }}
                                     >
+                                        {this.state.imageLoading ?
+                                            <i className={"fa fa-circle-o-notch fa-spin avatar-spin"}/> :
+                                            null
+                                        }
                                         <img
                                             className={"dropzone-image"}
                                             src={this.getUserPreview()}
