@@ -15,6 +15,10 @@
             margin: 10px 0;
         }
 
+        p.goal-description {
+            font-size: .7em;
+        }
+
         p.action-margin {
             padding-left: 30px;
             margin: 0;
@@ -26,6 +30,23 @@
             font-family: $conduit-light;
             font-weight: initial;
             padding-left: 15px;
+        }
+    }
+
+    input#goal {
+        color: $grey;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid $light-grey;
+        height: 40px;
+        font-family: $conduit-medium;
+        font-size: 1.9em;
+        line-height: 1em;
+        width: 200px;
+
+        &:focus,
+        &:active {
+            border-bottom: 1px solid $green;
         }
     }
 }

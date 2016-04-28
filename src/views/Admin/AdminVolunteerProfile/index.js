@@ -10,7 +10,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import Dropzone from 'react-dropzone';
 import AvatarCropper from 'react-avatar-cropper';
-
+import fixOrientation from 'fix-orientation';
 import * as Actions from '../../../redux/volunteer/actions';
 
 import * as constants from '../../../common/constants';
@@ -22,10 +22,12 @@ export default class AdminVolunteerProfile extends Component {
 
         this.state = {
             user: this.props.user,
+            originalImage: this.props.user.image,
             loading: false,
             editPassword: false,
             success: false,
             cropperOpen: false,
+            imageLoading: false,
         };
     }
 
@@ -61,15 +63,22 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     handleOnDrop = (files) => {
+        this.setState({
+            imageLoading: true,
+            success: false,
+        });
         const user = this.state.user;
         const reader = new FileReader();
         const file = files[0];
 
         reader.onload = (upload) => {
             user.image = upload.target.result;
-            this.setState({
-                user,
-                cropperOpen: true,
+            fixOrientation(user.image, { image: true }, (fixed, image) => {
+                user.image = fixed;
+                this.setState({
+                    user,
+                    cropperOpen: true,
+                });
             });
         };
         reader.readAsDataURL(file);
@@ -81,12 +90,17 @@ export default class AdminVolunteerProfile extends Component {
             user: {
                 image: dataURI,
             },
+            imageLoading: false,
         });
     };
 
     handleRequestHide = () => {
         this.setState({
             cropperOpen: false,
+            user: {
+                image: this.state.originalImage,
+            },
+            imageLoading: false,
         });
     };
 
@@ -179,6 +193,7 @@ export default class AdminVolunteerProfile extends Component {
         user[name] = evt.target.value;
         this.setState({
             user,
+            success: false,
         });
     };
 
@@ -277,14 +292,17 @@ export default class AdminVolunteerProfile extends Component {
                                             </div>
                                         </div>
                                     :
-                                        <section>
-                                            <Button
-                                                customClass="btn-lg btn-transparent-green"
-                                                onClick={this.handlePasswordInputs}
-                                            >
-                                                {'Change Password'}
-                                            </Button>
-                                        </section>
+                                        <div>
+                                            <section>
+                                                <Button
+                                                    customClass="btn-lg btn-transparent-green"
+                                                    onClick={this.handlePasswordInputs}
+                                                >
+                                                    {'Change Password'}
+                                                </Button>
+                                            </section>
+                                            <p className={'action-description'}>{'Optional'}</p>
+                                        </div>
                                 }
 
                                 <div className="dropzone form-group">
@@ -293,6 +311,10 @@ export default class AdminVolunteerProfile extends Component {
                                         multiple={false}
                                         style={{ }}
                                     >
+                                        {this.state.imageLoading ?
+                                            <i className={"fa fa-circle-o-notch fa-spin avatar-spin"}/> :
+                                            null
+                                        }
                                         <img
                                             className={"dropzone-image"}
                                             src={this.getUserPreview()}
@@ -335,20 +357,30 @@ export default class AdminVolunteerProfile extends Component {
                                 {this.state.success ? this.getSuccessMessage() : null}
                                 {this.state.error ? this.getErrorMessage() : null}
 
-                                <Button
-                                    customClass="profile-actions btn-green-white"
-                                    onClick={this.submitProfile}
-                                    disabled={this.state.loading}
-                                >
-                                    {'Save'}
-                                </Button>
-
-                                <Button
-                                    to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
-                                    customClass="profile-actions btn-green-white"
-                                >
-                                    {'Cancel'}
-                                </Button>
+                                {
+                                    this.state.success ?
+                                        <Button
+                                            to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
+                                            customClass="profile-actions btn-green-white"
+                                        >
+                                            {'Preview'}
+                                        </Button> :
+                                        <div>
+                                            <Button
+                                                customClass="profile-actions btn-green-white"
+                                                onClick={this.submitProfile}
+                                                disabled={this.state.loading}
+                                            >
+                                                {'Save'}
+                                            </Button>
+                                            <Button
+                                                to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
+                                                customClass="profile-actions btn-green-white"
+                                            >
+                                                {'Cancel'}
+                                            </Button>
+                                        </div>
+                                }
                             </form>
                         </section>
                     </div>

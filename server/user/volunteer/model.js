@@ -411,14 +411,14 @@ export default class Volunteer {
 
     static resetCurrentHours() {
         return db.query(`
-            MATCH (volunteer:VOLUNTEER)
-            SET volunteer.currentHours = 0
+            MATCH (volunteer:VOLUNTEER), (team:TEAM)
+            SET volunteer.currentHours = 0, team.currentHours = 0
             RETURN volunteer as volunteers
             `,
         )
         .getResults('volunteers')
         .then(() => {
-            console.log('Volunteers current hours successfully reseted!');
+            console.log('Volunteers and teams current hours successfully reseted!');
         })
         .catch((err) => {
             console.log('Reset current hours failed:', err);
