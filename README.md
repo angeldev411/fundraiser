@@ -18,17 +18,12 @@ Install dependencies
 npm install
 ```
 
-To start the frontend
+To start node server
 
 ```sh
-npm run front:start
+npm run server:start:dev
 ```
 
-To start the backend
-
-```sh
-npm run server:start
-```
 
 ## Components vs Views
 
