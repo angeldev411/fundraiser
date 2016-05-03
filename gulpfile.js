@@ -2,7 +2,7 @@ var browserify = require('browserify');
 var reactify = require('reactify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
-var sass = require('gulp-sass')
+var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyCSS = require('gulp-minify-css');
 var rename = require('gulp-rename');
@@ -27,7 +27,7 @@ var styleList = [
 
 gulp.task('cleanAssets', function(cb) {
   del(['www/assets/*'], cb);
-})
+});
 
 gulp.task('cleanJS', function(cb) {
   del(['www/bundle.js'], cb);
@@ -44,7 +44,7 @@ gulp.task('sass', ['cleanCSS'], function() {
     .pipe(sourcemaps.write())
     .pipe(concat('all.css'))
     .pipe(rename('style.css'))
-    .pipe(gulp.dest('./www/assets/css/'))
+    .pipe(gulp.dest('./www/assets/css/'));
 });
 
 gulp.task('moveAssets', ['cleanAssets'], function() {
