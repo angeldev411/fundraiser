@@ -24,6 +24,25 @@ To start node server
 npm run server:start:dev
 ```
 
+## Gotchas
+To run a one off script you need to make sure you install babel-cli and execute your script using babel
+```sh
+npm install babel-cli -g
+```
+
+```javascript
+'use strict';
+import util from './server/helpers/util.js';
+
+console.log(util.hash('somepassword'));
+```
+
+Then run it with:
+
+```sh
+babel-node test.js
+```
+
 
 ## Components vs Views
 
