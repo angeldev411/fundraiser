@@ -13,6 +13,7 @@ import teamController from '../team/controller';
 import ProjectLeader from '../user/project-leader/model';
 import projectController from '../project/controller';
 import HourRepository from '../hours/model';
+import util from '../helpers/util.js';
 
 class setup {
     static wipeDb() {
@@ -59,8 +60,7 @@ class setup {
 
     static addSuperAdmins() {
         const promises = fixtures.superAdmins.map((userToAdd) => {
-            userToAdd.password = userToAdd.hashedPassword;
-            delete userToAdd.hashedPassword;
+            userToAdd.password = util.hash(userToAdd.password);
             return new SuperAdmin(userToAdd);
         });
 
@@ -97,8 +97,7 @@ class setup {
         // TODO check this
         const userToAdd = fixtures.projectLeaders[0];
 
-        userToAdd.password = userToAdd.hashedPassword;
-        delete userToAdd.hashedPassword;
+        userToAdd.password = util.hash(userToAdd.password);
 
         return new ProjectLeader(userToAdd, fixtures.projects[0].slug)
         .then((userAdded) => {
@@ -155,8 +154,7 @@ class setup {
         for (var i = 0; i < fixtures.teamLeaders.length; i++) {
             const userToAdd = fixtures.teamLeaders[i];
 
-            userToAdd.password = userToAdd.hashedPassword;
-            delete userToAdd.hashedPassword;
+            userToAdd.password = util.hash(userToAdd.password);
 
             promises.push(new TeamLeader(userToAdd, fixtures.teams[i].slug))
         }
@@ -177,8 +175,7 @@ class setup {
     static addVolunteers() {
         return Promise.resolve(fixtures.volunteers)
         .each((volunteer, i) => {
-            volunteer.password = volunteer.hashedPassword;
-            delete volunteer.hashedPassword;
+            volunteer.password = util.hash(volunteer.password);
             if (!(i % 2)) {
                 return new Volunteer(volunteer, fixtures.teams[0].slug);
             } else {

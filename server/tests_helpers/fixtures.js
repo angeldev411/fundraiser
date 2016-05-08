@@ -1,13 +1,13 @@
 'use strict';
 import DataURI from 'datauri';
+
 const signature = (name = 'sig1') => new DataURI(`${__dirname}/files/images/signatures/${name}.png`);
 
 const fixtures = {
     superAdmins: [
         {
-            email: 'mmmurf@gmail.com',
+            email: 'admin@raiserve.org',
             password: 'testtesttest',
-            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
             firstName: 'matt',
             lastName: 'murphy',
         },
@@ -17,21 +17,18 @@ const fixtures = {
         {
             email: 'team-leader@gmail.com',
             password: 'testtesttest',
-            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
             firstName: 'team',
             lastName: 'leader',
         },
         {
             email: 'team-leader-totla@gmail.com',
             password: 'testtesttest',
-            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
             firstName: 'Tot',
             lastName: 'La',
         },
         {
             email: 'team-leader-totmtl@gmail.com',
             password: 'testtesttest',
-            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
             firstName: 'Tot',
             lastName: 'MTL',
         },
@@ -41,7 +38,6 @@ const fixtures = {
         {
             email: 'project-leader@gmail.com',
             password: 'testtesttest',
-            hashedPassword: 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982',
             firstName: 'project',
             lastName: 'leader',
         },
@@ -90,7 +86,6 @@ const fixtures = {
             email: 'adrien.kuhn+wilson@osedea.com',
             password: 'wilson',
             goal: 30,
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: 'Born on the west coast. Going to school on the east coast',
         },
         {
@@ -99,7 +94,6 @@ const fixtures = {
             lastName: 'Miller',
             slug: 'heather-miller',
             password: 'wilson',
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             email: 'adrien.kuhn+heather@osedea.com',
             goal: 50,
             location: 'York, Pa',
@@ -112,7 +106,6 @@ const fixtures = {
             email: 'adrien.kuhn+ksim@osedea.com',
             password: 'wilson',
             goal: 15,
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -121,7 +114,6 @@ const fixtures = {
             email: 'adrien.kuhn+hst@osedea.com',
             password: 'wilson',
             goal: 240,
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -129,7 +121,6 @@ const fixtures = {
             lastName: 'Stein',
             email: 'adrien.kuhn+oste@osedea.com',
             password: 'wilson',
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -137,7 +128,6 @@ const fixtures = {
             lastName: 'Shen',
             email: 'adrien.kuhn+jshe@osedea.com',
             password: 'wilson',
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -145,7 +135,6 @@ const fixtures = {
             lastName: 'Li',
             email: 'adrien.kuhn+kli@osedea.com',
             password: 'wilson',
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -153,7 +142,6 @@ const fixtures = {
             lastName: 'Gartner',
             email: 'adrien.kuhn+ng@osedea.com',
             password: 'wilson',
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
         {
@@ -161,7 +149,6 @@ const fixtures = {
             lastName: 'Brisby',
             email: 'adrien.kuhn+vbrisb@osedea.com',
             password: 'wilson',
-            hashedPassword: '919e680ee460849a74a82614de062bfbbac76bc98a2f692952b5fcb6364e598b',
             description: '',
         },
     ],
