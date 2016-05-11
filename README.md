@@ -1,46 +1,28 @@
 # Raiserve
 
-To install the package manager
+## Database configuration
+
+* Download [Neo4J](http://neo4j.com/download/)
+* Launch it
+* Go to Options > Server configuration
+* Edit the `dbms.security.auth_enabled` constante to `false`
+
+To reset your DB with test values:
+```sh
+npm run setup-db
+```
+
+## Running in development
+
+[Install React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
 
 ```sh
 nvm install `cat .node-version`
-```
-
-Use the right npm version
-
-```sh
 nvm use `cat .node-version`
-```
-
-Install dependencies
-
-```sh
+npm install gulp -g
 npm install
-```
-
-To start node server
-
-```sh
+gulp
 npm run server:start:dev
-```
-
-## Gotchas
-To run a one off script you need to make sure you install babel-cli and execute your script using babel
-```sh
-npm install babel-cli -g
-```
-
-```javascript
-'use strict';
-import util from './server/helpers/util.js';
-
-console.log(util.hash('somepassword'));
-```
-
-Then run it with:
-
-```sh
-babel-node test.js
 ```
 
 
@@ -57,18 +39,6 @@ To read : [Smart and dumb components](https://medium.com/@dan_abramov/smart-and-
 Really common/reusable styles should be in `src/common/styles/`.
 
 Component styles should be in the folder of their own component.
-
-## Database configuration
-
-* Download [Neo4J](http://neo4j.com/download/)
-* Launch it
-* Go to Options > Server configuration
-* Edit the `dbms.security.auth_enabled` constante to `false`
-
-To reset your DB with test values:
-```sh
-npm run setup-db
-```
 
 ## Includes
 
