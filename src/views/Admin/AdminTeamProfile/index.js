@@ -87,17 +87,21 @@ class AdminTeamProfile extends Component {
     change = (attribute, event) => {
       const newState = Object.assign({}, this.state);
       let value = event.nativeEvent.target.value;
-      if(attribute === 'deadline')
-        value = new Date(value);
+      if(attribute === 'deadline'){
+        // passing the value as-is would adjust for timezone and probably return
+        // the previous day.
+        // Using new Date(year, month, day) instead. Month is 0-based.
+        const date = value.split('-');
+        value = new Date(date[0], date[1]-1, date[2]);
+      }
 
       newState.team[attribute] = value;
-
+      
       this.setState(newState);
       Actions.updateTeam(
         newState.team.id,
         newState.team
       )(this.props.dispatch);
-
     }
 
     requestPassword = () => {
