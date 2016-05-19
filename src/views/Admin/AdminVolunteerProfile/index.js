@@ -1,6 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 /* Then React components */
 import Page from '../../../components/Page';
@@ -187,6 +188,10 @@ export default class AdminVolunteerProfile extends Component {
         return (<div className="error-message">{this.state.error}</div>);
     };
 
+    deadline = () => {
+      return moment(this.props.user.team.deadline).format('MMM D YYYY');
+    };
+
     handleChange = (evt, name) => {
         const user = this.state.user;
 
@@ -334,7 +339,7 @@ export default class AdminVolunteerProfile extends Component {
                                     <textarea
                                         name="description"
                                         id="description"
-                                        placeholder="Why You're Volunteering, Why this matters to you. Be inspiring as this will engage people to sponsor you."
+                                        placeholder="Why you're Volunteering, why this matters to you. Be inspiring as this will engage people to sponsor you."
                                         defaultValue={this.getUserMessage()}
                                         rows="3"
                                         onChange={(e) => { this.handleChange(e, 'description') }}
@@ -351,35 +356,35 @@ export default class AdminVolunteerProfile extends Component {
                                         defaultValue={this.getUserGoal()}
                                         onChange={(e) => { this.handleChange(e, 'goal') }}
                                     />
-                                    <label htmlFor="goal">{'Goal Hours'}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
+                                  <label htmlFor="goal">{`Goal Hours by ${this.deadline()}`}<span className={'lowercase'}>{' Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
 
                                 {this.state.success ? this.getSuccessMessage() : null}
                                 {this.state.error ? this.getErrorMessage() : null}
 
                                 {
-                                    this.state.success ?
-                                        <Button
-                                            to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
-                                            customClass="profile-actions btn-green-white"
-                                        >
-                                            {'Preview'}
-                                        </Button> :
-                                        <div>
-                                            <Button
-                                                customClass="profile-actions btn-green-white"
-                                                onClick={this.submitProfile}
-                                                disabled={this.state.loading}
-                                            >
-                                                {'Save'}
-                                            </Button>
-                                            <Button
-                                                to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
-                                                customClass="profile-actions btn-green-white"
-                                            >
-                                                {'Cancel'}
-                                            </Button>
-                                        </div>
+                                  this.state.success ?
+                                      <Button
+                                          to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
+                                          customClass="profile-actions btn-green-white"
+                                      >
+                                          {'Preview'}
+                                      </Button> :
+                                      <div>
+                                          <Button
+                                              customClass="profile-actions btn-green-white"
+                                              onClick={this.submitProfile}
+                                              disabled={this.state.loading}
+                                          >
+                                              {'Save'}
+                                          </Button>
+                                          <Button
+                                              to={Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}
+                                              customClass="profile-actions btn-green-white"
+                                          >
+                                              {'Cancel'}
+                                          </Button>
+                                      </div>
                                 }
                             </form>
                         </section>
