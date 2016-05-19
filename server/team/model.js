@@ -18,7 +18,7 @@ const Node = db.defineNode({
         id: db.Joi.string().required(),
         name: db.Joi.string().required(),
         slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
-        deadline: db.Joi.date().required(),
+        deadline: db.Joi.date().required().max( moment().add(1,'year')._d ),
         logo: db.Joi.string(),
         coverImage : db.Joi.string(),
         tagline: db.Joi.string(),
