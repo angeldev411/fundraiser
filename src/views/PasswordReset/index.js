@@ -52,7 +52,7 @@ class PasswordReset extends Component {
                 >
                     <div className={"main-content"}>
                         <div className={"container passwordResetContainer"}>
-                            <h2>{'Your password has been reseted'}</h2>
+                            <h2>{'Your password has been updated'}</h2>
                             <Button to="/"
                                 customClass="btn-green-white btn-lg"
                             >
