@@ -24,6 +24,7 @@ class VolunteerProfile extends Component {
             team: {
                 name: '',
                 tagline: '',
+                deadline: ''
             },
             project: {
                 name: '',

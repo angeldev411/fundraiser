@@ -8,6 +8,7 @@ import frontEndUrls from '../../src/urls.js';
 import messages from '../messages';
 import UserController from '../user/controller';
 import utils from '../helpers/util';
+import moment from 'moment';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -17,6 +18,7 @@ const Node = db.defineNode({
         id: db.Joi.string().required(),
         name: db.Joi.string().required(),
         slug: db.Joi.string().regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).required(),
+        deadline: db.Joi.date().required().max( moment().add(1,'year')._d ),
         logo: db.Joi.string(),
         coverImage : db.Joi.string(),
         tagline: db.Joi.string(),
@@ -46,6 +48,7 @@ class Team {
             slug: rawTeamData.slug.toLowerCase(),
             id: uuid.v4(),
             goal: 20, // default goal
+            deadline: moment().add(1,'month')._d,
             totalVolunteers: 0,
             currentHours: 0,
             totalHours: 0,
@@ -169,6 +172,7 @@ class Team {
             ...(typeof teamData.description !== 'undefined' ? { description: teamData.description } : {}),
             ...(typeof teamData.raised !== 'undefined' ? { raised : teamData.raised } : {}),
             ...(typeof teamData.goal !== 'undefined' ? { goal : teamData.goal } : {}),
+            ...(typeof teamData.deadline !== 'undefined' ? { deadline : teamData.deadline } : {}),
             ...(typeof teamData.totalRaised !== 'undefined' ? { totalRaised : teamData.totalRaised } : {}),
             ...(typeof teamData.hourlyPledge !== 'undefined' ? { hourlyPledge : teamData.hourlyPledge } : {}),
             ...(typeof teamData.currentHours !== 'undefined' ? { currentHours: teamData.currentHours } : {}),

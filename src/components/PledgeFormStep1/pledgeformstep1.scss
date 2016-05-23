@@ -8,12 +8,17 @@
     padding-bottom: 0;
 }
 
-#pledge-goal {
+#pledge-goal, #pledge-deadline {
     text-align: center;
     opacity: .7;
     font-size: 1.4em;
     padding: 20px 0 0;
+    margin-bottom: 0px;
     font-family: $conduit-light;
+}
+
+#pledge-deadline {
+  padding-top: 0px;
 }
 
 #tooltip-label {

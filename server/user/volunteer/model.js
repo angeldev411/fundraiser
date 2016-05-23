@@ -418,7 +418,7 @@ export default class Volunteer {
         )
         .getResults('volunteers')
         .then(() => {
-            console.log('Volunteers and teams current hours successfully reseted!');
+            console.log('Volunteer and team hours have been reset');
         })
         .catch((err) => {
             console.log('Reset current hours failed:', err);

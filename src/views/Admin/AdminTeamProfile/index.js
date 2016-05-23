@@ -1,6 +1,8 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 /* Then React components */
 import Page from '../../../components/Page';
 import Button from '../../../components/Button';
@@ -23,7 +25,6 @@ class AdminTeamProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.user) {
             this.setState({
                 user: nextProps.user,
@@ -69,8 +70,6 @@ class AdminTeamProfile extends Component {
 
         newState.team.goal = event.nativeEvent.target.value;
 
-        console.log(newState);
-
         this.setState(newState);
 
         Actions.updateTeam(
@@ -78,6 +77,32 @@ class AdminTeamProfile extends Component {
             newState.team
         )(this.props.dispatch);
     };
+
+    currentDeadline = () => {
+      const deadline = this.state.team.deadline || moment().add(1,'month')._d;
+      return moment(deadline).format('YYYY-MM-DD');
+    };
+
+    // TODO: update other attributes to use this
+    change = (attribute, event) => {
+      const newState = Object.assign({}, this.state);
+      let value = event.nativeEvent.target.value;
+      if(attribute === 'deadline'){
+        // passing the value as-is would adjust for timezone and probably return
+        // the previous day.
+        // Using new Date(year, month, day) instead. Month is 0-based.
+        const date = value.split('-');
+        value = new Date(date[0], date[1]-1, date[2]);
+      }
+
+      newState.team[attribute] = value;
+      
+      this.setState(newState);
+      Actions.updateTeam(
+        newState.team.id,
+        newState.team
+      )(this.props.dispatch);
+    }
 
     requestPassword = () => {
         this.setState({
@@ -139,9 +164,8 @@ class AdminTeamProfile extends Component {
                                 customClass="btn-lg btn-transparent-green"
                                 to={`${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}?edit`}
                             >
-                                {'Edit Your Page'}
+                                {'Edit the team page'}
                             </Button>
-                            <p className={'action-description'}>{'You can edit your public team page visuals and messaging by clicking the link above'}</p>
                         </section>
                         <section>
                             <Button
@@ -201,7 +225,16 @@ class AdminTeamProfile extends Component {
                                 value={this.props.user.team.goal}
                                 onChange={(e) => {this.changeGoal(e)}}
                             />
-                            <p className={'action-description action-margin goal-description'}>{'TEAM GOAL HOURS (min 1). This is different from your volunteers goals, however their time will contribute to their goal'}</p>
+                          <p className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'}</p>
+
+                            <input
+                              type="date"
+                              name="deadline"
+                              id="deadline"
+                              value={ this.currentDeadline() }
+                              onChange={(e) => { this.change('deadline', e) }}
+                              />
+                            <p className={'action-description action-margin goal-description'}>{'What is the deadline for your team? It can be up to a year from the start date.'}</p>
                         </section>
                         <section>
                             <Button

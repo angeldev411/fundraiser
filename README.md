@@ -12,19 +12,21 @@ To reset your DB with test values:
 npm run setup-db
 ```
 
-## Running in development
+## Development
 
 [Install React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+
+[Install LiveReload for Chrome](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
 
 ```sh
 nvm install `cat .node-version`
 nvm use `cat .node-version`
 npm install gulp -g
 npm install
-gulp
-npm run server:start:dev
+gulp dev
 ```
 
+*Be sure to click the livereload icon in your browser*
 
 ## Components vs Views
 

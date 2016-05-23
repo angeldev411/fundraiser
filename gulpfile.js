@@ -1,18 +1,16 @@
 var browserify = require('browserify');
-var reactify = require('reactify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
-var minifyCSS = require('gulp-minify-css');
 var rename = require('gulp-rename');
-var webserver = require('gulp-webserver');
 var del = require('del');
 var babel = require('babelify');
-var debug = require('gulp-debug');
 var concat = require('gulp-concat');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
+var livereload = require('gulp-livereload');
+var nodemon = require('gulp-nodemon');
 
 var assetList = [
   './src/assets/fonts/**/*.*',
@@ -38,60 +36,79 @@ gulp.task('cleanCSS', function(cb) {
 });
 
 gulp.task('sass', ['cleanCSS'], function() {
-  gulp.src(styleList)
+  return gulp.src(styleList)
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write())
     .pipe(concat('all.css'))
     .pipe(rename('style.css'))
-    .pipe(gulp.dest('./www/assets/css/'));
+    .pipe(gulp.dest('./www/assets/css/'))
+    .pipe( livereload() );
 });
 
 gulp.task('moveAssets', ['cleanAssets'], function() {
-  gulp.src(assetList, {
-    base: './src/assets'
-  })
-  .pipe(gulp.dest('./www/assets'));
+  gulp.src(assetList, { base: './src/assets' })
+    .pipe(gulp.dest('./www/assets'))
+    .pipe( livereload() );
 });
 
 gulp.task('js', ['cleanJS'], function() {
-    browserify('./src/index.js', {debug: true})
-    .transform(babel)
-    .bundle()
-    .on('error', function(error) { console.log(error); })
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./www/'));
+    var stream = browserify('./src/index.js', {debug: false})
+      .transform(babel)
+      .bundle()
+      .on('error', function(error) { console.log(error); })
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init())
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('./www/'))
+      .pipe( livereload() );
+
+    return stream;
 });
 
 gulp.task('minjs', ['cleanJS'], function() {
     browserify('./src/index.js', {debug: false})
-    .transform(babel)
-    .bundle()
-    .on('error', function(error) { console.log(error); })
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(uglify())
-    .pipe(gulp.dest('./www/'));
+      .transform(babel)
+      .bundle()
+      .on('error', function(error) { console.log(error); })
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(uglify())
+      .pipe(gulp.dest('./www/'));
 });
 
 gulp.task('fa', function() {
     gulp.src('./node_modules/font-awesome/**/*.{ttf,woff,woff2,eof,svg,min.css}')
-    .pipe(gulp.dest('./www/assets/'));
+      .pipe(gulp.dest('./www/assets/'))
+      .pipe( livereload() );
 });
 
 gulp.task('glyphicons', function() {
-    gulp.src('./node_modules/bootstrap/**/*.{ttf,woff,woff2,eot,svg}')
-    .pipe(gulp.dest('./www/assets/'));
+  gulp.src('./node_modules/bootstrap/**/*.{ttf,woff,woff2,eot,svg}')
+    .pipe(gulp.dest('./www/assets/'))
+    .pipe( livereload() );
 });
 
 gulp.task('watch', function() {
+  livereload.listen();
   gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons']);
   gulp.watch(['./src/**/*.js'], ['js']);
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
+gulp.task('dev', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons','watch'], function () {
+  nodemon({
+    script: 'server/app.js',
+    exec: './node_modules/.bin/babel-node',
+    ignore: ['www','sessions'],
+    ext: 'js html',
+    env: { 'NODE_ENV': 'development' }
+  })
+    .once('quit', function () {
+      console.log('Exiting.');
+      process.exit();
+    });
+});
+
 gulp.task('default', ['moveAssets', 'minjs', 'sass', 'fa', 'glyphicons']);
-gulp.task('develop', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons', 'watch']);

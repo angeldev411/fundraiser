@@ -78,7 +78,8 @@ export default class PledgeFormStep1 extends Component {
                             data-event={'click'}
                         ></i>
                     </span>
-                    <p id="pledge-goal">{this.props.goal ? `for ${this.props.goal} goal hours` : null}</p>
+                    <p id="pledge-goal">{this.props.goal ? `Goal: ${this.props.goal} hours` : null}</p>
+                    <p id="pledge-deadline">{this.props.deadline ? `by ${this.props.deadline}` : null}</p>
                     <ReactTooltip />
                 </div>
             );
@@ -167,8 +168,9 @@ export default class PledgeFormStep1 extends Component {
 }
 
 PledgeFormStep1.propTypes = {
-    teamSlug: React.PropTypes.string,
-    volunteerSlug: React.PropTypes.string,
-    goal: React.PropTypes.number,
-    oneTimeOnly: React.PropTypes.bool,
+  teamSlug: React.PropTypes.string,
+  volunteerSlug: React.PropTypes.string,
+  goal: React.PropTypes.number,
+  deadline: React.PropTypes.string,
+  oneTimeOnly: React.PropTypes.bool,
 };
