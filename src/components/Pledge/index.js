@@ -23,6 +23,7 @@ export default class Pledge extends Component {
                     volunteerSlug={this.props.volunteerSlug}
                     oneTimeOnly={this.props.oneTimeOnly}
                     goal={this.props.goal}
+                    deadline={this.props.deadline}
                 />
             </div>
         );
@@ -36,4 +37,5 @@ Pledge.propTypes = {
     volunteerSlug: React.PropTypes.string,
     oneTimeOnly: React.PropTypes.bool,
     goal: React.PropTypes.number,
+    deadline: React.PropTypes.string
 };

@@ -5,6 +5,7 @@ import EditButton from '../EditButton';
 import EditCoverForm from '../EditCoverForm';
 import EditTaglineForm from '../EditTaglineForm';
 import * as constants from '../../common/constants';
+import moment from 'moment';
 
 export default class Cover extends Component {
     constructor(props) {
@@ -44,6 +45,10 @@ export default class Cover extends Component {
         });
     };
 
+    deadline() {
+      return moment( this.props.team.deadline ).format('MMM DD YYYY');
+    }
+
     render() {
         const style = {
             backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
@@ -70,6 +75,7 @@ export default class Cover extends Component {
                                     customClass="btn-default"
                                     volunteerSlug={this.props.volunteer.slug}
                                     goal={this.props.volunteer.goal}
+                                    deadline={ this.deadline() }
                                 >
                                     {this.props.button}
                                 </PledgeButton>
@@ -100,6 +106,7 @@ export default class Cover extends Component {
                             customClass="btn-default"
                             volunteerSlug={this.props.volunteer.slug}
                             goal={this.props.volunteer.goal}
+                            deadline={ this.deadline() }
                         >
                             {this.props.button}
                         </PledgeButton>
@@ -141,6 +148,7 @@ export default class Cover extends Component {
                             customClass="btn-default"
                             teamSlug={this.props.team.slug}
                             goal={this.props.team.goal}
+                            deadline={ this.deadline() }
                         >
                             {this.props.button}
                         </PledgeButton>
@@ -179,7 +187,7 @@ export default class Cover extends Component {
 
         return (
             <div className={`cover ${this.props.customclass}`}
-                style={style}
+                style={style} 
             >
                 <div className="cover-container">
                     {COVERCONTENT}
