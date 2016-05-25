@@ -1,0 +1,21 @@
+# npm
+node_modules
+npm-debug.log
+
+# Assets & compiled app
+www/assets
+www/bundle.js
+www/bundle-min.js
+
+# IDE left-overs
+*.sublime-project
+*.sublime-workspace
+.idea/
+.*~
+.DS_Store
+
+# Sessions
+sessions/*
+
+# Newrelic
+newrelic_agent.log
