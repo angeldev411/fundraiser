@@ -151,9 +151,7 @@ export default class AdminVolunteerProfile extends Component {
     };
 
     getUserGoal = () => {
-        if (this.state.user && this.state.user.goal) {
-            return this.state.user.goal;
-        }
+      return (this.state.user && this.state.user.goal) || 0;
     };
 
     getUserId = () => {
