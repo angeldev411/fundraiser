@@ -13,11 +13,12 @@ const db = neo4jDB(config.DB_URL);
 import User from '../model';
 import Hours from '../../hours/model';
 
+// REL3: This does not appear to be used.
 export const volunteerSchema = {
     slug: db.Joi.string(),
     image: db.Joi.string(),
     description: db.Joi.string(),
-    goal: db.Joi.number(),
+    goal: db.Joi.number().integer().min(1).required()
 };
 
 export default class Volunteer {
@@ -300,12 +301,10 @@ export default class Volunteer {
             }
         }
 
-        if (typeof user.goal !== 'undefined') {
-            user.goal = parseInt(user.goal, 10);
-            if (isNaN(user.goal) || user.goal < 0 || user.goal > 999) {
-                return Promise.reject('Invalid goal');
-            }
-        }
+      user.goal = parseInt(user.goal, 10);
+      if (isNaN(user.goal) || user.goal < 1 || user.goal > 999) {
+        return Promise.reject('Please choose your goal hours before continuing');
+      }
 
         if (typeof user.roles !== 'undefined') {
             Reflect.deleteProperty(user, 'roles');
