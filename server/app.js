@@ -84,6 +84,6 @@ app.use('*', express.static(`${__dirname}/../www/`));
 
 app.listen(config.EXPRESS_PORT);
 
-console.log(`It's on! Go to http://localhost:${config.EXPRESS_PORT}`)
+console.log(`It's on! Go to http://localhost:${config.EXPRESS_PORT}`);
 
 export default app;
