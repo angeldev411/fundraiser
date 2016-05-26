@@ -5,8 +5,13 @@ import session from 'express-session';
 import sessionFileStore from 'session-file-store';
 const FileStore = sessionFileStore(session);
 
+const S3_BUCKET = process.env.S3_BUCKET || 'raiserve-images-dev';
+const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID || 'AKIAJ2DU5K5EGL3R5JSA';
+const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY || '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';
+const SECURE = (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() !== 'development');
+
 export default {
-    DB_URL: (process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/'),
+    DB_URL: process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/',
     EXPRESS_PORT: process.env.PORT || 3000,
     SESSION_CONFIG: {
         secret: 'rsn0telll33333',
@@ -16,22 +21,22 @@ export default {
         unset: 'destroy',
         cookie: {
             maxAge: 720 * 60 * 60 * 1000,
-            secure: false // TODO: set to true with HTTPS
+            secure: SECURE
         },
     },
     S3: {
-        BASE_URL: 'https://s3.amazonaws.com/raiserve-images',
-        BUCKET: 'raiserve-images',
+        BASE_URL: `https://s3.amazonaws.com/${S3_BUCKET}`,
+        BUCKET: S3_BUCKET,
     },
     S3_ACCESS: {
-        accessKeyId: 'AKIAIGQPJ2MQF6YBZBWQ',
-        secretAccessKey: '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',
+        accessKeyId: S3_ACCESS_KEY_ID,
+        secretAccessKey: S3_SECRET_ACCESS_KEY,
         region: 'us-east-1',
     },
     STRIPE_TOKEN: 'sk_test_VxrSBOOWOiUa2FVSDSCgZ0RX',
     USER_IMAGES_FOLDER: constantsFront.USER_IMAGES_FOLDER,
     TEAM_IMAGES_FOLDER: constantsFront.TEAM_IMAGES_FOLDER,
-    MANDRILL_API_KEY: (process.env.MANDRILL_API_KEY || 'fvFbEdZSRHYqCj06utSvSg'),
+    MANDRILL_API_KEY: process.env.MANDRILL_API_KEY || 'fvFbEdZSRHYqCj06utSvSg',
     DOMAIN: process.env.HOSTNAME || constantsFront.DOMAIN || 'https://raiserve.org',
     URL: `${process.env.PROTOCOL}${process.env.HOSTNAME}` || 'http://raiserve.org',
     BILLING: {
