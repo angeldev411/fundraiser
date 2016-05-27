@@ -9,6 +9,7 @@ import * as Urls from '../urls.js';
 /* Add new views here */
 import Home from '../views/Home';
 import AdminProjects from '../views/Admin/AdminProjects';
+import AdminSettings from '../views/Admin/AdminSettings.js';
 import AdminVolunteers from '../views/Admin/AdminVolunteers';
 import AdminSponsors from '../views/Admin/AdminSponsors';
 import AdminTeams from '../views/Admin/AdminTeams';
@@ -28,6 +29,10 @@ export default (
             component={Home}
         />
         /* Add new routes here */
+        <Route
+            path={Urls.ADMIN_SETTINGS}
+            component={requireAuthentication(AdminSettings, 'SUPER_ADMIN')}
+        />
         <Route
             path={Urls.ADMIN_PROJECTS}
             component={requireAuthentication(AdminProjects)}

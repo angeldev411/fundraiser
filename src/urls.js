@@ -25,11 +25,14 @@ export const ADMIN_PROJECTS = 'projects';
 export const ADMIN_VOLUNTEERS = 'volunteers';
 export const ADMIN_SPONSORS = 'sponsors';
 export const ADMIN_TEAMS = 'teams';
+export const ADMIN_SETTINGS = 'settings';
 export const ADMIN_PROJECTS_URL = `${ADMIN_BASE_URL}/${ADMIN_PROJECTS}`;
 export const ADMIN_VOLUNTEERS_URL = `${ADMIN_BASE_URL}/${ADMIN_VOLUNTEERS}`;
 export const ADMIN_SPONSORS_URL = `${ADMIN_BASE_URL}/${ADMIN_SPONSORS}`;
 export const ADMIN_TEAMS_URL = `${ADMIN_BASE_URL}/${ADMIN_TEAMS}`;
 
+// SUPER ADMIN STUFF
+export const ADMIN_SETTINGS_URL = `${ADMIN_BASE_URL}/${ADMIN_SETTINGS}`;
 
 export const ADMIN_TEAM_DASHBOARD = 'team';
 export const ADMIN_TEAM_PROFILE = `${ADMIN_TEAM_DASHBOARD}/profile`;

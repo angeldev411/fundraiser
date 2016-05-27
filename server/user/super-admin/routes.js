@@ -36,4 +36,22 @@ router.post('/api/v1/super-admin/team/invite', (req, res) => {
     });
 });
 
+router.post('/api/v1/super-admin/execute/monthly/payments', (req, res) => {
+    console.log('yo!');
+    res.status(200).send('it worked');
+    // return UserController.invite(req.body.email, PROJECT_LEADER, req.body.teamSlug)
+    // .then((user) => {
+    //     if (user) {
+    //         res.status(200).send(messages.invite.projectLeaderOk);
+    //         return;
+    //     }
+    //     res.status(500).send(messages.invite.error);
+    //     return;
+    // })
+    // .catch((err) => {
+    //     res.status(500).send(messages.invite.error);
+    //     return;
+    // });
+});
+
 export default router;
