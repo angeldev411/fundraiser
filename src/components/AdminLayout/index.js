@@ -25,6 +25,11 @@ class AdminLayout extends Component {
                     type: 'link',
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
+                {
+                    title: 'Admin & Settings',
+                    type: 'link',
+                    href: Urls.ADMIN_SETTINGS_URL,
+                },
             ];
         } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
             return [
