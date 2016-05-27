@@ -4,7 +4,12 @@ const initialState = {};
 
 export default function reducers(state = initialState, action) {
     switch (action.type) {
-        case actionTypes.EXECUTE_MONTHLY_PAYMENTS:
+        case actionTypes.EXECUTE_RESET_HOURS:
+            return {
+                ...state,
+                reset: action.user,
+            };
+            case actionTypes.EXECUTE_MONTHLY_PAYMENTS:
             return {
                 ...state,
                 reset: action.user,

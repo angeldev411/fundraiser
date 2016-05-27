@@ -28,3 +28,29 @@ export function executeMonthlyPayments() {
         );
     };
 }
+
+export const executedResetHours = (user) => ({
+    type: actionTypes.EXECUTE_MONTHLY_PAYMENTS,
+    user,
+});
+
+
+export function executeResetHours() {
+    return (dispatch) => {
+        return axios.post(
+            `${API_URL}/super-admin/execute/reset/hours`
+        )
+        .then(
+            (response) => {
+                console.log(response);
+                // dispatch(loggedout());
+            }
+        )
+        .catch(
+            (errorResponse) => {
+                console.error('Couldnt run reset hours script');
+                // dispatch(loggedout());
+            }
+        );
+    };
+}

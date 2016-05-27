@@ -34,6 +34,10 @@ class AdminSettings extends Component {
       AdminActions.executeMonthlyPayments()(this.props.dispatch);  
     };
     
+    executeResetCurrentHours = () =>{
+      AdminActions.executeResetHours()(this.props.dispatch);  
+    };
+    
     render() {
         return (
             <Page>
@@ -47,6 +51,12 @@ class AdminSettings extends Component {
                                 onClick={this.executeMonthlyPayments}
                             >
                                 Run Monthly Payment Script
+                            </Button>
+                            <Button
+                                customClass="btn-green-white btn-lg"
+                                onClick={this.executeResetCurrentHours}
+                            >
+                                Reset Current Hours
                             </Button>
                         </div>
                 </AdminLayout>
