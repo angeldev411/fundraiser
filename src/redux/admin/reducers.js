@@ -7,12 +7,17 @@ export default function reducers(state = initialState, action) {
         case actionTypes.EXECUTE_RESET_HOURS:
             return {
                 ...state,
-                reset: action.user,
+                status: action,
             };
-            case actionTypes.EXECUTE_MONTHLY_PAYMENTS:
+        case actionTypes.EXECUTE_MONTHLY_PAYMENTS:
             return {
                 ...state,
-                reset: action.user,
+                status: action,
+            };
+        case actionTypes.EXECUTE_ERROR:
+            return {
+                ...state,
+                error: action.user,
             };
         default:
             return state;

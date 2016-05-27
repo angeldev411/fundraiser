@@ -12,6 +12,10 @@ import Button from '../../components/Button';
 class AdminSettings extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false,
+            
+        };
     }
 
     componentWillMount() {
@@ -19,22 +23,35 @@ class AdminSettings extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.error) {
-            this.setState({ error: nextProps.error });
-        }
-        if (nextProps.user) {
+        if (nextProps.executeSuccess) {
+            this.setState({ loading: false, success: nextProps.executeSuccess });
+        } else if (nextProps.executeError) {
             this.setState(
                 {
+                    loading: false,
+                    error: nextProps.executeError,
+                }
+            );
+        } else if (nextProps.user) {
+            this.setState(
+                {
+                    loading: false,
                     user: nextProps.user,
                 }
             );
         }
     }
     executeMonthlyPayments = () =>{
-      AdminActions.executeMonthlyPayments()(this.props.dispatch);  
+      this.setState({
+        loading: true,
+      });
+      AdminActions.executeMonthlyPayments()(this.props.dispatch);
     };
     
     executeResetCurrentHours = () =>{
+      this.setState({
+         loading: true,
+      });
       AdminActions.executeResetHours()(this.props.dispatch);  
     };
     
@@ -46,18 +63,15 @@ class AdminSettings extends Component {
                         description={'Do super user stuff like you know you want to.'}
                     />
                      <div>
-                            <Button
+                            <p><Button
                                 customClass="btn-green-white btn-lg"
                                 onClick={this.executeMonthlyPayments}
+                                disabled={this.state.loading}
                             >
                                 Run Monthly Payment Script
-                            </Button>
-                            <Button
-                                customClass="btn-green-white btn-lg"
-                                onClick={this.executeResetCurrentHours}
-                            >
-                                Reset Current Hours
-                            </Button>
+                            </Button></p>
+                            
+                            {this.state.error ? <p>{this.state.error}</p> : null}
                         </div>
                 </AdminLayout>
                                    
@@ -71,5 +85,7 @@ AdminSettings.propTypes = {
 };
 
 export default connect((reduxState) => ({
-    user: reduxState.main.auth.user
+    user: reduxState.main.auth.user,
+    executeError: reduxState.main.admin.error,
+    executeSuccess: reduxState.main.admin.status,
 }))(AdminSettings);

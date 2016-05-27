@@ -3,11 +3,15 @@ import axios from 'axios';
 import { API_URL } from '../../common/constants';
 
 
-export const executedMonthlyPayments = (user) => ({
+export const executedMonthlyPayments = (result) => ({
     type: actionTypes.EXECUTE_MONTHLY_PAYMENTS,
-    user,
+    result,
 });
 
+export const executeError = (result) => ({
+    type: actionTypes.EXECUTE_ERROR,
+    result,
+});
 
 export function executeMonthlyPayments() {
     return (dispatch) => {
@@ -16,23 +20,23 @@ export function executeMonthlyPayments() {
         )
         .then(
             (response) => {
-                console.log(response);
-                // dispatch(loggedout());
+                dispatch(executedMonthlyPayments(response));
             }
         )
         .catch(
             (errorResponse) => {
                 console.error('Couldnt run payment script');
-                // dispatch(loggedout());
+                dispatch(executeError(errorResponse));
             }
         );
     };
 }
 
-export const executedResetHours = (user) => ({
+export const executedResetHours = (result) => ({
     type: actionTypes.EXECUTE_MONTHLY_PAYMENTS,
-    user,
+    result,
 });
+
 
 
 export function executeResetHours() {
@@ -42,14 +46,13 @@ export function executeResetHours() {
         )
         .then(
             (response) => {
-                console.log(response);
-                // dispatch(loggedout());
+                dispatch(executedResetHours(response));
             }
         )
         .catch(
             (errorResponse) => {
                 console.error('Couldnt run reset hours script');
-                // dispatch(loggedout());
+                dispatch(executeError(errorResponse));
             }
         );
     };
