@@ -10,10 +10,16 @@ import * as Urls from '../src/urls.js';
 import config from './config';
 
 const app = express();
+const sess = config.SESSION_CONFIG;
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+  sess.cookie.secure = true; // serve secure cookies
+}
 
 // app.use(multer({ dest: './uploads/'}));
 app.use(cookieParser());
-app.use(session(config.SESSION_CONFIG));
+app.use(session(sess));
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -37,14 +43,6 @@ import csvRoutes from './csv/routes';
 
 app.use('/health-check', (req, res) => {
     res.status(200).send(true);
-});
-
-app.use((req, res, next) => {
-    if ((process.env.HOSTNAME === 'raiserve.org') && (!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
-        res.redirect('https://' + req.get('Host') + req.url);
-    } else {
-        next();
-    }
 });
 
 app.use(authRoutes);
@@ -84,6 +82,6 @@ app.use('*', express.static(`${__dirname}/../www/`));
 
 app.listen(config.EXPRESS_PORT);
 
-console.log(`It's on! Go to http://localhost:${config.EXPRESS_PORT}`);
+console.log(`Raiserve Running on http://localhost:${config.EXPRESS_PORT}`);
 
 export default app;

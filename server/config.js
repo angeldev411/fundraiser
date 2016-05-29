@@ -8,8 +8,8 @@ const FileStore = sessionFileStore(session);
 const S3_BUCKET = process.env.S3_BUCKET || 'raiserve-images-dev';
 const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID || 'AKIAJ2DU5K5EGL3R5JSA';
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY || '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';
-const SECURE = (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() !== 'development');
-const PROXY = SECURE; // if we are on production secure and proxy should be set to true (proxy true means trust reverse proxy)
+// const SECURE = (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() !== 'development');
+// const PROXY = SECURE; // if we are on production secure and proxy should be set to true (proxy true means trust reverse proxy)
 
 let config = {
     DB_URL: process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/',
@@ -22,8 +22,8 @@ let config = {
         unset: 'destroy',
         cookie: {
             maxAge: 720 * 60 * 60 * 1000,
-            secure: SECURE,
-            proxy: PROXY,
+            // secure: false,
+            // proxy: PROXY,
         },
     },
     S3: {
