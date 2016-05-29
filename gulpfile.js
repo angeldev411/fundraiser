@@ -11,6 +11,7 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var livereload = require('gulp-livereload');
 var nodemon = require('gulp-nodemon');
+var template = require('gulp-template');
 
 var assetList = [
   './src/assets/fonts/**/*.*',
@@ -51,6 +52,12 @@ gulp.task('moveAssets', ['cleanAssets'], function() {
     .pipe(gulp.dest('./www/assets'))
     .pipe( livereload() );
 });
+
+gulp.task('html', () =>
+    gulp.src('src/index.html')
+        .pipe(template({STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_qLwGpc6OnsFiIc8D8XF3cy2G'}))
+        .pipe(gulp.dest('./www'))
+);
 
 gulp.task('js', ['cleanJS'], function() {
     var stream = browserify('./src/index.js', {debug: false})
@@ -97,7 +104,7 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.scss', ['sass']);
 });
 
-gulp.task('dev', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons','watch'], function () {
+gulp.task('dev', ['moveAssets', 'html', 'js', 'sass', 'fa', 'glyphicons','watch'], function () {
   nodemon({
     script: 'server/app.js',
     exec: './node_modules/.bin/babel-node',
@@ -111,4 +118,4 @@ gulp.task('dev', ['moveAssets', 'js', 'sass', 'fa', 'glyphicons','watch'], funct
     });
 });
 
-gulp.task('default', ['moveAssets', 'minjs', 'sass', 'fa', 'glyphicons']);
+gulp.task('default', ['moveAssets','html', 'minjs', 'sass', 'fa', 'glyphicons']);
