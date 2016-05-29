@@ -9,19 +9,21 @@ const S3_BUCKET = process.env.S3_BUCKET || 'raiserve-images-dev';
 const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID || 'AKIAJ2DU5K5EGL3R5JSA';
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY || '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';
 const SECURE = (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() !== 'development');
+const PROXY = SECURE; // if we are on production secure and proxy should be set to true (proxy true means trust reverse proxy)
 
-export default {
+let config = {
     DB_URL: process.env.GRAPHENEDB_URL || 'http://neo4j:neo5j@localhost:7474/',
     EXPRESS_PORT: process.env.PORT || 3000,
     SESSION_CONFIG: {
         secret: 'rsn0telll33333',
-        store: new FileStore({ logFn: function(){} }), // Remove logFn to debug
+        store: new FileStore({ logFn: () => {} }), // Remove logFn to debug
         resave: false,
         saveUninitialized: false,
         unset: 'destroy',
         cookie: {
             maxAge: 720 * 60 * 60 * 1000,
-            secure: SECURE
+            secure: SECURE,
+            proxy: PROXY,
         },
     },
     S3: {
@@ -33,7 +35,7 @@ export default {
         secretAccessKey: S3_SECRET_ACCESS_KEY,
         region: 'us-east-1',
     },
-    STRIPE_TOKEN: 'sk_test_VxrSBOOWOiUa2FVSDSCgZ0RX',
+    STRIPE_TOKEN: process.env.STRIPE_SECRET_KEY || 'sk_test_VxrSBOOWOiUa2FVSDSCgZ0RX',
     USER_IMAGES_FOLDER: constantsFront.USER_IMAGES_FOLDER,
     TEAM_IMAGES_FOLDER: constantsFront.TEAM_IMAGES_FOLDER,
     MANDRILL_API_KEY: process.env.MANDRILL_API_KEY || 'fvFbEdZSRHYqCj06utSvSg',
@@ -49,3 +51,4 @@ export default {
         TEAMLEADER_LIST_ID: '3e83d1fad5',
     },
 };
+export default config;
