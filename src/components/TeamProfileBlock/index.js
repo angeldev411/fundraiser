@@ -31,7 +31,7 @@ export default class TeamProfileBlock extends Component {
     };
 
     render() {
-        let percentage = (this.state.team.currentHours / this.state.team.goal) * 100;
+        let percentage = (this.props.team.currentHours / this.props.team.goal) * 100;
 
         if (percentage > 100) {
             percentage = 100;
@@ -51,8 +51,8 @@ export default class TeamProfileBlock extends Component {
                 >
                     <img id="team-logo"
                         src={
-                            this.state.team.logo ?
-                            this.state.team.logo :
+                            this.props.team.logo ?
+                            this.props.team.logo :
                             `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
                         }
                         title=""
@@ -68,7 +68,7 @@ export default class TeamProfileBlock extends Component {
                                         this.state.team.logo :
                                         `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
                                     }
-                                    team={this.state.team}
+                                    team={this.props.team}
                                     updateTeam={this.updateTeam}
                                 />
                             }
@@ -95,9 +95,9 @@ export default class TeamProfileBlock extends Component {
                         </div>
                         <div id="team-goal-number">
                             <span id="label">{'Goal'}</span>
-                            <span id="value">{this.state.team.goal}{' hrs'}</span>
+                            <span id="value">{this.props.team.goal}{' hrs'}</span>
                         </div>
-                        <p className={'clearfix'}>{this.state.team.currentHours}</p>
+                        <p className={'clearfix'}>{this.props.team.currentHours}</p>
                     </div>
 
                     {this.props.volunteerprofile

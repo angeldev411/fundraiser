@@ -78,16 +78,8 @@ export function updateTeam(id, team, projectSlug) {
 export function getTeam(projectSlug, slug) {
     return (dispatch) => {
         return axios.get(`${API_URL}/team/${projectSlug}/${slug}`)
-        .then(
-            (response) => {
-                dispatch(receivedTeam(response.data));
-            }
-        )
-        .catch(
-            (errorResponse) => {
-                dispatch(newTeamFailed('Team not found'));
-            }
-        );
+        .then( response => dispatch( receivedTeam(response.data) ))
+        .catch( () => dispatch(newTeamFailed('Team not found') ));
     };
 }
 

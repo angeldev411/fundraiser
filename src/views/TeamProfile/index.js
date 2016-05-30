@@ -37,9 +37,11 @@ class TeamProfile extends Component {
             this.props.params.projectSlug,
             this.props.params.teamSlug,
         )(this.props.dispatch);
+
         ActionsProject.getProject(
             this.props.params.projectSlug,
         )(this.props.dispatch);
+
         ActionsVolunteer.getVolunteers(
             this.props.params.projectSlug,
             this.props.params.teamSlug,
