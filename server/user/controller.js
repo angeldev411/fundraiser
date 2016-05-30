@@ -175,7 +175,7 @@ class userController {
                     link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
                     return new Promise((resolve, reject) => {
-                        Mailer.sendInviteEmail(user, link);
+                        Mailer.sendInviteEmail(user, link, project, role);
                         return resolve(user);
                     });
                 })
@@ -188,7 +188,7 @@ class userController {
                     link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
 
                     return new Promise((resolve, reject) => {
-                        Mailer.sendInviteEmail(user, link);
+                        Mailer.sendInviteEmail(user, link, project, role);
                         return resolve(user);
                     });
                 })

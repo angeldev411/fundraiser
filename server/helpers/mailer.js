@@ -1,6 +1,7 @@
 'use strict';
 import mandrill from 'mandrill-api';
 import config from '../config';
+import * as roles from '../user/roles';
 import * as Urls from '../../src/urls';
 import * as Constants from '../../src/common/constants';
 
@@ -80,38 +81,44 @@ export default class Mailer {
      * user: user object
      * link: signup link
     */
-    static sendInviteEmail(user, link) {
+    static sendInviteEmail(user, link, project, role) {
         const subject = 'Join Raiserve';
         const headline = 'Invitation';
+        let text = '';
+        if (role === roles.PROJECT_LEADER){
+          text = `
+            <p>Hi,</p>
 
-        const text =
-        `
-        <p>Hi ${user.firstName},</p>
+            <p>Congratulations, you have been invited to be a project leader for ${project.name} (powered by raiserve.org).</p>
 
-        <p>You have been invited to join Raiserve.</p>
+            <p>As a project leader your organization will now be able to monetize service hours by your volunteers being sponsored for each hour of service they do.   Volunteers are now able to make twice the difference!</p>
 
-        <p>You can confirm your account by following this link: <a href="${link}">${link}</a></p>
+            <p>You can confirm your account and start managing your project by using the link below</p>
 
-        <p>Thanks,</p>
+            <p><a href="${link}">${link}</a></p>
 
-        <p>Raiserve</p>
-        `;
+            <p>Thanks,</p>
 
-        const plainText =
-        `
-        Hi ${user.firstName},
+            <p>${project.name} (powered by raiserve.org)</p>
+          
+          `;
+        } else if (role === roles.TEAM_LEADER){
+          text = `
+          <p>Hi,</p>
+          <p>Congratulations, you have been invited to join ${project.name} (powered by raiserve.org) as a team leader.</p>
+          <p>As a team leader you will be leading a team of volunteers to get sponsored for each hour of volunteering they do.  Your volunteers are now able to make twice the difference!</p>
 
-        You have been invited to join Raiserve.
+          <p>You can confirm your account and sign up your team by using the link below</p>
 
-        You can confirm your account by following this link: ${link}
+          <p><a href="${link}">${link}</a></p>
 
-        Thanks,
+          <p>Thanks,</p>
 
-        Raiserve
-        `;
+          <p>${project.name} (powered by raiserve.org)</p>
+          `;
+        }
 
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: user.email,
@@ -129,7 +136,6 @@ export default class Mailer {
                 },
             ],
         };
-
         Mailer.sendTemplate(message, 'mandrill-template', (response) => {
             return Promise.resolve(response);
         }, (err) => {
@@ -147,54 +153,29 @@ export default class Mailer {
     */
     static sendVolunteerWelcomeEmail(project, team, volunteer) {
         const subject = 'Welcome to Raiserve';
-        const headline = 'Congratulations';
+        const headline = 'SHARE TO GET SPONSORS';
 
         const text =
         `
-        <p>Hey ${volunteer.firstName},</p>
+        <p>${volunteer.firstName},</p>
 
-        <p>Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.</p>
+        <p>Congratulations on joining team ${team.name}.By getting sponsors your volunteers hours will now make twice the difference as you raise money for ${project.name}.</p>
 
-        <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
+        <p>Don’t forget to invite your friends and family to sponsor you. To get started:</p>
 
-        <p>
-            1 - You can email this link: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
-        </p>
-        <p>
-            2 - Share on Facebook and Twitter
-        </p>
-
-        <p>Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.</p>
-
-        <p>Don’t forget to record your hours. You can use your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> to record them and check the total amount your volunteer efforts have earned for ${project.name}.</p>
+        <ol>
+            <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know about your service goal of ${volunteer.goal} hours and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name}</li>
+            <li>hare your personal page and why you are so passionate about ${project.name} with your social network via Facebook and Twitter</li>
+        </ol>
+        
+        <p>Remember it usually take a few reminders before your friends and family will sponsors you.  So when you record your hours through your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> be sure to take the time to share with your friends and family your volunteering efforts.  It will remind them of the impact you're making and will encourage more sponsorship.</p>
 
         <p>Thanks,</p>
 
-        <p>Raiserve</p>
-        `;
-
-        const plainText =
-        `
-        Hey ${volunteer.firstName},
-
-        Congrats on joining team ${team.name}. Your hours will now make twice the difference as you raise money for ${project.name}.
-
-        Don’t forget to invite your friends to sponsor you. There are two ways:
-
-        1 - You can email this link: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
-        2 - Share on Facebook and Twitter
-
-        Remember it takes a few tries to get people.. our best fundraisers share and email potential sponsors every month with an update them after they volunteer their time.
-
-        Don’t forget to record your hours. You can use your dashboard (${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}) to record them and check the total amount your volunteer efforts have earned for ${project.name}.
-
-        Thanks,
-
-        Raiserve
+        <p>${project.name} (powered by raiserve.org)</p>
         `;
 
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: volunteer.email,
@@ -232,7 +213,7 @@ export default class Mailer {
 
         const text =
         `
-        <p>Hey ${user.firstName},</p>
+        <p>${user.firstName},</p>
 
         <p>Click the following link to reset your password.</p>
 
@@ -242,24 +223,10 @@ export default class Mailer {
 
         <p>Thanks,</p>
 
-        <p>Raiserve</p>
-        `;
-
-        const plainText =
-        `
-        Hey ${user.firstName},
-
-        Click the following link to reset your password.
-
-        ${Constants.DOMAIN}${Urls.PASSWORD_RESET}?t=${user.resetToken}
-
-        Thanks,
-
-        Raiserve
+        <p>The raiserve.org team</p>
         `;
 
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: user.email,
@@ -295,48 +262,30 @@ export default class Mailer {
      * hour: hour object
     */
     static sendFirstHoursEmail(volunteer, team, project, hour) {
-        const subject = `Congrats for volunteering!`;
+        const subject = `Your Hours are Recorded`;
         const headline = 'Your Hours are Recorded';
 
         const text =
         `
-        <p>Hey ${volunteer.firstName},</p>
+        <p>${volunteer.firstName},</p>
 
-        <p>Congrats for volunteering at ${hour.place}, we’re sure they really appreciated your service.</p>
+        <p>Congratulations for volunteering ${hour.hours} hours at ${hour.place}, your service is making an impact in our community. </p>
 
-        <p>Don’t forget to invite your friends to sponsor you. There are two ways:</p>
-
-        <p>
-            1 - You can email this link: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>
-        </p>
-        <p>
-            2 - Share on Facebook and Twitter
-        </p>
+        <p>Don’t forget to take the time to share with your friends and family your volunteering efforts.  It will remind them of the impact you're making and will encourage more sponsorship.</p>
+        
+        <p>There are two ways:</p>
+        
+        <ol>
+            <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know that you just volunteered ${hour.hours} hours at ${hour.place} and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name} NAME.</li>
+            <li>Share with your social network via Facebook and Twitter your ${hour.hours} hours volunteering at ${hour.place} along with a link to your personal page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>. </li>
+        </ol>
 
         <p>Thanks,</p>
 
-        <p>Raiserve</p>
-        `;
-
-
-        const plainText =
-        `
-        Hey ${volunteer.firstName},
-
-        Congrats for volunteering at ${hour.place}, we’re sure they really appreciated your service.
-
-        Don’t forget to invite your friends to sponsor you. There are two ways:
-
-        1 - You can email this link: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
-        2 - Share on Facebook and Twitter
-
-        Thanks,
-
-        Raiserve
+        <p>${project.name}</p>
         `;
 
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: volunteer.email,
@@ -372,63 +321,35 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting) {
-        const subject = `Thanks for your Sponsorship`;
-
+        const subject = `Thank You`;
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+        <p>Thank you for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship means that each hour that ${volunteer.firstName} volunteers now makes twice the difference for ${volunteer.project.name}.</p>
 
-        <p>Just a quick recap of how it all works:</p>
+        <p>Just a quick recap of how your sponsorship works:</p>
+        <ol>
+            <li>You will be charged at end of each month ${sponsor.hourlyPledge} per hour based on the number hours ${volunteer.firstName}  volunteers that month up to a maximum of ${volunteer.firstName}’s goal of ${volunteer.goal} hours.</li>
+            <li>Your first month’s charge will also include the ${volunteer.currentHours} hours ${volunteer.firstName} has already completed.</li>
+        </ol>
+
+        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
 
         <p>
-            1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
-        </p>
-        <p>
-            2 - Once their goal hours are reached, your donation is finished.
-        </p>
+        You can help make an even bigger impact by spreading the work about ${volunteer.firstName}’s volunteer campaign by sharing ${volunteer.firstName}’s page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
 
-        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
-
-        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+        Help spread the word about ${volunteer.firstName}’s fundraising page: </p>
 
         <p>Thanks,</p>
 
-        <p>Raiserve</p>
+        <p>${volunteer.project.name} (powered by raiserve.org)</p>
 
-        <p>You can cancel your sponsorship anytime by visiting this page: <a href="${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}">${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}</a></p>
 
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
 
-
-        const plainText =
-        `
-        Dear ${sponsor.firstName},
-
-        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
-
-        Just a quick recap of how it all works:
-
-        1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
-        2 - Once their goal hours are reached, your donation is finished.
-
-        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
-
-        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-
-        Thanks,
-
-        Raiserve
-
-        You can cancel your sponsorship anytime by visiting this page: ${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}
-
-        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
-        `;
-
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: sponsor.email,
@@ -438,7 +359,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: subject.toUpperCase(),
                 },
                 {
                     name: 'message',
@@ -462,48 +383,28 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendVolunteerSponsorshipEmail(volunteer, sponsor) {
-        const subject = `You've been sponsored!`;
-        const headline = 'Your First Sponsor';
+        const subject = `You got sponsored`;
+        const headline = 'CONGRATULATIONS ON YOUR FIRST SPONSOR';
 
         const text =
         `
-        <p>Hey ${volunteer.firstName},</p>
+        <p>${volunteer.firstName},</p>
 
-        <p>Congrats, you’re on your way.</p>
+        <p>Congrats, you’re on your way, you just got your first sponsorship.</p>
 
         <p>Each hour your volunteers is now making twice the difference for ${volunteer.project.name}</p>
 
-        <p>${sponsor.firstName} ${sponsor.lastName} just sponsored you. Here’s their email address:</p>
+        <p>You were sponsored by ${sponsor.firstName} ${sponsor.lastName}.</p>
 
-        <p><a href="mailto:${sponsor.email}">${sponsor.email}</a></p>
-
-        <p>Sending a personalized thank you is always nice. Be sure to ask them to share your campaign to help get more sponsors and include your unique url (<a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a>) in your thank you note.</p>
+        <p>Sending a personalized thank you is always nice.  You can reach  ${sponsor.firstName} at <a href="mailto:${sponsor.email}">${sponsor.email}</a></p>
+        <p> Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page  url <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you note</p>
 
         <p>Thanks,</p>
 
-        <p>Raiserve</p>
-        `;
-
-
-        const plainText =
-        `
-        Hey ${volunteer.firstName},
-
-        Congrats, you’re on your way.
-
-        Each hour your volunteers is now making twice the difference for ${volunteer.project.name}
-
-        ${sponsor.firstName} ${sponsor.lastName} just sponsored you. Here’s their email address: ${sponsor.email}
-
-        Sending a personalized thank you is always nice. Be sure to ask them to share your campaign to help get more sponsors and include your unique url (${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}) in your thank you note.
-
-        Thanks,
-
-        Raiserve
+        <p>${volunteer.project.name}</p>
         `;
 
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: volunteer.email,
@@ -544,43 +445,20 @@ export default class Mailer {
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+        <p>Thank you for sponsoring ${volunteer.firstName} ${volunteer.lastName}.  Your sponsorship of $${amount} is helping make twice the difference for ${volunteer.project.name}</p>
 
-        <p>You will be charged one time for the total amount of ${amount}</p>
+        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
 
-        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
+        <p>You can help make an even bigger impact by spreading the work about #FVOLNAME’s volunteer campaign by sharing their page #VOLPAGEURL by email or posting it on facebook, twitter etc.</p>
 
-        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+        <p>Thanks, </p>
 
-        <p>Thanks,</p>
+        <p>${volunteer.project.name} (powered by raiserve.org)</p>
 
-        <p>Raiserve</p>
-
-        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.
         `;
-
-
-        const plainText =
-        `
-        Dear ${sponsor.firstName},
-
-        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
-
-        You will be charged one time for the total amount of ${amount}
-
-        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
-
-        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-
-        Thanks,
-
-        Raiserve
-
-        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
-        `;
-
+               
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: sponsor.email,
