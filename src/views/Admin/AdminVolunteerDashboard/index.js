@@ -128,7 +128,7 @@ export default class AdminVolunteerDashboard extends Component {
                         stats={
                             [
                                 {
-                                    current: Math.round(this.state.stats.currentHours),
+                                    current: this.state.stats.currentHours,
                                     title: 'Volunteered hours',
                                     goal: this.props.user.goal,
                                 },
