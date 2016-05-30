@@ -89,7 +89,7 @@ export default class Mailer {
           text = `
             <p>Hi,</p>
 
-            <p>Congratulation, you have been invited to be a project leaders for ${project.name} (powered by raiserve.org).</p>
+            <p>Congratulations, you have been invited to be a project leader for ${project.name} (powered by raiserve.org).</p>
 
             <p>As a project leader your organization will now be able to monetize service hours by your volunteers being sponsored for each hour of service they do.   Volunteers are now able to make twice the difference!</p>
 
@@ -105,7 +105,7 @@ export default class Mailer {
         } else if (role === roles.TEAM_LEADER){
           text = `
           <p>Hi,</p>
-          <p>Congratulation, you have been invited to join ${project.name} (powered by raiserve.org) as a team leader.</p>
+          <p>Congratulations, you have been invited to join ${project.name} (powered by raiserve.org) as a team leader.</p>
           <p>As a team leader you will be leading a team of volunteers to get sponsored for each hour of volunteering they do.  Your volunteers are now able to make twice the difference!</p>
 
           <p>You can confirm your account and sign up your team by using the link below</p>
