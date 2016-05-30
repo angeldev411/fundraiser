@@ -87,7 +87,7 @@ export default class Mailer {
         let text = '';
         if (role === roles.PROJECT_LEADER){
           text = `
-            <p>Hi ${user.firstName},</p>
+            <p>Hi,</p>
 
             <p>Congratulation, you have been invited to be a project leaders for ${project.name} (powered by raiserve.org).</p>
 
@@ -104,7 +104,7 @@ export default class Mailer {
           `;
         } else if (role === roles.TEAM_LEADER){
           text = `
-          <p>Hi ${user.firstName},</p>
+          <p>Hi,</p>
           <p>Congratulation, you have been invited to join ${project.name} (powered by raiserve.org) as a team leader.</p>
           <p>As a team leader you will be leading a team of volunteers to get sponsored for each hour of volunteering they do.  Your volunteers are now able to make twice the difference!</p>
 
