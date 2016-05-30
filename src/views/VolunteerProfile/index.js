@@ -32,14 +32,17 @@ class VolunteerProfile extends Component {
         };
     }
     componentWillMount() {
-        TeamActions.getTeam(
-            this.props.params.projectSlug,
-            this.props.params.teamSlug,
-        )(this.props.dispatch);
-        ProjectActions.getProject(
-            this.props.params.projectSlug,
-        )(this.props.dispatch);
-        Actions.getVolunteer(this.props.params.volunteerSlug)(this.props.dispatch);
+        TeamActions
+          .getTeam( this.props.params.projectSlug, this.props.params.teamSlug )
+          (this.props.dispatch);
+
+        ProjectActions
+          .getProject( this.props.params.projectSlug )
+          (this.props.dispatch);
+
+        Actions
+          .getVolunteer(this.props.params.volunteerSlug)
+          (this.props.dispatch);
     }
 
     componentWillReceiveProps(nextProps) {

@@ -19,7 +19,6 @@ class ModalButton extends Component {
                 || nextProps.project !== this.props.project
                 || nextProps.hourLogSuccess !== this.props.hourLogSuccess
             )
-
         ) {
             this.handleClick();
         }
@@ -27,9 +26,7 @@ class ModalButton extends Component {
 
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked });
-        if (this.props.onModalToggle) {
-            this.props.onModalToggle();
-        }
+        if (this.props.onModalToggle) this.props.onModalToggle();
     };
 
     render() {
@@ -57,7 +54,7 @@ ModalButton.propTypes = {
     onClick: React.PropTypes.func,
     customClass: React.PropTypes.string,
     content: React.PropTypes.element,
-    onModalToggle: React.PropTypes.func,
+    onModalToggle: React.PropTypes.func
 };
 
 export default connect((reduxState) => ({

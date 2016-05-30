@@ -24,47 +24,26 @@ export default class RecordHoursForm extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.hourLogFailure) {
-            this.setState({
-                error: nextProps.hourLogFailure,
-                loading: false,
-            });
-        } else if (nextProps.hourLogSuccess) {
-            this.setState({
-                hasSuccessfulRecord: nextProps.hourLogSuccess,
-                loading: false,
-            });
-        }
-
-        if (nextProps.team) {
-            this.setState({
-                team: nextProps.team,
-                loading: false,
-            });
-        }
-    }
-
     recordHours = () => {
         this.setState({
-            loading: true,
+            loading: true
         });
 
-        if (this.state.place === '' || this.state.hours === '' || this.state.date === '') {
-            this.setState({
-                error: 'Please verify form',
-                loading: false,
-            });
-            return;
-        }
+        let error;
 
+        if (!this.state.date.trim().length || !moment( new Date(this.state.date) ).isValid())
+          error = 'When did you volunteer?';
 
-        if (isNaN(this.state.hours)) {
-            this.setState({
-                error: 'Hours must be numeric',
-                loading: false,
-            });
-            return;
+        if (isNaN(this.state.hours) || this.state.hours <= 0) error = 'How many hours?';
+
+        if (!this.state.place.trim().length) error = 'Where did you volunteer?';
+
+        if (error) {
+          this.setState({
+            error,
+            loading: false,
+          });
+          return;
         }
 
         let signature = '';
@@ -95,13 +74,9 @@ export default class RecordHoursForm extends Component {
     setDate = (value) => {
         this.setState(
             {
-                date: moment(value).format().toString(),
+                date: moment(new Date(value)).format(),
             }
         );
-    };
-
-    getError = () => {
-        return this.state.error;
     };
 
     render() {
@@ -122,6 +97,7 @@ export default class RecordHoursForm extends Component {
                     <input type="text"
                         name="hours"
                         id="hours"
+                        value={this.state.hours}
                         onChange={(e) => { this.handleChange(e, 'hours') }}
                     />
                     <label htmlFor="hours">{'Hours'}</label>
@@ -184,5 +160,5 @@ export default class RecordHoursForm extends Component {
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     hourLogSuccess: reduxState.main.volunteer.hourLogSuccess,
-    hourLogFailure: reduxState.main.volunteer.hourLogFailure,
+    hourLogFailure: reduxState.main.volunteer.hourLogFailure
 }))(RecordHoursForm);

@@ -40,6 +40,7 @@ class AdminMenu extends Component {
                                 {element.type === 'button' ?
                                     <ModalButton customClass="btn-link"
                                         content={element.content}
+                                        onModalToggle={element.onModalToggle}
                                     >
                                         {element.title}
                                     </ModalButton> :

@@ -26,7 +26,7 @@ export default class CircleStat extends Component {
                         strokeWidth={constants.STAT_PROGRESS_WIDTH}
                     />
                     <div className="stat-content">
-                        <span className="stat-current">{this.props.data.current}</span>
+                        <span className="stat-current">{Math.round(this.props.data.current)}</span>
                         <span className="stat-title">{this.props.data.title}</span>
                     </div>
                 </div>
