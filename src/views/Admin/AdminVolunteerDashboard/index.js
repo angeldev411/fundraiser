@@ -25,42 +25,38 @@ export default class AdminVolunteerDashboard extends Component {
                 raised: 0,
             },
         };
+        this.updateData();
+    }
 
-        Actions.getHourLogs()(this.props.dispatch);
-        Actions.getStats()(this.props.dispatch);
+    updateData(){
+      console.log('updating data!', this);
+      Actions.getHourLogs()(this.props.dispatch);
+      Actions.getStats()(this.props.dispatch);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.hourLogsGet) {
-            this.setState(
-                {
-                    hours: nextProps.hourLogsGet,
-                }
-            );
-            this.getMonthHoursList(nextProps.hourLogsGet);
+          this.setState({
+            hours: nextProps.hourLogsGet,
+          });
+          this.getMonthHoursList(nextProps.hourLogsGet);
         }
-        if (nextProps.stats) {
-            this.setState(
-                {
-                    stats: nextProps.stats,
-                    statsError: null,
-                }
-            );
-        }
-        if (nextProps.user) {
-            this.setState(
-                {
-                    user: nextProps.user,
-                }
-            );
-        }
-        if (nextProps.sponsors) {
-            this.setState(
-                {
-                    sponsors: nextProps.sponsors,
-                }
-            );
-        }
+
+        if (nextProps.stats)
+          this.setState({
+            stats: nextProps.stats,
+            statsError: null,
+          });
+
+        if (nextProps.user)
+          this.setState({
+            user: nextProps.user,
+          });
+
+        if (nextProps.sponsors)
+          this.setState({
+            sponsors: nextProps.sponsors,
+          });
     }
 
     getMonthHoursList(hours) {
@@ -87,15 +83,6 @@ export default class AdminVolunteerDashboard extends Component {
         });
     }
 
-    getVolunteerChart() {
-        return (<AdminVolunteerChart
-            data={this.state.monthHours}
-            goal={this.props.user.goal}
-            currentMonth={moment().month()}
-            currentYear={moment().year()}
-                />);
-    }
-
     render() {
         if (!this.props.user) {
             return (null);
@@ -103,9 +90,10 @@ export default class AdminVolunteerDashboard extends Component {
 
         const pageNav = [
             {
-                type: 'button',
-                title: 'Record my hours',
-                content: <RecordHoursForm team={this.props.user.team}/>,
+              type: 'button',
+              title: 'Record my hours',
+              content: <RecordHoursForm team={this.props.user.team} />,
+              onModalToggle: this.updateData.bind(this)
             },
             {
                 type: 'link',
@@ -118,7 +106,6 @@ export default class AdminVolunteerDashboard extends Component {
                 href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
             },
         ];
-        const volunteerChart = this.state.monthHours ? this.getVolunteerChart() : null;
 
         return (
             <Page>
@@ -129,12 +116,19 @@ export default class AdminVolunteerDashboard extends Component {
                         volunteerDashboard
                         goal={this.props.user.goal}
                     />
-                    {volunteerChart}
+                  { this.state.monthHours ?
+                    <AdminVolunteerChart
+                        data={this.state.monthHours}
+                        goal={this.props.user.goal}
+                        currentMonth={moment().month()}
+                        currentYear={moment().year()}
+                            />
+                          : null }
                     <AdminStatsBlock
                         stats={
                             [
                                 {
-                                    current: this.state.stats.currentHours,
+                                    current: Math.round(this.state.stats.currentHours),
                                     title: 'Volunteered hours',
                                     goal: this.props.user.goal,
                                 },

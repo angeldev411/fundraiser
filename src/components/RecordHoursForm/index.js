@@ -24,30 +24,9 @@ export default class RecordHoursForm extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.hourLogFailure) {
-            this.setState({
-                error: nextProps.hourLogFailure,
-                loading: false,
-            });
-        } else if (nextProps.hourLogSuccess) {
-            this.setState({
-                hasSuccessfulRecord: nextProps.hourLogSuccess,
-                loading: false,
-            });
-        }
-
-        if (nextProps.team) {
-            this.setState({
-                team: nextProps.team,
-                loading: false,
-            });
-        }
-    }
-
     recordHours = () => {
         this.setState({
-            loading: true,
+            loading: true
         });
 
         let error;
@@ -60,11 +39,11 @@ export default class RecordHoursForm extends Component {
         if (!this.state.place.trim().length) error = 'Where did you volunteer?';
 
         if (error) {
-            this.setState({
+          this.setState({
             error,
-                loading: false,
-            });
-            return;
+            loading: false,
+          });
+          return;
         }
 
         let signature = '';
@@ -100,10 +79,6 @@ export default class RecordHoursForm extends Component {
         );
     };
 
-    getError = () => {
-        return this.state.error;
-    };
-
     render() {
         return (
             <Form title={'Record your time'}
@@ -122,6 +97,7 @@ export default class RecordHoursForm extends Component {
                     <input type="text"
                         name="hours"
                         id="hours"
+                        value={this.state.hours}
                         onChange={(e) => { this.handleChange(e, 'hours') }}
                     />
                     <label htmlFor="hours">{'Hours'}</label>

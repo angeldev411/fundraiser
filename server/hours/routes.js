@@ -60,6 +60,7 @@ router.get('/api/v1/hours', (req, res) => {
         return;
     }
 
+    // Maps to User.hoursForUser(id)
     UserController.getUserWithHours(req.session.user.id).then((result) => {
         res.status(200).send(result);
     }).catch((err) => {
