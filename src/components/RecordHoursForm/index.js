@@ -95,7 +95,7 @@ export default class RecordHoursForm extends Component {
     setDate = (value) => {
         this.setState(
             {
-                date: moment(value).format().toString(),
+                date: moment(new Date(value)).format(),
             }
         );
     };
