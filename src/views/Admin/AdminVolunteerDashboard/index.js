@@ -73,7 +73,7 @@ export default class AdminVolunteerDashboard extends Component {
             if (date.getMonth() === moment().month()) {
                 hourList.push({
                     date,
-                    'new': parseInt(hours[i].hours, 10),
+                    new: Number(hours[i].hours),
                     place: hours[i].place,
                 });
             }

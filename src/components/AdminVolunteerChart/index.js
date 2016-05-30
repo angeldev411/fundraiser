@@ -23,7 +23,11 @@ export default class AdminVolunteerChart extends Component {
     }
 
     componentWillMount() {
-        this.prepareGraphData(this.props.data);
+      this.prepareGraphData(this.props.data);
+    }
+
+    componentWillReceiveProps(nextProps){
+      this.prepareGraphData(nextProps.data);
     }
 
     componentDidMount() {
@@ -52,45 +56,54 @@ export default class AdminVolunteerChart extends Component {
 
     prepareGraphData = (rawData) => {
         const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
+        let graphData   = [];
+        let totalHours  = 0;
+        let currentDay  = 1;
 
         rawData.map((dataPoint, i) => {
             if (dataPoint.date.getMonth() === this.props.currentMonth) {
-                if (i >= 1 && dataPoint.date.getDate() === this.state.graphData[this.state.graphData.length - 1].date.getDate()) {
+                if (i >= 1 && dataPoint.date.getDate() === graphData[graphData.length - 1].date.getDate()) {
                     // If this datePoint is for the same day of the last preccessed date
-                    // Increment this.state.totalHours
-                    this.state.totalHours += dataPoint.new;
+                    // Increment totalHours
+                    totalHours += dataPoint.new;
 
                     // Update the last precessed entry
-                    const lastItem = this.state.graphData.slice(-1)[0];
+                    const lastItem = graphData.slice(-1)[0];
 
-                    lastItem.total = this.state.totalHours;
+                    lastItem.total = totalHours;
                     lastItem.new += dataPoint.new;
 
-                    this.state.graphData[this.state.graphData.length - 1] = lastItem;
+                    graphData[graphData.length - 1] = lastItem;
                 } else {
-                    // Increment this.state.totalHours
-                    this.state.totalHours += dataPoint.new;
-                    dataPoint.total = this.state.totalHours;
+                    // Increment totalHours
+                    totalHours += dataPoint.new;
+                    dataPoint.total = totalHours;
 
                     // push data
-                    this.state.graphData.push(dataPoint);
-                    this.state.currentDay++;
+                    graphData.push(dataPoint);
+                    currentDay++;
                 }
             }
         });
 
-        if (Constants.GRAPH_ACTIVATE_EMPTY_BARS && !(this.state.currentDay > daysInMonth)) { // If month is incomplete
-            const diff = daysInMonth - this.state.graphData.length;
+        if (Constants.GRAPH_ACTIVATE_EMPTY_BARS && !(currentDay > daysInMonth)) { // If month is incomplete
+            const diff = daysInMonth - graphData.length;
 
             // Add missing item(s)
             for (let i = 0; i < diff; i++) {
-                this.state.graphData.push({
+                graphData.push({
                     'new': 0,
-                    total: this.state.totalHours,
+                    total: totalHours,
                 });
-                this.state.currentDay++;
+                currentDay++;
             }
         }
+
+        this.setState({
+          graphData,
+          totalHours,
+          currentDay
+        });
     };
 
     animate = (increment) => {
@@ -145,13 +158,8 @@ export default class AdminVolunteerChart extends Component {
 
         const h = 320;
         const innerH = h - 65;
-        let maxOfGoalAndTotalHours;
+        let maxOfGoalAndTotalHours = Math.max(this.state.totalHours, this.props.goal);
 
-        if (this.state.totalHours < this.props.goal) {
-            maxOfGoalAndTotalHours = this.props.goal;
-        } else {
-            maxOfGoalAndTotalHours = this.state.totalHours;
-        }
         const borderRadius = 7;
 
         let svg = d3.select(container)
@@ -231,7 +239,7 @@ export default class AdminVolunteerChart extends Component {
                         <div class="container">
                             <div>
                                 <section class="hours">
-                                    <span class="value">${d.new}</span>hrs
+                                    <span class="value">${Math.round(d.new)}</span>hrs
                                 </section>
                                 <section class="place">
                                     ${d.place}
