@@ -156,34 +156,35 @@ class HourRepository {
     }
 
     static updateHoursAttributes(hourId, hours) {
+        hours = Number(hours);
         return db.query(`
             MATCH (h:HOUR {id: {hourId}})<-[:VOLUNTEERED]-(u:VOLUNTEER)-[:VOLUNTEER]->(t:TEAM)-[:CONTRIBUTE]->(p:PROJECT)
             SET     u.currentHours = u.currentHours + {hours},
                     u.totalHours = u.totalHours + {hours},
                     t.totalHours = t.totalHours + {hours},
-                    t.currentHours = t.currentHours + {hours},
+                    t.currentHours = t.currentHours + {hours}
             RETURN {volunteer: u, team: t, project: p, hour: h} AS result
             `,
             {},
             {
-                hourId,
-                hours: parseInt(hours, 10),
+              hourId,
+              hours,
             }
         )
         .getResult('result')
         .then((result) => {
-            // Check if this is the first hour ever of the volunteer
-            if (result.volunteer.totalHours - parseInt(hours, 10) === 0) {
-                Mailer.sendFirstHoursEmail(result.volunteer, result.team, result.project, result.hour);
-            }
-            // Update Mailchimp user
-            return Mailchimp.updateVolunteer(result.volunteer);
+          if ( result.volunteer.totalHours === hours )
+            Mailer.sendFirstHoursEmail(result.volunteer, result.team, result.project, result.hour);
+          // Update Mailchimp user
+          return Mailchimp.updateVolunteer(result.volunteer);
         })
         .then(() => {
             return Promise.resolve();
         })
         .catch((err) => {
-            return Promise.reject(err);
+          // TODO: Return errors back to client
+          console.error('Error in Hours.updateHoursAttributes:', err);
+          return Promise.reject(err);
         });
     }
 }
