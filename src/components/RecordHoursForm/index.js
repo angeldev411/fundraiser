@@ -50,18 +50,18 @@ export default class RecordHoursForm extends Component {
             loading: true,
         });
 
-        if (this.state.place === '' || this.state.hours === '' || this.state.date === '') {
-            this.setState({
-                error: 'Please verify form',
-                loading: false,
-            });
-            return;
-        }
+        let error;
 
+        if (!this.state.date.trim().length || !moment( new Date(this.state.date) ).isValid())
+          error = 'When did you volunteer?';
 
-        if (isNaN(this.state.hours)) {
+        if (isNaN(this.state.hours) || this.state.hours <= 0) error = 'How many hours?';
+
+        if (!this.state.place.trim().length) error = 'Where did you volunteer?';
+
+        if (error) {
             this.setState({
-                error: 'Hours must be numeric',
+            error,
                 loading: false,
             });
             return;
@@ -184,5 +184,5 @@ export default class RecordHoursForm extends Component {
 export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     hourLogSuccess: reduxState.main.volunteer.hourLogSuccess,
-    hourLogFailure: reduxState.main.volunteer.hourLogFailure,
+    hourLogFailure: reduxState.main.volunteer.hourLogFailure
 }))(RecordHoursForm);
