@@ -38,8 +38,8 @@ let config = {
     STRIPE_TOKEN: process.env.STRIPE_SECRET_KEY || 'sk_test_VxrSBOOWOiUa2FVSDSCgZ0RX',
     USER_IMAGES_FOLDER: constantsFront.USER_IMAGES_FOLDER,
     TEAM_IMAGES_FOLDER: constantsFront.TEAM_IMAGES_FOLDER,
-    MANDRILL_API_KEY: process.env.MANDRILL_API_KEY || 'fvFbEdZSRHYqCj06utSvSg',
-    DOMAIN: process.env.HOSTNAME || constantsFront.DOMAIN || 'https://raiserve.org',
+    MANDRILL_API_KEY: process.env.MANDRILL_API_KEY || 'eXpV1sN7ZCALInjrGW8eMA',
+    DOMAIN: 'https://raiserve.org',
     URL: `${process.env.PROTOCOL}${process.env.HOSTNAME}` || 'http://raiserve.org',
     BILLING: {
         minimumAmount: 5,

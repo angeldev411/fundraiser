@@ -372,63 +372,35 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting) {
-        const subject = `Thanks for your Sponsorship`;
-
+        const subject = `Thank You`;
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}</p>
+        <p>Thank you for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship means that each hour that ${volunteer.firstName} volunteers now makes twice the difference for ${volunteer.project.name}.</p>
 
-        <p>Just a quick recap of how it all works:</p>
+        <p>Just a quick recap of how your sponsorship works:</p>
+        <ol>
+            <li>You will be charged at end of each month ${sponsor.hourlyPledge} per hour based on the number hours ${volunteer.firstName}  volunteers that month up to a maximum of ${volunteer.firstName}’s goal of ${volunteer.goal} hours.</li>
+            <li>Your first month’s charge will also include the ${currentHours} hours ${volunteer.firstName} has already completed.</li>
+        </ol>
 
+        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
+        
         <p>
-            1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
-        </p>
-        <p>
-            2 - Once their goal hours are reached, your donation is finished.
-        </p>
-
-        <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}</p>
-
-        <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a></p>
+        You can help make an even bigger impact by spreading the work about ${volunteer.firstName}’s volunteer campaign by sharing ${volunteer.firstName}’s page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
+        
+        Help spread the word about ${volunteer.firstName}’s fundraising page: </p>
 
         <p>Thanks,</p>
 
-        <p>Raiserve</p>
+        <p>${volunteer.project.name} (powered by raiserve.org)</p>
 
-        <p>You can cancel your sponsorship anytime by visiting this page: <a href="${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}">${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}</a></p>
 
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
         `;
 
-
-        const plainText =
-        `
-        Dear ${sponsor.firstName},
-
-        Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${volunteer.project.name}
-
-        Just a quick recap of how it all works:
-
-        1 - You will be charged monthly for the total amount of hours that ${volunteer.firstName} volunteers for ${volunteer.project.name}, up to their goal hours of ${volunteer.goal}.
-        2 - Once their goal hours are reached, your donation is finished.
-
-        Please remember that donations are 100% tax deductible at end of year and all the money goes to ${volunteer.project.name}
-
-        Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}
-
-        Thanks,
-
-        Raiserve
-
-        You can cancel your sponsorship anytime by visiting this page: ${Constants.DOMAIN}${Urls.PLEDGE_CANCEL}?t=${supporting.token}
-
-        Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
-        `;
-
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: sponsor.email,
