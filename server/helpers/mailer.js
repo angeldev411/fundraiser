@@ -382,14 +382,14 @@ export default class Mailer {
         <p>Just a quick recap of how your sponsorship works:</p>
         <ol>
             <li>You will be charged at end of each month ${sponsor.hourlyPledge} per hour based on the number hours ${volunteer.firstName}  volunteers that month up to a maximum of ${volunteer.firstName}’s goal of ${volunteer.goal} hours.</li>
-            <li>Your first month’s charge will also include the ${currentHours} hours ${volunteer.firstName} has already completed.</li>
+            <li>Your first month’s charge will also include the ${volunteer.currentHours} hours ${volunteer.firstName} has already completed.</li>
         </ol>
 
         <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
-        
+
         <p>
         You can help make an even bigger impact by spreading the work about ${volunteer.firstName}’s volunteer campaign by sharing ${volunteer.firstName}’s page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
-        
+
         Help spread the word about ${volunteer.firstName}’s fundraising page: </p>
 
         <p>Thanks,</p>
