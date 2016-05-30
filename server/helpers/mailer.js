@@ -410,7 +410,7 @@ export default class Mailer {
             global_merge_vars: [
                 {
                     name: 'headline',
-                    content: subject,
+                    content: subject.toUpperCase(),
                 },
                 {
                     name: 'message',
