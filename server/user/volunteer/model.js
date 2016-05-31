@@ -398,7 +398,7 @@ export default class Volunteer {
         return db.query(
             `
             MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug}})
-            RETURN {currentHours: volunteer.currentHours, totalSponsors: volunteer.totalSponsors, raised: volunteer.raised} AS stats
+            RETURN {totalHours: volunteer.totalHours, totalSponsors: volunteer.totalSponsors, raised: volunteer.raised} AS stats
             `,
             {},
             {

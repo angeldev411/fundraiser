@@ -5,7 +5,7 @@ import { Circle } from 'rc-progress';
 
 export default class UserProgress extends Component {
     render() {
-        const percentage = this.props.user.goal ? this.props.user.currentHours / this.props.user.goal * 100 : 0;
+        const percentage = this.props.user.goal ? this.props.user.totalHours / this.props.user.goal * 100 : 0;
 
         const backgroundImage = this.props.user.image
                                     ? `url(${this.props.user.image})`
@@ -14,8 +14,8 @@ export default class UserProgress extends Component {
         return (
             <div className="user-progress-container">
                 <div className="user-hours">
-                    <p>{"Current Hours "}<span className="user-hours__current">{Math.round(this.props.user.currentHours)}</span></p>
-                    <p>{"Goal Hours "}<span className="user-hours__goal">{this.props.user.goal}</span></p>
+                    <p>{"Hours to date "}<span className="user-hours__current">{Math.round(this.props.user.totalHours)}</span></p>
+                    <p>{"Goal hours "}<span className="user-hours__goal">{this.props.user.goal}</span></p>
                 </div>
                 <div
                     className={classNames(

@@ -31,7 +31,7 @@ export default class TeamProfileBlock extends Component {
     };
 
     render() {
-        let percentage = (this.props.team.currentHours / this.props.team.goal) * 100;
+        let percentage = (this.props.team.totalHours / this.props.team.goal) * 100;
 
         if (percentage > 100) {
             percentage = 100;
@@ -97,7 +97,7 @@ export default class TeamProfileBlock extends Component {
                             <span id="label">{'Goal'}</span>
                             <span id="value">{this.props.team.goal}{' hrs'}</span>
                         </div>
-                        <p className={'clearfix'}>{this.props.team.currentHours}</p>
+                        <p className={'clearfix'}>{this.props.team.totalHours}</p>
                     </div>
 
                     {this.props.volunteerprofile
