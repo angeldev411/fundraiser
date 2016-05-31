@@ -497,7 +497,6 @@ export default class Mailer {
     static sendChargeEmail = (volunteer, project, team, sponsor, chargedHours, chargedAmount, forVolunteer = true) => {
         const subject = `Thanks for your Continued Support`;
         let text = null;
-        let plainText = null;
 
         if (forVolunteer) {
             text =
@@ -520,24 +519,6 @@ export default class Mailer {
             `;
 
 
-            plainText =
-            `
-            Dear ${sponsor.firstName},
-
-            Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}
-
-            This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.
-
-            Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
-
-            Help spread the word about ${volunteer.firstName}’s fundraising page: ${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}
-
-            Thanks,
-
-            Raiserve
-
-            Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
-            `;
         } else {
             text =
             `
@@ -559,28 +540,9 @@ export default class Mailer {
             `;
 
 
-            plainText =
-            `
-            Dear ${sponsor.firstName},
-
-            Thanks for sponsoring ${team.name}. Your sponsorship mean twice the difference for ${project.name}
-
-            This month ${team.name} volunteers volunteered ${chargedHours}. Your credit card has been charged $${chargedAmount}.
-
-            Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}
-
-            Help spread the word about ${team.name}’s fundraising page: ${Constants.DOMAIN}${Urls.getTeamProfileUrl(project.slug, team.slug)}
-
-            Thanks,
-
-            Raiserve
-
-            Are you a volunteer in your community and want to start your own campaign? Contact us at ${Constants.VOLUNTEER_CONTACT_EMAIL} and we’ll get you setup.
-            `;
         }
 
         const message = {
-            text: plainText,
             subject,
             to: [{
                 email: sponsor.email,
