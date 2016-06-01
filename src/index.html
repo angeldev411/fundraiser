@@ -15,8 +15,10 @@
         <div id="root"></div>
         <script src="/bundle.js"></script>
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <script type="text/javascript" src="//api.filestackapi.com/filestack.js"></script>
         <script type="text/javascript">
             Stripe.setPublishableKey('<%= STRIPE_PUBLISHABLE_KEY %>');
+            filepicker.setKey("AEBLEJFNRymKKHMYhksCDz");
         </script>
     </body>
 </html>
