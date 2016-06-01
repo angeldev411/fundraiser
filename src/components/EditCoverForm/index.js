@@ -16,111 +16,69 @@ export default class EditCoverForm extends Component {
             },
             cover: this.props.value ? this.props.value : '',
             team: this.props.team,
-            coverImageData: '',
             loading: false,
-            cropperOpen: false,
         };
     }
-
-    updateCover = () => {
-        this.setState({
-            loading: true,
-        });
+    
+    handlePickedFile = (Blob) => {
         const team = Object.assign({}, this.state.team);
-
-        if (this.state.coverImageData !== '') {
-            team.coverImageData = this.state.coverImageData;
-        }
-
-        Actions.updateTeam(
+        team.coverImage = Blob.url;
+            Actions.updateTeam(
             team.id,
             team
         )(this.props.dispatch);
-
-        team.cover = team.coverImageData;
-
-        this.props.updateTeam(team);
+    };
+    
+    cropFile = () => {
+        const team = Object.assign({}, this.state.team);
+        filepicker.processImage(team.coverImage, {
+            cropRatio: 12/5,
+            mimetype: 'image/*',
+            services: ['CONVERT', 'COMPUTER'],
+            conversions: ['crop', 'rotate']
+        }, this.handlePickedFile.bind(this));
+    };
+    
+    
+    
+    pickFile = () => {
+      filepicker.pick(
+        {
+            cropRatio: 12/5,
+            mimetype: 'image/*',
+            services: ['CONVERT', 'COMPUTER', 'FACEBOOK'],
+            conversions: ['crop', 'rotate']
+        },
+        this.handlePickedFile.bind(this)
+        );  
     };
 
-    handleChange = (event, name) => {
-        const newState = {};
-
-        newState[name] = event.nativeEvent.target.value;
-        this.setState(newState);
-    };
-
-
-    handleOnDrop = (files) => {
-        const user = this.state.user;
-        const reader = new FileReader();
-        const file = files[0];
-
-        this.setState({
-            file: files[0],
-        });
-
-        reader.onload = (upload) => {
-            const coverImageData = upload.target.result;
-
-            this.setState({
-                coverImageData,
-                cropperOpen: true,
-            });
-        };
-        reader.readAsDataURL(file);
-    };
-
-    handleOnCrop = (dataURI) => {
-        this.setState({
-            cropperOpen: false,
-            coverImageData: dataURI,
-            file: {
-                preview: dataURI,
-            },
-        });
-    };
-
-    handleRequestHide = () => {
-        this.setState({
-            cropperOpen: false,
-        });
-    };
+    
+    
 
     render() {
         return (
             <Form title={'Edit Cover'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 id={"edit-cover-form"}
-                onSubmit={(e) => { this.updateCover() }}
             >
                 <div className="dropzone form-group">
-                    <Dropzone
-                        onDrop={this.handleOnDrop}
-                        multiple={false}
-                        style={{ }}
-                    >
+
+
                         <img
                             className={"dropzone-image"}
                             src={this.state.file.preview}
                         />
-                        <p className={"dropzone-text"}>{'Upload cover photo'}</p>
-                    </Dropzone>
-                    <AvatarCropper
-                        onRequestHide={this.handleRequestHide}
-                        onCrop={this.handleOnCrop}
-                        cropperOpen={this.state.cropperOpen}
-                        image={this.state.file.preview}
-                        width={1200}
-                        height={500}
-                    />
+                        &nbsp;
+                        
                 </div>
                 <Button
-                    customClass="btn-green-white"
-                    type={'submit'}
-                    disabled={this.state.loading}
+                    customClass="btn-green-white btn-lg"
+                    onClick={this.pickFile}
                 >
-                    {'save'}
+                    Upload Cover
                 </Button>
+                
             </Form>
         );
     }
