@@ -311,42 +311,24 @@ export default class Volunteer {
         }
 
         return new Promise((resolve, reject) => {
-            const callUserUpdate = (uploadUrl) => {
-                return User.update(currentUser, {
-                    ...(user.id ? { id: currentUser.id } : {}),
-                    ...(user.firstName ? { firstName: user.firstName } : {}),
-                    ...(user.lastName ? { lastName: user.lastName } : {}),
-                    ...(user.email ? { email: user.email } : {}),
-                    ...(user.goal ? { goal: user.goal } : {}),
-                    ...(user.password ? { password: user.password } : {}),
-                    ...(user.roles ? { roles: currentUser.roles } : {}),
-                    ...(user.description ? { description: user.description } : {}),
-                    ...(uploadUrl ? { image: uploadUrl } : {}),
-                    ...(user.slug ? { slug: currentUser.slug } : {}),
-                    ...(user.totalHours ? { totalHours: user.totalHours } : {}),
-                    ...(user.currentHours ? { currentHours: user.currentHours } : {}),
-                }).then((data) => {
-                    return resolve(data);
-                }).catch((error) => {
-                    return reject(error);
-                });
-            };
-
-            if (user.image && user.image.indexOf('?') >= 0) {
-                user.image = user.image.substring(0, user.image.indexOf('?'));
-            }
-
-            if (typeof user.image !== 'undefined' && currentUser.image !== user.image) {
-                return Volunteer.uploadHeadshot({
-                    id: user.id,
-                    image: user.image,
-                }).then((uploadUrl) => {
-                    return callUserUpdate(uploadUrl);
-                }).catch((error) => {
-                    return reject(error);
-                });
-            }
-            return callUserUpdate();
+            return User.update(currentUser, {
+                ...(user.id ? { id: currentUser.id } : {}),
+                ...(user.firstName ? { firstName: user.firstName } : {}),
+                ...(user.lastName ? { lastName: user.lastName } : {}),
+                ...(user.email ? { email: user.email } : {}),
+                ...(user.goal ? { goal: user.goal } : {}),
+                ...(user.password ? { password: user.password } : {}),
+                ...(user.roles ? { roles: currentUser.roles } : {}),
+                ...(user.description ? { description: user.description } : {}),
+                ...(user.image ? { image: user.image } : {}),
+                ...(user.slug ? { slug: currentUser.slug } : {}),
+                ...(user.totalHours ? { totalHours: user.totalHours } : {}),
+                ...(user.currentHours ? { currentHours: user.currentHours } : {}),
+            }).then((data) => {
+                return resolve(data);
+            }).catch((error) => {
+                return reject(error);
+            });
         });
     }
 
