@@ -14,32 +14,38 @@ export default class PledgeFormStep1 extends Component {
         this.state = {
             ...(this.props.oneTimeOnly ? { amount: defaultAmount } : { hourly: defaultAmount }),
             maxCap: null,
+            error: false,
         };
     }
 
     handleChange = (event, name) => {
-        const newState = {};
+        const value = event.nativeEvent.target.value;
+        
+        const newState = {
+            error: (_(value).isEmpty() && 'Please enter an amount'),
+        };
 
-        newState[name] = event.nativeEvent.target.value;
+        newState[name] = value;
         this.setState(newState);
     };
 
     handleSwitchForm = () => {
+        const value = this.state.amount || this.state.hourly;
         if (this.state.amount) {
             this.setState({
                 amount: null,
-                hourly: defaultAmount,
+                hourly: value,
             });
         } else {
             this.setState({
                 hourly: null,
-                amount: defaultAmount,
+                amount: value,
             });
         }
     };
 
     getForm = () => {
-        if (this.props.oneTimeOnly) {
+        if (this.state.amount) {
             return (
                 <div>
                     <div className="input-group">
@@ -47,12 +53,13 @@ export default class PledgeFormStep1 extends Component {
                         <input name="amount"
                             className="pledge-amount"
                             onChange={(e) => { this.handleChange(e, 'amount') }}
+                            value={this.state.amount}
                         />
                     </div>
                     <label htmlFor="amount">{'Pledge'}</label>
                 </div>
             );
-        } else if (!this.props.oneTimeOnly && this.state.hourly) {
+        } else {
             return (
                 <div>
                     <div className="input-group">
@@ -83,27 +90,13 @@ export default class PledgeFormStep1 extends Component {
                     <ReactTooltip />
                 </div>
             );
-        } else if (!this.props.oneTimeOnly && this.state.amount) {
-            return (
-                <div>
-                    <div className="input-group">
-                        <span className="input-group-addon">$</span>
-                        <input name="amount"
-                            className="pledge-amount"
-                            onChange={(e) => { this.handleChange(e, 'amount') }}
-                            value={this.state.amount}
-                        />
-                    </div>
-                    <label htmlFor="amount">{'Pledge'}</label>
-                </div>
-            );
         }
     };
 
     render() {
         let switcher = null;
-
-        if (!this.props.oneTimeOnly && this.state.amount) {
+        console.log(this.state);
+        if (!this.state.hourly) {
             switcher = (
                 <span id={'switch-form'}>
                     {'Or make an '}
@@ -115,7 +108,7 @@ export default class PledgeFormStep1 extends Component {
                     </Button>
                 </span>
             );
-        } else if (!this.props.oneTimeOnly && this.state.hourly) {
+        } else {
             switcher = (
                 <span>
                     {'Or make a '}
@@ -145,6 +138,7 @@ export default class PledgeFormStep1 extends Component {
                 </Form>
                 <ModalButton
                     customClass="btn-transparent-green btn-pledge"
+                    disabled={this.state.error}
                     content={
                         <PledgeFormStep2
                             pledgeData={{
