@@ -62,38 +62,37 @@ export default class AdminVolunteerProfile extends Component {
             });
         }
     }
-
-    handleOnDrop = (files) => {
-        this.setState({
-            imageLoading: true,
-            success: false,
-        });
+    
+    handlePickedFile = (Blob) => {
         const user = this.state.user;
-        const reader = new FileReader();
-        const file = files[0];
-
-        reader.onload = (upload) => {
-            user.image = upload.target.result;
-            fixOrientation(user.image, { image: true }, (fixed, image) => {
-                user.image = fixed;
-                this.setState({
-                    user,
-                    cropperOpen: true,
-                });
-            });
-        };
-        reader.readAsDataURL(file);
+        user.image = Blob.url;
+        Actions.updateProfile(user)(this.props.dispatch);
+    };
+    
+    cropFile = () => {
+        const user = this.state.user;
+        filepicker.processImage(team.coverImage, {
+            cropRatio: 4/4,
+            mimetype: 'image/*',
+            services: ['CONVERT', 'COMPUTER'],
+            conversions: ['crop', 'rotate']
+        }, this.handlePickedFile.bind(this));
+    };
+    
+    
+    
+    pickFile = () => {
+      filepicker.pick(
+        {
+            cropRatio: 4/4,
+            mimetype: 'image/*',
+            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM'],
+            conversions: ['crop', 'rotate']
+        },
+        this.handlePickedFile.bind(this)
+        );  
     };
 
-    handleOnCrop = (dataURI) => {
-        this.setState({
-            cropperOpen: false,
-            user: {
-                image: dataURI,
-            },
-            imageLoading: false,
-        });
-    };
 
     handleRequestHide = () => {
         this.setState({
@@ -309,29 +308,18 @@ export default class AdminVolunteerProfile extends Component {
                                 }
 
                                 <div className="dropzone form-group">
-                                    <Dropzone
-                                        onDrop={this.handleOnDrop}
-                                        multiple={false}
-                                        style={{ }}
-                                    >
-                                        {this.state.imageLoading ?
-                                            <i className={"fa fa-circle-o-notch fa-spin avatar-spin"}/> :
-                                            null
-                                        }
-                                        <img
+                       
+                                    <img
                                             className={"dropzone-image"}
                                             src={this.getUserPreview()}
                                         />
-                                        <p className={"dropzone-text"}>{'Upload profile photo'}</p>
-                                    </Dropzone>
-                                    <AvatarCropper
-                                        onRequestHide={this.handleRequestHide}
-                                        onCrop={this.handleOnCrop}
-                                        cropperOpen={this.state.cropperOpen}
-                                        image={this.state.user.image}
-                                        width={114}
-                                        height={114}
-                                    />
+                                     &nbsp;
+                                    <Button
+                                    customClass="btn-lg btn-transparent-green"
+                                    onClick={this.pickFile}
+                                >
+                                    Change Photo
+                                </Button>
                                 </div>
                                 <div className="form-group">
                                     <textarea

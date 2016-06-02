@@ -29,106 +29,55 @@ export default class EditLogoForm extends Component {
             });
         }
     }
-
-    updateLogo = () => {
-        this.setState({
-            loading: true,
-        });
+    
+    handlePickedFile = (Blob) => {
         const team = Object.assign({}, this.state.team);
-
-        if (this.state.logoImageData !== '') {
-            team.logoImageData = this.state.logoImageData;
-        }
-
-        Actions.updateTeam(
+        team.logo = Blob.url;
+            Actions.updateTeam(
             team.id,
             team
         )(this.props.dispatch);
-
-        team.logo = team.logoImageData;
-
-        this.props.updateTeam(team);
+    };
+    
+    cropFile = () => {
+        const team = Object.assign({}, this.state.team);
+        filepicker.processImage(team.coverImage, {
+            mimetype: 'image/*',
+            services: ['CONVERT', 'COMPUTER'],
+            conversions: ['crop', 'rotate']
+        }, this.handlePickedFile.bind(this));
+    };
+    
+    
+    
+    pickFile = () => {
+      filepicker.pick(
+        {
+            mimetype: 'image/*',
+            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM'],
+            conversions: ['crop', 'rotate']
+        },
+        this.handlePickedFile.bind(this)
+        );  
     };
 
-    handleChange = (event, name) => {
-        const newState = {};
-
-        newState[name] = event.nativeEvent.target.value;
-        this.setState(newState);
-    };
-
-
-    handleOnDrop = (files) => {
-        const user = this.state.user;
-        const reader = new FileReader();
-        const file = files[0];
-
-        this.setState({
-            file: files[0],
-        });
-
-        reader.onload = (upload) => {
-            const logoImageData = upload.target.result;
-
-            this.setState({
-                logoImageData,
-                cropperOpen: true,
-            });
-        };
-        reader.readAsDataURL(file);
-    };
-
-    handleOnCrop = (dataURI) => {
-        this.setState({
-            cropperOpen: false,
-            logoImageData: dataURI,
-            file: {
-                preview: dataURI,
-            },
-        });
-    };
-
-    handleRequestHide = () => {
-        this.setState({
-            cropperOpen: false,
-        });
-    };
+    
 
     render() {
-        console.log(this.props.value);
         return (
             <Form title={'Edit Logo'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 id={"edit-logo-form"}
-                onSubmit={(e) => { this.updateLogo() }}
             >
-                <div className="dropzone form-group">
-                    <Dropzone
-                        onDrop={this.handleOnDrop}
-                        multiple={false}
-                        style={{ }}
-                    >
-                        <img
+                <img
                             className={"dropzone-image"}
                             src={this.state.file.preview}
                         />
-                        <p className={"dropzone-text"}>{'Upload logo'}</p>
-                    </Dropzone>
-                    <AvatarCropper
-                        onRequestHide={this.handleRequestHide}
-                        onCrop={this.handleOnCrop}
-                        cropperOpen={this.state.cropperOpen}
-                        image={this.state.file.preview}
-                        width={200}
-                        height={70}
-                    />
-                </div>
                 <Button
-                    customClass="btn-green-white"
-                    type={'submit'}
-                    disabled={this.state.loading}
+                    customClass="btn-green-white btn-lg"
+                    onClick={this.pickFile}
                 >
-                    {'save'}
+                    Upload Logo
                 </Button>
             </Form>
         );
