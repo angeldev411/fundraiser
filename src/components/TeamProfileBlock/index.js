@@ -76,29 +76,34 @@ export default class TeamProfileBlock extends Component {
                             {'Logo'}
                         </EditButton>
                     : null}
-
-                    <div id="team-goal">
-                        <span id="team-goal-title">{'TEAM GOAL'}</span>
-                        <div
-                            className="progress"
-                        >
+                    
+                    {this.props.teamgoal
+                        ? (
+                        <div id="team-goal">
+                            <span id="team-goal-title">{'TEAM GOAL'}</span>
                             <div
-                                className="team-goal-bar progress-bar"
-                                role="progressbar"
-                                aria-valuenow={percentage}
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                                style={{ width: percentage+'%' }}
+                                className="progress"
                             >
-                                <span className="sr-only">{'60% Complete'}</span>
+                                <div
+                                    className="team-goal-bar progress-bar"
+                                    role="progressbar"
+                                    aria-valuenow={percentage}
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    style={{ width: percentage+'%' }}
+                                >
+                                    <span className="sr-only">{'60% Complete'}</span>
+                                </div>
                             </div>
+                            <div id="team-goal-number">
+                                <span id="label">{'Goal'}</span>
+                                <span id="value">{this.props.team.goal}{' hrs'}</span>
+                            </div>
+                            <p className={'clearfix'}>{this.props.team.totalHours}</p>
                         </div>
-                        <div id="team-goal-number">
-                            <span id="label">{'Goal'}</span>
-                            <span id="value">{this.props.team.goal}{' hrs'}</span>
-                        </div>
-                        <p className={'clearfix'}>{this.props.team.totalHours}</p>
-                    </div>
+                        )
+                        : (null)
+                    }
 
                     {this.props.volunteerprofile
                         ? (null)

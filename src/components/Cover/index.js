@@ -14,7 +14,7 @@ export default class Cover extends Component {
         const MOBILE_ACTIVATION_WIDTH = 992;
 
         this.state = {
-            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+            isDesktop: window.innerWidth >= this.MOBILE_ACTIVATION_WIDTH,
             team: this.props.team,
         };
 

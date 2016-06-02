@@ -120,6 +120,7 @@ class TeamProfile extends Component {
                         team={this.state.team}
                         project={this.state.project}
                         editable={editable}
+                        teamgoal={true}
                     />
                     <div className="team-profile-footer">
                         <div className={"container"}>
