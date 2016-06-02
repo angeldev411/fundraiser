@@ -9,6 +9,8 @@ import messages from '../messages';
 import UserController from '../user/controller';
 import utils from '../helpers/util';
 import moment from 'moment';
+import Volunteer from '../user/volunteer/model';
+import _ from 'lodash';
 
 const db = neo4jDB(config.DB_URL);
 
@@ -342,21 +344,44 @@ class Team {
     }
 
     static getStats(teamSlug) {
-        return db.query(
-            `
-            MATCH (team:TEAM {slug: {teamSlug}})
-            RETURN {totalVolunteers: team.totalVolunteers, totalSponsors: team.totalSponsors, totalRaised: team.totalRaised} AS stats
-            `,
-            {},
-            {
-                teamSlug,
-            }
-        )
-        .getResult('stats');
-    }
+      return db.query(`
+          MATCH (team:TEAM {slug: {teamSlug}})-[r:VOLUNTEER]-(volunteers:USER)
+          RETURN volunteers
+        `, {}, { teamSlug })
+        .getResults('volunteers')
+        .then((volunteers) => {
+
+          // Set up a queue to fetch all volunteer stats
+          var stats = volunteers.map( volunteer => {
+            return Volunteer.getStats(volunteer.slug)
+              .then( stats => stats )
+              .catch( err => {
+                console.error(`Error in ${volunteer.slug}`,err);
+                throw err;
+              });
+          });
+
+          // One all stats are returned, collect and return totals
+          return Promise.all(stats).then( stats => {
+
+            return _(stats).reduce( (result, stat) => {
+              result.totalVolunteers++;
+              result.totalSponsors  += stat.totalSponsors;
+              result.totalRaised    += stat.raised;
+              return result;
+            }, {
+              totalVolunteers: 0,
+              totalSponsors:   0,
+              totalRaised:     0
+            });
+
+          });
+
+        });
+
+      };
 
     static removeTeam(teamId, userId) {
-        console.log(teamId, userId);
         return db.query(
             `
             MATCH (team:TEAM {id: {teamId}})-[:CONTRIBUTE]->(:PROJECT)<-[:LEAD]-(:PROJECT_LEADER { id: {userId}})

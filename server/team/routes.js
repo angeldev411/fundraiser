@@ -52,7 +52,7 @@ router.get('/api/v1/team/stats', (req, res) => {
         return;
     }
 
-    Team.getStats(req.session.user.team.slug.toLowerCase())
+    return Team.getStats(req.session.user.team.slug.toLowerCase())
     .then((stats) => {
         res.status(200).send(stats);
         return;
