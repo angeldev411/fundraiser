@@ -344,39 +344,73 @@ class Team {
     }
 
     static getStats(teamSlug) {
+      // Query the distinct volunteers and sponsors for the team
+      // We'll fetch volunteer stats later to get each of their sponsors,
+      // donations, and hours
       return db.query(`
-          MATCH (team:TEAM {slug: {teamSlug}})-[r:VOLUNTEER]-(volunteers:USER)
-          RETURN volunteers
+          MATCH (team:TEAM {slug: {teamSlug}})
+          MATCH (team)-[r2:VOLUNTEER]-(volunteers:USER)
+          OPTIONAL MATCH (team)-[sponsors:DONATED|SUPPORTING]-(USER)
+          RETURN collect(distinct volunteers) as teamVolunteers,
+                 collect(distinct sponsors)   as teamSponsors
         `, {}, { teamSlug })
-        .getResults('volunteers')
-        .then((volunteers) => {
+        .getResult('teamVolunteers', 'teamSponsors')
+        .then((results) => {
+          var util = require('util');
+          const volunteers  = results.teamVolunteers;
+          const sponsors    = results.teamSponsors;
 
-          // Set up a queue to fetch all volunteer stats
+          // Queue up volunteer stats to be fetched
           var stats = volunteers.map( volunteer => {
             return Volunteer.getStats(volunteer.slug)
               .then( stats => stats )
               .catch( err => {
                 console.error(`Error in ${volunteer.slug}`,err);
-                throw err;
+                return Promise.reject(err);
               });
           });
 
-          // One all stats are returned, collect and return totals
+          // Once all stats are returned, collect and return totals
           return Promise.all(stats).then( stats => {
 
-            return _(stats).reduce( (result, stat) => {
-              result.totalVolunteers++;
-              result.totalSponsors  += stat.totalSponsors;
-              result.totalRaised    += stat.raised;
-              return result;
+            // collect totals from our volunteers
+            const totals = _(stats).reduce( (total, stat) => {
+              total.totalVolunteers++;
+              total.totalHours     += stat.totalHours
+              total.totalSponsors  += stat.totalSponsors;
+              total.totalRaised    += stat.raised;
+              return total;
             }, {
               totalVolunteers: 0,
-              totalSponsors:   0,
-              totalRaised:     0
+              totalHours:      0,
+              totalSponsors:   sponsors.length, // start from team sponsor count
+              totalRaised:     0,
             });
 
+            // get totals for the team's hourly and one-time donations
+            const teamTotals = _(sponsors).reduce( (total, sponsor) => {
+              // currently, we can't trust these to be numbers
+              total.hourly  += Number(sponsor.hourly) || 0,
+              total.oneTime += Number(sponsor.amount) || 0
+              return total;
+            },{
+              hourly:   0,
+              oneTime:  0
+            });
+
+            // multiply the team's total hours by the team's total hourly donations
+            // and add that to the total amount raised
+            // then add the team's one-time donations
+            totals.totalRaised += totals.totalHours * teamTotals.hourly
+                                  + teamTotals.oneTime;
+
+            return totals;
           });
 
+        })
+        .catch(err => {
+          console.error(err);
+          throw err;
         });
 
       };
