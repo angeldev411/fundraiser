@@ -9,7 +9,8 @@ export default class VolunteerProfileBlock extends Component {
         const SHARE_URL = `${constants.DOMAIN}${this.props.pathname}`;
         const SHARE_TEXT = `${this.props.volunteer.firstName} ${this.props.volunteer.lastName} from ${this.props.team.name} - Raiserve`;
         const SHARE_MESSAGE = `${this.props.volunteer.message}`;
-
+        const SLOGAN = this.props.team.slogan || 'YOUR OBJECTIVE';
+        
         return (
             <div className="volunteer-profile-block">
                 <div className="container">
@@ -17,7 +18,7 @@ export default class VolunteerProfileBlock extends Component {
                         <UserProgress user={this.props.volunteer}/>
                     </div>
                     <div className={'col-xs-12 col-md-8 volunteer-description'}>
-                        <div className={'team-slogan'}>{`YOU + US = ${this.props.team.slogan}`}</div>
+                        <div className={'team-slogan'}>{`YOU + US = ${SLOGAN}`}</div>
                         <p>
                             {this.props.volunteer.description}
                         </p>
