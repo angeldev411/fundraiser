@@ -57,7 +57,7 @@ ModalButton.propTypes = {
     customClass: React.PropTypes.string,
     content: React.PropTypes.element,
     onModalToggle: React.PropTypes.func,
-    disabled: React.PropTypes.boolean,
+    disabled: React.PropTypes.bool,
 };
 
 export default connect((reduxState) => ({
