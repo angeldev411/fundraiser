@@ -95,7 +95,6 @@ export default class PledgeFormStep1 extends Component {
 
     render() {
         let switcher = null;
-        console.log(this.state);
         if (!this.state.hourly) {
             switcher = (
                 <span id={'switch-form'}>
