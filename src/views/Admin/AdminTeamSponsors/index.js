@@ -151,11 +151,12 @@ class AdminTeamSponsors extends Component {
                                 },
                                 {
                                     current: this.state.stats.totalSponsors,
-                                    title: 'Total Sponsors',
+                                    title: 'Sponsors',
                                 },
                                 {
                                     current: this.state.stats.totalRaised,
-                                    title: 'Total Money Raised',
+                                    title: 'Raised',
+                                    prefix: '$'
                                 },
                             ]
                         }
