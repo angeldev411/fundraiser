@@ -18,14 +18,14 @@ class Menu extends Component {
 
         this.state = {
             visible: false,
-            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+            isDesktop: window.innerWidth >= this.MOBILE_ACTIVATION_WIDTH,
             scrollable: true,
             user: this.props.user,
         };
 
         window.addEventListener('resize', () => {
             this.setState({
-                isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+                isDesktop: window.innerWidth >= this.MOBILE_ACTIVATION_WIDTH,
             });
         });
     }
