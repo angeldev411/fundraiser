@@ -46,7 +46,7 @@ export default class EditCoverForm extends Component {
         {
             cropRatio: 12/5,
             mimetype: 'image/*',
-            services: ['CONVERT', 'COMPUTER', 'FACEBOOK'],
+            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM'],
             conversions: ['crop', 'rotate']
         },
         this.handlePickedFile.bind(this)
