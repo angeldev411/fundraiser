@@ -24,9 +24,7 @@ class ModalButton extends Component {
     }
 
     handleClick = () => {
-        if(this.props.disabled){
-            this.setState({clicked: false});
-        }else{
+        if(!this.props.disabled){
             this.setState({ clicked: !this.state.clicked });
             if (this.props.onModalToggle) this.props.onModalToggle();
         }
