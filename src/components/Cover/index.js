@@ -7,17 +7,19 @@ import EditTaglineForm from '../EditTaglineForm';
 import * as constants from '../../common/constants';
 import moment from 'moment';
 
+const MOBILE_ACTIVATION_WIDTH = 992;
+
 export default class Cover extends Component {
     constructor(props) {
         super(props);
 
-        const MOBILE_ACTIVATION_WIDTH = 992;
-
         this.state = {
-            isDesktop: window.innerWidth >= this.MOBILE_ACTIVATION_WIDTH,
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
             team: this.props.team,
         };
-
+    }
+    
+    componentDidMount() {
         window.addEventListener('resize', this.SET_IS_DESKTOP);
     }
 
@@ -46,7 +48,7 @@ export default class Cover extends Component {
     };
 
     deadline() {
-      return moment( this.props.team.deadline ).format('MMM DD YYYY');
+      return moment(this.props.team.deadline).format('MMM DD YYYY');
     }
 
     render() {

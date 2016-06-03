@@ -10,26 +10,34 @@ import ModalButton from '../ModalButton/';
 import Button from '../Button/';
 import SigninForm from '../SigninForm/';
 
+const MOBILE_ACTIVATION_WIDTH = 992;
+
 class Menu extends Component {
     constructor(props) {
         super(props);
 
-        const MOBILE_ACTIVATION_WIDTH = 992;
-
         this.state = {
             visible: false,
-            isDesktop: window.innerWidth >= this.MOBILE_ACTIVATION_WIDTH,
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
             scrollable: true,
             user: this.props.user,
         };
-
-        window.addEventListener('resize', () => {
-            this.setState({
-                isDesktop: window.innerWidth >= this.MOBILE_ACTIVATION_WIDTH,
-            });
-        });
     }
-
+    
+    componentDidMount() {
+       window.addEventListener('resize', this.SET_IS_DESKTOP);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.SET_IS_DESKTOP);
+    }
+    
+    SET_IS_DESKTOP = () => {
+        this.setState({
+            isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+        });
+    };
+    
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
             this.setState({
@@ -270,12 +278,12 @@ class Menu extends Component {
                 </span>
             </div>
         );
-
         if (this.state.isDesktop) {
             return menu;
+        } else {
+            return mobileMenu;
         }
 
-        return mobileMenu;
     }
 }
 
