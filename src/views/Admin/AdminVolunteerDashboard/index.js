@@ -129,16 +129,17 @@ export default class AdminVolunteerDashboard extends Component {
                             [
                                 {
                                     current: this.state.stats.totalHours,
-                                    title: 'Volunteered hours',
+                                    title: 'Hours',
                                     goal: this.props.user.goal,
                                 },
                                 {
                                     current: this.state.stats.totalSponsors,
-                                    title: 'Total Sponsors',
+                                    title: 'Sponsors',
                                 },
                                 {
                                     current: this.state.stats.raised,
-                                    title: 'Total Money Raised',
+                                    title: 'Raised',
+                                    prefix: '$',
                                 },
                             ]
                         }

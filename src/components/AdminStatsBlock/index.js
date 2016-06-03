@@ -13,6 +13,7 @@ export default class AdminStatsBlock extends Component {
                                     current: stat.current,
                                     title: stat.title,
                                     goal: stat.goal,
+                                    prefix: stat.prefix
                                 }
                             }
                         />

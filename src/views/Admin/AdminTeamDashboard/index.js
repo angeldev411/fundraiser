@@ -156,7 +156,8 @@ class AdminTeamDashboard extends Component {
                             data={
                                 {
                                     current: this.state.stats.totalRaised,
-                                    title: 'Money Raised',
+                                    title: 'Raised',
+                                    prefix: '$'
                                 }
                             }
                         />

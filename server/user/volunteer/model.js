@@ -377,10 +377,22 @@ export default class Volunteer {
     }
 
     static getStats(volunteerSlug) {
+        // Find the volunteer and calculate stats
+        // If the volunteer has any sponsors, total the amount they will
+        // contribute for hourly plus one-time donations.
+        //
+        // Using toFloat for safety on sponsorship amounts, some donations and
+        // totalHours were improperly stored as strings.
         return db.query(
             `
-            MATCH (volunteer:VOLUNTEER {slug: {volunteerSlug}})
-            RETURN {totalHours: volunteer.totalHours, totalSponsors: volunteer.totalSponsors, raised: volunteer.raised} AS stats
+            MATCH (v:VOLUNTEER {slug: {volunteerSlug}})
+            OPTIONAL MATCH (v)<-[r:DONATED|SUPPORTING]-(USER)
+            RETURN {
+            	totalHours: toFloat(v.totalHours),
+            	totalSponsors: v.totalSponsors,
+            	raised: toFloat(v.totalHours) * sum(toFloat(r.hourly)) +
+                      sum(toFloat(r.amount))
+            } AS stats
             `,
             {},
             {
