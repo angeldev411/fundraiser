@@ -47,6 +47,17 @@ gulp.task('sass', ['cleanCSS'], function() {
     .pipe( livereload() );
 });
 
+gulp.task('minsass', ['cleanCSS'], function() {
+  return gulp.src(styleList)
+    .pipe(sourcemaps.init())
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(sourcemaps.write())
+    .pipe(concat('all.css'))
+    .pipe(rename('style.css'))
+    .pipe(gulp.dest('./www/assets/css/'))
+    .pipe( livereload() );
+});
+
 gulp.task('moveAssets', ['cleanAssets'], function() {
   gulp.src(assetList, { base: './src/assets' })
     .pipe(gulp.dest('./www/assets'))
@@ -122,4 +133,4 @@ gulp.task('dev', ['moveAssets', 'html', 'js', 'sass', 'fa', 'glyphicons','watch'
     });
 });
 
-gulp.task('default', ['moveAssets','html', 'minjs', 'sass', 'fa', 'glyphicons']);
+gulp.task('default', ['moveAssets','html', 'minjs', 'minsass', 'fa', 'glyphicons']);
