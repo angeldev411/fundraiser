@@ -53,9 +53,13 @@ gulp.task('moveAssets', ['cleanAssets'], function() {
     .pipe( livereload() );
 });
 
+// for whatever reason if you try to include constants in this file it breaks gulp so there is some duplication here
 gulp.task('html', () =>
     gulp.src('src/index.html')
-        .pipe(template({STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_qLwGpc6OnsFiIc8D8XF3cy2G'}))
+        .pipe(template({
+          STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_qLwGpc6OnsFiIc8D8XF3cy2G',
+          FILESTACK_KEY: process.env.FILESTACK_KEY || 'AEBLEJFNRymKKHMYhksCDz',
+        }))
         .pipe(gulp.dest('./www'))
 );
 
