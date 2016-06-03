@@ -29,7 +29,6 @@ export default class AdminVolunteerDashboard extends Component {
     }
 
     updateData(){
-      console.log('updating data!', this);
       Actions.getHourLogs()(this.props.dispatch);
       Actions.getStats()(this.props.dispatch);
     }
