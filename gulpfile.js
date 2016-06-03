@@ -49,7 +49,6 @@ gulp.task('sass', ['cleanCSS'], function() {
 
 gulp.task('minsass', ['cleanCSS'], function() {
   return gulp.src(styleList)
-    .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: 'compressed'}))
     .pipe(sourcemaps.write())
     .pipe(concat('all.css'))
