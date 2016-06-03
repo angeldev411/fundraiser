@@ -7,10 +7,14 @@ export default class UserProgress extends Component {
     render() {
         const percentage = this.props.user.goal ? this.props.user.totalHours / this.props.user.goal * 100 : 0;
 
-        const backgroundImage = this.props.user.image
+        let backgroundImage = this.props.user.image
                                     ? `url(${this.props.user.image})`
                                     : `url(${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR})`;
-
+        
+        if (!backgroundImage.match(/constants.DEFAULT_AVATAR/g)) {
+            backgroundImage = `url(${constants.RESIZE_PROFILE}${this.props.user.image})`;
+        }
+              
         return (
             <div className="user-progress-container">
                 <div className="user-hours">

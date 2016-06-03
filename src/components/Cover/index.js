@@ -53,9 +53,12 @@ export default class Cover extends Component {
 
     render() {
         const style = {
-            backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
+            backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,    
         };
-
+        
+        if(!style.backgroundImage.match(/constants.DEFAULT_COVER/g) && this.state.team.coverImage){
+            style.backgroundImage = `url(${constants.RESIZE_COVER}${this.state.team.coverImage})`;
+        }
         let COVERCONTENT = null;
 
         if (!this.state.isDesktop && this.props.customclass === 'cover-volunteer-profile') {

@@ -32,11 +32,16 @@ export default class TeamProfileBlock extends Component {
 
     render() {
         let percentage = (this.props.team.totalHours / this.props.team.goal) * 100;
-
+        
+        let logoImage = (this.props.team.logo) ? this.props.team.logo : `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`;
+        
+        if(!logoImage.match(/constants.DEFAULT_LOGO/g)){
+            logoImage = constants.RESIZE_LOGO + logoImage;
+        }
+        
         if (percentage > 100) {
             percentage = 100;
         }
-
 
         return (
             <div
@@ -50,11 +55,7 @@ export default class TeamProfileBlock extends Component {
                     volunteerprofile={this.props.volunteerprofile}
                 >
                     <img id="team-logo"
-                        src={
-                            this.props.team.logo ?
-                            this.props.team.logo :
-                            `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`
-                        }
+                        src={logoImage}
                         title=""
                     />
                     {this.props.editable ?

@@ -162,7 +162,7 @@ export default class AdminVolunteerProfile extends Component {
 
     getUserImage = () => {
         if (this.state.user && this.state.user.image) {
-            return this.state.user.image;
+            return constants.RESIZE_PROFILE_EDIT + this.state.user.image;
         }
     };
 
