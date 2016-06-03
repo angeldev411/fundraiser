@@ -23,3 +23,9 @@ export const GRAPH_SCROLL_INCREMENT = 50;
 export const GRAPH_ACTIVATE_EMPTY_BARS = true; // SWITCH TO TRUE TO RESTORE EMPTY BARS BETWEEN DATES CONTAINING HOURS
 
 export const EMAIL_RAISERVE_LOGO = `${DOMAIN}/${RAISERVE_LOGO}`;
+
+export const FILESTACK_KEY = 'AEBLEJFNRymKKHMYhksCDz';
+export const RESIZE_COVER = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:1200,height:500,fit:crop,align:top/`;
+export const RESIZE_LOGO = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=height:100,fit:crop,align:top/`;
+export const RESIZE_PROFILE = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:180,height:180,fit:crop,align:top/`;
+export const RESIZE_PROFILE_EDIT = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:115,height:115,fit:crop,align:top/`;
