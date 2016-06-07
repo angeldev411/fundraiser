@@ -7,9 +7,11 @@ import UserProgress from '../../components/UserProgress';
 export default class VolunteerProfileBlock extends Component {
     render() {
         const SHARE_URL = `${constants.DOMAIN}${this.props.pathname}`;
-        const SHARE_TEXT = `Sponsor ${this.props.volunteer.firstName} and Make Twice the Difference`;
+        const TWITTER_MESSAGE = ` Sponsor ${this.props.volunteer.firstName} for each hour volunteered. \
+Money goes to ${this.props.project.name}.`;
         const SLOGAN = this.props.team.slogan || 'Twice the difference';
-        const SHARE_MESSAGE = `Please help ${this.props.volunteer.firstName} raise \
+        const EMAIL_SUBJECT = `Sponsor ${this.props.volunteer.firstName} and Make Twice the Difference`;
+        const EMAIL_MESSAGE = `Please help ${this.props.volunteer.firstName} raise \
 money for ${this.props.project.name}.  Sponsor each hour of volunteering \
 and make twice the difference.%0D%0A
 %0D%0A
@@ -50,7 +52,7 @@ ${this.props.volunteer.description}` ;
                             <span className="uppercase">
                                 Share my goal :
                             </span>
-                            <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE}`}
+                            <a href={`mailto:?subject=${EMAIL_SUBJECT}&body=${EMAIL_MESSAGE}`}
                                 className="share"
                             >
                                 <i className="fa fa-envelope"/>
@@ -61,7 +63,7 @@ ${this.props.volunteer.description}` ;
                             >
                                 <i className="fa fa-facebook"/>
                             </a>
-                            <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${constants.TWITTER_USERNAME}`}
+                            <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${TWITTER_MESSAGE}&via=${constants.TWITTER_USERNAME}&hashtags=maketwicethedifference`}
                                 target="_blank"
                                 className="share"
                             >
