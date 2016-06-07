@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 export default class Container extends Component {
     render() {
         return (
-            <div
-                className={'react-container'}
-            >
-                {this.props.children}
-            </div>
+          <div className={'react-container'} >
+            {this.props.children}
+          </div>
         );
     }
 }
