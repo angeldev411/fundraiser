@@ -57,6 +57,17 @@ export default class PledgeFormStep1 extends Component {
                         />
                     </div>
                     <label htmlFor="amount">{'Pledge'}</label>
+                    <span id={'tooltip-trigger'}>
+                        <i
+                            className={'fa fa-question'}
+                            data-tip={`Your 100% tax deductible donation will be charged upon completion of checkout.`}
+                            data-type={'success'}
+                            data-class={'tooltip'}
+                            data-multiline
+                            data-event={'click'}
+                        ></i>
+                    </span>
+                    <ReactTooltip />
                 </div>
             );
         } else {
@@ -78,7 +89,7 @@ export default class PledgeFormStep1 extends Component {
                     <span id={'tooltip-trigger'}>
                         <i
                             className={'fa fa-question'}
-                            data-tip={`Your credit card will be charged monthly for all hours completed that month up to the number of goal hours. If service hours have already been completed, those hours will be included in your first month of sponsorship`}
+                            data-tip={`Your 100% tax deductible sponsorship will be charged monthly for all hours completed that month up to the number of goal hours. <br/> If service hours have already been completed, those hours will be included in your first month of sponsorship.`}
                             data-type={'success'}
                             data-class={'tooltip'}
                             data-multiline
