@@ -89,7 +89,6 @@ footer {
 }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) {
     footer{
         .tagline {
             margin: 0;
@@ -120,4 +119,3 @@ footer {
             }
         }
     }
-}
