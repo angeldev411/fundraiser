@@ -7,10 +7,18 @@ import UserProgress from '../../components/UserProgress';
 export default class VolunteerProfileBlock extends Component {
     render() {
         const SHARE_URL = `${constants.DOMAIN}${this.props.pathname}`;
-        const SHARE_TEXT = `${this.props.volunteer.firstName} ${this.props.volunteer.lastName} from ${this.props.team.name} - Raiserve`;
-        const SHARE_MESSAGE = `${this.props.volunteer.message}`;
-        const SLOGAN = this.props.team.slogan || 'YOUR OBJECTIVE';
-        
+        const SHARE_TEXT = `Sponsor ${this.props.volunteer.firstName} and Make Twice the Difference`;
+        const SLOGAN = this.props.team.slogan || 'Twice the difference';
+        const SHARE_MESSAGE = `Please help ${this.props.volunteer.firstName} raise \
+money for ${this.props.project.name}.  Sponsor each hour of volunteering \
+and make twice the difference.%0D%0A
+%0D%0A
+%0D%0A
+http://${SHARE_URL}%0D%0A
+%0D%0A
+From ${this.props.volunteer.firstName}:%0D%0A
+${this.props.volunteer.description}` ;
+
         return (
             <div className="volunteer-profile-block">
                 <div className="container">
@@ -40,9 +48,9 @@ export default class VolunteerProfileBlock extends Component {
                                 : null
                             }
                             <span className="uppercase">
-                                {'Share my goal'}
+                                Share my goal :
                             </span>
-                            <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}
+                            <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE}`}
                                 className="share"
                             >
                                 <i className="fa fa-envelope"/>
