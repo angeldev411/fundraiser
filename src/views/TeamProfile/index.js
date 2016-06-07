@@ -19,8 +19,9 @@ class TeamProfile extends Component {
 
         this.defaultTeam = {
             tagline: 'Put your team tagline here',
-            slogan: 'YOUR OBJECTIVE',
+            slogan: 'Twice the Difference',
             description: 'Put your team description here',
+            name: ''
         };
 
         this.state = {
@@ -84,8 +85,19 @@ class TeamProfile extends Component {
 
         document.title = `${this.state.team.name} | Raiserve`;
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
-        const SHARE_TEXT = `${this.state.team.name} - Raiserve`;
+        const TWITTER_MESSAGE = `Sponsor ${this.state.team.name} for each hour they volunteer. \
+Money goes to ${this.state.project.name}.`;
         const SHARE_MESSAGE = `${this.state.team.slogan}`;
+
+        const EMAIL_SUBJECT = `Sponsor ${this.state.team.name} and Make Twice the Difference`;
+        const EMAIL_MESSAGE = `Please help ${this.state.team.name} raise \
+money for ${this.state.project.name}.  Sponsor each hour they volunteer \
+and make twice the difference.%0D%0A
+%0D%0A
+%0D%0A
+http://${SHARE_URL}%0D%0A
+%0D%0A
+${this.state.team.description}` ;
 
         let header = null;
 
@@ -133,7 +145,7 @@ class TeamProfile extends Component {
                                     }
                                     <span className="team-share">{'Share our goal'}</span>
                                     <span>
-                                        <a href={`mailto:?subject=${SHARE_TEXT}&body=${SHARE_MESSAGE} - ${SHARE_URL}`}>
+                                        <a href={`mailto:?subject=${EMAIL_SUBJECT}&body=${EMAIL_MESSAGE}`}>
                                             <i className="fa fa-envelope"/>
                                         </a>
                                         <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
@@ -141,7 +153,7 @@ class TeamProfile extends Component {
                                         >
                                             <i className="fa fa-facebook"/>
                                         </a>
-                                        <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${constants.TWITTER_USERNAME}`}
+                                        <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${TWITTER_MESSAGE}&via=${constants.TWITTER_USERNAME}&hashtags=maketwicethedifference`}
                                             target="_blank"
                                         >
                                             <i className="fa fa-twitter"/>
