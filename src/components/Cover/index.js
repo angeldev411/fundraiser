@@ -8,6 +8,7 @@ import * as constants from '../../common/constants';
 import moment from 'moment';
 
 const MOBILE_ACTIVATION_WIDTH = 992;
+const HUGE_DESKTOP_WIDTH = 1400;
 
 export default class Cover extends Component {
     constructor(props) {
@@ -38,6 +39,7 @@ export default class Cover extends Component {
     SET_IS_DESKTOP = () => {
         this.setState({
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
+            isHugeDesktop: window.innerWidth >= HUGE_DESKTOP_WIDTH,
         });
     };
 
@@ -57,11 +59,16 @@ export default class Cover extends Component {
         };
 
         if (!style.backgroundImage.match(constants.DEFAULT_COVER)) {
-            style.backgroundImage = `url(${constants.RESIZE_COVER}${this.state.team.coverImage})`;
+            let size = constants.RESIZE_COVER_MD;
+
+            if (this.state.isDesktop) size = constants.RESIZE_COVER_LG;
+            if (this.state.isHugeDesktop) size = constants.RESIZE_COVER_XL;
+
+            style.backgroundImage = `url(${size}${this.state.team.coverImage})`;
         }
         let COVERCONTENT = null;
 
-        if (!this.state.isDesktop && this.props.customclass === 'cover-volunteer-profile') {
+        if (this.props.customclass === 'cover-volunteer-profile') {
             return (
                 <div>
                     <div className={`cover ${this.props.customclass}`}
@@ -93,36 +100,6 @@ export default class Cover extends Component {
                         project={this.props.project}
                         team={this.props.team}
                     />
-                </div>
-            );
-        }
-
-        if (this.props.customclass === 'cover-volunteer-profile') {
-            COVERCONTENT = (
-                <div>
-                    <div className={"cover-content"}>
-                        <div className="team-tagline">
-                            <div className="container">
-                                <div className="col-xs-12">
-                                    <p>{this.props.tagline}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <PledgeButton
-                            customClass="btn-default"
-                            volunteerSlug={this.props.volunteer.slug}
-                            goal={this.props.volunteer.goal}
-                            deadline={ this.deadline() }
-                        >
-                            {this.props.button}
-                        </PledgeButton>
-                        <VolunteerProfileBlock
-                            volunteer={this.props.volunteer}
-                            project={this.props.project}
-                            team={this.props.team}
-                            pathname={this.props.pathname}
-                        />
-                    </div>
                 </div>
             );
         } else if (this.props.customclass === 'cover-team-profile') {

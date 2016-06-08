@@ -25,7 +25,10 @@ export const GRAPH_ACTIVATE_EMPTY_BARS = true; // SWITCH TO TRUE TO RESTORE EMPT
 export const EMAIL_RAISERVE_LOGO = `${DOMAIN}/${RAISERVE_LOGO}`;
 
 export const FILESTACK_KEY = 'AEBLEJFNRymKKHMYhksCDz';
-export const RESIZE_COVER = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:1200,height:500,fit:crop,align:top/`;
-export const RESIZE_LOGO = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=height:100,fit:crop,align:top/`;
-export const RESIZE_PROFILE = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:180,height:180,fit:crop,align:top/`;
-export const RESIZE_PROFILE_EDIT = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:115,height:115,fit:crop,align:top/`;
+export const RESIZE_QUALITY = 'output=compress:true,quality:80/';
+export const RESIZE_COVER_MD = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:900,align:top/${RESIZE_QUALITY}`;
+export const RESIZE_COVER_LG = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:1400,align:top/${RESIZE_QUALITY}`;
+export const RESIZE_COVER_XL = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:1800,align:top/${RESIZE_QUALITY}`;
+export const RESIZE_LOGO = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=height:100,align:top/${RESIZE_QUALITY}`;
+export const RESIZE_PROFILE = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:180,height:180,fit:crop,align:top/${RESIZE_QUALITY}`;
+export const RESIZE_PROFILE_EDIT = `https://process.filestackapi.com/${FILESTACK_KEY}/resize=width:115,height:115,fit:crop,align:top/${RESIZE_QUALITY}`;
