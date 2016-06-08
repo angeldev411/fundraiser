@@ -28,7 +28,6 @@ export default class AdminTeamsTable extends Component {
     };
 
     render() {
-        console.log(this.props.user);
         return (
             <div className="table-responsive">
                 <table className="teams table">

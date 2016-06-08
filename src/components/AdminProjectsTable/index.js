@@ -47,7 +47,6 @@ export default class AdminProjectsTable extends Component {
     };
 
     render() {
-        console.log(this.props.user);
 
 
         return (
