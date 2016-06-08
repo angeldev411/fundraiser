@@ -68,7 +68,7 @@ class AdminTeamForm extends Component {
             <Form id="team-form"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={this.props.title}
-                description={'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}
+                description={''}
                 onSubmit={this.submit}
             >
                 <div className="form-group">
