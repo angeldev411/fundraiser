@@ -116,6 +116,7 @@ gulp.task('watch', function() {
   gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons']);
   gulp.watch(['./src/**/*.js'], ['js']);
   gulp.watch('./src/**/*.scss', ['sass']);
+  gulp.watch('./src/index.html', ['html']);
 });
 
 gulp.task('dev', ['moveAssets', 'html', 'js', 'sass', 'fa', 'glyphicons','watch'], function () {
