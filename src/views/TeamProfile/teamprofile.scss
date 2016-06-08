@@ -52,29 +52,15 @@
     }
 }
 
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm-min) {
-    .team-profile-footer {
-        .team {
-            .team-header {
-                span {
-                    display: inline;
-                    margin: 0 10px;
-                }
+
+.team-profile-footer {
+    .team {
+        .team-header, .team-share {
+            span {
+                display: inline;
+                margin: 0 10px;
             }
         }
     }
 }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) {
-    .team-profile-footer {
-        .team {
-            width: 80%;
-
-            .team-header {
-                padding: 0 100px;
-            }
-        }
-    }
-}

@@ -40,6 +40,16 @@
     }
 }
 
+    .home {
+        background-position: bottom center;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        text-align: center;
+    }
+    .sm-home-text{
+        text-align: justify;
+    }
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
     .home {

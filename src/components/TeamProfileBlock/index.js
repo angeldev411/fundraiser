@@ -133,6 +133,16 @@ export default class TeamProfileBlock extends Component {
                     <h1>
                         {this.props.team.name}
                         {this.props.volunteerprofile
+                            ? (<span id={'team-link'} className={'hidden-xs'}>
+                                <Link to={Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}>
+                                    {'View team profile'}
+                                </Link>
+                            </span>)
+                            : null
+                        }
+                    </h1>
+                    <h1 className={'hidden-sm hidden-md hidden-lg hidden-xl'}>
+                        {this.props.volunteerprofile
                             ? (<span id={'team-link'}>
                                 <Link to={Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}>
                                     {'View team profile'}
@@ -141,6 +151,7 @@ export default class TeamProfileBlock extends Component {
                             : null
                         }
                     </h1>
+
                     <p>
                         {this.props.team.description}
                     </p>

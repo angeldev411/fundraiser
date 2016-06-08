@@ -89,10 +89,12 @@ footer {
 }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) {
     footer{
         .tagline {
             margin: 0;
+            img {
+                padding-bottom: 1rem;
+            }
         }
 
         .footer-bottom {
@@ -117,4 +119,3 @@ footer {
             }
         }
     }
-}

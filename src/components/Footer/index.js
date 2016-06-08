@@ -50,9 +50,9 @@ export default class Footer extends Component {
                             <ul>
                                 <li>
                                     <p>
-                                        {'230 7th Ave'}<br/>
-                                        {'4th Floor'}<br/>
-                                        {'New York, NY 10011'}<br/>
+                                        {'242 West 104th St'}<br/>
+                                        {'Suite 6ER'}<br/>
+                                        {'New York, NY 10025'}<br/>
                                         {'804 537-2473'}
                                     </p>
                                 </li>

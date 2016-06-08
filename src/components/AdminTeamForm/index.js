@@ -68,7 +68,7 @@ class AdminTeamForm extends Component {
             <Form id="team-form"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={this.props.title}
-                description={'Isicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'}
+                description={''}
                 onSubmit={this.submit}
             >
                 <div className="form-group">
@@ -86,13 +86,14 @@ class AdminTeamForm extends Component {
                         id="slug-addon"
                     >{`${domain}/${this.props.defaultData.project.slug}/`}</span>
                     <input type="text"
+                        className="urlInput"
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
                         defaultValue={this.props.defaultData.team ? this.props.defaultData.team.slug : null}
                         onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
-                    <label htmlFor="slug">{'Public Url'}</label>
+                    <label className="urlInputLabel" htmlFor="slug">{'Public Url'}</label>
                 </div>
 
                 <div className="form-group">

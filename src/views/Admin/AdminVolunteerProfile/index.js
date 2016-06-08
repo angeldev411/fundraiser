@@ -342,7 +342,7 @@ export default class AdminVolunteerProfile extends Component {
                                         defaultValue={this.getUserGoal()}
                                         onChange={(e) => { this.handleChange(e, 'goal') }}
                                     />
-                                  <label htmlFor="goal">{`Goal Hours, up to ${this.props.user.team.goal} by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future.'}</span></label>
+                                  <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future.'}</span></label>
                                 </div>
 
                                 {this.state.success ? this.getSuccessMessage() : null}
