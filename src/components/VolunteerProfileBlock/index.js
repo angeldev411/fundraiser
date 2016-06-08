@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
 import * as constants from '../../common/constants';
 import UserProgress from '../../components/UserProgress';
+import Helmet from "react-helmet";
 
 export default class VolunteerProfileBlock extends Component {
 
