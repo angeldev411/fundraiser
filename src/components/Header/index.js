@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../Menu/';
 import * as Urls from '../../urls.js';
+import * as constants from '../../common/constants';
 import { Link } from 'react-router';
 import AdminInviteTeamMembersForm from '../AdminInviteTeamMembersForm/';
 import ModalButton from '../ModalButton/';
@@ -36,7 +37,17 @@ class Header extends Component {
     }
 
     render() {
-        // TODO address microformat
+//       const SHARE_URL = `${constants.DOMAIN}${this.props.pathname}`;
+//       const TWITTER_MESSAGE = `Sponsor ${this.state.volunteer.firstName} for each hour volunteered. \
+// Money goes to ${this.props.project.name}.`;
+//       const SLOGAN = this.state.team.slogan || 'Twice the difference';
+//       const EMAIL_SUBJECT = `I’m volunteering at ${this.props.project.name}, sponsor me and Make Twice the Difference`;
+//       const EMAIL_MESSAGE = `Please help me raise money for ${this.props.project.name}. \
+// Sponsor each hour of volunteering I do and together we will make twice the difference.%0D%0A
+// %0D%0A
+// %0D%0A
+// http://${SHARE_URL}` ;
+
 
         let dashboardUrl = Urls.BASE_URL;
 
@@ -114,7 +125,7 @@ class Header extends Component {
                         </div>
                         <div className={'col-xs-8 green-header-center'}>
                             <span className={'call-to-action-text'}>
-                                {'Congrats here is your personnalized fundraising page.'} <b>{'Get started by inviting team members to your team.'}</b>
+                                {'Here is your personalized fundraising page.'} <b>{'Get started by inviting team members to your team.'}</b>
                             </span>
                         </div>
                         <div className={'col-xs-2 green-header-right'}>
