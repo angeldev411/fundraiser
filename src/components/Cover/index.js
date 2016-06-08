@@ -18,7 +18,7 @@ export default class Cover extends Component {
             team: this.props.team,
         };
     }
-    
+
     componentDidMount() {
         window.addEventListener('resize', this.SET_IS_DESKTOP);
     }
@@ -53,9 +53,9 @@ export default class Cover extends Component {
 
     render() {
         const style = {
-            backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,    
+            backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
         };
-        
+
         if(!style.backgroundImage.match(/constants.DEFAULT_COVER/g) && this.state.team.coverImage){
             style.backgroundImage = `url(${constants.RESIZE_COVER}${this.state.team.coverImage})`;
         }
@@ -90,6 +90,7 @@ export default class Cover extends Component {
                     <VolunteerProfileBlock
                         volunteer={this.props.volunteer}
                         pathname={this.props.pathname}
+                        project={this.props.project}
                         team={this.props.team}
                     />
                 </div>
@@ -192,7 +193,7 @@ export default class Cover extends Component {
 
         return (
             <div className={`cover ${this.props.customclass}`}
-                style={style} 
+                style={style}
             >
                 <div className="cover-container">
                     {COVERCONTENT}
