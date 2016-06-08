@@ -76,6 +76,7 @@ class AdminProjectForm extends Component {
             <Form id="project-form"
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
                 title={this.props.title}
+                description={''}
                 onSubmit={this.submit}
             >
                 <div className="form-group">
@@ -93,13 +94,14 @@ class AdminProjectForm extends Component {
                         id="slug-addon"
                     >{`${Constants.DOMAIN}/`}</span>
                     <input type="text"
+                        className="urlInput"
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
                         defaultValue={this.props.defaultData ? this.props.defaultData.slug : null}
                         onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
-                    <label htmlFor="slug">{'Public Url'}</label>
+                    <label className="urlInputLabel" htmlFor="slug">{'Public Url'}</label>
                 </div>
 
                 <div className="form-group">
