@@ -28,35 +28,100 @@ class setup {
 
     static initDB() {
         return db.query(
-            `CREATE CONSTRAINT ON (user:USER) ASSERT user.email IS UNIQUE`
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.email IS UNIQUE;`
         )
         .then(() => (db.query(
-            `CREATE CONSTRAINT ON (user:USER) ASSERT user.slug IS UNIQUE`
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.slug IS UNIQUE;`
         )))
         .then(() => (db.query(
-            `CREATE CONSTRAINT ON (project:PROJECT) ASSERT project.slug IS UNIQUE`
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.resetToken IS UNIQUE;`
         )))
         .then(() => (db.query(
-            `CREATE CONSTRAINT ON (team:TEAM) ASSERT team.slug IS UNIQUE`
+            `CREATE CONSTRAINT ON (user:USER) ASSERT user.id IS UNIQUE;`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (project:PROJECT) ASSERT project.slug IS UNIQUE;`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (team:TEAM) ASSERT team.slug IS UNIQUE;`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (volunteer:VOLUNTEER) ASSERT volunteer.slug IS UNIQUE;`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (sponsor:SPONSOR) ASSERT sponsor.email IS UNIQUE;`
+        )))
+        .then(() => (db.query(
+            `CREATE CONSTRAINT ON (sponsor:SPONSOR) ASSERT sponsor.stripeCustomerId IS UNIQUE;`
         )));
     }
 
-    static createIndexes() {
+    // MIGHT NOT NEED ALL THESE unique constraints (above) automatically create indexes
+    // TODO (verify all these are right after restoring / resetting db)
+    static createIndexes(){
         return db.query(
-            `
-            CREATE INDEX ON :Hour(id)
-            `
+            `CREATE INDEX ON :HOUR(id);`
         )
-        .getResults('donation', 'user')
-        .then(() => {
-            return db.query(
-                `
-                CREATE INDEX ON :User(id)
-                `
-            )
-            .getResults('donation', 'user');
-        });
+        .then(() => (db.query(
+            `CREATE INDEX ON :USER(id);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :USER(slug);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :USER(email);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :TEAM(slug);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :TEAM(id);`
+        )))
+         .then(() => (db.query(
+            `CREATE INDEX ON :TEAM_LEADER(id);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :PROJECT(id);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :PROJECT(slug);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :PROJECT_LEADER(id);`
+        )))
+         .then(() => (db.query(
+            `CREATE INDEX ON :VOLUNTEER(slug);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :VOLUNTEER(id);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :SPONSOR(email);`
+        )))
+        .then(() => (db.query(
+            `CREATE INDEX ON :SPONSOR(id);`
+        )))
+        ;
     }
+    }
+    
+    // WTF? why is this calling 'getResults'?
+    // static createIndexes() {
+    //     return db.query(
+    //         `
+    //         CREATE INDEX ON :HOUR(id)
+    //         `
+    //     )
+    //     .getResults('donation', 'user')
+    //     .then(() => {
+    //         return db.query(
+    //             `
+    //             CREATE INDEX ON :USER(id)
+    //             `
+    //         )
+    //         .getResults('donation', 'user');
+    //     });
+    // }
 
     static addSuperAdmins() {
         const promises = fixtures.superAdmins.map((userToAdd) => {
