@@ -86,13 +86,14 @@ class AdminTeamForm extends Component {
                         id="slug-addon"
                     >{`${domain}/${this.props.defaultData.project.slug}/`}</span>
                     <input type="text"
+                        className="urlInput"
                         name="slug"
                         id="slug"
                         aria-describedby="slug-addon"
                         defaultValue={this.props.defaultData.team ? this.props.defaultData.team.slug : null}
                         onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
-                    <label htmlFor="slug">{'Public Url'}</label>
+                    <label className="urlInputLabel" htmlFor="slug">{'Public Url'}</label>
                 </div>
 
                 <div className="form-group">
