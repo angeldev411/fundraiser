@@ -11,7 +11,7 @@ export default class UserProgress extends Component {
                                     ? `url(${this.props.user.image})`
                                     : `url(${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR})`;
         
-        if (!backgroundImage.match(/constants.DEFAULT_AVATAR/g)) {
+        if (!backgroundImage.match(constants.DEFAULT_AVATAR)) {
             backgroundImage = `url(${constants.RESIZE_PROFILE}${this.props.user.image})`;
         }
               

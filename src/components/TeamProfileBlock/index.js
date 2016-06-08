@@ -35,7 +35,7 @@ export default class TeamProfileBlock extends Component {
         
         let logoImage = (this.props.team.logo) ? this.props.team.logo : `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`;
         
-        if(!logoImage.match(/constants.DEFAULT_LOGO/g)){
+        if (!logoImage.match(constants.DEFAULT_LOGO)) {
             logoImage = constants.RESIZE_LOGO + logoImage;
         }
         
