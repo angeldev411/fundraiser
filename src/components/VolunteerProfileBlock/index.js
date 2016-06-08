@@ -27,7 +27,7 @@ Money goes to ${this.props.project.name}.`;
     const SHARE_HEADLINE = `Sponsor ${this.props.volunteer.firstName} and Make Twice the Difference`;
     const SHARE_MESSAGE = `Please help ${this.props.volunteer.firstName} raise \
 money for ${this.props.project.name}. Sponsor each hour of volunteering \
-and make twice the difference.%0D%0A`;
+and make twice the difference.`;
     const EMAIL_MESSAGE = SHARE_MESSAGE + `%0D%0A
 %0D%0A
 http://${SHARE_URL}%0D%0A
@@ -39,8 +39,9 @@ ${this.props.volunteer.description}` ;
       <div className="volunteer-profile-block">
         <Helmet
           meta={[
-              { "property": "og:image",       "content": `${this.props.team.slug}` },
+              { "property": "og:url",         "content": `${constants.DOMAIN}${this.props.pathname}` },
               { "property": "og:title",       "content": SHARE_HEADLINE },
+              { "property": "og:image",       "content": this.props.team.coverImage },
               { "property": "og:description", "content": SHARE_MESSAGE },
           ]}
         />
