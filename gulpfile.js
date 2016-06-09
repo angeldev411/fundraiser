@@ -1,3 +1,5 @@
+// TODO: break this up so there is a server version and a development version, ie: livereload, nodemon are not used on production
+
 var browserify = require('browserify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
