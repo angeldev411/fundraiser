@@ -4,7 +4,6 @@ import Form from '../../components/Form';
 import Dropzone from 'react-dropzone';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
-import AvatarCropper from 'react-avatar-cropper';
 
 export default class EditCoverForm extends Component {
     constructor(props) {

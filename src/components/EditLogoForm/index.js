@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import Dropzone from 'react-dropzone';
-import AvatarCropper from 'react-avatar-cropper';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
 

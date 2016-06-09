@@ -10,7 +10,6 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import Dropzone from 'react-dropzone';
-import AvatarCropper from 'react-avatar-cropper';
 import fixOrientation from 'fix-orientation';
 import * as Actions from '../../../redux/volunteer/actions';
 
