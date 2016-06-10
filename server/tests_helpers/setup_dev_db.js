@@ -16,15 +16,16 @@ import HourRepository from '../hours/model';
 import util from '../helpers/util.js';
 
 class setup {
-    static wipeDb() {
-        return db.query(
-            `MATCH (n)
-            OPTIONAL MATCH (n)-[r]-()
-            DELETE n,r`
-        )
-        .getResults('donation', 'user')
-        .then(setup.initDB);
-    }
+    // DONT DO THIS, JUST navigate to your local db directory and rm -rf data/*
+    // static wipeDb() {
+    //     return db.query(
+    //         `MATCH (n)
+    //         OPTIONAL MATCH (n)-[r]-()
+    //         DELETE n,r`
+    //     )
+    //     .getResults('donation', 'user')
+    //     .then(setup.initDB);
+    // }
 
     static initDB() {
         return db.query(
@@ -56,24 +57,11 @@ class setup {
         )));
     }
 
-    // MIGHT NOT NEED ALL THESE unique constraints (above) automatically create indexes
     // TODO (verify all these are right after restoring / resetting db)
     static createIndexes(){
         return db.query(
             `CREATE INDEX ON :HOUR(id);`
         )
-        .then(() => (db.query(
-            `CREATE INDEX ON :USER(id);`
-        )))
-        .then(() => (db.query(
-            `CREATE INDEX ON :USER(slug);`
-        )))
-        .then(() => (db.query(
-            `CREATE INDEX ON :USER(email);`
-        )))
-        .then(() => (db.query(
-            `CREATE INDEX ON :TEAM(slug);`
-        )))
         .then(() => (db.query(
             `CREATE INDEX ON :TEAM(id);`
         )))
@@ -84,44 +72,16 @@ class setup {
             `CREATE INDEX ON :PROJECT(id);`
         )))
         .then(() => (db.query(
-            `CREATE INDEX ON :PROJECT(slug);`
-        )))
-        .then(() => (db.query(
             `CREATE INDEX ON :PROJECT_LEADER(id);`
-        )))
-         .then(() => (db.query(
-            `CREATE INDEX ON :VOLUNTEER(slug);`
         )))
         .then(() => (db.query(
             `CREATE INDEX ON :VOLUNTEER(id);`
-        )))
-        .then(() => (db.query(
-            `CREATE INDEX ON :SPONSOR(email);`
         )))
         .then(() => (db.query(
             `CREATE INDEX ON :SPONSOR(id);`
         )))
         ;
     }
-    }
-    
-    // WTF? why is this calling 'getResults'?
-    // static createIndexes() {
-    //     return db.query(
-    //         `
-    //         CREATE INDEX ON :HOUR(id)
-    //         `
-    //     )
-    //     .getResults('donation', 'user')
-    //     .then(() => {
-    //         return db.query(
-    //             `
-    //             CREATE INDEX ON :USER(id)
-    //             `
-    //         )
-    //         .getResults('donation', 'user');
-    //     });
-    // }
 
     static addSuperAdmins() {
         const promises = fixtures.superAdmins.map((userToAdd) => {
@@ -305,7 +265,6 @@ console.log('Setting up Dev Db : You have 2 sec to abort!');
 setTimeout(() => {
     console.log('Let\'s go!');
     Promise.resolve()
-    .then(setup.wipeDb)
     .then(setup.createIndexes)
     .then(setup.addSuperAdmins)
     .then(setup.addProjects)

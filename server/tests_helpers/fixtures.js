@@ -7,9 +7,9 @@ const fixtures = {
     superAdmins: [
         {
             email: 'admin@raiserve.org',
-            password: 'testtesttest',
-            firstName: 'matt',
-            lastName: 'murphy',
+            password: 'admin',
+            firstName: 'SuperAdmin',
+            lastName: 'raiserve.org',
         },
     ],
 
