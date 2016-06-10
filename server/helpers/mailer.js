@@ -165,7 +165,7 @@ export default class Mailer {
 
         <ol>
             <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know about your service goal of ${volunteer.goal} hours and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name}</li>
-            <li>hare your personal page and why you are so passionate about ${project.name} with your social network via Facebook and Twitter</li>
+            <li>Share your personal page and why you are so passionate about ${project.name} with your social network via Facebook and Twitter</li>
         </ol>
         
         <p>Remember it usually take a few reminders before your friends and family will sponsors you.  So when you record your hours through your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> be sure to take the time to share with your friends and family your volunteering efforts.  It will remind them of the impact you're making and will encourage more sponsorship.</p>
