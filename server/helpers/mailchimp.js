@@ -151,14 +151,14 @@ export default class Mailchimp {
                     RAISED: result.team.totalRaised,
                 },
             });
-
             if (oldTeamLeader && newTeamLeader.email !== oldTeamLeader.email) { // Email has changed
                 return Promise.all([
                     this.unsubscribeUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, oldTeamLeader.email),
                     this.subscribeUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber),
                 ]);
             } else {
-                return this.updateUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber, newTeamLeader.email);
+                // if it is a fake teamleader (no email address) don't run this
+                if (newTeamLeader.email) return this.updateUser(config.MAILCHIMP.TEAMLEADER_LIST_ID, subscriber, newTeamLeader.email);
             }
         })
         .then((response) => {
@@ -188,6 +188,7 @@ export default class Mailchimp {
             return Promise.resolve(response);
         })
         .catch((err) => {
+            console.log('MC error:', err);
             return Promise.reject(err);
         });
     }
