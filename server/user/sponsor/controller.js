@@ -32,7 +32,7 @@ class sponsorController {
                 ...(data.amount ? { amount: data.amount } : {}),
             };
 
-            return new Sponsor(sponsor, pledge, teamSlug, data.stripeToken)
+            return new Sponsor(sponsor, pledge, teamSlug, null, data.stripeToken)
             .then((sponsorCreated) => {
                 resolve(sponsorCreated);
             })
