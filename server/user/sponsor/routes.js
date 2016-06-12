@@ -135,6 +135,7 @@ router.get('/api/v1/sponsor/:projectSlug/:teamSlug/:volunteerSlug', (req, res) =
 });
 
 router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
+    console.log('server here sponsor team?', req.body, req.params);
     if (!req.body.email
         || !req.body.firstName
         || !req.body.lastName
@@ -142,8 +143,9 @@ router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
         || (!req.body.hourly && !req.body.amount)
         || !req.params.teamSlug
     ) {
-        res.status(400).send(messages.sponsor.missingData);
-        return;
+        console.log('sponsor/team route', req);
+        return res.status(400).send(messages.sponsor.missingData);
+        // return;
     }
 
     sponsorController.sponsorTeam(req.body, req.params.teamSlug)
