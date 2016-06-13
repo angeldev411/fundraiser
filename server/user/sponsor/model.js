@@ -444,7 +444,7 @@ export default class Sponsor {
         }
     }
 
-    static sendSponsorshipEmails(volunteer, sponsor, amountHourly, hourly = false, supporting = null) {
+    static sendSponsorshipEmails(volunteer, sponsor, amount, hourly = false, supporting = null) {
         return Volunteer.getTeamAndProject(volunteer)
         .then((result) => {
             volunteer = {
@@ -456,7 +456,7 @@ export default class Sponsor {
             if (hourly) {
                 return Promise.all([
                     Mailer.sendVolunteerSponsorshipEmail(volunteer, sponsor),
-                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting),
+                    Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor, amount),
                 ])
                 .then(() => {
                     return Promise.resolve();
@@ -466,7 +466,7 @@ export default class Sponsor {
                 });
             } else {
                 return Promise.all([
-                    Mailer.sendSponsorDonationThanksEmail(volunteer, sponsor, amountHourly),
+                    Mailer.sendSponsorDonationThanksEmail(volunteer, sponsor, amount),
                 ])
                 .then(() => {
                     return Promise.resolve();

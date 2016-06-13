@@ -319,9 +319,12 @@ export default class Mailer {
      *
      * volunteer: volunteer object
      * sponsor: sponsor object
+     * amount: hourly amount sponsored
     */
-    static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, supporting) {
+    static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, amount) {
         const subject = `Thank You`;
+        const firstMonth = volunteer.totalHours ?
+          `<li>Your first month’s charge will also include the ${volunteer.totalHours} hours that ${volunteer.firstName} has already completed.</li>` : '';
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
@@ -330,11 +333,11 @@ export default class Mailer {
 
         <p>Just a quick recap of how your sponsorship works:</p>
         <ol>
-            <li>You will be charged at end of each month ${sponsor.hourlyPledge} per hour based on the number hours ${volunteer.firstName}  volunteers that month up to a maximum of ${volunteer.firstName}’s goal of ${volunteer.goal} hours.</li>
-            <li>Your first month’s charge will also include the ${volunteer.currentHours} hours ${volunteer.firstName} has already completed.</li>
+            <li>You will be charged at the end of each month $${amount} per hour based on the number hours ${volunteer.firstName}  volunteers that month up to a maximum of ${volunteer.firstName}’s goal of ${volunteer.goal} hours.</li>
+            ${firstMonth}
+            <li>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</li>
         </ol>
 
-        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
 
         <p>
         You can help make an even bigger impact by spreading the work about ${volunteer.firstName}’s volunteer campaign by sharing ${volunteer.firstName}’s page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
@@ -385,16 +388,18 @@ export default class Mailer {
     static sendThanksToHourlyTeamSponsor(team, sponsor, amount) {
         const subject = `Thank You`;
         const teamUrl = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}`;
+        const firstMonth = team.totalHours ? `<li>Your first month’s charge will also include <strong>${team.totalHours} hours</strong> ${team.project.name} has already completed.</li>` : '';
+
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thank you for sponsoring ${team.project.name}. Your sponsorship means that each hour our volunteers contribute will make twice the difference.</p>
+        <p>Thank you for sponsoring ${team.project.name}. Your sponsorship means that each hour of service our volunteers do will make twice the difference.</p>
 
         <p>Just a quick recap of how your sponsorship works:</p>
         <ol>
-            <li>You will be charged at the end of each month- <strong>${amount} per hour</strong> that our volunteers contribute, up to a maximum of our goal- <strong>${team.goal} hours</strong>.</li>
-            <li>Your first month’s charge will also include <strong>${team.currentHours} hours</strong> ${team.project.name} has already completed.</li>
+            <li>You will be charged at the end of each month- <strong>$${amount} per hour</strong> of volunteer service, up to our goal of <strong>${team.goal} hours</strong>.</li>
+            ${firstMonth}
             <li>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</li>
         </ol>
 
@@ -499,7 +504,7 @@ export default class Mailer {
     */
     static sendSponsorDonationThanksEmail(volunteer, sponsor, amount) {
         const subject = `Thanks for your Sponsorship`;
-        const volUrl = `${Constants.DOMAIN}${{Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}}`;
+        const volUrl = `${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}`;
 
         const text =
         `
@@ -618,7 +623,7 @@ export default class Mailer {
             `
             <p>Dear ${sponsor.firstName},</p>
 
-            <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship mean twice the difference for ${project.name}</p>
+            <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship makes twice the difference for ${project.name}</p>
 
             <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.</p>
 
@@ -639,7 +644,7 @@ export default class Mailer {
             `
             <p>Dear ${sponsor.firstName},</p>
 
-            <p>Thanks for sponsoring ${team.name}. Your sponsorship mean twice the difference for ${project.name}</p>
+            <p>Thanks for sponsoring ${team.name}. Your sponsorship makes twice the difference for ${project.name}</p>
 
             <p>This month ${team.name} volunteers volunteered ${chargedHours} hours. Your credit card has been charged $${chargedAmount}.</p>
 
