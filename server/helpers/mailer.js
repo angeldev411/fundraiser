@@ -324,7 +324,7 @@ export default class Mailer {
     static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, amount) {
         const subject = `Thank You`;
         const firstMonth = volunteer.totalHours ?
-          `<li>Your first month’s charge will also include the ${volunteer.totalHours} hours that ${volunteer.firstName} has already completed.</li>` : '';
+          `<li>Your first month’s charge will also include the ${Number(volunteer.totalHours).toFixed(1)} hours that ${volunteer.firstName} has already completed.</li>` : '';
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
@@ -388,7 +388,7 @@ export default class Mailer {
     static sendThanksToHourlyTeamSponsor(team, sponsor, amount) {
         const subject = `Thank You`;
         const teamUrl = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}`;
-        const firstMonth = team.totalHours ? `<li>Your first month’s charge will also include <strong>${team.totalHours} hours</strong> ${team.project.name} has already completed.</li>` : '';
+        const firstMonth = team.totalHours ? `<li>Your first month’s charge will also include <strong>${Number(team.totalHours).toFixed(1)} hours</strong> ${team.project.name} has already completed.</li>` : '';
 
         const text =
         `
