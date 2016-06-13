@@ -135,7 +135,6 @@ router.get('/api/v1/sponsor/:projectSlug/:teamSlug/:volunteerSlug', (req, res) =
 });
 
 router.post('/api/v1/sponsor/team/:teamSlug', (req, res) => {
-    console.log('server here sponsor team?', req.body, req.params);
     if (!req.body.email
         || !req.body.firstName
         || !req.body.lastName

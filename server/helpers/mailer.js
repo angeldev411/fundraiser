@@ -499,6 +499,7 @@ export default class Mailer {
     */
     static sendSponsorDonationThanksEmail(volunteer, sponsor, amount) {
         const subject = `Thanks for your Sponsorship`;
+        const volUrl = `${Constants.DOMAIN}${{Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}}`;
 
         const text =
         `
@@ -508,7 +509,7 @@ export default class Mailer {
 
         <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
 
-        <p>You can help make an even bigger impact by spreading the work about #FVOLNAME’s volunteer campaign by sharing their page #VOLPAGEURL by email or posting it on facebook, twitter etc.</p>
+        <p>You can help make an even bigger impact by spreading the work about ${volunteer.firstName}'s volunteer campaign by sharing their page <a href="${volUrl}">${volUrl}</a> by email or posting it on facebook, twitter etc.</p>
 
         <p>Thanks, </p>
 
