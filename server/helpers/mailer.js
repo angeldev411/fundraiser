@@ -100,7 +100,7 @@ export default class Mailer {
             <p>Thanks,</p>
 
             <p>${project.name} (powered by raiserve.org)</p>
-          
+
           `;
         } else if (role === roles.TEAM_LEADER){
           text = `
@@ -167,7 +167,7 @@ export default class Mailer {
             <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know about your service goal of ${volunteer.goal} hours and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name}</li>
             <li>Share your personal page and why you are so passionate about ${project.name} with your social network via Facebook and Twitter</li>
         </ol>
-        
+
         <p>Remember it usually take a few reminders before your friends and family will sponsors you.  So when you record your hours through your <a href="${Constants.DOMAIN}${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}">dashboard</a> be sure to take the time to share with your friends and family your volunteering efforts.  It will remind them of the impact you're making and will encourage more sponsorship.</p>
 
         <p>Thanks,</p>
@@ -272,9 +272,9 @@ export default class Mailer {
         <p>Congratulations for volunteering ${hour.hours} hours at ${hour.place}, your service is making an impact in our community. </p>
 
         <p>Don’t forget to take the time to share with your friends and family your volunteering efforts.  It will remind them of the impact you're making and will encourage more sponsorship.</p>
-        
+
         <p>There are two ways:</p>
-        
+
         <ol>
             <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know that you just volunteered ${hour.hours} hours at ${hour.place} and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name} NAME.</li>
             <li>Share with your social network via Facebook and Twitter your ${hour.hours} hours volunteering at ${hour.place} along with a link to your personal page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>. </li>
@@ -382,26 +382,23 @@ export default class Mailer {
      * team: team object
      * sponsor: sponsor object
     */
-    static sendTeamSponsorSponsorshipThanksEmail(team, sponsor) {
+    static sendThanksToHourlyTeamSponsor(team, sponsor, amount) {
         const subject = `Thank You`;
+        const teamUrl = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}`;
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thank you for sponsoring ${team.project.name}. Your sponsorship means that each hour that ${team.project.name} volunteers now makes twice the difference.</p>
+        <p>Thank you for sponsoring ${team.project.name}. Your sponsorship means that each hour our volunteers contribute will make twice the difference.</p>
 
         <p>Just a quick recap of how your sponsorship works:</p>
         <ol>
-            <li>You will be charged at end of each month ${sponsor.hourlyPledge} per hour based on the number hours ${team.project.name} volunteers that month up to a maximum of ${team.project.name}’s goal of ${team.goal} hours.</li>
-            <li>Your first month’s charge will also include the ${team.currentHours} hours ${team.project.name} has already completed.</li>
+            <li>You will be charged at the end of each month- <strong>${amount} per hour</strong> that our volunteers contribute, up to a maximum of our goal- <strong>${team.goal} hours</strong>.</li>
+            <li>Your first month’s charge will also include <strong>${team.currentHours} hours</strong> ${team.project.name} has already completed.</li>
+            <li>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</li>
         </ol>
 
-        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
-
-        <p>
-        You can help make an even bigger impact by spreading the work about ${team.project.name}’s campaign by sharing ${team.project.name}’s page <a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}">${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
-
-        Help spread the word about ${team.project.name}’s fundraising page: </p>
+        <p>Make an even bigger impact by spreading the word. Please share the ${team.project.name} sponsorship page, <a href="${teamUrl}">${teamUrl}</a>, by email or social media. The links on the team page make this really easy.</p>
 
         <p>Thanks,</p>
 
@@ -519,7 +516,7 @@ export default class Mailer {
 
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.
         `;
-               
+
         const message = {
             subject,
             to: [{
@@ -550,21 +547,23 @@ export default class Mailer {
      * sendSponsoTeamrDonationThanksEmail()
      * Send thanks email to sponsor after donation
      *
-     * volunteer: volunteer object
+     * team: team object, including project
      * sponsor: sponsor object
+     * amount: donated amount
     */
-    static sendSponsorTeamDonationThanksEmail(team, sponsor, amount) {
-        const subject = `Thanks for your Sponsorship`;
+    static sendThanksToOneTimeTeamSponsor(team, sponsor, amount) {
+        const subject = `Thank you for donating`;
+        const teamUrl = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}`;
 
         const text =
         `
         <p>Dear ${sponsor.firstName},</p>
 
-        <p>Thank you for sponsoring ${team.project.name}.  Your sponsorship of $${amount} is helping make twice the difference for ${team.project.name}.</p>
+        <p>Your donation of $${amount} helps ${team.project.name} make twice the difference, and we want to say <strong>Thank You</strong>.</p>
 
-        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
+        <p>Your donation is 100% tax deductible and you will receive a tax receipt by the end of the year.</p>
 
-        <p>You can help make an even bigger impact by spreading the work about #FVOLNAME’s volunteer campaign by sharing their page #VOLPAGEURL by email or posting it on facebook, twitter etc.</p>
+        <p>Make an even bigger impact by spreading the word. Please share the ${team.project.name} sponsorship page, <a href="${teamUrl}">${teamUrl}</a>, by email or social media. The links on the team page make this really easy.</p>
 
         <p>Thanks, </p>
 
@@ -572,7 +571,7 @@ export default class Mailer {
 
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.
         `;
-               
+
         const message = {
             subject,
             to: [{
