@@ -376,6 +376,68 @@ export default class Mailer {
     }
 
     /*
+     * sendSponsorSponsorshipThanksEmail()
+     * Send thanks email to sponsor after an hourly pledge
+     *
+     * team: team object
+     * sponsor: sponsor object
+    */
+    static sendTeamSponsorSponsorshipThanksEmail(team, sponsor) {
+        const subject = `Thank You`;
+        const text =
+        `
+        <p>Dear ${sponsor.firstName},</p>
+
+        <p>Thank you for sponsoring ${team.project.name}. Your sponsorship means that each hour that ${team.project.name} volunteers now makes twice the difference.</p>
+
+        <p>Just a quick recap of how your sponsorship works:</p>
+        <ol>
+            <li>You will be charged at end of each month ${sponsor.hourlyPledge} per hour based on the number hours ${team.project.name} volunteers that month up to a maximum of ${team.project.name}’s goal of ${team.goal} hours.</li>
+            <li>Your first month’s charge will also include the ${team.currentHours} hours ${team.project.name} has already completed.</li>
+        </ol>
+
+        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
+
+        <p>
+        You can help make an even bigger impact by spreading the work about ${team.project.name}’s campaign by sharing ${team.project.name}’s page <a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}">${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
+
+        Help spread the word about ${team.project.name}’s fundraising page: </p>
+
+        <p>Thanks,</p>
+
+        <p>${team.project.name} (powered by raiserve.org)</p>
+
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
+        `;
+
+        const message = {
+            subject,
+            to: [{
+                email: sponsor.email,
+                name: `${sponsor.firstName} ${sponsor.lastName}`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: subject.toUpperCase(),
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    /*
      * sendVolunteerSponsorshipEmail()
      * Send email to volunteer after new sponsor contract
      *
@@ -454,6 +516,59 @@ export default class Mailer {
         <p>Thanks, </p>
 
         <p>${volunteer.project.name} (powered by raiserve.org)</p>
+
+        <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.
+        `;
+               
+        const message = {
+            subject,
+            to: [{
+                email: sponsor.email,
+                name: `${sponsor.firstName} ${sponsor.lastName}`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: subject,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    /*
+     * sendSponsoTeamrDonationThanksEmail()
+     * Send thanks email to sponsor after donation
+     *
+     * volunteer: volunteer object
+     * sponsor: sponsor object
+    */
+    static sendSponsorTeamDonationThanksEmail(team, sponsor, amount) {
+        const subject = `Thanks for your Sponsorship`;
+
+        const text =
+        `
+        <p>Dear ${sponsor.firstName},</p>
+
+        <p>Thank you for sponsoring ${team.project.name}.  Your sponsorship of $${amount} is helping make twice the difference for ${team.project.name}.</p>
+
+        <p>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</p>
+
+        <p>You can help make an even bigger impact by spreading the work about #FVOLNAME’s volunteer campaign by sharing their page #VOLPAGEURL by email or posting it on facebook, twitter etc.</p>
+
+        <p>Thanks, </p>
+
+        <p>${team.project.name} (powered by raiserve.org)</p>
 
         <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.
         `;
