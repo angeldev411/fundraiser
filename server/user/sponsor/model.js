@@ -334,10 +334,14 @@ export default class Sponsor {
      * volunteerSlug
     */
     linkSponsorToSupportedNode(sponsor, pledge, teamSlug = null, volunteerSlug = null) {
-        console.log(pledge);
         const token = uuid.v4();
 
-        if (teamSlug) {
+        if (teamSlug) { // Sponsoring a team
+          let team;
+
+          // Build appropriate query for one-time or hourly sponsorship
+          // we will create a SUPPORTING or DONATED relationship between user and
+          // team, then return the team for use in notifications.
           let query = `MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
           SET team.totalSponsors = team.totalSponsors + 1 `;
           query += pledge.hourly ?
@@ -346,7 +350,8 @@ export default class Sponsor {
             `CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(team) `;
           query += 'RETURN { team: team } as result';
 
-          return db.query( query, {
+          // all possible options. Depending on sponsorship, some will not be used
+          let queryOptions = {
             teamSlug,
             userId:   sponsor.id,
             hourly:   pledge.hourly,
@@ -355,17 +360,30 @@ export default class Sponsor {
             total:    0,
             date:     new Date(),
             token
-          })
+          };
+
+          return db.query( query, queryOptions)
           .getResult('result')
-          .then( (result) => {
-            Sponsor.sendSponsorshipEmails(result.volunteer, sponsor, pledge.hourly, true, result.supporting);
+          .then( (result) => { // store team from result, look up the project
+            team = result.team;
+            return Team.getProject(team);
           })
-          .then( () => Promise.resolve() )
+          .then( (project) => { // add project to team, send thank-yous
+            team.project = project;
+
+            if (pledge.hourly)
+              Mailer.sendThanksToHourlyTeamSponsor(team, sponsor, pledge.hourly);
+            else
+              Mailer.sendThanksToOneTimeTeamSponsor(team, sponsor, pledge.amount);
+          })
           .catch((err) => {
             console.log('Error in linkSponsorToSupportedNode for team:',err);
             return Promise.reject(err);
           });
-        } else if (volunteerSlug) {
+
+
+        } else if (volunteerSlug) { // Sponsoring a volunteer
+
             if (pledge.hourly) {
                 return db.query(`
                     MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
