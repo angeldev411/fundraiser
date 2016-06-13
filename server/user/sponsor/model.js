@@ -338,39 +338,33 @@ export default class Sponsor {
         const token = uuid.v4();
 
         if (teamSlug) {
-            if (pledge.hourly) {
-                return db.query(`
-                    MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
-                    SET team.totalSponsors = team.totalSponsors + 1
-                    CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}, maxCap: {maxCap}}]->(team)
-                    `,
-                    {},
-                    {
-                        userId: sponsor.id,
-                        teamSlug,
-                        hourly: pledge.hourly,
-                        total: 0,
-                        date: new Date(),
-                        token,
-                        maxCap: pledge.maxCap,
-                    }
-                );
-            } else if (pledge.amount) {
-                return db.query(`
-                    MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
-                    SET team.totalSponsors = team.totalSponsors + 1
-                    CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(team)
-                    `,
-                    {},
-                    {
-                        userId: sponsor.id,
-                        teamSlug,
-                        amount: pledge.amount,
-                        total: 0,
-                        date: new Date(),
-                    }
-                );
-            }
+          let query = `MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
+          SET team.totalSponsors = team.totalSponsors + 1 `;
+          query += pledge.hourly ?
+            `CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}, maxCap: {maxCap}}]->(team) `
+            :
+            `CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(team) `;
+          query += 'RETURN { team: team } as result';
+
+          return db.query( query, {
+            teamSlug,
+            userId:   sponsor.id,
+            hourly:   pledge.hourly,
+            maxCap:   pledge.maxCap,
+            amount:   pledge.amount,
+            total:    0,
+            date:     new Date(),
+            token
+          })
+          .getResult('result')
+          .then( (result) => {
+            Sponsor.sendSponsorshipEmails(result.volunteer, sponsor, pledge.hourly, true, result.supporting);
+          })
+          .then( () => Promise.resolve() )
+          .catch((err) => {
+            console.log('Error in linkSponsorToSupportedNode for team:',err);
+            return Promise.reject(err);
+          });
         } else if (volunteerSlug) {
             if (pledge.hourly) {
                 return db.query(`
@@ -539,6 +533,7 @@ export default class Sponsor {
      * getSponsorsToBill()
      * Retrieve sponsors who hourly supports volunteers or team
     */
+    // TODO: Only fetch sponsors for active teams
     static getSponsorsToBill = () => {
         return db.query(`
             MATCH (sponsors:SPONSOR)-[support:SUPPORTING]->(supported)
