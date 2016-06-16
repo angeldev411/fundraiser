@@ -552,7 +552,7 @@ export default class Sponsor {
      * Retrieve sponsors who hourly supports volunteers or team
     */
     // TODO: Only fetch sponsors for active teams
-    static getSponsorsToBill = () => {
+  static getSponsorsToBill() {
     return db.query(`
             MATCH (sponsors:SPONSOR)-[support:SUPPORTING]->(supported)
             RETURN DISTINCT sponsors
@@ -565,7 +565,7 @@ export default class Sponsor {
      *
      * sponsors: array of sponsors
     */
-    static processVolunteerSponsoringContracts = (sponsors) => {
+  static processVolunteerSponsoringContracts(sponsors) {
     const promises = sponsors.map((sponsor) => {
       return Sponsor.getVolunteerSponsoringContracts(sponsor)
             .then(Sponsor.processNotBilledHours)
@@ -583,7 +583,7 @@ export default class Sponsor {
      *
      * sponsor: sponsor object
     */
-    static getVolunteerSponsoringContracts = (sponsor) => {
+  static getVolunteerSponsoringContracts(sponsor) {
     return db.query(`
             MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(volunteer)
             WHERE volunteer:VOLUNTEER OR volunteer:VOLUNTEER_DISABLED
@@ -602,7 +602,7 @@ export default class Sponsor {
      *
      * sponsors: array of sponsors
     */
-    static processTeamSponsoringContracts = (sponsors) => {
+  static processTeamSponsoringContracts (sponsors) {
         // console.log('processTeamSponsoringContracts');
     const promises = sponsors.map((sponsor) => {
       return Sponsor.getTeamSponsoringContracts(sponsor)
@@ -623,7 +623,7 @@ export default class Sponsor {
      *
      * sponsor: sponsor object
     */
-    static getTeamSponsoringContracts = (sponsor) => {
+  static getTeamSponsoringContracts (sponsor) {
     return db.query(`
             MATCH (sponsor:SPONSOR {id: {sponsorId}})-[support:SUPPORTING]->(team:TEAM)
             RETURN {sponsor: sponsor, support: support, supported: team} AS sponsoring
@@ -642,7 +642,7 @@ export default class Sponsor {
      * sponsorings: array of sposnorings
      * forVolunteer: true to process volunteer sponsors, false to process team sponsors
     */
-    static processNotBilledHours = (sponsorings, forVolunteer = true) => {
+  static processNotBilledHours(sponsorings, forVolunteer = true) {
     const promises = sponsorings.map((sponsoring) => {
       if (sponsoring) {
                 // For each sponsoring contracts, get supported node hours created after the last billing timestamp
@@ -671,7 +671,7 @@ export default class Sponsor {
      * sponsor: sponsor object
      * forVolunteer: true to process volunteer sponsors, false to process team sponsors
     */
-    static getNotBilledHours = (sponsor, supported, forVolunteer) => {
+  static getNotBilledHours(sponsor, supported, forVolunteer) {
     if (forVolunteer) {
             // Get volunteer contract not billed hours
       return db.query(`
@@ -711,7 +711,7 @@ export default class Sponsor {
      * hours: array of hours
      * forVolunteer: true to process volunteer sponsors, false to process team sponsors
     */
-    static billHours = (sponsoring, hours, forVolunteer) => {
+  static billHours(sponsoring, hours, forVolunteer) {
     let hoursToBill = 0;
     let amountToBill = 0;
 
@@ -779,7 +779,7 @@ export default class Sponsor {
      * sponsoring: sponsoring contract
      * hoursToBill: number of hours to bill
     */
-    static calculateAmountToBill = (sponsoring, hoursToBill) => {
+  static calculateAmountToBill(sponsoring, hoursToBill) {
     const amount = sponsoring.support.hourly * hoursToBill;
 
     if (amount > sponsoring.support.maxCap) {
@@ -797,7 +797,7 @@ export default class Sponsor {
      * stripeCustomerId: stripe customer id to charge
      * amount: amount to charge in USD
     */
-    static chargeSponsor = (stripeCustomerId, amount) => {
+  static chargeSponsor(stripeCustomerId, amount) {
     return new Promise((resolve, reject) => {
       amount = amount * 100; // Convert to cents
       stripe.charges.create({
@@ -827,7 +827,7 @@ export default class Sponsor {
      * charged: charge object returned by stripe
      * hoursToBill: number of hours billed
     */
-    static successfullChargeForVolunteer = (volunteer, sponsoring, amountToBill, transactionTimestamp, charged, hoursToBill) => {
+  static successfullChargeForVolunteer(volunteer, sponsoring, amountToBill, transactionTimestamp, charged, hoursToBill) {
     return Promise.all([
             // Create a paid relation with status 1
       Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, volunteer, 1, transactionTimestamp, charged.id),
@@ -863,7 +863,7 @@ export default class Sponsor {
      * amountToBill
      * transactionTimestamp
     */
-    static unsuccessfullChargeForVolunteer = (volunteer, sponsoring, amountToBill, transactionTimestamp) => {
+  static unsuccessfullChargeForVolunteer(volunteer, sponsoring, amountToBill, transactionTimestamp){
     return Promise.all([
             // Create a paid relation with status 0
       Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, volunteer, 0, transactionTimestamp),
@@ -889,7 +889,7 @@ export default class Sponsor {
      * charged: charge object returned by stripe
      * hoursToBill: number of hours billed
     */
-    static successfullChargeForTeam = (team, sponsoring, amountToBill, transactionTimestamp, charged, hoursToBill) => {
+  static successfullChargeForTeam(team, sponsoring, amountToBill, transactionTimestamp, charged, hoursToBill){
     return Promise.all([
             // Create a paid relation with status 1
       Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, team, 1, transactionTimestamp, charged.id),
@@ -925,7 +925,7 @@ export default class Sponsor {
      * amountToBill
      * transactionTimestamp
     */
-    static unsuccessfullChargeForTeam = (team, sponsoring, amountToBill, transactionTimestamp) => {
+  static unsuccessfullChargeForTeam(team, sponsoring, amountToBill, transactionTimestamp){
     return Promise.all([
             // Create a paid relation with status 0
       Sponsor.createPaidRelation(sponsoring.sponsor, amountToBill, team, 0, transactionTimestamp),
@@ -956,7 +956,7 @@ export default class Sponsor {
      * date: transaction timestamp
      * stripeTransactionId: id of the stripe transaction
     */
-    static createPaidRelation = (sponsor, amount, supported, status, date, stripeTransactionId = null) => {
+  static createPaidRelation(sponsor, amount, supported, status, date, stripeTransactionId = null){
     return db.query(`
             MATCH (sponsor:SPONSOR {id: {sponsorId} }), (supported {id: {supportedId} })
             CREATE (sponsor)-[:PAID {amount: {amount}, stripeTransactionId: {stripeTransactionId}, date: {date}, status: {status}}]->(supported)
@@ -981,7 +981,7 @@ export default class Sponsor {
      * amount: amount billed in USD
      * supported: supported object
     */
-    static updateSupportingRelationTotal = (sponsor, amount, supported) => {
+  static updateSupportingRelationTotal(sponsor, amount, supported){
     return db.query(`
             MATCH (sponsor:SPONSOR {id: {sponsorId} })-[support:SUPPORTING]->(supported {id: {supportedId} })
             SET support.total = support.total + {amount}
@@ -1003,7 +1003,7 @@ export default class Sponsor {
      * sponsor: sponsor object
      * lastBilling: transaction timestamp
     */
-    static updateSponsorLastBilling = (sponsor, lastBilling, forVolunteer = true) => {
+  static updateSponsorLastBilling(sponsor, lastBilling, forVolunteer = true){
     if (forVolunteer) {
       return db.query(`
                 MATCH (sponsor:SPONSOR {id: {sponsorId} })
@@ -1039,7 +1039,7 @@ export default class Sponsor {
      * raised: raised money, so just charged amount
      * forVolunteer: true to process volunteer sponsors, false to process team sponsors
     */
-    static updateRaisedAttributes = (supported, raised, forVolunteer = true) => {
+  static updateRaisedAttributes(supported, raised, forVolunteer = true) {
     let data;
 
     if (forVolunteer) {
@@ -1102,7 +1102,7 @@ export default class Sponsor {
      * volunteer: volunteer object
      * raised: raised money, so just charged amount
     */
-    static updateRaisedAttributesBySlug = (volunteerSlug = null, teamSlug = null, raised) => {
+  static updateRaisedAttributesBySlug(volunteerSlug = null, teamSlug = null, raised){
     let data;
 
     if (volunteerSlug) {
@@ -1163,7 +1163,7 @@ export default class Sponsor {
      *
      * cancelToken: pledge token
     */
-    static getPledge = (token) => {
+  static getPledge(token) {
     return db.query(`
             MATCH (sponsor:SPONSOR)-[pledge:SUPPORTING {token: {token}}]->(supported)
             RETURN {sponsor: sponsor, pledge: pledge} AS result
@@ -1187,7 +1187,7 @@ export default class Sponsor {
      *
      * cancelToken: pledge token
     */
-    static cancelPledge = (cancelToken) => {
+  static cancelPledge(cancelToken){
     return db.query(`
             MATCH (sponsor:SPONSOR)-[pledge:SUPPORTING {token: {cancelToken}}]->(supported)
             CREATE (sponsor)-[canceledPledge:CANCELED_PLEDGE]->(supported)
