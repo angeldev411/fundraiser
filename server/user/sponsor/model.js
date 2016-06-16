@@ -9,6 +9,8 @@ import stripelib from 'stripe';
 import uuid from 'uuid';
 import Mailer from '../../helpers/mailer';
 import Mailchimp from '../../helpers/mailchimp';
+import _ from 'lodash';
+
 const stripe = stripelib(config.STRIPE_TOKEN);
 const db = neo4jDB(config.DB_URL);
 
@@ -525,6 +527,50 @@ export default class Sponsor {
     });
   }
 
+
+  static billSponsors(){
+    let minCharge = 100; // $1
+
+      // [
+      //   {
+      //     id: '76800242-171c-4659-8272-80ffc9265388',
+      //     name: 'Team Name',
+      //     sponsors: [
+      //      {
+      //
+      //      }
+      //     ]
+      //   }
+      // ]
+    console.log('billing!');
+    Team.getWithUnbilledHours()
+    .then( (teams) => {
+      console.log('The teams!',teams);
+    });
+
+    return;
+
+    const teamResult = _(teams).each( (team) => {
+      console.log('Team:',team);
+      _(team.sponsors).each( (sponsor) =>
+        sponsor.charge() // charge and update the sponsor's hours charged
+      );
+    });
+    log('teamResult', JSON.Stringify(teamResult));
+
+      // let volunteers  = Volunteers.withUnbilledSponsors();
+      //
+      // // [{hours: 4}]
+      // sponsors.each( (sponsor) => {
+      //
+      // });
+
+      // for all sponsors
+      // tobecharged = (min(sponsor->volunteer.hours, sponsor->volunteer.goal) - sponsor.hourscharged)*sponsor.perhourcharge
+      //  if tobecharged > mincharge
+      //    chargecreditcard ( tobecharged )
+      //    sponsor.hourscharged = volunteeer.hours
+  }
     /*
      * billSponsors()
      * MAIN BILLING SCRIPT

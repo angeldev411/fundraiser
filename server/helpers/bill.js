@@ -7,10 +7,10 @@ export function monthlyPayments() {
 
     Promise.resolve()
     .then(Sponsor.billSponsors)
-    .then(() => {
-        console.log('Reset current hours');
-        Volunteer.resetCurrentHours();
-    })
+    // .then(() => {
+    //     console.log('Reset current hours');
+    //     Volunteer.resetCurrentHours();
+    // })
     .catch((err) => {
         console.error(err);
     });
