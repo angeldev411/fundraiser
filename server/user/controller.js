@@ -218,7 +218,8 @@ class userController {
                     return Promise.resolve(dbUser);
                 })
                 .catch((err) => {
-                    return Promise.reject(messages.signup.error);
+                  console.log('Error updating user:',err);
+                  return Promise.reject(messages.signup.error);
                 });
             } else {
                 return Promise.reject(messages.signup.badInviteCode);
@@ -237,10 +238,11 @@ class userController {
                     return Promise.resolve(dbUser);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log('Error adding new user:', err);
                     return Promise.reject(messages.signup.error);
                 });
             }
+            console.log('Unknown error creating user:', err);
             return Promise.reject(messages.signup.error);
         });
     }
