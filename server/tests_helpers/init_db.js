@@ -4,6 +4,7 @@ import config from '../config';
 const db = require('neo4j-simple')(config.DB_URL);
 
 import fixtures from './fixtures';
+import SuperAdmin from '../user/super-admin/model';
 import util from '../helpers/util.js';
 
 class setup {
