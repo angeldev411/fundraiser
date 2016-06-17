@@ -51,7 +51,7 @@
 
   "rules": {
     // Custom //
-    "indent": ["error", 2],
+    "indent": [1],
 
     ////////// Possible Errors //////////
 
