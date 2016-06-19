@@ -347,7 +347,7 @@ export default class Sponsor {
       let query = `MATCH (user:SPONSOR {id: {userId} }), (team:TEAM {slug: {teamSlug} })
           SET team.totalSponsors = team.totalSponsors + 1 `;
       query += pledge.hourly ?
-            `CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}, maxCap: {maxCap}}]->(team) `
+            `CREATE (user)-[:SUPPORTING {hourly: {hourly}, total: {total}, hoursCharged: {hoursCharged}, date: {date}, token: {token}, maxCap: {maxCap}}]->(team) `
             :
             `CREATE (user)-[:DONATED {amount: {amount}, total: {total}, date: {date}}]->(team) `;
       query += 'RETURN { team: team } as result';
@@ -360,6 +360,7 @@ export default class Sponsor {
         maxCap:   pledge.maxCap,
         amount:   pledge.amount,
         total:    0,
+        hoursCharged: 0,
         date:     new Date(),
         token
       };
