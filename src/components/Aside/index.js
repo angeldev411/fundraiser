@@ -36,7 +36,7 @@ export default class Aside extends Component {
           <section>
               <h2 className={'title'}>{'Together We Make Twice the Difference'}</h2>
               <p>
-                {`You sponsor ${volunteer.object} for every service hour ${volunteer.subjectLow} volunteer. Your 100% tax deductible contribution goes directly to ${volunteer.project}`}
+                {`Your sponsorship means more than just money for a great cause.  It inspires ${volunteer.object} to better our community by doing service. Together we are building a better world.`}
               </p>
           </section>
       </aside>
