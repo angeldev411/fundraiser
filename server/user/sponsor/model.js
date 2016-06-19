@@ -529,70 +529,91 @@ export default class Sponsor {
   }
 
 
+  static getTeamSponsors(){
+    return db.query(`
+      MATCH (sponsor:SPONSOR)-[supporting:SUPPORTING]->(team:TEAM)-[]->(project)
+      WITH sponsor, {
+       projectName:  project.name,
+
+       teamId:        team.id,
+       teamName:      team.name,
+       goal:          team.goal,
+       currentHours:  team.currentHours,
+       totalHours:    team.totalHours,
+
+       supportingId:  supporting.id,
+       hourly:        supporting.hourly,
+       maxCap:        supporting.maxCap,
+       hoursCharged:  supporting.hoursCharged,
+       total:         supporting.total
+     } as supporting
+      RETURN {
+        sponsor: sponsor,
+        supportings: collect(supporting)
+      } as result
+    `)
+    .getResults('result');
+  }
+
   static billSponsors(){
-    let minCharge = 100; // $1
+    let minCharge = 1; // $1
 
-      // [
-      //   {
-      //     id: '76800242-171c-4659-8272-80ffc9265388',
-      //     name: 'Team Name',
-      //     sponsors: [
-      //      {
-      //
-      //      }
-      //     ]
-      //   }
-      // ]
-    console.log('billing!');
-    Team.getWithUnbilledHours()
-    .then( (teams) => {
-      console.log('The teams!',teams);
+    return Sponsor.getTeamSponsors()
+    .then( (results) => {
+      _(results).each( (result) => {
+        // Query will return an array sponsors with the
+        // team(s) they support
+        const sponsor = result.sponsor;
+        const supportings = result.supportings;
+        console.log(`Charging ${sponsor.email}...`);
+
+        _(supportings).each((support) => {
+          const billableHours = Math.min( support.totalHours, support.goal )
+                          - (support.hoursCharged || 0);
+          // XXX: Check SUPPORTING.maxCap here? Or assume team goal does not change?
+          const chargeAmount = support.hourly * billableHours;
+          if( chargeAmount >= minCharge ){
+            console.log(`  hourly support of $${chargeAmount} (${billableHours} hours) for team ${support.teamName}`);
+            const meta = {
+              team:         support.teamName,
+              project:      support.projectName,
+              hoursBilled:  billableHours,
+              hourlyPledge: support.hourly
+            }
+            Sponsor.chargeSponsor(sponsor.stripeCustomerId, chargeAmount, meta)
+            .then(
+              Sponsor.updateSupport(sponsor.id, support.teamId, billableHours, chargeAmount)
+            );
+          }
+        });
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+      throw err;
     });
-
-    return;
-
-    const teamResult = _(teams).each( (team) => {
-      console.log('Team:',team);
-      _(team.sponsors).each( (sponsor) =>
-        sponsor.charge() // charge and update the sponsor's hours charged
-      );
-    });
-    log('teamResult', JSON.Stringify(teamResult));
-
-      // let volunteers  = Volunteers.withUnbilledSponsors();
-      //
-      // // [{hours: 4}]
-      // sponsors.each( (sponsor) => {
-      //
-      // });
-
-      // for all sponsors
-      // tobecharged = (min(sponsor->volunteer.hours, sponsor->volunteer.goal) - sponsor.hourscharged)*sponsor.perhourcharge
-      //  if tobecharged > mincharge
-      //    chargecreditcard ( tobecharged )
-      //    sponsor.hourscharged = volunteeer.hours
   }
     /*
      * billSponsors()
      * MAIN BILLING SCRIPT
      * Get not billed hours and charge sponsors
     */
-  static oldBillSponsors() {
-    let sponsorsToBill = [];
-
-        // Get all sponsors who hourly support volunteers
-    return Sponsor.getSponsorsToBill()
-        .then((sponsors) => {
-          sponsorsToBill = sponsors;
-          return Sponsor.processVolunteerSponsoringContracts(sponsorsToBill);
-        })
-        .then(() => {
-          return Sponsor.processTeamSponsoringContracts(sponsorsToBill);
-        })
-        .catch((getSponsorError) => {
-          Promise.reject(getSponsorError);
-        });
-  }
+  // static oldBillSponsors() {
+  //   let sponsorsToBill = [];
+  //
+  //   // Get all sponsors who hourly support volunteers
+  //   return Sponsor.getSponsorsToBill()
+  //       .then((sponsors) => {
+  //         sponsorsToBill = sponsors;
+  //         return Sponsor.processVolunteerSponsoringContracts(sponsorsToBill);
+  //       })
+  //       .then(() => {
+  //         return Sponsor.processTeamSponsoringContracts(sponsorsToBill);
+  //       })
+  //       .catch((getSponsorError) => {
+  //         Promise.reject(getSponsorError);
+  //       });
+  // }
 
     /*
      * getSponsorsToBill()
@@ -844,14 +865,14 @@ export default class Sponsor {
      * stripeCustomerId: stripe customer id to charge
      * amount: amount to charge in USD
     */
-  static chargeSponsor(stripeCustomerId, amount) {
+  static chargeSponsor(stripeCustomerId, amount, metadata = {}) {
     return new Promise((resolve, reject) => {
       amount = amount * 100; // Convert to cents
       stripe.charges.create({
         amount,
         currency: 'usd',
-        customer: stripeCustomerId
-                // description: "Charge for test@example.com"
+        customer: stripeCustomerId,
+        metadata
       }, (err, charge) => {
         if (charge) {
           resolve(charge);
@@ -1043,6 +1064,26 @@ export default class Sponsor {
         );
   };
 
+
+  // Updates the SUPPORTING relationship between a sponsor and a team or
+  // volunteer.
+  static updateSupport(sponsorId, teamOrVolId, newHours, newCharge){
+    console.log('updating support with', sponsorId, teamOrVolId, newHours, newCharge);
+    return db.query(`
+      MATCH ({id: {sponsorId}})-[r:SUPPORTING]->({id: {teamOrVolId}})
+      SET r.total = r.total + {newCharge},
+         r.hoursCharged = CASE WHEN EXISTS(r.hoursCharged)
+          THEN r.hoursCharged + {newHours}
+          ELSE {newHours}
+         END
+    `, {}, {
+      sponsorId,
+      teamOrVolId,
+      newCharge,
+      newHours
+    });
+  }
+
     /*
      * updateSponsorLastBilling()
      * Update last billing timestamp on sponsor
@@ -1078,14 +1119,14 @@ export default class Sponsor {
     }
   };
 
-    /*
-     * updateRaisedAttributes()
-     * Update raised attribute on a volunteer and totalRaised attribute on related team
-     *
-     * supported: supported object
-     * raised: raised money, so just charged amount
-     * forVolunteer: true to process volunteer sponsors, false to process team sponsors
-    */
+  /*
+   * updateRaisedAttributes()
+   * Update raised attribute on a volunteer and totalRaised attribute on related team
+   *
+   * supported: supported object
+   * raised: raised money, so just charged amount
+   * forVolunteer: true to process volunteer sponsors, false to process team sponsors
+  */
   static updateRaisedAttributes(supported, raised, forVolunteer = true) {
     let data;
 
