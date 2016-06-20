@@ -77,7 +77,7 @@ class Header extends Component {
                             </div>
                             <div className={'col-xs-8 green-header-center'}>
                                 <span className={'call-to-action-text'}>
-                                    {'This is your personalized fundraising page.'} <b>{'Get started by sharing it on Facebook, Twitter and emailing your colleagues, friends and family'}</b>
+                                    {'This is your personalized fundraising page.'} <br/><b>{'Get started by sharing it on Facebook, Twitter and emailing your colleagues, friends and family'}</b>
                                 </span>
                             </div>
                             <div className={'col-xs-2 green-header-right'}>
