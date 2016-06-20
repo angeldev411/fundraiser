@@ -18,10 +18,9 @@ router.post('/api/v1/signup', (req, res) => {
         lastName: req.body.lastName,
         password: util.hash(req.body.password),
     };
-
-    console.log('onboard action got ', data, req.body, req.params);
-
-    userController.signup(data, req.body.teamSlug.toLowerCase())
+    let slug = req.body.teamSlug || '';
+    
+    userController.signup(data, slug.toLowerCase())
     .then((user) => {
         req.session.user = user;
         res.status(200).send(userController.safe(user));
