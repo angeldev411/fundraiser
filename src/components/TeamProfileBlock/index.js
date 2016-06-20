@@ -31,7 +31,8 @@ export default class TeamProfileBlock extends Component {
     };
 
     render() {
-        let percentage = (this.props.team.totalHours / this.props.team.goal) * 100;
+        const full = 100;
+        let percentage = (this.props.team.totalHours / this.props.team.goal) * full;
         
         let logoImage = (this.props.team.logo) ? this.props.team.logo : `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`;
         
@@ -39,8 +40,8 @@ export default class TeamProfileBlock extends Component {
             logoImage = constants.RESIZE_LOGO + logoImage;
         }
         
-        if (percentage > 100) {
-            percentage = 100;
+        if (percentage > full) {
+            percentage = full;
         }
 
         return (
@@ -91,7 +92,7 @@ export default class TeamProfileBlock extends Component {
                                     aria-valuenow={percentage}
                                     aria-valuemin="0"
                                     aria-valuemax="100"
-                                    style={{ width: percentage+'%' }}
+                                    style={{ width: `${percentage}%` }}
                                 >
                                     <span className="sr-only">{'60% Complete'}</span>
                                 </div>
@@ -100,7 +101,9 @@ export default class TeamProfileBlock extends Component {
                                 <span id="label">{'Goal'}</span>
                                 <span id="value">{this.props.team.goal}{' hrs'}</span>
                             </div>
-                            <p className={'clearfix'}>{this.props.team.totalHours}</p>
+                            <p className={'clearfix'}>
+                            {this.props.team.totalHours > 0 ? (<span>{this.props.team.totalHours} Completed</span>) : ''}
+                            </p>
                         </div>
                         )
                         : (null)
