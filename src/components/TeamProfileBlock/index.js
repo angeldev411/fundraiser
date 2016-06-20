@@ -102,7 +102,7 @@ export default class TeamProfileBlock extends Component {
                                 <span id="value">{this.props.team.goal}{' hrs'}</span>
                             </div>
                             <p className={'clearfix'}>
-                            {this.props.team.totalHours > 0 ? (<span>{this.props.team.totalHours} Completed</span>) : ''}
+                                {this.props.team.totalHours > 0 ? (<span>{this.props.team.totalHours} Completed</span>) : ''}
                             </p>
                         </div>
                         )
