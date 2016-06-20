@@ -541,7 +541,6 @@ export default class Sponsor {
        currentHours:  team.currentHours,
        totalHours:    team.totalHours,
 
-       supportingId:  supporting.id,
        hourly:        supporting.hourly,
        maxCap:        supporting.maxCap,
        hoursCharged:  supporting.hoursCharged,
@@ -555,65 +554,95 @@ export default class Sponsor {
     .getResults('result');
   }
 
-  static billSponsors(){
+  static getVolunteerSponsors(){
+    return db.query(`
+      MATCH (sponsor:SPONSOR)-[supporting:SUPPORTING]->(volunteer:VOLUNTEER)-[]->(team:TEAM)-[]->(project:PROJECT)
+      WITH sponsor, {
+       projectName:  project.name,
+
+       teamId:        team.id,
+       teamName:      team.name,
+       goal:          team.goal,
+       currentHours:  team.currentHours,
+       totalHours:    team.totalHours,
+
+       volunteerId:   volunteer.id,
+       volunteer:     volunteer.firstName + " " + volunteer.lastName + " <" + volunteer.email + ">",
+
+       hourly:        supporting.hourly,
+       maxCap:        supporting.maxCap,
+       hoursCharged:  supporting.hoursCharged,
+       total:         supporting.total
+     } as supporting
+      RETURN {
+        sponsor: sponsor,
+        supportings: collect(supporting)
+      } as result
+    `)
+    .getResults('result');
+  }
+
+
+  /*
+   * Accepts an array of sponsor/supportings hashes.
+   * Returns an array of Promises for charging and updating the sponsors.
+   *
+   * sponsors - Array of objects containing a sponsor and the teams/volunteers
+   * they support
+   */
+  static chargeSponsors( sponsors ){
     let minCharge = 1; // $1
 
-    return Sponsor.getTeamSponsors()
-    .then( (results) => {
-      _(results).each( (result) => {
-        // Query will return an array sponsors with the
-        // team(s) they support
-        const sponsor = result.sponsor;
-        const supportings = result.supportings;
-        console.log(`Charging ${sponsor.email}...`);
+    let charges = _.reduce( sponsors, (charges, result) => {
+      const sponsor     = result.sponsor;
+      const supportings = result.supportings;
+      console.log(`Charging ${sponsor.email}...`);
 
-        _(supportings).each((support) => {
-          const billableHours = Math.min( support.totalHours, support.goal )
-                          - (support.hoursCharged || 0);
-          // XXX: Check SUPPORTING.maxCap here? Or assume team goal does not change?
-          const chargeAmount = support.hourly * billableHours;
-          if( chargeAmount >= minCharge ){
-            console.log(`  hourly support of $${chargeAmount} (${billableHours} hours) for team ${support.teamName}`);
-            const meta = {
-              team:         support.teamName,
-              project:      support.projectName,
-              hoursBilled:  billableHours,
-              hourlyPledge: support.hourly
-            }
-            Sponsor.chargeSponsor(sponsor.stripeCustomerId, chargeAmount, meta)
-            .then(
-              Sponsor.updateSupport(sponsor.id, support.teamId, billableHours, chargeAmount)
-            );
-          }
-        });
-      })
-    })
+      const sponsorCharges = _.map( supportings, (support) => {
+
+        const billableHours = Math.min( support.totalHours, support.goal )
+                        - (support.hoursCharged || 0);
+        // XXX: Check SUPPORTING.maxCap here? Or assume team goal does not change?
+        const chargeAmount = support.hourly * billableHours;
+        if( chargeAmount < minCharge ) return;
+
+        console.log(`  hourly support of $${chargeAmount} (${billableHours} hours) for team ${support.teamName}`);
+
+        const meta = {
+          team:         support.teamName,
+          project:      support.projectName,
+          hoursBilled:  billableHours,
+          hourlyPledge: support.hourly
+        }
+        if(support.volunteer) meta.volunteer = support.volunteer;
+
+        return Sponsor.chargeSponsor(sponsor.stripeCustomerId, chargeAmount, meta)
+        .then(() => Sponsor.updateSupport(sponsor, support, billableHours, chargeAmount) );
+
+      });
+
+      return charges.concat(sponsorCharges);
+
+    }, []);
+
+    charges = _.reject( charges, (charge) => typeof charge === 'undefined' );
+    return Promise.all(charges);
+
+  }
+
+  static billSponsors(){
+    let sponsors;
+
+    return Sponsor.getTeamSponsors()
+    .then( (results) => sponsors = results )
+    .then( () => Sponsor.getVolunteerSponsors() )
+    .then( (results) => sponsors = sponsors.concat(results) )
+    .then( () => Sponsor.chargeSponsors( sponsors ) )
     .catch((err) => {
       console.log(err);
-      throw err;
+      Promise.reject(err);
     });
   }
-    /*
-     * billSponsors()
-     * MAIN BILLING SCRIPT
-     * Get not billed hours and charge sponsors
-    */
-  // static oldBillSponsors() {
-  //   let sponsorsToBill = [];
-  //
-  //   // Get all sponsors who hourly support volunteers
-  //   return Sponsor.getSponsorsToBill()
-  //       .then((sponsors) => {
-  //         sponsorsToBill = sponsors;
-  //         return Sponsor.processVolunteerSponsoringContracts(sponsorsToBill);
-  //       })
-  //       .then(() => {
-  //         return Sponsor.processTeamSponsoringContracts(sponsorsToBill);
-  //       })
-  //       .catch((getSponsorError) => {
-  //         Promise.reject(getSponsorError);
-  //       });
-  // }
 
     /*
      * getSponsorsToBill()
@@ -1067,8 +1096,9 @@ export default class Sponsor {
 
   // Updates the SUPPORTING relationship between a sponsor and a team or
   // volunteer.
-  static updateSupport(sponsorId, teamOrVolId, newHours, newCharge){
-    console.log('updating support with', sponsorId, teamOrVolId, newHours, newCharge);
+  static updateSupport(sponsor, support, newHours, newCharge){
+    const sponsorId =   sponsor.id;
+    const teamOrVolId = support.volunteerId || support.teamId;
     return db.query(`
       MATCH ({id: {sponsorId}})-[r:SUPPORTING]->({id: {teamOrVolId}})
       SET r.total = r.total + {newCharge},
