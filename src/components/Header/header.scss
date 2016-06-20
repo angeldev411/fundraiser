@@ -35,6 +35,9 @@
     .green-header-right {
         padding: 0;
     }
+    .green-header-left {
+        white-space: nowrap;
+    }
 
     .green-header-right {
         a,
@@ -48,7 +51,7 @@
 header {
     background: $black-medium-opacity;
     padding: 10px;
-    position: absolute;
+    position: fixed;
     width: 100%;
     z-index: 1;
 
@@ -60,6 +63,7 @@ header {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
+    header {position: absolute};
     #green-header {
         display: block;
         font-size: 1.8rem;
