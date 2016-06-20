@@ -72,7 +72,7 @@ class Header extends Component {
                         <div className={'col-xs-12'}>
                             <div className={'col-xs-2 green-header-left'}>
                                 <Link to={dashboardUrl}>
-                                    {'My Dashboard'}
+                                    {'My Dashboard'} <i className="fa fa-angle-double-right"/>
                                 </Link>
                             </div>
                             <div className={'col-xs-8 green-header-center'}>
@@ -120,7 +120,7 @@ class Header extends Component {
                     <div className="container">
                         <div className={'col-xs-2 green-header-left'}>
                             <Link to={dashboardUrl}>
-                                {'My Dashboard'}
+                                {'My Dashboard'} <i className="fa fa-angle-double-right"/>
                             </Link>
                         </div>
                         <div className={'col-xs-8 green-header-center'}>

@@ -21,7 +21,6 @@
     span.call-to-action-text {
         font-family: $conduit-light;
         line-height: 30px;
-        font-size: 13px;
         text-align: center;
         display: block;
 
@@ -63,6 +62,10 @@ header {
 @media (min-width: $screen-sm-min) {
     #green-header {
         display: block;
+        font-size: 1.8rem;
+        min-height: 40px;
+        padding-top: 5px;
+
     }
     
     #logo {
