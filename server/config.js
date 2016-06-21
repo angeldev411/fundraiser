@@ -41,9 +41,6 @@ let config = {
   MANDRILL_API_KEY: process.env.MANDRILL_API_KEY || 'fvFbEdZSRHYqCj06utSvSg',
   DOMAIN: 'https://raiserve.org',
   URL: `${process.env.PROTOCOL}${process.env.HOSTNAME}` || 'http://raiserve.org',
-  BILLING: {
-    minimumAmount: 5
-  },
   MAILCHIMP: {
     API_KEY: 'e01efe9b4d33711baa136f42047f7abb-us11',
     VOLUNTEERS_LIST_ID: '7230036f0d',
