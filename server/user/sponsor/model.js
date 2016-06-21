@@ -353,6 +353,7 @@ export default class Sponsor {
       query += 'RETURN { team: team } as result';
 
           // all possible options. Depending on sponsorship, some will not be used
+          console.log('hourly pledge', pledge.hourly);
       let queryOptions = {
         teamSlug,
         userId:   sponsor.id,
@@ -398,7 +399,7 @@ export default class Sponsor {
           {
             userId: sponsor.id,
             volunteerSlug,
-            hourly: parseInt(pledge.hourly, 10),
+            hourly: Number(pledge.hourly).toFixed(2),
             total: 0,
             date: new Date(),
             token,
@@ -600,16 +601,17 @@ export default class Sponsor {
 
       const sponsorCharges = _.map( supportings, (support) => {
 
-        const billableHours = Math.min( support.totalHours, support.goal )
-                        - (support.hoursCharged || 0);
-        // XXX: Check SUPPORTING.maxCap here? Or assume team goal does not change?
-        let chargeAmount = support.hourly * billableHours;
-        if( support.maxCap > (support.total + chargeAmount) )
-          chargeAmount = support.maxCap - support.total;
+        const billableHours = (Math.min( support.totalHours, support.goal )
+                        - (support.hoursCharged || 0)).toFixed(2);
+
+        // calculate charge, convert to cents, careful of type/rounding errors
+        support.hourly    = Number(support.hourly).toFixed(2);
+        let chargeAmount  = (billableHours * support.hourly).toFixed(2);
 
         if( chargeAmount < minCharge ) return;
 
-        console.log(`  hourly support of $${chargeAmount} (${billableHours} hours) for team ${support.teamName}`);
+        const teamOrVol = !!support.volunteer ? 'volunteer' : 'team';
+        console.log(` ${teamOrVol} hourly support of $${chargeAmount} (${billableHours} hours * $${support.hourly} hourly) for team ${support.teamName}`);
 
         const meta = {
           team:         support.teamName,
@@ -671,11 +673,11 @@ export default class Sponsor {
      * Charge amount to stripe customer
      *
      * stripeCustomerId: stripe customer id to charge
-     * amount: amount to charge in USD
+     * amount: amount to charge, in cents
     */
   static chargeSponsor(stripeCustomerId, amount, metadata = {}) {
+    amount = Math.round(amount * 100);
     return new Promise((resolve, reject) => {
-      amount = amount * 100; // Convert to cents
       stripe.charges.create({
         amount,
         currency: 'usd',
@@ -685,7 +687,7 @@ export default class Sponsor {
         if (charge) {
           resolve(charge);
         } else if (err) {
-          console.log('Stripe error:', err.message);
+          console.log(`Stripe error charging ${amount}:`, err.message);
           reject(err.message);
         }
       });
@@ -723,10 +725,10 @@ export default class Sponsor {
     const teamOrVolId = support.volunteerId || support.teamId;
     return db.query(`
       MATCH ({id: {sponsorId}})-[r:SUPPORTING]->({id: {teamOrVolId}})
-      SET r.total = r.total + {newCharge},
+      SET r.total = toFloat(r.total) + toFloat({newCharge}),
          r.hoursCharged = CASE WHEN EXISTS(r.hoursCharged)
-          THEN r.hoursCharged + {newHours}
-          ELSE {newHours}
+          THEN toFloat(r.hoursCharged) + toFloat({newHours})
+          ELSE toFloat({newHours})
          END
     `, {}, {
       sponsorId,
