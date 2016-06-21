@@ -57,7 +57,6 @@ export default class Cover extends Component {
         const style = {
             backgroundImage : `url(${this.state.team && this.state.team.cover || this.props.image || `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_COVER}` })`,
         };
-
         if (!style.backgroundImage.match(constants.DEFAULT_COVER)) {
             let size = constants.RESIZE_COVER_MD;
 
@@ -164,6 +163,7 @@ export default class Cover extends Component {
                         <h1 className={'uppercase'}>{`Welcome to the Team ${this.props.teamName}`}</h1>
                         <p>{this.props.tagline}</p>
                     </div>
+                     {this.props.children}
                 </div>
             );
         }
