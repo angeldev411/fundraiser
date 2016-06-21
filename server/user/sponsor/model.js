@@ -563,12 +563,12 @@ export default class Sponsor {
 
        teamId:        team.id,
        teamName:      team.name,
-       goal:          team.goal,
-       currentHours:  team.currentHours,
-       totalHours:    team.totalHours,
 
        volunteerId:   volunteer.id,
        volunteer:     volunteer.firstName + " " + volunteer.lastName + " <" + volunteer.email + ">",
+       goal:          volunteer.goal,
+       totalHours:    volunteer.totalHours,
+       currentHours:  volunteer.currentHours,
 
        hourly:        supporting.hourly,
        maxCap:        supporting.maxCap,
@@ -673,7 +673,7 @@ export default class Sponsor {
      * Charge amount to stripe customer
      *
      * stripeCustomerId: stripe customer id to charge
-     * amount: amount to charge, in cents
+     * amount: amount to charge, in dollars
     */
   static chargeSponsor(stripeCustomerId, amount, metadata = {}) {
     amount = Math.round(amount * 100);
