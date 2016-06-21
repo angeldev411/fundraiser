@@ -111,6 +111,28 @@ class Menu extends Component {
                 >
                     <nav>
                         <ul className={"nav navbar-nav"}>
+                            <li className={'login-container'}>
+                                {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
+                                {this.state.user ?
+                                    <span>
+                                        <Button
+                                            to={dashboardUrl}
+                                            customClass={'btn-default'}
+                                        >{'Dashboard'}</Button>
+                                        <Button
+                                            onClick={this.logout}
+                                            customClass={'btn-default'}
+                                        >{'Logout'}</Button>
+                                    </span> :
+                                    <ModalButton
+                                        customClass="btn-default"
+                                        content={<SigninForm/>}
+                                        onModalToggle={this.toggleOverflow}
+                                    >
+                                        {'Sign In'}
+                                    </ModalButton>
+                                }
+                            </li>
                             <li className={'social'}>
                                 <a
                                     href={`${constants.FACEBOOK_PAGE}`}
@@ -193,28 +215,7 @@ class Menu extends Component {
                                     </li>
                                 </ul>
                             </li>
-                            <li className={'login-container'}>
-                                {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
-                                {this.state.user ?
-                                    <span>
-                                        <Button
-                                            to={dashboardUrl}
-                                            customClass={'btn-default'}
-                                        >{'Dashboard'}</Button>
-                                        <Button
-                                            onClick={this.logout}
-                                            customClass={'btn-default'}
-                                        >{'Logout'}</Button>
-                                    </span> :
-                                    <ModalButton
-                                        customClass="btn-default"
-                                        content={<SigninForm/>}
-                                        onModalToggle={this.toggleOverflow}
-                                    >
-                                        {'Sign In'}
-                                    </ModalButton>
-                                }
-                            </li>
+                            
                         </ul>
                     </nav>
                 </div>

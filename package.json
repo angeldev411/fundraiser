@@ -71,7 +71,6 @@
     "moment": "2.11.0",
     "neo4j": "^2.0.0-RC2",
     "neo4j-simple": "^0.8.0",
-    "newrelic": "^1.25.4",
     "node-sass": "^3.4.2",
     "nodemon": "^1.8.1",
     "postcss-constants": "^0.1.1",

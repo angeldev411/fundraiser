@@ -77,21 +77,13 @@ class Team {
               return Promise.reject(typeof error === 'string' ? error : messages.team.required);
             });
   }
-
-  static update(rawTeamData) {
-    const teamData = Team.filter(rawTeamData);
-
-    return Team.validate(teamData)
+    static update(rawTeamData) {
+        const teamData = Team.filter(rawTeamData);
+        return Team.validate(teamData)
             .then(() => {
-              return Team.uploadImages(teamData)
-                    .then(() => {
-                      return Team.saveUpdate(teamData)
-                            .then((result) => {
-                              return Promise.resolve(result);
-                            })
-                            .catch((error) => {
-                              return Promise.reject(error);
-                            });
+                return Team.saveUpdate(teamData)
+                    .then((result) => {
+                        return Promise.resolve(result);
                     })
                     .catch((error) => {
                       return Promise.reject(error);
@@ -191,14 +183,15 @@ class Team {
     return teamNode.save();
   }
 
-  static saveUpdate(teamData) {
-    const teamNode = new Node(teamData, teamData.id);
+    static saveUpdate(teamData) {
+        return db.getNodes([teamData.id]).then((result) => {
+            const teamNode = new Node(_.extend(result[0], teamData), teamData.id);
+            return teamNode.save();
+        });
+    }
 
-    return teamNode.save();
-  }
-
-  static linkTeamCreatorAndProject(teamId, currentUserId, projectSlug) {
-    return db.query(`
+    static linkTeamCreatorAndProject(teamId, currentUserId, projectSlug) {
+        return db.query(`
                 MATCH (t:TEAM {id: {teamId} }), (u:USER {id: {userId} }), (p:PROJECT {slug: {projectSlug} })
                 CREATE (u)-[:CREATOR]->(t)
                 CREATE (t)-[:CONTRIBUTE]->(p)

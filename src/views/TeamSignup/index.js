@@ -76,12 +76,12 @@ class TeamSignup extends Component {
         if (this.state.projectError) {
             return (<RouteNotFound />);
         }
-
         return (
             <Page noHeader={true}
                 bodyBackground={{ backgroundColor: 'black' }}
             >
                 <Cover
+                    team={this.state.team}
                     image={
                         this.state.team.coverImage ?
                         `${this.state.team.coverImage}` :
@@ -95,7 +95,7 @@ class TeamSignup extends Component {
                         null
                     }
                     teamName={this.state.team.name}
-                />
+                >
                 <div className={"main-content"}>
                     <div className={"container"}>
                         <SignupForm
@@ -105,6 +105,7 @@ class TeamSignup extends Component {
                         />
                     </div>
                 </div>
+                </Cover>
             </Page>
         );
     }
