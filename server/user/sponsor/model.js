@@ -603,7 +603,10 @@ export default class Sponsor {
         const billableHours = Math.min( support.totalHours, support.goal )
                         - (support.hoursCharged || 0);
         // XXX: Check SUPPORTING.maxCap here? Or assume team goal does not change?
-        const chargeAmount = support.hourly * billableHours;
+        let chargeAmount = support.hourly * billableHours;
+        if( support.maxCap > (support.total + chargeAmount) )
+          chargeAmount = support.maxCap - support.total;
+
         if( chargeAmount < minCharge ) return;
 
         console.log(`  hourly support of $${chargeAmount} (${billableHours} hours) for team ${support.teamName}`);
