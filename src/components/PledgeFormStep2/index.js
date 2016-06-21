@@ -37,7 +37,6 @@ class PledgeFormStep2 extends Component {
             });
         } else {
             // response contains id and card, which contains additional card details
-            console.log(response, this.state);
             const token = response.id;
 
             // If ok, add sponsor to db
