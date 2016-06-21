@@ -4,15 +4,7 @@ import config from '../config';
 const db = require('neo4j-simple')(config.DB_URL);
 
 import fixtures from './fixtures';
-
-import Volunteer from '../user/volunteer/model';
-import Sponsor from '../user/sponsor/model';
 import SuperAdmin from '../user/super-admin/model';
-import TeamLeader from '../user/team-leader/model';
-import teamController from '../team/controller';
-import ProjectLeader from '../user/project-leader/model';
-import projectController from '../project/controller';
-import HourRepository from '../hours/model';
 import util from '../helpers/util.js';
 
 class setup {

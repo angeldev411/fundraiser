@@ -41,16 +41,13 @@ router.post('/api/v1/super-admin/team/invite', (req, res) => {
 
 router.post('/api/v1/super-admin/execute/monthly/payments', (req, res) => {
     console.log(String.fromCharCode(0xD83D,0xDCB0), String.fromCharCode(0xD83D,0xDCB0), String.fromCharCode(0xD83D,0xDCB0));
-       
+
     Promise.resolve()
-    .then(Sponsor.billSponsors)
-    .then(() => {
-        Volunteer.resetCurrentHours();
-        res.status(200).send('Success');
-    })
+    .then( Sponsor.billSponsors )
+    .then( () => res.status(200).send('Success') )
     .catch((err) => {
-        res.status(500).send(err);
-        console.error(err);
+      console.error(err);
+      res.status(500).send(err);
     });
 });
 

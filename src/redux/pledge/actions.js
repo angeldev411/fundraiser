@@ -15,7 +15,6 @@ export const newPledgeFailed = (error) => ({
 export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, volunteerSlug, stripeToken = null, maxCap) {
     return (dispatch) => {
         if (teamSlug) {
-            dispatch(newPledgeFailed(''));
             return axios.post(`${API_URL}/sponsor/team/${teamSlug}`, {
                 hourly,
                 amount,
@@ -36,7 +35,6 @@ export function newPledge(firstName, lastName, email, hourly, amount, teamSlug, 
                 }
             );
         } else if (volunteerSlug) {
-            dispatch(newPledgeFailed(''));
             return axios.post(`${API_URL}/sponsor/volunteer/${volunteerSlug}`, {
                 hourly,
                 amount,

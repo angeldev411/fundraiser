@@ -239,7 +239,7 @@ export default class AdminVolunteerChart extends Component {
                         <div class="container">
                             <div>
                                 <section class="hours">
-                                    <span class="value">${Math.round(d.new)}</span>hrs
+                                    <span class="value">${Number(d.new).toFixed(2)}</span> hours
                                 </section>
                                 <section class="place">
                                     ${d.place}

@@ -1,8 +1,0 @@
-extends:
-  - osedea
-  - osedea/es6
-  - osedea/react
-rules:
-  react/no-set-state: 0
-  no-param-reassign: 0
-  arrow-body-style: 0
