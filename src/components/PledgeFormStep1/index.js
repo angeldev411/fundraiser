@@ -20,10 +20,12 @@ export default class PledgeFormStep1 extends Component {
 
     handleChange = (event, name) => {
         const value = event.nativeEvent.target.value;
-        
-        const newState = {
-            error: (_(value).isEmpty() && 'Please enter an amount'),
-        };
+
+        const newState = { error: '' };
+        const isCurrency = /^\d{1,}(.[\d]{2})?$/;
+
+        if ( value.trim().length ===0 || !isCurrency.test(value) )
+          newState.error = 'Please enter a dollar amount';
 
         newState[name] = value;
         this.setState(newState);
