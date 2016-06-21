@@ -29,7 +29,7 @@ class PledgeCancel extends Component {
     }
 
     componentWillMount() {
-        document.title = `Cancel a pledge | Raiserve`;
+        document.title = `Cancel a pledge | raiserve`;
 
         Actions.getPledge(this.state.cancelToken)(this.props.dispatch);
     }

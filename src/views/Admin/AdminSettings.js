@@ -19,7 +19,7 @@ class AdminSettings extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Admin & Settings | Raiserve';
+        document.title = 'Admin & Settings | raiserve';
     }
 
     componentWillReceiveProps(nextProps) {

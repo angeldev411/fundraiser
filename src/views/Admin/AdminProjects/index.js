@@ -23,7 +23,7 @@ class AdminProjects extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Edit projects | Raiserve';
+        document.title = 'Edit projects | raiserve';
 
         Actions.indexProjects()(this.props.dispatch);
     }

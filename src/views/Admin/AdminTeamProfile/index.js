@@ -16,7 +16,7 @@ import * as UserActions from '../../../redux/user/actions';
 
 class AdminTeamProfile extends Component {
     componentWillMount(props) {
-        document.title = 'Team profile | Raiserve';
+        document.title = 'Team profile | raiserve';
 
         this.setState({
             team: this.props.user.team,

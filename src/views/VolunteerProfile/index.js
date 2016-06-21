@@ -83,7 +83,7 @@ class VolunteerProfile extends Component {
             return null;
         }
 
-        document.title = `${this.state.volunteer.firstName} ${this.state.volunteer.lastName} | Raiserve`;
+        document.title = `${this.state.volunteer.firstName} ${this.state.volunteer.lastName} | raiserve`;
         return (
             <Page
                 greenHeader={(this.state.volunteer && this.state.user && this.state.volunteer.id === this.state.user.id) ? 'volunteer' : null}

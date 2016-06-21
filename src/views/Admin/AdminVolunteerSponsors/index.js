@@ -30,7 +30,7 @@ class AdminVolunteerSponsors extends Component {
     }
 
     componentWillMount() {
-        document.title = 'My Sponsors | Raiserve';
+        document.title = 'My Sponsors | raiserve';
 
         if (this.props.user) {
             const projectSlug = this.props.user.project.slug;

@@ -34,7 +34,7 @@ class AdminTeamVolunteers extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Team volunteers | Raiserve';
+        document.title = 'Team volunteers | raiserve';
 
         if (this.props.user) {
             const teamSlug = this.props.user.team.slug;

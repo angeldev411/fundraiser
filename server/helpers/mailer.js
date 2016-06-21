@@ -13,7 +13,7 @@ export default class Mailer {
             text: (content.body || ''),
             subject: (content.subject || 'no subject'),
             from_email: (content.from || 'support@raiserve.org'),
-            from_name: (content.fromname || 'Raiserve'),
+            from_name: (content.fromname || 'raiserve'),
             to: [],
         };
 
@@ -42,7 +42,7 @@ export default class Mailer {
         message = {
             ...message,
             from_email: 'support@raiserve.org',
-            from_name: 'Raiserve',
+            from_name: 'raiserve',
             headers: {
                 'Reply-To': 'support@raiserve.org',
             },
@@ -82,7 +82,7 @@ export default class Mailer {
      * link: signup link
     */
     static sendInviteEmail(user, link, project, role) {
-        const subject = 'Join Raiserve';
+        const subject = 'Join raiserve';
         const headline = 'Invitation';
         let text = '';
         if (role === roles.PROJECT_LEADER){
@@ -152,7 +152,7 @@ export default class Mailer {
      * team: team object
     */
     static sendVolunteerWelcomeEmail(project, team, volunteer) {
-        const subject = 'Welcome to Raiserve';
+        const subject = 'Welcome to raiserve';
         const headline = 'SHARE TO GET SPONSORS';
 
         const text =
@@ -208,7 +208,7 @@ export default class Mailer {
      * user: user object
     */
     static sendResetPasswordEmail(user) {
-        const subject = 'Reset Raiserve Password';
+        const subject = 'Reset raiserve Password';
         const headline = 'Password Reset';
 
         const text =
@@ -633,7 +633,7 @@ export default class Mailer {
 
             <p>Thanks,</p>
 
-            <p>Raiserve</p>
+            <p>raiserve</p>
 
             <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
             `;
@@ -654,7 +654,7 @@ export default class Mailer {
 
             <p>Thanks,</p>
 
-            <p>Raiserve</p>
+            <p>raiserve</p>
 
             <p>Are you a volunteer in your community and want to start your own campaign? Contact us at <a href="mailto:${Constants.VOLUNTEER_CONTACT_EMAIL}">${Constants.VOLUNTEER_CONTACT_EMAIL}</a> and we’ll get you setup.</p>
             `;

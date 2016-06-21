@@ -22,7 +22,7 @@ export default class Footer extends Component {
                                         to={Urls.RAISERVE_BASICS}
                                         target="_blank"
                                     >
-                                        {'Raiserve Basics'}
+                                        {'raiserve Basics'}
                                     </Link>
                                 </li>
                                 <li>
@@ -82,7 +82,7 @@ export default class Footer extends Component {
                                     </Link>
                                 </li>
                                 <li className={'copyright'}>
-                                    &#169; {`Copyright Raiserve.org ${YEAR.toString()}`}
+                                    &#169; {`Copyright raiserve ${YEAR.toString()}`}
                                 </li>
                             </ul>
                         </section>

@@ -21,7 +21,7 @@ class AdminSponsors extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Sponsors | Raiserve';
+        document.title = 'Sponsors | raiserve';
 
         if (this.props.user) {
             this.doAction(this.props.user);

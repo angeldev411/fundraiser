@@ -7,7 +7,7 @@ import SimpleLayout from '../../components/SimpleLayout';
 
 export default class Faq extends Component {
     componentWillMount() {
-        document.title = 'Frequently Asked Questions | Raiserve';
+        document.title = 'Frequently Asked Questions | raiserve';
     }
 
     render() {
@@ -62,7 +62,7 @@ export default class Faq extends Component {
                                 {'A: You can email us at questions@raiserve.org or call or text us at 804­-537-­2473.'}
                             </p>
 
-                            <h2>{'Q: How do I contact Raiserve'}</h2>
+                            <h2>{'Q: How do I contact raiserve'}</h2>
                             <p>
                                 {'A: You can email us at questions@raiserve.org or call or text us at 804­-537-­2473.'}
                             </p>

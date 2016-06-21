@@ -24,7 +24,7 @@ class ProjectSignup extends Component {
     }
 
     componentWillMount() {
-        document.title = `Signup for ${this.state.project.name} | Raiserve`;
+        document.title = `Signup for ${this.state.project.name} | raiserve`;
         if (this.props.user) {
             this.props.dispatch(
                 pushPath(`/${this.props.params.projectSlug}/${this.props.params.projectSlug}`)
@@ -50,7 +50,7 @@ class ProjectSignup extends Component {
                 loading: false,
             });
 
-            document.title = `Signup for ${nextProps.project.name} | Raiserve`;
+            document.title = `Signup for ${nextProps.project.name} | raiserve`;
         } else if (nextProps.projectError) {
             this.setState({
                 projectError: true,

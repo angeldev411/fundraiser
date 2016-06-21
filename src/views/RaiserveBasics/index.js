@@ -17,9 +17,9 @@ export default class RaiserveBasics extends Component {
                     <Layout34 page={'raiserve-basics'}>
                         <h1>{'VOLUNTEERS + SPONSORS'}<br/>{'= TWICE THE DIFFERENCE'}</h1>
                         <section>
-                            <h2>{'Raiserve Basics'}</h2>
+                            <h2>{'raiserve Basics'}</h2>
                             <p>
-                                {'Raiserve was founded on the premise that there has to be a better way to fundraise.'}
+                                {'raiserve was founded on the premise that there has to be a better way to fundraise.'}
                             </p>
                             <p>
                                 {'Our unique platform allows Nonprofits, NGO’s, School and Universities and their volunteers to raise money by getting sponsorship for each hour of service they complete. Donations go directly to the Non-profit and together the volunteers and their sponsors make twice the difference.'}
@@ -31,7 +31,7 @@ export default class RaiserveBasics extends Component {
                                 {'Getting started on our platform is both simple and elegant.'}
                             </p>
                             <p>
-                                {'Nonprofits work with the Raiserve team to set up their fundraising campaign.'}
+                                {'Nonprofits work with the raiserve team to set up their fundraising campaign.'}
                                 <br/>
                                 {'Volunteers are invited to sign up and customize their personal fundraising page.'}
                                 <br/>

@@ -32,7 +32,7 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillMount() {
-        document.title = 'My profile | Raiserve';
+        document.title = 'My profile | raiserve';
     }
 
     componentWillReceiveProps(nextProps) {

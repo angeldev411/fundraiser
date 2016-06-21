@@ -9,7 +9,7 @@ import * as Urls from '../../urls.js';
 
 export default class Home extends Component {
     componentWillMount() {
-        document.title = 'Volunteers + Sponsors = Twice the Difference | Raiserve';
+        document.title = 'Volunteers + Sponsors = Twice the Difference | raiserve';
     }
 
     render() {

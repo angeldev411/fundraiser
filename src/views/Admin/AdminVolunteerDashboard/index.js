@@ -16,7 +16,7 @@ import * as Urls from '../../../urls.js';
 
 export default class AdminVolunteerDashboard extends Component {
     componentWillMount() {
-        document.title = 'Dashboard | Raiserve';
+        document.title = 'Dashboard | raiserve';
 
         this.state = {
             stats: {

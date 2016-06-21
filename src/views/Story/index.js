@@ -7,7 +7,7 @@ import SimpleLayout from '../../components/SimpleLayout';
 
 export default class Story extends Component {
     componentWillMount() {
-        document.title = 'Our Story | Raiserve';
+        document.title = 'Our Story | raiserve';
     }
 
     render() {
@@ -26,7 +26,7 @@ export default class Story extends Component {
                             </p>
 
                             <p>
-                                {'And thus Raiserve was born to make raising money and serving our community ONE. By providing a framework that is user-friendly for nonprofits, volunteers and donors alike, we have made volunteering and fundraising a seamless process. We are proud that our concept has been realized through this platform, and welcome everyone to start making twice the difference today!'}
+                                {'And thus raiserve was born to make raising money and serving our community ONE. By providing a framework that is user-friendly for nonprofits, volunteers and donors alike, we have made volunteering and fundraising a seamless process. We are proud that our concept has been realized through this platform, and welcome everyone to start making twice the difference today!'}
                             </p>
 
                             <p>

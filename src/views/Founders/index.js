@@ -7,7 +7,7 @@ import Layout34 from '../../components/Layout34';
 
 export default class Founders extends Component {
     componentWillMount() {
-        document.title = 'Founders | Raiserve';
+        document.title = 'Founders | raiserve';
     }
 
     render() {

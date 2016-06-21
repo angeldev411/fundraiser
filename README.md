@@ -1,4 +1,4 @@
-# Raiserve
+# raiserve
 
 ## Database configuration
 

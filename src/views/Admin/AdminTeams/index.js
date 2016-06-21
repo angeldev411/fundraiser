@@ -23,7 +23,7 @@ class AdminTeams extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Teams | Raiserve';
+        document.title = 'Teams | raiserve';
 
         if (this.props.user) {
             Actions.indexTeams(this.props.user.project.slug)(this.props.dispatch);

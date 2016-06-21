@@ -23,21 +23,21 @@ class Menu extends Component {
             user: this.props.user,
         };
     }
-    
+
     componentDidMount() {
        window.addEventListener('resize', this.SET_IS_DESKTOP);
     }
-    
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.SET_IS_DESKTOP);
     }
-    
+
     SET_IS_DESKTOP = () => {
         this.setState({
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         });
     };
-    
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
             this.setState({
@@ -155,7 +155,7 @@ class Menu extends Component {
                                     to={Urls.RAISERVE_BASICS}
                                     target="_blank"
                                 >
-                                    {'Raiserve Basics'}
+                                    {'RAISERVE BASICS'}
                                 </Link>
                             </li>
                             <li className="mobile-menu-margin">
@@ -215,7 +215,7 @@ class Menu extends Component {
                                     </li>
                                 </ul>
                             </li>
-                            
+
                         </ul>
                     </nav>
                 </div>
@@ -231,7 +231,7 @@ class Menu extends Component {
                                 to={Urls.RAISERVE_BASICS}
                                 target="_blank"
                             >
-                                {'Raiserve Basics'}
+                                {'RAISERVE BASICS'}
                             </Link>
                         </li>
                         <li className={'social'}>

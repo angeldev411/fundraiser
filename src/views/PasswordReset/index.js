@@ -19,7 +19,7 @@ class PasswordReset extends Component {
     }
 
     componentWillMount() {
-        document.title = `Reset your password | Raiserve`;
+        document.title = `Reset your password | raiserve`;
     }
 
     componentWillReceiveProps(nextProps) {

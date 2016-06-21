@@ -7,7 +7,7 @@ import SimpleLayout from '../../components/SimpleLayout';
 
 export default class Legals extends Component {
     componentWillMount() {
-        document.title = 'Terms & Conditions | Raiserve';
+        document.title = 'Terms & Conditions | raiserve';
     }
 
     render() {
@@ -20,7 +20,7 @@ export default class Legals extends Component {
                       <section>
                         <h2>RAISERVE'S PUBLIC TERMS OF USE</h2>
                         <p>
-                          These terms and conditions govern your access to and use of the Raiserve website. This is an agreement ("Agreement") between you and Raiserve, Inc. ("Raiserve", "we", "our" or "us"), a Delaware corporation whose principal place of business is located at 242 West 104th St Suite 6ER, New York, NY 10024. Your access and use of the Website is further subject to any other written agreement between you and Raiserve, the terms of which are incorporated herein by reference and which control in the event of a conflict. This Agreement may be changed from time to time without Raiserve providing notice to you, and any such changes will be effective immediately upon posting. Your further use of the Website shall indicate your consent to such changes. You should periodically check the Website for the most current Agreement terms and conditions. You may contact Raiserve by e-mail at privacy@Raiserve.com with questions about the terms and conditions of this Agreement.
+                          These terms and conditions govern your access to and use of the raiserve website. This is an agreement ("Agreement") between you and raiserve, Inc. ("raiserve", "we", "our" or "us"), a Delaware corporation whose principal place of business is located at 242 West 104th St Suite 6ER, New York, NY 10024. Your access and use of the Website is further subject to any other written agreement between you and raiserve, the terms of which are incorporated herein by reference and which control in the event of a conflict. This Agreement may be changed from time to time without raiserve providing notice to you, and any such changes will be effective immediately upon posting. Your further use of the Website shall indicate your consent to such changes. You should periodically check the Website for the most current Agreement terms and conditions. You may contact raiserve by e-mail at privacy@raiserve.com with questions about the terms and conditions of this Agreement.
                         </p>
 
                         <h2>ELIGIBILITY TO USE THE WEBSITE</h2>
@@ -30,12 +30,12 @@ export default class Legals extends Component {
 
                         <h2>REGISTRATION</h2>
                         <p>
-                          If you choose to provide any information or fill out any forms on the Website, you agree to (i) provide true, accurate, current and complete information; and (ii) maintain and promptly update the information you provide to Raiserve in order to keep your profile true, accurate, current and complete.
+                          If you choose to provide any information or fill out any forms on the Website, you agree to (i) provide true, accurate, current and complete information; and (ii) maintain and promptly update the information you provide to raiserve in order to keep your profile true, accurate, current and complete.
                         </p>
 
                         <h2>LIMITED LICENSE AND RESTRICTIONS ON USE</h2>
                         <p>
-                          Raiserve grants you a revocable, non-exclusive, non-transferable, limited right to access and use the Website for your personal use to seek employment for yourself, provided that you comply fully with this Agreement, as well as any other rules, procedures, policies, terms or conditions that govern all or any portion of the Website. At any time and for any reason Raiserve may revoke your right to use all or any portion of the Website. You shall not:
+                          raiserve grants you a revocable, non-exclusive, non-transferable, limited right to access and use the Website for your personal use to seek employment for yourself, provided that you comply fully with this Agreement, as well as any other rules, procedures, policies, terms or conditions that govern all or any portion of the Website. At any time and for any reason raiserve may revoke your right to use all or any portion of the Website. You shall not:
                           <ul>
                             <li>
                               modify, delete, copy, reproduce, repackage, publish, broadcast, license, transmit, distribute, display, perform, redeliver, frame, create derivative works from, participate in the transfer or sale of, post on the web, or exploit the Website, or any portions thereof, including, without limitation, any text, images, articles, photographs, illustrations, audio, video clips, graphics, interfaces, information, data, tools, products, and other content or other materials on, generated by or obtained from the Website (together, "Content"), without our express written permission;
@@ -59,11 +59,11 @@ export default class Legals extends Component {
                         </p>
 
                         <p>
-                          You grant to Raiserve a perpetual, worldwide, irrevocable, unrestricted, non-exclusive, royalty-free license to use, copy, license, sublicense, adapt, distribute, display, publicly perform, reproduce, transmit, modify, edit and otherwise exploit any Contributed Content that you post on or through the Website, and any ideas or original materials contained in such communications, in all media now known or hereafter developed. You waive all rights you may have to inspect and/or approve of any use by Raiserve of any Contributed Content. You waive all rights to any claim against Raiserve for any alleged or actual infringements of any proprietary rights, rights of privacy and publicity, moral rights, and rights of attribution in connection with such Contributed Content. You agree and understand that Raiserve is under no obligation to use any Contributed Content in any way whatsoever.
+                          You grant to raiserve a perpetual, worldwide, irrevocable, unrestricted, non-exclusive, royalty-free license to use, copy, license, sublicense, adapt, distribute, display, publicly perform, reproduce, transmit, modify, edit and otherwise exploit any Contributed Content that you post on or through the Website, and any ideas or original materials contained in such communications, in all media now known or hereafter developed. You waive all rights you may have to inspect and/or approve of any use by raiserve of any Contributed Content. You waive all rights to any claim against raiserve for any alleged or actual infringements of any proprietary rights, rights of privacy and publicity, moral rights, and rights of attribution in connection with such Contributed Content. You agree and understand that raiserve is under no obligation to use any Contributed Content in any way whatsoever.
                         </p>
 
                         <p>
-                          Contributed Content is not guaranteed by Raiserve as to accuracy, completeness, or usefulness, and Raiserve does not endorse any Contributed Content. It is the responsibility of the Website users to evaluate the accuracy, completeness or usefulness of any Contributed Content.
+                          Contributed Content is not guaranteed by raiserve as to accuracy, completeness, or usefulness, and raiserve does not endorse any Contributed Content. It is the responsibility of the Website users to evaluate the accuracy, completeness or usefulness of any Contributed Content.
                         </p>
 
                         <p>
@@ -91,41 +91,41 @@ export default class Legals extends Component {
                         </p>
 
                         <p>
-                          By submitting Contributed Content, you warrant that the owner of such Contributed Content has expressly granted to Raiserve a perpetual, worldwide, irrevocable, unrestricted, non-exclusive, royalty-free license to use, copy, license, sublicense, adapt, distribute, display, publicly perform, reproduce, transmit, modify, edit and otherwise exploit such Contributed Content and any ideas or original materials contained in such communications, in all media now known or hereafter developed. You also permit any other user of the Website to access, view, store or reproduce the Contributed Content for that user's personal use.
+                          By submitting Contributed Content, you warrant that the owner of such Contributed Content has expressly granted to raiserve a perpetual, worldwide, irrevocable, unrestricted, non-exclusive, royalty-free license to use, copy, license, sublicense, adapt, distribute, display, publicly perform, reproduce, transmit, modify, edit and otherwise exploit such Contributed Content and any ideas or original materials contained in such communications, in all media now known or hereafter developed. You also permit any other user of the Website to access, view, store or reproduce the Contributed Content for that user's personal use.
                         </p>
 
                         <p>
-                          Raiserve has the right, but not the obligation, to monitor any content posted on our Website to determine compliance with our Terms of Service and/or to satisfy any law, regulation or government request.
+                          raiserve has the right, but not the obligation, to monitor any content posted on our Website to determine compliance with our Terms of Service and/or to satisfy any law, regulation or government request.
                         </p>
                         <p>
-                          Raiserve has the right, in its sole discretion, to edit, refuse to post or remove any Contributed Content submitted to or posted on the Website including, but not limited to, content that is unlawful, threatening, libelous, defamatory, obscene, pornographic, graphic, or otherwise objectionable.
+                          raiserve has the right, in its sole discretion, to edit, refuse to post or remove any Contributed Content submitted to or posted on the Website including, but not limited to, content that is unlawful, threatening, libelous, defamatory, obscene, pornographic, graphic, or otherwise objectionable.
                         </p>
 
                         <h2>REPORTING OF HOURS, SPONSORS and DOLLARS RAISED</h2>
 
                         <p>
-                          You acknowledge that the reporting of hours, sponsors and dollars raised throughout the site is only an estimate, and that the final total may differ from the reported total.  Some of, by not all, of the causes of reporting error are credit card chargebacks, erroneous reporting, sponsors changing pledges etc and may not be reconciled for a period of time.  Raiserve shall have no liability with respect errors in this reporting throughout the site.
+                          You acknowledge that the reporting of hours, sponsors and dollars raised throughout the site is only an estimate, and that the final total may differ from the reported total.  Some of, by not all, of the causes of reporting error are credit card chargebacks, erroneous reporting, sponsors changing pledges etc and may not be reconciled for a period of time.  raiserve shall have no liability with respect errors in this reporting throughout the site.
                         </p>
 
                         <h2>PASSWORD AND USER IDS</h2>
 
                         <p>
-                          To log onto the Website, you need to select a password and user ID, and you may be supplied with other methods required to access the Website and/or your account, such as an activation code ("Access Methods"). You are solely responsible for the confidentiality and security of your Access Methods. You are responsible for all activities that occur under your Access Methods and/or account and may not share your login details with others. Raiserve is not obligated to inquire as to the authority or propriety of any use of, or action taken under, your Access Methods and/or account, or any other security breaches you become aware of. You must immediately notify Raiserve of any actual or suspected loss, theft or unauthorized use of your Access Methods. Raiserve will not be responsible for any loss to you that arises from any use of your account or your Access Methods or from your failure to comply with these provisions.
+                          To log onto the Website, you need to select a password and user ID, and you may be supplied with other methods required to access the Website and/or your account, such as an activation code ("Access Methods"). You are solely responsible for the confidentiality and security of your Access Methods. You are responsible for all activities that occur under your Access Methods and/or account and may not share your login details with others. raiserve is not obligated to inquire as to the authority or propriety of any use of, or action taken under, your Access Methods and/or account, or any other security breaches you become aware of. You must immediately notify raiserve of any actual or suspected loss, theft or unauthorized use of your Access Methods. raiserve will not be responsible for any loss to you that arises from any use of your account or your Access Methods or from your failure to comply with these provisions.
                         </p>
 
 
                         <h2>OWNERSHIP; INTELLECTUAL PROPERTY POLICY; INFRINGEMENT NOTICE</h2>
 
                         <p>
-                          Raiserve owns, controls, licenses or has the right to use and provide the Webite and all Content on the Website. The Website is protected by copyright as a collective work and/or compilation, pursuant to U.S. copyright laws, international conventions, and other copyright laws. Raiserve owns the copyright in the entire Website, including, a copyright in the selection, coordination, arrangement and enhancement of the Website. You agree to abide by any and all copyright notices, information or restrictions displayed on the Website.
+                          raiserve owns, controls, licenses or has the right to use and provide the Webite and all Content on the Website. The Website is protected by copyright as a collective work and/or compilation, pursuant to U.S. copyright laws, international conventions, and other copyright laws. raiserve owns the copyright in the entire Website, including, a copyright in the selection, coordination, arrangement and enhancement of the Website. You agree to abide by any and all copyright notices, information or restrictions displayed on the Website.
                         </p>
 
                         <p>
-                          The Website may also contain trademarks, service marks, brand names, certification marks, collective marks, d/b/a's, Internet domain names, logos, symbols, trade dress, assumed names fictitious names, trade names, and other indicia of origins (collectively, ?Marks?) that are owned by Raiserve or by the Brands, and you may not use any such marks without Raiserve's or the Brand's written permission. You shall not purchase search engine keywords that use any Raiserve Marks or Marks of any Brands, or any derivations thereof.
+                          The Website may also contain trademarks, service marks, brand names, certification marks, collective marks, d/b/a's, Internet domain names, logos, symbols, trade dress, assumed names fictitious names, trade names, and other indicia of origins (collectively, ?Marks?) that are owned by raiserve or by the Brands, and you may not use any such marks without raiserve's or the Brand's written permission. You shall not purchase search engine keywords that use any raiserve Marks or Marks of any Brands, or any derivations thereof.
                         </p>
 
                         <p>
-                          Pursuant to Section 512(c)(2) of the Copyright Revision Act, as enacted through the Digital Millennium Copyright Act, Raiserve designates the agent described below to receive notifications of claimed copyright infringement by mail:
+                          Pursuant to Section 512(c)(2) of the Copyright Revision Act, as enacted through the Digital Millennium Copyright Act, raiserve designates the agent described below to receive notifications of claimed copyright infringement by mail:
                         </p>
 
                         <p>
@@ -163,13 +163,13 @@ export default class Legals extends Component {
                         <h2>LINKS</h2>
 
                         <p>
-                          Raiserve is not responsible for information on any third party web Website that is referred in, or accessible or connected by hyperlink to, the Website. If you access any third party web Website through the Website or otherwise, you do so at your own risk. Hyperlinks to or from the Website do not constitute third party endorsement of, sponsorship by or affiliation with Raiserve.
+                          raiserve is not responsible for information on any third party web Website that is referred in, or accessible or connected by hyperlink to, the Website. If you access any third party web Website through the Website or otherwise, you do so at your own risk. Hyperlinks to or from the Website do not constitute third party endorsement of, sponsorship by or affiliation with raiserve.
                         </p>
 
                         <h2>PRIVACY POLICY</h2>
 
                         <p>
-                          Personal nonpublic information that Raiserve gather from you is governed by Raiserve's Privacy Policy. You expressly consent to the terms and conditions of the Privacy Policy.
+                          Personal nonpublic information that raiserve gather from you is governed by raiserve's Privacy Policy. You expressly consent to the terms and conditions of the Privacy Policy.
                         </p>
 
                         <h2>
@@ -177,13 +177,13 @@ export default class Legals extends Component {
                         </h2>
 
                         <p>
-                          Raiserve may change all or any portion of the Website at any time without notice to you.
+                          raiserve may change all or any portion of the Website at any time without notice to you.
                         </p>
 
                         <h2>UNAVAILABILITY OF THE WEBSITE</h2>
 
                         <p>
-                          Raiserve is not liable for any technological problems regarding the Website and any impact that it may have. All or any portion of the Website may not be available and may not function properly at any time. Raiserve makes reasonable efforts to avoid technological problems, but at any time the Website may have and may cause technological problems such as viruses and other damaging computer programming routines or engines. Raiserve make reasonable efforts to ensure that the Website is secure, but Raiserve do not guarantee the security of the Website. Raiserve is not liable for any defects, delays or errors in or resulting from your use of the Website.
+                          raiserve is not liable for any technological problems regarding the Website and any impact that it may have. All or any portion of the Website may not be available and may not function properly at any time. raiserve makes reasonable efforts to avoid technological problems, but at any time the Website may have and may cause technological problems such as viruses and other damaging computer programming routines or engines. raiserve make reasonable efforts to ensure that the Website is secure, but raiserve do not guarantee the security of the Website. raiserve is not liable for any defects, delays or errors in or resulting from your use of the Website.
                         </p>
 
                         <h2>WARRANTY DISCLAIMERS</h2>
@@ -217,25 +217,25 @@ export default class Legals extends Component {
                         <h2>ASSIGNMENT</h2>
 
                         <p>
-                          Raiserve may assign this Agreement in whole or in part at any time without your consent. You may not assign this Agreement or delegate any of your obligations under this Agreement. Any purported assignment of this Agreement in violation of its terms is void.
+                          raiserve may assign this Agreement in whole or in part at any time without your consent. You may not assign this Agreement or delegate any of your obligations under this Agreement. Any purported assignment of this Agreement in violation of its terms is void.
                         </p>
 
                         <h2>FORCE MAJEURE</h2>
 
                         <p>
-                          Raiserve shall not be deemed to be in breach of this Agreement and shall have no liability hereunder if its obligations are delayed or prevented by any reason of any act of God, war, fire, floods, earthquakes, natural disaster, accident, riots, acts of government, civil disturbance, terrorist act, shortage of materials or supplies, failure of any transportation or communication system, non-performance of any of your third party providers (including, without limitation, the failure or performance of internet service providers) or any cause beyond its reasonable control.
+                          raiserve shall not be deemed to be in breach of this Agreement and shall have no liability hereunder if its obligations are delayed or prevented by any reason of any act of God, war, fire, floods, earthquakes, natural disaster, accident, riots, acts of government, civil disturbance, terrorist act, shortage of materials or supplies, failure of any transportation or communication system, non-performance of any of your third party providers (including, without limitation, the failure or performance of internet service providers) or any cause beyond its reasonable control.
                         </p>
 
                         <h2>YOUR CONSENT FOR NOTICES</h2>
 
                         <p>
-                          You agree that Raiserve has the right to send you certain information in connection with the Website. Raiserve may send you this and any other information in electronic form to the e-mail address you specified when you created an account through the Website. You may have the right to withdraw this consent under applicable law, but if you do, Raiserve may cancel your rights to the Website. Notices provided to you via e-mail will be deemed given and received on the transmission date of the e-mail. As long as you access and use the Website, you agree that you will have, or have access to, the necessary software and hardware to receive such notices. If you do not consent to receive any notices electronically, you agree to stop using or accessing the Website.
+                          You agree that raiserve has the right to send you certain information in connection with the Website. raiserve may send you this and any other information in electronic form to the e-mail address you specified when you created an account through the Website. You may have the right to withdraw this consent under applicable law, but if you do, raiserve may cancel your rights to the Website. Notices provided to you via e-mail will be deemed given and received on the transmission date of the e-mail. As long as you access and use the Website, you agree that you will have, or have access to, the necessary software and hardware to receive such notices. If you do not consent to receive any notices electronically, you agree to stop using or accessing the Website.
                         </p>
 
                         <h2>AVAILABILITY OUTSIDE OF THE UNITED STATES</h2>
 
                         <p>
-                          The Content or the Contributed Content may not be available for use outside of the United States. Raiserve makes no representation that any Content or any Contributed Content is appropriate or available for use outside the United States, its territories, possessions and protectorates. If you choose to access the Website from other locations, you do so on your own initiative and at your own risk. You are responsible for complying with local laws, if and to the extent local laws are applicable. You specifically agree to comply with all applicable laws concerning the transmission of technical data exported from the United States or the country you reside in.
+                          The Content or the Contributed Content may not be available for use outside of the United States. raiserve makes no representation that any Content or any Contributed Content is appropriate or available for use outside the United States, its territories, possessions and protectorates. If you choose to access the Website from other locations, you do so on your own initiative and at your own risk. You are responsible for complying with local laws, if and to the extent local laws are applicable. You specifically agree to comply with all applicable laws concerning the transmission of technical data exported from the United States or the country you reside in.
                         </p>
                       </section>
                     </SimpleLayout>

@@ -81,6 +81,6 @@ app.use('*', express.static(`${__dirname}/../www/`));
 
 app.listen(config.EXPRESS_PORT);
 
-console.log(`Raiserve Running on http://localhost:${config.EXPRESS_PORT}`);
+console.log(`raiserve Running on http://localhost:${config.EXPRESS_PORT}`);
 
 export default app;

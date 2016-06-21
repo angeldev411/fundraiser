@@ -29,7 +29,7 @@ class AdminTeamDashboard extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Dashboard | Raiserve';
+        document.title = 'Dashboard | raiserve';
 
         if (this.props.user) {
             const projectSlug = this.props.user.project.slug;

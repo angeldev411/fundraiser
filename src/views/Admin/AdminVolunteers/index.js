@@ -21,7 +21,7 @@ class AdminVolunteers extends Component {
     }
 
     componentWillMount() {
-        document.title = 'Volunteers | Raiserve';
+        document.title = 'Volunteers | raiserve';
 
         if (this.props.user) {
             this.doActions(this.props.user);

@@ -83,7 +83,7 @@ class TeamProfile extends Component {
             return (<RouteNotFound />);
         }
 
-        document.title = `${this.state.team.name} | Raiserve`;
+        document.title = `${this.state.team.name} | raiserve`;
         const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
         const TWITTER_MESSAGE = `Sponsor ${this.state.team.name} for each hour they volunteer. \
 Money goes to ${this.state.project.name}.`;
