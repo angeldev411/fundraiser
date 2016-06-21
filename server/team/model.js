@@ -429,25 +429,6 @@ class Team {
         .getResult('team');
   }
 
-  static getWithUnbilledHours() {
-    return db.query(`
-      MATCH (teams:TEAM)<-[SUPPORTING]-(sponsors:SPONSOR)
-      WHERE teams.currentHours > 0
-      RETURN teams
-    `)
-    // Trying to find a query that returns all teams that have sponsors who aren't
-    // fully paid up.
-    // SUPPORTING.total is probably not "total hours the supporter has paid for",
-    // but we should probably add that variable.
-    //
-    // This seems close (when total becomes hoursCharged):
-    // MATCH (team:TEAM)<-[support:SUPPORTING]-(sponsor)
-    // WHERE support.total < team.totalHours AND support.total < team.goal
-    // RETURN team, sponsor
-    .getResults('teams')
-    .then( teams => teams )
-  }
-
 }
 
 export default Team;
