@@ -143,12 +143,8 @@ class HourRepository {
             { volunteerId }
         )
         .getResult('t')
-        .then((result) => {
-            if (result.hoursApprovalRequired || result.signatureRequired) {
-                return Promise.resolve(true);
-            } else {
-                return Promise.resolve(false);
-            }
+        .then((team) => {
+            return Promise.resolve( team.hoursApprovalRequired );
         })
         .catch((err) => {
             return Promise.reject(false);
