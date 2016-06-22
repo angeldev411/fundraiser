@@ -623,11 +623,11 @@ export default class Mailer {
             `
             <p>Dear ${sponsor.firstName},</p>
 
-            <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship makes twice the difference for ${project.name}</p>
+            <p>Thanks for sponsoring ${volunteer.firstName} ${volunteer.lastName}. Your sponsorship makes twice the difference for ${project.name}.</p>
 
             <p>This month ${volunteer.firstName} ${volunteer.lastName} volunteered ${chargedHours} towards their ${volunteer.goal} hours. Your credit card has been charged $${chargedAmount}.</p>
 
-            <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
+            <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}.</p>
 
             <p>Help spread the word about ${volunteer.firstName}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a></p>
 
@@ -644,11 +644,11 @@ export default class Mailer {
             `
             <p>Dear ${sponsor.firstName},</p>
 
-            <p>Thanks for sponsoring ${team.name}. Your sponsorship makes twice the difference for ${project.name}</p>
+            <p>Thanks for sponsoring ${team.name}. Your sponsorship makes twice the difference for ${project.name}.</p>
 
             <p>This month, ${team.name} volunteers put in ${chargedHours} hours. Your credit card has been charged $${chargedAmount}.</p>
 
-            <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
+            <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}.</p>
 
             <p>Help spread the word about ${team.name}’s fundraising page: <a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(project.slug, team.slug)}">${Constants.DOMAIN}${Urls.getTeamProfileUrl(project.slug, team.slug)}</a></p>
 
