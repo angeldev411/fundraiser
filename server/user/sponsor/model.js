@@ -535,12 +535,14 @@ export default class Sponsor {
       MATCH (sponsor:SPONSOR)-[supporting:SUPPORTING]->(team:TEAM)-[]->(project)
       WITH sponsor, {
        projectName:  project.name,
+       projectObj:   project,
 
        teamId:        team.id,
        teamName:      team.name,
        goal:          team.goal,
        currentHours:  team.currentHours,
        totalHours:    team.totalHours,
+       teamObj:       team,
 
        hourly:        supporting.hourly,
        maxCap:        supporting.maxCap,
@@ -560,15 +562,18 @@ export default class Sponsor {
       MATCH (sponsor:SPONSOR)-[supporting:SUPPORTING]->(volunteer:VOLUNTEER)-[]->(team:TEAM)-[]->(project:PROJECT)
       WITH sponsor, {
        projectName:  project.name,
+       projectObj:   project,
 
        teamId:        team.id,
        teamName:      team.name,
+       teamObj:       team,
 
        volunteerId:   volunteer.id,
        volunteer:     volunteer.firstName + " " + volunteer.lastName + " <" + volunteer.email + ">",
        goal:          volunteer.goal,
        totalHours:    volunteer.totalHours,
        currentHours:  volunteer.currentHours,
+       volObj:        volunteer,
 
        hourly:        supporting.hourly,
        maxCap:        supporting.maxCap,
@@ -622,7 +627,18 @@ export default class Sponsor {
         if(support.volunteer) meta.volunteer = support.volunteer;
 
         return Sponsor.chargeSponsor(sponsor.stripeCustomerId, chargeAmount, meta)
-        .then(() => Sponsor.updateSupport(sponsor, support, billableHours, chargeAmount) );
+        .then(() => Sponsor.updateSupport(sponsor, support, billableHours, chargeAmount) )
+        .then(() => {
+          Mailer.sendChargeEmail(
+            support.volObj,
+            support.projectObj,
+            support.teamObj,
+            sponsor,
+            billableHours,
+            chargeAmount,
+            !!support.volunteer
+          )
+        });
 
       });
 
