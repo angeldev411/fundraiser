@@ -33,13 +33,13 @@ export default class TeamProfileBlock extends Component {
     render() {
         const full = 100;
         let percentage = (this.props.team.totalHours / this.props.team.goal) * full;
-        
+
         let logoImage = (this.props.team.logo) ? this.props.team.logo : `${constants.TEAM_IMAGES_FOLDER}/${constants.DEFAULT_LOGO}`;
-        
+
         if (!logoImage.match(constants.DEFAULT_LOGO)) {
             logoImage = constants.RESIZE_LOGO + logoImage;
         }
-        
+
         if (percentage > full) {
             percentage = full;
         }
@@ -78,7 +78,7 @@ export default class TeamProfileBlock extends Component {
                             {'Logo'}
                         </EditButton>
                     : null}
-                    
+
                     {this.props.teamgoal
                         ? (
                         <div id="team-goal">
@@ -102,7 +102,7 @@ export default class TeamProfileBlock extends Component {
                                 <span id="value">{this.props.team.goal}{' hrs'}</span>
                             </div>
                             <p className={'clearfix'}>
-                                {this.props.team.totalHours > 0 ? (<span>{this.props.team.totalHours} Completed</span>) : ''}
+                                {this.props.team.totalHours > 0 ? (<span>{Number(this.props.team.totalHours).toFixed(2)} Completed</span>) : ''}
                             </p>
                         </div>
                         )
