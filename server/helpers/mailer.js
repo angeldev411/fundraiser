@@ -646,7 +646,7 @@ export default class Mailer {
 
             <p>Thanks for sponsoring ${team.name}. Your sponsorship makes twice the difference for ${project.name}</p>
 
-            <p>This month ${team.name} volunteers volunteered ${chargedHours} hours. Your credit card has been charged $${chargedAmount}.</p>
+            <p>This month, ${team.name} volunteers put in ${chargedHours} hours. Your credit card has been charged $${chargedAmount}.</p>
 
             <p>Please remember that donations are 100% tax deductible at end of year and all the money goes to ${project.name}</p>
 
