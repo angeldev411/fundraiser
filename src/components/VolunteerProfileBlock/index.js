@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
 import UserProgress from '../../components/UserProgress';
-import VolunteerSocialLinks from '../../components/VolunteerSocialLinks';
+import SocialShareLinks from '../../components/SocialShareLinks';
 
 export default class VolunteerProfileBlock extends Component {
 
@@ -41,7 +41,7 @@ export default class VolunteerProfileBlock extends Component {
                   <span className="uppercase">
                       Share my goal
                   </span>
-                  <VolunteerSocialLinks
+                  <SocialShareLinks
                     volunteer={this.props.volunteer}
                     project={this.props.project}
                     team={this.props.team}

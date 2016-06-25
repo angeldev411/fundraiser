@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import * as constants from '../../common/constants';
 import Helmet from "react-helmet";
 
-class VolunteerSocialLinks extends Component {
+class SocialShareLinks extends Component {
   constructor(props) {
     super(props);
     this.sharePage = this.sharePage.bind(this);
@@ -65,10 +65,10 @@ ${this.props.volunteer.description}`;
   }
 }
 
-VolunteerSocialLinks.propTypes = {
+SocialShareLinks.propTypes = {
   volunteer: React.PropTypes.object.isRequired,
   project: React.PropTypes.object.isRequired,
   team: React.PropTypes.object.isRequired,
 };
 
-export default VolunteerSocialLinks;
+export default SocialShareLinks;
