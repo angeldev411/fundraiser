@@ -9,17 +9,22 @@ export default class PledgeButton extends Component {
         this.state = {
             clicked: false,
         };
+        this.visibility = '';
+
     }
 
     togglePledge = () => {
         this.setState({ clicked: !this.state.clicked });
+
+        if(this.state.clicked) this.setState({visibility: ''});
+        else this.setState({visibility: 'hidden'});
     };
 
     render() {
         return (
             <div>
                 <div className={"container"}>
-                    <div className="col-xs-12 sponsorContainer">
+                    <div className={`col-xs-12 sponsorContainer ${this.state.visibility}`}>
                         <Button
                             customClass={this.props.customClass}
                             onClick={!this.state.clicked ? this.togglePledge : null}
