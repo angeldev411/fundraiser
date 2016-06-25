@@ -6,38 +6,62 @@ class SocialShareLinks extends Component {
   constructor(props) {
     super(props);
     this.sharePage = this.sharePage.bind(this);
-    this.state = {
-      shareUrl: `${constants.DOMAIN}/${this.props.project.slug}/${this.props.team.slug}/${this.props.volunteer.slug}`
-    }
   }
 
   sharePage(){
+    let shareUrl = `${constants.DOMAIN}/${this.props.project.slug}/${this.props.team.slug}`;
+    if (this.props.volunteer)
+      shareUrl = shareUrl + `/${this.props.volunteer.slug}`;
+
     FB.ui({
       method: 'share',
-      href: this.state.shareUrl
+      href: shareUrl
     });
   }
 
   render() {
-    const TWITTER_MESSAGE = `Sponsor ${this.props.volunteer.firstName} for each hour volunteered. \
+    let shareUrl = `${constants.DOMAIN}/${this.props.project.slug}/${this.props.team.slug}`;
+
+    let TWITTER_MESSAGE, SHARE_HEADLINE, SHARE_MESSAGE, EMAIL_MESSAGE;
+
+    if (this.props.volunteer){
+      shareUrl = shareUrl + `/${this.props.volunteer.slug}`;
+
+      TWITTER_MESSAGE = `Sponsor ${this.props.volunteer.firstName} for each hour volunteered. \
 Money goes to ${this.props.project.name}.`;
-    const SLOGAN = this.props.team.slogan || 'Twice the difference';
-    const SHARE_HEADLINE = `Sponsor ${this.props.volunteer.firstName} and Make Twice the Difference`;
-    const SHARE_MESSAGE = `Please help ${this.props.volunteer.firstName} raise \
+      SHARE_HEADLINE = `Sponsor ${this.props.volunteer.firstName} and Make Twice the Difference`;
+      SHARE_MESSAGE = `Please help ${this.props.volunteer.firstName} raise \
 money for ${this.props.project.name}. Sponsor each hour of volunteering \
 and make twice the difference.`;
-    const EMAIL_MESSAGE = SHARE_MESSAGE + `%0D%0A
+      EMAIL_MESSAGE = SHARE_MESSAGE + `%0D%0A
 %0D%0A
-${this.state.shareUrl}%0D%0A
+${shareUrl}%0D%0A
 %0D%0A
 From ${this.props.volunteer.firstName}:%0D%0A
 ${this.props.volunteer.description}`;
+
+    } else {
+
+      TWITTER_MESSAGE = `Sponsor ${this.props.team.name} for each hour they volunteer. \
+Money goes to ${this.props.project.name}.`;
+      SHARE_HEADLINE = `Sponsor ${this.props.team.name} and Make Twice the Difference`;
+      SHARE_MESSAGE = `Please help ${this.props.team.name} raise \
+money for ${this.props.project.name}.  Sponsor each hour they volunteer \
+and make twice the difference.`;
+      EMAIL_MESSAGE = SHARE_MESSAGE + `
+%0D%0A
+%0D%0A
+%0D%0A
+${shareUrl}%0D%0A
+%0D%0A
+${this.props.team.description}`;
+    }
 
     return (
       <span>
         <Helmet
           meta={[
-            { "property": "og:url",         "content": `${this.state.shareUrl}` },
+            { "property": "og:url",         "content": `${shareUrl}` },
             { "property": "og:title",       "content": SHARE_HEADLINE },
             { "property": "og:image",       "content": this.props.team.coverImage },
             { "property": "og:description", "content": SHARE_MESSAGE },
@@ -54,7 +78,7 @@ ${this.props.volunteer.description}`;
         >
           <i className="fa fa-facebook"/>
         </a>
-        <a href={`https://twitter.com/share?url=${this.state.shareUrl}&text=${TWITTER_MESSAGE}&via=${constants.TWITTER_USERNAME}&hashtags=maketwicethedifference`}
+        <a href={`https://twitter.com/share?url=${shareUrl}&text=${TWITTER_MESSAGE}&via=${constants.TWITTER_USERNAME}&hashtags=maketwicethedifference`}
           target="_blank"
           className="share"
         >
@@ -66,7 +90,7 @@ ${this.props.volunteer.description}`;
 }
 
 SocialShareLinks.propTypes = {
-  volunteer: React.PropTypes.object.isRequired,
+  volunteer: React.PropTypes.object,
   project: React.PropTypes.object.isRequired,
   team: React.PropTypes.object.isRequired,
 };
