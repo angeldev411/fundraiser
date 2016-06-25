@@ -24,35 +24,33 @@
 }
 
 .btn-edit-description {
-    position: absolute;
+    position: relative;
     right: 0;
     bottom: 0;
     margin-bottom: 20px;
 }
 
-@media (min-width: $screen-sm-min) {
-    .btn-edit-container {
-        padding: 0 50px;
-        background: url('../images/btn-edit-arrow.png');
-        background-repeat: no-repeat;
-        display: inline-block;
-    }
+.btn-edit-container {
+    padding: 0 50px;
+    background: url('../images/btn-edit-arrow.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+}
 
-    .btn-edit-right {
-        background-position: right 40px top
-    }
+.btn-edit-right {
+    background-position: right 40px top
+}
 
-    .btn-edit-left {
-        background-position: left 40px top
-    }
+.btn-edit-left {
+    background-position: left 40px top
+}
 
-    .btn-edit-top {
-        background-position: top 10px center;
-        padding: 20px 0;
-    }
+.btn-edit-top {
+    background-position: top 10px center;
+    padding: 20px 0;
+}
 
-    .btn-edit-bottom {
-        background-position: bottom 10px center;
-        padding: 20px 0;
-    }
+.btn-edit-bottom {
+    background-position: bottom 10px center;
+    padding: 20px 0;
 }

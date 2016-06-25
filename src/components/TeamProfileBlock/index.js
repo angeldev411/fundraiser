@@ -59,9 +59,10 @@ export default class TeamProfileBlock extends Component {
                         src={logoImage}
                         title=""
                     />
+                    <br/>
                     {this.props.editable ?
                         <EditButton
-                            direction="left"
+                            direction="top"
                             name="logo"
                             content={
                                 <EditLogoForm
@@ -160,7 +161,7 @@ export default class TeamProfileBlock extends Component {
                     </p>
                     {this.props.editable ?
                         <EditButton
-                            direction="left"
+                            direction="top"
                             name="description"
                             content={
                                 <EditDescriptionForm
