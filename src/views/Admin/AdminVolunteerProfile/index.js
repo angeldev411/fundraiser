@@ -61,13 +61,13 @@ export default class AdminVolunteerProfile extends Component {
             });
         }
     }
-    
+
     handlePickedFile = (Blob) => {
         const user = this.state.user;
         user.image = Blob.url;
         Actions.updateProfile(user)(this.props.dispatch);
     };
-    
+
     cropFile = () => {
         const user = this.state.user;
         filepicker.processImage(team.coverImage, {
@@ -77,9 +77,9 @@ export default class AdminVolunteerProfile extends Component {
             conversions: ['crop', 'rotate']
         }, this.handlePickedFile.bind(this));
     };
-    
-    
-    
+
+
+
     pickFile = () => {
       filepicker.pick(
         {
@@ -89,7 +89,7 @@ export default class AdminVolunteerProfile extends Component {
             conversions: ['crop', 'rotate']
         },
         this.handlePickedFile.bind(this)
-        );  
+        );
     };
 
 
@@ -307,7 +307,7 @@ export default class AdminVolunteerProfile extends Component {
                                 }
 
                                 <div className="dropzone form-group">
-                       
+
                                     <img
                                             className={"dropzone-image"}
                                             src={this.getUserPreview()}
@@ -353,7 +353,7 @@ export default class AdminVolunteerProfile extends Component {
                                           to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
                                           customClass="profile-actions btn-green-white"
                                       >
-                                          {'Preview'}
+                                          {'Preview your fundraising page'}
                                       </Button> :
                                       <div>
                                           <Button
