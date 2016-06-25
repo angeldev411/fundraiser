@@ -94,10 +94,9 @@ export default class Cover extends Component {
                         </div>
                     </div>
                     <VolunteerProfileBlock
-                        volunteer={this.props.volunteer}
-                        pathname={this.props.pathname}
-                        project={this.props.project}
-                        team={this.props.team}
+                      volunteer={this.props.volunteer}
+                      project={this.props.project}
+                      team={this.props.team}
                     />
                 </div>
             );
