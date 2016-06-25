@@ -116,15 +116,14 @@ class PledgeFormStep2 extends Component {
       if (this.state.success) {
 
         const who = {
-          subject     : this.state.volunteerSlug ? 'me' : 'us',
-          possessive  : this.state.volunteerSlug ? 'my' : 'our',
+          subject     : this.state.volunteerSlug ? 'me' : 'us'
         }
 
         return (
-          <div id={'sucess-pledge'}>
+          <div id={'success-pledge'}>
             <p>{`${this.state.firstName},`}</p>
             <p>{`Thank you for your sponsorship. Sponsorships really inspire ${who.subject} to volunteer and together we are making twice the difference for the project.`}</p>
-            <p>{`Please let your friends and family know about your sponsorship using the links on ${who.possessive} profile page. Getting the word out will go a long way towards making an even bigger impact.`}</p>
+            <p>{`Please let your friends and family know about your sponsorship using the links below. Getting the word out will go a long way towards making an even bigger impact.`}</p>
             <p>{`Thanks again.`}</p>
             <SocialShareLinks
               volunteer={this.props.volunteer}

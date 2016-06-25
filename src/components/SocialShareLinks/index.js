@@ -58,7 +58,7 @@ ${this.props.team.description}`;
     }
 
     return (
-      <span>
+      <span className="social-share-links">
         <Helmet
           meta={[
             { "property": "og:url",         "content": `${shareUrl}` },

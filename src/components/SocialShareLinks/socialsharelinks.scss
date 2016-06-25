@@ -1,0 +1,12 @@
+@import '../../common/styles/variables.scss';
+
+#success-pledge .social-share-links{
+  display: block;
+  text-align: center;
+
+  a {
+    color: $green !important;
+    margin-right: 20px;
+    font-size: 2em;
+  }
+}
