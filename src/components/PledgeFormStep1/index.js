@@ -159,6 +159,9 @@ export default class PledgeFormStep1 extends Component {
                                 volunteerSlug: this.props.volunteerSlug,
                                 maxCap: estimation,
                             }}
+                            volunteer={this.props.volunteer}
+                            team={this.props.team}
+                            project={this.props.project}
                             goal={this.props.goal}
                         />
                     }
@@ -179,4 +182,8 @@ PledgeFormStep1.propTypes = {
   goal: React.PropTypes.number,
   deadline: React.PropTypes.string,
   oneTimeOnly: React.PropTypes.bool,
+
+  volunteer: React.PropTypes.object,
+  team: React.PropTypes.object.isRequired,
+  project: React.PropTypes.object.isRequired
 };
