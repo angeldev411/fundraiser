@@ -19,7 +19,7 @@ export default class PledgeButton extends Component {
         return (
             <div>
                 <div className={"container"}>
-                    <div className="col-xs-12">
+                    <div className="col-xs-12 sponsorContainer">
                         <Button
                             customClass={this.props.customClass}
                             onClick={!this.state.clicked ? this.togglePledge : null}
