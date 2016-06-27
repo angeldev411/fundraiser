@@ -17,3 +17,6 @@ sessions/*
 
 # Newrelic
 newrelic_agent.log
+
+#constants (dynamically generated via gulp)
+src/common/constants.js
