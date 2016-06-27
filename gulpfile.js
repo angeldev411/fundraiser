@@ -124,7 +124,7 @@ gulp.task('default', ['moveAssets', 'html', 'constantsFront', 'js', 'sass', 'fa'
       ignore: ['www','sessions'],
       ext: 'js html',
       env: { 'NODE_ENV': 'development' }
-   })
+    })
     .once('quit', function () {
       console.log('Exiting.');
       process.exit();
@@ -132,6 +132,3 @@ gulp.task('default', ['moveAssets', 'html', 'constantsFront', 'js', 'sass', 'fa'
   }
 
 });
-
-
-// gulp.task('default', ['moveAssets','html', 'constantsFront', 'js', 'sass', 'fa', 'glyphicons']);
