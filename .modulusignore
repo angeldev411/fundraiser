@@ -17,3 +17,7 @@ sessions/*
 
 # Newrelic
 newrelic_agent.log
+
+.vscode
+src/common/constants-template.js
+*.md
