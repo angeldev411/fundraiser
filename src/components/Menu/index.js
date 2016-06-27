@@ -114,7 +114,7 @@ class Menu extends Component {
                             <li className={'login-container'}>
                                 {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
                                 {this.state.user ?
-                                    <span>
+                                    <div>
                                         <Button
                                             to={dashboardUrl}
                                             customClass={'btn-default'}
@@ -123,7 +123,7 @@ class Menu extends Component {
                                             onClick={this.logout}
                                             customClass={'btn-default'}
                                         >{'Logout'}</Button>
-                                    </span> :
+                                    </div> :
                                     <ModalButton
                                         customClass="btn-default"
                                         content={<SigninForm/>}
@@ -133,29 +133,27 @@ class Menu extends Component {
                                     </ModalButton>
                                 }
                             </li>
-                            <li className={'social'}>
-                                <a
-                                    href={`${constants.FACEBOOK_PAGE}`}
-                                    target="_ blank"
-                                >
-                                    <i className="fa fa-facebook"></i>
-                                </a>
-                            </li>
-                            <li className={'social'}>
-                                <a
-                                    href={`${constants.TWITTER_PAGE}`}
-                                    target="_ blank"
-                                >
-                                    <i className="fa fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li className="clearfix"></li>
-                            <li>
+                            <li className='centered-menu-item'>
                                 <Link
                                     to={Urls.RAISERVE_BASICS}
                                     target="_blank"
                                 >
                                     {'RAISERVE BASICS'}
+                                </Link>
+                            </li>
+                            <li className='centered-menu-item'>
+                                <Link
+                                  to={constants.FACEBOOK_PAGE}
+                                  target="_ blank"
+                                >
+                                  <i className="fa fa-facebook"></i>
+                                </Link>
+
+                                <Link
+                                  to={constants.TWITTER_PAGE}
+                                  target='_blank'
+                                >
+                                  <i className="fa fa-twitter"></i>
                                 </Link>
                             </li>
                             <li className="mobile-menu-margin">

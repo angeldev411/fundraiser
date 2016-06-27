@@ -88,19 +88,19 @@ header {
                 }
             }
 
-            li.social {
-                float: left;
-                padding-left: 0;
+            li.centered-menu-item {
+              display: block;
+              text-align: center;
 
-                &:first-child {
-                    padding-left: 10px;
+              a {
+                display: inline;
+                margin-right: 0px;
+                &:hover{
+                  color: #fff;
                 }
-
-                a {
-                    margin: 0;
-                    padding: 15px 10px;
-                }
+              }
             }
+
         }
     }
 
@@ -142,10 +142,15 @@ header {
         -o-transition: .2s ease-in-out;
         transition: .2s ease-in-out;
 
-        li:not(.social) {
+        li{
           padding-left: 0;
           margin-top: 15px;
           padding: 0;
+          text-align: left;
+
+          a button.btn{
+            margin-left: 15px;
+          }
 
           p {
             margin: 0;
