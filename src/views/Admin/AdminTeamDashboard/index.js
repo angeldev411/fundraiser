@@ -177,7 +177,10 @@ class AdminTeamDashboard extends Component {
                             />
                         </section>
                         <section className={"col-xs-12 col-sm-3"}>
-                            <AdminShareEfforts/>
+                          <AdminShareEfforts
+                            project={this.props.user.project}
+                            team={this.props.user.team}
+                          />
                         </section>
                     </section>
                 </AdminLayout>

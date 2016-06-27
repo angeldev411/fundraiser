@@ -174,7 +174,13 @@ class AdminVolunteerSponsors extends Component {
                             ]
                         }
                     >
-                        <AdminShareEfforts/>
+                    <section className="share-efforts">
+                      <AdminShareEfforts
+                        project={this.props.user.project}
+                        team={this.props.user.team}
+                        volunteer={this.props.user}
+                      />
+                    </section>
                     </AdminStatsBlock>
                 </AdminLayout>
             </Page>

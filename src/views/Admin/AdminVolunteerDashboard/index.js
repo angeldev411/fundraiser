@@ -169,7 +169,11 @@ export default class AdminVolunteerDashboard extends Component {
                             ]
                         }
                     >
-                        <AdminShareEfforts/>
+                    <AdminShareEfforts
+                      project={this.props.user.project}
+                      team={this.props.user.team}
+                      volunteer={this.props.user}
+                    />
                     </AdminStatsBlock>
                 </AdminLayout>
             </Page>
