@@ -11,6 +11,8 @@ import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import AdminSponsorsTable from '../../../components/AdminSponsorsTable';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import RecordHoursForm from '../../../components/RecordHoursForm';
+import Modal from '../../../components/Modal';
+import SocialShareLinks from '../../../components/SocialShareLinks';
 import * as Urls from '../../../urls.js';
 import lodash from 'lodash';
 
@@ -76,6 +78,12 @@ class AdminVolunteerSponsors extends Component {
         }
     }
 
+    toggleShareModal(){
+      this.setState({
+        showRecordHoursSuccessModal: !this.state.showRecordHoursSuccessModal
+      });
+    }
+
     onSort = (column) => {
         let sponsors = lodash.sortBy(this.state.sponsors, (sponsor) => {
             return sponsor[column].toString().toLowerCase();
@@ -101,6 +109,7 @@ class AdminVolunteerSponsors extends Component {
                 type: 'button',
                 title: 'Record my hours',
                 content: <RecordHoursForm team={this.props.user.team}/>,
+                onHourLogSuccess: this.toggleShareModal.bind(this)
             },
             {
                 type: 'link',
@@ -116,6 +125,23 @@ class AdminVolunteerSponsors extends Component {
 
         return (
             <Page>
+                { this.state.showRecordHoursSuccessModal === true ?
+                  <Modal
+                    content={
+                      <div id={'success-pledge'}>
+                        <p>{`Great work, ${this.props.user.firstName}!`}</p>
+                        <p>{`Share your progress using the links below.`}</p>
+                        <SocialShareLinks
+                          volunteer={this.props.user}
+                          project={this.props.user.project}
+                          team={this.props.user.team}
+                        />
+                      </div>
+                    }
+                    onClick={this.toggleShareModal.bind(this)}
+                  />
+                  : null
+                }
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My sponsors'}

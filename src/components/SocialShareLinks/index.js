@@ -90,9 +90,9 @@ ${this.props.team.description}`;
 }
 
 SocialShareLinks.propTypes = {
-  volunteer: React.PropTypes.object,
-  project: React.PropTypes.object.isRequired,
-  team: React.PropTypes.object.isRequired,
+  project:    React.PropTypes.object.isRequired,
+  team:       React.PropTypes.object.isRequired,
+  volunteer:  React.PropTypes.object,
 };
 
 export default SocialShareLinks;
