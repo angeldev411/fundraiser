@@ -52,13 +52,13 @@ gulp.task('sass', ['cleanCSS'], function() {
     .pipe(concat('all.css'))
     .pipe(rename('style.css'))
     .pipe(gulp.dest('./www/assets/css/'))
-    .pipe(process.env.NODE_ENV !== 'production' ? livereload() : gutil.noop())
+    .pipe(livereload())
 });
 
 gulp.task('moveAssets', ['cleanAssets'], function() {
   gulp.src(assetList, { base: './src/assets' })
     .pipe(gulp.dest('./www/assets'))
-    .pipe(process.env.NODE_ENV !== 'production' ? livereload() : gutil.noop())
+    .pipe(livereload())
 });
 
 // for whatever reason if you try to include constants in this file it breaks gulp so there is some duplication here
@@ -94,7 +94,7 @@ gulp.task('js', ['cleanJS'], function() {
       .pipe(process.env.NODE_ENV === 'production' ? buffer() : sourcemaps.init() )
       .pipe(process.env.NODE_ENV === 'production' ? uglify() : sourcemaps.write() )
       .pipe(gulp.dest('./www/'))
-      .pipe(process.env.NODE_ENV !== 'production' ? livereload() : gutil.noop())
+      .pipe(livereload())
 
     return stream;
 });
@@ -102,13 +102,13 @@ gulp.task('js', ['cleanJS'], function() {
 gulp.task('fa', function() {
     gulp.src('./node_modules/font-awesome/**/*.{ttf,woff,woff2,eof,svg,min.css}')
       .pipe(gulp.dest('./www/assets/'))
-      .pipe(process.env.NODE_ENV !== 'production' ? livereload() : gutil.noop())
+      .pipe(livereload())
 });
 
 gulp.task('glyphicons', function() {
   gulp.src('./node_modules/bootstrap/**/*.{ttf,woff,woff2,eot,svg}')
     .pipe(gulp.dest('./www/assets/'))
-    .pipe(process.env.NODE_ENV !== 'production' ? livereload() : gutil.noop())
+    .pipe(livereload())
 });
 
 gulp.task('default', ['moveAssets', 'html', 'constantsFront', 'js', 'sass', 'fa', 'glyphicons'], function () {
