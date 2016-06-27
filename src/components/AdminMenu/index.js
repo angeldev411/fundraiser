@@ -18,8 +18,8 @@ class AdminMenu extends Component {
                             {link.type === 'button' ?
                                 <ModalButton customClass="btn-link"
                                     content={link.content}
-                                    onModalToggle={element.onModalToggle}
-                                    onHourLogSuccess={element.onHourLogSuccess}
+                                    onModalToggle={link.onModalToggle}
+                                    onHourLogSuccess={link.onHourLogSuccess}
                                 >
                                     {link.title}
                                 </ModalButton> :
