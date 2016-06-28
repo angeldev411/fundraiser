@@ -18,6 +18,8 @@ class AdminMenu extends Component {
                             {link.type === 'button' ?
                                 <ModalButton customClass="btn-link"
                                     content={link.content}
+                                    onModalToggle={link.onModalToggle}
+                                    onHourLogSuccess={link.onHourLogSuccess}
                                 >
                                     {link.title}
                                 </ModalButton> :
@@ -41,6 +43,7 @@ class AdminMenu extends Component {
                                     <ModalButton customClass="btn-link"
                                         content={element.content}
                                         onModalToggle={element.onModalToggle}
+                                        onHourLogSuccess={element.onHourLogSuccess}
                                     >
                                         {element.title}
                                     </ModalButton> :
@@ -65,6 +68,7 @@ class AdminMenu extends Component {
 AdminMenu.propTypes = {
     adminNav: React.PropTypes.array,
     pageNav: React.PropTypes.array,
+    onHourLogSuccess: React.PropTypes.func
 };
 
 export default connect((reduxState) => ({

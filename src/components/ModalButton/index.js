@@ -12,23 +12,25 @@ class ModalButton extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.state.clicked && (
-                nextProps.user !== this.props.user
-                || nextProps.team !== this.props.team
-                || nextProps.project !== this.props.project
-                || nextProps.hourLogSuccess !== this.props.hourLogSuccess
-            )
-        ) {
-            this.handleClick();
-        }
+      if (this.state.clicked && (
+         nextProps.user !== this.props.user
+         || nextProps.team !== this.props.team
+         || nextProps.project !== this.props.project
+         || nextProps.hourLogSuccess !== this.props.hourLogSuccess
+        )
+      ) {
+        this.handleClick();
+
+        if(nextProps.hourLogSuccess !== this.props.hourLogSuccess)
+          this.props.onHourLogSuccess && this.props.onHourLogSuccess();
+      }
     }
 
     handleClick = () => {
-        if(!this.props.disabled){
-            this.setState({ clicked: !this.state.clicked });
-            if (this.props.onModalToggle) this.props.onModalToggle();
-        }
-        
+      if(!this.props.disabled){
+        this.setState({ clicked: !this.state.clicked });
+        if (this.props.onModalToggle) this.props.onModalToggle();
+      }
     };
 
     render() {
@@ -53,11 +55,12 @@ class ModalButton extends Component {
 }
 
 ModalButton.propTypes = {
-    onClick: React.PropTypes.func,
     customClass: React.PropTypes.string,
     content: React.PropTypes.element,
-    onModalToggle: React.PropTypes.func,
     disabled: React.PropTypes.bool,
+    onClick: React.PropTypes.func,
+    onModalToggle: React.PropTypes.func,
+    onHourLogSuccess: React.PropTypes.func
 };
 
 export default connect((reduxState) => ({

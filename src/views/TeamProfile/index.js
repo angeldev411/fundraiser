@@ -12,6 +12,7 @@ import Cover from '../../components/Cover';
 import TeamProfileBlock from '../../components/TeamProfileBlock';
 import UserList from '../../components/UserList';
 import RouteNotFound from '../RouteNotFound';
+import SocialShareLinks from '../../components/SocialShareLinks';
 
 class TeamProfile extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class TeamProfile extends Component {
             team: this.defaultTeam,
             volunteers: [],
             project: {
-                name: '',
+                name: ''
             },
         };
     }
@@ -83,22 +84,6 @@ class TeamProfile extends Component {
             return (<RouteNotFound />);
         }
 
-        document.title = `${this.state.team.name} | raiserve`;
-        const SHARE_URL = `${constants.DOMAIN}${this.props.location.pathname}`;
-        const TWITTER_MESSAGE = `Sponsor ${this.state.team.name} for each hour they volunteer. \
-Money goes to ${this.state.project.name}.`;
-        const SHARE_MESSAGE = `${this.state.team.slogan}`;
-
-        const EMAIL_SUBJECT = `Sponsor ${this.state.team.name} and Make Twice the Difference`;
-        const EMAIL_MESSAGE = `Please help ${this.state.team.name} raise \
-money for ${this.state.project.name}.  Sponsor each hour they volunteer \
-and make twice the difference.%0D%0A
-%0D%0A
-%0D%0A
-http://${SHARE_URL}%0D%0A
-%0D%0A
-${this.state.team.description}` ;
-
         let header = null;
 
         if (this.state.team && this.state.user && this.state.user.team) {
@@ -106,6 +91,8 @@ ${this.state.team.description}` ;
                 header = 'team';
             }
         }
+
+        document.title = `${this.state.team.name} | raiserve`;
 
         const editable = window.location.search.substring(1) === 'edit';
 
@@ -126,6 +113,7 @@ ${this.state.team.description}` ;
                     button={"Sponsor Now"}
                     editable={editable}
                     team={this.state.team}
+                    project={this.state.project}
                 />
                 <div className={"main-content"}>
                     <TeamProfileBlock
@@ -144,21 +132,10 @@ ${this.state.team.description}` ;
                                         null
                                     }
                                     <span className="team-share">{'Share our goal'}</span>
-                                    <span>
-                                        <a href={`mailto:?subject=${EMAIL_SUBJECT}&body=${EMAIL_MESSAGE}`}>
-                                            <i className="fa fa-envelope"/>
-                                        </a>
-                                        <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
-                                            target="_blank"
-                                        >
-                                            <i className="fa fa-facebook"/>
-                                        </a>
-                                        <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${TWITTER_MESSAGE}&via=${constants.TWITTER_USERNAME}&hashtags=maketwicethedifference`}
-                                            target="_blank"
-                                        >
-                                            <i className="fa fa-twitter"/>
-                                        </a>
-                                    </span>
+                                    <SocialShareLinks
+                                      project={this.state.project}
+                                      team={this.state.team}
+                                    />
                                 </div>
                                 <UserList
                                     volunteers={this.state.volunteers}

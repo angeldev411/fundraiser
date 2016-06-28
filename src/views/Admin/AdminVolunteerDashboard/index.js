@@ -9,6 +9,8 @@ import AdminStatsBlock from '../../../components/AdminStatsBlock';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import AdminVolunteerChart from '../../../components/AdminVolunteerChart';
+import Modal from '../../../components/Modal';
+import SocialShareLinks from '../../../components/SocialShareLinks';
 import * as Actions from '../../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -31,6 +33,12 @@ export default class AdminVolunteerDashboard extends Component {
     updateData(){
       Actions.getHourLogs()(this.props.dispatch);
       Actions.getStats()(this.props.dispatch);
+    }
+
+    toggleShareModal(){
+      this.setState({
+        showRecordHoursSuccessModal: !this.state.showRecordHoursSuccessModal
+      });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -92,7 +100,8 @@ export default class AdminVolunteerDashboard extends Component {
               type: 'button',
               title: 'Record my hours',
               content: <RecordHoursForm team={this.props.user.team} />,
-              onModalToggle: this.updateData.bind(this)
+              onModalToggle: this.updateData.bind(this),
+              onHourLogSuccess: this.toggleShareModal.bind(this)
             },
             {
                 type: 'link',
@@ -108,6 +117,23 @@ export default class AdminVolunteerDashboard extends Component {
 
         return (
             <Page>
+                { this.state.showRecordHoursSuccessModal === true ?
+                  <Modal
+                    content={
+                      <div id={'success-pledge'}>
+                        <p>{`Great work, ${this.props.user.firstName}!`}</p>
+                        <p>{`Share your progress using the links below.`}</p>
+                        <SocialShareLinks
+                          volunteer={this.props.user}
+                          project={this.props.user.project}
+                          team={this.props.user.team}
+                        />
+                      </div>
+                    }
+                    onClick={this.toggleShareModal.bind(this)}
+                  />
+                  : null
+                }
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Dashboard'}
@@ -143,7 +169,11 @@ export default class AdminVolunteerDashboard extends Component {
                             ]
                         }
                     >
-                        <AdminShareEfforts/>
+                    <AdminShareEfforts
+                      project={this.props.user.project}
+                      team={this.props.user.team}
+                      volunteer={this.props.user}
+                    />
                     </AdminStatsBlock>
                 </AdminLayout>
             </Page>

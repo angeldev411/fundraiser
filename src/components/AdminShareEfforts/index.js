@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SocialShareLinks from '../SocialShareLinks';
 import { Link } from 'react-router';
 
 export default class AdminShareEfforts extends Component {
@@ -8,8 +9,10 @@ export default class AdminShareEfforts extends Component {
             <section className="share-efforts">
                 <span className="title uppercase">{'Share your efforts'}</span>
                 <p>{'The more you tout your efforts, the more sponsors you will get.'}</p>
-                <a href="#"><img src="/assets/images/facebook.png"/></a>
-                <a href="#"><img src="/assets/images/twitter.png"/></a>
+                <SocialShareLinks
+                  project={this.props.project}
+                  team={this.props.team}
+                />
             </section>
         );
     }

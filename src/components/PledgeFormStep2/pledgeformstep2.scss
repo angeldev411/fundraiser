@@ -37,13 +37,23 @@
     }
 }
 
-#sucess-pledge {
+#success-pledge {
+  width: 60%;
+  margin: 0 auto;
+
     p {
         color: $green;
-        font-size: 2em;
+        font-size: 3rem;
+
         text-align: left;
         font-family: $conduit-light;
+        margin-top: 3rem;
     }
+}
+@media (max-width: $screen-xs-min) {
+  #success-pledge p {
+    font-size: 2rem;
+  }
 }
 
 #credit-card-details {

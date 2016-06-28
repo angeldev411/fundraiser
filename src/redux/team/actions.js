@@ -151,3 +151,19 @@ export function removeTeam(team) {
         );
     };
 }
+
+export const teamHourLogsGet = (hours) => ({
+  type: actionTypes.GET_HOURS,
+  hours
+});
+
+export function getHourLogs() {
+  return (dispatch) => {
+    return axios.get(`${API_URL}/team/hours`, {})
+      .then( response => dispatch( teamHourLogsGet(response.data) ) )
+      .catch( (err) => {
+        console.log('Error in team action, getHourLogs:', err);
+        return dispatch( teamHourLogsGet([]) )
+      } );
+  }
+}

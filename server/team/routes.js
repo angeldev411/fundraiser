@@ -41,6 +41,20 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
+router.get('/api/v1/team/hours', (req, res) => {
+  if( !(AUTH_CHECKER.isLogged(req.session) &&
+      AUTH_CHECKER.isTeamLeader(req.session.user))
+  ) res.status(404).send();
+
+  let teamSlug = req.session.user.team.slug;
+  Team.getHours(teamSlug)
+    .then( (hours) => res.status(200).send(hours) )
+    .catch((err) => {
+      console.log('Error at team hours route:', err);
+      res.status(500).send(err);
+    });
+});
+
 router.get('/api/v1/team/stats', (req, res) => {
     if (
         !AUTH_CHECKER.isLogged(req.session)

@@ -5,7 +5,14 @@ import * as Urls from '../../urls.js';
 import { connect } from 'react-redux';
 
 class AdminLayout extends Component {
-    getNav = () => {
+    getNav() {
+
+        const RecordedHoursHistory = {
+          title: 'Recorded Hours',
+          type: 'link',
+          href: Urls.RECORDED_HOURS
+        };
+
         const roles = this.props.user.roles;
 
         if (roles.indexOf('SUPER_ADMIN') >= 0) {
@@ -48,6 +55,7 @@ class AdminLayout extends Component {
                     type: 'link',
                     href: Urls.ADMIN_VOLUNTEERS_URL,
                 },
+                RecordedHoursHistory
             ];
         } else if (roles.indexOf('TEAM_LEADER') >= 0) {
             return [
@@ -74,6 +82,7 @@ class AdminLayout extends Component {
                             team={this.props.user.team}
                          />,
                 },
+                RecordedHoursHistory
             ];
         }
         return [
@@ -87,6 +96,7 @@ class AdminLayout extends Component {
                 type: 'link',
                 href: Urls.ADMIN_VOLUNTEER_SPONSORS_URL,
             },
+            RecordedHoursHistory
         ];
     };
 

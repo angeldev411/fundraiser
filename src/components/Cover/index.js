@@ -87,6 +87,10 @@ export default class Cover extends Component {
                                     volunteerSlug={this.props.volunteer.slug}
                                     goal={this.props.volunteer.goal}
                                     deadline={ this.deadline() }
+
+                                    volunteer={this.props.volunteer}
+                                    team={this.props.team}
+                                    project={this.props.project}
                                 >
                                     {this.props.button}
                                 </PledgeButton>
@@ -94,10 +98,9 @@ export default class Cover extends Component {
                         </div>
                     </div>
                     <VolunteerProfileBlock
-                        volunteer={this.props.volunteer}
-                        pathname={this.props.pathname}
-                        project={this.props.project}
-                        team={this.props.team}
+                      volunteer={this.props.volunteer}
+                      project={this.props.project}
+                      team={this.props.team}
                     />
                 </div>
             );
@@ -131,6 +134,9 @@ export default class Cover extends Component {
                             teamSlug={this.props.team.slug}
                             goal={this.props.team.goal}
                             deadline={ this.deadline() }
+
+                            team={this.props.team}
+                            project={this.props.project}
                         >
                             {this.props.button}
                         </PledgeButton>

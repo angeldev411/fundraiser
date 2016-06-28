@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Actions from '../../redux/pledge/actions';
+import SocialShareLinks from '../../components/SocialShareLinks';
 
 class PledgeFormStep2 extends Component {
     constructor(props) {
@@ -115,16 +116,20 @@ class PledgeFormStep2 extends Component {
       if (this.state.success) {
 
         const who = {
-          subject     : this.state.volunteerSlug ? 'me' : 'us',
-          possessive  : this.state.volunteerSlug ? 'my' : 'our',
+          subject     : this.state.volunteerSlug ? 'me' : 'us'
         }
 
         return (
-          <div id={'sucess-pledge'}>
+          <div id={'success-pledge'}>
             <p>{`${this.state.firstName},`}</p>
             <p>{`Thank you for your sponsorship. Sponsorships really inspire ${who.subject} to volunteer and together we are making twice the difference for the project.`}</p>
-            <p>{`Please let your friends and family know about your sponsorship using the links on ${who.possessive} profile page. Getting the word out will go a long way towards making an even bigger impact.`}</p>
+            <p>{`Please let your friends and family know about your sponsorship using the links below. Getting the word out will go a long way towards making an even bigger impact.`}</p>
             <p>{`Thanks again.`}</p>
+            <SocialShareLinks
+              volunteer={this.props.volunteer}
+              project={this.props.project}
+              team={this.props.team}
+            />
           </div>
         );
 
@@ -266,6 +271,10 @@ PledgeFormStep2.propTypes = {
     title: React.PropTypes.string,
     pledgeData: React.PropTypes.object,
     goal: React.PropTypes.number,
+
+    volunteer: React.PropTypes.object,
+    team: React.PropTypes.object.isRequired,
+    project: React.PropTypes.object.isRequired
 };
 
 export default connect((reduxState) => ({

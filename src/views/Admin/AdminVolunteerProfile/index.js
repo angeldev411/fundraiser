@@ -9,6 +9,8 @@ import Button from '../../../components/Button';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
+import Modal from '../../../components/Modal';
+import SocialShareLinks from '../../../components/SocialShareLinks';
 import Dropzone from 'react-dropzone';
 import fixOrientation from 'fix-orientation';
 import * as Actions from '../../../redux/volunteer/actions';
@@ -204,6 +206,12 @@ export default class AdminVolunteerProfile extends Component {
         });
     };
 
+    toggleShareModal(){
+      this.setState({
+        showRecordHoursSuccessModal: !this.state.showRecordHoursSuccessModal
+      });
+    }
+
     render() {
         if (!this.state.user) {
             return null;
@@ -212,7 +220,8 @@ export default class AdminVolunteerProfile extends Component {
             {
                 type: 'button',
                 title: 'Record my hours',
-                content: <RecordHoursForm team={this.props.user.team}/>,
+                content: <RecordHoursForm team={this.props.user.team} />,
+                onHourLogSuccess: this.toggleShareModal.bind(this)
             },
             {
                 type: 'link',
@@ -228,6 +237,23 @@ export default class AdminVolunteerProfile extends Component {
 
         return (
             <Page>
+                { this.state.showRecordHoursSuccessModal === true ?
+                  <Modal
+                    content={
+                      <div id={'success-pledge'}>
+                        <p>{`Great work, ${this.props.user.firstName}!`}</p>
+                        <p>{`Share your progress using the links below.`}</p>
+                        <SocialShareLinks
+                          volunteer={this.props.user}
+                          project={this.props.user.project}
+                          team={this.props.user.team}
+                        />
+                      </div>
+                    }
+                    onClick={this.toggleShareModal.bind(this)}
+                  />
+                  : null
+                }
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}

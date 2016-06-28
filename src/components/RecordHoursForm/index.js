@@ -26,7 +26,7 @@ export default class RecordHoursForm extends Component {
 
     recordHours = () => {
         this.setState({
-            loading: true
+          loading: true
         });
 
         let error;
@@ -155,6 +155,10 @@ export default class RecordHoursForm extends Component {
             </Form>
         );
     }
+}
+
+RecordHoursForm.propTypes = {
+  team:       React.PropTypes.object.isRequired
 }
 
 export default connect((reduxState) => ({
