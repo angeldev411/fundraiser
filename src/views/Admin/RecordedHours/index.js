@@ -20,13 +20,16 @@ class RecordedHours extends Component {
   componentWillMount(){
     const user = this.props.user;
 
-    if( _(user.roles).includes('TEAM_LEADER') )
+    if( _(user.roles).includes('TEAM_LEADER') ){
+      console.log('getting team hours...');
       TeamActions.getHourLogs()(this.props.dispatch);
-    else
+    } else {
       VolunteerActions.getHourLogs()(this.props.dispatch);
+    }
   }
 
   componentWillReceiveProps(nextProps){
+    console.log('got props', nextProps);
     this.setState({
       hours: nextProps.hours
     });
@@ -93,7 +96,7 @@ export default connect( (reduxState) => {
   let hours;
 
   if( _(user.roles).includes('TEAM_LEADER') )
-    hours = reduxState.main.team.hours;
+    hours = reduxState.main.team.teamHourLogsGet;
   else
     hours = reduxState.main.volunteer.hourLogsGet;
 

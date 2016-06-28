@@ -334,6 +334,18 @@ class Team {
         ).getResult('project');
   }
 
+  static getHours(teamSlug){
+    return db.query(`
+      MATCH (TEAM {slug: {teamSlug}})<-[VOLUNTEER]-(USER)-[VOLUNTEERED]->(hours:HOUR)
+      RETURN hours
+    `, {}, { teamSlug })
+    .getResult('hours')
+    .catch((err) => {
+      console.error('Error in Team#getHours', err);
+      throw err;
+    });
+  }
+
   static getStats(teamSlug) {
       // Query the distinct volunteers and sponsors for the team
       // We'll fetch volunteer stats later to get each of their sponsors,
