@@ -52,10 +52,7 @@ router.post('/api/v1/hours', (req, res) => {
 });
 
 router.get('/api/v1/hours', (req, res) => {
-    if (
-        !AUTH_CHECKER.isLogged(req.session)
-        || !AUTH_CHECKER.isVolunteer(req.session.user)
-    ) {
+    if ( !AUTH_CHECKER.isLogged(req.session) ) {
         res.status(404).send();
         return;
     }
