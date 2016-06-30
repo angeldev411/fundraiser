@@ -8,6 +8,12 @@
         max-height: 100px;
     }
 
+    #team-sponsor-count {
+      color: $green;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
     #team-goal {
         margin-top: 40px;
 
@@ -35,12 +41,13 @@
             }
         }
 
-        #team-goal-number {
+        #team-goal-progress {
             float: left;
             width: 18%;
             margin-left: 2%;
             position: relative;
             top: -10px;
+            color: $green;
 
             #label,
             #value {
@@ -48,15 +55,6 @@
                 font-family: $conduit-medium;
                 font-size: 1.3em;
                 line-height: 1.3em;
-            }
-
-            #label {
-                color: $lighter-grey;
-                text-transform: uppercase;
-            }
-
-            #value {
-                color: $grey;
             }
         }
 

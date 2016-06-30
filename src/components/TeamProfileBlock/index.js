@@ -80,10 +80,12 @@ export default class TeamProfileBlock extends Component {
                         </EditButton>
                     : null}
 
+                    <p id='team-sponsor-count'># of Team Sponsors: {this.props.team.totalSponsors}</p>
+
                     {this.props.teamgoal
                         ? (
                         <div id="team-goal">
-                            <span id="team-goal-title">{'TEAM GOAL'}</span>
+                            <span id="team-goal-title">{'TEAM GOAL'} {this.props.team.goal} hrs</span>
                             <div
                                 className="progress"
                             >
@@ -98,13 +100,11 @@ export default class TeamProfileBlock extends Component {
                                     <span className="sr-only">{'60% Complete'}</span>
                                 </div>
                             </div>
-                            <div id="team-goal-number">
-                                <span id="label">{'Goal'}</span>
-                                <span id="value">{this.props.team.goal}{' hrs'}</span>
+                            <div id="team-goal-progress">
+                                <span id="label">{this.props.team.totalHours > 0 ? (<span>{Number(this.props.team.totalHours).toFixed(2)} hrs completed</span>) : ''}</span>
+                                <span id="value"></span>
                             </div>
-                            <p className={'clearfix'}>
-                                {this.props.team.totalHours > 0 ? (<span>{Number(this.props.team.totalHours).toFixed(2)} Completed</span>) : ''}
-                            </p>
+                            <p className={'clearfix'}></p>
                         </div>
                         )
                         : (null)
