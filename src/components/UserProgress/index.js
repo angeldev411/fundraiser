@@ -10,14 +10,15 @@ export default class UserProgress extends Component {
         let backgroundImage = this.props.user.image
                                     ? `url(${this.props.user.image})`
                                     : `url(${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR})`;
-        
+
         if (!backgroundImage.match(constants.DEFAULT_AVATAR)) {
             backgroundImage = `url(${constants.RESIZE_PROFILE}${this.props.user.image})`;
         }
-              
+
         return (
             <div className="user-progress-container">
                 <div className="user-hours">
+                    <p>{"Sponsors "}<span className="user-hours__sponsors">{this.props.user.totalSponsors}</span></p>
                     <p>{"Hours to date "}<span className="user-hours__current">{Math.round(this.props.user.totalHours)}</span></p>
                     <p>{"Goal hours "}<span className="user-hours__goal">{this.props.user.goal}</span></p>
                 </div>

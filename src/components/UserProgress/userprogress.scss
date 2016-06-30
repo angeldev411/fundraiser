@@ -27,7 +27,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
         }
     }
 
-    .user-hours__current {
+    .user-hours__current, .user-hours__sponsors {
         font-size: 2em;
         color: $green;
     }
