@@ -30,6 +30,7 @@ export default class AdminVolunteerProfile extends Component {
             success: false,
             cropperOpen: false,
             imageLoading: false,
+            disabled: ''
         };
     }
 
@@ -38,7 +39,11 @@ export default class AdminVolunteerProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        
+        // if(nextProps.user && (nextprops.user.totalSponsors > 0 || nextProps.totalSponsors > 1)) this.setState({disabled: 'disabled'});
+
         if (nextProps.user && !this.state.success) {
+
             this.setState({
                 user: nextProps.user,
                 loading: false,
@@ -62,6 +67,13 @@ export default class AdminVolunteerProfile extends Component {
                 success: false,
             });
         }
+    }
+
+    disabledGoal = () => {
+      const user = this.state.user;
+      if(user.totalSponsors || user.raised) return 'disabled';
+      return '';
+    //   if(user.totalSponsors > 0 || user.)
     }
 
     handlePickedFile = (Blob) => {
@@ -361,13 +373,28 @@ export default class AdminVolunteerProfile extends Component {
                                     className="form-group"
                                     id={'edit-goal'}
                                 >
+                                    <div className="input-group">
                                     <input type="text"
+                                        disabled={this.disabledGoal()}
                                         name="goal"
                                         id="goal"
                                         defaultValue={this.getUserGoal()}
                                         onChange={(e) => { this.handleChange(e, 'goal') }}
                                     />
-                                  <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future.'}</span></label>
+                                     <span className="lock input-group-addon">
+                                        {
+                                            this.disabledGoal() ? 
+                                            <i className="fa fa-lock" aria-hidden="true"></i>:
+                                            <i className="fa fa-unlock" aria-hidden="true"></i> 
+                                        }
+                                    </span>
+                                    </div>
+                                    {
+                                        this.disabledGoal() ? 
+                                            <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  You already have a sponsor, Goal hours are locked.'}</span></label>:
+                                            <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future. Note: you cannot change your goal hours after you get your first sponsor'}</span></label> 
+                                    }
+                                    
                                 </div>
 
                                 {this.state.success ? this.getSuccessMessage() : null}

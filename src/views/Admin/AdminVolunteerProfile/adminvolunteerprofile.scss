@@ -3,6 +3,11 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
+span.lock.input-group-addon {
+        .fa-lock, .fa-unlock {
+            color: $grey;
+        }
+    }
 .edit-volunteer-profile {
     min-height: 400px;
 
