@@ -185,8 +185,12 @@ class Team {
 
     static saveUpdate(teamData) {
         return db.getNodes([teamData.id]).then((result) => {
+          if(parseInt(result[0].goal) !== parseInt(teamData.goal) &&  (result[0].totalRaised > 0) || result[0].totalSponsors > 0) {
+           return reject(`Sorry, Goal hours are locked at ${teamData.goal} as you already have sponsors.`);
+          }else{
             const teamNode = new Node(_.extend(result[0], teamData), teamData.id);
             return teamNode.save();
+          }
         });
     }
 
