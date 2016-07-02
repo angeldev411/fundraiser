@@ -336,10 +336,20 @@ class Team {
 
   static getHours(teamSlug){
     return db.query(`
-      MATCH (TEAM {slug: {teamSlug}})<-[VOLUNTEER]-(USER)-[VOLUNTEERED]->(hours:HOUR)
-      RETURN hours
+      MATCH (TEAM {slug: {teamSlug}})<-[VOLUNTEER]-(vol:USER)-[VOLUNTEERED]->(hour:HOUR)
+      RETURN {
+        date:             hour.date,
+        place:            hour.place,
+        hours:            hour.hours,
+        approved:         hour.approved,
+        supervisorEmail:  hour.supervisorEmail,
+        supervisorName:   hour.supervisorName,
+        signature_url:    hour.signature_url,
+        firstName:        vol.firstName,
+        lastName:         vol.lastName
+      } as hours
     `, {}, { teamSlug })
-    .getResult('hours')
+    .getResults('hours')
     .catch((err) => {
       console.error('Error in Team#getHours', err);
       throw err;

@@ -152,7 +152,7 @@ export function removeTeam(team) {
     };
 }
 
-export const teamHourLogsGet = (hours) => ({
+export const hourLogsGet = (hours) => ({
   type: actionTypes.GET_HOURS,
   hours
 });
@@ -160,10 +160,10 @@ export const teamHourLogsGet = (hours) => ({
 export function getHourLogs() {
   return (dispatch) => {
     return axios.get(`${API_URL}/team/hours`, {})
-      .then( response => dispatch( teamHourLogsGet(response.data) ) )
+      .then( response => dispatch( hourLogsGet(response.data) ) )
       .catch( (err) => {
         console.log('Error in team action, getHourLogs:', err);
-        return dispatch( teamHourLogsGet([]) )
+        return dispatch( hourLogsGet([]) )
       } );
   }
 }

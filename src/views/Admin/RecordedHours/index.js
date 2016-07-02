@@ -19,13 +19,17 @@ class RecordedHours extends Component {
 
   componentWillMount(){
     const user = this.props.user;
+    let pageType;
 
     if( _(user.roles).includes('TEAM_LEADER') ){
-      console.log('getting team hours...');
+      pageType = 'team';
       TeamActions.getHourLogs()(this.props.dispatch);
     } else {
+      pageType = 'volunteer';
       VolunteerActions.getHourLogs()(this.props.dispatch);
     }
+
+    this.setState({ pageType });
   }
 
   componentWillReceiveProps(nextProps){
@@ -40,6 +44,7 @@ class RecordedHours extends Component {
     document.title = 'Recorded Hours | raiserve';
 
     const includeSupervisor = this.props.user.team.signatureRequired;
+    const includeVolunteer  = this.props.pageType != 'team';
 
     return (
       <Page>
@@ -55,6 +60,7 @@ class RecordedHours extends Component {
                 <thead>
                   <tr>
                     <th>{'Date'}</th>
+                    { includeVolunteer ? <th>Volunteer</th> : null}
                     <th>{'Location'}</th>
                     <th>{'Hours'}</th>
                     { includeSupervisor ? <th>Supervisor</th> : null }
@@ -63,12 +69,15 @@ class RecordedHours extends Component {
                 </thead>
                 <tbody>
                   { this.state.hours.map((hour, i) => {
-                      console.log(hour);
+                      console.log('the hour:', hour);
                       if (!hour.approved) return null;
 
                       return (
                         <tr key={i}>
                           <td>{hour.date.split('T')[0]}</td>
+                          { includeVolunteer ?
+                            <td>{hour.firstName} {hour.lastName}</td>
+                          : null }
                           <td>{hour.place}</td>
                           <td>{hour.hours} {hour.hours > 1 ? 'Hours' : 'Hour'}</td>
                           { includeSupervisor ?
@@ -96,7 +105,7 @@ export default connect( (reduxState) => {
   let hours;
 
   if( _(user.roles).includes('TEAM_LEADER') )
-    hours = reduxState.main.team.teamHourLogsGet;
+    hours = reduxState.main.team.hourLogsGet;
   else
     hours = reduxState.main.volunteer.hourLogsGet;
 
