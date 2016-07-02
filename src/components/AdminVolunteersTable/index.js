@@ -197,7 +197,7 @@ export default class AdminVolunteersTable extends Component {
                             return (<tr key={i}>
                                 <td className="volunteer-name">
                                     {volunteer.image ?
-                                        <img src={`${volunteer.image}`}/>
+                                        <img src={`${constants.RESIZE_PROFILE}${volunteer.image}`}/>
                                     :
                                         <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
                                     }

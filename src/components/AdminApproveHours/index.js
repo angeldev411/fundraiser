@@ -144,7 +144,7 @@ export default class AdminApproveHours extends Component {
                                 return (<tr key={i}>
                                     <td className="volunteer-name">
                                         {hour.user.image ?
-                                            <img src={`${hour.user.image}`}/>
+                                            <img src={`${constants.RESIZE_PROFILE}${hour.user.image}`}/>
                                         :
                                             <img className="picture" src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
                                         }
