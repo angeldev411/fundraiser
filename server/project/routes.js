@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 import * as AUTH_CHECKER from '../auth/auth-checker';
 import messages from '../messages';
+import Project from '../project/model';
 
 import projectController from './controller';
 
@@ -87,6 +88,20 @@ router.get('/api/v1/project', (req, res) => {
     })
     .catch((err) => {
         res.status(400).send(err);
+    });
+});
+
+router.get('/api/v1/project/hours', (req, res) => {
+  if( !(AUTH_CHECKER.isLogged(req.session) &&
+      AUTH_CHECKER.isProjectLeader(req.session.user))
+  ) res.status(404).send(messages.project.notfound);
+
+  let projectSlug = req.session.user.project.slug;
+  Project.getHours(projectSlug)
+    .then( (hours) => res.status(200).send(hours) )
+    .catch((err) => {
+      console.log('Error at project hours route:', err);
+      res.status(500).send(err);
     });
 });
 

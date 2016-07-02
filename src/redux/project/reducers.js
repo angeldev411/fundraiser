@@ -39,6 +39,13 @@ export default function reducers(state = initialState, action) {
                 ...state,
                 error: action.error,
             };
+
+        case actionTypes.GET_HOURS:
+          return {
+            ...state,
+            hourLogsGet: action.hours
+          }
+        
         default:
             return state;
     }

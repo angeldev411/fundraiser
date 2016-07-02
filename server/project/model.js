@@ -147,6 +147,30 @@ class Project {
             }
         ).getResult('p');
     }
+
+    static getHours(projectSlug){
+      return db.query(`
+        MATCH (PROJECT {slug: {projectSlug}})<-[:CONTRIBUTE]-(team:TEAM)<-[:VOLUNTEER]-(vol:USER)-[:VOLUNTEERED]->(hour:HOUR)
+        RETURN {
+          date:             hour.date,
+          place:            hour.place,
+          hours:            hour.hours,
+          approved:         hour.approved,
+          supervisorEmail:  hour.supervisorEmail,
+          supervisorName:   hour.supervisorName,
+          signature_url:    hour.signature_url,
+          firstName:        vol.firstName,
+          lastName:         vol.lastName,
+          teamName:         team.name,
+          signatureRequired: team.signatureRequired
+        } as hours
+      `, {}, { projectSlug })
+      .getResults('hours')
+      .catch((err) => {
+        console.error('Error in Project#getHours', err);
+        throw err;
+      });
+    }
 }
 
 

@@ -107,3 +107,19 @@ export function indexProjects() {
         );
     };
 }
+
+export const hourLogsGet = (hours) => ({
+  type: actionTypes.GET_HOURS,
+  hours
+});
+
+export function getHourLogs() {
+  return (dispatch) => {
+    return axios.get(`${API_URL}/project/hours`, {})
+      .then( response => dispatch( hourLogsGet(response.data) ) )
+      .catch( (err) => {
+        console.log('Error in project action, getHourLogs:', err);
+        return dispatch( hourLogsGet([]) )
+      } );
+  }
+}
