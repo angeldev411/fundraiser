@@ -390,8 +390,11 @@ export default class Sponsor {
 
       if (pledge.hourly) {
         return db.query(`
-                    MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })
-                    SET volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly}, volunteer.totalSponsors = volunteer.totalSponsors + 1
+                    MATCH (user:SPONSOR {id: {userId} }), (volunteer:VOLUNTEER {slug: {volunteerSlug} })-[]->(team:TEAM)
+                    SET
+                      volunteer.hourlyPledge = volunteer.hourlyPledge + {hourly},
+                      volunteer.totalSponsors = volunteer.totalSponsors + 1,
+                      team.totalSponsors = team.totalSponsors + 1
                     CREATE (user)-[supporting:SUPPORTING {hourly: {hourly}, total: {total}, date: {date}, token: {token}, maxCap: {maxCap}}]->(volunteer)
                     RETURN {volunteer: volunteer, supporting: supporting} AS result
                     `,
