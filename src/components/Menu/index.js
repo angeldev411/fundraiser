@@ -226,7 +226,6 @@ class Menu extends Component {
                         <li>
                             <Link
                                 to={Urls.RAISERVE_BASICS}
-                                target="_blank"
                             >
                                 {'RAISERVE BASICS'}
                             </Link>
