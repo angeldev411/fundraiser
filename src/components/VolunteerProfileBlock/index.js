@@ -22,6 +22,14 @@ export default class VolunteerProfileBlock extends Component {
                   {this.props.volunteer.description}
               </p>
               <div className="share-row">
+                 <span className="uppercase share-goal">
+                      Please share my page
+                  </span>
+                  <SocialShareLinks
+                    volunteer={this.props.volunteer}
+                    project={this.props.project}
+                    team={this.props.team}
+                  />
                   <Link
                       to={Urls.RAISERVE_BASICS}
                       className="link uppercase"
@@ -37,14 +45,7 @@ export default class VolunteerProfileBlock extends Component {
                           </Link>
                       : null
                   }
-                  <span className="uppercase share-goal">
-                      Share my goal: 
-                  </span>
-                  <SocialShareLinks
-                    volunteer={this.props.volunteer}
-                    project={this.props.project}
-                    team={this.props.team}
-                  />
+                  
 
               </div>
             </div>
