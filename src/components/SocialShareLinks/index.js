@@ -79,7 +79,6 @@ ${this.props.team.description}`;
           <i className="fa fa-facebook"/>
         </a>
         <a href={`https://twitter.com/share?url=${shareUrl}&text=${TWITTER_MESSAGE}&via=${constants.TWITTER_USERNAME}&hashtags=maketwicethedifference`}
-          target="_blank"
           className="share"
         >
           <i className="fa fa-twitter"/>

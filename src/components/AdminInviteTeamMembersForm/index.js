@@ -31,13 +31,11 @@ export default class AdminInviteTeamMembersForm extends Component {
 
                 <div className="form-group">
                     <a href={`https://www.facebook.com/sharer.php?u=${SHARE_URL}`}
-                        target="_blank"
                         className="share"
                     >
                         <img src="/assets/images/facebook.png"/>
                     </a>
                     <a href={`https://twitter.com/share?url=${SHARE_URL}&text=${SHARE_TEXT}&via=${Constants.TWITTER_USERNAME}`}
-                        target="_blank"
                         className="share"
                     >
                         <img src="/assets/images/twitter.png"/>

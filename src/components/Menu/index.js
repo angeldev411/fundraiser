@@ -143,14 +143,12 @@ class Menu extends Component {
                             <li className='centered-menu-item'>
                                 <Link
                                   to={constants.FACEBOOK_PAGE}
-                                  target="_ blank"
                                 >
                                   <i className="fa fa-facebook"></i>
                                 </Link>
 
                                 <Link
                                   to={constants.TWITTER_PAGE}
-                                  target='_blank'
                                 >
                                   <i className="fa fa-twitter"></i>
                                 </Link>
@@ -233,7 +231,6 @@ class Menu extends Component {
                         <li className={'social'}>
                             <a
                                 href={`${constants.FACEBOOK_PAGE}`}
-                                target="_ blank"
                             >
                                 <i className="fa fa-facebook"></i>
                             </a>
@@ -241,7 +238,6 @@ class Menu extends Component {
                         <li className={'social'}>
                             <a
                                 href={`${constants.TWITTER_PAGE}`}
-                                target="_ blank"
                             >
                                 <i className="fa fa-twitter"></i>
                             </a>

@@ -87,13 +87,11 @@ class Header extends Component {
                                     <i className="fa fa-envelope"/>
                                 </a>
                                 <a href={`https://twitter.com/share?url=${window.location}`}
-                                    target="_blank"
                                     className="share"
                                 >
                                     <i className="fa fa-twitter"/>
                                 </a>
                                 <a href={`https://www.facebook.com/sharer.php?u=${window.location}`}
-                                    target="_blank"
                                     className="share"
                                 >
                                     <i className="fa fa-facebook"/>
@@ -135,13 +133,11 @@ class Header extends Component {
                                 <i className="fa fa-envelope"/>
                             </a>
                             <a href={`https://twitter.com/share?url=${window.location}`}
-                                target="_blank"
                                 className="share"
                             >
                                 <i className="fa fa-twitter"/>
                             </a>
                             <a href={`https://www.facebook.com/sharer.php?u=${window.location}`}
-                                target="_blank"
                                 className="share"
                             >
                                 <i className="fa fa-facebook"/>

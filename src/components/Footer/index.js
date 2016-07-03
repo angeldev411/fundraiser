@@ -87,13 +87,11 @@ export default class Footer extends Component {
                             <section className={'col-xs-12 social visible-xs'}>
                                 <a
                                     href={`${constants.FACEBOOK_PAGE}`}
-                                    target="_ blank"
                                 >
                                     <i className="fa fa-facebook"></i>
                                 </a>
                                 <a
                                     href={`${constants.TWITTER_PAGE}`}
-                                    target="_ blank"
                                 >
                                     <i className="fa fa-twitter"></i>
                                 </a>
@@ -118,13 +116,11 @@ export default class Footer extends Component {
                         <section className={'col-xs-12 social'}>
                             <a
                                 href={`${constants.FACEBOOK_PAGE}`}
-                                target="_ blank"
                             >
                                 <i className="fa fa-facebook"></i>
                             </a>
                             <a
                                 href={`${constants.TWITTER_PAGE}`}
-                                target="_ blank"
                             >
                                 <i className="fa fa-twitter"></i>
                             </a>
