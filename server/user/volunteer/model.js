@@ -29,6 +29,7 @@ export default class Volunteer {
         data.currentHours = 0;
         data.totalHours = 0;
         data.raised = 0;
+        data.goal = data.goal || 8;
 
         if (data.firstName && data.lastName && !data.slug) {
             return Volunteer.createSlug(data.firstName, data.lastName)
