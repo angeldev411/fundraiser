@@ -113,17 +113,26 @@ export default class Footer extends Component {
                 </div>
                 <div className={'footer-bottom hidden-xs'}>
                     <div className={'container'}>
-                        <section className={'col-xs-12 social'}>
-                            <a
-                                href={`${constants.FACEBOOK_PAGE}`}
-                            >
-                                <i className="fa fa-facebook"></i>
-                            </a>
-                            <a
-                                href={`${constants.TWITTER_PAGE}`}
-                            >
-                                <i className="fa fa-twitter"></i>
-                            </a>
+                        <section className={'col-xs-12'}>
+                            <div className="col-xs-10 volunteer">
+                                <small>{'Are you a volunteer in your community and want to start your own campaign? Contact us at '} 
+                                    <a
+                                        href={`mailto:${constants.VOLUNTEER_CONTACT_EMAIL}?subject=starting a campaign on raiserve`}
+                                    >{`${constants.VOLUNTEER_CONTACT_EMAIL}`}</a>
+                                </small>
+                            </div>
+                            <div className="col-xs-2 social">
+                                <a
+                                    href={`${constants.FACEBOOK_PAGE}`}
+                                >
+                                    <i className="fa fa-facebook"></i>
+                                </a>
+                                <a
+                                    href={`${constants.TWITTER_PAGE}`}
+                                >
+                                    <i className="fa fa-twitter"></i>
+                                </a>
+                            </div>
                         </section>
                     </div>
                 </div>

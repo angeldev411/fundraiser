@@ -55,6 +55,7 @@ footer {
     .social {
         text-align: center;
         margin: 10px 0 10px 0;
+        color: $white;
 
         a {
             color: $white;
@@ -100,6 +101,11 @@ footer {
         .footer-bottom {
             background: $grey-medium-opacity;
             min-height: 20px;
+            
+            div.volunteer, volunteer small, .volunteer small a {
+                text-align: right;
+                color: $white;
+            }
 
             .social {
                 text-align: right;
