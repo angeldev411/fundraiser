@@ -51,6 +51,10 @@ export default class PledgeFormStep1 extends Component {
         this.focusInput();
     };
 
+    hourlyMax() {
+      return this.state.hourly * this.props.goal;
+    }
+
     focusInput() {
       const input = this.refs.hourlyAmountInput ?
         this.refs.hourlyAmountInput :
@@ -114,8 +118,17 @@ export default class PledgeFormStep1 extends Component {
                             data-event={'click'}
                         ></i>
                     </span>
-                    <p id="pledge-goal">{this.props.goal ? `Goal: ${this.props.goal} hours` : null}</p>
-                    <p id="pledge-deadline">{this.props.deadline ? `by ${this.props.deadline}` : null}</p>
+                    { this.state.hourly ?
+                      (
+                      <div id="pledge-calc">
+                        <p>{`your $${this.state.hourly}/hr pledge`}</p>
+                        <p>x</p>
+                        <p>{`my ${this.props.goal} goal hours of service`}</p>
+                        <p>=</p>
+                        <p>{`$${this.hourlyMax()} maximum pledge`}</p>
+                      </div>
+                      )
+                    : null }
                     <ReactTooltip />
                 </div>
             );

@@ -8,13 +8,22 @@
     padding-bottom: 0;
 }
 
-#pledge-goal, #pledge-deadline {
-    text-align: center;
-    opacity: .7;
-    font-size: 1.4em;
-    padding: 20px 0 0;
-    margin-bottom: 0px;
-    font-family: $conduit-light;
+#pledge-calc {
+
+  margin-top: 2em;
+
+  p {
+      text-align: center;
+      opacity: .7;
+      font-size: 1.1em;
+      padding: 0;
+      margin-bottom: 0px;
+      font-family: $conduit-light;
+
+      &:nth-child(even){
+        text-align: center;
+      }
+  }
 }
 
 #pledge-deadline {
