@@ -9,7 +9,6 @@
     -o-background-size: cover;
 
     .btn-default {
-        @extend .light-text-shadows, .light-box-shadows;
         margin: 60px 0;
         font-size: 1.85em;
     }

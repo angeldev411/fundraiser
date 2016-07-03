@@ -26,7 +26,6 @@ p {
 }
 
 .uppercase {
-    @extend .light-text-shadows;
     text-transform: uppercase;
 }
 
