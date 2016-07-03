@@ -164,6 +164,7 @@ class Project {
           teamName:         team.name,
           signatureRequired: team.signatureRequired
         } as hours
+        ORDER by hour.dateTimestamp DESC
       `, {}, { projectSlug })
       .getResults('hours')
       .catch((err) => {

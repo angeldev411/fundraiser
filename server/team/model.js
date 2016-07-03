@@ -352,6 +352,7 @@ class Team {
         firstName:        vol.firstName,
         lastName:         vol.lastName
       } as hours
+      ORDER by hour.dateTimestamp DESC
     `, {}, { teamSlug })
     .getResults('hours')
     .catch((err) => {
