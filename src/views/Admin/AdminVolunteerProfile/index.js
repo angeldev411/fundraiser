@@ -98,7 +98,7 @@ export default class AdminVolunteerProfile extends Component {
         {
             cropRatio: 4/4,
             mimetype: 'image/*',
-            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM'],
+            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM', 'URL'],
             conversions: ['crop', 'rotate']
         },
         this.handlePickedFile.bind(this)

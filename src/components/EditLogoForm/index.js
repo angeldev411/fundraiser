@@ -53,7 +53,7 @@ export default class EditLogoForm extends Component {
       filepicker.pick(
         {
             mimetype: 'image/*',
-            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM'],
+            services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'WEBCAM', 'URL'],
             conversions: ['crop', 'rotate']
         },
         this.handlePickedFile.bind(this)
