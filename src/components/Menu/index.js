@@ -136,7 +136,6 @@ class Menu extends Component {
                             <li className='centered-menu-item'>
                                 <Link
                                     to={Urls.RAISERVE_BASICS}
-                                    target="_blank"
                                 >
                                     {'RAISERVE BASICS'}
                                 </Link>

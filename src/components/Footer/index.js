@@ -20,7 +20,6 @@ export default class Footer extends Component {
                                 <li>
                                     <Link
                                         to={Urls.RAISERVE_BASICS}
-                                        target="_blank"
                                     >
                                         {'raiserve Basics'}
                                     </Link>
