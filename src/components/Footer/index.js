@@ -27,7 +27,6 @@ export default class Footer extends Component {
                                 <li>
                                     <Link
                                         to={Urls.STORY}
-                                        target="_blank"
                                     >
                                         {'Our Story'}
                                     </Link>
@@ -35,7 +34,6 @@ export default class Footer extends Component {
                                 <li>
                                     <Link
                                         to={Urls.FAQ}
-                                        target="_blank"
                                     >
                                         {'FAQ'}
                                     </Link>
