@@ -31,7 +31,9 @@ class VolunteerProfile extends Component {
             },
         };
     }
-
+    buttonText(){
+        return this.state.volunteer.firstName;
+    }
     componentWillMount() {
         TeamActions
           .getTeam( this.props.params.projectSlug, this.props.params.teamSlug )
@@ -98,7 +100,7 @@ class VolunteerProfile extends Component {
                     }
                     customclass={"cover-volunteer-profile"}
                     tagline={this.state.team.tagline}
-                    button={"Sponsor Now"}
+                    button={`Sponsor ${this.buttonText()}`}
                     team={this.state.team}
                     project={this.state.project}
                     volunteer={this.state.volunteer}

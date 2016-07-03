@@ -86,6 +86,10 @@ class TeamProfile extends Component {
         }
     }
 
+    buttonText(){
+        return this.state.team.name;
+    }
+
     render() {
         if (this.state.team === null) {
             return (<RouteNotFound />);
@@ -117,7 +121,7 @@ class TeamProfile extends Component {
                     }
                     customclass={"cover-team-profile"}
                     tagline={this.state.team.tagline}
-                    button={"Sponsor Now"}
+                    button={`Sponsor ${this.buttonText()}`}
                     onPledgeSuccess={this.addSponsor.bind(this)}
                     editable={editable}
                     team={this.state.team}
