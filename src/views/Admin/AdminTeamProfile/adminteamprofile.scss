@@ -6,13 +6,17 @@
 .edit-team-profile {
     min-height: 400px;
 
+    
     section {
         margin: 20px 0;
-
+        .checkbox {padding-left: 20px;}
         p.action-description {
-            color: $light-grey;
-            font-size: .8em;
+            color: black;
+            font-size: .7em;
             margin: 10px 0;
+            text-transform: uppercase;
+            font-family: $conduit-light;
+            font-weight: initial;
         }
 
         p.goal-description {
@@ -20,8 +24,9 @@
         }
 
         p.action-margin {
-            padding-left: 30px;
-            margin: 0;
+            border-top: 1px solid $grey;
+            margin: 0 0 0 15px;
+            padding-top: 3px;
         }
 
         label.select-label {
@@ -31,24 +36,21 @@
             font-weight: initial;
             padding-left: 15px;
         }
-    }
+        form {
+            input,
+            label,
+            textarea {
+                color: $grey;
+            }
 
-    input#goal {
-        color: $grey;
-        outline: none;
-        border: none;
-        border-bottom: 1px solid $light-grey;
-        height: 40px;
-        font-family: $conduit-medium;
-        font-size: 1.9em;
-        line-height: 1em;
-        width: 200px;
-
-        &:focus,
-        &:active {
-            border-bottom: 1px solid $green;
+            input,
+            textarea {
+                border-bottom: 1px solid $grey;
+            }
         }
     }
+
+
 }
 
 /* Medium devices (desktops, 768px and up) */

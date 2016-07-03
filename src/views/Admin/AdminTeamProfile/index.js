@@ -65,6 +65,13 @@ class AdminTeamProfile extends Component {
         )(this.props.dispatch);
     };
 
+    disabledGoal = () => {
+      const team = this.state.team;
+      if(team.totalRaised > 0 || team.totalSponsors > 0) return 'disabled';
+      return '';
+    //   if(user.totalSponsors > 0 || user.)
+    }
+
     changeGoal = (event) => {
         const newState = Object.assign({}, this.state);
 
@@ -159,15 +166,14 @@ class AdminTeamProfile extends Component {
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
                     <div className="edit-team-profile">
-                        <section>
+                    <section className={'form-container'}>
+                        <form className={'col-xs-12 col-md-6'}>
                             <Button
                                 customClass="btn-lg btn-transparent-green"
                                 to={`${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}?edit`}
                             >
                                 {'Edit the team page'}
                             </Button>
-                        </section>
-                        <section>
                             <Button
                                 onClick={this.requestPassword}
                                 customClass="btn-lg btn-transparent-green"
@@ -182,51 +188,63 @@ class AdminTeamProfile extends Component {
                                 </p> :
                                 <p className={'action-description'}>{'Optional'}</p>
                             }
-                        </section>
-                        <section>
-                            <input
-                                type="checkbox"
-                                name="supervisor-signature"
-                                id="supervisor-signature"
-                                value=""
-                                checked={this.props.user.team.signatureRequired}
-                                onChange={(e) => {this.changeSupervisorSignatureRequired(e)}}
-                            />
-                            <label
-                                className="select-label"
-                                htmlFor="supervisor-signature"
-                            >
-                                {'Require Supervisor signature'}
-                            </label>
-                            <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
-                        </section>
-                        <section>
-                            <input
-                                type="checkbox"
-                                name="leader-signature"
-                                id="leader-signature"
-                                value=""
-                                checked={this.props.user.team.hoursApprovalRequired}
-                                onChange={(e) => {this.changeHoursApprovalRequired(e)}}
-                            />
-                            <label
-                                className="select-label"
-                                htmlFor="leader-signature"
-                            >
-                                {'Require Team Leader approval'}
-                            </label>
-                            <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
-                        </section>
-                        <section>
-                            <input
-                                type="text"
-                                name="goal"
-                                id="goal"
-                                value={this.props.user.team.goal}
-                                onChange={(e) => {this.changeGoal(e)}}
-                            />
-                          <p className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'}</p>
+                            <div className="checkbox">
+                                <input
+                                    type="checkbox"
+                                    name="supervisor-signature"
+                                    id="supervisor-signature"
+                                    value=""
+                                    checked={this.props.user.team.signatureRequired}
+                                    onChange={(e) => {this.changeSupervisorSignatureRequired(e)}}
+                                />
+                                <label
+                                    className="select-label"
+                                    htmlFor="supervisor-signature"
+                                >
+                                    {'Require Supervisor signature'}
+                                </label>
+                                <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
+                            </div>
 
+                            <div className="checkbox">
+                                <input
+                                    type="checkbox"
+                                    name="leader-signature"
+                                    id="leader-signature"
+                                    value=""
+                                    checked={this.props.user.team.hoursApprovalRequired}
+                                    onChange={(e) => {this.changeHoursApprovalRequired(e)}}
+                                />
+                                <label
+                                    className="select-label"
+                                    htmlFor="leader-signature"
+                                >
+                                    {'Require Team Leader approval'}
+                                </label>
+                                <p className={'action-description action-margin'}>{'for the hours your volunteers execute'}</p>
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <input
+                                        disabled={this.disabledGoal()}
+                                        type="text"
+                                        name="goal"
+                                        id="goal"
+                                        value={this.props.user.team.goal}
+                                        onChange={(e) => {this.changeGoal(e)}}
+                                    />
+                                    <span className="lock input-group-addon">
+                                                {
+                                                    this.disabledGoal() ? 
+                                                    <i className="fa fa-lock" aria-hidden="true"></i>:
+                                                    <i className="fa fa-unlock" aria-hidden="true"></i> 
+                                                }
+                                            </span>
+                                </div>
+                            <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'}</label>
+                            
+                            </div>
+                            <div className="form-group">
                             <input
                               type="date"
                               name="deadline"
@@ -234,15 +252,15 @@ class AdminTeamProfile extends Component {
                               value={ this.currentDeadline() }
                               onChange={(e) => { this.change('deadline', e) }}
                               />
-                            <p className={'action-description action-margin goal-description'}>{'What is the deadline for your team? It can be up to a year from the start date.'}</p>
-                        </section>
-                        <section>
+                            <label className={'action-description action-margin goal-description'}>{'What is the deadline for your team? It can be up to a year from the start date.'}</label>
+                            </div>
                             <Button
                                 customClass="btn-lg btn-green-white"
                                 to={`${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`}
                             >
                                 {'View Team Page'}
                             </Button>
+                        </form>
                         </section>
                     </div>
                 </AdminLayout>

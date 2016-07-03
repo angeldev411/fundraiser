@@ -30,7 +30,6 @@ export default class AdminVolunteerProfile extends Component {
             success: false,
             cropperOpen: false,
             imageLoading: false,
-            disabled: ''
         };
     }
 
