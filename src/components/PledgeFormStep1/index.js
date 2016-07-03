@@ -38,13 +38,24 @@ export default class PledgeFormStep1 extends Component {
                 amount: null,
                 hourly: value,
             });
+
         } else {
             this.setState({
                 hourly: null,
                 amount: value,
             });
         }
+        this.focusInput();
     };
+
+    focusInput() {
+      const input = this.refs.hourlyAmountInput ?
+        this.refs.hourlyAmountInput :
+        this.refs.oneTimeAmountInput;
+
+      input.focus();
+      input.value = input.value; // move cursor to end
+    }
 
     getForm = () => {
         if (this.state.amount) {
@@ -53,6 +64,7 @@ export default class PledgeFormStep1 extends Component {
                     <div className="input-group">
                         <span className="input-group-addon">$</span>
                         <input name="amount"
+                            ref="oneTimeAmountInput"
                             className="pledge-amount"
                             onChange={(e) => { this.handleChange(e, 'amount') }}
                             value={this.state.amount}
@@ -78,6 +90,7 @@ export default class PledgeFormStep1 extends Component {
                     <div className="input-group">
                         <span className="input-group-addon">$</span>
                         <input name="hourly"
+                            ref="hourlyAmountInput"
                             className="pledge-amount"
                             onChange={(e) => { this.handleChange(e, 'hourly') }}
                             value={this.state.hourly}

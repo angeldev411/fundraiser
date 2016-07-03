@@ -15,9 +15,13 @@ export default class PledgeButton extends Component {
 
     togglePledge = () => {
         this.setState({ clicked: !this.state.clicked });
-
-        if(this.state.clicked) this.setState({visibility: ''});
-        else this.setState({visibility: 'hidden'});
+        if(this.state.clicked){
+          this.setState({visibility: ''});
+        }
+        else{
+          this.refs.pledge.focusInput();
+          this.setState({visibility: 'hidden'});
+        }
     };
 
     render() {
@@ -32,6 +36,7 @@ export default class PledgeButton extends Component {
                     </div>
                 </div>
                 <Pledge open={this.state.clicked}
+                    ref="pledge"
                     togglePledge={this.togglePledge}
                     teamSlug={this.props.teamSlug}
                     volunteerSlug={this.props.volunteerSlug}
