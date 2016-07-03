@@ -20,7 +20,7 @@ export default class AdminSponsorsTable extends Component {
                                     {sponsor.pledges.map((pledge, x) => (
                                         <ChildrenLine key={x}>
                                             <div className={'col-xs-12'}>
-                                                <div className={'col-xs-4'}>
+                                                <div className={'col-xs-12 col-md-4'}>
                                                     {pledge.support.hourly ?
                                                             (<div>
                                                                 {pledge.support.cancelDate ?
@@ -52,7 +52,7 @@ export default class AdminSponsorsTable extends Component {
                                                             </div>)
                                                     }
                                                 </div>
-                                                <div className={'col-xs-5'}>
+                                                <div className={'col-xs-12 col-md-5'}>
                                                     <span>
                                                     {!this.props.isVolunteer ? (
                                                         <span>
@@ -62,7 +62,7 @@ export default class AdminSponsorsTable extends Component {
                                                     ) : null}
                                                     </span>
                                                 </div>
-                                                <div className={'col-xs-3'}>
+                                                <div className={'col-xs-12 col-md-3'}>
                                                     <span className="label uppercase">{'Date: '}</span> <span>{`${new Date(pledge.support.date).toDateString()}`}</span>
                                                 </div>
                                             </div>
