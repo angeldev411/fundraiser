@@ -37,8 +37,8 @@ export default class VolunteerProfileBlock extends Component {
                           </Link>
                       : null
                   }
-                  <span className="uppercase">
-                      Share my goal
+                  <span className="uppercase share-goal">
+                      Share my goal: 
                   </span>
                   <SocialShareLinks
                     volunteer={this.props.volunteer}

@@ -72,10 +72,19 @@
         .volunteer-description {
             .share-row {
                 text-align: left;
-
+                color: $light-grey;
+                span.share-goal{
+                    color: $light-grey;
+                }
                 span,
                 a.link {
                     display: initial;
+                }
+                span.social-share-links a{
+                    color: $green;
+                }
+                span.social-share-links a:hover{
+                    color: $white;
                 }
             }
         }
