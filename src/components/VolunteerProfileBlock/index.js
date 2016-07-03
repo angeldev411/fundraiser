@@ -24,7 +24,6 @@ export default class VolunteerProfileBlock extends Component {
               <div className="share-row">
                   <Link
                       to={Urls.RAISERVE_BASICS}
-                      target="_blank"
                       className="link uppercase"
                   >
                       {'How It Works'}
