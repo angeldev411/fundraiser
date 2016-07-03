@@ -241,7 +241,11 @@ class AdminTeamProfile extends Component {
                                                 }
                                             </span>
                                 </div>
-                            <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'}</label>
+                                { 
+                                    this.disabledGoal() ? 
+                                        <label className={'action-description action-margin goal-description'}>{'Note:  Your team already as a sponsor, Goal hours are locked.'}</label>:
+                                        <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'} <br/>{'Note: you cannot change your goal hours after you get your first sponsor'}</label> 
+                                }
                             
                             </div>
                             <div className="form-group">
