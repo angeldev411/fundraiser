@@ -31,6 +31,7 @@ class VolunteerProfile extends Component {
             },
         };
     }
+
     componentWillMount() {
         TeamActions
           .getTeam( this.props.params.projectSlug, this.props.params.teamSlug )
@@ -101,6 +102,7 @@ class VolunteerProfile extends Component {
                     team={this.state.team}
                     project={this.state.project}
                     volunteer={this.state.volunteer}
+                    totalVolunteerSponsors={this.state.volunteer.totalSponsors}
                     pathname={this.props.location.pathname}
                 />
                 <div className={"main-content"}>
@@ -108,6 +110,7 @@ class VolunteerProfile extends Component {
                         team={this.state.team}
                         project={this.state.project}
                         volunteerprofile={true}
+                        totalSponsors={this.state.team.totalSponsors}
                     />
                 </div>
             </Page>

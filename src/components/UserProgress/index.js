@@ -18,7 +18,7 @@ export default class UserProgress extends Component {
         return (
             <div className="user-progress-container">
                 <div className="user-hours">
-                    <p>{"Sponsors "}<span className="user-hours__sponsors">{this.props.user.totalSponsors}</span></p>
+                    <p>{"Sponsors "}<span className="user-hours__sponsors">{this.props.totalSponsors}</span></p>
                     <p>{"Hours to date "}<span className="user-hours__current">{Math.round(this.props.user.totalHours)}</span></p>
                     <p>{"Goal hours "}<span className="user-hours__goal">{this.props.user.goal}</span></p>
                 </div>
@@ -56,4 +56,5 @@ UserProgress.propTypes = {
         currentHours: React.PropTypes.number,
         goal: React.PropTypes.number,
     }),
+    totalSponsors: React.PropTypes.number
 };

@@ -42,6 +42,8 @@ export default class PledgeButton extends Component {
                     volunteer={this.props.volunteer}
                     team={this.props.team}
                     project={this.props.project}
+
+                    onPledgeSuccess={this.props.onPledgeSuccess}
                 />
             </div>
         );
@@ -58,5 +60,7 @@ PledgeButton.propTypes = {
 
     volunteer: React.PropTypes.object,
     team: React.PropTypes.object.isRequired,
-    project: React.PropTypes.object.isRequired
+    project: React.PropTypes.object.isRequired,
+
+    onPledgeSuccess: React.PropTypes.func.isRequired
 };

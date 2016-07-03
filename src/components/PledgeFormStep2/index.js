@@ -52,6 +52,8 @@ class PledgeFormStep2 extends Component {
                 token,
                 this.state.maxCap,
             )(this.props.dispatch);
+
+            if (this.props.onPledgeSuccess) this.props.onPledgeSuccess();
         }
     };
 
@@ -274,7 +276,9 @@ PledgeFormStep2.propTypes = {
 
     volunteer: React.PropTypes.object,
     team: React.PropTypes.object.isRequired,
-    project: React.PropTypes.object.isRequired
+    project: React.PropTypes.object.isRequired,
+
+    onPledgeSuccess: React.PropTypes.func
 };
 
 export default connect((reduxState) => ({

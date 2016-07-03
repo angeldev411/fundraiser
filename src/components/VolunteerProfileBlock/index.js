@@ -14,7 +14,7 @@ export default class VolunteerProfileBlock extends Component {
 
         <div className="container">
           <div className={'col-xs-12 col-md-4 volunteer-picture'}>
-              <UserProgress user={this.props.volunteer}/>
+              <UserProgress user={this.props.volunteer} totalSponsors={this.props.totalSponsors} />
           </div>
           <div className={'col-xs-12 col-md-8 volunteer-description'}>
               <div className={'team-slogan'}>{`YOU + US = ${SLOGAN}`}</div>
@@ -57,6 +57,7 @@ export default class VolunteerProfileBlock extends Component {
 
 VolunteerProfileBlock.propTypes = {
     volunteer: React.PropTypes.object,
+    totalSponsors: React.PropTypes.number,
     project: React.PropTypes.object,
-    team: React.PropTypes.object
+    team: React.PropTypes.object,
 };
