@@ -15,6 +15,7 @@ export default class PledgeFormStep1 extends Component {
             ...(this.props.oneTimeOnly ? { amount: defaultAmount } : { hourly: defaultAmount }),
             maxCap: null,
             error: false,
+            showHourly: true
         };
     }
 
@@ -37,12 +38,14 @@ export default class PledgeFormStep1 extends Component {
             this.setState({
                 amount: null,
                 hourly: value,
+                showHourly: true
             });
 
         } else {
             this.setState({
                 hourly: null,
                 amount: value,
+                showHourly: false
             });
         }
         this.focusInput();
@@ -58,7 +61,7 @@ export default class PledgeFormStep1 extends Component {
     }
 
     getForm = () => {
-        if (this.state.amount) {
+        if (!this.state.showHourly) {
             return (
                 <div>
                     <div className="input-group">
