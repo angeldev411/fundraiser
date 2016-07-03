@@ -47,7 +47,7 @@
         }
 
         .team-share {
-            color: $green;
+            color: $white;
         }
     }
 }
@@ -60,6 +60,12 @@
                 display: inline;
                 margin: 0 10px;
             }
+        }
+        span.social-share-links a{
+            color: $green;
+        }
+        span.social-share-links a:hover{
+            color: $white;
         }
     }
 }

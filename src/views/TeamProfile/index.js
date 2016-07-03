@@ -140,7 +140,7 @@ class TeamProfile extends Component {
                                         (<span className="team-title">{'Our volunteers'}</span>) :
                                         null
                                     }
-                                    <span className="team-share">{'Share our goal'}</span>
+                                    <span className="team-share">{'Please share our page'}</span>
                                     <SocialShareLinks
                                       project={this.state.project}
                                       team={this.state.team}
