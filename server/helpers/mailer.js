@@ -448,7 +448,7 @@ export default class Mailer {
     */
     static sendVolunteerSponsorshipEmail(volunteer, sponsor) {
         const subject = `You got sponsored`;
-        const headline = 'CONGRATULATIONS ON YOUR FIRST SPONSOR';
+        const headline = 'CONGRATULATIONS YOU HAVE A NEW SPONSOR';
 
         const text =
         `
