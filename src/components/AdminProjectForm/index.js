@@ -26,6 +26,13 @@ class AdminProjectForm extends Component {
         }
     }
 
+    disabledUrl = () => {
+      let teams = this.props.defaultData.teams;
+      return _.some(teams, function(team){ 
+          if (team.totalVolunteers > 0) return 'disabled';
+      });
+    }
+
     submit = () => {
         this.setState({
             loading: true,
@@ -94,6 +101,7 @@ class AdminProjectForm extends Component {
                         id="slug-addon"
                     >{`${Constants.DOMAIN}/`}</span>
                     <input type="text"
+                        disabled={this.disabledUrl()}
                         className="urlInput"
                         name="slug"
                         id="slug"
@@ -101,7 +109,18 @@ class AdminProjectForm extends Component {
                         defaultValue={this.props.defaultData ? this.props.defaultData.slug : null}
                         onChange={(e) => { this.handleChange(e, 'slug') }}
                     />
-                    <label className="urlInputLabel" htmlFor="slug">{'Public Url'}</label>
+                     {
+                        this.disabledUrl() ? 
+                            <label className="urlInputLabel" htmlFor="slug">{'Public Url'} {'Note: Your team already has volunteers, URL is locked.'}</label> :
+                            <label className="urlInputLabel" htmlFor="slug">{'Public Url'} {'Note: you cannot change your UrL after you get your first volunteer'}</label>
+                    }
+                    <span className="lock input-group-addon">
+                                        {
+                                            this.disabledUrl() ? 
+                                            <i className="fa fa-lock" aria-hidden="true"></i>:
+                                            <i className="fa fa-unlock" aria-hidden="true"></i> 
+                                        }
+                                    </span>
                 </div>
 
                 <div className="form-group">
