@@ -115,12 +115,12 @@ class AdminProjectForm extends Component {
                             <label className="urlInputLabel" htmlFor="slug">{'Public Url'} {'Note: you cannot change your UrL after you get your first volunteer'}</label>
                     }
                     <span className="lock input-group-addon">
-                                        {
-                                            this.disabledUrl() ? 
-                                            <i className="fa fa-lock" aria-hidden="true"></i>:
-                                            <i className="fa fa-unlock" aria-hidden="true"></i> 
-                                        }
-                                    </span>
+                    {
+                        this.disabledUrl() ? 
+                        <i className="fa fa-lock" aria-hidden="true"></i>:
+                        <i className="fa fa-unlock" aria-hidden="true"></i> 
+                    }
+                    </span>
                 </div>
 
                 <div className="form-group">
