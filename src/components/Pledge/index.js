@@ -4,6 +4,11 @@ import classNames from 'classnames';
 import PledgeFormStep1 from '../PledgeFormStep1/';
 
 export default class Pledge extends Component {
+
+    focusInput(){
+      this.refs.pledgeForm.focusInput();
+    }
+
     render() {
         return (
             <div className={classNames({
@@ -19,6 +24,7 @@ export default class Pledge extends Component {
                     <i className="fa fa-times"></i>
                 </button>
                 <PledgeFormStep1
+                    ref="pledgeForm"
                     teamSlug={this.props.teamSlug}
                     volunteerSlug={this.props.volunteerSlug}
                     oneTimeOnly={this.props.oneTimeOnly}
