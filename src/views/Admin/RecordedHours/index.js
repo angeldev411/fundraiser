@@ -7,17 +7,25 @@ import { connect } from 'react-redux';
 import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
+import RecordHoursForm from '../../../components/RecordHoursForm';
+import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
+import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
+import Modal from '../../../components/Modal';
+import SocialShareLinks from '../../../components/SocialShareLinks';
+import * as Urls from '../../../urls.js';
 
 class RecordedHours extends Component {
 
-  constructor(props){
-    super(props);
+  componentWillMount(){
+    document.title = 'Recorded Hours | raiserve';
+
     this.state = {
       hours: []
     };
+    this.updateData();
   }
 
-  componentWillMount(){
+  updateData(){
     const user = this.props.user;
     let pageType, getHourLogs;
 
@@ -44,8 +52,14 @@ class RecordedHours extends Component {
     });
   }
 
+  toggleShareModal(){
+    this.setState({
+      showRecordHoursSuccessModal: !this.state.showRecordHoursSuccessModal
+    });
+  }
+
   render () {
-    document.title = 'Recorded Hours | raiserve';
+
     // For a project, if any teams have a signature requirement,
     // show supervisor info. For a team or volunteer, check the team.
     const includeSupervisor = this.state.pageType === 'project' ?
@@ -54,9 +68,83 @@ class RecordedHours extends Component {
     const includeTeam       = this.state.pageType === 'project';
     const includeVolunteer  = this.props.pageType != 'team';
 
+    let pageNav = [];
+
+    if (this.state.pageType === 'team')
+      pageNav = [
+        {
+          type: 'button',
+          title: 'Email Your Team',
+          content:
+              <AdminTeamEmailForm
+                  project={this.props.user.project}
+                  team={this.props.user.team}
+              />,
+        },
+        {
+          type: 'button',
+          title: 'Invite members',
+          content:
+              <AdminInviteTeamMembersForm
+                  title={"Invite New"}
+                  titleLine2={"Team Members"}
+                  project={this.props.user.project}
+                  team={this.props.user.team}
+              />,
+        },
+        {
+          type: 'link',
+          title: 'My Public Team Page',
+          href: `${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`,
+        },
+        {
+          type: 'link',
+          title: 'Edit Team Profile',
+          href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
+        },
+      ];
+
+    else if (this.state.pageType === 'volunteer')
+      pageNav = [
+          {
+            type: 'button',
+            title: 'Record my hours',
+            content: <RecordHoursForm team={this.props.user.team} />,
+            onModalToggle: this.updateData.bind(this),
+            onHourLogSuccess: this.toggleShareModal.bind(this)
+          },
+          {
+              type: 'link',
+              title: 'My Public Page',
+              href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
+          },
+          {
+              type: 'link',
+              title: 'Edit Profile',
+              href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
+          },
+      ];
+
     return (
       <Page>
-        <AdminLayout>
+        { this.state.showRecordHoursSuccessModal === true ?
+          <Modal
+            content={
+              <div id={'success-pledge'}>
+                <p>{`Great work, ${this.props.user.firstName}!`}</p>
+                <p>{`Share your progress using the links below.`}</p>
+                <SocialShareLinks
+                  volunteer={this.props.user}
+                  project={this.props.user.project}
+                  team={this.props.user.team}
+                />
+              </div>
+            }
+            onClick={this.toggleShareModal.bind(this)}
+          />
+          : null
+        }
+        <AdminLayout pageNav={pageNav}>
           <AdminContentHeader
             title='Recorded Hours'
             description='Get details on when and where volunteer service was performed'
@@ -123,7 +211,7 @@ export default connect( (reduxState) => {
     hours = reduxState.main.volunteer.hourLogsGet;
 
   return {
-    user: reduxState.main.auth.user,
+    user,
     hours
   };
 })(RecordedHours);
