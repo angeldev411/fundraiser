@@ -111,7 +111,7 @@ export default class PledgeFormStep1 extends Component {
                     <span id={'tooltip-trigger'}>
                         <i
                             className={'fa fa-question'}
-                            data-tip={`Your 100% tax deductible sponsorship will be charged monthly for all hours completed that month up to the number of goal hours. <br/> If service hours have already been completed, those hours will be included in your first month of sponsorship.`}
+                            data-tip={`Your 100% tax deductible sponsorship will be charged monthly for all hour completed that month. <br/> Your maximum overall donation to this project will be the goal hours x your hourly pledge. (If the volunteer volunteers more hours than their goal you will not be charged) <br/> If service hours have already been completed, those hours will be included in your first month of sponsorship.`}
                             data-type={'success'}
                             data-class={'tooltip'}
                             data-multiline
