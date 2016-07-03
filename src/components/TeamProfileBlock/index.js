@@ -80,7 +80,7 @@ export default class TeamProfileBlock extends Component {
                         </EditButton>
                     : null}
 
-                    <p id='team-sponsor-count'># of Team Sponsors: {this.props.team.totalSponsors}</p>
+                    <p id='team-sponsor-count'># of Team Sponsors: {this.props.totalSponsors}</p>
 
                     {this.props.teamgoal
                         ? (
@@ -181,6 +181,7 @@ export default class TeamProfileBlock extends Component {
 
 TeamProfileBlock.propTypes = {
     team: React.PropTypes.object,
+    totalSponsors: React.PropTypes.number,
     project: React.PropTypes.object,
     volunteerprofile: React.PropTypes.bool,
     editable: React.PropTypes.bool,

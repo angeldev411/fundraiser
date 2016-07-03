@@ -163,6 +163,7 @@ export default class PledgeFormStep1 extends Component {
                             team={this.props.team}
                             project={this.props.project}
                             goal={this.props.goal}
+                            onPledgeSuccess={this.props.onPledgeSuccess}
                         />
                     }
                 >{'Continue'}</ModalButton>
@@ -185,5 +186,7 @@ PledgeFormStep1.propTypes = {
 
   volunteer: React.PropTypes.object,
   team: React.PropTypes.object.isRequired,
-  project: React.PropTypes.object.isRequired
+  project: React.PropTypes.object.isRequired,
+
+  onPledgeSuccess: React.PropTypes.func
 };

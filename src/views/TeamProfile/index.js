@@ -34,6 +34,12 @@ class TeamProfile extends Component {
         };
     }
 
+    addSponsor() {
+      this.setState({
+        totalSponsors: ++this.state.totalSponsors
+      });
+    }
+
     componentWillMount() {
         ActionsTeam.getTeam(
             this.props.params.projectSlug,
@@ -57,6 +63,7 @@ class TeamProfile extends Component {
                     ...this.defaultTeam,
                     ...nextProps.team,
                 },
+                totalSponsors: nextProps.team.totalSponsors
             });
         }
         if (nextProps.volunteers) {
@@ -111,6 +118,7 @@ class TeamProfile extends Component {
                     customclass={"cover-team-profile"}
                     tagline={this.state.team.tagline}
                     button={"Sponsor Now"}
+                    onPledgeSuccess={this.addSponsor.bind(this)}
                     editable={editable}
                     team={this.state.team}
                     project={this.state.project}
@@ -118,6 +126,7 @@ class TeamProfile extends Component {
                 <div className={"main-content"}>
                     <TeamProfileBlock
                         team={this.state.team}
+                        totalSponsors={this.state.totalSponsors}
                         project={this.state.project}
                         editable={editable}
                         teamgoal={true}

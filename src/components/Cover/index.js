@@ -91,6 +91,8 @@ export default class Cover extends Component {
                                     volunteer={this.props.volunteer}
                                     team={this.props.team}
                                     project={this.props.project}
+
+                                    onPledgeSuccess={this.props.onPledgeSuccess}
                                 >
                                     {this.props.button}
                                 </PledgeButton>
@@ -101,6 +103,7 @@ export default class Cover extends Component {
                       volunteer={this.props.volunteer}
                       project={this.props.project}
                       team={this.props.team}
+                      totalSponsors={this.props.totalVolunteerSponsors}
                     />
                 </div>
             );
@@ -137,6 +140,8 @@ export default class Cover extends Component {
 
                             team={this.props.team}
                             project={this.props.project}
+
+                            onPledgeSuccess={this.props.onPledgeSuccess}
                         >
                             {this.props.button}
                         </PledgeButton>
@@ -197,4 +202,6 @@ Cover.propTypes = {
     volunteer: React.PropTypes.object,
     pathname: React.PropTypes.string,
     editable: React.PropTypes.bool,
+    onPledgeSuccess: React.PropTypes.func,
+    totalVolunteerSponsors: React.PropTypes.number
 };
