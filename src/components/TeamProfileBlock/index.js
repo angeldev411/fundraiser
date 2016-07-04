@@ -80,7 +80,10 @@ export default class TeamProfileBlock extends Component {
                         </EditButton>
                     : null}
 
-                    <p id='team-sponsor-count'># of Team Sponsors: {this.props.totalSponsors}</p>
+                    { this.props.volunteerprofile ?
+                      null :
+                      <p id='team-sponsor-count'># of Team Sponsors: {this.props.totalSponsors}</p>
+                    }
 
                     {this.props.teamgoal
                         ? (

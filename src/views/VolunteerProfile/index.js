@@ -112,7 +112,6 @@ class VolunteerProfile extends Component {
                         team={this.state.team}
                         project={this.state.project}
                         volunteerprofile={true}
-                        totalSponsors={this.state.team.totalSponsors}
                     />
                 </div>
             </Page>
