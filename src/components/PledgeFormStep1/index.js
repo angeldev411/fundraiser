@@ -22,11 +22,11 @@ export default class PledgeFormStep1 extends Component {
     handleChange = (event, name) => {
         const value = event.nativeEvent.target.value;
 
-        const newState = { error: '' };
-        const isCurrency = /^\d{1,}(.[\d]{2})?$/;
+        const newState = { error: false };
+        const isCurrency = /^(\d{1,})?(.[\d]{0,2})?$/;
 
-        if ( value.trim().length ===0 || !isCurrency.test(value) )
-          newState.error = 'Please enter a dollar amount';
+        if ( value.trim().length === 0 || !isCurrency.test(value) )
+          newState.error = 'Please enter a valid dollar amount';
 
         newState[name] = value;
         this.setState(newState);
@@ -34,7 +34,7 @@ export default class PledgeFormStep1 extends Component {
 
     handleSwitchForm = () => {
         const value = this.state.amount || this.state.hourly;
-        if (this.state.amount) {
+        if (!this.state.showHourly) {
             this.setState({
                 amount: null,
                 hourly: value,
@@ -51,8 +51,12 @@ export default class PledgeFormStep1 extends Component {
         this.focusInput();
     };
 
+    formattedHourly() {
+      return (Number(this.state.hourly)||0).toFixed(2);
+    }
+
     hourlyMax() {
-      return this.state.hourly * this.props.goal;
+      return (this.formattedHourly() * this.props.goal).toFixed(2);
     }
 
     focusInput() {
@@ -118,10 +122,10 @@ export default class PledgeFormStep1 extends Component {
                             data-event={'click'}
                         ></i>
                     </span>
-                    { this.state.hourly ?
+                    { this.state.hourly && !this.state.error?
                       (
                       <div id="pledge-calc">
-                        <p>{`your $${this.state.hourly}/hr pledge`}</p>
+                        <p>{`your $${this.formattedHourly()}/hr pledge`}</p>
                         <p>x</p>
                         <p>{`my ${this.props.goal} goal hours of service`}</p>
                         <p>=</p>
@@ -137,7 +141,7 @@ export default class PledgeFormStep1 extends Component {
 
     render() {
         let switcher = null;
-        if (!this.state.hourly) {
+        if (!this.state.showHourly) {
             switcher = (
                 <span id={'switch-form'}>
                     {'Or make an '}
@@ -179,7 +183,7 @@ export default class PledgeFormStep1 extends Component {
                 </Form>
                 <ModalButton
                     customClass="btn-transparent-green btn-pledge"
-                    disabled={this.state.error}
+                    disabled={!!this.state.error}
                     content={
                         <PledgeFormStep2
                             pledgeData={{
