@@ -31,7 +31,11 @@ export default class Sponsor {
                     .then(() => {
                         // If it's a one time pledge, charge customer right now
                       if (pledge.amount) {
-                        return Sponsor.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount)
+                        const meta = {
+                          teamSlug:       teamSlug,
+                          volunteerSlug:  volunteerSlug
+                        }
+                        return Sponsor.chargeSponsor(existingSponsor.stripeCustomerId, pledge.amount, meta)
                             .then((charged) => {
                                 // Update raised attributes on Volunteer and Team.
                               Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, pledge.amount)
@@ -86,7 +90,11 @@ export default class Sponsor {
                             .then(() => {
                                 // If it's a one time pledge, charge customer right now
                               if (pledge.amount) {
-                                return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount)
+                                const meta = {
+                                  teamSlug:       teamSlug,
+                                  volunteerSlug:  volunteerSlug
+                                }
+                                return Sponsor.chargeSponsor(sponsor.stripeCustomerId, pledge.amount, meta)
                                     .then((charged) => {
                                         // Update raised attributes on Volunteer and Team.
                                       return Sponsor.updateRaisedAttributesBySlug(volunteerSlug, teamSlug, pledge.amount)
