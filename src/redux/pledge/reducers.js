@@ -8,6 +8,7 @@ export default function reducers(state = initialState, action) {
             return {
                 ...state,
                 pledge: action.pledge,
+                error: false
             };
 
         case actionTypes.NEW_PLEDGE_FAIL:

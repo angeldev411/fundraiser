@@ -25,6 +25,7 @@ class PledgeFormStep2 extends Component {
             this.setState({
                 success: true,
                 loading: false,
+                error: false
             });
         }
     }
