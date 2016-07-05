@@ -323,6 +323,7 @@ export default class Mailer {
     */
     static sendSponsorSponsorshipThanksEmail(volunteer, sponsor, amount) {
         const subject = `Thank You`;
+        const maxPledge = Number(amount).toFixed(2) * Number(volunteer.goal).toFixed(2);
         const firstMonth = volunteer.totalHours ?
           `<li>Your first month’s charge will also include the ${Math.round(Number(volunteer.totalHours))} hours that ${volunteer.firstName} has already completed.</li>` : '';
         const text =
@@ -333,16 +334,15 @@ export default class Mailer {
 
         <p>Just a quick recap of how your sponsorship works:</p>
         <ol>
-            <li>You will be charged at the end of each month $${amount} per hour based on the number hours ${volunteer.firstName}  volunteers that month up to a maximum of ${volunteer.firstName}’s goal of ${volunteer.goal} hours.</li>
+            <li>You will be charged at the end of each month $${amount} per hour based on the number of hours ${volunteer.firstName} volunteers that month.</li>
+            <li>Your overall maximum contribution (the total of all months, if applicable) is your $${amount} per hour pledge x ${volunteer.firstName}'s goal of ${volunteer.goal} hours of service = <strong>$${maxPledge} maximum pledge</strong></li>
             ${firstMonth}
             <li>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</li>
         </ol>
 
 
         <p>
-        You can help make an even bigger impact by spreading the work about ${volunteer.firstName}’s volunteer campaign by sharing ${volunteer.firstName}’s page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> by email or posting it on your social media via facebook, twitter etc.
-
-        Help spread the word about ${volunteer.firstName}’s fundraising page: </p>
+        You can help make an even bigger impact by spreading the work about ${volunteer.firstName}’s volunteer campaign by sharing ${volunteer.firstName}’s page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> by email or posting it on social media.
 
         <p>Thanks,</p>
 
@@ -398,7 +398,7 @@ export default class Mailer {
 
         <p>Just a quick recap of how your sponsorship works:</p>
         <ol>
-            <li>You will be charged at the end of each month- <strong>$${amount} per hour</strong> of volunteer service, up to our goal of <strong>${team.goal} hours</strong>.</li>
+            <li>You will be charged at the end of each month <strong>$${amount} per hour</strong> of volunteer service, up to our goal of <strong>${team.goal} hours</strong>.</li>
             ${firstMonth}
             <li>Your donation is 100% tax deductible and you will get a tax receipt by the end of the year.</li>
         </ol>
