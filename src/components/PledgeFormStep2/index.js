@@ -133,6 +133,10 @@ class PledgeFormStep2 extends Component {
       return (this.formattedHourly() * this.props.goal).toFixed(2);
     }
 
+    numberOnMobile() {
+      return /Mobi/.test(navigator.userAgent) ? 'number' : 'text';
+    }
+
     render() {
       if (this.state.success) {
 
@@ -211,7 +215,7 @@ class PledgeFormStep2 extends Component {
                 </div>
 
                 <div className="form-group">
-                    <input type="text"
+                    <input type="email"
                         name="email"
                         id="email"
                         onChange={(e) => { this.handleChange(e, 'email') }}
@@ -232,7 +236,7 @@ class PledgeFormStep2 extends Component {
                     <div className={'col-xs-10'}>
                         <div className={'col-xs-12'}>
                             <div className="form-group">
-                                <input type="text"
+                                <input type={this.numberOnMobile()}
                                     name="cc"
                                     id="cc"
                                     onChange={(e) => { this.handleChange(e, 'cc') }}
@@ -243,7 +247,7 @@ class PledgeFormStep2 extends Component {
                         </div>
                         <div className={'col-xs-6 cvv'}>
                             <div className="form-group">
-                                <input type="text"
+                                <input type={this.numberOnMobile()}
                                     name="cvv"
                                     id="cvv"
                                     onChange={(e) => { this.handleChange(e, 'cvv') }}
@@ -254,7 +258,7 @@ class PledgeFormStep2 extends Component {
                         </div>
                         <div className={'col-xs-6 exp'}>
                             <div className="input-group">
-                                <input type="text"
+                                <input type={this.numberOnMobile()}
                                     name="expiration_month"
                                     id="expiration_month"
                                     className="exp"
@@ -262,7 +266,7 @@ class PledgeFormStep2 extends Component {
                                     autoComplete={'off'}
                                 />
                                 <span className="input-group-addon">/</span>
-                                <input type="text"
+                                <input type={this.numberOnMobile()}
                                   name="expiration_year"
                                   id="expiration_year"
                                   className="exp"

@@ -59,6 +59,10 @@ export default class PledgeFormStep1 extends Component {
       return (this.formattedHourly() * this.props.goal).toFixed(2);
     }
 
+    numberOnMobile() {
+      return /Mobi/.test(navigator.userAgent) ? 'number' : 'text';
+    }
+
     focusInput() {
       const input = this.refs.hourlyAmountInput ?
         this.refs.hourlyAmountInput :
@@ -75,6 +79,7 @@ export default class PledgeFormStep1 extends Component {
                     <div className="input-group">
                         <span className="input-group-addon">$</span>
                         <input name="amount"
+                            type={this.numberOnMobile()}
                             ref="oneTimeAmountInput"
                             className="pledge-amount"
                             onChange={(e) => { this.handleChange(e, 'amount') }}
@@ -101,6 +106,7 @@ export default class PledgeFormStep1 extends Component {
                     <div className="input-group">
                         <span className="input-group-addon">$</span>
                         <input name="hourly"
+                            type={this.numberOnMobile()}
                             ref="hourlyAmountInput"
                             className="pledge-amount"
                             onChange={(e) => { this.handleChange(e, 'hourly') }}
