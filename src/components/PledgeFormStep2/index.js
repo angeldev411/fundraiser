@@ -113,9 +113,15 @@ class PledgeFormStep2 extends Component {
     };
 
     handleChange = (event, name) => {
-        const newState = {};
+        const newState = { error: false };
+        const value = event.nativeEvent.target.value;
 
-        newState[name] = event.nativeEvent.target.value;
+        const emailRegex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
+        if (name === 'email' && !emailRegex.test(value)) {
+          newState.error = 'Please enter a valid email address';
+        }
+
+        newState[name] = value;
         this.setState(newState);
     };
 
