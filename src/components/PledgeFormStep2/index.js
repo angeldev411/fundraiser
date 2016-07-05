@@ -62,7 +62,7 @@ class PledgeFormStep2 extends Component {
             loading: true,
         });
         // Client side verifications
-        const validator = this.verifyCardInfo(this.state.cc, this.state.cvv, this.state.expiration);
+        const validator = this.verifyCardInfo(this.state.cc, this.state.cvv, this.fullExpiration());
 
         if (validator.error) {
             this.setState({
@@ -77,10 +77,14 @@ class PledgeFormStep2 extends Component {
             Stripe.card.createToken({
                 number: this.state.cc,
                 cvc: this.state.cvv,
-                exp: this.state.expiration,
+                exp: this.fullExpiration()
             }, this.stripeResponseHandler);
         }
     };
+
+    fullExpiration() {
+      return `${this.state.expiration_month}/${this.state.expiration_year}`;
+    }
 
     verifyCardInfo = (cc, cvv, exp) => {
         if (!Stripe.card.validateCardNumber(cc)) {
@@ -242,15 +246,24 @@ class PledgeFormStep2 extends Component {
                             </div>
                         </div>
                         <div className={'col-xs-6 exp'}>
-                            <div className="form-group">
+                            <div className="input-group">
                                 <input type="text"
-                                    name="expiration"
-                                    id="expiration"
-                                    onChange={(e) => { this.handleChange(e, 'expiration') }}
+                                    name="expiration_month"
+                                    id="expiration_month"
+                                    className="exp"
+                                    onChange={(e) => { this.handleChange(e, 'expiration_month') }}
                                     autoComplete={'off'}
                                 />
-                                <label htmlFor="expiration">{'Expiration date (MM/YY)'}</label>
+                                <span className="input-group-addon">/</span>
+                                <input type="text"
+                                  name="expiration_year"
+                                  id="expiration_year"
+                                  className="exp"
+                                  onChange={(e) => { this.handleChange(e, 'expiration_year') }}
+                                  autoComplete={'off'}
+                                  />
                             </div>
+                            <label htmlFor="expiration">{'Expiration date (MM/YY)'}</label>
                         </div>
                     </div>
                 </div>
