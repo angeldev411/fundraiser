@@ -13,15 +13,18 @@ export default class PledgeButton extends Component {
 
     }
 
+    onPledgeSuccess(){
+      if (this.props.onPledgeSuccess) this.props.onPledgeSuccess();
+      console.log('closing the pledge input');
+      this.togglePledge();
+    }
+
     togglePledge = () => {
-        this.setState({ clicked: !this.state.clicked });
-        if(this.state.clicked){
-          this.setState({visibility: ''});
-        }
-        else{
-          this.refs.pledge.focusInput();
-          this.setState({visibility: 'hidden'});
-        }
+      this.setState({
+        clicked:    !this.state.clicked,
+        visibility: this.state.clicked ? '' : 'hidden'
+      });
+      if(!this.state.clicked) this.refs.pledge.focusInput();
     };
 
     render() {
@@ -31,11 +34,12 @@ export default class PledgeButton extends Component {
                     <div className={`col-xs-12 sponsorContainer ${this.state.visibility}`}>
                         <Button
                             customClass={this.props.customClass}
-                            onClick={!this.state.clicked ? this.togglePledge : null}
+                            onClick={this.togglePledge}
                         >{this.props.children}</Button>
                     </div>
                 </div>
-                <Pledge open={this.state.clicked}
+                <Pledge
+                    open={this.state.clicked}
                     ref="pledge"
                     togglePledge={this.togglePledge}
                     teamSlug={this.props.teamSlug}
@@ -48,7 +52,7 @@ export default class PledgeButton extends Component {
                     team={this.props.team}
                     project={this.props.project}
 
-                    onPledgeSuccess={this.props.onPledgeSuccess}
+                    onPledgeSuccess={this.onPledgeSuccess.bind(this)}
                 />
             </div>
         );
@@ -67,5 +71,5 @@ PledgeButton.propTypes = {
     team: React.PropTypes.object.isRequired,
     project: React.PropTypes.object.isRequired,
 
-    onPledgeSuccess: React.PropTypes.func.isRequired
+    onPledgeSuccess: React.PropTypes.func
 };
