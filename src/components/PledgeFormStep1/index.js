@@ -81,7 +81,7 @@ export default class PledgeFormStep1 extends Component {
                             value={this.state.amount}
                         />
                     </div>
-                    <label htmlFor="amount">{'Pledge'}</label>
+                    <label htmlFor="amount">{'One-time Pledge'}</label>
                     <span id={'tooltip-trigger'}>
                         <i
                             className={'fa fa-question'}
