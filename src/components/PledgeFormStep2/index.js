@@ -268,7 +268,7 @@ class PledgeFormStep2 extends Component {
                     </div>
                 </div>
 
-                {this.state.error ? <p>{this.state.error}</p> : null}
+                {this.state.error ? <p className='card-error'>{this.state.error}</p> : null}
 
                 <div className="form-group form-buttons">
                     <Button

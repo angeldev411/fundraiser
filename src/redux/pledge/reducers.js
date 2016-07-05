@@ -11,10 +11,11 @@ export default function reducers(state = initialState, action) {
             };
 
         case actionTypes.NEW_PLEDGE_FAIL:
+            // This is not returning an error message correctly, so we're faking it.
             return {
                 ...state,
                 pledge: null,
-                error: action.error,
+                error: "Please check your card details, there may have been a typo"// action.error,
             };
         case actionTypes.CANCEL_PLEDGE:
             return {

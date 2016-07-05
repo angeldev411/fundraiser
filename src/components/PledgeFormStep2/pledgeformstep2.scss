@@ -34,6 +34,11 @@
         margin-top: 40px;
         color: $grey;
         line-height: 1.5em;
+
+        &.card-error {
+          color: #d00;
+          margin-top: 0;
+        }
     }
 }
 

@@ -55,7 +55,7 @@ export default class Sponsor {
                     });
                 })
                 .catch((stripeError) => {
-                  console.log('Stripe error', stripeError);
+                  console.log('Stripe error on 58:', stripeError);
                   return reject(stripeError.message);
                 });
           });
@@ -115,7 +115,7 @@ export default class Sponsor {
                         });
                     })
                     .catch((stripeError) => {
-                      console.log('Stripe error', stripeError);
+                      console.log('Stripe error on 118:', stripeError);
                       reject(stripeError.message);
                     });
             } else {
@@ -503,7 +503,7 @@ export default class Sponsor {
         if (customer) {
           resolve(customer);
         } else if (err) {
-          console.log('Stripe error:', err.message);
+          console.log('Stripe error on 506:', err.message);
           reject(err.message);
         }
       });
@@ -525,7 +525,7 @@ export default class Sponsor {
         if (customer) {
           resolve(customer);
         } else if (err) {
-          console.log('Stripe error:', err.message);
+          console.log('Stripe error on 528:', err.message);
           reject(err.message);
         }
       });
