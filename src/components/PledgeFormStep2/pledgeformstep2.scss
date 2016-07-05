@@ -84,26 +84,24 @@
     }
 
     #pledge-info {
-        padding-top: 10px;
+        padding-top: 0px;
         padding-left: 20px;
         color: $grey;
         font-family: $conduit-light;
 
-        b {
-            font-family: $conduit-bold;
-        }
-
         #hourly-amount,
-        #goal {
+        #goal,
+        #hourly-total {
             display: block;
+            color: #fff;
+            font-size: 1.4em;
         }
 
-        #hourly-amount {
-            font-size: 1.5em;
+        #goal{
+          border-bottom: 1px solid #fff;
         }
 
         #goal {
-            font-size: 1.2em;
             position: relative;
             top: -5px;
         }

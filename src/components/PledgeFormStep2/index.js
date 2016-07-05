@@ -114,6 +114,14 @@ class PledgeFormStep2 extends Component {
         this.setState(newState);
     };
 
+    formattedHourly() {
+      return (Number(this.state.hourly)||0).toFixed(2);
+    }
+
+    hourlyMax() {
+      return (this.formattedHourly() * this.props.goal).toFixed(2);
+    }
+
     render() {
       if (this.state.success) {
 
@@ -147,26 +155,27 @@ class PledgeFormStep2 extends Component {
                     className={'col-xs-12'}
                 >
                     <div
-                        className={'col-xs-8'}
+                        className={'col-xs-6'}
                         id={'secure-payment'}
                     >
                         <img src="/assets/images/secure-payment.png"/>
                     </div>
                     <div
-                        className={'col-xs-4'}
+                        className={'col-xs-6'}
                         id={'pledge-info'}
                     >
                         {
                             this.state.hourly ?
                             (
                                 <span>
-                                    <span id={'hourly-amount'}><b>{`$${this.state.hourly}`}</b>{'/hr'}</span>
+                                    <span id={'hourly-amount'}>{`$${this.formattedHourly()}`}{'/hr'}</span>
                                     <span id={'goal'}>{`x ${this.props.goal} goal hrs`}</span>
+                                    <span id='hourly-total'>{`$${this.hourlyMax()} max pledge`}</span>
                                 </span>
                             ) :
                             (
                                 <span>
-                                    <span id={'hourly-amount'}><b>{`$${this.state.amount}`}</b></span>
+                                    <span id={'hourly-amount'}>{`$${this.state.amount}`}</span>
                                 </span>
                             )
                         }
