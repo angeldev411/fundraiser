@@ -85,7 +85,7 @@ export default class PledgeFormStep1 extends Component {
                     <span id={'tooltip-trigger'}>
                         <i
                             className={'fa fa-question'}
-                            data-tip={`Your 100% tax deductible donation will be charged upon completion of checkout.`}
+                            data-tip={`Your 100% tax deductible, one-time donation will be charged upon completion of checkout.`}
                             data-type={'success'}
                             data-class={'tooltip'}
                             data-multiline
