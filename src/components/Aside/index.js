@@ -10,7 +10,7 @@ export default class Aside extends Component {
       subjectLow: isVolunteer ? 'I' : 'we',
       possesive:  isVolunteer ? 'My': 'Our',
       object:     isVolunteer ? 'me': 'us',
-      project:    this.props.project ? this.props.project.name : 'to a great cause'
+      project:    this.props.project ? this.props.project.name : 'a great cause'
     };
 
     return (
