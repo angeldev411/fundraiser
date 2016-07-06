@@ -20,7 +20,7 @@ export default class Legals extends Component {
                       <section>
                         <h2>RAISERVE'S PUBLIC TERMS OF USE</h2>
                         <p>
-                          These terms and conditions govern your access to and use of the raiserve website. This is an agreement ("Agreement") between you and raiserve, Inc. ("raiserve", "we", "our" or "us"), a Delaware corporation whose principal place of business is located at 242 West 104th St Suite 6ER, New York, NY 10024. Your access and use of the Website is further subject to any other written agreement between you and raiserve, the terms of which are incorporated herein by reference and which control in the event of a conflict. This Agreement may be changed from time to time without raiserve providing notice to you, and any such changes will be effective immediately upon posting. Your further use of the Website shall indicate your consent to such changes. You should periodically check the Website for the most current Agreement terms and conditions. You may contact raiserve by e-mail at privacy@raiserve.com with questions about the terms and conditions of this Agreement.
+                          These terms and conditions govern your access to and use of the raiserve website. This is an agreement ("Agreement") between you and raiserve, Inc. ("raiserve", "we", "our" or "us"), a Delaware corporation whose principal place of business is located at 242 West 104th St., Suite 6ER, New York, NY 10024. Your access and use of the Website is further subject to any other written agreement between you and raiserve, the terms of which are incorporated herein by reference and which control in the event of a conflict. This Agreement may be changed from time to time without raiserve providing notice to you, and any such changes will be effective immediately upon posting. Your further use of the Website shall indicate your consent to such changes. You should periodically check the Website for the most current Agreement terms and conditions. You may contact raiserve by e-mail at privacy@raiserve.com with questions about the terms and conditions of this Agreement.
                         </p>
 
                         <h2>ELIGIBILITY TO USE THE WEBSITE</h2>
@@ -104,7 +104,7 @@ export default class Legals extends Component {
                         <h2>REPORTING OF HOURS, SPONSORS and DOLLARS RAISED</h2>
 
                         <p>
-                          You acknowledge that the reporting of hours, sponsors and dollars raised throughout the site is only an estimate, and that the final total may differ from the reported total.  Some of, by not all, of the causes of reporting error are credit card chargebacks, erroneous reporting, sponsors changing pledges etc and may not be reconciled for a period of time.  raiserve shall have no liability with respect errors in this reporting throughout the site.
+                          You acknowledge that the reporting of hours, sponsors and dollars raised throughout the site is only an estimate, and that the final total may differ from the reported total. Some of, but not all, of the causes of reporting error are credit card chargebacks, erroneous reporting, sponsors changing pledges, etc. and may not be reconciled for a period of time. raiserve shall have no liability with respect to errors in this reporting throughout the site.
                         </p>
 
                         <h2>PASSWORD AND USER IDS</h2>
@@ -121,15 +121,11 @@ export default class Legals extends Component {
                         </p>
 
                         <p>
-                          The Website may also contain trademarks, service marks, brand names, certification marks, collective marks, d/b/a's, Internet domain names, logos, symbols, trade dress, assumed names fictitious names, trade names, and other indicia of origins (collectively, ?Marks?) that are owned by raiserve or by the Brands, and you may not use any such marks without raiserve's or the Brand's written permission. You shall not purchase search engine keywords that use any raiserve Marks or Marks of any Brands, or any derivations thereof.
+                          The Website may also contain trademarks, service marks, brand names, certification marks, collective marks, d/b/a's, Internet domain names, logos, symbols, trade dress, assumed names fictitious names, trade names, and other indicia of origins (that are owned by raiserve, and you may not use any such marks without raiserve's written permission.  You shall not purchase search engine keywords that use any raiserve Marks.
                         </p>
 
                         <p>
-                          Pursuant to Section 512(c)(2) of the Copyright Revision Act, as enacted through the Digital Millennium Copyright Act, raiserve designates the agent described below to receive notifications of claimed copyright infringement by mail:
-                        </p>
-
-                        <p>
-                          The designated copyright agent can also be reached by e-mail at copyright@raiserve.com
+                          Pursuant to Section 512(c)(2) of the Copyright Revision Act, as enacted through the Digital Millennium Copyright Act,  Any questions or issues regarding the copyright can be addressed by e-mail to copyright@raiserve.com.
                         </p>
 
                         <p>
