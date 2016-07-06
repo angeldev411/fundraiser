@@ -101,10 +101,14 @@ footer {
         .footer-bottom {
             background: $grey-medium-opacity;
             min-height: 20px;
-            
-            div.volunteer, volunteer small, .volunteer small a {
+
+            div.volunteer, .volunteer small, .volunteer small a {
                 text-align: right;
                 color: $white;
+            }
+
+            div.volunteer{
+              margin-top: 8px;
             }
 
             .social {
@@ -114,7 +118,7 @@ footer {
                 a {
                     color: $white;
                     font-size: 1em;
-                    padding: 8px 5px;
+                    padding: 8px;
                     box-sizing: content-box;
                     display: inline-block;
 
