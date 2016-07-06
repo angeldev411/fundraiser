@@ -20,9 +20,9 @@ export default class Home extends Component {
                         <h1>{'Volunteers'} <br className={'visible-xs'} /> {'+'} <br className={'visible-xs'} /> {'Sponsors'} <br className={'visible-xs'} /> {'='} <br className={'visible-xs'} /> {'Twice the'} <br className={'visible-xs'} /> {'Difference'}</h1>
                         <div className={'hidden-xs hidden-sm'}>
                             <p>
-                                {'It’s simple really, people volunteer all the time to make an impact on the world around them.'}<br/>
-                                {'Those same people raise money for their favorite charities. But what if they could do both?'}<br/>
-                                {'What of they could raise money for the hours they volunteer? With raiserve now they can.'}
+                              {'It’s simple really, people volunteer all the time to make an impact on the world around them.'}<br/>
+                              {'Those same people raise money for their favorite charities. But what if they could do both at the same time?'}<br/>
+                              {'What if they could raise money for the hours they volunteer? With raiserve, now they can.'}
                             </p>
                             <p>
                                 {'Beautiful people volunteer their time for your organization.'}<br/>
@@ -38,12 +38,13 @@ export default class Home extends Component {
                         </a>
 
                         <div className={'sm-home-text hidden-md hidden-lg hidden-xl'}>
-                            <p>{'It’s simple really, people volunteer all the time to make an impact on the world around them. Those same people raise money for their favorite charities.'}</p>
-                            <p>{'But what if they could do both? What of they could raise money for the hours they volunteer? With raiserve now they can.'}</p>
+                            <p>{'It’s simple really, people volunteer all the time to make an impact on the world around them.'}</p>
+                            <p>{'Those same people raise money for their favorite charities. But what if they could do both at the same time?'}</p>
+                            <p>{'What if they could raise money for the hours they volunteer?'}</p>
                             <p>{'Beautiful people volunteer their time for your organization. Other giving individuals and companies sponsor those hours.'}</p>
                             <p><span className={'bold'}>{'Together we help your organization make twice the difference.'}</span></p>
                         </div>
-                        
+
                     </div>
                 </div>
             </Page>
