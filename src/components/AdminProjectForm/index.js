@@ -27,10 +27,13 @@ class AdminProjectForm extends Component {
     }
 
     disabledUrl = () => {
-      let teams = this.props.defaultData.teams;
-      return _.some(teams, function(team){ 
-          if (team.totalVolunteers > 0) return 'disabled';
-      });
+      if(this.props.defaultData && this.props.defaultData.teams){
+
+        let teams = this.props.defaultData.teams;
+        return _.some(teams, function(team){ 
+            if (team && team.totalVolunteers > 0) return 'disabled';
+        });
+      }
     }
 
     submit = () => {

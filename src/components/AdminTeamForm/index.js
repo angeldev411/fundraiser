@@ -23,7 +23,7 @@ class AdminTeamForm extends Component {
 
     disabledUrl = () => {
       let team = this.props.defaultData.team;
-      return team.totalVolunteers > 0 && 'disabled';
+      return team && team.totalVolunteers > 0 && 'disabled';
     }
 
     submit = () => {
