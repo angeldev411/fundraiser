@@ -454,14 +454,14 @@ export default class Mailer {
         `
         <p>${volunteer.firstName},</p>
 
-        <p>Congrats, you’re on your way, you just got your first sponsorship.</p>
+        <p>Congrats, you just received a new sponsorship.</p>
 
-        <p>Each hour your volunteers is now making twice the difference for ${volunteer.project.name}</p>
+        <p>Each hour you volunteer is now making twice the difference for ${volunteer.project.name}</p>
 
         <p>You were sponsored by ${sponsor.firstName} ${sponsor.lastName}.</p>
 
-        <p>Sending a personalized thank you is always nice.  You can reach  ${sponsor.firstName} at <a href="mailto:${sponsor.email}">${sponsor.email}</a></p>
-        <p> Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page  url <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you note</p>
+        <p>Sending a personalized thank you is always nice. You can reach ${sponsor.firstName} at <a href="mailto:${sponsor.email}">${sponsor.email}</a>.</p>
+        <p>Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page url <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you note.</p>
 
         <p>Thanks,</p>
 
