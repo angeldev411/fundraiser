@@ -22,7 +22,7 @@ export default class RaiserveBasics extends Component {
                                 {'raiserve was founded on the premise that there has to be a better way to fundraise.'}
                             </p>
                             <p>
-                                {'Our unique platform allows Nonprofits, NGO’s, School and Universities and their volunteers to raise money by getting sponsorship for each hour of service they complete. Donations go directly to the Non-profit and together the volunteers and their sponsors make twice the difference.'}
+                                {'Our unique platform allows nonprofits, NGO’s, school and universities and their volunteers to raise money by getting sponsored for each hour of service they complete. Donations go directly to the nonprofit and together the volunteers and their sponsors make twice the difference.'}
                             </p>
                         </section>
                         <section>
@@ -35,7 +35,7 @@ export default class RaiserveBasics extends Component {
                                 <br/>
                                 {'Volunteers are invited to sign up and customize their personal fundraising page.'}
                                 <br/>
-                                {'Volunteers share their page and get sponsored for each hour of service they complete.'}
+                                {'Volunteers share their pages and get sponsored for each hour of service they complete.'}
                                 <br/>
                                 {'Volunteers record their service hours and their sponsors donate each month based on the amount they have volunteered.'}
                             </p>
@@ -46,12 +46,12 @@ export default class RaiserveBasics extends Component {
                                 {'Sponsoring hours of service is a great way to raise money.'}
                             </p>
                             <p>
-                                {'Volunteers are inspired and motivated to continue volunteer knowing that they are simultaneously raising money for a cause they are passionate about.'}
+                                {'Volunteers are inspired and motivated to continue volunteering knowing that they are making a double impact on a cause they are passionate about.'}
                                 <br/>
-                                {'Sponsors feel better about themselves and the organization they are donating to with the knowledge that they are supporting a great organization and inspiring volunteers.'}
+                                {'Sponsors know that their dollars are going twice as far, thanks to the volunteer hours they are encouraging. '}
                             </p>
                             <p>
-                                {'If you work for or with a Non-profit that would like to use our platform please contact us at'} <a href="mailto:info@raiserve.org">{'info@raiserve.org'}</a>
+                                {'If you work for or with a nonprofit that would like to use our platform, please contact us at'} <a href="mailto:info@raiserve.org">{'info@raiserve.org'}</a>
                             </p>
                         </section>
                     </Layout34>
