@@ -121,7 +121,7 @@ export default class Legals extends Component {
                         </p>
 
                         <p>
-                          The Website may also contain trademarks, service marks, brand names, certification marks, collective marks, d/b/a's, Internet domain names, logos, symbols, trade dress, assumed names fictitious names, trade names, and other indicia of origins (that are owned by raiserve, and you may not use any such marks without raiserve's written permission.  You shall not purchase search engine keywords that use any raiserve Marks.
+                          The Website may also contain trademarks, service marks, brand names, certification marks, collective marks, d/b/a's, Internet domain names, logos, symbols, trade dress, assumed names fictitious names, trade names, and other indicia of origins (that are owned by raiserve), and you may not use any such marks without raiserve's written permission.  You shall not purchase search engine keywords that use any raiserve Marks.
                         </p>
 
                         <p>
