@@ -17,9 +17,10 @@ router.post('/api/v1/signup', (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: util.hash(req.body.password),
+        goal: req.body.goal
     };
     let slug = req.body.teamSlug || '';
-    
+
     userController.signup(data, slug.toLowerCase())
     .then((user) => {
         req.session.user = user;

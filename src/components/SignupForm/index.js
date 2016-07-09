@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
+import moment from 'moment';
 
 export default class SignupForm extends Component {
     constructor(props) {
@@ -22,6 +23,10 @@ export default class SignupForm extends Component {
         }
     }
 
+    deadline() {
+      return moment( this.props.deadline ).format('MMM D YYYY');
+    }
+
     handleChange = (event, name) => {
         const newState = {};
 
@@ -36,18 +41,22 @@ export default class SignupForm extends Component {
             });
             return;
         }
-        if (this.state.email && this.state.password1) {
+        if (this.state.goal <= 0){
+          return this.setState({ error: 'Please set a goal' });
+        }
+        if (this.state.email && this.state.password1 && this.state.goal) {
             this.setState({ error: null });
             this.props.onSubmit({
-                email: this.state.email,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                password: this.state.password1,
+                email:      this.state.email,
+                firstName:  this.state.firstName,
+                lastName:   this.state.lastName,
+                password:   this.state.password1,
+                goal:       this.state.goal,
                 inviteCode: this.state.inviteCode,
             });
         } else {
             this.setState({
-                error: `Fields are missing, please check the form.`,
+                error: `Please check the form, all fields are required.`,
             });
         }
     };
@@ -110,6 +119,20 @@ export default class SignupForm extends Component {
                 </div>
 
                 <div className="form-group">
+                    <input type="number"
+                        name="goal"
+                        id="goal"
+                        onChange={(e) => { this.handleChange(e, 'goal') }}
+                    />
+                  <label htmlFor="goal">
+                    Goal Hours by {this.deadline()}&nbsp;&nbsp;
+                    <span className={'lowercase'}>
+                      Be conservative, you can always add another goal in the future.
+                    </span>
+                  </label>
+                </div>
+
+                <div className="form-group">
                     <input type="password"
                         name="password"
                         id="password"
@@ -142,4 +165,5 @@ SignupForm.propTypes = {
     onSubmit: React.PropTypes.func,
     error: React.PropTypes.string,
     loading: React.PropTypes.bool,
+    deadline: React.PropTypes.date
 };

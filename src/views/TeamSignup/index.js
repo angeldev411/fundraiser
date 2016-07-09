@@ -102,6 +102,7 @@ class TeamSignup extends Component {
                             onSubmit={this.submit}
                             error={this.state.error ? this.state.error : ''}
                             loading={this.state.loading}
+                            deadline={this.state.team.deadline}
                         />
                     </div>
                 </div>
