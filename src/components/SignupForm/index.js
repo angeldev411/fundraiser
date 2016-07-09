@@ -41,10 +41,14 @@ export default class SignupForm extends Component {
             });
             return;
         }
-        if (this.state.goal <= 0){
+
+        // goal is only required on team signup
+        const deadlineRequired = !!this.props.deadline;
+        if (deadlineRequired && (!this.state.goal || this.state.goal <= 0)){
           return this.setState({ error: 'Please set a goal' });
         }
-        if (this.state.email && this.state.password1 && this.state.goal) {
+
+        if (this.state.email && this.state.password1) {
             this.setState({ error: null });
             this.props.onSubmit({
                 email:      this.state.email,
@@ -118,19 +122,21 @@ export default class SignupForm extends Component {
                     <label htmlFor="lastName">{'Lastname'}</label>
                 </div>
 
-                <div className="form-group">
-                    <input type="number"
-                        name="goal"
-                        id="goal"
-                        onChange={(e) => { this.handleChange(e, 'goal') }}
-                    />
-                  <label htmlFor="goal">
-                    Goal Hours by {this.deadline()}&nbsp;&nbsp;
-                    <span className={'lowercase'}>
-                      Be conservative, you can always add another goal in the future.
-                    </span>
-                  </label>
-                </div>
+                { this.props.deadline ?
+                  <div className="form-group">
+                      <input type="number"
+                          name="goal"
+                          id="goal"
+                          onChange={(e) => { this.handleChange(e, 'goal') }}
+                      />
+                    <label htmlFor="goal">
+                      Goal Hours by {this.deadline()}&nbsp;&nbsp;
+                      <span className={'lowercase'}>
+                        Be conservative, you can always add another goal in the future.
+                      </span>
+                    </label>
+                  </div>
+                : null }
 
                 <div className="form-group">
                     <input type="password"
