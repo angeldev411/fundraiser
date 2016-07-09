@@ -25,7 +25,6 @@ class TeamSignup extends Component {
     }
 
     componentWillMount() {
-        document.title = `Signup for ${this.state.team.name} | raiserve`;
         if (this.props.user) {
             this.props.dispatch(
                 pushPath(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
@@ -73,6 +72,7 @@ class TeamSignup extends Component {
     };
 
     render() {
+      document.title = `Signup for ${this.state.team.name} | raiserve`;
         if (this.state.projectError) {
             return (<RouteNotFound />);
         }
