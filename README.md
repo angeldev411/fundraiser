@@ -7,11 +7,6 @@
 * Go to Options > Server configuration
 * Edit the `dbms.security.auth_enabled` constante to `false`
 
-To reset your DB with test values:
-```sh
-npm run setup-db
-```
-
 ## Development
 
 [Install React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
@@ -23,7 +18,12 @@ nvm install `cat .node-version`
 nvm use `cat .node-version`
 npm install gulp -g
 npm install
-gulp dev
+gulp
+```
+
+## Initialize the database
+```sh
+npm run setup-db
 ```
 
 *Be sure to click the livereload icon in your browser*
