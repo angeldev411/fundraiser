@@ -18,7 +18,7 @@ import * as Actions from '../../../redux/volunteer/actions';
 import * as constants from '../../../common/constants';
 import * as Urls from '../../../urls.js';
 
-export default class AdminVolunteerProfile extends Component {
+export default class AdminUserProfile extends Component {
     constructor(props) {
         super(props);
 
@@ -245,7 +245,7 @@ export default class AdminVolunteerProfile extends Component {
             {
                 type: 'link',
                 title: 'Edit My Profile',
-                href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
+                href: `${Urls.ADMIN_USER_PROFILE_URL}`,
             },
         ];
 
@@ -450,4 +450,4 @@ export default connect((reduxState) => ({
     user: reduxState.main.auth.user,
     volunteer: reduxState.main.volunteer.user,
     error: reduxState.main.volunteer.error,
-}))(AdminVolunteerProfile);
+}))(AdminUserProfile);

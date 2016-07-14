@@ -119,7 +119,7 @@ class AdminVolunteerSponsors extends Component {
             {
                 type: 'link',
                 title: 'Edit My Profile',
-                href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
+                href: `${Urls.ADMIN_USER_PROFILE_URL}`,
             },
         ];
 

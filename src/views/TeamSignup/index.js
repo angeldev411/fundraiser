@@ -39,7 +39,7 @@ class TeamSignup extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
             if (nextProps.user.roles.indexOf('VOLUNTEER') >= 0) {
-                window.location = `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`;
+                window.location = `${Urls.ADMIN_USER_PROFILE_URL}`;
             } else {
                 window.location = `${Urls.REDIRECT_TO_DASHBOARD}`;
             }
