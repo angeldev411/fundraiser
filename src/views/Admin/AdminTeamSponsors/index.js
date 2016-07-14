@@ -128,6 +128,11 @@ class AdminTeamSponsors extends Component {
                 title: 'Edit Team Profile',
                 href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
+            {
+                type: 'link',
+                title: 'Edit My Profile',
+                href: Urls.ADMIN_USER_PROFILE_URL
+            }
         ];
 
         if( this.props.user.roles.includes('VOLUNTEER') )
