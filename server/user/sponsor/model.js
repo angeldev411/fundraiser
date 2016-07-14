@@ -468,28 +468,16 @@ export default class Sponsor {
             team: result.team
           };
 
-          if (hourly) {
             return Promise.all([
               Mailer.sendVolunteerSponsorshipEmail(volunteer, sponsor),
               Mailer.sendSponsorSponsorshipThanksEmail(volunteer, sponsor, amount)
             ])
-                .then(() => {
-                  return Promise.resolve();
-                })
-                .catch((err) => {
-                  return Promise.reject(err);
-                });
-          } else {
-            return Promise.all([
-              Mailer.sendSponsorDonationThanksEmail(volunteer, sponsor, amount)
-            ])
-                .then(() => {
-                  return Promise.resolve();
-                })
-                .catch((err) => {
-                  return Promise.reject(err);
-                });
-          }
+              .then(() => {
+                return Promise.resolve();
+              })
+              .catch((err) => {
+                return Promise.reject(err);
+              });
         });
   }
 
