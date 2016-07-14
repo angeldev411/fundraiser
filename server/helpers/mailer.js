@@ -440,6 +440,56 @@ export default class Mailer {
     }
 
     /*
+     * sendVolunteerSignupNotificationToTeamLeader()
+     * Send email to volunteer after new sponsor contract
+     *
+     * volunteer: volunteer object
+     * sponsor: sponsor object
+    */
+    static sendVolunteerSignupNotificationToTeamLeader(volunteer) {
+        const subject = `Congrats you have a new volunteer`;
+        const headline = 'CONGRATULATIONS YOU HAVE A NEW VOLUNTEER';
+
+        const text =
+        `
+        <p>${volunteer.firstName} ${volunteer.lastName} just signed up to be a volunteer on your team. Be sure to reach out to new volunteers and welcome them to your team and encourage them to share their page with friends and family to gain sponsors.</p>
+
+        <p>Remember you can build your team by sharing the link below with prospective volunteers</p>
+
+        <p><a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(volunteer.project.slug, volunteer.team.slug)}/join">${Constants.DOMAIN}${Urls.getTeamProfileUrl(volunteer.project.slug, volunteer.team.slug)}/join</a></p>
+
+        <p>Keep up the good work,</p>
+
+        <p>The raiserve team.</p>
+        `;
+
+        const message = {
+            subject,
+            to: [{
+                email: volunteer.team.teamLeaderEmail,
+                name: `${volunteer.team.name} Leader`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: headline,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    /*
      * sendVolunteerSponsorshipEmail()
      * Send email to volunteer after new sponsor contract
      *
