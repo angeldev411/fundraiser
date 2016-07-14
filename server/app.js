@@ -4,6 +4,11 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as Urls from '../src/urls.js';
+import webpack from 'webpack';
+import webpackConfig from '../webpack.config.dev.js';
+import WebpackHotMiddleware from 'webpack-hot-middleware';
+import WebpackDevMiddleware from 'webpack-dev-middleware';
+
 // import multer from 'multer';
 
 import config from './config';
@@ -14,6 +19,18 @@ const sess = config.SESSION_CONFIG;
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1); // trust first proxy
   sess.cookie.secure = true; // serve secure cookies
+}
+if (app.get('env') === 'development') {
+    const compiler = webpack(webpackConfig);
+    app.use(new WebpackHotMiddleware(compiler));
+    app.use(new WebpackDevMiddleware(compiler, {
+        stats: {
+            colors: true,
+        },
+        noInfo: true,
+        historyApiFallback: true,
+        publicPath: '/',
+    }));
 }
 
 // app.use(multer({ dest: './uploads/'}));
