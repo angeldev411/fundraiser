@@ -1,20 +1,22 @@
 // TODO: break this up so there is a server version and a development version, ie: livereload, nodemon are not used on production
 
-var browserify = require('browserify');
-var gulp       = require('gulp');
-var source     = require('vinyl-source-stream');
-var sass       = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var rename     = require('gulp-rename');
-var del        = require('del');
-var babel      = require('babelify');
-var concat     = require('gulp-concat');
-var buffer     = require('vinyl-buffer');
-var uglify     = require('gulp-uglify');
-var livereload = require('gulp-livereload');
-var nodemon    = require('gulp-nodemon');
-var template   = require('gulp-template');
-var gutil      = require('gulp-util');
+var browserify    = require('browserify');
+var gulp          = require('gulp');
+var source        = require('vinyl-source-stream');
+var sass          = require('gulp-sass');
+var sourcemaps    = require('gulp-sourcemaps');
+var rename        = require('gulp-rename');
+var del           = require('del');
+var babel         = require('babelify');
+var concat        = require('gulp-concat');
+var buffer        = require('vinyl-buffer');
+var uglify        = require('gulp-uglify');
+var livereload    = require('gulp-livereload');
+var nodemon       = require('gulp-nodemon');
+var template      = require('gulp-template');
+var gutil         = require('gulp-util');
+var webpackConfig = require('./webpack.config.js');
+var webpack       = require('webpack');
 
 var assetList = [
   './src/assets/fonts/**/*.*',
@@ -36,7 +38,12 @@ gulp.task('cleanAssets', function(cb) {
 });
 
 gulp.task('cleanJS', function(cb) {
-  del(['www/bundle.js'], cb);
+    del([
+        'www/bundle.js',
+        'www/bundle.js.map',
+        'www/vendor.js',
+        'www/vendor.js.map'
+    ], cb);
 });
 
 gulp.task('cleanCSS', function(cb) {
@@ -84,19 +91,9 @@ gulp.task('constantsFront', ['cleanConstants'], () =>
 );
 
 
-gulp.task('js', ['cleanJS'], function() {
-    var stream = browserify('./src/index.js', {debug: false})
-      .transform(babel)
-      .bundle()
-      .on('error', function(error) { console.log(error); })
-      .pipe(source('bundle.js'))
-      .pipe(buffer())
-      .pipe(process.env.NODE_ENV === 'production' ? buffer() : sourcemaps.init() )
-      .pipe(process.env.NODE_ENV === 'production' ? uglify() : sourcemaps.write() )
-      .pipe(gulp.dest('./www/'))
-      .pipe(livereload())
-
-    return stream;
+gulp.task('js', ['cleanJS'], function(cb) {
+    var compiler = webpack(webpackConfig);
+    compiler.run(cb)
 });
 
 gulp.task('fa', function() {
@@ -111,7 +108,14 @@ gulp.task('glyphicons', function() {
     .pipe(livereload())
 });
 
-gulp.task('default', ['moveAssets', 'html', 'constantsFront', 'sass', 'fa', 'glyphicons'], function () {
+// Define the base build tasks
+var defaultTasks = ['moveAssets', 'html', 'constantsFront', 'sass', 'fa', 'glyphicons']
+// Inject the 'js' task to build the production javascript bundles. (the dev bundles
+// are compiled and served from webpack middleware in the server itself)
+if(process.env.NODE_ENV === 'production') {
+    defaultTasks.splice(4, 0, 'js')
+}
+gulp.task('default', defaultTasks, function () {
   if(process.env.NODE_ENV !== 'production'){
     livereload.listen();
     gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons']);
