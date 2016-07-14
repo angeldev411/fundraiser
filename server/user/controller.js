@@ -202,20 +202,27 @@ class userController {
         });
   }
 
-    // @data includes password and invitecode
+  // @data includes password and invitecode
   static signup(userData, teamSlug) {
     return this.getUserWithRoles(userData.email)
         .then((user) => {
           if (user.inviteCode === userData.inviteCode) {
             return User.update(user, userData)
                 .then((userUpdated) => {
-                  return this.checkCredentials({
+                   this.checkCredentials({
                     email: userData.email,
                     password: userData.password
-                  });
+                  })
                 })
                 .then((dbUser) => {
                   return Promise.resolve(dbUser);
+                })
+                .then((user) => {
+
+                    return new Promise((resolve, reject) => {
+                      Mailer.sendVolunteerSignupNotificationToTeamLeader(user);
+                      return resolve(user);
+                    });
                 })
                 .catch((err) => {
                   console.log('Error updating user:',err);
@@ -236,6 +243,12 @@ class userController {
                 })
                 .then((dbUser) => {
                   return Promise.resolve(dbUser);
+                })
+                .then((user) => {
+                    return new Promise((resolve, reject) => {
+                      Mailer.sendVolunteerSignupNotificationToTeamLeader(user);
+                      return resolve(user);
+                    });
                 })
                 .catch((err) => {
                   console.log('Error adding new user:', err);
