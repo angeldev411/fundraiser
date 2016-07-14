@@ -16,7 +16,6 @@ module.exports = new Config().merge({
       'axios',
       'classnames',
       'd3',
-      'fbjs',
       'history',
       'lodash',
       'moment',
@@ -93,7 +92,7 @@ module.exports = new Config().merge({
     }),
 
     // extract inline css into separate file
-    new ExtractTextPlugin('assets/css/style.css'),
+    new ExtractTextPlugin('assets/css/components.css'),
   ],
   postcss() {
     return [autoprefixer]

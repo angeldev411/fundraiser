@@ -3,8 +3,6 @@ import * as constants from '../../common/constants';
 import * as Actions from '../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 
-import './adminapprovehours.scss'
-
 export default class AdminApproveHours extends Component {
 
     constructor(props) {
