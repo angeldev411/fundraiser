@@ -6,7 +6,6 @@ var sass          = require('gulp-sass');
 var sourcemaps    = require('gulp-sourcemaps');
 var rename        = require('gulp-rename');
 var del           = require('del');
-var babel         = require('babelify');
 var concat        = require('gulp-concat');
 var buffer        = require('vinyl-buffer');
 var livereload    = require('gulp-livereload');
