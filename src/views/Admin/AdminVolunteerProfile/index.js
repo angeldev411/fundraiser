@@ -294,6 +294,7 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="lastName">{'Lastname'}</label>
                                 </div>
+                                {/*
                                 <div className="form-group">
                                     <input type="text"
                                         name="location"
@@ -303,6 +304,7 @@ export default class AdminVolunteerProfile extends Component {
                                     />
                                     <label htmlFor="zipcode">{'Zip Code'}</label>
                                 </div>
+                                */}
                                 <div className="form-group">
                                     <input type="email"
                                         name="email"
