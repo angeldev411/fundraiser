@@ -125,6 +125,14 @@ class RecordedHours extends Component {
           },
       ];
 
+      if( this.props.user.roles.includes('VOLUNTEER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Volunteer Dash',
+            href:       `${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
+
     return (
       <Page>
         { this.state.showRecordHoursSuccessModal === true ?
@@ -144,7 +152,7 @@ class RecordedHours extends Component {
           />
           : null
         }
-        <AdminLayout pageNav={pageNav}>
+        <AdminLayout pageType='TEAM_LEADER' pageNav={pageNav}>
           <AdminContentHeader
             title='Recorded Hours'
             description='Get details on when and where volunteer service was performed'

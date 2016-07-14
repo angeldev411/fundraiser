@@ -130,9 +130,17 @@ class AdminTeamSponsors extends Component {
             },
         ];
 
+        if( this.props.user.roles.includes('VOLUNTEER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Volunteer Dash',
+            href:       `${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
+
         return (
             <Page>
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='TEAM_LEADER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'Team sponsors'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}

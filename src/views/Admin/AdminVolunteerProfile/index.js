@@ -249,6 +249,15 @@ export default class AdminVolunteerProfile extends Component {
             },
         ];
 
+        if( this.props.user.roles.includes('TEAM_LEADER') )
+          console.log('adding etam dash link');
+          pageNav.push({
+            type:       'link',
+            title:      'My Team Dashboard',
+            href:       `${Urls.ADMIN_TEAM_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
+
         return (
             <Page>
                 { this.state.showRecordHoursSuccessModal === true ?
@@ -268,7 +277,7 @@ export default class AdminVolunteerProfile extends Component {
                   />
                   : null
                 }
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='VOLUNTEER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}
                         description={'THE LAST STEP. A simple but important step to keep your public page up-to-date & fresh.'}

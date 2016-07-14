@@ -115,6 +115,14 @@ export default class AdminVolunteerDashboard extends Component {
             },
         ];
 
+        if( this.props.user.roles.includes('TEAM_LEADER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Team Dashboard',
+            href:       Urls.ADMIN_TEAM_DASHBOARD_URL,
+            className:  'navPadding'
+          });
+
         return (
             <Page>
                 { this.state.showRecordHoursSuccessModal === true ?
@@ -134,7 +142,7 @@ export default class AdminVolunteerDashboard extends Component {
                   />
                   : null
                 }
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='VOLUNTEER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Dashboard'}
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}

@@ -103,7 +103,7 @@ class AdminTeamProfile extends Component {
       }
 
       newState.team[attribute] = value;
-      
+
       this.setState(newState);
       Actions.updateTeam(
         newState.team.id,
@@ -155,12 +155,20 @@ class AdminTeamProfile extends Component {
                 type: 'link',
                 title: 'Edit Team Profile',
                 href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
-            },
+            }
         ];
+
+        if( this.props.user.roles.includes('VOLUNTEER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Volunteer Dash',
+            href:       `${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
 
         return (
             <Page>
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='TEAM_LEADER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'Edit Team Profile'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
@@ -235,18 +243,18 @@ class AdminTeamProfile extends Component {
                                     />
                                     <span className="lock input-group-addon">
                                                 {
-                                                    this.disabledGoal() ? 
+                                                    this.disabledGoal() ?
                                                     <i className="fa fa-lock" aria-hidden="true"></i>:
-                                                    <i className="fa fa-unlock" aria-hidden="true"></i> 
+                                                    <i className="fa fa-unlock" aria-hidden="true"></i>
                                                 }
                                             </span>
                                 </div>
-                                { 
-                                    this.disabledGoal() ? 
+                                {
+                                    this.disabledGoal() ?
                                         <label className={'action-description action-margin goal-description'}>{'Note:  Your team already as a sponsor, Goal hours are locked.'}</label>:
-                                        <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'} <br/>{'Note: you cannot change your goal hours after you get your first sponsor'}</label> 
+                                        <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'} <br/>{'Note: you cannot change your goal hours after you get your first sponsor'}</label>
                                 }
-                            
+
                             </div>
                             <div className="form-group">
                             <input

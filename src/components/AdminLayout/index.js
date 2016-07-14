@@ -5,6 +5,26 @@ import * as Urls from '../../urls.js';
 import { connect } from 'react-redux';
 
 class AdminLayout extends Component {
+    pageType(){
+      let pageType = 'VOLUNTEER';
+
+      if (this.props.pageType)
+        pageType = this.props.pageType;
+
+      else { // if no pageType was passed in props, infer from user roles
+        const roles = this.props.user.roles;
+
+        if ( roles.includes('SUPER_ADMIN') )
+          pageType = 'SUPER_ADMIN';
+        else if ( roles.includes('PROJECT_LEADER') )
+          pageType = 'PROJECT_LEADER';
+        else if ( roles.includes('TEAM_LEADER') )
+          pageType = 'TEAM_LEADER';
+      }
+
+      return pageType;
+    }
+
     getNav() {
 
         const RecordedHoursHistory = {
@@ -13,9 +33,9 @@ class AdminLayout extends Component {
           href: Urls.RECORDED_HOURS
         };
 
-        const roles = this.props.user.roles;
+        const pageType = this.pageType();
 
-        if (roles.indexOf('SUPER_ADMIN') >= 0) {
+        if ( pageType === 'SUPER_ADMIN') {
             return [
                 {
                     title: 'Projects',
@@ -38,7 +58,7 @@ class AdminLayout extends Component {
                     href: Urls.ADMIN_SETTINGS_URL,
                 },
             ];
-        } else if (roles.indexOf('PROJECT_LEADER') >= 0) {
+        } else if ( pageType === 'PROJECT_LEADER' ) {
             return [
                 {
                     title: 'Teams',
@@ -57,7 +77,7 @@ class AdminLayout extends Component {
                 },
                 RecordedHoursHistory
             ];
-        } else if (roles.indexOf('TEAM_LEADER') >= 0) {
+        } else if ( pageType === 'TEAM_LEADER' ) {
             return [
                 {
                     title: 'My Team Dashboard',
@@ -84,20 +104,21 @@ class AdminLayout extends Component {
                 },
                 RecordedHoursHistory
             ];
+        } else {
+          return [
+              {
+                  title: 'My Dashboard',
+                  type: 'link',
+                  href: Urls.ADMIN_VOLUNTEER_DASHBOARD_URL,
+              },
+              {
+                  title: 'My Sponsors',
+                  type: 'link',
+                  href: Urls.ADMIN_VOLUNTEER_SPONSORS_URL,
+              },
+              RecordedHoursHistory
+          ];
         }
-        return [
-            {
-                title: 'My Dashboard',
-                type: 'link',
-                href: Urls.ADMIN_VOLUNTEER_DASHBOARD_URL,
-            },
-            {
-                title: 'My Sponsors',
-                type: 'link',
-                href: Urls.ADMIN_VOLUNTEER_SPONSORS_URL,
-            },
-            RecordedHoursHistory
-        ];
     };
 
     render() {
@@ -121,7 +142,8 @@ class AdminLayout extends Component {
 }
 
 AdminLayout.propTypes = {
-    pageNav: React.PropTypes.array,
+  pageType: React.PropTypes.string,
+  pageNav:  React.PropTypes.array
 };
 
 export default connect((reduxState) => ({
