@@ -111,17 +111,16 @@ gulp.task('glyphicons', function() {
     .pipe(livereload())
 });
 
-gulp.task('default', ['moveAssets', 'html', 'constantsFront', 'js', 'sass', 'fa', 'glyphicons'], function () {
+gulp.task('default', ['moveAssets', 'html', 'constantsFront', 'sass', 'fa', 'glyphicons'], function () {
   if(process.env.NODE_ENV !== 'production'){
     livereload.listen();
     gulp.watch(assetList, ['moveAssets', 'sass', 'fa', 'glyphicons']);
-    gulp.watch(['./src/**/*.js'], ['js']);
     gulp.watch('./src/**/*.scss', ['sass']);
     gulp.watch('./src/index.html', ['html']);
     nodemon({
       script: 'server/app.js',
       exec: './node_modules/.bin/babel-node',
-      ignore: ['www','sessions'],
+      ignore: ['src','www','sessions'],
       ext: 'js html',
       env: { 'NODE_ENV': 'development' }
     })

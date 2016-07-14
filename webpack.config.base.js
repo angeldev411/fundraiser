@@ -44,7 +44,7 @@ module.exports = new Config().merge({
   output: {
     path: PATHS.build,
     filename: '[name].js',
-    publicPath: '',
+    publicPath: '/',
   },
   module: {
     loaders: [
@@ -79,7 +79,7 @@ module.exports = new Config().merge({
 
     // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    
+
     new webpack.ProvidePlugin({
       React: 'react',
     }),
