@@ -383,10 +383,19 @@ export default class Sponsor {
           .then( (project) => { // add project to team, send thank-yous
             team.project = project;
 
-            if (pledge.hourly)
-              Mailer.sendThanksToHourlyTeamSponsor(team, sponsor, pledge.hourly);
-            else
-              Mailer.sendThanksToOneTimeTeamSponsor(team, sponsor, pledge.amount);
+            if (pledge.hourly){
+              return Promise.all([
+                Mailer.sendThanksToHourlyTeamSponsor(team, sponsor, pledge.hourly),
+                Mailer.sendNewHourlySponsorNotificationToTeamLeader(team, sponsor, pledge.hourly)
+              ]);
+            } else{
+               return Promise.all([
+                Mailer.sendThanksToOneTimeTeamSponsor(team, sponsor, pledge.amount),
+                Mailer.sendNewOneTimeSponsorNotificationToTeamLeader(team, sponsor, pledge.amount)
+              ]);
+            }
+              
+              
           })
           .catch((err) => {
             console.log('Error in linkSponsorToSupportedNode for team:',err);

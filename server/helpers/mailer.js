@@ -164,7 +164,7 @@ export default class Mailer {
         <p>Don’t forget to invite your friends and family to sponsor you. To get started:</p>
 
         <ol>
-            <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know about your service goal of ${volunteer.goal} hours and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name}</li>
+            <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know about your service goal of ${volunteer.goal} hours and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name}</li>
             <li>Share your personal page and why you are so passionate about ${project.name} with your social network via Facebook and Twitter</li>
         </ol>
 
@@ -276,7 +276,7 @@ export default class Mailer {
         <p>There are two ways:</p>
 
         <ol>
-            <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know that you just volunteered ${hour.hours} hours at ${hour.place} and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name} NAME.</li>
+            <li>Email this link of your personal fundraising page: <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a> to your contact list, letting them know that you just volunteered ${hour.hours} hours at ${hour.place} and that when they sponsor you for every hour you volunteer the money will go directly to ${project.name} NAME.</li>
             <li>Share with your social network via Facebook and Twitter your ${hour.hours} hours volunteering at ${hour.place} along with a link to your personal page <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(project.slug, team.slug, volunteer.slug)}</a>. </li>
         </ol>
 
@@ -441,10 +441,9 @@ export default class Mailer {
 
     /*
      * sendVolunteerSignupNotificationToTeamLeader()
-     * Send email to volunteer after new sponsor contract
+     * Send email to team leader after a volunteer signs up
      *
-     * volunteer: volunteer object
-     * sponsor: sponsor object
+     * volunteer{}
     */
     static sendVolunteerSignupNotificationToTeamLeader(volunteer) {
         const subject = `Congrats you have a new volunteer`;
@@ -490,6 +489,108 @@ export default class Mailer {
     }
 
     /*
+     * sendNewHourlySponsorNotificationToTeamLeader()
+     * Send email to team leader after a volunteer gets a new hourly sponsor
+     *
+     * team{}, sponsor{}, hourlyPledge{}
+    */
+    static sendNewHourlySponsorNotificationToTeamLeader(team, sponsor, hourlyPledge) {
+        const subject = `You have a sponsor`;
+        const headline = 'CONGRATULATIONS YOU HAVE A NEW SPONSOR';
+
+        const text =
+        `
+        <p>Congrats, your team just received a new sponsorship.</p>
+
+        <p>Each hour your team volunteers is now making twice the difference for ${team.project.name}</p>
+
+        <p>You were sponsored by ${sponsor.firstName} ${sponsor.lastName}.</p>
+
+        <p>Sending a personalized thank you is always nice. You can reach ${sponsor.firstName} at <a href="mailto:${sponsor.email}">${sponsor.email}</a>.</p>
+        <p>Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page url <a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}">${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}</a> in your thank you note.</p>
+
+        <p>Thanks,</p>
+
+        <p>The raiserve team.</p>
+        `;
+
+        const message = {
+            subject,
+            to: [{
+                email: team.teamLeaderEmail,
+                name: `${team.project.name} Leader`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: headline,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    /*
+     * sendNewHourlySponsorNotificationToTeamLeader()
+     * Send email to team leader after a volunteer gets a new hourly sponsor
+     *
+     * team{}, sponsor{}, oneTimePledge{}
+    */
+    static sendNewOneTimeSponsorNotificationToTeamLeader(team, sponsor, oneTimePledge) {
+        const subject = `You have a team sponsor`;
+        const headline = 'CONGRATULATIONS YOU HAVE A NEW TEAM SPONSOR';
+
+        const text =
+        `
+        <p>Congrats, your team just received a new sponsorship.</p>
+
+        <p>You were sponsored by ${sponsor.firstName} ${sponsor.lastName}.</p>
+
+        <p>Sending a personalized thank you is always nice. You can reach ${sponsor.firstName} at <a href="mailto:${sponsor.email}">${sponsor.email}</a>.</p>
+        <p>Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page url <a href="${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}">${Constants.DOMAIN}${Urls.getTeamProfileUrl(team.project.slug, team.slug)}</a> in your thank you note.</p>
+
+        <p>Thanks,</p>
+
+        <p>The raiserve team.</p>
+        `;
+
+        const message = {
+            subject,
+            to: [{
+                email: team.teamLeaderEmail,
+                name: `${team.project.name} Leader`,
+                type: 'to',
+            }],
+            global_merge_vars: [
+                {
+                    name: 'headline',
+                    content: headline,
+                },
+                {
+                    name: 'message',
+                    content: text,
+                },
+            ],
+        };
+
+        return Mailer.sendTemplate(message, 'mandrill-template', (response) => {
+            return Promise.resolve(response);
+        }, (err) => {
+            return Promise.reject(err);
+        });
+    }
+
+    /*
      * sendVolunteerSponsorshipEmail()
      * Send email to volunteer after new sponsor contract
      *
@@ -497,7 +598,7 @@ export default class Mailer {
      * sponsor: sponsor object
     */
     static sendVolunteerSponsorshipEmail(volunteer, sponsor) {
-        const subject = `You got sponsored`;
+        const subject = `You have a sponsor`;
         const headline = 'CONGRATULATIONS YOU HAVE A NEW SPONSOR';
 
         const text =
@@ -511,7 +612,7 @@ export default class Mailer {
         <p>You were sponsored by ${sponsor.firstName} ${sponsor.lastName}.</p>
 
         <p>Sending a personalized thank you is always nice. You can reach ${sponsor.firstName} at <a href="mailto:${sponsor.email}">${sponsor.email}</a>.</p>
-        <p>Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page url <a href="${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}/${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you note.</p>
+        <p>Asking ${sponsor.firstName} to share your campaign is a great way to spread the word.  Be sure to include your fundraising page url <a href="${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}">${Constants.DOMAIN}${Urls.getVolunteerProfileUrl(volunteer.project.slug, volunteer.team.slug, volunteer.slug)}</a> in your thank you note.</p>
 
         <p>Thanks,</p>
 
