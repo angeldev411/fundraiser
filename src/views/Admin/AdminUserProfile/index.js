@@ -230,33 +230,40 @@ export default class AdminUserProfile extends Component {
         if (!this.state.user) {
             return null;
         }
-        const pageNav = [
-            {
-                type: 'button',
-                title: 'Record my hours',
-                content: <RecordHoursForm team={this.props.user.team} />,
-                onHourLogSuccess: this.toggleShareModal.bind(this)
-            },
-            {
-                type: 'link',
-                title: 'My Public Page',
-                href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
-            },
-            {
-                type: 'link',
-                title: 'Edit My Profile',
-                href: `${Urls.ADMIN_USER_PROFILE_URL}`,
-            },
-        ];
 
-        if( this.props.user.roles.includes('TEAM_LEADER') )
-          console.log('adding etam dash link');
+        let pageNav = [];
+
+        if ( this.props.user.roles.includes('VOLUNTEER') ){
+          pageNav = pageNav.concat([
+            {
+              type: 'button',
+              title: 'Record my hours',
+              content: <RecordHoursForm team={this.props.user.team} />,
+              onHourLogSuccess: this.toggleShareModal.bind(this)
+            },
+            {
+              type: 'link',
+              title: 'My Public Page',
+              href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
+            }
+          ]);
+        }
+
+        pageNav.push({
+          type: 'link',
+          title: 'Edit My Profile',
+          href: Urls.ADMIN_USER_PROFILE_URL
+        });
+
+        if( this.props.user.roles.includes('TEAM_LEADER') && 
+            this.props.user.roles.includes('VOLUNTEER') ) {
           pageNav.push({
             type:       'link',
-            title:      'My Team Dashboard',
-            href:       `${Urls.ADMIN_TEAM_DASHBOARD_URL}`,
+            title:      'My Volunteer Dash',
+            href:       Urls.ADMIN_VOLUNTEER_DASHBOARD_URL,
             className:  'navPadding'
           });
+        }
 
         return (
             <Page>
@@ -277,7 +284,7 @@ export default class AdminUserProfile extends Component {
                   />
                   : null
                 }
-                <AdminLayout pageType='VOLUNTEER' pageNav={pageNav}>
+                <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}
                         description={'THE LAST STEP. A simple but important step to keep your public page up-to-date & fresh.'}
