@@ -72,7 +72,7 @@ class userController {
     let userPromise;
 
     if (emailOrID.indexOf('@') > 0) {
-      userPromise = User.getByEmail(emailOrID);
+      userPromise = User.getByEmail(emailOrID.toLowerCase());
     } else {
       userPromise = User.getByID(emailOrID);
     }

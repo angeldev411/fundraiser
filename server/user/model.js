@@ -55,6 +55,7 @@ export default class User {
         if (label) {
             labels.push(label);
         }
+        if (data.email) data.email = data.email.toLowerCase(); // lowercase all email addresses
 
         const Node = db.defineNode({
             label: labels,
@@ -151,6 +152,7 @@ export default class User {
     }
 
     static getByEmail(email) {
+        email = email.toLowerCase();
         return db.query(
             `
             MATCH (user:USER {email: {email} }) RETURN user
