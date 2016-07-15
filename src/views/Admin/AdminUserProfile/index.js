@@ -226,6 +226,15 @@ export default class AdminUserProfile extends Component {
       });
     }
 
+    userCanBecomeVolunteer(){
+      const roles = this.props.user.roles;
+      return roles.includes('TEAM_LEADER') && !roles.includes('VOLUNTEER');
+    }
+
+    addUserAsVolunteer(){
+      console.log('ok! you\'re a volunteer!');
+    }
+
     render() {
         if (!this.state.user) {
             return null;
@@ -287,7 +296,7 @@ export default class AdminUserProfile extends Component {
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}
-                        description={'THE LAST STEP. A simple but important step to keep your public page up-to-date & fresh.'}
+                        description={'Keep your public page up-to-date & fresh.'}
                     />
                     <div className="edit-volunteer-profile">
                         <section className="form-container">
@@ -330,104 +339,121 @@ export default class AdminUserProfile extends Component {
                                     />
                                     <label htmlFor="email">{'Email address'}</label>
                                 </div>
-                                {
-                                    this.state.editPassword ?
-                                        <div>
-                                            <div className="form-group">
-                                                <input type="password"
-                                                    name="new-password"
-                                                    id="new-password"
-                                                    onChange={(e) => { this.handleChange(e, 'password') }}
-                                                />
-                                                <label htmlFor="new-password">{'New Password'}</label>
+                                { 
+                                    this.state.editPassword ? (
+                                            <div>
+                                                <div className="form-group">
+                                                    <input type="password"
+                                                        name="new-password"
+                                                        id="new-password"
+                                                        onChange={(e) => { this.handleChange(e, 'password') }}
+                                                    />
+                                                    <label htmlFor="new-password">{'New Password'}</label>
+                                                </div>
+                                                <div className="form-group">
+                                                    <input type="password"
+                                                        name="new-password-confirmation"
+                                                        id="new-password-confirmation"
+                                                        onChange={(e) => { this.handleChange(e, 'password2') }}
+                                                    />
+                                                    <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
+                                                </div>
                                             </div>
-                                            <div className="form-group">
-                                                <input type="password"
-                                                    name="new-password-confirmation"
-                                                    id="new-password-confirmation"
-                                                    onChange={(e) => { this.handleChange(e, 'password2') }}
-                                                />
-                                                <label htmlFor="new-password-confirmation">{'New Password Confirmation'}</label>
+                                    ) : (
+                                            <div>
+                                                <section>
+                                                    <Button
+                                                        customClass="btn-lg btn-transparent-green"
+                                                        onClick={this.handlePasswordInputs}
+                                                    >
+                                                        {'Change Password'}
+                                                    </Button>
+                                                </section>
                                             </div>
-                                        </div>
-                                    :
-                                        <div>
-                                            <section>
-                                                <Button
-                                                    customClass="btn-lg btn-transparent-green"
-                                                    onClick={this.handlePasswordInputs}
-                                                >
-                                                    {'Change Password'}
-                                                </Button>
-                                            </section>
-                                            <p className={'action-description'}>{'Optional'}</p>
-                                        </div>
+                                    )
                                 }
 
-                                <div className="dropzone form-group">
+                                {
+                                    this.userCanBecomeVolunteer() ? (
+                                      <div>
+                                          <section>
+                                              <Button
+                                                  customClass="btn-lg btn-transparent-green"
+                                                  onClick={this.addUserAsVolunteer}
+                                              >
+                                                  {'Add me as a volunteer on the team'}
+                                              </Button>
+                                          </section>
+                                      </div>
+                                    ) : (
+                                        null
+                                    )
+                                }
 
-                                    <img
-                                            className={"dropzone-image"}
-                                            src={this.getUserPreview()}
-                                        />
-                                     &nbsp;
-                                    <Button
-                                    customClass="btn-lg btn-transparent-green"
-                                    onClick={this.pickFile}
-                                >
-                                    Change Photo
-                                </Button>
-                                </div>
-                                <div className="form-group">
-                                    <textarea
-                                        name="description"
-                                        id="description"
-                                        placeholder="Why you're Volunteering, why this matters to you. Be inspiring as this will engage people to sponsor you."
-                                        value={this.getUserMessage()}
-                                        rows="3"
-                                        onChange={(e) => { this.handleChange(e, 'description') }}
-                                    />
-                                    <label htmlFor="description">{'Description'}</label>
-                                </div>
-                                <div
-                                    className="form-group"
-                                    id={'edit-goal'}
-                                >
-                                    <div className="input-group">
-                                    <input type="text"
-                                        disabled={this.disabledGoal()}
-                                        name="goal"
-                                        id="goal"
-                                        defaultValue={this.getUserGoal()}
-                                        onChange={(e) => { this.handleChange(e, 'goal') }}
-                                    />
-                                     <span className="lock input-group-addon">
-                                        {
-                                            this.disabledGoal() ? 
-                                            <i className="fa fa-lock" aria-hidden="true"></i>:
-                                            <i className="fa fa-unlock" aria-hidden="true"></i> 
-                                        }
-                                    </span>
+                                {
+                                  this.props.user.roles.includes('VOLUNTEER') ? (
+
+                                    <div>
+                                        <div className="dropzone form-group">
+                                            <img
+                                                className={"dropzone-image"}
+                                                src={this.getUserPreview()}
+                                            />
+                                            &nbsp;
+                                            <Button
+                                            customClass="btn-lg btn-transparent-green"
+                                            onClick={this.pickFile}
+                                            >
+                                                Change Photo
+                                            </Button>
+                                        </div>
+                                        <div className="form-group">
+                                            <textarea
+                                                name="description"
+                                                id="description"
+                                                placeholder="Why you're Volunteering, why this matters to you. Be inspiring as this will engage people to sponsor you."
+                                                value={this.getUserMessage()}
+                                                rows="3"
+                                                onChange={(e) => { this.handleChange(e, 'description') }}
+                                            />
+                                            <label htmlFor="description">{'Description'}</label>
+                                        </div>
+                                        <div className="form-group" id={'edit-goal'}>
+                                            <div className="input-group">
+                                                <input type="text"
+                                                    disabled={this.disabledGoal()}
+                                                    name="goal"
+                                                    id="goal"
+                                                    defaultValue={this.getUserGoal()}
+                                                    onChange={(e) => { this.handleChange(e, 'goal') }}
+                                                />
+                                                <span className="lock input-group-addon">
+                                                    {
+                                                        this.disabledGoal() ? 
+                                                        <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  You already have a sponsor, Goal hours are locked.'}</span></label>:
+                                                        <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future. Note: you cannot change your goal hours after you get your first sponsor'}</span></label> 
+                                                    }
+                                                </span> 
+                                            </div>
+                                        </div>
                                     </div>
-                                    {
-                                        this.disabledGoal() ? 
-                                            <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  You already have a sponsor, Goal hours are locked.'}</span></label>:
-                                            <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future. Note: you cannot change your goal hours after you get your first sponsor'}</span></label> 
-                                    }
-                                    
-                                </div>
+                                  ) : (
+                                    null
+                                  )
+                                }
 
                                 {this.state.success ? this.getSuccessMessage() : null}
                                 {this.state.error ? this.getErrorMessage() : null}
 
                                 {
-                                  this.state.success ?
+                                  this.state.success && this.state.user.roles.includes('VOLUNTEER') ? (
                                       <Button
                                           to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
                                           customClass="profile-actions btn-green-white"
                                       >
                                           {'Preview your fundraising page'}
-                                      </Button> :
+                                      </Button>
+                                  ) : (
                                       <div>
                                           <Button
                                               customClass="profile-actions btn-green-white"
@@ -443,6 +469,7 @@ export default class AdminUserProfile extends Component {
                                               {'Cancel'}
                                           </Button>
                                       </div>
+                                  )
                                 }
                             </form>
                         </section>
