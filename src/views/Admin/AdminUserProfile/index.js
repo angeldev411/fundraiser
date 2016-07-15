@@ -10,6 +10,7 @@ import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import Modal from '../../../components/Modal';
+import ModalButton from '../../../components/ModalButton/';
 import SocialShareLinks from '../../../components/SocialShareLinks';
 import Dropzone from 'react-dropzone';
 import fixOrientation from 'fix-orientation';
@@ -23,13 +24,15 @@ export default class AdminUserProfile extends Component {
         super(props);
 
         this.state = {
-            user: this.props.user,
-            originalImage: this.props.user.image,
-            loading: false,
-            editPassword: false,
-            success: false,
-            cropperOpen: false,
-            imageLoading: false,
+            user:           this.props.user,
+            originalImage:  this.props.user.image,
+            loading:        false,
+            editPassword:   false,
+            success:        false,
+            cropperOpen:    false,
+            imageLoading:   false,
+            showRecordHoursSuccessModal:  false,
+            showBecomeVolunteerModal:     false
         };
     }
 
@@ -231,8 +234,20 @@ export default class AdminUserProfile extends Component {
       return roles.includes('TEAM_LEADER') && !roles.includes('VOLUNTEER');
     }
 
-    addUserAsVolunteer(){
-      console.log('ok! you\'re a volunteer!');
+    addLeaderAsVolunteer = () => {
+      this.setState({
+        showBecomeVolunteerModal: true
+      });
+    }
+
+    toggleBecomeVolunteerModal = () => {
+      this.setState({
+        showBecomeVolunteerModal: !this.state.showBecomeVolunteerModal
+      });
+    }
+
+    nameNotProvided = () => {
+      return !(this.props.user.firstName && this.props.user.lastName);
     }
 
     render() {
@@ -276,7 +291,7 @@ export default class AdminUserProfile extends Component {
 
         return (
             <Page>
-                { this.state.showRecordHoursSuccessModal === true ?
+                { this.state.showRecordHoursSuccessModal ?
                   <Modal
                     content={
                       <div id={'success-pledge'}>
@@ -293,6 +308,26 @@ export default class AdminUserProfile extends Component {
                   />
                   : null
                 }
+
+                { this.state.showBecomeVolunteerModal ?
+                  <Modal
+                    content={ 
+                      <div id={'success-pledge'}>
+                        <p>{`Fantastic! You're now a volunteer on your team. To finish the process, add your profile pic, personal fundraising message and number of volunteer goal hours to your profile.`}</p>
+                        <p>{`We've added a link to the left-hand column which you can use to view your personal fundraising dashboard. From there, you can see your sponsors, a history of your personal volunteer hours, and a link to your fundraising page.`}</p>
+                        <p>{`Be sure to share your page with friends and family to start getting sponsors!`}</p>
+                        <SocialShareLinks
+                          volunteer={this.props.user}
+                          project={this.props.user.project}
+                          team={this.props.user.team}
+                        />
+                      </div>
+                    }
+                    onClick={this.toggleBecomeVolunteerModal}
+                  />
+                  : null
+                }
+
                 <AdminLayout pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Profile'}
@@ -379,10 +414,16 @@ export default class AdminUserProfile extends Component {
                                           <section>
                                               <Button
                                                   customClass="btn-lg btn-transparent-green"
-                                                  onClick={this.addUserAsVolunteer}
+                                                  onClick={this.addLeaderAsVolunteer}
+                                                  disabled={this.nameNotProvided}
+                                                  noSpinner={true}
                                               >
                                                   {'Add me as a volunteer on the team'}
                                               </Button>
+                                              { this.nameNotProvided ? 
+                                                <p className={'action-description'}>{'Please update and save your first and last name'}</p>
+                                                : null
+                                              }
                                           </section>
                                       </div>
                                     ) : (
