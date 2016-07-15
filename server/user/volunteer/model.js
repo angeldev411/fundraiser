@@ -302,9 +302,14 @@ export default class Volunteer {
             }
         }
 
-      user.goal = parseInt(user.goal, 10);
+      const userIsVolunteer = user.roles.includes('VOLUNTEER');
 
-      if (isNaN(user.goal) || user.goal < 1 || user.goal > 999) {
+      if (userIsVolunteer)
+        user.goal = parseInt(user.goal, 10);
+      else
+        delete user.goal;
+
+      if ( userIsVolunteer && (isNaN(user.goal) || user.goal < 1 || user.goal > 999)) {
           return Promise.reject('Please choose your goal hours before continuing');
       }
       
@@ -320,7 +325,10 @@ export default class Volunteer {
                 db.getNodes([user.id]).then((users) => {
                     // should only have one
                     let currentUserData = users[0];
-                    if(currentUserData.goal !== user.goal && stats.totalSponsors > 0) return reject(`Sorry, Goal hours are locked at ${currentUserData.goal} as you already have sponsors.`);
+                    console.log('the user', user);
+                    if(userIsVolunteer && currentUserData.goal !== user.goal && stats.totalSponsors > 0) 
+                        return Promise.reject(`Sorry, Goal hours are locked at ${currentUserData.goal} as you already have sponsors.`);
+                    
                     return User.update(currentUser, {
                         ...(user.id ? { id: currentUser.id } : {}),
                         ...(user.firstName ? { firstName: user.firstName } : {}),
@@ -335,8 +343,10 @@ export default class Volunteer {
                         ...(user.totalHours ? { totalHours: user.totalHours } : {}),
                         ...(user.currentHours ? { currentHours: user.currentHours } : {}),
                     }).then((data) => {
+                        console.log('done?');
                         return resolve(data);
                     }).catch((error) => {
+                        console.log('error', error);
                         return reject(error);
                     });
                 });
