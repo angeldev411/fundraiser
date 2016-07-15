@@ -19,24 +19,18 @@ class AdminTeamProfile extends Component {
         document.title = 'Team profile | raiserve';
 
         this.setState({
-            team: this.props.user.team,
-            passwordRequested: false,
+          team: this.props.user.team
         });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user) {
-            this.setState({
-                user: nextProps.user,
-                team: nextProps.user.team,
-                error: null,
-            });
-        }
-        if (nextProps.reset) {
-            this.setState({
-                passwordRequested: true,
-            });
-        }
+      if (nextProps.user) {
+        this.setState({
+          user: nextProps.user,
+          team: nextProps.user.team,
+          error: null,
+        });
+      }
     }
 
     changeSupervisorSignatureRequired = (event) => {
@@ -187,20 +181,6 @@ class AdminTeamProfile extends Component {
                             >
                                 {'Edit the team page'}
                             </Button>
-                            <Button
-                                onClick={this.requestPassword}
-                                customClass="btn-lg btn-transparent-green"
-                                disabled={this.state.passwordRequested}
-                                noSpinner
-                            >
-                                    {'Change Password'}
-                            </Button>
-                            {this.state.passwordRequested ?
-                                <p className={'action-description'}>
-                                    {'You should receive a reset password email shortly.'}
-                                </p> :
-                                <p className={'action-description'}>{'Optional'}</p>
-                            }
                             <div className="checkbox">
                                 <input
                                     type="checkbox"
