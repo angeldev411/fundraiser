@@ -84,6 +84,10 @@ export default class RecordHoursForm extends Component {
             <Form title={'Record your time'}
                 cols={"col-xs-12 col-md-8 col-md-offset-2"}
             >
+                { this.props.team.hoursApprovalRequired ?
+                    <p>Your team requires approval for all volunteer hours. They will be added and appear on your dashboard once approved.</p>
+                    : null
+                }
                 <div className="form-group">
                     <input type="text"
                         name="place"
