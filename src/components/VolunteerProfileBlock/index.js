@@ -14,7 +14,11 @@ export default class VolunteerProfileBlock extends Component {
 
         <div className="container">
           <div className={'col-xs-12 col-md-4 volunteer-picture'}>
-              <UserProgress user={this.props.volunteer} totalSponsors={this.props.totalSponsors} />
+            <UserProgress
+              user={this.props.volunteer}
+              totalSponsors={this.props.totalSponsors}
+              goalDeadline={new Date(this.props.team.deadline)}
+            />
           </div>
           <div className={'col-xs-12 col-md-8 volunteer-description'}>
               <div className={'team-slogan'}>{`YOU + US = ${SLOGAN}`}</div>
