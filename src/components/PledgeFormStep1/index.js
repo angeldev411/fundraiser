@@ -177,10 +177,7 @@ export default class PledgeFormStep1 extends Component {
 
         return (
             <div id={"pledge-container"}>
-                <Form
-                    id="pledge"
-                    cols={"col-xs-12"}
-                >
+                <Form id="pledge">
                     <div className="form-group">
                         {this.getForm()}
                     </div>
