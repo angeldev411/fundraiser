@@ -17,6 +17,7 @@ export default class PledgeFormStep1 extends Component {
             error: false,
             showHourly: true
         };
+        this.handleEditPledgeClick = this.handleEditPledgeClick.bind(this);
     }
 
     handleChange = (event, name) => {
@@ -30,6 +31,10 @@ export default class PledgeFormStep1 extends Component {
 
         newState[name] = value;
         this.setState(newState);
+    };
+
+    handleEditPledgeClick(e) {
+        this.refs.modal.getWrappedInstance().handleClick() // so dirty
     };
 
     handleSwitchForm = () => {
@@ -185,6 +190,7 @@ export default class PledgeFormStep1 extends Component {
                     {this.state.error ? <p>{this.state.error}</p> : null}
                 </Form>
                 <ModalButton
+                    ref="modal"
                     customClass="btn-transparent-green btn-pledge"
                     disabled={!!this.state.error}
                     content={
@@ -200,6 +206,7 @@ export default class PledgeFormStep1 extends Component {
                             project={this.props.project}
                             goal={this.props.goal}
                             onPledgeSuccess={this.props.onPledgeSuccess}
+                            onEditClick={this.handleEditPledgeClick}
                         />
                     }
                 >{'Continue'}</ModalButton>

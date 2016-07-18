@@ -179,18 +179,25 @@ class PledgeFormStep2 extends Component {
                         className={'col-xs-6'}
                         id={'pledge-info'}
                     >
+
                         {
                             this.state.hourly ?
                             (
                                 <span>
-                                    <span id={'hourly-amount'}>{`$${this.formattedHourly()}`}{'/hr'}</span>
-                                    <span id={'goal'}>{`x ${this.props.goal} goal hrs`}</span>
-                                    <span id='hourly-total'>{`$${this.hourlyMax()} max pledge`}</span>
+                                    <div>
+                                        <span id={'amount'}>{`$${this.formattedHourly()}/hr `}</span>
+                                        <a href="javascript:void(0);" className="edit" onClick={this.props.onEditClick}>edit</a>
+                                    </div>
+                                    <div id={'goal'}>{`x ${this.props.goal} goal hrs`}</div>
+                                    <div id='hourly-total'>{`$${this.hourlyMax()} max pledge`}</div>
                                 </span>
                             ) :
                             (
                                 <span>
-                                    <span id={'hourly-amount'}>{`$${this.state.amount}`}</span>
+                                    <div>
+                                        <span id={'amount'}>{`$${this.state.amount}`}</span>
+                                        <a href="javascript:void(0);" className="edit" onClick={this.props.onEditClick}>edit</a>
+                                    </div>
                                 </span>
                             )
                         }
@@ -311,7 +318,8 @@ PledgeFormStep2.propTypes = {
     team: React.PropTypes.object.isRequired,
     project: React.PropTypes.object.isRequired,
 
-    onPledgeSuccess: React.PropTypes.func
+    onPledgeSuccess: React.PropTypes.func,
+    onEditClick: React.PropTypes.func.isRequired,
 };
 
 export default connect((reduxState) => ({
