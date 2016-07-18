@@ -7,7 +7,7 @@ export default class AdminInviteTeamMembersForm extends Component {
     render() {
         const SHARE_URL = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}/join`;
         const SHARE_SPONSORS_URL = `${Constants.DOMAIN}${Urls.getTeamProfileUrl(this.props.project.slug, this.props.team.slug)}`;
-        const SHARE_TEXT = `${this.props.team.name} on raiserve`;
+        const SHARE_TEXT = `Please join my team on raiserve and raise money while you volunteer. @raiserve #twicethedifference`;
         const SHARE_MESSAGE = `${this.props.team.description}`;
 
         return (
