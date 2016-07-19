@@ -33,7 +33,7 @@ export default class Faq extends Component {
 
               <h2>Q: When will I be charged if I gave an hourly sponsorship?</h2>
               <p>
-                A: If you are sponsoring monthly your credit card that you provided will be charged monthly for all hours completed that month up to the number of goal hours assuming a minimum charge of $5. If the minimum is not reached that amount will be rolled in the next month. If service hours have already been completed, those hours will be included in your first month of sponsorship.
+                A: If you are sponsoring hourly, the credit card that you provided will be charged monthly for all hours completed during that month up to the number of goal hours with a minimum charge of $5. If the minimum is not reached during the given month, the amount will be rolled into the next month. If service hours have already been completed, those hours will be included in your first month of sponsorship.
               </p>
 
               <h2>Q: When will I be charged if I gave a one time donation?</h2>
