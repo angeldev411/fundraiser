@@ -55,11 +55,11 @@ export default class Footer extends Component {
                   <Link to={Urls.PRIVACY}>Privacy Policy</Link>
                 </li>
                 <li className="copyright">
-                  {`&#169; Copyright raiserve ${YEAR.toString()}`}
+                  {`© Copyright raiserve ${YEAR.toString()}`}
                 </li>
               </ul>
             </section>
-            <section className="col-xs-12 col-md-3 col-lg-2 col-lg-offset-4">
+            <section className="col-xs-12 hidden-sm col-md-3 col-lg-2 col-lg-offset-4">
               <section className="col-xs-12 social visible-xs">
                 <a href={constants.FACEBOOK_PAGE}>
                   <i className="fa fa-facebook"></i>
@@ -83,15 +83,15 @@ export default class Footer extends Component {
         </div>
         <div className="footer-bottom hidden-xs">
           <div className="container">
-            <section className="col-xs-12">
-              <div className="col-xs-10 volunteer">
-                <small>Are you a volunteer in your community and want to start your own campaign? Contact us at
+            <section>
+              <div className="col-xs-10 col-sm-8 col-md-9 volunteer">
+                <small><span>Are you a volunteer in your community and want to start your own campaign? Contact us at </span>
                   <a
                     href={`mailto:${constants.VOLUNTEER_CONTACT_EMAIL}?subject=starting a campaign on raiserve`}
                   >{constants.VOLUNTEER_CONTACT_EMAIL}</a>
                 </small>
               </div>
-              <div className="col-xs-2 social">
+              <div className="col-xs-2 col-sm-4 col-md-3 social">
                 <a href={constants.FACEBOOK_PAGE}>
                   <i className="fa fa-facebook"></i>
                 </a>

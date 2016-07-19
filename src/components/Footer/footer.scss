@@ -11,6 +11,7 @@ footer {
   bottom: 0;
   width: 100%;
   height: $footer-height;
+  font-size: 12px;
 
   .bloc-title {
     font-size: 1.3em;
@@ -53,19 +54,21 @@ footer {
   }
 
   .social {
-    text-align: center;
     margin: 10px 0 10px 0;
     color: $white;
+    text-align: center;
+    margin: 0;
 
     a {
       color: $white;
-      font-size: 1.85em;
-      padding: 0 15px;
+      font-size: 2rem;
+      padding: 8px;
       box-sizing: content-box;
       display: inline-block;
 
-      &:hover, &:active {
-        color: $white;
+      &:hover,
+      &:active {
+        color: $green;
       }
     }
   }
@@ -75,10 +78,13 @@ footer {
     margin: 40px 0 0;
     display: block;
     text-align: center;
+    img {
+      padding-bottom: 1rem;
+    }
 
     p {
       color: $grey;
-      font-size: 1.1em;
+      font-size: 1.6rem;
       width: 188px;
       display: block;
       margin: auto;
@@ -87,48 +93,64 @@ footer {
       text-align: left;
     }
   }
-}
-
-/* Medium devices (desktops, 992px and up) */
-footer {
-  .tagline {
-    margin: 0;
-    img {
-      padding-bottom: 1rem;
+  .footer-bottom {
+    background: $grey-medium-opacity;
+    .volunteer,
+    .volunteer small,
+    .volunteer small a {
+      font-size: 1.2rem;
+      color: $white;
+    }
+    .volunteer {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      text-align: left;
+      line-height: 1.8rem;
+    }
+    .social {
+      line-height: 1rem;
     }
   }
 
-  .footer-bottom {
-    background: $grey-medium-opacity;
-    min-height: 20px;
+}
 
-    div.volunteer,
-    .volunteer small,
-    .volunteer small a {
-      text-align: right;
-      color: $white;
-    }
-
-    div.volunteer {
-      margin-top: 8px;
-    }
-
+@media (min-width: $screen-sm-min) {
+  footer {
     .social {
-      text-align: right;
-      margin: 0;
-
+      text-align: left;
+      padding-top: 0.6rem;
       a {
-        color: $white;
-        font-size: 1em;
-        padding: 8px;
-        box-sizing: content-box;
-        display: inline-block;
-
-        &:hover,
-        &:active {
-          color: $green;
-        }
+        font-size: 1.6rem;
       }
+    }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+  footer {
+    font-size: 1.4rem;
+    .tagline {
+      margin: 0;
+    }
+
+    .footer-bottom {
+      min-height: 2rem;
+
+      .volunteer {
+        text-align: left;
+      }
+
+    }
+    .social {
+      padding-top: 0;
+    }
+  }
+}
+@media (min-width: $screen-lg-min) {
+  footer {
+    .social {
+      text-align: center;
     }
   }
 }
