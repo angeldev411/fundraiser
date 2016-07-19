@@ -48,7 +48,7 @@ export default class AdminUserProfile extends Component {
           this.setState({
             leaderBecomingVolunteer: false
           });
-          this.showBecomeVolunteerModal();
+          this.toggleBecomeVolunteerModal();
         }
 
         if (nextProps.user && !this.state.success) {
@@ -256,7 +256,7 @@ export default class AdminUserProfile extends Component {
     }
 
     nameNotProvided = () => {
-      return !(this.state.user.firstName || this.state.user.lastName);
+      return this.props.user.firstName.length === 0 || this.props.user.lastName.length === 0;
     }
 
     render() {
@@ -266,18 +266,18 @@ export default class AdminUserProfile extends Component {
 
         let pageNav = [];
 
-        if ( this.state.user.roles.includes('VOLUNTEER') ){
+        if ( this.props.user.roles.includes('VOLUNTEER') ){
           pageNav = pageNav.concat([
             {
               type: 'button',
               title: 'Record my hours',
-              content: <RecordHoursForm team={this.state.user.team} />,
+              content: <RecordHoursForm team={this.props.user.team} />,
               onHourLogSuccess: this.toggleShareModal.bind(this)
             },
             {
               type: 'link',
               title: 'My Public Page',
-              href: `${Urls.getVolunteerProfileUrl(this.state.user.project.slug, this.state.user.team.slug, this.state.user.slug)}`,
+              href: `${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`,
             }
           ]);
         }
@@ -288,8 +288,8 @@ export default class AdminUserProfile extends Component {
           href: Urls.ADMIN_USER_PROFILE_URL
         });
 
-        if( this.state.user.roles.includes('TEAM_LEADER') && 
-            this.state.user.roles.includes('VOLUNTEER') ) {
+        if( this.props.user.roles.includes('TEAM_LEADER') && 
+            this.props.user.roles.includes('VOLUNTEER') ) {
           pageNav.push({
             type:       'link',
             title:      'My Volunteer Dash',
@@ -304,12 +304,12 @@ export default class AdminUserProfile extends Component {
                   <Modal
                     content={
                       <div id={'success-pledge'}>
-                        <p>{`Great work, ${this.state.user.firstName}!`}</p>
+                        <p>{`Great work, ${this.props.user.firstName}!`}</p>
                         <p>{`Share your progress using the links below.`}</p>
                         <SocialShareLinks
-                          volunteer={this.state.user}
-                          project={this.state.user.project}
-                          team={this.state.user.team}
+                          volunteer={this.props.user}
+                          project={this.props.user.project}
+                          team={this.props.user.team}
                         />
                       </div>
                     }
@@ -326,9 +326,9 @@ export default class AdminUserProfile extends Component {
                         <p>{`We've added a link to the left-hand column which you can use to view your personal fundraising dashboard. From there, you can see your sponsors, a history of your personal volunteer hours, and a link to your fundraising page.`}</p>
                         <p>{`Be sure to share your page with friends and family to start getting sponsors!`}</p>
                         <SocialShareLinks
-                          volunteer={this.state.user}
-                          project={this.state.user.project}
-                          team={this.state.user.team}
+                          volunteer={this.props.user}
+                          project={this.props.user.project}
+                          team={this.props.user.team}
                         />
                       </div>
                     }
@@ -441,7 +441,7 @@ export default class AdminUserProfile extends Component {
                                 }
 
                                 {
-                                  this.state.user.roles.includes('VOLUNTEER') ? 
+                                  this.props.user.roles.includes('VOLUNTEER') ? 
 
                                     <div>
                                         <div className="dropzone form-group">
@@ -498,7 +498,7 @@ export default class AdminUserProfile extends Component {
                                 {
                                   this.state.success && this.state.user.roles.includes('VOLUNTEER') ? (
                                       <Button
-                                          to={`${Urls.getVolunteerProfileUrl(this.state.user.project.slug, this.state.user.team.slug, this.state.user.slug)}`}
+                                          to={`${Urls.getVolunteerProfileUrl(this.props.user.project.slug, this.props.user.team.slug, this.props.user.slug)}`}
                                           customClass="profile-actions btn-green-white"
                                       >
                                           {'Preview your fundraising page'}
