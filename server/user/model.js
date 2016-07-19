@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 import stripelib from 'stripe';
 import UUID from 'uuid';
@@ -8,8 +8,9 @@ import neo4jDB from 'neo4j-simple';
 import config from '../config';
 import Promise from 'bluebird';
 
-import * as roles from './roles';
+import Volunteer from './volunteer/model';
 
+import * as roles from './roles';
 
 const db = neo4jDB(config.DB_URL);
 const stripe = stripelib(config.STRIPE_TOKEN);
@@ -172,6 +173,33 @@ export default class User {
             {
                 token,
             }
+        )
+        .getResult('user');
+    }
+
+    // Given a userId and teamId, make the user a volunteer for the team
+    static makeVolunteer(user, slug, teamId) {
+      return db.query(
+          `
+          MATCH (user:USER {id:{userId}}), (team:TEAM {id:{teamId}})
+          CREATE (user)-[:VOLUNTEER]->(team)
+          SET user :VOLUNTEER,
+          user.slug = {slug},
+          user.hourlyPledge = 0,
+          user.totalSponsors = 0,
+          user.currentHours = 0,
+          user.totalHours = 0,
+          user.raised = 0,
+          user.goal = 8
+          SET team.totalVolunteers = team.totalVolunteers + 1
+          RETURN user
+          `,
+          {},
+          { 
+            userId: user.id, 
+            teamId, 
+            slug 
+          }
         )
         .getResult('user');
     }

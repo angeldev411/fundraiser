@@ -1,4 +1,5 @@
 import * as actionTypes from './action-types';
+import * as authActionTypes from '../auth/action-types';
 import * as AuthActions from '../auth/actions';
 import axios from 'axios';
 import { API_URL } from '../../common/constants';
@@ -125,4 +126,30 @@ export function resetPassword(data) {
             }
         );
     };
+}
+
+
+export const userToVolunteerSuccess = (user) => ({
+  type: authActionTypes.USER_TO_VOLUNTEER_SUCCESS,
+  user
+});
+
+export const userToVolunteerFailure = (error) => ({
+  type: authActionTypes.USER_TO_VOLUNTEER_FAILURE,
+  error
+});
+
+export function makeVolunteer(user) {
+  return (dispatch) => {
+    return axios.put(
+      `${API_URL}/user/make-volunteer`,
+      user
+    )
+    .then( (response) => {
+      dispatch( userToVolunteerSuccess(response.data) );
+    })
+    .catch((error) => {
+      dispatch( userToVolunteerFailure(error) );
+    })
+  }
 }

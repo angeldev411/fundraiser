@@ -310,6 +310,14 @@ class userController {
           return Promise.reject(err);
         });
   }
+
+  static makeVolunteer(user, teamId) {
+    return Volunteer.createSlug(user.firstName, user.lastName) 
+    .then( slug => User.makeVolunteer(user, slug, teamId))
+    .then( user => Promise.resolve(user) )
+    .catch( err => Promise.reject(err) )
+  }
 }
+
 
 export default userController;
