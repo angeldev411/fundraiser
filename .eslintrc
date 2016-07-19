@@ -4,20 +4,24 @@
 
   "ecmaFeatures": {
     "binaryLiterals": false,                    // enable binary literals
-    "blockBindings": false,                     // enable let and const (aka block bindings)
+    "blockBindings": true,                     // enable let and const (aka block bindings)
     "defaultParams": false,                     // enable default function parameters
     "forOf": false,                             // enable for-of loops
     "generators": false,                        // enable generators
-    "objectLiteralComputedProperties": false,   // enable computed object literal property names
+    "objectLiteralComputedProperties": true,   // enable computed object literal property names
     "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
-    "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
-    "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
+    "objectLiteralShorthandMethods": true,     // enable object literal shorthand methods
+    "objectLiteralShorthandProperties": true,  // enable object literal shorthand properties
     "octalLiterals": false,                     // enable octal literals
     "regexUFlag": false,                        // enable the regular expression u flag
     "regexYFlag": false,                        // enable the regular expression y flag
-    "templateStrings": false,                   // enable template strings
+    "templateStrings": true,                   // enable template strings
     "unicodeCodePointEscapes": false,           // enable code point escapes
-    "jsx": true                                 // enable JSX
+    "jsx": true,                                // enable JSX
+    "modules": true,
+    "destructuring": true,
+    "spread": true,
+    "restParams": true
   },
 
   "parserOptions": {
@@ -46,7 +50,8 @@
   },
 
   "plugins": [
-    "react" // (must run `npm install eslint-plugin-react` first)
+    "react", // (must run `npm install eslint-plugin-react` first)
+    "babel"
   ],
 
   "rules": {
@@ -55,7 +60,7 @@
 
     ////////// Possible Errors //////////
 
-    "comma-dangle": 1,         // disallow trailing commas in object literals
+    "comma-dangle": 0,            // disallow trailing commas in object literals
     "no-cond-assign": 0,          // disallow assignment in conditional expressions
     "no-console": 0,              // disallow use of console (off by default in the node environment)
     "no-constant-condition": 0,   // disallow use of constant expressions in conditions
@@ -225,6 +230,18 @@
     "max-params": 0,      // limits the number of parameters that can be used in the function declaration. (off by default)
     "max-statements": 0,  // specify the maximum number of statement allowed in a function (off by default)
     "no-bitwise": 0,      // disallow use of bitwise operators (off by default)
-    "no-plusplus": 0      // disallow use of unary operators, ++ and -- (off by default)
+    "no-plusplus": 0,      // disallow use of unary operators, ++ and -- (off by default)
+
+
+    ///////// BABEL //////////
+    "babel/generator-star-spacing": 1,
+    "babel/new-cap": 1,
+    "babel/array-bracket-spacing": 1,
+    "babel/object-curly-spacing": 1,
+    "babel/object-shorthand": 0,
+    "babel/arrow-parens": 1,
+    "babel/no-await-in-loop": 1,
+    "babel/flow-object-type": 1,
+    "babel/func-params-comma-dangle": 1
   }
 }
