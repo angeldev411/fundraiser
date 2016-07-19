@@ -84,6 +84,7 @@
     "rc-progress": "^1.0.4",
     "react": "^0.14.x",
     "react-bootstrap-datetimepicker": "0.0.22",
+    "react-datepicker": "^0.28.1",
     "react-dom": "^0.14.0-rc1",
     "react-dropzone": "^3.3.2",
     "react-faux-dom": "^2.1.1",

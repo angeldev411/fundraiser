@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import './_datepicker.scss';
 
 /* Then React components */
 import Page from '../../../components/Page';
@@ -15,110 +17,98 @@ import * as Actions from '../../../redux/team/actions';
 import * as UserActions from '../../../redux/user/actions';
 
 class AdminTeamProfile extends Component {
-    componentWillMount(props) {
-        document.title = 'Team profile | raiserve';
-
-        this.setState({
-            team: this.props.user.team,
-            passwordRequested: false,
-        });
+  constructor(props, ...args) {
+    super(props, ...args)
+    this.state = {
+      team: props.user.team,
+      passwordRequested: false,
     }
+    this.handleDateChange = this.handleDateChange.bind(this)
+  }
+  componentDidMount(props) {
+    document.title = 'Team profile | raiserve';
+  }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.user) {
-            this.setState({
-                user: nextProps.user,
-                team: nextProps.user.team,
-                error: null,
-            });
-        }
-        if (nextProps.reset) {
-            this.setState({
-                passwordRequested: true,
-            });
-        }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      this.setState({
+        user: nextProps.user,
+        team: nextProps.user.team,
+        error: null,
+      });
     }
+    if (nextProps.reset) {
+      this.setState({
+        passwordRequested: true,
+      });
+    }
+  }
 
-    changeSupervisorSignatureRequired = (event) => {
-        const newState = Object.assign({}, this.state);
+  changeSupervisorSignatureRequired = (event) => {
+    const newState = Object.assign({}, this.state);
 
-        newState.team.signatureRequired = event.nativeEvent.target.checked;
+    newState.team.signatureRequired = event.nativeEvent.target.checked;
 
-        this.setState(newState);
+    this.setState(newState);
 
-        Actions.updateTeam(
-            newState.team.id,
-            newState.team
-        )(this.props.dispatch);
-    };
+    Actions.updateTeam(
+      newState.team.id,
+      newState.team
+    )(this.props.dispatch);
+  };
 
-    changeHoursApprovalRequired = (event) => {
-        const newState = Object.assign({}, this.state);
+  changeHoursApprovalRequired = (event) => {
+    const newState = Object.assign({}, this.state);
 
-        newState.team.hoursApprovalRequired = event.nativeEvent.target.checked;
+    newState.team.hoursApprovalRequired = event.nativeEvent.target.checked;
 
-        this.setState(newState);
+    this.setState(newState);
 
-        Actions.updateTeam(
-            newState.team.id,
-            newState.team
-        )(this.props.dispatch);
-    };
+    Actions.updateTeam(
+      newState.team.id,
+      newState.team
+    )(this.props.dispatch);
+  };
 
-    disabledGoal = () => {
-      const team = this.state.team;
-      if(team.totalRaised > 0 || team.totalSponsors > 0) return 'disabled';
-      return '';
+  disabledGoal = () => {
+    const team = this.state.team;
+    if(team.totalRaised > 0 || team.totalSponsors > 0) return 'disabled';
+    return '';
     //   if(user.totalSponsors > 0 || user.)
-    }
+  }
 
-    changeGoal = (event) => {
-        const newState = Object.assign({}, this.state);
+  changeGoal = (event) => {
+    const newState = Object.assign({}, this.state);
 
-        newState.team.goal = event.nativeEvent.target.value;
+    newState.team.goal = event.nativeEvent.target.value;
 
-        this.setState(newState);
+    this.setState(newState);
 
-        Actions.updateTeam(
-            newState.team.id,
-            newState.team
-        )(this.props.dispatch);
-    };
+    Actions.updateTeam(
+      newState.team.id,
+      newState.team
+    )(this.props.dispatch);
+  };
 
-    currentDeadline = () => {
-      const deadline = this.state.team.deadline || moment().add(1,'month')._d;
-      return moment(deadline).format('YYYY-MM-DD');
-    };
-
-    // TODO: update other attributes to use this
-    change = (attribute, event) => {
-      const newState = Object.assign({}, this.state);
-      let value = event.nativeEvent.target.value;
-      if(attribute === 'deadline'){
-        // passing the value as-is would adjust for timezone and probably return
-        // the previous day.
-        // Using new Date(year, month, day) instead. Month is 0-based.
-        const date = value.split('-');
-        value = new Date(date[0], date[1]-1, date[2]);
-      }
-
-      newState.team[attribute] = value;
-      
-      this.setState(newState);
+  handleDateChange(momentDate) {
+    const nextState = Object.assign({}, this.state)
+    nextState.team.deadline = momentDate.toISOString()
+    this.setState(nextState, () => {
       Actions.updateTeam(
-        newState.team.id,
-        newState.team
+        nextState.team.id,
+        nextState.team
       )(this.props.dispatch);
-    }
+    })
+  }
 
-    requestPassword = () => {
-        this.setState({
-            loading: true,
-        });
-        UserActions.requestPasswordReset(
-            { email: this.props.user.email },
-        )(this.props.dispatch);
-    };
+  requestPassword = () => {
+    this.setState({
+      loading: true,
+    });
+    UserActions.requestPasswordReset(
+      { email: this.props.user.email },
+    )(this.props.dispatch);
+  };
 
     render() {
         if (!this.props.user) {
@@ -235,26 +225,26 @@ class AdminTeamProfile extends Component {
                                     />
                                     <span className="lock input-group-addon">
                                                 {
-                                                    this.disabledGoal() ? 
+                                                    this.disabledGoal() ?
                                                     <i className="fa fa-lock" aria-hidden="true"></i>:
-                                                    <i className="fa fa-unlock" aria-hidden="true"></i> 
+                                                    <i className="fa fa-unlock" aria-hidden="true"></i>
                                                 }
                                             </span>
                                 </div>
-                                { 
-                                    this.disabledGoal() ? 
+                                {
+                                    this.disabledGoal() ?
                                         <label className={'action-description action-margin goal-description'}>{'Note:  Your team already as a sponsor, Goal hours are locked.'}</label>:
-                                        <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'} <br/>{'Note: you cannot change your goal hours after you get your first sponsor'}</label> 
+                                        <label className={'action-description action-margin goal-description'}>{'How many total hours is your team aiming for?'} <br/>{'Note: you cannot change your goal hours after you get your first sponsor'}</label>
                                 }
-                            
+
                             </div>
                             <div className="form-group">
-                            <input
+                            <DatePicker
                               type="date"
-                              name="deadline"
-                              id="deadline"
-                              value={ this.currentDeadline() }
-                              onChange={(e) => { this.change('deadline', e) }}
+                              selected={ moment(this.state.team.deadline) }
+                              minDate={moment()}
+                              maxDate={moment().add(1, 'year')}
+                              onChange={ this.handleDateChange }
                               />
                             <label className={'action-description action-margin goal-description'}>{'What is the deadline for your team? It can be up to a year from the start date.'}</label>
                             </div>
