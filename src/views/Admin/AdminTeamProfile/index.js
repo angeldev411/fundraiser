@@ -22,6 +22,7 @@ class AdminTeamProfile extends Component {
     this.state = {
       team: props.user.team,
       passwordRequested: false,
+      inputDateVal: moment(props.user.team.deadline).format('YYYY-MM-DD'), // used only for deadline input state
     }
     this.handleDateChange = this.handleDateChange.bind(this)
   }
@@ -91,14 +92,18 @@ class AdminTeamProfile extends Component {
   };
 
   handleDateChange(dateString) {
-    const nextState = Object.assign({}, this.state)
-    nextState.team.deadline = moment(dateString).toISOString()
-    this.setState(nextState, () => {
-      Actions.updateTeam(
-        nextState.team.id,
-        nextState.team
-      )(this.props.dispatch);
-    })
+    const m = moment(dateString, 'YYYY-MM-DD')
+    if(m.isValid()) {
+      const nextState = Object.assign({}, this.state)
+      nextState.team.deadline = m.toISOString()
+      nextState.inputDateVal = m.format('YYYY-MM-DD')
+      this.setState(nextState, () => {
+        Actions.updateTeam(
+          nextState.team.id,
+          nextState.team
+        )(this.props.dispatch);
+      })
+    }
   }
 
   requestPassword = () => {
@@ -239,8 +244,7 @@ class AdminTeamProfile extends Component {
                     <div className="form-group" style={{ position: 'relative' }}>
                       <DateTimeInput
                         inputProps={{
-                          name: 'date',
-                          id: 'date',
+                          value: this.state.inputDateVal,
                         }}
                         onChange={this.handleDateChange}
                         inputFormat={'YYYY-MM-DD'}
@@ -248,7 +252,7 @@ class AdminTeamProfile extends Component {
                         mode={'date'}
                         minDate={moment()}
                         maxDate={moment().add(1, 'year')}
-                        dateTime={moment(this.state.team.deadline).format('YYYY-MM-DD')}
+                        dateTime={moment(this.state.team.deadline, 'YYYY-MM-DD').format('YYYY-MM-DD')}
                       />
                       <label className={'action-description action-margin goal-description'}>What is the deadline for your team? It can be up to a year from the start date.</label>
                     </div>
