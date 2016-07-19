@@ -6,28 +6,26 @@ import { Router, Route } from 'react-router';
 import RouteNotFound from './views/RouteNotFound';
 import publicRoutes from './routes/public.js';
 import adminRoutes from './routes/admin.js';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose } from 'redux';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import mainReducer from './redux/reducers';
 import ga from 'react-ga';
 import axios from 'axios';
+
+import { applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
 
 const reducer = combineReducers({
     main: mainReducer,
     routing: routeReducer,
 });
 
-/* In dev mode, use the logger */
-import { applyMiddleware } from 'redux';
-import createLogger from 'redux-logger';
+export const store = createStore(reducer, undefined, compose(
+  // applyMiddleware(createLogger),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+  // Get the redux chrome extension here: https://github.com/zalmoxisus/redux-devtools-extension
+));
 
-const logger = createLogger();
-const createStoreWithMiddleware = applyMiddleware(logger)(createStore);
-
-export const store = createStoreWithMiddleware(reducer);
-
-/* In production, remove the logger */
-// export const store = createStore(reducer);
 const history = createBrowserHistory();
 
 const googleAnalyticsOptions = { debug: true };
