@@ -172,7 +172,7 @@ class userController {
                   const project = data.project;
                   const team = data.team;
 
-                  link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
+                  link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}&r=TEAM_LEADER`;
 
                   return new Promise((resolve, reject) => {
                     Mailer.sendInviteEmail(user, link, project, role);
