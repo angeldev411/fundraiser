@@ -80,7 +80,10 @@ router.put('/api/v1/user/make-volunteer', (req, res) => {
   userController.makeVolunteer(user, teamId)
   .then( (user) => userController.getUserWithRoles(user.id) )
   .then( (user) => userController.getRequiredSession(user) )
-  .then( (user) => res.status(200).send( userController.safe(user) ) )
+  .then( (user) => {
+    req.session.user = user;
+    res.status(200).send( userController.safe(user) ); 
+  })
   .catch( (err) => res.status(500).send(err) );
 })
 
