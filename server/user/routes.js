@@ -17,8 +17,11 @@ router.post('/api/v1/signup', (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: util.hash(req.body.password),
-        goal: req.body.goal
     };
+    // goal is only required for team members. If the signup form didn't require it,
+    // ensure we aren't passing it in undefined.  
+    if (req.body.goal) data.goal = req.body.goal;
+    
     let slug = req.body.teamSlug || '';
 
     userController.signup(data, slug.toLowerCase())
