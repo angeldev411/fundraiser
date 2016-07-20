@@ -209,20 +209,13 @@ class userController {
           if (user.inviteCode === userData.inviteCode) {
             return User.update(user, userData)
                 .then((userUpdated) => {
-                   this.checkCredentials({
+                  return this.checkCredentials({
                     email: userData.email,
                     password: userData.password
                   })
                 })
                 .then((dbUser) => {
                   return Promise.resolve(dbUser);
-                })
-                .then((user) => {
-
-                    return new Promise((resolve, reject) => {
-                      Mailer.sendVolunteerSignupNotificationToTeamLeader(user);
-                      return resolve(user);
-                    });
                 })
                 .catch((err) => {
                   console.log('Error updating user:',err);
