@@ -322,7 +322,6 @@ export default class Volunteer {
               db.getNodes([user.id]).then((users) => {
                   // should only have one
                   let currentUserData = users[0];
-                  console.log('the user', user);
                   if(userIsVolunteer && currentUserData.goal !== user.goal && stats.totalSponsors > 0) 
                       return Promise.reject(`Sorry, Goal hours are locked at ${currentUserData.goal} as you already have sponsors.`);
                   
@@ -340,7 +339,6 @@ export default class Volunteer {
                       ...(user.totalHours ? { totalHours: user.totalHours } : {}),
                       ...(user.currentHours ? { currentHours: user.currentHours } : {}),
                   }).then((data) => {
-                      console.log('done?');
                       return resolve(data);
                   }).catch((error) => {
                       console.log('error', error);
