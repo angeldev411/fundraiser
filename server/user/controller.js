@@ -206,7 +206,7 @@ class userController {
   static signup(userData, teamSlug) {
     return this.getUserWithRoles(userData.email)
         .then((user) => {
-          if (user.inviteCode === userData.inviteCode) {
+          if (user.inviteCode && user.inviteCode === userData.inviteCode) {
             return User.update(user, userData)
                 .then((userUpdated) => {
                   return this.checkCredentials({
