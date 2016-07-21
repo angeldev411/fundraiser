@@ -6,17 +6,24 @@ import Form from '../../components/Form';
 import PledgeFormStep2 from '../../components/PledgeFormStep2';
 
 // $ symbol and numbers are inversed in Options due to "direction: rtl" in the select CSS
-const defaultAmount = 10;
 
+const defaultOneTime = 100;
 export default class PledgeFormStep1 extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            ...(this.props.oneTimeOnly ? { amount: defaultAmount } : { hourly: defaultAmount }),
-            maxCap: null,
-            error: false,
-            showHourly: true
-        };
+    
+    componentWillMount(){
+      this.state = {
+        ...(this.props.oneTimeOnly ? { amount: defaultOneTime } : { hourly: this.defaultHourly() }),
+        maxCap:         null,
+        error:          false,
+        showHourly:     true,
+      };
+    }
+
+    componentWillReceiveProps(nextProps){
+      if(nextProps.goal)
+        this.setState({
+          ...(this.props.oneTimeOnly ? { amount: defaultOneTime } : { hourly: this.defaultHourly() }),
+        });
     }
 
     handleChange = (event, name) => {
@@ -32,19 +39,33 @@ export default class PledgeFormStep1 extends Component {
         this.setState(newState);
     };
 
+    defaultHourly(){
+      // See https://github.com/oakworks/raiserve/issues/6
+      const goalHours = this.props.goal;
+      let amount;
+
+      if (goalHours <= 50) amount = Math.round(100 / goalHours);
+      else if (goalHours > 50 && goalHours <= 100)    amount = 1;
+      else if (goalHours > 100 && goalHours <= 200)   amount = .5;
+      else if (goalHours > 200 && goalHours <= 500)   amount = .25;
+      else if (goalHours > 500 && goalHours <= 1000)  amount = .10;
+      else if (goalHours > 1000 ) amount = (100 / goalHours).toFixed(2);
+      return amount;
+    };
+
+
     handleSwitchForm = () => {
-        const value = this.state.amount || this.state.hourly;
         if (!this.state.showHourly) {
             this.setState({
                 amount: null,
-                hourly: value,
+                hourly: this.defaultHourly(),
                 showHourly: true
             });
 
         } else {
             this.setState({
                 hourly: null,
-                amount: value,
+                amount: defaultOneTime,
                 showHourly: false
             });
         }
@@ -133,7 +154,7 @@ export default class PledgeFormStep1 extends Component {
                       <div id="pledge-calc">
                         <p>{`your $${this.formattedHourly()}/hr pledge`}</p>
                         <p>x</p>
-                        <p>{`my ${this.props.goal} goal hours of service`}</p>
+                        <p>{this.props.volunteer ? 'my' : 'our'}{` ${this.props.goal} goal hours of service`}</p>
                         <p>=</p>
                         <p>{`$${this.hourlyMax()} maximum pledge`}</p>
                       </div>
