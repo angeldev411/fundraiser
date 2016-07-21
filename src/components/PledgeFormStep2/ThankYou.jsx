@@ -6,7 +6,7 @@ export default class ThankYou extends React.Component {
     isTeamDonation: React.PropTypes.bool,
     socialLinks: React.PropTypes.element.isRequired,
     volunteerFirstName: React.PropTypes.string,
-    teamLeadName: React.PropTypes.string,
+    // teamLeadName: React.PropTypes.string,
     teamName: React.PropTypes.string,
   }
   render() {
@@ -15,7 +15,7 @@ export default class ThankYou extends React.Component {
       isTeamDonation,
       socialLinks,
       volunteerFirstName,
-      teamLeadName,
+      // teamLeadName,
       teamName,
     } = this.props
     return (
@@ -37,7 +37,7 @@ export default class ThankYou extends React.Component {
           At the end of the campaign you will receive an email recap of the achievements.
         </p>
         <p>Thanks again,</p>
-        {isTeamDonation ? <p>{teamLeadName}<br />{teamName} Leader</p> : <p>{volunteerFirstName}</p>}
+        {isTeamDonation ? <p>{teamName} Team Leader</p> : <p>{volunteerFirstName}</p>}
       </div>
     )
   }
