@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Actions from '../../redux/pledge/actions';
 import SocialShareLinks from '../../components/SocialShareLinks';
+import ThankYou from './ThankYou'
 
 class PledgeFormStep2 extends Component {
     constructor(props) {
@@ -140,23 +141,22 @@ class PledgeFormStep2 extends Component {
     render() {
       if (this.state.success) {
 
-        const who = {
-          subject     : this.state.volunteerSlug ? 'me' : 'us'
-        }
-
         return (
-          <div id={'success-pledge'}>
-            <p>{`${this.state.firstName},`}</p>
-            <p>{`Thank you for your sponsorship. Sponsorships really inspire ${who.subject} to volunteer and together we are making twice the difference for the project.`}</p>
-            <p>{`Please let your friends and family know about your sponsorship using the links below. Getting the word out will go a long way towards making an even bigger impact.`}</p>
-            <p>{`Thanks again.`}</p>
-            <SocialShareLinks
-              volunteer={this.props.volunteer}
-              project={this.props.project}
-              team={this.props.team}
-            />
-          </div>
-        );
+          <ThankYou
+            sponsorFirstName={this.state.firstName}
+            isTeamDonation={typeof this.props.volunteer === 'undefined'}
+            socialLinks={
+              <SocialShareLinks
+                volunteer={this.props.volunteer}
+                project={this.props.project}
+                team={this.props.team}
+              />
+            }
+            teamLeadName="TODO: GET TEAM LEAD NAME INTO REDUCER"
+            teamName={this.props.team ? this.props.team.name : undefined}
+            volunteerFirstName={this.props.volunteer ? this.props.volunteer.firstName : undefined}
+          />
+        )
 
       }
 
