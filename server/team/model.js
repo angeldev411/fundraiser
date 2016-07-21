@@ -24,6 +24,7 @@ const Node = db.defineNode({
     tagline: db.Joi.string(),
     slogan: db.Joi.string(),
     description: db.Joi.string(),
+    defaultVolunteerDescription: db.Joi.string(),
     raised : db.Joi.number(),
     pledge: db.Joi.number(),
     pledgePerHour : db.Joi.number(),
@@ -55,7 +56,8 @@ class Team {
       totalSponsors: 0,
       hourlyPledge: 0,
       raised: 0,
-      totalRaised: 0
+      totalRaised: 0,
+      defaultVolunteerDescription: ''
     });
 
     return Team.validate(teamData)
@@ -105,7 +107,6 @@ class Team {
       }
         ).getResult('u')
         .then((teamLeader) => {
-            // console.log(projectLeader);
           return db.query(`
                     MATCH (t:TEAM {id: {teamId} }), (u:TEAM_LEADER {id: {teamLeaderId} })
                     CREATE (u)-[:LEAD]->(t)
@@ -162,6 +163,7 @@ class Team {
       ...(typeof teamData.tagline !== 'undefined' ? { tagline: teamData.tagline } : {}),
       ...(typeof teamData.slogan !== 'undefined' ? { slogan: teamData.slogan } : {}),
       ...(typeof teamData.description !== 'undefined' ? { description: teamData.description } : {}),
+      ...(typeof teamData.defaultVolunteerDescription !== 'undefined' ? { defaultVolunteerDescription: teamData.defaultVolunteerDescription } : {}),
       ...(typeof teamData.raised !== 'undefined' ? { raised : teamData.raised } : {}),
       ...(typeof teamData.goal !== 'undefined' ? { goal : teamData.goal } : {}),
       ...(typeof teamData.deadline !== 'undefined' ? { deadline : teamData.deadline } : {}),
@@ -185,10 +187,11 @@ class Team {
 
     static saveUpdate(teamData) {
         return db.getNodes([teamData.id]).then((result) => {
-          if(parseInt(result[0].goal) !== parseInt(teamData.goal) &&  (result[0].totalRaised > 0) || result[0].totalSponsors > 0) {
-           return reject(`Sorry, Goal hours are locked at ${teamData.goal} as you already have sponsors.`);
+          let team = result[0];
+          if(parseInt(team.goal) !== parseInt(teamData.goal) && (team.totalRaised > 0 || team.totalSponsors > 0)) {
+           return Promise.reject(`Sorry, Goal hours are locked at ${teamData.goal} as you already have sponsors.`);
           }else{
-            const teamNode = new Node(_.extend(result[0], teamData), teamData.id);
+            const teamNode = new Node(_.extend(team, teamData), teamData.id);
             return teamNode.save();
           }
         });
