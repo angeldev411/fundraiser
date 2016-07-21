@@ -122,10 +122,13 @@ export default class AdminVolunteerProfile extends Component {
             success: false,
         });
         const user = this.state.user;
+        const team = this.props.user.team;
 
         if (!user.password || user.password !== user.password2) {
             delete user.password;
         }
+
+        user.description = user.description || team.defaultVolunteerDescription;
 
         delete user.password2;
 
@@ -157,9 +160,9 @@ export default class AdminVolunteerProfile extends Component {
     };
 
     getUserMessage = () => {
-        if (this.state.user && this.state.user.description) {
-            return this.state.user.description;
-        }
+        let user = this.state.user;
+        let team = this.props.user.team;
+        return user && (user.description || team.defaultVolunteerDescription);
     };
 
     getUserGoal = () => {
@@ -362,7 +365,7 @@ export default class AdminVolunteerProfile extends Component {
                                         name="description"
                                         id="description"
                                         placeholder="Why you're Volunteering, why this matters to you. Be inspiring as this will engage people to sponsor you."
-                                        defaultValue={this.getUserMessage()}
+                                        value={this.getUserMessage()}
                                         rows="3"
                                         onChange={(e) => { this.handleChange(e, 'description') }}
                                     />
