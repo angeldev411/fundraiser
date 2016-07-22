@@ -441,7 +441,7 @@ export default class AdminUserProfile extends Component {
                                 }
 
                                 {
-                                  this.props.user.roles.includes('VOLUNTEER') ? 
+                                  this.props.user.roles.includes('VOLUNTEER') ? (
 
                                     <div>
                                         <div className="dropzone form-group">
