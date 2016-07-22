@@ -10,13 +10,15 @@ import PledgeFormStep2 from '../../components/PledgeFormStep2';
 const defaultOneTime = 100;
 export default class PledgeFormStep1 extends Component {
     
-    componentWillMount(){
-      this.state = {
-        ...(this.props.oneTimeOnly ? { amount: defaultOneTime } : { hourly: this.defaultHourly() }),
-        maxCap:         null,
-        error:          false,
-        showHourly:     true,
-      };
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...(this.props.oneTimeOnly ? { amount: defaultAmount } : { hourly: defaultAmount }),
+            maxCap: null,
+            error: false,
+            showHourly: true
+        };
+        this.handleEditPledgeClick = this.handleEditPledgeClick.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -53,6 +55,10 @@ export default class PledgeFormStep1 extends Component {
       return amount;
     };
 
+
+    handleEditPledgeClick(e) {
+        this.refs.modal.getWrappedInstance().handleClick() // so dirty
+    };
 
     handleSwitchForm = () => {
         if (!this.state.showHourly) {
@@ -198,10 +204,7 @@ export default class PledgeFormStep1 extends Component {
 
         return (
             <div id={"pledge-container"}>
-                <Form
-                    id="pledge"
-                    cols={"col-xs-12"}
-                >
+                <Form id="pledge">
                     <div className="form-group">
                         {this.getForm()}
                     </div>
@@ -209,6 +212,7 @@ export default class PledgeFormStep1 extends Component {
                     {this.state.error ? <p>{this.state.error}</p> : null}
                 </Form>
                 <ModalButton
+                    ref="modal"
                     customClass="btn-transparent-green btn-pledge"
                     disabled={!!this.state.error}
                     content={
@@ -224,6 +228,7 @@ export default class PledgeFormStep1 extends Component {
                             project={this.props.project}
                             goal={this.props.goal}
                             onPledgeSuccess={this.props.onPledgeSuccess}
+                            onEditClick={this.handleEditPledgeClick}
                         />
                     }
                 >{'Continue'}</ModalButton>

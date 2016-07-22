@@ -82,32 +82,36 @@ export default class TeamProfileBlock extends Component {
 
                     { this.props.volunteerprofile ?
                       null :
-                      <p id='team-sponsor-count'># of Team Sponsors: {this.props.totalSponsors}</p>
+                      <div className="team-stat">
+                        <span className="team-stat-title"># of Team Sponsors: </span>
+                        <span className="team-stat-value">{this.props.totalSponsors}</span>
+                      </div>
                     }
 
                     {this.props.teamgoal
                         ? (
                         <div id="team-goal">
-                            <span id="team-goal-title">{'TEAM GOAL'} {this.props.team.goal} hrs</span>
+                          <div className="team-stat" id="team-goal-title">
+                            <span className="team-stat-title">TEAM GOAL: </span>
+                            <span className="team-stat-value">{`${this.props.team.goal} hrs`}</span>
+                          </div>
+                          <div className="progress">
                             <div
-                                className="progress"
+                              className="team-goal-bar progress-bar"
+                              role="progressbar"
+                              aria-valuenow={percentage}
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                              style={{ width: `${percentage}%` }}
                             >
-                                <div
-                                    className="team-goal-bar progress-bar"
-                                    role="progressbar"
-                                    aria-valuenow={percentage}
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                    style={{ width: `${percentage}%` }}
-                                >
-                                    <span className="sr-only">{'60% Complete'}</span>
-                                </div>
+                              <span className="sr-only">{'60% Complete'}</span>
                             </div>
-                            <div id="team-goal-progress">
-                                <span id="label">{this.props.team.totalHours > 0 ? (<span>{Number(this.props.team.totalHours).toFixed(2)} hrs completed</span>) : ''}</span>
-                                <span id="value"></span>
-                            </div>
-                            <p className={'clearfix'}></p>
+                          </div>
+                          <div id="team-goal-progress" className="team-stat">
+                            <span id="label" className="team-stat-value">{this.props.team.totalHours > 0 ? (<span>{Math.ceil(Number(this.props.team.totalHours))} hrs completed</span>) : ''}</span>
+                            <span id="value"></span>
+                          </div>
+                          <p className={'clearfix'}></p>
                         </div>
                         )
                         : (null)

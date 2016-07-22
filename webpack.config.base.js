@@ -58,15 +58,14 @@ module.exports = new Config().merge({
         loader: ExtractTextPlugin.extract(
           "style",
           "css!postcss!sass")
-        // loaders: ['style', 'css', 'postcss', 'sass'],
       },
       {
-        test: /\.less$/,
+        test: /_component\.(css|sass|scss)$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
           'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]&sourceMap' +
           '!postcss-loader?sourceMap' +
-          '!less-loader?sourceMap'
+          '!sass-loader?sourceMap'
         ),
       },
     ],
