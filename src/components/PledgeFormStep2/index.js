@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import Form from '../../components/Form';
 import * as Actions from '../../redux/pledge/actions';
 import SocialShareLinks from '../../components/SocialShareLinks';
+import ThankYou from './ThankYou'
 
 class PledgeFormStep2 extends Component {
     constructor(props) {
@@ -140,23 +141,22 @@ class PledgeFormStep2 extends Component {
     render() {
       if (this.state.success) {
 
-        const who = {
-          subject     : this.state.volunteerSlug ? 'me' : 'us'
-        }
-
         return (
-          <div id={'success-pledge'}>
-            <p>{`${this.state.firstName},`}</p>
-            <p>{`Thank you for your sponsorship. Sponsorships really inspire ${who.subject} to volunteer and together we are making twice the difference for the project.`}</p>
-            <p>{`Please let your friends and family know about your sponsorship using the links below. Getting the word out will go a long way towards making an even bigger impact.`}</p>
-            <p>{`Thanks again.`}</p>
-            <SocialShareLinks
-              volunteer={this.props.volunteer}
-              project={this.props.project}
-              team={this.props.team}
-            />
-          </div>
-        );
+          <ThankYou
+            sponsorFirstName={this.state.firstName}
+            isTeamDonation={typeof this.props.volunteer === 'undefined'}
+            socialLinks={
+              <SocialShareLinks
+                volunteer={this.props.volunteer}
+                project={this.props.project}
+                team={this.props.team}
+              />
+            }
+            teamLeadName="TODO: GET TEAM LEAD NAME INTO REDUCER"
+            teamName={this.props.team ? this.props.team.name : undefined}
+            volunteerFirstName={this.props.volunteer ? this.props.volunteer.firstName : undefined}
+          />
+        )
 
       }
 
@@ -179,18 +179,25 @@ class PledgeFormStep2 extends Component {
                         className={'col-xs-6'}
                         id={'pledge-info'}
                     >
+
                         {
                             this.state.hourly ?
                             (
                                 <span>
-                                    <span id={'hourly-amount'}>{`$${this.formattedHourly()}`}{'/hr'}</span>
-                                    <span id={'goal'}>{`x ${this.props.goal} goal hrs`}</span>
-                                    <span id='hourly-total'>{`$${this.hourlyMax()} max pledge`}</span>
+                                    <div>
+                                        <span id={'amount'}>{`$${this.formattedHourly()}/hr `}</span>
+                                        <a href="javascript:void(0);" className="edit" onClick={this.props.onEditClick}>edit</a>
+                                    </div>
+                                    <div id={'goal'}>{`x ${this.props.goal} goal hrs`}</div>
+                                    <div id='hourly-total'>{`$${this.hourlyMax()} max pledge`}</div>
                                 </span>
                             ) :
                             (
                                 <span>
-                                    <span id={'hourly-amount'}>{`$${this.state.amount}`}</span>
+                                    <div>
+                                        <span id={'amount'}>{`$${this.state.amount}`}</span>
+                                        <a href="javascript:void(0);" className="edit" onClick={this.props.onEditClick}>edit</a>
+                                    </div>
                                 </span>
                             )
                         }
@@ -293,9 +300,17 @@ class PledgeFormStep2 extends Component {
                     />
                 </div>
                 {
-                    this.state.hourly ?
-                    <p>{'Your 100% tax deductible sponsorship will be charged monthly for all hours completed that month up to the number of goal hours.'} <br/> {'If service hours have already been completed, those hours will be included in your first month of sponsorship.'}</p> :
-                    <p>{'Your 100% tax deductible donation will be charged upon completion of checkout.'}</p>
+                    this.state.hourly ? (
+                        <p>
+                            Your 100% tax deductible sponsorship will be charged monthly for all hours completed that month.
+                            <br/>
+                            Your maximum overall donation to this project will be the goal hours x your hourly pledge. (If the volunteer volunteers more hours than their goal you will not be charged)
+                            <br/>
+                            If service hours have already been completed, those hours will be included in your first month of sponsorship.
+                        </p>
+                    ) : (
+                        <p>Your 100% tax deductible donation will be charged upon completion of checkout.</p>
+                    )
                 }
             </Form>
         );
@@ -311,7 +326,8 @@ PledgeFormStep2.propTypes = {
     team: React.PropTypes.object.isRequired,
     project: React.PropTypes.object.isRequired,
 
-    onPledgeSuccess: React.PropTypes.func
+    onPledgeSuccess: React.PropTypes.func,
+    onEditClick: React.PropTypes.func.isRequired,
 };
 
 export default connect((reduxState) => ({

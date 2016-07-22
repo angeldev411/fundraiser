@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../components/Button';
 import Form from '../../components/Form';
 import DateTimeInput from 'react-bootstrap-datetimepicker';
+import 'components/_react-bootstrap-datetime-picker.scss';
 import SignaturePad from 'react-signature-pad';
 import * as Actions from '../../redux/volunteer/actions';
 import { connect } from 'react-redux';
@@ -106,7 +107,7 @@ export default class RecordHoursForm extends Component {
                     />
                     <label htmlFor="hours">{'Hours'}</label>
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{ position: 'relative' }}>
                     <DateTimeInput
                         inputProps={{
                             name: 'date',

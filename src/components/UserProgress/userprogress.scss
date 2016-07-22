@@ -15,7 +15,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
     .user-hours {
         position: relative;
         right: 135px; // $user-progress-width / 2;
-        top: 50px; // $margin-user-image;
+        top: 25px; // $margin-user-image;
         font-size: 0.8em;
         display: inline-block;
         transition: opacity 500ms;
@@ -57,7 +57,7 @@ $user-image-width: $user-progress-width - 2 * ($margin-user-image + $user-progre
         margin: (-$user-progress-width + $margin-user-image) 0 2em $margin-user-image;
     }
 
-    .user-name-and-location {
+    .user-name-and-goal {
         text-align: center;
         color: $white;
 

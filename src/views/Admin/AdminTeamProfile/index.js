@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import DateTimeInput from 'react-bootstrap-datetimepicker';
+import 'components/_react-bootstrap-datetime-picker.scss';
 
 /* Then React components */
 import Page from '../../../components/Page';
@@ -15,13 +17,19 @@ import * as Actions from '../../../redux/team/actions';
 import * as UserActions from '../../../redux/user/actions';
 
 class AdminTeamProfile extends Component {
-    componentWillMount(props) {
-        document.title = 'Team profile | raiserve';
 
-        this.setState({
-          team: this.props.user.team
-        });
+  constructor(props, ...args) {
+    super(props, ...args)
+    this.state = {
+      team: props.user.team,
+      inputDateVal: moment(props.user.team.deadline).format('YYYY-MM-DD'), // used only for deadline input state
     }
+    this.handleDateChange = this.handleDateChange.bind(this)
+  }
+  
+  componentDidMount(props) {
+    document.title = 'Team profile | raiserve';
+  }
 
     componentWillReceiveProps(nextProps) {
       if (nextProps.user) {
@@ -31,53 +39,74 @@ class AdminTeamProfile extends Component {
           error: null,
         });
       }
+
+    if (nextProps.reset) {
+      this.setState({
+        passwordRequested: true,
+      });
     }
+  }
 
-    changeSupervisorSignatureRequired = (event) => {
-        const newState = Object.assign({}, this.state);
+  changeSupervisorSignatureRequired = (event) => {
+    const newState = Object.assign({}, this.state);
 
-        newState.team.signatureRequired = event.nativeEvent.target.checked;
+    newState.team.signatureRequired = event.nativeEvent.target.checked;
 
-        this.setState(newState);
+    this.setState(newState);
 
-        Actions.updateTeam(
-            newState.team.id,
-            newState.team
-        )(this.props.dispatch);
-    };
+    Actions.updateTeam(
+      newState.team.id,
+      newState.team
+    )(this.props.dispatch);
+  };
 
-    changeHoursApprovalRequired = (event) => {
-        const newState = Object.assign({}, this.state);
+  changeHoursApprovalRequired = (event) => {
+    const newState = Object.assign({}, this.state);
 
-        newState.team.hoursApprovalRequired = event.nativeEvent.target.checked;
+    newState.team.hoursApprovalRequired = event.nativeEvent.target.checked;
 
-        this.setState(newState);
+    this.setState(newState);
 
-        Actions.updateTeam(
-            newState.team.id,
-            newState.team
-        )(this.props.dispatch);
-    };
+    Actions.updateTeam(
+      newState.team.id,
+      newState.team
+    )(this.props.dispatch);
+  };
 
-    disabledGoal = () => {
-      const team = this.state.team;
-      if(team.totalRaised > 0 || team.totalSponsors > 0) return 'disabled';
-      return '';
+  disabledGoal = () => {
+    const team = this.state.team;
+    if(team.totalRaised > 0 || team.totalSponsors > 0) return 'disabled';
+    return '';
     //   if(user.totalSponsors > 0 || user.)
-    }
+  }
 
-    changeGoal = (event) => {
-        const newState = Object.assign({}, this.state);
+  changeGoal = (event) => {
+    const newState = Object.assign({}, this.state);
 
-        newState.team.goal = event.nativeEvent.target.value;
+    newState.team.goal = event.nativeEvent.target.value;
 
-        this.setState(newState);
+    this.setState(newState);
 
+    Actions.updateTeam(
+      newState.team.id,
+      newState.team
+    )(this.props.dispatch);
+  };
+
+  handleDateChange(dateString) {
+    const m = moment(dateString, 'YYYY-MM-DD')
+    if(m.isValid()) {
+      const nextState = Object.assign({}, this.state)
+      nextState.team.deadline = m.toISOString()
+      nextState.inputDateVal = m.format('YYYY-MM-DD')
+      this.setState(nextState, () => {
         Actions.updateTeam(
-            newState.team.id,
-            newState.team
+          nextState.team.id,
+          nextState.team
         )(this.props.dispatch);
-    };
+    });
+  }
+}
 
     currentDeadline = () => {
       const deadline = this.state.team.deadline || moment().add(1,'month')._d;
@@ -103,16 +132,16 @@ class AdminTeamProfile extends Component {
         newState.team.id,
         newState.team
       )(this.props.dispatch);
-    }
+  }
 
-    requestPassword = () => {
-        this.setState({
-            loading: true,
-        });
-        UserActions.requestPasswordReset(
-            { email: this.props.user.email },
-        )(this.props.dispatch);
-    };
+  requestPassword = () => {
+    this.setState({
+      loading: true,
+    });
+    UserActions.requestPasswordReset(
+      { email: this.props.user.email },
+    )(this.props.dispatch);
+  };
 
     render() {
         if (!this.props.user) {
@@ -241,15 +270,20 @@ class AdminTeamProfile extends Component {
                                 }
 
                             </div>
-                            <div className="form-group">
-                            <input
-                              type="date"
-                              name="deadline"
-                              id="deadline"
-                              value={ this.currentDeadline() }
-                              onChange={(e) => { this.change('deadline', e) }}
+                            <div className="form-group" style={{ position:'relative' }}>
+                              <DateTimeInput
+                                inputProps={{
+                                  value: this.state.inputDateVal,
+                                }}
+                                onChange={this.handleDateChange}
+                                inputFormat={'YYYY-MM-DD'}
+                                format={'YYYY-MM-DD'}
+                                mode={'date'}
+                                minDate={moment()}
+                                maxDate={moment().add(1, 'year')}
+                                dateTime={moment(this.state.team.deadline, 'YYYY-MM-DD').format('YYYY-MM-DD')}
                               />
-                            <label className={'action-description action-margin goal-description'}>{'What is the deadline for your team? It can be up to a year from the start date.'}</label>
+                              <label className={'action-description action-margin goal-description'}>What is the deadline for your team? It can be up to a year from the start date.</label>
                             </div>
                             <div className="form-group">
                               <textarea
@@ -271,8 +305,8 @@ class AdminTeamProfile extends Component {
                         </form>
                         </section>
                     </div>
-                </AdminLayout>
-            </Page>
+            </AdminLayout>
+          </Page>
         );
     }
 }

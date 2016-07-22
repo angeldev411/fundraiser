@@ -63,9 +63,12 @@ ModalButton.propTypes = {
     onHourLogSuccess: React.PropTypes.func
 };
 
-export default connect((reduxState) => ({
+const mapStateToProps = (reduxState) => ({
     user: reduxState.main.auth.user,
     team: reduxState.main.team.team,
     project: reduxState.main.project.project,
     hourLogSuccess: reduxState.main.volunteer.hourLogSuccess,
-}))(ModalButton);
+})
+export default connect(mapStateToProps, null, null, {
+  withRef: true,
+})(ModalButton);

@@ -52,7 +52,6 @@ export default class AdminUserProfile extends Component {
         }
 
         if (nextProps.user && !this.state.success) {
-            console.log('updating the user', nextProps.user);
             this.setState({
                 user: nextProps.user,
                 loading: false,
@@ -479,12 +478,17 @@ export default class AdminUserProfile extends Component {
                                                 />
                                                 <span className="lock input-group-addon">
                                                     {
-                                                        this.disabledGoal() ? 
-                                                        <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  You already have a sponsor, Goal hours are locked.'}</span></label>:
-                                                        <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future. Note: you cannot change your goal hours after you get your first sponsor'}</span></label> 
+                                                        this.disabledGoal() ?
+                                                        <i className="fa fa-lock" aria-hidden="true"></i>:
+                                                        <i className="fa fa-unlock" aria-hidden="true"></i>
                                                     }
                                                 </span> 
                                             </div>
+                                             { this.disabledGoal() ? ( 
+                                                <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  You already have a sponsor, Goal hours are locked.'}</span></label>
+                                             ) : (
+                                                <label htmlFor="goal">{`Goal Hours, by ${this.deadline()}`}<span className={'lowercase'}>{'  Be conservative, you can always add another goal in the future. Note: you cannot change your goal hours after you get your first sponsor'}</span></label>
+                                             )}
                                         </div>
                                     </div>
                                   ) : (
