@@ -258,6 +258,17 @@ class AdminTeamProfile extends Component {
                               />
                             <label className={'action-description action-margin goal-description'}>{'What is the deadline for your team? It can be up to a year from the start date.'}</label>
                             </div>
+                            <div className="form-group">
+                              <textarea
+                                name="defaultVolunteerDescription"
+                                id="defaultVolunteerDescription"
+                                placeholder="Why your team members are Volunteering, why this matters. This will be the default message for your volunteers."
+                                defaultValue={this.state.team.defaultVolunteerDescription}
+                                rows="3"
+                                onChange={(e) => { this.change('defaultVolunteerDescription', e) }}
+                              />
+                              <label htmlFor="defaultVolunteerDescription">{'Default Volunteer Description'}</label>
+                            </div>
                             <Button
                                 customClass="btn-lg btn-green-white"
                                 to={`${Urls.getTeamProfileUrl(this.props.user.project.slug, this.props.user.team.slug)}`}
