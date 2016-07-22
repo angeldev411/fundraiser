@@ -128,11 +128,24 @@ class AdminTeamSponsors extends Component {
                 title: 'Edit Team Profile',
                 href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
             },
+            {
+                type: 'link',
+                title: 'Edit My Profile',
+                href: Urls.ADMIN_USER_PROFILE_URL
+            }
         ];
+
+        if( this.props.user.roles.includes('VOLUNTEER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Volunteer Dash',
+            href:       `${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
 
         return (
             <Page>
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='TEAM_LEADER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'Team sponsors'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}

@@ -13,7 +13,7 @@ export default class PledgeFormStep1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...(this.props.oneTimeOnly ? { amount: defaultAmount } : { hourly: defaultAmount }),
+            ...(this.props.oneTimeOnly ? { amount: defaultOneTime } : { hourly: this.defaultHourly() }),
             maxCap: null,
             error: false,
             showHourly: true
@@ -48,10 +48,10 @@ export default class PledgeFormStep1 extends Component {
 
       if (goalHours <= 50) amount = Math.round(100 / goalHours);
       else if (goalHours > 50 && goalHours <= 100)    amount = 1;
-      else if (goalHours > 100 && goalHours <= 200)   amount = .5;
-      else if (goalHours > 200 && goalHours <= 500)   amount = .25;
-      else if (goalHours > 500 && goalHours <= 1000)  amount = .10;
-      else if (goalHours > 1000 ) amount = (100 / goalHours).toFixed(2);
+      else if (goalHours <= 200)   amount = .5;
+      else if (goalHours <= 500)   amount = .25;
+      else if (goalHours <= 1000)  amount = .10;
+      else amount = (100 / goalHours).toFixed(2);
       return amount;
     };
 

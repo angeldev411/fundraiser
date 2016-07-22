@@ -172,7 +172,7 @@ class userController {
                   const project = data.project;
                   const team = data.team;
 
-                  link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}`;
+                  link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}&r=TEAM_LEADER`;
 
                   return new Promise((resolve, reject) => {
                     Mailer.sendInviteEmail(user, link, project, role);
@@ -206,23 +206,16 @@ class userController {
   static signup(userData, teamSlug) {
     return this.getUserWithRoles(userData.email)
         .then((user) => {
-          if (user.inviteCode === userData.inviteCode) {
+          if (user.inviteCode && user.inviteCode === userData.inviteCode) {
             return User.update(user, userData)
                 .then((userUpdated) => {
-                   this.checkCredentials({
+                  return this.checkCredentials({
                     email: userData.email,
                     password: userData.password
                   })
                 })
                 .then((dbUser) => {
                   return Promise.resolve(dbUser);
-                })
-                .then((user) => {
-
-                    return new Promise((resolve, reject) => {
-                      Mailer.sendVolunteerSignupNotificationToTeamLeader(user);
-                      return resolve(user);
-                    });
                 })
                 .catch((err) => {
                   console.log('Error updating user:',err);
@@ -310,6 +303,14 @@ class userController {
           return Promise.reject(err);
         });
   }
+
+  static makeVolunteer(user, teamId) {
+    return Volunteer.createSlug(user.firstName, user.lastName) 
+    .then( slug => User.makeVolunteer(user, slug, teamId))
+    .then( user => Promise.resolve(user) )
+    .catch( err => Promise.reject(err) )
+  }
 }
+
 
 export default userController;

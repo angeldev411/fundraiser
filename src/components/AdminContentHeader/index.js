@@ -15,7 +15,7 @@ export default class AdminContentHeader extends Component {
                             {this.props.description}
                         </p>
                         <p className={'current-goal pull-left col-xs-12 col-md-6'}>
-                            <Link to={`${Urls.ADMIN_VOLUNTEER_PROFILE_URL}#edit-goal`}>{'Edit'}</Link>
+                            <Link to={`${Urls.ADMIN_USER_PROFILE_URL}#edit-goal`}>{'Edit'}</Link>
                             <span className={'goal-title'}>{'Current Goal'}</span>
                             <span className={'goal-number'}>{this.props.goal ? `${this.props.goal} hrs` : 'None'} </span>
                         </p>

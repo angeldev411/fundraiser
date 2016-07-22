@@ -17,8 +17,11 @@ router.post('/api/v1/signup', (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: util.hash(req.body.password),
-        goal: req.body.goal
     };
+    // goal is only required for team members. If the signup form didn't require it,
+    // ensure we aren't passing it in undefined.  
+    if (req.body.goal) data.goal = req.body.goal;
+    
     let slug = req.body.teamSlug || '';
 
     userController.signup(data, slug.toLowerCase())
@@ -70,5 +73,18 @@ router.put('/api/v1/user/reset-password', (req, res) => {
         res.status(500).send(err);
     });
 });
+
+router.put('/api/v1/user/make-volunteer', (req, res) => {
+  const user    = req.body;
+  const teamId  = req.body.team.id;
+  userController.makeVolunteer(user, teamId)
+  .then( (user) => userController.getUserWithRoles(user.id) )
+  .then( (user) => userController.getRequiredSession(user) )
+  .then( (user) => {
+    req.session.user = user;
+    res.status(200).send( userController.safe(user) ); 
+  })
+  .catch( (err) => res.status(500).send(err) );
+})
 
 export default router;

@@ -118,10 +118,19 @@ class AdminVolunteerSponsors extends Component {
             },
             {
                 type: 'link',
-                title: 'Edit Profile',
-                href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
+                title: 'Edit My Profile',
+                href: `${Urls.ADMIN_USER_PROFILE_URL}`,
             },
         ];
+
+        if( this.props.user.roles.includes('TEAM_LEADER') )
+          console.log('adding etam dash link');
+          pageNav.push({
+            type:       'link',
+            title:      'My Team Dashboard',
+            href:       `${Urls.ADMIN_TEAM_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
 
         return (
             <Page>
@@ -142,7 +151,7 @@ class AdminVolunteerSponsors extends Component {
                   />
                   : null
                 }
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='VOLUNTEER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My sponsors'}
                         description={'Don’t forget to share your good fortune and give thanks on social media.'}

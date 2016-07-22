@@ -19,7 +19,7 @@ import AdminTeamSponsors from '../views/Admin/AdminTeamSponsors';
 import AdminTeamVolunteers from '../views/Admin/AdminTeamVolunteers';
 import AdminVolunteerDashboard from '../views/Admin/AdminVolunteerDashboard';
 import AdminVolunteerSponsors from '../views/Admin/AdminVolunteerSponsors';
-import AdminVolunteerProfile from '../views/Admin/AdminVolunteerProfile';
+import AdminUserProfile from '../views/Admin/AdminUserProfile';
 import RecordedHours from '../views/Admin/RecordedHours';
 
 export default (
@@ -77,8 +77,8 @@ export default (
             component={requireAuthentication(AdminVolunteerDashboard, 'VOLUNTEER')}
         />
         <Route
-            path={Urls.ADMIN_VOLUNTEER_PROFILE}
-            component={requireAuthentication(AdminVolunteerProfile, 'VOLUNTEER')}
+            path={Urls.ADMIN_USER_PROFILE}
+            component={requireAuthentication(AdminUserProfile, 'USER')}
         />
         <Route
             path={Urls.ADMIN_VOLUNTEER_SPONSORS}

@@ -2,3 +2,6 @@ export const SIGN_IN = 'SIGN_IN';
 export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
 
 export const LOGOUT = 'LOGOUT';
+
+export const USER_TO_VOLUNTEER_SUCCESS = 'USER_TO_VOLUNTEER_SUCCESS';
+export const USER_TO_VOLUNTEER_FAILURE = 'USER_TO_VOLUNTEER_FAILURE';

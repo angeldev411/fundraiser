@@ -110,10 +110,18 @@ export default class AdminVolunteerDashboard extends Component {
             },
             {
                 type: 'link',
-                title: 'Edit Profile',
-                href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
+                title: 'Edit My Profile',
+                href: `${Urls.ADMIN_USER_PROFILE_URL}`,
             },
         ];
+
+        if( this.props.user.roles.includes('TEAM_LEADER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Team Dashboard',
+            href:       Urls.ADMIN_TEAM_DASHBOARD_URL,
+            className:  'navPadding'
+          });
 
         return (
             <Page>
@@ -134,7 +142,7 @@ export default class AdminVolunteerDashboard extends Component {
                   />
                   : null
                 }
-                <AdminLayout pageNav={pageNav}>
+                <AdminLayout pageType='VOLUNTEER' pageNav={pageNav}>
                     <AdminContentHeader
                         title={'My Dashboard'}
                         description={'Don’t forget to record all of your hours so you get credit for all of the hours you worked.'}

@@ -102,6 +102,11 @@ class RecordedHours extends Component {
           title: 'Edit Team Profile',
           href: `${Urls.ADMIN_TEAM_PROFILE_URL}`,
         },
+        {
+          type: 'link',
+          title: 'Edit My Profile',
+          href: Urls.ADMIN_USER_PROFILE_URL
+        }
       ];
 
     else if (this.state.pageType === 'volunteer')
@@ -120,10 +125,18 @@ class RecordedHours extends Component {
           },
           {
               type: 'link',
-              title: 'Edit Profile',
-              href: `${Urls.ADMIN_VOLUNTEER_PROFILE_URL}`,
+              title: 'Edit My Profile',
+              href: `${Urls.ADMIN_USER_PROFILE_URL}`,
           },
       ];
+
+      if( this.props.user.roles.includes('VOLUNTEER') )
+          pageNav.push({
+            type:       'link',
+            title:      'My Volunteer Dash',
+            href:       `${Urls.ADMIN_VOLUNTEER_DASHBOARD_URL}`,
+            className:  'navPadding'
+          });
 
     return (
       <Page>
@@ -144,7 +157,7 @@ class RecordedHours extends Component {
           />
           : null
         }
-        <AdminLayout pageNav={pageNav}>
+        <AdminLayout pageType='TEAM_LEADER' pageNav={pageNav}>
           <AdminContentHeader
             title='Recorded Hours'
             description='Get details on when and where volunteer service was performed'

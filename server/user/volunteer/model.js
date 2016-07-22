@@ -13,7 +13,6 @@ const db = neo4jDB(config.DB_URL);
 import User from '../model';
 import Hours from '../../hours/model';
 
-// REL3: This does not appear to be used.
 export const volunteerSchema = {
     slug: db.Joi.string(),
     image: db.Joi.string(),
@@ -302,9 +301,12 @@ export default class Volunteer {
             }
         }
 
-      user.goal = parseInt(user.goal, 10);
+      const userIsVolunteer = user.roles.includes('VOLUNTEER');
 
-      if (isNaN(user.goal) || user.goal < 1 || user.goal > 999) {
+      user.goal = parseInt(user.goal, 10);
+      if (isNaN(user.goal)) user.goal = 0;
+
+      if ( userIsVolunteer && (user.goal < 1 || user.goal > 999)) {
           return Promise.reject('Please choose your goal hours before continuing');
       }
       
@@ -312,39 +314,42 @@ export default class Volunteer {
           Reflect.deleteProperty(user, 'roles');
       }
 
-        return new Promise((resolve, reject) => {
-            this.getStats(user.slug)
-            .then((stats) => {
+      return new Promise((resolve, reject) => {
+          this.getStats(user.slug || user.id)
+          .then((stats) => {
                 
-                // if they are changing the goal don't let them if they have a sponsor 
-                db.getNodes([user.id]).then((users) => {
-                    // should only have one
-                    let currentUserData = users[0];
-                    if(currentUserData.goal !== user.goal && stats.totalSponsors > 0) return reject(`Sorry, Goal hours are locked at ${currentUserData.goal} as you already have sponsors.`);
-                    return User.update(currentUser, {
-                        ...(user.id ? { id: currentUser.id } : {}),
-                        ...(user.firstName ? { firstName: user.firstName } : {}),
-                        ...(user.lastName ? { lastName: user.lastName } : {}),
-                        ...(user.email ? { email: user.email } : {}),
-                        ...(user.goal ? { goal: user.goal } : {}),
-                        ...(user.password ? { password: user.password } : {}),
-                        ...(user.roles ? { roles: currentUser.roles } : {}),
-                        ...(user.description ? { description: user.description } : {}),
-                        ...(user.image ? { image: user.image } : {}),
-                        ...(user.slug ? { slug: currentUser.slug } : {}),
-                        ...(user.totalHours ? { totalHours: user.totalHours } : {}),
-                        ...(user.currentHours ? { currentHours: user.currentHours } : {}),
-                    }).then((data) => {
-                        return resolve(data);
-                    }).catch((error) => {
-                        return reject(error);
-                    });
-                });
-                
+              // if they are changing the goal don't let them if they have a sponsor 
+              db.getNodes([user.id]).then((users) => {
+                  // should only have one
+                  let currentUserData = users[0];
+                  if(userIsVolunteer && currentUserData.goal !== user.goal && stats.totalSponsors > 0) 
+                      return Promise.reject(`Sorry, Goal hours are locked at ${currentUserData.goal} as you already have sponsors.`);
+                  
+                  return User.update(currentUser, {
+                      ...(user.id ? { id: currentUser.id } : {}),
+                      ...(user.firstName ? { firstName: user.firstName } : {}),
+                      ...(user.lastName ? { lastName: user.lastName } : {}),
+                      ...(user.email ? { email: user.email } : {}),
+                      ...(user.goal ? { goal: user.goal } : {}),
+                      ...(user.password ? { password: user.password } : {}),
+                      ...(user.roles ? { roles: currentUser.roles } : {}),
+                      ...(user.description ? { description: user.description } : {}),
+                      ...(user.image ? { image: user.image } : {}),
+                      ...(user.slug ? { slug: currentUser.slug } : {}),
+                      ...(user.totalHours ? { totalHours: user.totalHours } : {}),
+                      ...(user.currentHours ? { currentHours: user.currentHours } : {}),
+                  }).then((data) => {
+                      return resolve(data);
+                  }).catch((error) => {
+                      console.log('error', error);
+                      return reject(error);
+                  });
+              });
+              
 
-            })
+          })
 
-        });
+      });
     }
 
     static uploadHeadshot(obj) {
@@ -400,7 +405,8 @@ export default class Volunteer {
         // totalHours were improperly stored as strings.
         return db.query(
             `
-            MATCH (v:VOLUNTEER {slug: {volunteerSlug}})
+            MATCH (v:USER)
+            WHERE v.slug = {volunteerSlug} OR v.id = {volunteerSlug}
             OPTIONAL MATCH (v)<-[r:DONATED|SUPPORTING]-(USER)
             RETURN {
             	totalHours: toFloat(v.totalHours),
@@ -411,7 +417,7 @@ export default class Volunteer {
             `,
             {},
             {
-                volunteerSlug,
+              volunteerSlug,
             }
         )
         .getResult('stats');

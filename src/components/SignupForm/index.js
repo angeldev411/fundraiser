@@ -9,11 +9,13 @@ export default class SignupForm extends Component {
 
         const inviteCode = this.getParam('c');
         const email = this.getParam('m');
+        const role = this.getParam('r');
 
         if (inviteCode && email) {
             this.state = {
                 inviteCode,
                 email,
+                isTeamLead: role === 'TEAM_LEADER',
                 loading: false,
             };
         } else {
@@ -42,9 +44,11 @@ export default class SignupForm extends Component {
             return;
         }
 
-        // goal is only required on team signup
+        // goal is only required for team members.
+        // In that case, we expect to have a deadline and the invite was not for a team leader  
         const deadlineRequired = !!this.props.deadline;
-        if (deadlineRequired && (!this.state.goal || this.state.goal <= 0)){
+        if (deadlineRequired && !this.state.isTeamLead && 
+           (!this.state.goal || this.state.goal <= 0)) {
           return this.setState({ error: 'Please set a goal' });
         }
 
@@ -122,7 +126,7 @@ export default class SignupForm extends Component {
                     <label htmlFor="lastName">{'Lastname'}</label>
                 </div>
 
-                { this.props.deadline ?
+                { !this.state.isTeamLead && this.props.deadline ?
                   <div className="form-group">
                       <input type="number"
                           name="goal"

@@ -38,7 +38,7 @@ class AdminMenu extends Component {
                 {this.props.pageNav ?
                     (<ul className="page-nav">
                         {this.props.pageNav.map((element, i) => (
-                            <li key={i}>
+                            <li className={element.className} key={i}>
                                 {element.type === 'button' ?
                                     <ModalButton customClass="btn-link"
                                         content={element.content}
