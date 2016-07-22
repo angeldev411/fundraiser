@@ -56,8 +56,7 @@ class Team {
       totalSponsors: 0,
       hourlyPledge: 0,
       raised: 0,
-      totalRaised: 0,
-      defaultVolunteerDescription: ''
+      totalRaised: 0
     });
 
     return Team.validate(teamData)
@@ -76,6 +75,7 @@ class Team {
                     });
             })
             .catch((error) => {
+              console.log(error);
               return Promise.reject(typeof error === 'string' ? error : messages.team.required);
             });
   }
@@ -181,7 +181,7 @@ class Team {
 
   static saveInsert(teamData) {
     const teamNode = new Node(teamData);
-
+    console.log('teamData is...', teamData)
     return teamNode.save();
   }
 
