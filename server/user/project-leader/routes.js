@@ -4,6 +4,7 @@ import UserController from '../controller';
 import express from 'express';
 const router = express.Router();
 
+// XXX: Misnamed, does not seem to be used
 router.post('/api/v1/project-leader/invite', (req, res) => {
     return UserController.invite(req.body.email, TEAM_LEADER, req.body.teamSlug)
     .then((user) => {

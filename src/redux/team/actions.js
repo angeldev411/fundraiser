@@ -40,7 +40,6 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
             name,
             projectSlug,
             slug,
-            teamLeaderEmail,
         })
         .then(
             (response) => {

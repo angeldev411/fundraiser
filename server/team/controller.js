@@ -10,32 +10,26 @@ class teamController {
         data.team.fakeLeaderId = fakeLeaderId;
 
         return Team.insert(data.team)
-            .then((team) => {
-                teamObject = team;
-                return Team.linkTeamCreatorAndProject(team.id, data.currentUser.id, projectSlug);
-            })
-            .then(() => {
-                return Team.createFakeLeader(teamObject.id, fakeLeaderId);
-            })
-            .then(() => {
-                return Team.inviteTeamLeader(teamObject);
-            })
-            .then((result) => {
-                return Promise.resolve(result);
-            })
-            .catch((error) => {
-                return Promise.reject(error);
-            });
+        .then((team) => {
+            teamObject = team;
+            return Team.linkTeamCreatorAndProject(team.id, data.currentUser.id, projectSlug);
+        })
+        // XXX: Can this be deleted now?
+        .then(() => {
+            return Team.createFakeLeader(teamObject.id, fakeLeaderId);
+        })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        });
     }
 
     static update(data) {
         let team;
 
         return Team.update(data.team)
-        .then((result) => {
-            team = result;
-            return Team.inviteTeamLeader(data.team);
-        })
         .then((result) => {
             return Promise.resolve(team);
         })
