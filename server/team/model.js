@@ -212,18 +212,12 @@ class Team {
         );
   }
 
-  static inviteTeamLeader(teamData) {
-    if (teamData.teamLeaderEmail) {
-      UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
-            .then(() => {
-              return Promise.resolve(teamData);
-            })
-            .catch(() => {
-              return Promise.reject(messages.invite.error);
-            });
-    } else {
-      return Promise.resolve(teamData);
-    }
+  // inviteTeamLeader
+  // @param {object} leaderData - user data for the leader: name, email, etc.
+  static inviteTeamLeader(leaderData, teamSlug) {
+    UserController.invite(leaderData, 'TEAM_LEADER', teamSlug)
+    .then( () => Promise.resolve(teamData) )
+    .catch(() => Promise.reject(messages.invite.error));
   }
 
   static getByProject(userId, projectSlug) {

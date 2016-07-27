@@ -143,8 +143,15 @@ class userController {
     return users;
   }
 
-  static invite(email, role, slugIfNeedBe) {
+
+  /*
+   * Invites a new user to participate
+   * @param {userData} 
+   */
+  static invite(userData, role, slug = null) {
     let Klass;
+
+    if (typeof userData === "string") userData = { email: userData };  
 
     switch (role) {
     case roles.TEAM_LEADER:
@@ -157,49 +164,45 @@ class userController {
       Klass = Volunteer;
     }
 
-    return new Klass(
-      {
-        email
-      },
-            slugIfNeedBe
-        )
-        .then((user) => {
-          let link;
+    return new Klass( userData, slug )
+    .then((user) => {
+      let link;
 
-          if (role === roles.TEAM_LEADER) {
-            return TeamLeader.getTeamAndProject(user)
-                .then((data) => {
-                  const project = data.project;
-                  const team = data.team;
+      if (role === roles.TEAM_LEADER) {
+        return TeamLeader.getTeamAndProject(user)
+        .then((data) => {
+          const project = data.project;
+          const team = data.team;
 
-                  link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}&r=TEAM_LEADER`;
+          link = `${Constants.DOMAIN}/${project.slug}/${team.slug}/join?c=${user.inviteCode}&m=${user.email}&r=TEAM_LEADER`;
 
-                  return new Promise((resolve, reject) => {
-                    Mailer.sendInviteEmail(user, link, project, role);
-                    return resolve(user);
-                  });
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-          } else if (role === roles.PROJECT_LEADER) {
-            return ProjectLeader.getProject(user)
-                .then((project) => {
-                  link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
-
-                  return new Promise((resolve, reject) => {
-                    Mailer.sendInviteEmail(user, link, project, role);
-                    return resolve(user);
-                  });
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-          }
+          return new Promise((resolve, reject) => {
+            Mailer.sendInviteEmail(user, link, project, role);
+            return resolve(user);
+          });
         })
         .catch((err) => {
-          return Promise.reject('User already in DB');
+          console.log(err);
         });
+
+      } else if (role === roles.PROJECT_LEADER) {
+        return ProjectLeader.getProject(user)
+        .then((project) => {
+          link = `${Constants.DOMAIN}/${project.slug}/join?c=${user.inviteCode}&m=${user.email}`;
+
+          return new Promise((resolve, reject) => {
+            Mailer.sendInviteEmail(user, link, project, role);
+            return resolve(user);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+    })
+    .catch((err) => {
+      return Promise.reject('User already in DB');
+    });
   }
 
   // @data includes password and invitecode
