@@ -182,7 +182,8 @@ class userController {
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
+          return Promise.reject(err);
         });
 
       } else if (role === roles.PROJECT_LEADER) {
@@ -197,11 +198,12 @@ class userController {
         })
         .catch((err) => {
           console.log(err);
+          return Promise.reject(err);
         });
       }
     })
     .catch((err) => {
-      return Promise.reject('User already in DB');
+      return Promise.reject(new Error('User already in DB'));
     });
   }
 
