@@ -104,7 +104,7 @@ export default class Mailer {
           `;
         } else if (role === roles.TEAM_LEADER){
           text = `
-          <p>Hi,</p>
+          <p>Hi ${user.firstName},</p>
           <p>Congratulations, you have been invited to join ${project.name} (powered by raiserve.org) as a team leader.</p>
           <p>As a team leader you will be leading a team of volunteers to get sponsored for each hour of volunteering they do.  Your volunteers are now able to make twice the difference!</p>
 
