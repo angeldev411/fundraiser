@@ -46,8 +46,10 @@ export default class ManageTeamLeaders extends Component {
     if (nextProps.newLeader || nextProps.removedLeader)
       TeamActions.getLeaders(this.props.team.id)(this.props.dispatch);
 
-    if (nextProps.leaders)
-      this.setState({ leaders: nextProps.leaders });
+    if (nextProps.leaders){
+      const leadersWithEmail = _.reject(nextProps.leaders, ['email', null]);
+      this.setState({ leaders: leadersWithEmail });
+    }
   }
 
   confirmRemove(leader) {
