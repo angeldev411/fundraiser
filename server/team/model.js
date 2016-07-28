@@ -212,9 +212,9 @@ class Team {
         );
   }
 
-  // inviteTeamLeader
+  // inviteLeader
   // @param {object} leaderData - user data for the leader: name, email, etc.
-  static inviteTeamLeader(leaderData, teamSlug) {
+  static inviteLeader(leaderData, teamSlug) {
     return UserController.invite(leaderData, 'TEAM_LEADER', teamSlug)
     .then( newLeader  => Promise.resolve(newLeader) )
     .catch( error       => {
