@@ -37,6 +37,19 @@ export default function reducers(state = initialState, action) {
                 inviteError: action.inviteError
             }
 
+        case actionTypes.TEAM_LEADERS:
+            return {
+                ...state,
+                newLeader: null,
+                leaders: action.leaders
+            }
+
+        case actionTypes.TEAM_LEADERS_FAILED:
+            return {
+                ...state,
+                leadersError: action.leadersError
+            }
+
         case actionTypes.GET_HOURS:
             return {
                 ...state,

@@ -52,6 +52,17 @@ router.post('/api/v1/team/:slug/invite-leader', (req, res) => {
   .catch( error   => res.status(500).send(error.message) )
 });
 
+router.get(`/api/v1/team/:id/leaders`, (req, res) => {
+  const user = req.session.user;
+  if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
+    req.status(403).send();
+
+  Team.getLeaders(req.params.id)
+  .then( response => res.status(200).send(response) )
+  .catch( error   => res.status(500).send(error.message) )
+
+});
+
 router.get('/api/v1/team/hours', (req, res) => {
   if( !(AUTH_CHECKER.isLogged(req.session) &&
       AUTH_CHECKER.isTeamLeader(req.session.user))

@@ -94,6 +94,24 @@ export function inviteLeader(slug, leader) {
   }
 }
 
+// GET LEADER LIST
+
+export const teamLeaders = ( leaders ) => ({
+  type: actionTypes.TEAM_LEADERS,
+  leaders
+});
+
+export const teamLeadersFail = ( leadersError ) => ({
+  type: actionTypes.TEAM_LEADERS_FAILED,
+  leadersError
+});
+
+export function getLeaders(id) {
+  return (dispatch) => axios.get(`${API_URL}/team/${id}/leaders`)
+  .then( leaders  => dispatch( teamLeaders(leaders.data) ) )
+  .catch( error   => dispatch( teamLeadersFail(error.data) ) );
+}
+
 export function getTeam(projectSlug, slug) {
     return (dispatch) => {
         return axios.get(`${API_URL}/team/${projectSlug}/${slug}`)

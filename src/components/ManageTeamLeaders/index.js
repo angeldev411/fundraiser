@@ -27,7 +27,7 @@ export default class ManageTeamLeaders extends Component {
   }
 
   componentWillMount() {
-    // TeamAction
+    TeamActions.getLeaders(this.props.team.id)(this.props.dispatch);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,7 +39,11 @@ export default class ManageTeamLeaders extends Component {
     } 
 
     if (nextProps.newLeader)
-      alert('leader added!');
+      TeamActions.getLeaders(this.props.team.id)(this.props.dispatch);
+
+    if (nextProps.leaders)
+      this.setState({ leaders: nextProps.leaders });
+  }
   }
 
   removeLeader(email) {
@@ -138,6 +142,8 @@ export default class ManageTeamLeaders extends Component {
 export default connect( (reduxState) => {
   console.log('reduxState', reduxState);
   return {
+    leaders:      reduxState.main.team.leaders,
+
     newLeader: reduxState.main.team.newLeader,
     inviteError: reduxState.main.team.inviteError
   };

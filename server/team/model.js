@@ -216,12 +216,27 @@ class Team {
   // @param {object} leaderData - user data for the leader: name, email, etc.
   static inviteTeamLeader(leaderData, teamSlug) {
     return UserController.invite(leaderData, 'TEAM_LEADER', teamSlug)
-    .then( teamLeaders  => Promise.resolve(teamLeaders) )
+    .then( newLeader  => Promise.resolve(newLeader) )
     .catch( error       => {
       console.error('Error inviting team leader', leaderData);
       console.error(error)
       return Promise.reject( new Error(messages.invite.error));
     });
+  }
+
+  static getLeaders(id) {
+    return db.query(`
+      MATCH (leader:TEAM_LEADER)-[:LEAD]->(:TEAM {id:{id}})
+      RETURN {
+        firstName:  leader.firstName,
+        lastName:   leader.lastName,
+        email:      leader.email
+      } as leaders
+      ORDER BY leader.firstName
+    `,
+    {},
+    { id })
+    .getResults('leaders');
   }
 
   static getByProject(userId, projectSlug) {
