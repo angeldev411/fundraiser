@@ -40,7 +40,6 @@ export function newTeam(name, projectSlug, slug, teamLeaderEmail) {
             name,
             projectSlug,
             slug,
-            teamLeaderEmail,
         })
         .then(
             (response) => {
@@ -75,6 +74,61 @@ export function updateTeam(id, team, projectSlug) {
     };
 }
 
+// INVITING LEADERS
+
+export const invitedLeader = ( newLeader ) => ({
+  type: actionTypes.INVITED_LEADER,
+  newLeader
+});
+
+export const inviteLeaderFailed = ( inviteError ) => ({
+  type: actionTypes.INVITE_LEADER_FAILED,
+  inviteError
+}); 
+
+export function inviteLeader(slug, leader) {
+  return (dispatch) => {
+    return axios.post(`${API_URL}/team/${slug}/invite-leader`, leader )
+    .then( response => dispatch(invitedLeader(response.data)) )
+    .catch( error   => dispatch(inviteLeaderFailed(error.data)) );
+  }
+}
+
+// REMOVING LEADERS
+export const removedLeader = ( removedLeader ) => ({
+  type: actionTypes.REMOVED_LEADER,
+  removedLeader
+});
+
+export const removeLeaderFail = ( removeLeaderError ) => ({
+  type: actionTypes.REMOVE_LEADER_FAILED,
+  removeLeaderError
+});
+
+export function removeLeader(teamId, leaderId) {
+  return (dispatch) => axios.delete(`${API_URL}/team/${teamId}/leaders/${leaderId}`)
+  .then( response => dispatch( removedLeader(response.data) ) )
+  .catch( error   => dispatch( removeLeaderFail(error.data) ) );
+}
+
+// GET LEADER LIST
+
+export const teamLeaders = ( leaders ) => ({
+  type: actionTypes.TEAM_LEADERS,
+  leaders
+});
+
+export const teamLeadersFail = ( leadersError ) => ({
+  type: actionTypes.TEAM_LEADERS_FAILED,
+  leadersError
+});
+
+export function getLeaders(id) {
+  return (dispatch) => axios.get(`${API_URL}/team/${id}/leaders`)
+  .then( leaders  => dispatch( teamLeaders(leaders.data) ) )
+  .catch( error   => dispatch( teamLeadersFail(error.data) ) );
+}
+
 export function getTeam(projectSlug, slug) {
     return (dispatch) => {
         return axios.get(`${API_URL}/team/${projectSlug}/${slug}`)
@@ -98,6 +152,8 @@ export function indexTeams(projectSlug) {
         );
     };
 }
+
+// GETTING TEAM STATS
 
 export const receivedStats = (stats) => ({
     type: actionTypes.GOT_TEAM_STATS,
@@ -125,6 +181,8 @@ export function getStats() {
     };
 }
 
+// REMOVING TEAMS
+
 export const removedTeam = (teams) => ({
     type: actionTypes.REMOVED_TEAM,
     teams,
@@ -151,6 +209,8 @@ export function removeTeam(team) {
         );
     };
 }
+
+// GETTING TEAM HOUR LOGS
 
 export const hourLogsGet = (hours) => ({
   type: actionTypes.GET_HOURS,

@@ -25,8 +25,9 @@ const defaultSchema = {
 
 import { volunteerSchema } from './volunteer/model';
 
+// TODO: these do not seem to be enforced, and the type is never specified
 const userSchemas = {
-    'default': defaultSchema,
+    default: defaultSchema,
     invitee: {
         ...defaultSchema,
         inviteCode: db.Joi.string().required(),
@@ -74,7 +75,6 @@ export default class User {
             return Promise.resolve(userBrandNew);
         })
         .catch((err) => {
-            // console.error('[USER] Couldnt save user ', err);
             return Promise.reject(err);
         });
     }

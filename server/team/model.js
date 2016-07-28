@@ -181,7 +181,6 @@ class Team {
 
   static saveInsert(teamData) {
     const teamNode = new Node(teamData);
-    console.log('teamData is...', teamData)
     return teamNode.save();
   }
 
@@ -212,18 +211,45 @@ class Team {
         );
   }
 
-  static inviteTeamLeader(teamData) {
-    if (teamData.teamLeaderEmail) {
-      UserController.invite(teamData.teamLeaderEmail, 'TEAM_LEADER', teamData.slug)
-            .then(() => {
-              return Promise.resolve(teamData);
-            })
-            .catch(() => {
-              return Promise.reject(messages.invite.error);
-            });
-    } else {
-      return Promise.resolve(teamData);
-    }
+  // inviteLeader
+  // @param {object} leaderData - user data for the leader: name, email, etc.
+  static inviteLeader(leaderData, teamSlug) {
+    return UserController.invite(leaderData, 'TEAM_LEADER', teamSlug)
+    .then( newLeader  => Promise.resolve(newLeader) )
+    .catch( error       => {
+      console.error('Error inviting team leader', leaderData);
+      console.error(error)
+      return Promise.reject( new Error(messages.invite.error));
+    });
+  }
+
+
+  static removeLeader(teamId, leaderId) {
+    return db.query(`
+      MATCH (user:TEAM_LEADER {id:{leaderId}})-[lead:LEAD]->(:TEAM {id:{teamId}})
+      REMOVE user:TEAM_LEADER
+      DELETE lead
+      RETURN user
+    `,
+    {},
+    { leaderId, teamId })
+    .getResult('user');
+  }
+
+  static getLeaders(id) {
+    return db.query(`
+      MATCH (leader:TEAM_LEADER)-[:LEAD]->(:TEAM {id:{id}})
+      RETURN {
+        id:         leader.id,
+        firstName:  leader.firstName,
+        lastName:   leader.lastName,
+        email:      leader.email
+      } as leaders
+      ORDER BY leader.firstName
+    `,
+    {},
+    { id })
+    .getResults('leaders');
   }
 
   static getByProject(userId, projectSlug) {

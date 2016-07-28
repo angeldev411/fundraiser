@@ -32,7 +32,6 @@ class AdminTeamForm extends Component {
         team.name = this.state.name;
         team.projectSlug = this.state.projectSlug;
         team.slug = this.state.slug;
-        team.teamLeaderEmail = this.state.teamLeaderEmail;
 
         if (this.state.id) {
             Actions.updateTeam(
@@ -42,7 +41,6 @@ class AdminTeamForm extends Component {
                     name: this.state.name,
                     projectSlug: this.props.defaultData.project.slug,
                     slug: this.state.slug,
-                    teamLeaderEmail: this.state.teamLeaderEmail,
                 }
             )(this.props.dispatch);
         } else {
@@ -50,7 +48,6 @@ class AdminTeamForm extends Component {
                 this.state.name,
                 this.props.defaultData.project.slug,
                 this.state.slug,
-                this.state.teamLeaderEmail,
             )(this.props.dispatch);
         }
     };
@@ -111,16 +108,6 @@ class AdminTeamForm extends Component {
                         <i className="fa fa-unlock" aria-hidden="true"></i> 
                     }
                     </span>
-                </div>
-
-                <div className="form-group">
-                    <input type="email"
-                        name="teamLeaderEmail"
-                        id="teamLeaderEmail"
-                        defaultValue={this.props.defaultData.team ? this.props.defaultData.team.teamLeaderEmail : null}
-                        onChange={(e) => { this.handleChange(e, 'teamLeaderEmail') }}
-                    />
-                    <label htmlFor="team-leader-email">{'Team leader Email'}</label>
                 </div>
 
                 {this.state.error ? <p>{this.state.error}</p> : null}

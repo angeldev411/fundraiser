@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AdminTeamForm from '../AdminTeamForm';
+import ManageTeamLeaders from '../ManageTeamLeaders';
 import ModalButton from '../ModalButton';
 import Button from '../Button';
 
@@ -99,17 +100,10 @@ export default class AdminTeamsTable extends Component {
                                             </Button>
                                             <ModalButton customClass="btn-link uppercase"
                                                 content={
-                                                    <AdminTeamForm title={"Edit team"}
-                                                        defaultData={
-                                                            {
-                                                                project: this.props.project,
-                                                                team,
-                                                            }
-                                                        }
-                                                    />
+                                                    <ManageTeamLeaders team={team} />
                                                 }
                                             >
-                                                {'Invite Leader'}
+                                                {'Manage Leaders'}
                                             </ModalButton>
                                         </div>
                                     </td> : null}
