@@ -44,7 +44,7 @@ router.post('/api/v1/team', (req, res) => {
 router.post('/api/v1/team/:slug/invite-leader', (req, res) => {
   const user = req.session.user;
   if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
-    return req.status(403).send();
+    return res.status(403).send();
 
   const leader = req.body;
   Team.inviteLeader(leader, req.params.slug)
@@ -55,7 +55,7 @@ router.post('/api/v1/team/:slug/invite-leader', (req, res) => {
 router.delete(`/api/v1/team/:id/leaders/:leaderId`, (req, res) => {
   const user = req.session.user;
   if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
-    return req.status(403).send();
+    return res.status(403).send();
 
   Team.removeLeader(req.params.id, req.params.leaderId)
   .then( response => res.status(200).send(response) )
@@ -65,7 +65,7 @@ router.delete(`/api/v1/team/:id/leaders/:leaderId`, (req, res) => {
 router.get(`/api/v1/team/:id/leaders`, (req, res) => {
   const user = req.session.user;
   if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
-    req.status(403).send();
+    res.status(403).send();
 
   Team.getLeaders(req.params.id)
   .then( response => res.status(200).send(response) )
