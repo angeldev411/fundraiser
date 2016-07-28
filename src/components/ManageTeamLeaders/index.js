@@ -19,6 +19,7 @@ export default class ManageTeamLeaders extends Component {
     this.state = {
       inviteError: null,
       newLeader: null,
+      removedLeader: null,
       leaders: []
     }
 
@@ -44,10 +45,14 @@ export default class ManageTeamLeaders extends Component {
     if (nextProps.leaders)
       this.setState({ leaders: nextProps.leaders });
   }
+
+  confirmRemove(email) {
+    this.setState({ confirmRemove: email });
   }
 
   removeLeader(email) {
     console.log('Removing leader', email);
+    this.setState({ confirmRemove: null });
   }
 
   submit() {
@@ -91,10 +96,10 @@ export default class ManageTeamLeaders extends Component {
             <div className="col-xs-6 col-md-2">
               <input ref="firstName" type="text" className="form-control" placeholder="First"/>
             </div>
-            <div className="col-xs-6 col-md-2">
+            <div className="col-xs-6 col-md-3">
               <input ref="lastName" type="text" className="form-control" placeholder="Last"/>
             </div>
-            <div className="col-xs-12 col-md-5">
+            <div className="col-xs-12 col-md-4">
               <input ref="email" type="email" className="form-control" placeholder="Email"/>
             </div>
             
@@ -108,25 +113,40 @@ export default class ManageTeamLeaders extends Component {
 
         </Form>
 
-        <h4 id="errors" className="text-center">{this.state.inviteError}</h4>
+        <div class="row">
+          <h4 id="errors" className="col-xs-12 text-center">{this.state.inviteError}</h4>
+        </div>
 
-        <div id="team-leaders">
-          <h3 className="text-center">{'Current Leaders'}</h3>
+        <div id="team-leaders" class="row">
+          <h3 className="text-center col-xs-12">{'Current Leaders'}</h3>
 
           { this.state.leaders.length ? (
 
-            this.state.leaders.map( leader => (
-              <div key={leader.email} className="row col-md-offset-3">
-                <div className="col-xs-6 col-md-3">{leader.firstName} {leader.lastName}</div>
-                <div className="col-xs-6 col-md-3">{leader.email}</div>
-                <div className="col-xs-6 col-md-3">
-                  <button type="button" className="btn btn-link" 
-                          onClick={() => { this.removeLeader(leader.email) }}>
-                    remove
-                  </button>
+            this.state.leaders.map( leader => leader.email ? (
+              <div key={leader.email} className="row">
+                <div className="col-xs-6 col-xs-offset-1 col-sm-4">{leader.firstName} {leader.lastName}</div>
+                <div className="hidden-xs col-sm-5">{leader.email}</div>
+                <div className="col-xs-5 col-sm-2">
+                  { this.state.confirmRemove === leader.email ? (
+                    
+                    <button type="button" className="btn btn-link" 
+                            onClick={() => { this.removeLeader(leader.email) }}>
+                      are you sure?
+                    </button>
+
+                  ) : (
+                    
+                    <button type="button" className="btn btn-link" 
+                            onClick={() => { this.confirmRemove(leader.email) }}>
+                      remove
+                    </button>
+                    
+                  )}
                 </div>
               </div>
-            ))
+            ) : /* skip fake leaders without email addresses */( 
+              null 
+            ) )
             
           ) : (
 
@@ -144,7 +164,9 @@ export default connect( (reduxState) => {
   return {
     leaders:      reduxState.main.team.leaders,
 
-    newLeader: reduxState.main.team.newLeader,
-    inviteError: reduxState.main.team.inviteError
+    newLeader:    reduxState.main.team.newLeader,
+    inviteError:  reduxState.main.team.inviteError,
+    
+    removedLeader:  reduxState.main.team.removedLeader
   };
 })(ManageTeamLeaders);
