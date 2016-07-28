@@ -74,6 +74,26 @@ export function updateTeam(id, team, projectSlug) {
     };
 }
 
+// INVITING LEADERS
+
+export const invitedLeader = ( newLeader ) => ({
+  type: actionTypes.INVITED_LEADER,
+  newLeader
+});
+
+export const inviteLeaderFailed = ( inviteError ) => ({
+  type: actionTypes.INVITE_LEADER_FAILED,
+  inviteError
+}); 
+
+export function inviteLeader(slug, leader) {
+  return (dispatch) => {
+    return axios.post(`${API_URL}/team/${slug}/invite-leader`, leader )
+    .then( response => dispatch(invitedLeader(response.data)) )
+    .catch( error   => dispatch(inviteLeaderFailed(error.data)) );
+  }
+}
+
 export function getTeam(projectSlug, slug) {
     return (dispatch) => {
         return axios.get(`${API_URL}/team/${projectSlug}/${slug}`)
@@ -97,6 +117,8 @@ export function indexTeams(projectSlug) {
         );
     };
 }
+
+// GETTING TEAM STATS
 
 export const receivedStats = (stats) => ({
     type: actionTypes.GOT_TEAM_STATS,
@@ -124,6 +146,8 @@ export function getStats() {
     };
 }
 
+// REMOVING TEAMS
+
 export const removedTeam = (teams) => ({
     type: actionTypes.REMOVED_TEAM,
     teams,
@@ -150,6 +174,8 @@ export function removeTeam(team) {
         );
     };
 }
+
+// GETTING TEAM HOUR LOGS
 
 export const hourLogsGet = (hours) => ({
   type: actionTypes.GET_HOURS,

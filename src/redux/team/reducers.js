@@ -24,6 +24,19 @@ export default function reducers(state = initialState, action) {
                 error: null,
             };
 
+        case actionTypes.INVITED_LEADER:
+            return {
+                ...state,
+                newLeader: action.newLeader,
+                inviteError: null
+            }
+
+        case actionTypes.INVITE_LEADER_FAILED:
+            return {
+                ...state,
+                inviteError: action.inviteError
+            }
+
         case actionTypes.GET_HOURS:
             return {
                 ...state,

@@ -5,18 +5,20 @@ import ReactDOM from 'react-dom';
 import Form from '../Form';
 import Button from '../Button';
 
+import * as TeamActions from '../../redux/team/actions'; 
+
 export default class ManageTeamLeaders extends Component {
 
   static propTypes = {
-    team: PropTypes.object.isRequired,
-    
-    leaders: PropTypes.array
+    team: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
+      inviteError: null,
+      newLeader: null,
       leaders: []
     }
 
@@ -24,22 +26,51 @@ export default class ManageTeamLeaders extends Component {
     this.removeLeader = this.removeLeader.bind(this);
   }
 
+  componentWillMount() {
+    // TeamAction
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('Got Props!', nextProps);
+
+    if (nextProps.inviteError){
+      this.setState({ inviteError: nextProps.error });
+      return;
+    } 
+
+    if (nextProps.newLeader)
+      alert('leader added!');
+  }
+
   removeLeader(email) {
     console.log('Removing leader', email);
   }
 
   submit() {
-    const newLeader = {
-      firstName:  this.refs.firstName.value,
-      lastName:   this.refs.lastName.value,
-      email:      this.refs.email.value
-    }
-    const leaders = this.state.leaders.concat(newLeader); 
-    this.setState({ leaders });
+    this.setState({ inviteError: null });
 
+    // XXX: add validation
+    const firstName   = this.refs.firstName.value;
+    const lastName    = this.refs.lastName.value;
+    const email       = this.refs.email.value;
+
+    if (!(firstName.length && lastName.length && email.length)){
+      this.setState({
+        inviteError: 'All fields are required. Please try again.'
+      });
+      return;
+    }
+
+    TeamActions.inviteLeader(
+      this.props.team.slug, 
+      { firstName, lastName, email }
+    )(this.props.dispatch);
+
+    // reset the form after success
     this.refs.firstName.value = '';
     this.refs.lastName.value  = '';
     this.refs.email.value     = '';
+
   }
 
   render() {
@@ -73,6 +104,8 @@ export default class ManageTeamLeaders extends Component {
 
         </Form>
 
+        <h4 id="errors" className="text-center">{this.state.inviteError}</h4>
+
         <div id="team-leaders">
           <h3 className="text-center">{'Current Leaders'}</h3>
 
@@ -102,6 +135,10 @@ export default class ManageTeamLeaders extends Component {
   }
 }
 
-connect( reduxState => ({
-  leaders: reduxState.main.team.leaders
-}))(ManageTeamLeaders);
+export default connect( (reduxState) => {
+  console.log('reduxState', reduxState);
+  return {
+    newLeader: reduxState.main.team.newLeader,
+    inviteError: reduxState.main.team.inviteError
+  };
+})(ManageTeamLeaders);

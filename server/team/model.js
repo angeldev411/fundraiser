@@ -215,9 +215,13 @@ class Team {
   // inviteTeamLeader
   // @param {object} leaderData - user data for the leader: name, email, etc.
   static inviteTeamLeader(leaderData, teamSlug) {
-    UserController.invite(leaderData, 'TEAM_LEADER', teamSlug)
-    .then( () => Promise.resolve(teamData) )
-    .catch(() => Promise.reject(messages.invite.error));
+    return UserController.invite(leaderData, 'TEAM_LEADER', teamSlug)
+    .then( teamLeaders  => Promise.resolve(teamLeaders) )
+    .catch( error       => {
+      console.error('Error inviting team leader', leaderData);
+      console.error(error)
+      return Promise.reject( new Error(messages.invite.error));
+    });
   }
 
   static getByProject(userId, projectSlug) {
