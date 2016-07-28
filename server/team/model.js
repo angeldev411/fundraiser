@@ -181,7 +181,6 @@ class Team {
 
   static saveInsert(teamData) {
     const teamNode = new Node(teamData);
-    console.log('teamData is...', teamData)
     return teamNode.save();
   }
 
@@ -226,7 +225,6 @@ class Team {
 
 
   static removeLeader(teamId, leaderId) {
-    console.log('team and leader?', teamId, leaderId);
     return db.query(`
       MATCH (user:TEAM_LEADER {id:{leaderId}})-[lead:LEAD]->(:TEAM {id:{teamId}})
       REMOVE user:TEAM_LEADER
