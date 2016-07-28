@@ -224,10 +224,25 @@ class Team {
     });
   }
 
+
+  static removeLeader(teamId, leaderId) {
+    console.log('team and leader?', teamId, leaderId);
+    return db.query(`
+      MATCH (user:TEAM_LEADER {id:{leaderId}})-[lead:LEAD]->(:TEAM {id:{teamId}})
+      REMOVE user:TEAM_LEADER
+      DELETE lead
+      RETURN user
+    `,
+    {},
+    { leaderId, teamId })
+    .getResult('user');
+  }
+
   static getLeaders(id) {
     return db.query(`
       MATCH (leader:TEAM_LEADER)-[:LEAD]->(:TEAM {id:{id}})
       RETURN {
+        id:         leader.id,
         firstName:  leader.firstName,
         lastName:   leader.lastName,
         email:      leader.email

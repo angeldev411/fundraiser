@@ -94,6 +94,23 @@ export function inviteLeader(slug, leader) {
   }
 }
 
+// REMOVING LEADERS
+export const removedLeader = ( removedLeader ) => ({
+  type: actionTypes.REMOVED_LEADER,
+  removedLeader
+});
+
+export const removeLeaderFail = ( removeLeaderError ) => ({
+  type: actionTypes.REMOVE_LEADER_FAILED,
+  removeLeaderError
+});
+
+export function removeLeader(teamId, leaderId) {
+  return (dispatch) => axios.delete(`${API_URL}/team/${teamId}/leaders/${leaderId}`)
+  .then( response => dispatch( removedLeader(response.data) ) )
+  .catch( error   => dispatch( removeLeaderFail(error.data) ) );
+}
+
 // GET LEADER LIST
 
 export const teamLeaders = ( leaders ) => ({

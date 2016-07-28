@@ -37,10 +37,25 @@ export default function reducers(state = initialState, action) {
                 inviteError: action.inviteError
             }
 
+        case actionTypes.REMOVED_LEADER:
+            return {
+                ...state,
+                removedLeader: action.removedLeader
+            }
+
+        case actionTypes.REMOVE_LEADER_FAILED:
+            return {
+                ...state,
+                removeLeaderError: action.removeLeaderError
+            }
+
         case actionTypes.TEAM_LEADERS:
             return {
                 ...state,
+                // reset new and removed leader in 
+                // case we're sending an updated list
                 newLeader: null,
+                removedLeader: null,
                 leaders: action.leaders
             }
 
