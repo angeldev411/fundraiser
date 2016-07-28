@@ -32,6 +32,11 @@ export default class ManageTeamLeaders extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({ 
+      inviteError: null,
+      newLeader: null,
+      removedLeader: null 
+    });
 
     if (nextProps.inviteError){
       this.setState({ inviteError: nextProps.error });
