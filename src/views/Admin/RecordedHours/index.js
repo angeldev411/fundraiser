@@ -130,7 +130,8 @@ class RecordedHours extends Component {
           },
       ];
 
-      if( this.props.user.roles.includes('VOLUNTEER') )
+      // Team leader volunteers:
+      if( this.state.pageType === 'team' && this.props.user.roles.includes('VOLUNTEER') )
           pageNav.push({
             type:       'link',
             title:      'My Volunteer Dash',
@@ -157,7 +158,7 @@ class RecordedHours extends Component {
           />
           : null
         }
-        <AdminLayout pageType='TEAM_LEADER' pageNav={pageNav}>
+        <AdminLayout pageType={this.state.pageType} pageNav={pageNav}>
           <AdminContentHeader
             title='Recorded Hours'
             description='Get details on when and where volunteer service was performed'
