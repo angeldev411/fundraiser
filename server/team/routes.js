@@ -41,9 +41,10 @@ router.post('/api/v1/team', (req, res) => {
     });
 });
 
+// invite a new team leader
 router.post('/api/v1/team/:slug/invite-leader', (req, res) => {
   const user = req.session.user;
-  if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
+  if ( !(user && (AUTH_CHECKER.isSuperAdmin(user) || AUTH_CHECKER.isProjectLeader(user))) ) 
     return res.status(403).send();
 
   const leader = req.body;
@@ -52,9 +53,10 @@ router.post('/api/v1/team/:slug/invite-leader', (req, res) => {
   .catch( error   => res.status(500).send(error.message) )
 });
 
+// remove team leader permissions from a user
 router.delete(`/api/v1/team/:id/leaders/:leaderId`, (req, res) => {
   const user = req.session.user;
-  if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
+  if ( !(user && (AUTH_CHECKER.isSuperAdmin(user) || AUTH_CHECKER.isProjectLeader(user))) ) 
     return res.status(403).send();
 
   Team.removeLeader(req.params.id, req.params.leaderId)
@@ -62,9 +64,10 @@ router.delete(`/api/v1/team/:id/leaders/:leaderId`, (req, res) => {
   .catch( error   => res.status(500).send(error.message) )
 });
 
+// Get a list of all team leaders: id, firstname, lastname, email
 router.get(`/api/v1/team/:id/leaders`, (req, res) => {
   const user = req.session.user;
-  if ( !(user && AUTH_CHECKER.isProjectLeader(user)) ) 
+  if ( !(user && (AUTH_CHECKER.isSuperAdmin(user) || AUTH_CHECKER.isProjectLeader(user))) ) 
     res.status(403).send();
 
   Team.getLeaders(req.params.id)
