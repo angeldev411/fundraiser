@@ -3,6 +3,7 @@ import CollapsableLine from '../CollapsableLine';
 import ChildrenLine from '../ChildrenLine';
 import AdminProjectForm from '../AdminProjectForm';
 import AdminTeamForm from '../AdminTeamForm';
+import ManageTeamLeaders from '../ManageTeamLeaders';
 import ModalButton from '../ModalButton';
 
 export default class AdminProjectsTable extends Component {
@@ -100,19 +101,10 @@ export default class AdminProjectsTable extends Component {
                                                     </ModalButton>
                                                     <ModalButton customClass="btn-link uppercase"
                                                         content={
-                                                            <AdminTeamForm
-                                                                title={"Edit team"}
-                                                                defaultData={{
-                                                                    project,
-                                                                    team,
-                                                                }}
-                                                                updateTeam={(team, teamIndex) => {
-                                                                    this.updateTeam(team, x, i);
-                                                                }}
-                                                            />
+                                                            <ManageTeamLeaders team={team} />
                                                         }
                                                     >
-                                                        {'Invite Leader'}
+                                                        {'Manage Leaders'}
                                                     </ModalButton>
                                                 </div>
                                             </div>
