@@ -181,7 +181,7 @@ class PledgeFormStep2 extends Component {
                     >
 
                         {
-                            this.state.hourly ?
+                            this.state.showHourly ?
                             (
                                 <span>
                                     <div>

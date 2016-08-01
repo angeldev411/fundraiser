@@ -13,19 +13,12 @@ export default class PledgeFormStep1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...(this.props.oneTimeOnly ? { amount: defaultOneTime } : { hourly: this.defaultHourly() }),
+            showHourly: !this.props.oneTimeOnly, // default to hourly unless oneTimeOnly
+            hourly: this.defaultHourly(),
             maxCap: null,
-            error: false,
-            showHourly: true
+            error: false
         };
         this.handleEditPledgeClick = this.handleEditPledgeClick.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps){
-      if(nextProps.goal)
-        this.setState({
-          ...(this.props.oneTimeOnly ? { amount: defaultOneTime } : { hourly: this.defaultHourly() }),
-        });
     }
 
     handleChange = (event, name) => {
@@ -47,7 +40,7 @@ export default class PledgeFormStep1 extends Component {
       let amount;
 
       if (goalHours <= 50) amount = Math.round(100 / goalHours);
-      else if (goalHours > 50 && goalHours <= 100)    amount = 1;
+      else if (goalHours <= 100)   amount = 1;
       else if (goalHours <= 200)   amount = .5;
       else if (goalHours <= 500)   amount = .25;
       else if (goalHours <= 1000)  amount = .10;
@@ -63,15 +56,13 @@ export default class PledgeFormStep1 extends Component {
     handleSwitchForm = () => {
         if (!this.state.showHourly) {
             this.setState({
-                amount: null,
-                hourly: this.defaultHourly(),
+                hourly: this.state.hourly || this.defaultHourly(),
                 showHourly: true
             });
 
         } else {
             this.setState({
-                hourly: null,
-                amount: defaultOneTime,
+                amount: this.state.amount || defaultOneTime,
                 showHourly: false
             });
         }
