@@ -21,6 +21,14 @@ export default class PledgeFormStep1 extends Component {
         this.handleEditPledgeClick = this.handleEditPledgeClick.bind(this);
     }
 
+    componentWillReceiveProps(nextProps){
+      if(nextProps.goal){
+        this.setState({
+          hourly: this.state.hourly || this.defaultHourly()
+        });
+      }
+    }
+
     handleChange = (event, name) => {
         const value = event.nativeEvent.target.value;
 
@@ -37,6 +45,7 @@ export default class PledgeFormStep1 extends Component {
     defaultHourly(){
       // See https://github.com/oakworks/raiserve/issues/6
       const goalHours = this.props.goal;
+      if (typeof goalHours === 'undefined') return 0;
       let amount;
 
       if (goalHours <= 50) amount = Math.round(100 / goalHours);
