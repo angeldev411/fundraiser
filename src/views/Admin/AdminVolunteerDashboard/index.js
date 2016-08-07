@@ -77,13 +77,11 @@ export default class AdminVolunteerDashboard extends Component {
             const dbDate = hours[i].date.split('-');
             const date = new Date(dbDate[0], dbDate[1] - 1, dbDate[2]);
 
-            if (date.getMonth() === moment().month()) {
-                hourList.push({
-                    date,
-                    new: Number(hours[i].hours),
-                    place: hours[i].place,
-                });
-            }
+            hourList.push({
+                date,
+                new: Number(hours[i].hours),
+                place: hours[i].place,
+            });
         }
         this.setState({
             monthHours: hourList,
