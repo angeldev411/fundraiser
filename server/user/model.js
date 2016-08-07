@@ -133,7 +133,7 @@ export default class User {
             `
             MATCH (u:USER {id: {id} })-[r:VOLUNTEERED]->(c)
             RETURN c as hours
-            ORDER BY c.dateTimestamp DESC
+            ORDER BY c.dateTimestamp ASC
             `,
             {},
             { id }
