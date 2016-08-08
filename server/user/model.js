@@ -178,13 +178,14 @@ export default class User {
     }
 
     // Given a userId and teamId, make the user a volunteer for the team
-    static makeVolunteer(user, slug, teamId) {
+    static makeVolunteer(user, userSlug, teamIdOrSlug) {
       return db.query(
           `
-          MATCH (user:USER {id:{userId}}), (team:TEAM {id:{teamId}})
+          MATCH (user:USER {id:{userId}})
+          MATCH (team:TEAM) WHERE team.id={teamIdOrSlug} OR team.slug={teamIdOrSlug}
           CREATE (user)-[:VOLUNTEER]->(team)
           SET user :VOLUNTEER,
-          user.slug = {slug},
+          user.slug = {userSlug},
           user.hourlyPledge = 0,
           user.totalSponsors = 0,
           user.currentHours = 0,
@@ -197,8 +198,8 @@ export default class User {
           {},
           { 
             userId: user.id, 
-            teamId, 
-            slug 
+            teamIdOrSlug, 
+            userSlug 
           }
         )
         .getResult('user');

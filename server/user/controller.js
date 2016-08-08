@@ -309,9 +309,9 @@ class userController {
         });
   }
 
-  static makeVolunteer(user, teamId) {
+  static makeVolunteer(user, teamIdOrSlug) {
     return Volunteer.createSlug(user.firstName, user.lastName) 
-    .then( slug => User.makeVolunteer(user, slug, teamId))
+    .then( slug => User.makeVolunteer(user, slug, teamIdOrSlug))
     .then( user => Promise.resolve(user) )
     .catch( err => Promise.reject(err) )
   }
