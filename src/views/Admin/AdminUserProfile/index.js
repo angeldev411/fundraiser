@@ -255,7 +255,8 @@ export default class AdminUserProfile extends Component {
     }
 
     nameNotProvided = () => {
-      return this.props.user.firstName.length === 0 || this.props.user.lastName.length === 0;
+      return !this.props.user.firstName || !this.props.user.lastName || 
+             this.props.user.firstName.length === 0 || this.props.user.lastName.length === 0;
     }
 
     render() {
