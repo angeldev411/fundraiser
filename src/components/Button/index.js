@@ -6,7 +6,7 @@ export default class Button extends Component {
         const BUTTON = (
             <button
                 type="button"
-                className={this.props.noSpinner ? `btn ${this.props.customClass}` : `btn has-spinner ${this.props.customClass}`}
+                className={`btn ${this.props.customClass} ${this.props.noSpinner ? '' : 'has-spinner'}`}
                 onClick={this.props.onClick}
                 {...this.props}
             >
