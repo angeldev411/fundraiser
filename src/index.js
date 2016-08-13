@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
+// import createBrowserHistory from 'history/lib/createBrowserHistory';
+// above replaced 8/13/16 with browserHistory, 
+// leaving temporarily for quick fix if it messes things up
+import { Router, Route, browserHistory } from 'react-router';
 import RouteNotFound from './views/RouteNotFound';
 import publicRoutes from './routes/public.js';
 import adminRoutes from './routes/admin.js';
 import { createStore, combineReducers, compose } from 'redux';
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import mainReducer from './redux/reducers';
 import ga from 'react-ga';
 import axios from 'axios';
@@ -17,7 +19,7 @@ import createLogger from 'redux-logger';
 
 const reducer = combineReducers({
     main: mainReducer,
-    routing: routeReducer,
+    routing: routerReducer,
 });
 
 export const store = createStore(reducer, undefined, compose(
@@ -26,7 +28,7 @@ export const store = createStore(reducer, undefined, compose(
   // Get the redux chrome extension here: https://github.com/zalmoxisus/redux-devtools-extension
 ));
 
-const history = createBrowserHistory();
+const history = syncHistoryWithStore(browserHistory, store);
 
 const googleAnalyticsOptions = { debug: true };
 
@@ -43,8 +45,6 @@ history.listen((location) => {
         ga.pageview(location.pathname);
     }
 });
-
-syncReduxAndRouter(history, store);
 
 const container = document.getElementById('root');
 
