@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as Urls from '../src/urls.js';
 import webpack from 'webpack';
-import webpackConfig from '../webpack.config.dev.js';
+import webpackConfig from '../webpack.config.development.js';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 
