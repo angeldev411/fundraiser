@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import ModalButton from '../ModalButton';
-import Button from '../Button';
-import AdminTeamEmailForm from '../AdminTeamEmailForm';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+
 import * as constants from '../../common/constants';
-import classNames from 'classnames';
-import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
+
+import { Link } from 'react-router';
+
+import AdminTeamEmailForm from '../AdminTeamEmailForm';
+import Button from '../Button';
+import ModalButton from '../ModalButton';
+import classNames from 'classnames';
+
 
 export default class AdminVolunteersTable extends Component {
 
