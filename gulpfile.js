@@ -27,24 +27,24 @@ var styleList = [
 ];
 
 gulp.task('cleanConstants', function(cb) {
-  del(['src/common/constants.js'], cb);
+  return del(['src/common/constants.js'], cb);
 });
 
 gulp.task('cleanAssets', function(cb) {
-  del(['www/assets/*'], cb);
+  return del(['www/assets/*'], cb);
 });
 
 gulp.task('cleanJS', function(cb) {
-    del([
-        'www/bundle.js',
-        'www/bundle.js.map',
-        'www/vendor.js',
-        'www/vendor.js.map'
-    ], cb);
+  return del([
+      'www/bundle.js',
+      'www/bundle.js.map',
+      'www/vendor.js',
+      'www/vendor.js.map'
+  ], cb);
 });
 
 gulp.task('cleanCSS', function(cb) {
-  del(['www/bundle.css', 'www/bundle.min.css'], cb);
+  return del(['www/bundle.css', 'www/bundle.min.css'], cb);
 });
 
 gulp.task('sass', ['cleanCSS'], function() {
