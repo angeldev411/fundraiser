@@ -100,7 +100,20 @@ export default class AdminVolunteersTable extends Component {
             }
         }
 
+        const priceFormatter = (cell, row) => {
+          return '<i class="glyphicon glyphicon-usd"></i> ' + cell.toFixed(2);
+        }
+
         return (
+            // new table here
+            <div>
+            <BootstrapTable data={this.props.volunteers} striped={true} hover={true}>
+                <TableHeaderColumn dataField="email" isKey={true} dataSort={true}>Email</TableHeaderColumn>
+                <TableHeaderColumn dataField="totalHours" dataSort={true} dataFormat={priceFormatter}>Hours</TableHeaderColumn>
+                <TableHeaderColumn dataField="raised" dataFormat={priceFormatter}>$ Raised</TableHeaderColumn>
+                <TableHeaderColumn dataField="hourlyPledge" dataFormat={priceFormatter}>Hourly Pledge</TableHeaderColumn>
+            </BootstrapTable>
+
             <div className="table-responsive">
                 {this.props.actionable ?
                     <div className={'actions'}>
@@ -243,6 +256,7 @@ export default class AdminVolunteersTable extends Component {
                     </tbody>
                 </table>
             </div>
+        </div>
         );
     }
 }
