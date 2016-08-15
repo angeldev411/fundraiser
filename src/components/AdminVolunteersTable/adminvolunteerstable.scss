@@ -17,8 +17,13 @@ table.volunteers, .volunteers-table {
           line-height: 45px;
           font-size: .9em;
 
+          i{
+            margin-right: 1rem;
+          }
+
           .volunteer-name {
               font-weight: bold;
+              padding-right: 1rem;
 
               img{
                   height: 40px;
