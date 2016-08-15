@@ -3,7 +3,7 @@
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-table.volunteers {
+table.volunteers, .volunteers-table {
     input#check-all {
         margin-right: 10px;
     }
@@ -12,41 +12,39 @@ table.volunteers {
         cursor: pointer;
     }
 
-    & > tbody {
-        & > tr {    
-            & > td {
-                line-height: 45px;
-                font-size: .9em;
+  tr {    
+      td {
+          line-height: 45px;
+          font-size: .9em;
 
-                &.volunteer-name {
-                    font-weight: bold;
+          .volunteer-name {
+              font-weight: bold;
 
-                    img{
-                        height: 40px;
-                        width: 40px;
-                        border-radius: 50%;
-                        margin: 0 5px;
-                    }
-                }
+              img{
+                  height: 40px;
+                  width: 40px;
+                  border-radius: 50%;
+                  margin: 0 5px;
+              }
+          }
 
-                a {
-                    color: $light-grey;
-                    text-decoration: none;
+          a {
+              color: $light-grey;
+              text-decoration: none;
 
-                    &:hover,
-                    &:active,
-                    &:focus {
-                        text-decoration: none;
-                        color: $green;
-                    }
-                }
+              &:hover,
+              &:active,
+              &:focus {
+                  text-decoration: none;
+                  color: $green;
+              }
+          }
 
-                input {
-                    text-align: center;
-                }
-            }
-        }
-    }
+          input {
+              text-align: center;
+          }
+      }
+  }
 }
 
 .actions {

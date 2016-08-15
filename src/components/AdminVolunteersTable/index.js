@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Link } from 'react-router';
+
+import _ from 'lodash';
 
 import * as constants from '../../common/constants';
 import * as Urls from '../../urls.js';
-
-import { Link } from 'react-router';
 
 import AdminTeamEmailForm from '../AdminTeamEmailForm';
 import Button from '../Button';
@@ -100,16 +101,42 @@ export default class AdminVolunteersTable extends Component {
             }
         }
 
-        const priceFormatter = (cell, row) => {
-          return '<i class="glyphicon glyphicon-usd"></i> ' + cell.toFixed(2);
+        const userIsAdminOrLeader = this.props.user && 
+          _.intersection(this.props.user.roles,['SUPER_ADMN', 'TEAM_LEADER']).length > 0;
+        
+        console.log('user', this.props.user);
+
+        const memberFormatter = (email, member) => {
+
+          return (
+            <div className="volunteer-name">
+              { member.image ? (
+                <img src={`${constants.RESIZE_PROFILE}${member.image}`}/>
+              ) : (
+                <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
+              )}
+
+              { userIsAdminOrLeader ? (
+                <a href={`/api/v1/auth/switch/${member.email}`}>{member.firstName} {member.lastName}</a>
+              ) : (
+                <span>{member.firstName} {member.lastName}</span>
+              )}
+
+              <a href={`mailto:${member.email}`}>{member.email}</a>
+            </div>
+          );
+        }
+
+        const priceFormatter = (price) => {
+          return '<i class="glyphicon glyphicon-usd"></i> ' + price.toFixed(2);
         }
 
         return (
             // new table here
-            <div>
-            <BootstrapTable data={this.props.volunteers} striped={true} hover={true}>
-                <TableHeaderColumn dataField="email" isKey={true} dataSort={true}>Email</TableHeaderColumn>
-                <TableHeaderColumn dataField="totalHours" dataSort={true} dataFormat={priceFormatter}>Hours</TableHeaderColumn>
+            <div className="volunteers-table">
+            <BootstrapTable data={this.props.volunteers} striped={true} hover={true} className="volunteers table">
+                <TableHeaderColumn dataField="email" isKey={true} dataSort={true} dataFormat={memberFormatter}>Member</TableHeaderColumn>
+                <TableHeaderColumn dataField="totalHours" dataSort={true} dataFormat={(v)=>v.toFixed(2)}>Hours</TableHeaderColumn>
                 <TableHeaderColumn dataField="raised" dataFormat={priceFormatter}>$ Raised</TableHeaderColumn>
                 <TableHeaderColumn dataField="hourlyPledge" dataFormat={priceFormatter}>Hourly Pledge</TableHeaderColumn>
             </BootstrapTable>
