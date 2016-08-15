@@ -109,20 +109,24 @@ export default class AdminVolunteersTable extends Component {
         const memberFormatter = (email, member) => {
 
           return (
-            <div className="volunteer-name">
+            <div className="volunteer-name row">
+              <div className="col-md-12">
               { member.image ? (
                 <img src={`${constants.RESIZE_PROFILE}${member.image}`}/>
               ) : (
                 <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
               )}
+              </div>
 
-              { userIsAdminOrLeader ? (
-                <a href={`/api/v1/auth/switch/${member.email}`}>{member.firstName} {member.lastName}</a>
-              ) : (
-                <span>{member.firstName} {member.lastName}</span>
-              )}
-
-              <a href={`mailto:${member.email}`}>{member.email}</a>
+              <div className="col-md-12">
+                { userIsAdminOrLeader ? (
+                  <a href={`/api/v1/auth/switch/${member.email}`}>{member.firstName} {member.lastName}</a>
+                ) : (
+                  <span>{member.firstName} {member.lastName}</span>
+                )}
+                <br/>
+                <a href={`mailto:${member.email}`}>{member.email}</a>
+              </div>
             </div>
           );
         }
@@ -136,6 +140,7 @@ export default class AdminVolunteersTable extends Component {
             <div className="volunteers-table">
             <BootstrapTable data={this.props.volunteers} striped={true} hover={true} className="volunteers table">
                 <TableHeaderColumn dataField="email" isKey={true} dataSort={true} dataFormat={memberFormatter}>Member</TableHeaderColumn>
+                <TableHeaderColumn dataField="totalSponsors" dataSort={true}>Sponsors</TableHeaderColumn>
                 <TableHeaderColumn dataField="totalHours" dataSort={true} dataFormat={(v)=>v.toFixed(2)}>Hours</TableHeaderColumn>
                 <TableHeaderColumn dataField="raised" dataFormat={priceFormatter}>$ Raised</TableHeaderColumn>
                 <TableHeaderColumn dataField="hourlyPledge" dataFormat={priceFormatter}>Hourly Pledge</TableHeaderColumn>

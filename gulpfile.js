@@ -23,6 +23,7 @@ var assetList = [
 
 var styleList = [
   './node_modules/bootstrap/dist/css/bootstrap.min.css',
+  './node_modules/react-bootstrap-table/css/react-bootstrap-table.min.css',
   './src/**/*.scss',
 ];
 
