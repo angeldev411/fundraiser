@@ -104,8 +104,6 @@ export default class AdminVolunteersTable extends Component {
         const userIsAdminOrLeader = this.props.user && 
           _.intersection(this.props.user.roles,['SUPER_ADMN', 'TEAM_LEADER']).length > 0;
         
-        console.log('user', this.props.user);
-
         const memberFormat = (email, member) => {
 
           return (
@@ -120,11 +118,13 @@ export default class AdminVolunteersTable extends Component {
 
               <div className="col-md-8">
                 <div>{member.firstName} {member.lastName}</div>
+                
                 { userIsAdminOrLeader ? (
                   <a href={`/api/v1/auth/switch/${member.email}`}><i className="fa fa-user-secret"></i></a>
                 ) : (
                   null
                 )}
+                
                 <a href={`mailto:${member.email}`}><i className="fa fa-envelope"></i></a>
               </div>
             </div>
@@ -137,8 +137,15 @@ export default class AdminVolunteersTable extends Component {
 
         return (
             <div className="volunteers-table">
-              <BootstrapTable data={this.props.volunteers} striped={true} hover={true} className="volunteers table">
+              <BootstrapTable data={this.props.volunteers} 
+                className="volunteers table"
+                striped={true} 
+                hover={true} 
+                search={true}
+              >
                   <TableHeaderColumn dataField="email" isKey={true} dataAlign="left" dataSort={true} dataFormat={memberFormat}>Member</TableHeaderColumn>
+                  <TableHeaderColumn dataField="firstName" hidden={true}>First Name</TableHeaderColumn>
+                  <TableHeaderColumn dataField="lastName" hidden={true}>Last Name</TableHeaderColumn>
                   <TableHeaderColumn dataField="totalSponsors" dataAlign="center" dataSort={true}>Sponsors</TableHeaderColumn>
                   <TableHeaderColumn dataField="totalHours" dataAlign="center" dataSort={true} dataFormat={(v)=>v.toFixed(2)}>Hours</TableHeaderColumn>
                   <TableHeaderColumn dataField="hourlyPledge" dataAlign="center" dataFormat={priceFormatter}>Hourly Pledge</TableHeaderColumn>
