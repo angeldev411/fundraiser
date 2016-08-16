@@ -142,6 +142,7 @@ export default class AdminVolunteersTable extends Component {
                 striped={true} 
                 hover={true} 
                 search={true}
+                pagination={true}
               >
                   <TableHeaderColumn dataField="email" isKey={true} dataAlign="left" dataSort={true} dataFormat={memberFormat}>Member</TableHeaderColumn>
                   <TableHeaderColumn dataField="firstName" hidden={true}>First Name</TableHeaderColumn>
