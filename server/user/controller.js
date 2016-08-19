@@ -124,7 +124,7 @@ class userController {
       ...(typeof user.currentHours !== 'undefined' ? { currentHours: user.currentHours } : {}),
       ...(typeof user.totalHours !== 'undefined' ? { totalHours: user.totalHours } : {}),
       ...(typeof user.totalSponsors !== 'undefined' ? { totalSponsors: user.totalSponsors } : {}),
-      ...(typeof user.hourlyPledge !== 'undefined' ? { hourlyPledge: user.hourlyPledge } : {}),
+      ...(typeof user.hourlyPledge !== 'undefined' ? { hourlyPledge: Number(user.hourlyPledge) } : {}),
       ...(typeof user.goal !== 'undefined' ? { goal: user.goal } : {}),
       ...(typeof user.raised !== 'undefined' ? { raised: user.raised } : {}),
       ...(typeof user.location !== 'undefined' ? { location: user.location } : {}),
