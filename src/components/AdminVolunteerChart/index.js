@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactFauxDOM from 'react-faux-dom';
-import d3 from 'd3';
+import * as d3 from 'd3';
 import classNames from 'classnames';
 import * as Constants from '../../common/constants.js';
 import moment from 'moment';
@@ -161,7 +161,7 @@ export default class AdminVolunteerChart extends Component {
         let maxOfGoalAndTotalHours = Math.max(this.state.totalHours, this.props.goal);
 
         const borderRadius = 7;
-
+        
         let svg = d3.select(container)
             .append('svg')
             .attr('width', w)
