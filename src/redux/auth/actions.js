@@ -51,6 +51,7 @@ export function logout() {
         .then(
             (response) => {
                 dispatch(loggedout());
+                window.location = '/';
             }
         )
         .catch(

@@ -19,8 +19,7 @@ class Menu extends Component {
         this.state = {
             visible: false,
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
-            scrollable: true,
-            user: this.props.user,
+            scrollable: true
         };
     }
 
@@ -37,18 +36,6 @@ class Menu extends Component {
             isDesktop: window.innerWidth >= MOBILE_ACTIVATION_WIDTH,
         });
     };
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.user) {
-            this.setState({
-                user: nextProps.user,
-            });
-        } else if (nextProps.hasOwnProperty('user')) {
-            this.setState({
-                user: null,
-            });
-        }
-    }
 
     toggle = () => {
         this.setState({ visible: !this.state.visible });
@@ -71,14 +58,14 @@ class Menu extends Component {
     render() {
         let dashboardUrl = null;
 
-        if (this.state.user) {
-            if (this.state.user.roles.indexOf('SUPER_ADMIN') >= 0) {
+        if (this.props.user) {
+            if (this.props.user.roles.indexOf('SUPER_ADMIN') >= 0) {
                 dashboardUrl = Urls.ADMIN_PROJECTS_URL;
-            } else if (this.state.user.roles.indexOf('PROJECT_LEADER') >= 0) {
+            } else if (this.props.user.roles.indexOf('PROJECT_LEADER') >= 0) {
                 dashboardUrl = Urls.ADMIN_TEAMS_URL;
-            } else if (this.state.user.roles.indexOf('TEAM_LEADER') >= 0) {
+            } else if (this.props.user.roles.indexOf('TEAM_LEADER') >= 0) {
                 dashboardUrl = Urls.ADMIN_TEAM_DASHBOARD_URL;
-            } else if (this.state.user.roles.indexOf('VOLUNTEER') >= 0) {
+            } else if (this.props.user.roles.indexOf('VOLUNTEER') >= 0) {
                 dashboardUrl = Urls.ADMIN_VOLUNTEER_DASHBOARD_URL;
             }
         }
@@ -112,8 +99,8 @@ class Menu extends Component {
                     <nav>
                         <ul className={"nav navbar-nav"}>
                             <li className={'login-container'}>
-                                {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
-                                {this.state.user ?
+                                {this.props.user ? `Welcome back ${this.props.user.firstName || ''}` : null}
+                                {this.props.user ?
                                     <div>
                                         <Button
                                             to={dashboardUrl}
@@ -246,14 +233,14 @@ class Menu extends Component {
                 </nav>
 
                 <span className={'login-container pull-right'}>
-                    {this.state.user ? `Welcome back ${this.state.user.firstName || ''}` : null}
-                    {this.state.user ?
+                    {this.props.user ? `Welcome back ${this.props.user.firstName || ''}` : null}
+                    {this.props.user ?
                         <span>
-                            {this.state.user.lastUser ?
+                            {this.props.user.lastUser ?
                                 <a
                                     href={'/api/v1/auth/switch'}
                                     className={'btn btn-default'}
-                                >{`Return as ${this.state.user.lastUser.firstName}`}</a>
+                                >{`Return as ${this.props.user.lastUser.firstName}`}</a>
                                 :
                                 <Button
                                     onClick={this.logout}
