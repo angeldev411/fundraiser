@@ -3,12 +3,14 @@ import { Link } from 'react-router';
 
 export default class Button extends Component {
     render() {
+        const { customClass, ...buttonProps} = this.props;
+
         const BUTTON = (
             <button
                 type="button"
                 className={`btn ${this.props.customClass} ${this.props.noSpinner ? '' : 'has-spinner'}`}
                 onClick={this.props.onClick}
-                {...this.props}
+                {...buttonProps}
             >
                 <span className={"spinner"}><i className={"fa fa-circle-o-notch fa-spin"}></i></span>
                 {this.props.children}
