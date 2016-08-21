@@ -37,7 +37,7 @@ router.post('/api/v1/auth/login', (req, res) => {
     })
     .catch((err) => {
         req.session.user = null;
-        res.status(401).send(err);
+        res.status(401).send(err.message);
     });
 });
 

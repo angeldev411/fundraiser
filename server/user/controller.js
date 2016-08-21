@@ -25,11 +25,11 @@ class userController {
                   return Promise.reject(err);
                 });
           } else {
-            return Promise.reject(messages.login.failed);
+            return Promise.reject(new Error(messages.login.failed));
           }
         })
         .catch((err) => {
-          return Promise.reject(messages.login.failed);
+          return Promise.reject(new Error(messages.login.failed));
         });
   }
 
