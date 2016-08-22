@@ -70,7 +70,6 @@ class RecordedHours extends Component {
 
     let pageNav = [];
 
-    console.log('pageType?', this.state.pageType);
     if (this.state.pageType === 'TEAM_LEADER')
       pageNav = [
         {
