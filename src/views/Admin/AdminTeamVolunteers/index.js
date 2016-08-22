@@ -174,15 +174,13 @@ class AdminTeamVolunteers extends Component {
                             </ModalButton>
                         }
                     />
-                    <div className={'table-limit-height'}>
-                        <AdminVolunteersTable
-                            volunteers={this.state.volunteers}
-                            user={this.props.user}
-                            actionable
-                            onUnlink={this.handleUnlinkVolunteers}
-                            onSort={this.onSort}
-                        />
-                    </div>
+                    <AdminVolunteersTable
+                        volunteers={this.state.volunteers}
+                        user={this.props.user}
+                        actionable
+                        onUnlink={this.handleUnlinkVolunteers}
+                        onSort={this.onSort}
+                    />
                     <AdminStatsBlock
                         stats={
                             [

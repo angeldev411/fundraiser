@@ -107,8 +107,8 @@ export default class AdminVolunteersTable extends Component {
         const memberFormat = (email, member) => {
 
           return (
-            <div className="volunteer-name row">
-              <div className="col-md-4">
+            <div className="volunteer name row">
+              <div className="col-md-2">
               { member.image ? (
                 <img src={`${constants.RESIZE_PROFILE}${member.image}`}/>
               ) : (
@@ -116,7 +116,7 @@ export default class AdminVolunteersTable extends Component {
               )}
               </div>
 
-              <div className="col-md-8">
+              <div className="col-md-10" style={{paddingLeft:'20px'}}>
                 <div>{member.firstName} {member.lastName}</div>
                 
                 { userIsAdminOrLeader ? (
@@ -144,11 +144,11 @@ export default class AdminVolunteersTable extends Component {
                 search={true}
                 pagination={true}
               >
-                  <TableHeaderColumn dataField="email" isKey={true} dataAlign="left" dataSort={true} dataFormat={memberFormat}>Member</TableHeaderColumn>
+                  <TableHeaderColumn width={'270'} dataField="lastName" isKey={true} dataAlign="left" dataSort={true} dataFormat={memberFormat}>Member</TableHeaderColumn>
                   <TableHeaderColumn dataField="firstName" hidden={true}>First Name</TableHeaderColumn>
-                  <TableHeaderColumn dataField="lastName" hidden={true}>Last Name</TableHeaderColumn>
-                  <TableHeaderColumn dataField="totalSponsors" dataAlign="center" dataSort={true}>Sponsors</TableHeaderColumn>
-                  <TableHeaderColumn dataField="totalHours" dataAlign="center" dataSort={true} dataFormat={(v)=>v.toFixed(2)}>Hours</TableHeaderColumn>
+                  <TableHeaderColumn dataField="email" hidden={true}>Last Name</TableHeaderColumn>
+                  <TableHeaderColumn width={'105'} dataField="totalSponsors" dataAlign="center" dataSort={true}>Sponsors</TableHeaderColumn>
+                  <TableHeaderColumn width={'95'} dataField="totalHours" dataAlign="center" dataSort={true} dataFormat={(v)=>v.toFixed(2)}>Hours</TableHeaderColumn>
                   <TableHeaderColumn dataField="hourlyPledge" dataAlign="center" dataFormat={priceFormatter}>Hourly Pledge</TableHeaderColumn>
                   <TableHeaderColumn dataField="raised" dataAlign="center" dataFormat={priceFormatter}>$ Raised</TableHeaderColumn>
               </BootstrapTable>
