@@ -30,15 +30,15 @@ class RecordedHours extends Component {
     let pageType, getHourLogs;
 
     if( _(user.roles).includes('PROJECT_LEADER') ){
-      pageType    = 'project';
+      pageType    = 'PROJECT_LEADER';
       getHourLogs = ProjectActions.getHourLogs;
 
     } else if( _(user.roles).includes('TEAM_LEADER') ){
-      pageType    = 'team';
+      pageType    = 'TEAM_LEADER';
       getHourLogs = TeamActions.getHourLogs;
 
     } else {
-      pageType    = 'volunteer';
+      pageType    = 'VOLUNTEER';
       getHourLogs = VolunteerActions.getHourLogs;
     }
 
@@ -70,7 +70,8 @@ class RecordedHours extends Component {
 
     let pageNav = [];
 
-    if (this.state.pageType === 'team')
+    console.log('pageType?', this.state.pageType);
+    if (this.state.pageType === 'TEAM_LEADER')
       pageNav = [
         {
           type: 'button',
@@ -109,7 +110,7 @@ class RecordedHours extends Component {
         }
       ];
 
-    else if (this.state.pageType === 'volunteer')
+    else if (this.state.pageType === 'VOLUNTEER')
       pageNav = [
           {
             type: 'button',
@@ -131,7 +132,7 @@ class RecordedHours extends Component {
       ];
 
       // Team leader volunteers:
-      if( this.state.pageType === 'team' && this.props.user.roles.includes('VOLUNTEER') )
+      if( this.state.pageType === 'TEAM_LEADER' && this.props.user.roles.includes('VOLUNTEER') )
           pageNav.push({
             type:       'link',
             title:      'My Volunteer Dash',
