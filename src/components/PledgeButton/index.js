@@ -15,7 +15,6 @@ export default class PledgeButton extends Component {
 
     onPledgeSuccess(){
       if (this.props.onPledgeSuccess) this.props.onPledgeSuccess();
-      console.log('closing the pledge input');
       this.togglePledge();
     }
 

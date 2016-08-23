@@ -156,7 +156,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             });
         })
         .catch((error) => {
-            console.log('Error 1:', error);
             res.status(403).send();
             return;
         });
@@ -172,7 +171,6 @@ router.put('/api/v1/team/:teamId', (req, res) => {
             });
         })
         .catch((error) => {
-            console.log('Error 2:', error);
             res.status(403).send();
             return;
         });

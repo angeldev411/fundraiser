@@ -89,7 +89,6 @@ class util {
         };
 
         s3Bucket.putObject(data, (err, resp) => {
-            console.log('S3 upload', resp);
             if (err) {
                 console.log('Error uploading to s3:  ', resp);
                 cb(err, resp);
@@ -108,8 +107,6 @@ class util {
     }
 
     static uploadRsImage(obj, imageUsage) {
-        // console.log("uploadRsImage: " + obj.image_data);
-        console.log(`GOT UUID ${obj.uuid}`);
 
         return new Promise((resolve, reject) => {
             const contentType = util.detectContentType(obj.image_data);
@@ -130,8 +127,6 @@ class util {
 
 
                 obj.key = `${obj.key_prefix}${obj.uuid}/${imageNamePrefix}${sha}.${contentTypeExtension}`;
-
-                console.log(`Uploading with key ${obj.key}`);
 
                 util.uploadToS3(
                     obj.image_data,

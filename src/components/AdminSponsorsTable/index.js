@@ -12,8 +12,6 @@ export default class AdminSponsorsTable extends Component {
   }
 
   render() {
-    console.log('sponsors', this.props.sponsors);
-
     // transoform the sponsors into an array
     const sponsorshipInfo = this.props.sponsors.reduce(
       (memo, sponsor) => memo.concat(

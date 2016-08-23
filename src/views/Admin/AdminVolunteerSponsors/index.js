@@ -124,7 +124,6 @@ class AdminVolunteerSponsors extends Component {
         ];
 
         if( this.props.user.roles.includes('TEAM_LEADER') )
-          console.log('adding etam dash link');
           pageNav.push({
             type:       'link',
             title:      'My Team Dashboard',
