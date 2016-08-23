@@ -48,7 +48,7 @@ Component styles should be in the folder of their own component.
  * [Redux](https://github.com/rackt/redux)
  * Using [gulp](http://gulpjs.com/) for building
  * Router [reactRouter](https://github.com/rackt/react-router)
- * [Redux simple router](https://github.com/rackt/redux-simple-router)
+ * [React router redux](https://github.com/reactjs/react-router-redux)
  * [Babel](https://github.com/babel/babel) for writing ES6 classes
  * [Eslint](http://eslint.org/docs/user-guide/configuring.html) for the glory of linters (thanks to [Nate's linter](https://bitbucket.org/osedea/osedea-style-guides/src/master/javascript/)) => Configure your IDE ([Atom](https://atom.io/packages/linter-eslint) / [Sublime](http://jonathancreamer.com/setup-eslint-with-es6-in-sublime-text/))
 

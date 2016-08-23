@@ -31,7 +31,7 @@ module.exports = new Config().merge({
       'react-tooltip',
       'redux',
       'redux-logger',
-      'redux-simple-router',
+      'react-router-redux',
     ],
     bundle: [
       'index.js',

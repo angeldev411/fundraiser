@@ -1,7 +1,7 @@
 /* Import "logic" dependencies first */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import * as TeamActions from '../../redux/team/actions';
 import * as Actions from '../../redux/user/actions';
 import * as Urls from '../../urls';
@@ -27,7 +27,7 @@ class TeamSignup extends Component {
     componentWillMount() {
         if (this.props.user) {
             this.props.dispatch(
-                pushPath(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
+                push(`/${this.props.params.projectSlug}/${this.props.params.teamSlug}`)
             );
         }
         TeamActions.getTeam(

@@ -2,7 +2,7 @@
 import React from 'react';
 import RouteNotFound from '../RouteNotFound';
 import { connect } from 'react-redux';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 
 export default function requireAuthentication(Component, accessLevel) {
     class AuthenticatedView extends React.Component {
@@ -22,7 +22,7 @@ export default function requireAuthentication(Component, accessLevel) {
         componentWillReceiveProps(nextProps) {
             if (!this.checkAuth(nextProps)) {
                 this.props.dispatch(
-                    pushPath(`/`)
+                    push(`/`)
                 );
             } else if (nextProps.user) {
                 this.setState({
