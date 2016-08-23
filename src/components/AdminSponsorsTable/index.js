@@ -1,99 +1,61 @@
-import React, { Component } from 'react';
-import CollapsableLine from '../CollapsableLine';
-import ChildrenLine from '../ChildrenLine';
+import React, {Component} from 'react';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+// import CollapsableLine from '../CollapsableLine';
+// import ChildrenLine from '../ChildrenLine';
 
 export default class AdminSponsorsTable extends Component {
+ 
+  nameFormat(name, sponsor){
+    return (
+      <a href={`mailto:${sponsor.email}`}>{name}</a>
+    );
+  }
 
-    handleSort = (column) => {
-        this.props.onSort(column);
-    };
+  render() {
+    console.log('sponsors', this.props.sponsors);
 
+    // transoform the sponsors into an array
+    const sponsorshipInfo = this.props.sponsors.reduce(
+      (memo, sponsor) => memo.concat(
+          // of all of their pledges
+          sponsor.pledges
+          // with each pledge combined with details
+          // about the team or volunteer sponsored
+          .map(p => Object.assign(p.sponsored, p.support, {sponsor}))
+      ), [])
+      // now let's structure sponsorships for easy use in our table
+      .map( s => ({
+        // borrow the sponsorship token as a unique key
+        // all sponsorships should have tokens, but some older ones, maybe not...
+        id: s.token || Math.random().toString(),
+        name: `${s.sponsor.firstName} ${s.sponsor.lastName}`,
+        email: s.sponsor.email, 
+        type: s.amount ? 'One Time' : 'Hourly',
+        amount: s.amount ? `$${s.amount}` : `$${s.hourly}/hr`,
+        total: '$' + s.total.toFixed(2),
+        sponsoring: s.firstName ? `${s.firstName} ${s.lastName}` : 'Team'
+      }));
 
-    render() {
-        return (
-            <div className="sponsors-table">
-                <ul className="sponsors">
-                    {this.props.sponsors.map((sponsor, i) => (
-                        <CollapsableLine key={i}
-                            childrenContent={
-                                <ul className="children-content clearfix">
-                                    {sponsor.pledges.map((pledge, x) => (
-                                        <ChildrenLine key={x}>
-                                            <div className={'col-xs-12'}>
-                                                <div className={'col-xs-12 col-md-4'}>
-                                                    {pledge.support.hourly ?
-                                                            (<div>
-                                                                {pledge.support.cancelDate ?
-                                                                    <div>
-                                                                        <div className={'col-xs-4'}>
-                                                                            <span className="green">{'CANCELED'}</span>
-                                                                        </div>
-                                                                        <div className={'col-xs-4'}>
-                                                                            <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}`}
-                                                                        </div>
-                                                                        <div className={'col-xs-4'}>
-                                                                            <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    :
-                                                                    <div>
-                                                                        <div className={'col-xs-6'}>
-                                                                            <span className="label uppercase">{'Hourly: '}</span> {`$${pledge.support.hourly}`}
-                                                                        </div>
-                                                                        <div className={'col-xs-6'}>
-                                                                            <span className="label uppercase">{'Total: '}</span> <span className="green">{`$${pledge.support.total}`}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-                                                            </div>)
-                                                        :
-                                                            (<div className={'col-xs-12'}>
-                                                                <span className="label uppercase">{'Donated: '}</span> {`$${pledge.support.amount}`}
-                                                            </div>)
-                                                    }
-                                                </div>
-                                                <div className={'col-xs-12 col-md-5'}>
-                                                    <span>
-                                                    {!this.props.isVolunteer ? (
-                                                        <span>
-                                                            <span className="label uppercase">{pledge.sponsored.firstName ? 'Member: ' : 'Entire Team: '}</span>
-                                                            {pledge.sponsored.firstName ? `${pledge.sponsored.firstName} ${pledge.sponsored.lastName}` : pledge.sponsored.name}
-                                                        </span>
-                                                    ) : null}
-                                                    </span>
-                                                </div>
-                                                <div className={'col-xs-12 col-md-3'}>
-                                                    <span className="label uppercase">{'Date: '}</span> <span>{`${new Date(pledge.support.date).toDateString()}`}</span>
-                                                </div>
-                                            </div>
-                                        </ChildrenLine>
-                                    ))}
-                                </ul>
-                            }
-                        >
-                            <div className="sponsor-details">
-                                <span
-                                    className={'col-xs-4'}
-                                    onClick={() => {
-                                        this.handleSort('firstName');
-                                    }}
-                                >
-                                    <span className="label uppercase sortable">{'Sponsor: '}</span> {sponsor.firstName} {sponsor.lastName}
-                                </span>
-                                <span className={'col-xs-6'}>
-                                    <span className="label uppercase">{'Email: '}</span> {sponsor.email}
-                                </span>
-                            </div>
-                        </CollapsableLine>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
+    return (
+      <BootstrapTable data={sponsorshipInfo}
+        className="sponsors table"
+        striped={true}
+        hover={true}
+        search={true}
+        pagination={true}
+      >
+        <TableHeaderColumn dataField="id" isKey={true} hidden={true} dataSort={true}>ID</TableHeaderColumn>
+        <TableHeaderColumn dataField="name" dataSort={true} dataFormat={this.nameFormat}>Name</TableHeaderColumn>
+        <TableHeaderColumn dataField="email" hidden={true}>Email</TableHeaderColumn>
+        <TableHeaderColumn dataField="amount" dataSort={true}>Amount</TableHeaderColumn>
+        <TableHeaderColumn dataField="total" dataSort={true}>Total to Date</TableHeaderColumn>
+        <TableHeaderColumn dataField="type" dataSort={true}>Type</TableHeaderColumn>
+        <TableHeaderColumn dataField="sponsoring" dataSort={true}>Sponsoring</TableHeaderColumn>
+      </BootstrapTable>
+      );
+  }
 }
 
 AdminSponsorsTable.propTypes = {
-    sponsors: React.PropTypes.array,
-    isVolunteer: React.PropTypes.bool,
-    onSort: React.PropTypes.func,
+  sponsors: React.PropTypes.array
 };
