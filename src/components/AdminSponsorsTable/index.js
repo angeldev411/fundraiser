@@ -45,12 +45,12 @@ export default class AdminSponsorsTable extends Component {
         pagination={true}
       >
         <TableHeaderColumn dataField="id" isKey={true} hidden={true} dataSort={true}>ID</TableHeaderColumn>
-        <TableHeaderColumn dataField="name" dataSort={true} dataFormat={this.nameFormat}>Name</TableHeaderColumn>
+        <TableHeaderColumn width='225' dataField="name" dataSort={true} dataFormat={this.nameFormat}>Name</TableHeaderColumn>
         <TableHeaderColumn dataField="email" hidden={true}>Email</TableHeaderColumn>
-        <TableHeaderColumn dataField="amount" dataSort={true}>Amount</TableHeaderColumn>
-        <TableHeaderColumn dataField="total" dataSort={true}>Total to Date</TableHeaderColumn>
-        <TableHeaderColumn dataField="type" dataSort={true}>Type</TableHeaderColumn>
-        <TableHeaderColumn dataField="sponsoring" dataSort={true}>Sponsoring</TableHeaderColumn>
+        <TableHeaderColumn dataField="amount" dataAlign="center" dataSort={true}>Amount</TableHeaderColumn>
+        <TableHeaderColumn dataField="total" dataAlign="center" dataSort={true}>Total to Date</TableHeaderColumn>
+        <TableHeaderColumn dataField="type" dataAlign="center" dataSort={true}>Type</TableHeaderColumn>
+        <TableHeaderColumn width='225' dataField="sponsoring" dataSort={true}>Sponsoring</TableHeaderColumn>
       </BootstrapTable>
       );
   }
