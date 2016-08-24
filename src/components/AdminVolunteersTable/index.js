@@ -52,7 +52,7 @@ export default class AdminVolunteersTable extends Component {
   }           
 
   priceFormat(price){
-    return '<i class="glyphicon glyphicon-usd"></i> ' + price.toFixed(2);
+    return '<i class="glyphicon glyphicon-usd"></i> ' + ( price||0 ).toFixed(2);
   }            
 
     // TODO: Re-implement removing/unlinking volunteers
@@ -83,9 +83,9 @@ export default class AdminVolunteersTable extends Component {
                   <TableHeaderColumn dataField="firstName" hidden={true}>First Name</TableHeaderColumn>
                   <TableHeaderColumn dataField="email" hidden={true}>Last Name</TableHeaderColumn>
                   <TableHeaderColumn width={'105'} dataField="totalSponsors" dataAlign="center" dataSort={true}>Sponsors</TableHeaderColumn>
-                  <TableHeaderColumn width={'95'} dataField="totalHours" dataAlign="center" dataSort={true} dataFormat={(v)=>v.toFixed(2)}>Hours</TableHeaderColumn>
                   <TableHeaderColumn dataField="hourlyPledge" dataAlign="center" dataFormat={this.priceFormat}>Hourly Pledge</TableHeaderColumn>
                   <TableHeaderColumn dataField="raised" dataAlign="center" dataFormat={this.priceFormat}>$ Raised</TableHeaderColumn>
+                  <TableHeaderColumn width={'95'} dataField="totalHours" dataAlign="center" dataSort={true} dataFormat={(v)=>( v||0 ).toFixed(2)}>Hours</TableHeaderColumn>
               </BootstrapTable>
             </div>
         );
