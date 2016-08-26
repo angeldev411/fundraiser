@@ -13,6 +13,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
 import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
+
 import * as Urls from '../../../urls.js';
 
 class AdminTeamDashboard extends Component {
@@ -20,10 +21,13 @@ class AdminTeamDashboard extends Component {
         super(props);
         this.state = {
             topVolunteers: [],
+            hourlyPledge: 0,
             stats: {
                 totalVolunteers: 0,
                 totalSponsors: 0,
                 totalRaised: 0,
+                totalHours: 0
+
             },
         };
     }
@@ -169,6 +173,25 @@ class AdminTeamDashboard extends Component {
                                 {
                                     current: this.state.stats.totalRaised,
                                     title: 'Raised',
+                                    prefix: '$'
+                                }
+                            }
+                        />
+          
+                        <CircleStat
+                            data={
+                                {
+                                    current: this.state.stats.totalHours,
+                                    title: 'Total Hours'
+                                }
+                            }
+                        />
+
+                        <CircleStat
+                            data={
+                                {
+                                    current: this.state.hourlyPledge,
+                                    title: '$/HR',
                                     prefix: '$'
                                 }
                             }
