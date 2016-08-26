@@ -20,7 +20,7 @@ import * as UserActions from '../../../redux/user/actions';
 import * as constants from '../../../common/constants';
 import * as Urls from '../../../urls.js';
 
-export default class AdminUserProfile extends Component {
+export class AdminUserProfile extends Component {
     constructor(props) {
         super(props);
 

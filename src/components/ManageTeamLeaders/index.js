@@ -7,7 +7,7 @@ import Button from '../Button';
 
 import * as TeamActions from '../../redux/team/actions'; 
 
-export default class ManageTeamLeaders extends Component {
+export class ManageTeamLeaders extends Component {
 
   static propTypes = {
     team: PropTypes.object.isRequired

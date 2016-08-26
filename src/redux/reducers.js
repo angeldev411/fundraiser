@@ -13,7 +13,7 @@ import { combineReducers } from 'redux';
 import * as actionTypes from './action-types';
 const initialState = {};
 
-export default function reducers(state = initialState, action) {
+export function reducers(state = initialState, action) {
     switch (action.type) {
         case actionTypes.LOADING:
             return {

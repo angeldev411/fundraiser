@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
 
-export default class EditLogoForm extends Component {
+export class EditLogoForm extends Component {
     constructor(props) {
         super(props);
 

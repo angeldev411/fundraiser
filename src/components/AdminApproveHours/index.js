@@ -3,7 +3,7 @@ import * as constants from '../../common/constants';
 import * as Actions from '../../redux/volunteer/actions';
 import { connect } from 'react-redux';
 
-export default class AdminApproveHours extends Component {
+export class AdminApproveHours extends Component {
 
     constructor(props) {
         super(props);

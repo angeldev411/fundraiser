@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import * as Urls from '../../../urls.js';
 
-export default class AdminVolunteerDashboard extends Component {
+export class AdminVolunteerDashboard extends Component {
     componentWillMount() {
         document.title = 'Dashboard | raiserve';
 
