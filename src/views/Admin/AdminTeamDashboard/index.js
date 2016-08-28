@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
 import * as TeamActions from '../../../redux/team/actions';
+import * as PledgeActions from '../../../redux/pledge/actions';
 import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
@@ -19,14 +20,17 @@ import * as Urls from '../../../urls.js';
 class AdminTeamDashboard extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             topVolunteers: [],
-            hourlyPledge: 0,
+            pledge: {
+                hourly: 0,    
+            },
             stats: {
                 totalVolunteers: 0,
                 totalSponsors: 0,
                 totalRaised: 0,
-                totalHours: 0
+                totalHours: 0,
 
             },
         };
@@ -38,9 +42,12 @@ class AdminTeamDashboard extends Component {
         if (this.props.user) {
             const projectSlug = this.props.user.project.slug;
             const teamSlug = this.props.user.team.slug;
+            //const volunteerId = this.props.volunteer.id;
 
             VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            VolunteerActions.getVolunteer()(this.props.dispatch);
             TeamActions.getStats()(this.props.dispatch);
+            PledgeActions.getPledge()(this.props.dispatch);
         }
     }
 
@@ -57,13 +64,16 @@ class AdminTeamDashboard extends Component {
             );
         }
         if (nextProps.topVolunteers) {
+            console.log(nextProps.topVolunteers);
             this.setState(
                 {
                     topVolunteers: nextProps.topVolunteers,
                     error: null,
-                }
+                },
+
             );
         }
+        
         if (nextProps.user) {
             const projectSlug = nextProps.user.project.slug;
             const teamSlug = nextProps.user.team.slug;
@@ -78,6 +88,16 @@ class AdminTeamDashboard extends Component {
                     error: null,
                 }
             );
+
+            if (nextProps.pledge) {
+                this.setState(
+                    {
+                        pledge: nextProps.pledge,
+                        error: null,        
+                    }
+                );
+            }
+
         }
     }
 
@@ -177,7 +197,9 @@ class AdminTeamDashboard extends Component {
                                 }
                             }
                         />
-          
+                    </section>
+                        
+                    <section className={"stats col-xs-12"}>
                         <CircleStat
                             data={
                                 {
@@ -190,12 +212,13 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.hourlyPledge,
-                                    title: '$/HR',
+                                    current: this.state.stats.totalRaised,
+                                    title: 'If Goal Reached',
                                     prefix: '$'
                                 }
                             }
                         />
+                         
                     </section>
                     <section className={"col-xs-12"}>
                         <section className={"col-xs-12 col-sm-9"}>
@@ -216,7 +239,57 @@ class AdminTeamDashboard extends Component {
                             project={this.props.user.project}
                             team={this.props.user.team}
                           />
+
                         </section>
+                    </section>
+                    <section className={"stats col-xs-12"}>
+                        <CircleStat
+                            data={
+                                {
+                                    current: this.state.stats.totalHours,
+                                    title: 'Total Hours'
+                                }
+                            }
+                        />
+
+                        <CircleStat
+                            data={
+                                {
+                                    current: this.state.topVolunteers.totalSponsors,
+                                    title: 'Sponsors'
+                
+                                }
+                            }
+                        />   
+                         <CircleStat
+                            data={
+                                {
+                                    current: this.state.topVolunteers.totalSponsors,
+                                    title: 'Raised',
+                                    prefix: '$'
+                                }
+                            }
+                        /> 
+                    </section>   
+                     <section className={"stats col-xs-12"}>    
+                         <CircleStat
+                            data={
+                                {
+                                    current: this.state.topVolunteers.hourlyPledge,
+                                    title: '$/HR',
+                                    prefix: '$'
+                                }
+                            }
+                        /> 
+                        <CircleStat
+                            data={
+                                {
+                                    current: this.state.stats.totalRaised,
+                                    title: 'Raised If Goal Reached',
+                                    prefix: '$'
+                                }
+                            }
+                        />   
                     </section>
                 </AdminLayout>
             </Page>
@@ -230,4 +303,5 @@ export default connect((reduxState) => ({
     topVolunteers: reduxState.main.volunteer.topVolunteers,
     stats: reduxState.main.team.stats,
     statsError: reduxState.main.team.statsError,
+    pledge: reduxState.main.sponsor.pledge
 }))(AdminTeamDashboard);
