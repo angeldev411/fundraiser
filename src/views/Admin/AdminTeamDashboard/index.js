@@ -255,7 +255,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.topVolunteers.totalSponsors,
+                                    current: this.state.stats.totalSponsors,
                                     title: 'Sponsors'
                 
                                 }
@@ -264,7 +264,7 @@ class AdminTeamDashboard extends Component {
                          <CircleStat
                             data={
                                 {
-                                    current: this.state.topVolunteers.totalSponsors,
+                                    current: this.state.stats.totalRaised,
                                     title: 'Raised',
                                     prefix: '$'
                                 }
@@ -275,7 +275,7 @@ class AdminTeamDashboard extends Component {
                          <CircleStat
                             data={
                                 {
-                                    current: this.state.topVolunteers.hourlyPledge,
+                                    current: this.state.pledge.hourly,
                                     title: '$/HR',
                                     prefix: '$'
                                 }

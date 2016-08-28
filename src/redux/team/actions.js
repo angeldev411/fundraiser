@@ -170,7 +170,7 @@ export function getStats() {
         return axios.get(`${API_URL}/team/stats`)
         .then(
             (response) => {
-                console.log("This is the the getstats " + JSON.stringify(response.data, null, 5))
+              console.log(response.data);
                 dispatch(receivedStats(response.data));
             }
         )
