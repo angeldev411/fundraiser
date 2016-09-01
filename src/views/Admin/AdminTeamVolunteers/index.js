@@ -211,17 +211,8 @@ class AdminTeamVolunteers extends Component {
                                     current: this.state.stats.totalRaised,
                                     title: 'Raised',
                                     prefix: '$',
-                                },
-                                {
-                                    current: this.state.teamTotals.hourly,
-                                    title: '$/HR',
-                                    prefix: '$',
-                                },
-                                {
-                                    current: this.state.stats.totalRaised,
-                                    title: 'Raised If Goal Reached',
-                                    prefix: '$',
-                                },
+                                }
+                                
                             ]
                         }
                     >

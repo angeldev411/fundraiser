@@ -30,6 +30,7 @@ const Node = db.defineNode({
     pledgePerHour : db.Joi.number(),
     currentHours: db.Joi.number(),
     totalHours: db.Joi.number(),
+    totalMaxCap: db.Joi.number(),
     goal: db.Joi.number().min(1),
     totalVolunteers: db.Joi.number(),
     signatureRequired: db.Joi.boolean(),
@@ -56,7 +57,8 @@ class Team {
       totalSponsors: 0,
       hourlyPledge: 0,
       raised: 0,
-      totalRaised: 0
+      totalRaised: 0,
+      totalMaxCap: 0
     });
 
     return Team.validate(teamData)
@@ -175,7 +177,8 @@ class Team {
       ...(typeof teamData.totalSponsors !== 'undefined' ? { totalSponsors: teamData.totalSponsors } : {}),
       ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
       ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
-      ...(typeof teamData.fakeLeaderId !== 'undefined' ? { fakeLeaderId: teamData.fakeLeaderId } : {})
+      ...(typeof teamData.fakeLeaderId !== 'undefined' ? { fakeLeaderId: teamData.fakeLeaderId } : {}),
+      ...(typeof teamData.totalMaxCap !== 'undefined' ? { maxCap: teamData.totalMaxCap } : {})
     };
   }
 
@@ -425,12 +428,14 @@ class Team {
               total.totalHours     += stat.totalHours;
               total.totalSponsors  += stat.totalSponsors;
               total.totalRaised    += stat.raised;
+              total.totalMaxCap    += stat.maxCap; 
               return total;
             }, {
               totalVolunteers: 0,
               totalHours:      0,
               totalSponsors:   sponsors.length, // start from team sponsor count
-              totalRaised:     0
+              totalRaised:     0,
+              totalMaxCap:     0
             });
 
             // get totals for the team's hourly and one-time donations
@@ -438,6 +443,7 @@ class Team {
               // currently, we can't trust these to be numbers
               total.hourly  += Number(sponsor.hourly) || 0,
               total.oneTime += Number(sponsor.amount) || 0;
+              //console.log(total);
               return total;
             },{
               hourly:   0,

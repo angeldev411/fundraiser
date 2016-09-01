@@ -31,6 +31,7 @@ class AdminTeamDashboard extends Component {
                 totalSponsors: 0,
                 totalRaised: 0,
                 totalHours: 0,
+                totalMaxCap: 0,
 
             },
         };
@@ -42,12 +43,10 @@ class AdminTeamDashboard extends Component {
         if (this.props.user) {
             const projectSlug = this.props.user.project.slug;
             const teamSlug = this.props.user.team.slug;
-            //const volunteerId = this.props.volunteer.id;
 
             VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
-            VolunteerActions.getVolunteer()(this.props.dispatch);
+            //VolunteerActions.getStats()(this.props.dispatch);
             TeamActions.getStats()(this.props.dispatch);
-            PledgeActions.getPledge()(this.props.dispatch);
         }
     }
 
@@ -87,17 +86,7 @@ class AdminTeamDashboard extends Component {
                     user: nextProps.user,
                     error: null,
                 }
-            );
-
-            if (nextProps.pledge) {
-                this.setState(
-                    {
-                        pledge: nextProps.pledge,
-                        error: null,        
-                    }
-                );
-            }
-
+            )
         }
     }
 
@@ -212,7 +201,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.stats.totalRaised,
+                                    current: this.state.stats.totalMaxCap,
                                     title: 'If Goal Reached',
                                     prefix: '$'
                                 }
@@ -284,7 +273,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.stats.totalRaised,
+                                    current: this.state.stats.totalMaxCap,
                                     title: 'Raised If Goal Reached',
                                     prefix: '$'
                                 }

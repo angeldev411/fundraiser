@@ -11,6 +11,7 @@ import TeamLeader from '../team-leader/model';
 const db = neo4jDB(config.DB_URL);
 
 import User from '../model';
+import Sponsor from '../sponsor/model';
 import Hours from '../../hours/model';
 
 export const volunteerSchema = {
@@ -404,15 +405,17 @@ export default class Volunteer {
         // Using toFloat for safety on sponsorship amounts, some donations and
         // totalHours were improperly stored as strings.
         return db.query(
-            `
-            MATCH (v:USER)
+            
+            `MATCH (v:USER)
             WHERE v.slug = {volunteerSlug} OR v.id = {volunteerSlug}
             OPTIONAL MATCH (v)<-[r:DONATED|SUPPORTING]-(USER)
+            OPTIONAL MATCH (s:SPONSOR)-[SUPPORTING]->(v) 
             RETURN {
-            	totalHours: toFloat(v.totalHours),
-            	totalSponsors: v.totalSponsors,
-            	raised: toFloat(v.totalHours) * sum(toFloat(r.hourly)) +
-                      sum(toFloat(r.amount))
+                totalHours: toFloat(v.totalHours),
+                totalSponsors: v.totalSponsors,
+                raised: toFloat(v.totalHours) * sum(toFloat(r.hourly)) +
+                      sum(toFloat(r.amount)),
+                maxCap: SUPPORTING.maxCap      
             } AS stats
             `,
             {},
