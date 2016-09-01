@@ -185,8 +185,9 @@ class AdminTeamDashboard extends Component {
                             }
                         />
                     </section>
-                        
-                    <section className={"stats col-xs-12"}>
+                    
+                    <section className={"stats col-xs-2"}></section>                          
+                    <section className={"stats col-xs-8"}>
                         <CircleStat
                             data={
                                 {
@@ -207,6 +208,7 @@ class AdminTeamDashboard extends Component {
                         />
                          
                     </section>
+                    <section className={"stats col-xs-2"}></section>
                     <section className={"col-xs-12"}>
                         <section className={"col-xs-12 col-sm-9"}>
                             <div className="content-header">
@@ -258,7 +260,8 @@ class AdminTeamDashboard extends Component {
                             }
                         /> 
                     </section>   
-                     <section className={"stats col-xs-12"}>    
+                    <section className={"stats col-xs-2"}></section> 
+                     <section className={"stats col-xs-8"}>    
                          <CircleStat
                             data={
                                 {
@@ -278,6 +281,7 @@ class AdminTeamDashboard extends Component {
                             }
                         />   
                     </section>
+                    <section className={"stats col-xs-2"}></section> 
                 </AdminLayout>
             </Page>
         );
