@@ -415,7 +415,8 @@ export default class Volunteer {
                 totalSponsors: v.totalSponsors,
                 raised: toFloat(v.totalHours) * sum(toFloat(r.hourly)) +
                       sum(toFloat(r.amount)),
-                maxCap: SUPPORTING.maxCap      
+                maxCap: SUPPORTING.maxCap,
+                hourly: SUPPORTING.hourly      
             } AS stats
             `,
             {},

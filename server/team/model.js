@@ -428,14 +428,16 @@ class Team {
               total.totalHours     += stat.totalHours;
               total.totalSponsors  += stat.totalSponsors;
               total.totalRaised    += stat.raised;
-              total.totalMaxCap    += stat.maxCap; 
+              total.totalMaxCap    += stat.maxCap;
+              total.totalHourly    += stat.hourly;  
               return total;
             }, {
               totalVolunteers: 0,
               totalHours:      0,
               totalSponsors:   sponsors.length, // start from team sponsor count
               totalRaised:     0,
-              totalMaxCap:     0
+              totalMaxCap:     0,
+              totalHourly:     0 
             });
 
             // get totals for the team's hourly and one-time donations

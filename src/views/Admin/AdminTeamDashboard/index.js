@@ -23,15 +23,13 @@ class AdminTeamDashboard extends Component {
         console.log(props);
         this.state = {
             topVolunteers: [],
-            pledge: {
-                hourly: 0,    
-            },
             stats: {
                 totalVolunteers: 0,
                 totalSponsors: 0,
                 totalRaised: 0,
                 totalHours: 0,
                 totalMaxCap: 0,
+                totalHourly: 0,
 
             },
         };
@@ -264,7 +262,7 @@ class AdminTeamDashboard extends Component {
                          <CircleStat
                             data={
                                 {
-                                    current: this.state.pledge.hourly,
+                                    current: this.state.stats.totalHourly,
                                     title: '$/HR',
                                     prefix: '$'
                                 }
