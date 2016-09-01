@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
 import * as TeamActions from '../../../redux/team/actions';
-import * as PledgeActions from '../../../redux/pledge/actions';
+
 import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
@@ -294,5 +294,4 @@ export default connect((reduxState) => ({
     topVolunteers: reduxState.main.volunteer.topVolunteers,
     stats: reduxState.main.team.stats,
     statsError: reduxState.main.team.statsError,
-    pledge: reduxState.main.sponsor.pledge
 }))(AdminTeamDashboard);
