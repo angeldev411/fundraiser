@@ -30,7 +30,8 @@ export default class AdminSponsorsTable extends Component {
         email: s.sponsor.email, 
         type: s.amount ? 'One Time' : 'Hourly',
         amount: s.amount ? `$${s.amount}` : `$${s.hourly}/hr`,
-        total: '$' + s.total.toFixed(2),
+        // TODO: what if the sponsor donated multiple times to a team or team member?
+        total: '$' + (s.amount ? s.amount : s.total.toFixed(2)),
         sponsoring: s.firstName ? `${s.firstName} ${s.lastName}` : 'Team'
       }));
 
