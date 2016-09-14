@@ -426,9 +426,9 @@ class Team {
               total.totalVolunteers++;
               total.totalHours     += stat.totalHours;
               total.totalSponsors  += stat.totalSponsors;
-              total.totalRaised    += stat.raised;
-              total.totalMaxCap    += stat.maxCap;
-              total.totalHourly    += stat.hourly;  
+              total.totalRaised    += stat.totalRaised;
+              total.totalMaxCap    += stat.totalMaxCap;
+              total.totalHourly    += stat.totalHhourly;  
               return total;
             }, {
               totalVolunteers: 0,

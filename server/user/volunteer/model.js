@@ -407,14 +407,13 @@ export default class Volunteer {
             MATCH (v:USER)
             WHERE v.slug = {volunteerSlug} OR v.id = {volunteerSlug}
             OPTIONAL MATCH (v)<-[r:DONATED|SUPPORTING]-(USER)
-            OPTIONAL MATCH (s:SPONSOR)-[SUPPORTING]->(v) 
             RETURN {
-                totalHours: toFloat(v.totalHours),
+                totalHours:    toFloat(v.totalHours),
                 totalSponsors: v.totalSponsors,
-                raised: toFloat(v.totalHours) * sum(toFloat(r.hourly)) +
-                      sum(toFloat(r.amount)),
-                maxCap: SUPPORTING.maxCap,
-                hourly: SUPPORTING.hourly      
+                totalRaised:   toFloat(v.totalHours) * sum(toFloat(r.hourly)) + sum(toFloat(r.amount)),
+                totalMaxCap:   sum(toFloat(r.maxCap)),
+                totalHourly:   sum(toFloat(r.hourly)),
+                totalOneTime:  sum(toFloat(r.amount)) 
             } AS stats
             `,
             {},
