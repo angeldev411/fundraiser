@@ -61,7 +61,6 @@ class AdminTeamDashboard extends Component {
             );
         }
         if (nextProps.topVolunteers) {
-            console.log(nextProps.topVolunteers);
             this.setState(
                 {
                     topVolunteers: nextProps.topVolunteers,
