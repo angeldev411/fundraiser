@@ -20,7 +20,6 @@ import * as Urls from '../../../urls.js';
 class AdminTeamDashboard extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             topVolunteers: [],
             stats: {
