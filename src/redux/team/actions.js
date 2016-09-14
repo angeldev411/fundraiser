@@ -169,14 +169,11 @@ export function getStats() {
     return (dispatch) => {
         return axios.get(`${API_URL}/team/stats`)
         .then(
-            (response) => {
-              console.log(response.data);
-                dispatch(receivedStats(response.data));
-            }
+          (response) => dispatch(receivedStats(response.data))
         )
         .catch(
             (errorResponse) => {
-                dispatch(getStatsFailed(errorResponse.data));
+              dispatch(getStatsFailed(errorResponse.data));
             }
         );
     };

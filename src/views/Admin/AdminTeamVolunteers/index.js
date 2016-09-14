@@ -70,7 +70,6 @@ class AdminTeamVolunteers extends Component {
             );
         }
         if (nextProps.stats) {
-            console.log(nextProps.stats);
             this.setState(
                 {
                     stats: nextProps.stats,
