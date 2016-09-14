@@ -6,6 +6,7 @@ import Page from '../../../components/Page';
 import AdminLayout from '../../../components/AdminLayout';
 import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminStatsBlock from '../../../components/AdminStatsBlock';
+import CircleStat from '../../../components/CircleStat';
 import RecordHoursForm from '../../../components/RecordHoursForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
 import AdminVolunteerChart from '../../../components/AdminVolunteerChart';
@@ -149,6 +150,7 @@ export class AdminVolunteerDashboard extends Component {
                         volunteerDashboard
                         goal={this.props.user.goal}
                     />
+
                   { this.state.monthHours ?
                     <AdminVolunteerChart
                         data={this.state.monthHours}
@@ -157,32 +159,72 @@ export class AdminVolunteerDashboard extends Component {
                         currentYear={moment().year()}
                             />
                           : null }
-                    <AdminStatsBlock
-                        stats={
-                            [
+                    
+                    <section id="volStats" className={"stats col-xs-12 col-sm-9"}>
+                        <section className={"stats col-xs-12"}>
+                          <CircleStat
+                              data={
                                 {
-                                    current: this.state.stats.totalHours,
-                                    title: 'Hours',
-                                    goal: this.props.user.goal,
-                                },
+                                  current: this.state.stats.totalHours,
+                                  title: 'Hours',
+                                  goal: this.props.user.goal,    
+                                }
+                              }
+                          />
+
+                          <CircleStat
+                            data={
+                              {
+                                current: this.state.stats.totalSponsors,
+                                title: 'Sponsors',
+                              }
+                            }
+                          />
+
+                          <CircleStat
+                            data={
+                              {
+                                current: this.state.stats.totalHourly,
+                                title: '$/HR',
+                                prefix: '$'
+                              }
+                            }
+                          />
+                            
+                      </section>
+                      
+                      <section className={"stats col-xs-12 col-sm-9 col-sm-offset-2"}>
+                          
+                        <CircleStat
+                              data={
                                 {
-                                    current: this.state.stats.totalSponsors,
-                                    title: 'Sponsors',
-                                },
-                                {
-                                    current: this.state.stats.raised,
-                                    title: 'Raised',
-                                    prefix: '$',
-                                },
-                            ]
-                        }
-                    >
-                    <AdminShareEfforts
-                      project={this.props.user.project}
-                      team={this.props.user.team}
-                      volunteer={this.props.user}
-                    />
-                    </AdminStatsBlock>
+                                  current: this.state.stats.totalRaised,
+                                  title: 'Raised',
+                                  prefix: '$',
+                                }
+                              }
+                          />
+
+                        <CircleStat
+                          data={
+                            {
+                              current: this.state.stats.totalMaxCap + this.state.stats.totalOneTime,
+                              title: 'Raised if goal reached',
+                              prefix: '$'
+                            }
+                          }
+                        />
+
+                          
+                      </section>    
+                    </section>
+                    <section className={"col-xs-12 col-sm-3"}>
+                      <AdminShareEfforts
+                        project={this.props.user.project}
+                        team={this.props.user.team}
+                        volunteer={this.props.user}
+                      />
+                    </section>
                 </AdminLayout>
             </Page>
         );
