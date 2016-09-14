@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import * as VolunteerActions from '../../../redux/volunteer/actions';
 import * as TeamActions from '../../../redux/team/actions';
+
 import { connect } from 'react-redux';
 /* Then React components */
 import Page from '../../../components/Page';
@@ -13,6 +14,7 @@ import AdminContentHeader from '../../../components/AdminContentHeader';
 import AdminInviteTeamMembersForm from '../../../components/AdminInviteTeamMembersForm';
 import AdminTeamEmailForm from '../../../components/AdminTeamEmailForm';
 import AdminShareEfforts from '../../../components/AdminShareEfforts';
+
 import * as Urls from '../../../urls.js';
 
 class AdminTeamDashboard extends Component {
@@ -24,6 +26,10 @@ class AdminTeamDashboard extends Component {
                 totalVolunteers: 0,
                 totalSponsors: 0,
                 totalRaised: 0,
+                totalHours: 0,
+                totalMaxCap: 0,
+                totalHourly: 0,
+
             },
         };
     }
@@ -36,6 +42,7 @@ class AdminTeamDashboard extends Component {
             const teamSlug = this.props.user.team.slug;
 
             VolunteerActions.getTopVolunteers(projectSlug, teamSlug)(this.props.dispatch);
+            //VolunteerActions.getStats()(this.props.dispatch);
             TeamActions.getStats()(this.props.dispatch);
         }
     }
@@ -57,9 +64,11 @@ class AdminTeamDashboard extends Component {
                 {
                     topVolunteers: nextProps.topVolunteers,
                     error: null,
-                }
+                },
+
             );
         }
+        
         if (nextProps.user) {
             const projectSlug = nextProps.user.project.slug;
             const teamSlug = nextProps.user.team.slug;
@@ -73,7 +82,7 @@ class AdminTeamDashboard extends Component {
                     user: nextProps.user,
                     error: null,
                 }
-            );
+            )
         }
     }
 
@@ -156,6 +165,16 @@ class AdminTeamDashboard extends Component {
                                 }
                             }
                         />
+
+                        <CircleStat
+                          data={
+                            {
+                              current: this.state.stats.totalHours,
+                              title: 'Hours Recorded'
+                            }
+                          }
+                        />
+
                         <CircleStat
                             data={
                                 {
@@ -164,16 +183,32 @@ class AdminTeamDashboard extends Component {
                                 }
                             }
                         />
+                    </section>
+                    
+                    <section className={"stats col-xs-8 col-xs-offset-2"}>
+                        
+                      <CircleStat
+                        data={
+                          {
+                            current: this.state.stats.totalRaised,
+                            title: 'Raised',
+                            prefix: '$'
+                          }
+                        }
+                      />
+
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.stats.totalRaised,
-                                    title: 'Raised',
+                                    current: this.state.stats.maxIfGoalReached,
+                                    title: 'If Goal Reached',
                                     prefix: '$'
                                 }
                             }
                         />
+                         
                     </section>
+                    <section className={"stats col-xs-2"}></section>
                     <section className={"col-xs-12"}>
                         <section className={"col-xs-12 col-sm-9"}>
                             <div className="content-header">
@@ -193,6 +228,7 @@ class AdminTeamDashboard extends Component {
                             project={this.props.user.project}
                             team={this.props.user.team}
                           />
+
                         </section>
                     </section>
                 </AdminLayout>

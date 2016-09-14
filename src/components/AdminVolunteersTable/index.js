@@ -1,251 +1,101 @@
-import React, { Component } from 'react';
-import ModalButton from '../ModalButton';
-import Button from '../Button';
-import AdminTeamEmailForm from '../AdminTeamEmailForm';
+import React, {Component} from 'react';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import {Link} from 'react-router';
+
+import _ from 'lodash';
+
 import * as constants from '../../common/constants';
-import classNames from 'classnames';
-import { Link } from 'react-router';
 import * as Urls from '../../urls.js';
+
+import AdminTeamEmailForm from '../AdminTeamEmailForm';
+import Button from '../Button';
+import ModalButton from '../ModalButton';
+import classNames from 'classnames';
+
 
 export default class AdminVolunteersTable extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            linesChecked: [],
-            checked: false,
-            showDropdown: false,
-        };
-    }
+  constructor(){
+    super();
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.volunteers) {
-            const lines = [];
+    this.memberFormat = this.memberFormat.bind(this);
+  }
 
-            for (let i = 0; i < nextProps.volunteers.length; i++) {
-                lines[i] = false;
-                if (i === nextProps.volunteers.length - 1) {
-                    this.setState({
-                        linesChecked: lines,
-                    });
-                }
-            }
-        }
-        if (nextProps.user) {
-            this.setState({
-                user: nextProps.user,
-            });
-        }
-    }
+  memberFormat(email, member){
 
-    handleCheck(i) {
-        const lines = this.state.linesChecked;
+    const userIsAdminOrLeader = this.props.user && 
+          _.intersection(this.props.user.roles,['SUPER_ADMN', 'TEAM_LEADER']).length > 0;
 
-        lines[i] = !lines[i];
-        this.setState({
-            linesChecked: lines,
-        });
-    }
+    return (
+        <div className="volunteer name row">
+            <div className="col-md-2">
+            { member.image ? (
+            <img src={`${constants.RESIZE_PROFILE}${member.image}`}/>
+            ) : (
+            <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
+            )}
+            </div>
 
-    handleCheckAll() {
-        const lines = this.state.linesChecked;
+            <div className="col-md-10" style={{paddingLeft:'20px'}}>
+            <div>{member.firstName} {member.lastName}</div>
+            
+            { userIsAdminOrLeader ? (
+                <a href={`/api/v1/auth/switch/${member.email}`}><i className="fa fa-user-secret"></i></a>
+            ) : (
+                null
+            )}
+            
+            <a href={`mailto:${member.email}`}><i className="fa fa-envelope"></i></a>
+            </div>
+        </div>
+        );
+  }           
 
-        for (let i = 0; i < lines.length; i++) {
-            lines[i] = !this.state.checked;
+  priceFormat(price){
+    return '<i class="glyphicon glyphicon-usd"></i> ' + ( price||0 ).toFixed(2);
+  }            
 
-            if (i === lines.length - 1) {
-                this.setState({
-                    linesChecked: lines,
-                });
-            }
-        }
-        this.setState({
-            checked: !this.state.checked,
-        });
-    }
+    // TODO: Re-implement removing/unlinking volunteers
+    // handleUnlink = () => {
+    //     const selectedVolunteers = [];
 
-    handleUnlink = () => {
-        const selectedVolunteers = [];
+    //     for (let i = 0; i < this.state.linesChecked.length; i++) {
+    //         if (this.state.linesChecked[i]) {
+    //             selectedVolunteers.push(this.props.volunteers[i]);
+    //         }
+    //     }
 
-        for (let i = 0; i < this.state.linesChecked.length; i++) {
-            if (this.state.linesChecked[i]) {
-                selectedVolunteers.push(this.props.volunteers[i]);
-            }
-        }
+    //     this.props.onUnlink(selectedVolunteers);
+    // };
 
-        this.props.onUnlink(selectedVolunteers);
-    };
+  render() {
 
-    lockDropdown = () => {
-        this.setState({
-            showDropdown: !this.state.showDropdown,
-        });
-    };
-
-    handleSort = (column) => {
-        this.props.onSort(column);
-    };
-
-    render() {
-        const selectedVolunteers = [];
-
-        for (let i = 0; i < this.state.linesChecked.length; i++) {
-            if (this.state.linesChecked[i]) {
-                selectedVolunteers.push(this.props.volunteers[i]);
-            }
-        }
-
-        return (
-            <div className="table-responsive">
-                {this.props.actionable ?
-                    <div className={'actions'}>
-                        <div className="dropdown">
-                            <span>
-                                {'Actions'} <i className="fa fa-chevron-down"></i>
-                            </span>
-                            <ul className={
-                                    classNames({
-                                        'dropdown-content__active': this.state.showDropdown,
-                                    }, 'dropdown-content')
-                                }
-                            >
-                                <li>
-                                    <ModalButton
-                                        customClass="btn-link"
-                                        content={
-                                            <AdminTeamEmailForm
-                                                project={this.props.user.project}
-                                                team={this.props.user.team}
-                                                recipients={selectedVolunteers}
-                                            />
-                                        }
-                                        onModalToggle={this.lockDropdown}
-                                    >
-                                        {'Email'}
-                                    </ModalButton>
-                                    <Button
-                                        customClass="btn-link"
-                                        onClick={this.handleUnlink}
-                                    >
-                                        {'Remove'}
-                                    </Button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> : null
-                }
-                <table className="volunteers table">
-                    <thead>
-                        <tr>
-                            <th
-                                onClick={() => {
-                                    this.handleSort('firstName')
-                                }}
-                            >
-                                {'Member'}
-                            </th>
-                            <th
-                                onClick={() => {
-                                    this.handleSort('email')
-                                }}
-                            >
-                                {'Email'}
-                            </th>
-                            <th
-                                onClick={() => {
-                                    this.handleSort('totalHours')
-                                }}
-                            >
-                                {'Hours'}
-                            </th>
-                            <th
-                                onClick={() => {
-                                    this.handleSort('totalSponsors')
-                                }}
-                            >
-                                {'Sponsors'}
-                            </th>
-                            <th
-                                onClick={() => {
-                                    this.handleSort('raised')
-                                }}
-                            >
-                                {'$ Raised'}
-                            </th>
-                            <th
-                                onClick={() => {
-                                    this.handleSort('hourlyPledge')
-                                }}
-                            >
-                                {'$/Hr'}
-                            </th>
-                            {this.props.actionable ?
-                                <th>
-                                    <input
-                                        type="checkbox"
-                                        name={'check-all'}
-                                        id={'check-all'}
-                                        onChange={() => {
-                                            this.handleCheckAll();
-                                        }}
-                                    />
-                                </th> : null}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.volunteers.map((volunteer, i) => {
-                            return (<tr key={i}>
-                                <td className="volunteer-name">
-                                    {volunteer.image ?
-                                        <img src={`${constants.RESIZE_PROFILE}${volunteer.image}`}/>
-                                    :
-                                        <img src={`${constants.USER_IMAGES_FOLDER}/${constants.DEFAULT_AVATAR}`}/>
-                                    }
-
-                                    {(
-                                        this.props.user
-                                        && (
-                                            this.props.user.roles.indexOf('SUPER_ADMIN') >= 0
-                                            || this.props.user.roles.indexOf('TEAM_LEADER') >= 0
-                                        )
-                                    ) ?
-                                        <a href={`/api/v1/auth/switch/${volunteer.email}`}>{`${volunteer.firstName} ${volunteer.lastName}`}</a> :
-                                        <span>{`${volunteer.firstName} ${volunteer.lastName}`}</span>
-                                    }
-
-                                </td>
-                                <td className="volunteer-email">
-                                    <a href={`mailto:${volunteer.email}`}>{volunteer.email}</a>
-                                </td>
-                                <td>{volunteer.totalHours ? volunteer.totalHours : 0}</td>
-                                <td>{volunteer.totalSponsors ? volunteer.totalSponsors : 0}</td>
-                                <td>{'$'}{volunteer.raised ? volunteer.raised : 0}</td>
-                                <td>{'$'}{volunteer.hourlyPledge ? volunteer.hourlyPledge : 0}</td>
-                                {this.props.actionable ?
-                                    (<td>
-                                        <input
-                                            type="checkbox"
-                                            name={volunteer.uniqid}
-                                            id={i}
-                                            onChange={() => {
-                                                this.handleCheck(i);
-                                            }}
-                                            checked={this.state.linesChecked[i]}
-                                        />
-                                    </td>) : null}
-                            </tr>);
-                        })}
-                    </tbody>
-                </table>
+    return (
+            <div className="volunteers-table">
+              <BootstrapTable data={this.props.volunteers} 
+                className="volunteers table"
+                striped={true} 
+                hover={true} 
+                search={true}
+                pagination={true}
+              >
+                  <TableHeaderColumn width={'270'} dataField="lastName" isKey={true} dataAlign="left" dataSort={true} dataFormat={this.memberFormat}>Member</TableHeaderColumn>
+                  <TableHeaderColumn dataField="firstName" hidden={true}>First Name</TableHeaderColumn>
+                  <TableHeaderColumn dataField="email" hidden={true}>Last Name</TableHeaderColumn>
+                  <TableHeaderColumn width={'105'} dataField="totalSponsors" dataAlign="center" dataSort={true}>Sponsors</TableHeaderColumn>
+                  <TableHeaderColumn width={'95'} dataField="totalHours" dataAlign="center" dataSort={true} dataFormat={(v)=>( v||0 ).toFixed(2)}>Hours</TableHeaderColumn>
+                  <TableHeaderColumn dataField="hourlyPledge" dataAlign="center" dataSort={true} dataFormat={this.priceFormat}>Hourly Pledge</TableHeaderColumn>
+                  <TableHeaderColumn dataField="raised" dataAlign="center" dataSort={true} dataFormat={this.priceFormat}>$ Raised</TableHeaderColumn>
+              </BootstrapTable>
             </div>
         );
-    }
+  }
 }
 
 AdminVolunteersTable.propTypes = {
-    volunteers: React.PropTypes.array,
-    user: React.PropTypes.object,
-    actionable: React.PropTypes.bool,
-    onUnlink: React.PropTypes.func,
-    onSort: React.PropTypes.func,
+  volunteers: React.PropTypes.array,
+  user: React.PropTypes.object,
+  actionable: React.PropTypes.bool,
+  onUnlink: React.PropTypes.func,
+  onSort: React.PropTypes.func,
 };

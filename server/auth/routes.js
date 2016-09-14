@@ -142,7 +142,6 @@ router.get('/api/v1/auth/switch/:id', (req, res) => {
     } else if (AUTH_CHECKER.isTeamLeader(req.session.user)) {
         userController.getTeamRelatedUser(req.params.id, req.session.user.team.slug)
         .then((user) => {
-            console.log(user);
             return userController.getUserWithRoles(user.id);
         })
         .then((user) => {

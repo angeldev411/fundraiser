@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 
-export default class RecordHoursForm extends Component {
+export class RecordHoursForm extends Component {
     constructor(props) {
         super(props);
         this.state = {

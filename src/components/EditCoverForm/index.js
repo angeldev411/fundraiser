@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
 
-export default class EditCoverForm extends Component {
+export class EditCoverForm extends Component {
     constructor(props) {
         super(props);
 

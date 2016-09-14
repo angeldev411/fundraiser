@@ -26,11 +26,11 @@ class csvController {
                     firstName: volunteer.firstName,
                     lastName: volunteer.lastName,
                     email: volunteer.email,
-                    currentHours: volunteer.currentHours,
+                    currentHours: volunteer.currentHours.toFixed(2),
                     goal: volunteer.goal,
-                    totalHours: volunteer.totalHours,
+                    totalHours: volunteer.totalHours.toFixed(2),
                     totalSponsors: volunteer.totalSponsors,
-                    raised: volunteer.raised,
+                    raised: volunteer.raised.toFixed(2),
                     signupDate: new Date(volunteer.created).toDateString(),
                 });
             });

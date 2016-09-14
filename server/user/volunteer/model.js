@@ -403,16 +403,17 @@ export default class Volunteer {
         //
         // Using toFloat for safety on sponsorship amounts, some donations and
         // totalHours were improperly stored as strings.
-        return db.query(
-            `
+        return db.query(`
             MATCH (v:USER)
             WHERE v.slug = {volunteerSlug} OR v.id = {volunteerSlug}
             OPTIONAL MATCH (v)<-[r:DONATED|SUPPORTING]-(USER)
             RETURN {
-            	totalHours: toFloat(v.totalHours),
-            	totalSponsors: v.totalSponsors,
-            	raised: toFloat(v.totalHours) * sum(toFloat(r.hourly)) +
-                      sum(toFloat(r.amount))
+                totalHours:    toFloat(v.totalHours),
+                totalSponsors: v.totalSponsors,
+                totalRaised:   toFloat(v.totalHours) * sum(toFloat(r.hourly)) + sum(toFloat(r.amount)),
+                totalMaxCap:   sum(toFloat(r.maxCap)),
+                totalHourly:   sum(toFloat(r.hourly)),
+                totalOneTime:  sum(toFloat(r.amount)) 
             } AS stats
             `,
             {},

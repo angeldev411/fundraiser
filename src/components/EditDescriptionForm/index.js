@@ -4,7 +4,7 @@ import Form from '../../components/Form';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
 
-export default class EditDescriptionForm extends Component {
+export class EditDescriptionForm extends Component {
     constructor(props) {
         super(props);
         this.state = {

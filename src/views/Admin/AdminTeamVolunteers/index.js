@@ -27,6 +27,11 @@ class AdminTeamVolunteers extends Component {
                 totalVolunteers: 0,
                 totalSponsors: 0,
                 totalRaised: 0,
+                totalHours: 0,
+            },
+            teamTotals: {
+                hourly: 0,
+                oneTime: 0,
             },
             sortBy: null,
             ASC: true,
@@ -69,6 +74,15 @@ class AdminTeamVolunteers extends Component {
                 {
                     stats: nextProps.stats,
                     statsError: null,
+                }
+            );
+        }
+        if (nextProps.teamTotals) {
+            console.log(nextProps.teamTotals);
+            this.setState(
+                {
+                    teamTotals: nextProps.teamTotals,
+                    error: null,
                 }
             );
         }
@@ -174,15 +188,13 @@ class AdminTeamVolunteers extends Component {
                             </ModalButton>
                         }
                     />
-                    <div className={'table-limit-height'}>
-                        <AdminVolunteersTable
-                            volunteers={this.state.volunteers}
-                            user={this.props.user}
-                            actionable
-                            onUnlink={this.handleUnlinkVolunteers}
-                            onSort={this.onSort}
-                        />
-                    </div>
+                    <AdminVolunteersTable
+                        volunteers={this.state.volunteers}
+                        user={this.props.user}
+                        actionable
+                        onUnlink={this.handleUnlinkVolunteers}
+                        onSort={this.onSort}
+                    />
                     <AdminStatsBlock
                         stats={
                             [
@@ -198,7 +210,8 @@ class AdminTeamVolunteers extends Component {
                                     current: this.state.stats.totalRaised,
                                     title: 'Raised',
                                     prefix: '$',
-                                },
+                                }
+                                
                             ]
                         }
                     >
@@ -217,5 +230,6 @@ export default connect((reduxState) => ({
     error: reduxState.main.volunteer.error,
     volunteers: reduxState.main.volunteer.volunteers,
     stats: reduxState.main.team.stats,
+    teamTotals: reduxState.main.team.teamTotals,
     statsError: reduxState.main.team.statsError,
 }))(AdminTeamVolunteers);

@@ -150,11 +150,7 @@ class AdminTeamSponsors extends Component {
                         title={'Team sponsors'}
                         description={'Keep an eye on everyone on your team and watch their individual progress grow.'}
                     />
-                    <div className={'table-limit-height'}>
-                        <AdminSponsorsTable
-                            sponsors={this.state.sponsors}
-                            onSort={this.onSort}/>
-                    </div>
+                    <AdminSponsorsTable sponsors={this.state.sponsors} />
                     <AdminStatsBlock
                         stats={
                             [

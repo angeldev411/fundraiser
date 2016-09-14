@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import * as constants from '../../common/constants';
 import { connect } from 'react-redux';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import * as ProjectActions from '../../redux/project/actions';
 import * as Actions from '../../redux/user/actions';
 import RouteNotFound from '../RouteNotFound';
@@ -27,7 +27,7 @@ class ProjectSignup extends Component {
         document.title = `Signup for ${this.state.project.name} | raiserve`;
         if (this.props.user) {
             this.props.dispatch(
-                pushPath(`/${this.props.params.projectSlug}/${this.props.params.projectSlug}`)
+                push(`/${this.props.params.projectSlug}/${this.props.params.projectSlug}`)
             );
         }
         ProjectActions.getProject(

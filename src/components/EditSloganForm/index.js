@@ -4,7 +4,7 @@ import Form from '../../components/Form';
 import * as Actions from '../../redux/team/actions';
 import { connect } from 'react-redux';
 
-export default class EditSloganForm extends Component {
+export class EditSloganForm extends Component {
     constructor(props) {
         super(props);
         this.state = {

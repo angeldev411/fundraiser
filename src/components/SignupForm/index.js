@@ -175,5 +175,5 @@ SignupForm.propTypes = {
     onSubmit: React.PropTypes.func,
     error: React.PropTypes.string,
     loading: React.PropTypes.bool,
-    deadline: React.PropTypes.date
+    deadline: React.PropTypes.string // TODO: Dates should be instanceOf(Date)
 };

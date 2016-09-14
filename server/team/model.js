@@ -175,7 +175,7 @@ class Team {
       ...(typeof teamData.totalSponsors !== 'undefined' ? { totalSponsors: teamData.totalSponsors } : {}),
       ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
       ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
-      ...(typeof teamData.fakeLeaderId !== 'undefined' ? { fakeLeaderId: teamData.fakeLeaderId } : {})
+      ...(typeof teamData.fakeLeaderId !== 'undefined' ? { fakeLeaderId: teamData.fakeLeaderId } : {}),
     };
   }
 
@@ -398,11 +398,13 @@ class Team {
           MATCH (team:TEAM {slug: {teamSlug}})
           MATCH (team)-[r2:VOLUNTEER]-(volunteers:USER)
           OPTIONAL MATCH (team)-[sponsors:DONATED|SUPPORTING]-(USER)
-          RETURN collect(distinct volunteers) as teamVolunteers,
+          RETURN team,
+                 collect(distinct volunteers) as teamVolunteers,
                  collect(distinct sponsors)   as teamSponsors
         `, {}, { teamSlug })
-        .getResult('teamVolunteers', 'teamSponsors')
+        .getResult('team', 'teamVolunteers', 'teamSponsors')
         .then((results) => {
+          const team        = results.team;
           const volunteers  = results.teamVolunteers;
           const sponsors    = results.teamSponsors;
 
@@ -421,34 +423,36 @@ class Team {
 
             // collect totals from our volunteers
             const totals = _(stats).reduce( (total, stat) => {
+              console.log('totalRaised:',stat.totalRaised);
               total.totalVolunteers++;
               total.totalHours     += stat.totalHours;
               total.totalSponsors  += stat.totalSponsors;
-              total.totalRaised    += stat.raised;
+              total.totalRaised    += stat.totalRaised;
+              total.totalMaxCap    += stat.totalMaxCap;
+              total.totalHourly    += stat.totalHhourly;  
               return total;
             }, {
               totalVolunteers: 0,
               totalHours:      0,
               totalSponsors:   sponsors.length, // start from team sponsor count
-              totalRaised:     0
+              totalRaised:     0,
+              totalMaxCap:     0,
+              totalHourly:     0 
             });
-
             // get totals for the team's hourly and one-time donations
             const teamTotals = _(sponsors).reduce( (total, sponsor) => {
               // currently, we can't trust these to be numbers
               total.hourly  += Number(sponsor.hourly) || 0,
               total.oneTime += Number(sponsor.amount) || 0;
+              //console.log(total);
               return total;
             },{
               hourly:   0,
               oneTime:  0
             });
-
-            // multiply the team's total hours by the team's total hourly donations
-            // and add that to the total amount raised
-            // then add the team's one-time donations
-            totals.totalRaised += totals.totalHours * teamTotals.hourly
-                                  + teamTotals.oneTime;
+            // add total raised by volunteers and total raised specifically for the team
+            totals.totalRaised     += team.raised;
+            totals.maxIfGoalReached = totals.totalMaxCap + team.goal * teamTotals.hourly;
 
             return totals;
           });
