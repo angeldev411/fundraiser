@@ -423,6 +423,7 @@ class Team {
 
             // collect totals from our volunteers
             const totals = _(stats).reduce( (total, stat) => {
+              console.log('totalRaised:',stat.totalRaised);
               total.totalVolunteers++;
               total.totalHours     += stat.totalHours;
               total.totalSponsors  += stat.totalSponsors;
@@ -450,7 +451,7 @@ class Team {
               oneTime:  0
             });
             // add total raised by volunteers and total raised specifically for the team
-            totals.totalRaised     += totals.totalRaised + team.raised
+            totals.totalRaised     += team.raised;
             totals.maxIfGoalReached = totals.totalMaxCap + team.goal * teamTotals.hourly;
 
             return totals;
