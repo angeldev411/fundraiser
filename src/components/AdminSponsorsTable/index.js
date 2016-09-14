@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-// import CollapsableLine from '../CollapsableLine';
-// import ChildrenLine from '../ChildrenLine';
 
 export default class AdminSponsorsTable extends Component {
  
@@ -11,8 +9,14 @@ export default class AdminSponsorsTable extends Component {
     );
   }
 
+  moneyFormat(amount, isHourly = false){
+    let result = `$${amount.toFixed(2)}`;
+    if (isHourly) result += '/hr';
+    return result;
+  }
+
   render() {
-    // transoform the sponsors into an array
+    // transform the sponsors into an array
     const sponsorshipInfo = this.props.sponsors.reduce(
       (memo, sponsor) => memo.concat(
           // of all of their pledges
@@ -29,11 +33,15 @@ export default class AdminSponsorsTable extends Component {
         name: `${s.sponsor.firstName} ${s.sponsor.lastName}`,
         email: s.sponsor.email, 
         type: s.amount ? 'One Time' : 'Hourly',
-        amount: s.amount ? `$${s.amount}` : `$${s.hourly}/hr`,
         // TODO: what if the sponsor donated multiple times to a team or team member?
-        total: '$' + (s.amount ? s.amount : s.total.toFixed(2)),
+        amount: Number(s.amount ? s.amount : s.hourly),
+        isHourly: !s.amount,
+        total: Number(s.amount ? s.amount : s.total),
         sponsoring: s.firstName ? `${s.firstName} ${s.lastName}` : 'Team'
       }));
+
+    console.log('amounts', sponsorshipInfo.map( s => (s.amount) ));
+    console.log('total', sponsorshipInfo.map( s => (s.total) ));
 
     return (
       <BootstrapTable data={sponsorshipInfo}
@@ -46,8 +54,8 @@ export default class AdminSponsorsTable extends Component {
         <TableHeaderColumn dataField="id" isKey={true} hidden={true} dataSort={true}>ID</TableHeaderColumn>
         <TableHeaderColumn width='225' dataField="name" dataSort={true} dataFormat={this.nameFormat}>Name</TableHeaderColumn>
         <TableHeaderColumn dataField="email" hidden={true}>Email</TableHeaderColumn>
-        <TableHeaderColumn dataField="amount" dataAlign="center" dataSort={true}>Amount</TableHeaderColumn>
-        <TableHeaderColumn dataField="total" dataAlign="center" dataSort={true}>Total to Date</TableHeaderColumn>
+        <TableHeaderColumn dataField="amount" dataAlign="center" dataSort={true} dataFormat={(m,s) => this.moneyFormat(m,s.isHourly)}>Amount</TableHeaderColumn>
+        <TableHeaderColumn dataField="total" dataAlign="center" dataSort={true} dataFormat={(m) => this.moneyFormat(m)}>Total to Date</TableHeaderColumn>
         <TableHeaderColumn dataField="type" dataAlign="center" dataSort={true}>Type</TableHeaderColumn>
         <TableHeaderColumn width='225' dataField="sponsoring" dataSort={true}>Sponsoring</TableHeaderColumn>
       </BootstrapTable>
