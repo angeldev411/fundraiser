@@ -23,7 +23,7 @@ export default class VolunteerProfileBlock extends Component {
           <div className={'col-xs-12 col-md-8 volunteer-description'}>
               <div className={'team-slogan'}>{`YOU + US = ${SLOGAN}`}</div>
               <p>
-                  {this.props.volunteer.description}
+                  {this.props.volunteer.description || this.props.team.defaultVolunteerDescription}
               </p>
               <div className="share-row">
                  <span className="uppercase share-goal">

@@ -175,7 +175,7 @@ class AdminVolunteerSponsors extends Component {
                                     title: 'Sponsors',
                                 },
                                 {
-                                    current: this.state.stats.raised,
+                                    current: this.state.stats.totalRaised,
                                     title: 'Raised',
                                     prefix: '$',
                                 },
