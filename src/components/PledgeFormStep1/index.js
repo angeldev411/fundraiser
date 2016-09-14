@@ -15,6 +15,7 @@ export default class PledgeFormStep1 extends Component {
         this.state = {
             showHourly: !this.props.oneTimeOnly, // default to hourly unless oneTimeOnly
             hourly: this.defaultHourly(),
+            amount: defaultOneTime,
             maxCap: null,
             error: false
         };
@@ -63,18 +64,9 @@ export default class PledgeFormStep1 extends Component {
     };
 
     handleSwitchForm = () => {
-        if (!this.state.showHourly) {
-            this.setState({
-                hourly: this.state.hourly || this.defaultHourly(),
-                showHourly: true
-            });
-
-        } else {
-            this.setState({
-                amount: this.state.amount || defaultOneTime,
-                showHourly: false
-            });
-        }
+        this.setState({
+          showHourly: !this.state.showHourly
+        })
         this.focusInput();
     };
 

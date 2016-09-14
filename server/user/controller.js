@@ -8,6 +8,7 @@ import Mailer from '../helpers/mailer';
 import * as roles from './roles';
 import Promise from 'bluebird';
 import * as Constants from '../../src/common/constants';
+import _ from 'lodash';
 
 class userController {
   static checkCredentials(credentials) {
@@ -211,21 +212,26 @@ class userController {
   static signup(userData, teamSlug) {
     return this.getUserWithRoles(userData.email)
         .then((user) => {
-          if (user.inviteCode && user.inviteCode === userData.inviteCode) {
+          // Since existing users will be updated- including the password- from the team join form,
+          // and because we don't have a UI for multi-volunteering yet, we need to make sure the
+          // signup is either for an invited team/project leader or that they are a sponsor becoming 
+          // a volunteer for the first time. 
+          const newInvitee = !!user.inviteCode && user.inviteCode === userData.inviteCode;
+          const sponsorVolunteering = !userData.inviteCode && _.intersection(user.roles, ['USER','SPONSOR']).length === 2;
+
+          if (newInvitee || sponsorVolunteering) {
             return User.update(user, userData)
-                .then((userUpdated) => {
-                  return this.checkCredentials({
-                    email: userData.email,
-                    password: userData.password
-                  })
+              .then( user => sponsorVolunteering ? this.makeVolunteer(user,teamSlug) : user ) 
+              .then( () => this.checkCredentials({
+                  email: userData.email,
+                  password: userData.password
                 })
-                .then((dbUser) => {
-                  return Promise.resolve(dbUser);
-                })
-                .catch((err) => {
-                  console.log('Error updating user:',err);
-                  return Promise.reject(messages.signup.error);
-                });
+              )
+              .then(  user => Promise.resolve(user))
+              .catch( err => {
+                console.log('Error in user signup:', err);
+                return Promise.reject(messages.signup.error);
+              });
           } else {
             return Promise.reject(messages.signup.badInviteCode);
           }
@@ -309,9 +315,9 @@ class userController {
         });
   }
 
-  static makeVolunteer(user, teamId) {
+  static makeVolunteer(user, teamIdOrSlug) {
     return Volunteer.createSlug(user.firstName, user.lastName) 
-    .then( slug => User.makeVolunteer(user, slug, teamId))
+    .then( slug => User.makeVolunteer(user, slug, teamIdOrSlug))
     .then( user => Promise.resolve(user) )
     .catch( err => Promise.reject(err) )
   }

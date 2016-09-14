@@ -19,6 +19,7 @@ export default class AdminVolunteerChart extends Component {
             totalHours: 0,
             graphData: [],
             currentDay: 1,
+            tooltipOffset: 0
         };
     }
 
@@ -55,35 +56,20 @@ export default class AdminVolunteerChart extends Component {
     };
 
     prepareGraphData = (rawData) => {
-        const daysInMonth = this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
+        const daysInMonth = rawData.length; // this.getDaysInMonth(this.props.currentMonth, this.props.currentYear);
         let graphData   = [];
         let totalHours  = 0;
         let currentDay  = 1;
 
         rawData.map((dataPoint, i) => {
-            if (dataPoint.date.getMonth() === this.props.currentMonth) {
-                if (i >= 1 && dataPoint.date.getDate() === graphData[graphData.length - 1].date.getDate()) {
-                    // If this datePoint is for the same day of the last preccessed date
-                    // Increment totalHours
-                    totalHours += dataPoint.new;
+            // Increment totalHours
+            totalHours += dataPoint.new;
+            
+            dataPoint.total = totalHours;
 
-                    // Update the last precessed entry
-                    const lastItem = graphData.slice(-1)[0];
-
-                    lastItem.total = totalHours;
-                    lastItem.new += dataPoint.new;
-
-                    graphData[graphData.length - 1] = lastItem;
-                } else {
-                    // Increment totalHours
-                    totalHours += dataPoint.new;
-                    dataPoint.total = totalHours;
-
-                    // push data
-                    graphData.push(dataPoint);
-                    currentDay++;
-                }
-            }
+            // push data
+            graphData.push(dataPoint);
+            currentDay++;
         });
 
         if (Constants.GRAPH_ACTIVATE_EMPTY_BARS && !(currentDay > daysInMonth)) { // If month is incomplete
@@ -138,10 +124,16 @@ export default class AdminVolunteerChart extends Component {
     };
 
     scrollLeft = () => {
+        this.setState({
+            tooltipOffset: this.state.tooltipOffset - Constants.GRAPH_SCROLL_INCREMENT    
+        })
         this.animate(-Constants.GRAPH_SCROLL_INCREMENT);
     };
 
     scrollRight = () => {
+        this.setState({
+            tooltipOffset: this.state.tooltipOffset + Constants.GRAPH_SCROLL_INCREMENT    
+        })
         this.animate(Constants.GRAPH_SCROLL_INCREMENT);
     };
 
@@ -247,7 +239,7 @@ export default class AdminVolunteerChart extends Component {
                             </div>
                         </div>
                     `)
-                        .style('left', (i * (barWidth + barPadding) + 60 ) + 'px')
+                        .style('left', (i * (barWidth + barPadding) + 60 - this.state.tooltipOffset ) + 'px')
                         .style('top', (h - (d.total / maxOfGoalAndTotalHours * innerH) - 45) + 'px');
                 })
                 .on('mouseout', (d, i) => {
