@@ -138,6 +138,7 @@
     "mocha": "^3.0.2",
     "numeral": "^1.5.3",
     "request": "^2.74.0",
+    "sass-lint": "^1.9.1",
     "superagent": "^2.2.0"
   }
 }
