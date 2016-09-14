@@ -167,6 +167,16 @@ class AdminTeamDashboard extends Component {
                                 }
                             }
                         />
+
+                        <CircleStat
+                          data={
+                            {
+                              current: this.state.stats.totalHours,
+                              title: 'Hours Recorded'
+                            }
+                          }
+                        />
+
                         <CircleStat
                             data={
                                 {
@@ -175,27 +185,19 @@ class AdminTeamDashboard extends Component {
                                 }
                             }
                         />
-                        <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalRaised,
-                                    title: 'Raised',
-                                    prefix: '$'
-                                }
-                            }
-                        />
                     </section>
                     
-                    <section className={"stats col-xs-2"}></section>                          
-                    <section className={"stats col-xs-8"}>
-                        <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalHours,
-                                    title: 'Total Hours'
-                                }
-                            }
-                        />
+                    <section className={"stats col-xs-8 col-xs-offset-2"}>
+                        
+                      <CircleStat
+                        data={
+                          {
+                            current: this.state.stats.totalRaised,
+                            title: 'Raised',
+                            prefix: '$'
+                          }
+                        }
+                      />
 
                         <CircleStat
                             data={
@@ -231,57 +233,6 @@ class AdminTeamDashboard extends Component {
 
                         </section>
                     </section>
-                    <section className={"stats col-xs-12"}>
-                        <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalHours,
-                                    title: 'Total Hours'
-                                }
-                            }
-                        />
-
-                        <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalSponsors,
-                                    title: 'Sponsors'
-                
-                                }
-                            }
-                        />   
-                         <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalRaised,
-                                    title: 'Raised',
-                                    prefix: '$'
-                                }
-                            }
-                        /> 
-                    </section>   
-                    <section className={"stats col-xs-2"}></section> 
-                     <section className={"stats col-xs-8"}>    
-                         <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalHourly,
-                                    title: '$/HR',
-                                    prefix: '$'
-                                }
-                            }
-                        /> 
-                        <CircleStat
-                            data={
-                                {
-                                    current: this.state.stats.totalMaxCap,
-                                    title: 'Raised If Goal Reached',
-                                    prefix: '$'
-                                }
-                            }
-                        />   
-                    </section>
-                    <section className={"stats col-xs-2"}></section> 
                 </AdminLayout>
             </Page>
         );

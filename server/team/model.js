@@ -30,7 +30,6 @@ const Node = db.defineNode({
     pledgePerHour : db.Joi.number(),
     currentHours: db.Joi.number(),
     totalHours: db.Joi.number(),
-    totalMaxCap: db.Joi.number(),
     goal: db.Joi.number().min(1),
     totalVolunteers: db.Joi.number(),
     signatureRequired: db.Joi.boolean(),
@@ -57,8 +56,7 @@ class Team {
       totalSponsors: 0,
       hourlyPledge: 0,
       raised: 0,
-      totalRaised: 0,
-      totalMaxCap: 0
+      totalRaised: 0
     });
 
     return Team.validate(teamData)
@@ -178,7 +176,6 @@ class Team {
       ...(typeof teamData.signatureRequired !== 'undefined' ? { signatureRequired: teamData.signatureRequired } : {}),
       ...(typeof teamData.hoursApprovalRequired !== 'undefined' ? { hoursApprovalRequired: teamData.hoursApprovalRequired } : {}),
       ...(typeof teamData.fakeLeaderId !== 'undefined' ? { fakeLeaderId: teamData.fakeLeaderId } : {}),
-      ...(typeof teamData.totalMaxCap !== 'undefined' ? { maxCap: teamData.totalMaxCap } : {})
     };
   }
 
