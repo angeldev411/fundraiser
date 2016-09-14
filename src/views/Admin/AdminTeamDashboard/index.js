@@ -202,7 +202,7 @@ class AdminTeamDashboard extends Component {
                         <CircleStat
                             data={
                                 {
-                                    current: this.state.stats.totalMaxCap,
+                                    current: this.state.stats.maxIfGoalReached,
                                     title: 'If Goal Reached',
                                     prefix: '$'
                                 }
