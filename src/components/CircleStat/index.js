@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import * as constants from '../../common/constants';
 import { Circle } from 'rc-progress';
 
+import ReactFitText from 'react-fittext';
+
 export default class CircleStat extends Component {
   valueWithPrefix(){
     const prefix = this.props.data.prefix || '';
@@ -31,10 +33,16 @@ export default class CircleStat extends Component {
             percent={Math.min(percentage, 100)}
             strokeWidth={constants.STAT_PROGRESS_WIDTH}
           />
-          <div className="stat-content">
-            <span className="stat-current">{this.valueWithPrefix()}</span>
-            <span className="stat-title">{this.props.data.title}</span>
-          </div>
+            <div className="stat-content">
+              <ReactFitText compressor={0.4}>
+                <span className="stat-current">
+                  {this.valueWithPrefix()}
+                </span>
+              </ReactFitText>
+              <ReactFitText compressor={0.75}>
+                <span className="stat-title">{this.props.data.title}</span>
+              </ReactFitText>
+            </div>
         </div>
       </div>
     );

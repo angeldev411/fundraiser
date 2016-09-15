@@ -43,9 +43,10 @@ $stat-content-width: $stat-progress-width - 2 * ($margin-stat-content + $stat-pr
         }
 
         .stat-current {
+            margin: 30px 0 10px;
             font-family: $conduit-medium;
-            font-size: 2.5vw;
-            margin-top: 20%;;
+            display:inline-block;
+            width:100%;
         }
 
         .stat-title {
@@ -53,7 +54,8 @@ $stat-content-width: $stat-progress-width - 2 * ($margin-stat-content + $stat-pr
             position: relative;
             font-size: 1em;
             top: -1.2em;
-            max-width: 65%;
+            display: inline-block;
+            width: 100%;
             margin: 5px auto 0;
             line-height: 1em;
         }

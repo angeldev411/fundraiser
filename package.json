@@ -88,6 +88,7 @@
     "react-dom": "^15.3.0",
     "react-dropzone": "^3.5.3",
     "react-faux-dom": "^2.7.1",
+    "react-fittext": "0.0.7",
     "react-ga": "^2.1.1",
     "react-helmet": "^3.1.0",
     "react-interpolate-component": "^0.9.1",
