@@ -396,7 +396,7 @@ class Team {
       // donations, and hours
     return db.query(`
           MATCH (team:TEAM {slug: {teamSlug}})
-          MATCH (team)-[r2:VOLUNTEER]-(volunteers:USER)
+          OPTIONAL MATCH (team)-[r2:VOLUNTEER]-(volunteers:USER)
           OPTIONAL MATCH (team)-[sponsors:DONATED|SUPPORTING]-(USER)
           RETURN team,
                  collect(distinct volunteers) as teamVolunteers,
