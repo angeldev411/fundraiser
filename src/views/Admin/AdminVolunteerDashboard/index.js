@@ -207,7 +207,7 @@ export class AdminVolunteerDashboard extends Component {
                           data={
                             {
                               current: this.state.stats.totalMaxCap + this.state.stats.totalOneTime,
-                              title: 'Raised if goal reached',
+                              title: 'If goal reached',
                               prefix: '$'
                             }
                           }
