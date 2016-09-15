@@ -28,7 +28,7 @@ export default class UserProgress extends Component {
                 <time
                     dateTime={goalDeadline.toISOString()}
                     title={goalDeadline.toLocaleDateString()}
-                >{`by ${moment(goalDeadline).format('MMM Qo YYYY')}`}</time>
+                >{`by ${moment(goalDeadline).format('MMM Do YYYY')}`}</time>
             </div>
         ) : null
         return (
